@@ -1,80 +1,27 @@
 {
- "built": "2026-10-24T19:15:49.970Z",
+ "built": "2026-10-24T19:26:05.368Z",
  "today": "2026-10-24",
  "api": {
   "keyPresent": true,
   "used": 4,
-  "remaining": 97,
+  "remaining": 92,
   "stopped": null,
   "planWindow": {
    "from": "2026-10-23",
    "to": "2026-10-25"
-  }
+  },
+  "failed": []
  },
- "unmatched": {
-  "CD Motagua": 1,
-  "LD Alajuelense": 1,
-  "Al Arabi": 1,
-  "Al Nejmeh": 1,
-  "Ahal": 1,
-  "Al Ansar": 1,
-  "Fortis": 1,
-  "Regar-TadAZ": 1,
-  "Istiqlol": 1,
-  "Wathba": 1,
-  "Al Ittihad": 1,
-  "Paro": 1,
-  "Kaizer Chiefs": 1,
-  "Red Arrows": 1,
-  "Goa": 1,
-  "Al Qadsia": 1,
-  "1º de Agosto": 1,
-  "Virunga": 1,
-  "Raja Casablanca": 1,
-  "El Kanemi Warriors": 1,
-  "Manila Digger": 1,
-  "Shan United": 1,
-  "Pusamania Borneo": 1,
-  "Taguig": 1,
-  "Tainan City": 1,
-  "Yangon United": 1,
-  "Hang Yuen": 1,
-  "Kasuka": 1,
-  "Azam": 1,
-  "Masr": 1,
-  "Al Ahli Tripoli": 1,
-  "Welwalo Adigrat Uni": 1,
-  "Black Bulls Maputo": 1,
-  "Rayon Sports": 1,
-  "Réal Bamako": 1,
-  "ES Zarzis": 1,
-  "CS Sfaxien": 1,
-  "AFAD": 1,
-  "CR Belouizdad": 1,
-  "AC Douane": 1,
-  "Maniema Union": 1,
-  "Kabuscorp": 1,
-  "ASPL 2000": 1,
-  "Durban City": 1,
-  "ASC Kara": 1,
-  "Diarra": 1,
-  "Al Ahly": 1,
-  "Kitara": 1,
-  "Singida Black Stars": 1,
-  "Tusker": 1,
-  "FAR Rabat": 1,
-  "Korhogo": 1,
-  "USM Alger": 1,
-  "Panthers": 1
- },
+ "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
   "not counted": 21,
   "domestic": 3238,
+  "clubs": 27,
   "youth": 16
  },
  "men": {
-  "built": "2026-10-24T19:15:49.970Z",
+  "built": "2026-10-24T19:26:05.368Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49945
@@ -87,7 +34,7 @@
   "fixtures": 0
  },
  "women": {
-  "built": "2026-10-24T19:15:49.970Z",
+  "built": "2026-10-24T19:26:05.368Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
