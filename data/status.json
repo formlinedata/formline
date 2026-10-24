@@ -1,12 +1,15 @@
 {
- "built": "2026-10-24T18:59:53.769Z",
+ "built": "2026-10-24T19:15:49.970Z",
  "today": "2026-10-24",
  "api": {
   "keyPresent": true,
-  "used": 3,
-  "remaining": 99,
-  "stopped": "HTTP 500 from /fixtures",
-  "planWindow": null
+  "used": 4,
+  "remaining": 97,
+  "stopped": null,
+  "planWindow": {
+   "from": "2026-10-23",
+   "to": "2026-10-25"
+  }
  },
  "unmatched": {
   "CD Motagua": 1,
@@ -48,16 +51,30 @@
   "CS Sfaxien": 1,
   "AFAD": 1,
   "CR Belouizdad": 1,
-  "AC Douane": 1
+  "AC Douane": 1,
+  "Maniema Union": 1,
+  "Kabuscorp": 1,
+  "ASPL 2000": 1,
+  "Durban City": 1,
+  "ASC Kara": 1,
+  "Diarra": 1,
+  "Al Ahly": 1,
+  "Kitara": 1,
+  "Singida Black Stars": 1,
+  "Tusker": 1,
+  "FAR Rabat": 1,
+  "Korhogo": 1,
+  "USM Alger": 1,
+  "Panthers": 1
  },
  "unmappedTournaments": {},
  "skipped": {
-  "not counted": 13,
-  "domestic": 2068,
-  "youth": 10
+  "not counted": 21,
+  "domestic": 3238,
+  "youth": 16
  },
  "men": {
-  "built": "2026-10-24T18:59:53.769Z",
+  "built": "2026-10-24T19:15:49.970Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49945
@@ -70,7 +87,7 @@
   "fixtures": 0
  },
  "women": {
-  "built": "2026-10-24T18:59:53.769Z",
+  "built": "2026-10-24T19:15:49.970Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
