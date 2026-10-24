@@ -1,0 +1,61 @@
+name: Nightly data update
+
+on:
+  schedule:
+    - cron: '17 6 * * *'   # 06:17 UTC every day (02:17 in Toronto during daylight time)
+  workflow_dispatch:        # "Run workflow" button on the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nightly-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Test the build scripts
+        run: node build/test.mjs
+      - name: Build data
+        env:
+          APIFOOTBALL_KEY: ${{ secrets.APIFOOTBALL_KEY }}
+          API_BUDGET: ${{ vars.API_BUDGET || '80' }}
+        run: node build/update.mjs
+      - name: Share image with today's top five
+        continue-on-error: true
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.0
+          npx playwright install --with-deps chromium
+          node build/og.mjs
+      - name: Point link previews at this site's address
+        run: node build/site-url.mjs
+      - name: Static team pages and sitemap
+        run: node build/pages.mjs
+      - name: Save the Wikipedia images the site falls back on
+        continue-on-error: true
+        run: node build/wiki-images.mjs
+      - name: Local copies of the chart library and font
+        continue-on-error: true
+        run: node build/vendor.mjs
+      - name: List bundled badges
+        run: node build/badges.mjs
+      - name: Commit changed data
+        run: |
+          git config user.name "formline-bot"
+          git config user.email "formline-bot@users.noreply.github.com"
+          git add data build/store og.png apple-touch-icon.png index.html teams badges
+          git add sitemap.xml robots.txt 2>/dev/null || true
+          git add vendor 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Nightly data $(date -u +%Y-%m-%d)"
+            git push
+          fi

@@ -1,0 +1,227 @@
+{
+ "exported": "2026-10-23T19:37:01.051Z",
+ "source": "https://logos.fandom.com",
+ "pages": [
+  "UEFA",
+  "England national football team",
+  "Croatian Football Federation"
+ ],
+ "missing": [],
+ "categories": {
+  "UEFA": [],
+  "England national football team": [],
+  "Croatian Football Federation": [
+   "Croatia",
+   "Football in Croatia"
+  ]
+ },
+ "logos": [
+  {
+   "page": "UEFA",
+   "other": false,
+   "kind": "conf",
+   "headings": [
+    "1954–1995"
+   ],
+   "file": "UEFA old.png",
+   "caption": "",
+   "text": ""
+  },
+  {
+   "page": "England national football team",
+   "other": false,
+   "kind": "crest",
+   "headings": [
+    "1949–2009"
+   ],
+   "file": "England 1949.svg",
+   "caption": "150px",
+   "text": ""
+  },
+  {
+   "page": "England national football team",
+   "other": false,
+   "kind": "crest",
+   "headings": [
+    "2009–present"
+   ],
+   "file": "England 2009.svg",
+   "caption": "Primary",
+   "text": ""
+  },
+  {
+   "page": "England national football team",
+   "other": false,
+   "kind": "crest",
+   "headings": [
+    "2009–present"
+   ],
+   "file": "England 2009 one star.svg",
+   "caption": "1966 star",
+   "text": ""
+  },
+  {
+   "page": "England national football team",
+   "other": true,
+   "kind": "crest",
+   "headings": [
+    "Anniversary",
+    "2013"
+   ],
+   "file": "England 150.png",
+   "caption": "150px",
+   "text": ""
+  },
+  {
+   "page": "Croatian Football Federation",
+   "other": false,
+   "kind": "fa",
+   "headings": [
+    "Hrvatski nogometni savez (first era)",
+    "1940s"
+   ],
+   "file": "HNS 1940s logo 1.png",
+   "caption": "200px",
+   "text": ""
+  },
+  {
+   "page": "Croatian Football Federation",
+   "other": false,
+   "kind": "fa",
+   "headings": [
+    "Hrvatski nogometni savez (first era)",
+    "1940s–1950s"
+   ],
+   "file": "Hrvatski Nogometni Savez 1940s.png",
+   "caption": "200px",
+   "text": ""
+  },
+  {
+   "page": "Croatian Football Federation",
+   "other": false,
+   "kind": "fa",
+   "headings": [
+    "Nogometni Savez Hrvatske",
+    "1950s–1970s"
+   ],
+   "file": "Nogometni Savez Hrvatske 1960.png",
+   "caption": "200px",
+   "text": "From the 1950s to the 1990s, the federation was known as Nogometni savez hrvatske."
+  },
+  {
+   "page": "Croatian Football Federation",
+   "other": false,
+   "kind": "fa",
+   "headings": [
+    "Nogometni Savez Hrvatske",
+    "1970s–1992"
+   ],
+   "file": "Nogometni Savez Hrvatske 1970s-1990.png",
+   "caption": "200px",
+   "text": ""
+  },
+  {
+   "page": "Croatian Football Federation",
+   "other": false,
+   "kind": "fa",
+   "headings": [
+    "Hrvatski nogometni savez (second era)",
+    "1992–2014"
+   ],
+   "file": "Croatia football federation.png",
+   "caption": "200px",
+   "text": ""
+  },
+  {
+   "page": "Croatian Football Federation",
+   "other": false,
+   "kind": "fa",
+   "headings": [
+    "Hrvatski nogometni savez (second era)",
+    "2014–present"
+   ],
+   "file": "HNS 2014.svg",
+   "caption": "200px",
+   "text": ""
+  }
+ ],
+ "files": {
+  "UEFA old.png": {
+   "url": "https://static.example/File%3AUEFA%20old.png",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "England 1949.svg": {
+   "url": "https://static.example/File%3AEngland%201949.svg",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "England 2009.svg": {
+   "url": "https://static.example/File%3AEngland%202009.svg",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "England 2009 one star.svg": {
+   "url": "https://static.example/File%3AEngland%202009%20one%20star.svg",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "England 150.png": {
+   "url": "https://static.example/File%3AEngland%20150.png",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "HNS 1940s logo 1.png": {
+   "url": "https://static.example/File%3AHNS%201940s%20logo%201.png",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "Hrvatski Nogometni Savez 1940s.png": {
+   "url": "https://static.example/File%3AHrvatski%20Nogometni%20Savez%201940s.png",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "Nogometni Savez Hrvatske 1960.png": {
+   "url": "https://static.example/File%3ANogometni%20Savez%20Hrvatske%201960.png",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "Nogometni Savez Hrvatske 1970s-1990.png": {
+   "url": "https://static.example/File%3ANogometni%20Savez%20Hrvatske%201970s-1990.png",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "Croatia football federation.png": {
+   "url": "https://static.example/File%3ACroatia%20football%20federation.png",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  },
+  "HNS 2014.svg": {
+   "url": "https://static.example/File%3AHNS%202014.svg",
+   "width": 200,
+   "height": 240,
+   "mime": "image/png",
+   "size": 1000
+  }
+ }
+}
