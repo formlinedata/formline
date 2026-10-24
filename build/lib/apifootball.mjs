@@ -6,7 +6,8 @@ const BASE = 'https://v3.football.api-sports.io';
 
 export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, log = () => {}}){
   let used = 0, last = 0, remaining = null, stopped = null, window = null;
-  async function get(path, params){
+  const failed = [];   // requests the API answered with a server error twice: skipped, not a stop
+  async function get(path, params, retry){
     if (stopped) return null;
     if (used >= budget){ stopped = 'request budget for this run used up'; return null; }
     const wait = last + gapMs - Date.now(); if (wait > 0) await new Promise(r => setTimeout(r, wait));
@@ -17,6 +18,11 @@ export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, l
     catch (e){ stopped = 'network error: ' + e.message; return null; }
     const rem = res.headers && res.headers.get && res.headers.get('x-ratelimit-requests-remaining');
     if (rem != null) remaining = +rem;
+    if (res.status >= 500){   // a hiccup on API-Football's side: try once more, then skip just this request
+      if (!retry){ await new Promise(r => setTimeout(r, Math.min(gapMs, 3000))); return get(path, params, true); }
+      failed.push(path + ' ' + (params.date || params.id) + ': HTTP ' + res.status); log('skipped after two server errors: ' + failed[failed.length - 1]);
+      return {failed:true};
+    }
     if (!res.ok){ stopped = 'HTTP ' + res.status + ' from ' + path; return null; }
     const body = await res.json();
     const errs = body && body.errors && (Array.isArray(body.errors) ? body.errors : Object.values(body.errors));
@@ -32,7 +38,7 @@ export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, l
     fixturesOn: date => get('/fixtures', {date, timezone:'UTC'}),
     covers: date => !window || (date >= window.from && date <= window.to),
     venue: id => get('/venues', {id}),
-    get stats(){ return {used, remaining, stopped, planWindow: window}; }
+    get stats(){ return {used, remaining, stopped, planWindow: window, failed}; }
   };
 }
 
@@ -48,6 +54,7 @@ export function mapFixture(f, matchTeam, mapTournament){
   const h = matchTeam(f.teams && f.teams.home && f.teams.home.name, league);
   const a = matchTeam(f.teams && f.teams.away && f.teams.away.name, league);
   if (h.skip || a.skip) return {skip: h.skip || a.skip};
+  if (h.unmatched && a.unmatched) return {skip:'clubs'};   // e.g. CAF or AFC club competitions, which the API also files under World
   if (h.unmatched || a.unmatched) return {skip:'unmatched', names:[h.unmatched, a.unmatched].filter(Boolean), gender:h.gender};
   if (h.gender !== a.gender) return {skip:'gender mismatch'};
   const gender = h.gender;

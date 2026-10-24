@@ -138,7 +138,7 @@ export async function run(){
       if (!client.covers(date)) continue;          // outside what the plan allows: no request spent
       const list = await client.fixturesOn(date);
       if (list === null) break;
-      if (list.outside) continue;
+      if (list.outside || list.failed) continue;
       for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].date === date) delete fixturesStore[k];
       for (const f of list){
         const x = mapFixture(f, matchTeam, mapTournament);
@@ -161,6 +161,7 @@ export async function run(){
     for (const id of need){
       const v = await client.venue(id);
       if (v === null) break;
+      if (v.failed) continue;
       venues[id] = v[0] ? {name:v[0].name || '', city:v[0].city || '', country:v[0].country || ''} : {name:'', city:'', country:''};
     }
     for (const g of ['men', 'women']) gap[g] = [...byId[g].values()];
