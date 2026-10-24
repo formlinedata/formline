@@ -15,6 +15,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@FormlineData">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e2117'/%3E%3Cpath d='M4 25 10.5 20 16.5 23 28 12V4L16.5 14.5 10.5 11.5 4 17Z' fill='%23f6b638' fill-opacity='.25'/%3E%3Cpath d='M4 21.5 10.5 16 16.5 19.3 27.5 8.5' fill='none' stroke='%23f1f4ec' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='27.5' cy='8.5' r='3.2' fill='%23f6b638'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="vendor/fonts.css" rel="stylesheet">
@@ -659,6 +660,19 @@
   .si-prev{margin:12px 0;min-height:120px;display:flex;align-items:center;justify-content:center;background:var(--panel-2);border-radius:8px;}
   .si-prev img, .si-prev canvas{max-width:100%;height:auto;display:block;border-radius:6px;}
   .si-actions{display:flex;gap:10px;flex-wrap:wrap;} .si-note{font-size:12.5px;margin:10px 0 0;}
+  /* Contact page */
+  .contact-card{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;background:var(--panel);border:1px solid var(--line);
+    border-radius:8px;padding:18px 20px;margin:6px 0 8px;}
+  .contact-card .addr{font-size:20px;font-weight:700;color:var(--chalk);word-break:break-all;text-decoration:none;}
+  .contact-card .addr:hover{color:var(--amber);}
+  .contact-card .btn{margin-left:auto;}
+  @media(max-width:560px){.contact-card .btn{margin-left:0;}}
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px;margin:14px 0 6px;}
+  .contact-grid > div{border:1px solid var(--line);border-radius:6px;padding:14px 16px;}
+  .contact-grid h3{font-size:15.5px;margin:0 0 6px;}
+  .contact-grid p{margin:0 0 8px;font-size:14.5px;line-height:1.55;}
+  .contact-grid ul{margin:0 0 8px;padding-left:18px;font-size:14.5px;line-height:1.55;}
+  .fsocial{margin-top:10px;} .fsocial span{color:var(--dim);}
   .about-tabs{margin:0 0 14px;} .about-tabs .chip{text-decoration:none;}
   .cmp-table th{white-space:normal;text-align:left;color:var(--chalk);font-weight:600;min-width:120px;} .cmp-table td{vertical-align:top;font-size:13.5px;text-align:left;}
   .cmp-table thead th{color:var(--dim);} .kv-table.cmp-table td, .kv-table.cmp-table td:last-child{color:var(--body);text-align:left;font-weight:400;}
@@ -757,7 +771,7 @@
 <header class="masthead">
   <div class="masthead-inner">
     <a class="brand" href="#/" aria-label="Formline, home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="var(--amber-band)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="var(--amber)"/></svg><span class="brand-word">Formline</span></a>
-    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The next fortnight, with predictions</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Report a mistake, embed the table, chip in</small></a></div></div></nav>
+    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The next fortnight, with predictions</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Embed the table, download the data, chip in</small></a><a href="#/contact" data-route="contact">Contact<small>Corrections, press and feedback</small></a></div></div></nav>
     <div class="mast-search" role="search"><input type="search" id="teamSearch" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResults" role="listbox" hidden></div></div>
     <div class="mast-right">
       <div class="gender-switch" id="genderSwitch" role="group" aria-label="Men's or women's football">
@@ -777,7 +791,8 @@
   <div class="footer-inner">
     <div>
       <div class="fbrand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="var(--amber-band)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="var(--amber)"/></svg>Formline</div>
-      <div class="flinks"><a href="#/method">How it works</a><a href="#/about">About</a><a href="#/flags">Flags &amp; names</a><a href="#/record">Forecast record</a><a href="#/changes">What's new</a><a href="#/support">Support Formline</a></div>
+      <div class="flinks"><a href="#/method">How it works</a><a href="#/about">About</a><a href="#/flags">Flags &amp; names</a><a href="#/record">Forecast record</a><a href="#/changes">What's new</a><a href="#/support">Support Formline</a><a href="#/contact">Contact</a></div>
+      <div class="flinks fsocial"><span>Follow</span><a href="https://x.com/FormlineData" target="_blank" rel="noopener">X</a><a href="https://www.instagram.com/formline.data/" target="_blank" rel="noopener">Instagram</a></div>
     </div>
     <div>
       <p>Ratings are computed in your browser from open match data maintained by Mart J&uuml;risoo
@@ -2751,7 +2766,7 @@ async function render(){
   }
   const views = {home:viewHome, rankings:viewRankings, team:viewTeam, competitions:viewCompetitions,
     competition:viewEdition, confederations:viewConfeds, h2h:viewH2H, predict:viewPredict, fixtures:viewFixtures,
-    simulate:viewSimulate, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, support:viewSupport, changes:viewChanges, embed:viewEmbed};
+    simulate:viewSimulate, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, support:viewSupport, changes:viewChanges, embed:viewEmbed, contact:viewContact};
   FLAG_AT = null;
   document.body.classList.toggle('embed-mode', p.route === 'embed');
   (views[p.route]||viewNotFound)();
@@ -3035,7 +3050,7 @@ function viewAbout(){
     .sort((x, y) => x[1].localeCompare(y[1]));
   document.getElementById('app').innerHTML =
   '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
-    '<div class="chips about-tabs"><a class="chip on" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a></div>'+
+    '<div class="chips about-tabs"><a class="chip on" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
     '<h1 class="page-title">About Formline</h1>'+
     '<p class="page-sub">Formline rates every men\'s and women\'s national football team on recent results, and says how sure '+
       'it is about each one.</p>'+
@@ -6091,7 +6106,7 @@ function viewFlags(){
   const cur = team => flagHtml(team, Infinity);
   document.getElementById('app').innerHTML =
   '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
-    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip on" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a></div>'+
+    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip on" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
     '<h1 class="page-title">Flags &amp; names</h1>'+
     '<p class="page-sub">Formline covers more than 150 years of international football. Over that time countries have changed '+
       'their names, borders and flags, some teams have ceased to exist, and some played before their country was independent. '+
@@ -6171,16 +6186,65 @@ function viewFlags(){
    SITE DETAILS, SUPPORT, WHAT'S NEW, EMBED, DOWNLOADS, SHARE IMAGES
    ============================================================ */
 /* Fill these in before launch. Empty values are simply left off the page. */
+/* The address is kept in two halves and joined in the browser, so it never appears whole in the page source for
+   address-harvesting bots. Change it here when the site has its own domain (e.g. hello@ on the domain). */
 const SITE = {
-  contact: '',   // an email address for corrections and questions, e.g. 'hello@formline.example'
-  donate: [],    // donation links, e.g. [{name:'Ko-fi', url:'https://ko-fi.com/formline'}]
-  social: []     // e.g. [{name:'X', url:'https://x.com/formline'}, {name:'Instagram', url:'https://instagram.com/formline'}]
+  mail: ['formline.info', 'gmail.com'],
+  donate: [{name:'Support on Ko-fi', url:'https://ko-fi.com/formline'}],
+  social: [{name:'X', url:'https://x.com/FormlineData'}, {name:'Instagram', url:'https://www.instagram.com/formline.data/'}]   // also in the footer, near the top of the file
 };
+const contactEmail = () => SITE.mail && SITE.mail.length ? SITE.mail.join('@') : '';
+function contactLink(subject, cls){
+  const e = contactEmail();
+  return '<a'+(cls ? ' class="'+cls+'"' : '')+' href="mailto:'+e+(subject ? '?subject='+encodeURIComponent(subject) : '')+'">'+esc(e)+'</a>';
+}
+function viewContact(){
+  const mail = subj => 'mailto:'+contactEmail()+'?subject='+encodeURIComponent(subj);
+  document.getElementById('app').innerHTML =
+  '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
+    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip on" href="#/contact">Contact</a></div>'+
+    '<h1 class="page-title">Contact</h1>'+
+    '<p class="page-sub">Formline is an independent project run by one person. Email is the best way to get in touch.</p>'+
+    '<div class="contact-card">'+contactLink('Formline', 'addr')+
+      '<button class="btn btn-secondary" type="button" id="copyMail">Copy address</button></div>'+
+    '<div class="contact-grid">'+
+      '<div><h3>Spotted a mistake?</h3>'+
+        '<p>A wrong score, a missing match, or the wrong name or flag for a team on a given date. Please include:</p>'+
+        '<ul><li>the date and the two teams</li><li>what it shows and what it should be</li><li>a source, if you have one</li></ul>'+
+        '<p><a href="'+mail('Formline: correction')+'">Send a correction</a></p></div>'+
+      '<div><h3>Press and media</h3>'+
+        '<p>You are welcome to quote the ratings, predictions and simulator results. Please credit Formline and link to the page you used.</p>'+
+        '<p><a href="'+mail('Formline: press')+'">Press enquiry</a></p></div>'+
+      '<div><h3>Ideas and feedback</h3>'+
+        '<p>A feature you would use, a page that confused you, or a team or competition you think the model gets wrong.</p>'+
+        '<p><a href="'+mail('Formline: feedback')+'">Send feedback</a></p></div>'+
+    '</div>'+
+    (SITE.social.length ? '<h2 id="follow">Follow</h2><p>New rankings, movers and tournament previews.</p><div class="donate-row">'+
+      SITE.social.map(x => '<a class="btn btn-secondary" href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.name)+'</a>').join('')+'</div>' : '')+
+    '<h2>Older results</h2>'+
+    '<p>Matches before the last few weeks come from two open archives kept by volunteers, one for '+
+      '<a href="https://github.com/martj42/international_results" target="_blank" rel="noopener">men</a> and one for '+
+      '<a href="https://github.com/martj42/womens-international-results" target="_blank" rel="noopener">women</a>. '+
+      'Anyone with a GitHub account can also suggest a fix there directly, which helps every site built on the same data.</p>'+
+  '</div>'+
+  '<aside class="doc-aside">'+
+    '<div class="aside-box"><h3>Before you write</h3>'+
+      '<a href="#/about">Common questions</a><br><a href="#/method">How it works</a><br><a href="#/flags">Flags &amp; names</a></div>'+
+    '<div class="aside-box"><h3>Other ways to help</h3>'+
+      '<a href="https://ko-fi.com/formline" target="_blank" rel="noopener">Buy Formline a coffee on Ko-fi</a><br><a href="#/support">Embed the rankings or download the data</a></div>'+
+  '</aside></div></div>';
+  const b = document.getElementById('copyMail');
+  if (b) b.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(contactEmail()); b.textContent = 'Copied'; }
+    catch(e){ b.textContent = 'Copy it from the link'; }
+    setTimeout(() => b.textContent = 'Copy address', 2000);
+  });
+}
 const siteBase = () => (typeof location !== 'undefined' && location.href ? location.href.split('#')[0] : '');
 const siteHost = () => { try { const u = new URL(siteBase()); return u.protocol.startsWith('http') ? (u.host + u.pathname).replace(/\/(index\.html)?$/, '') : 'Formline'; } catch(e){ return 'Formline'; } };
 
 function viewSupport(){
-  const mail = SITE.contact, E = s => esc(s);
+  const mail = contactEmail(), E = s => esc(s);
   const links = (list, cls) => list.map(x => '<a class="'+cls+'" href="'+E(x.url)+'" target="_blank" rel="noopener">'+E(x.name)+'</a>').join('');
   const embedSrc = (g, n, th) => siteBase()+'#/embed?g='+g+'&n='+n+(th ? '&theme='+th : '');
   document.getElementById('app').innerHTML =
@@ -6195,7 +6259,7 @@ function viewSupport(){
       : '<p>Donations will open here soon. In the meantime, sharing the site is the best help there is.</p>')+
     '<h2 id="contact">Spotted a mistake?</h2>'+
     '<p>Results, names, flags and badges are checked, but with more than 60,000 matches some things slip through. '+
-      (mail ? 'Email <a href="mailto:'+E(mail)+'">'+E(mail)+'</a> with' : 'A contact address is coming soon. When you get in touch, include')+
+      (mail ? 'Email '+contactLink('Formline: correction')+' (or see <a href="#/contact">Contact</a>) with' : 'A contact address is coming soon. When you get in touch, include')+
       ' the team, the date of the match or the page, and what looks wrong. Results that are wrong in the archive are also reported '+
       'to the people who maintain it, so the fix reaches everyone who uses it.</p>'+
     (SITE.social.length ? '<h2 id="follow">Follow</h2><div class="donate-row">'+links(SITE.social, 'btn btn-secondary')+'</div>' : '')+
@@ -6250,7 +6314,11 @@ const CHANGELOG = [
     'Download CSV on the Rankings, team and tournament pages.',
     'A top-ten box other sites can embed, built on the Support page.',
     'The online site now serves its own copies of the font, chart library and Wikipedia images.',
-    'This page.']],
+    'This page.',
+    'A Contact page for corrections, press and feedback, linked from the About menu and the footer.',
+    'Donations are open, through Ko-fi on the Support page.',
+    'Formline is on X (@FormlineData) and Instagram (@formline.data), linked from the Contact and Support pages and the footer.',
+    'The nightly update now rides out the data provider\'s brief outages, and leaves club matches out.']],
   ['23 Oct 2026', ['Former names now show today\'s side in brackets, such as Zaïre (Congo DR), and team pages give each side\'s name history.',
     'Before a confederation was founded, team pages say so instead of showing its logo.',
     'Looking at the past, a team page shows the team\'s next matches after that date, with results.',
@@ -6271,7 +6339,7 @@ const CHANGELOG = [
 function viewChanges(){
   document.getElementById('app').innerHTML =
   '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
-    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip on" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a></div>'+
+    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip on" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
     '<h1 class="page-title">What\'s new</h1>'+
     '<p class="page-sub">Changes to the site and the model, newest first. When a change moves ratings, it says so here.</p>'+
     CHANGELOG.map(([d, items]) => '<h2 class="cl-date">'+d+'</h2><ul>'+items.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>').join('')+
@@ -6487,7 +6555,7 @@ function viewCompare(){
   const sortHead = (k, label, cls, title) => '<th class="'+(cls || 'num')+'"'+(title ? ' title="'+title+'"' : '')+'><a href="#" data-sort="'+k+'" class="sorth'+(sortBy === k ? ' on' : '')+'">'+label+'</a></th>';
   const asOfTxt = fmtDay(state.asOf);
   app.innerHTML = '<div class="wrap">'+
-    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip on" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a></div>'+
+    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip on" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
     '<h1 class="page-title">Formline, plain Elo and the FIFA ranking</h1>'+
     '<p class="page-sub">Three ways of ordering the same teams. They mostly agree at the top and drift apart further down, '+
       'for reasons in the table below.</p>'+
@@ -6528,7 +6596,7 @@ function viewCompare(){
    ============================================================ */
 /* Navigation groups, menus and theme. */
 const NAV_GROUP = {rankings:'ratings', team:'ratings', confederations:'ratings', competitions:'ratings', competition:'ratings',
-  fixtures:'matches', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', support:'about', changes:'about', records:'ratings'};
+  fixtures:'matches', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', support:'about', changes:'about', contact:'about', records:'ratings'};
 function closeMenus(){
   document.querySelectorAll('.nav-group.open').forEach(g => { g.classList.remove('open'); g.querySelector('.nav-top').setAttribute('aria-expanded', 'false'); });
   document.body.classList.remove('menu-open');
