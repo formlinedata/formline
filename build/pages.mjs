@@ -30,7 +30,7 @@ ul.cols{columns:3 180px;padding-left:18px}</style>`;
 
 function teamPage(g, r, meta, href){
   const rankTxt = r.rank ? `ranked ${ord(r.rank)} of ${meta.teams}` : 'not ranked yet (too few recent matches)';
-  const desc = `${r.team} ${GAME[g]} national football team: rated ${r.rating} ±${r.band} and ${rankTxt} in the Formline ratings, as of ${meta.asOf}.`;
+  const desc = `${r.team} ${GAME[g]} national football team: rated ${r.rating} and ${rankTxt} in the Formline ratings, as of ${meta.asOf}.`;
   const res = x => x.gf > x.ga ? 'W' : x.gf < x.ga ? 'L' : 'D';
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(r.team)} ${GAME[g]} football rating – Formline</title>

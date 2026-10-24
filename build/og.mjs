@@ -27,9 +27,7 @@ for (const g of ['men', 'women']){
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[c]));
 const MARK = (w, line) => `<svg width="${w}" height="${w}" viewBox="0 0 32 32"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="rgba(246,182,56,.25)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="${line}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="#f6b638"/></svg>`;
 const list = (g, label) => !top[g] ? '' : `<div class="col"><h2>${label}</h2>${top[g].map((r, i) => {
-  const lo = 1700, hi = 2600, x = v => Math.max(0, Math.min(100, (v - lo) / (hi - lo) * 100));
-  return `<div class="row"><span class="n">${i + 1}</span><span class="t">${esc(r.team)}</span><span class="v">${r.rating}</span>
-    <span class="b"><i style="left:${x(r.rating - r.band)}%;width:${x(r.rating + r.band) - x(r.rating - r.band)}%"></i><em style="left:${x(r.rating)}%"></em></span></div>`;
+  return `<div class="row"><span class="n">${i + 1}</span><span class="t">${esc(r.team)}</span><span class="v">${r.rating}</span></div>`;
 }).join('')}</div>`;
 const html = `<!doctype html><html><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=block" rel="stylesheet">
@@ -43,7 +41,7 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
   .date{position:absolute;left:72px;bottom:58px;font-size:20px;color:#a7bba9;}
   .cols{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-self:center;}
   h2{font-size:22px;font-weight:700;color:#a7bba9;margin-bottom:14px;}
-  .row{display:grid;grid-template-columns:22px 1fr auto;column-gap:10px;align-items:baseline;padding:9px 0;border-top:1px solid #2a4a37;}
+  .row{display:grid;grid-template-columns:22px 1fr auto;column-gap:10px;align-items:baseline;padding:13px 0;border-top:1px solid #2a4a37;}
   .n{color:#7e9584;font-size:19px;} .t{font-size:22px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .v{font-size:23px;font-weight:700;color:#f6b638;font-stretch:108%;}
   .b{grid-column:2 / 4;position:relative;height:8px;margin-top:7px;}
@@ -52,7 +50,7 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
 </style></head><body>
 <svg class="line" viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0 120 C120 110 180 128 260 112 S420 92 520 100 S700 74 800 82 S1000 40 1200 22 L1200 60 C1060 74 980 104 800 112 S640 124 520 130 S360 140 260 142 S90 146 0 150Z" fill="rgba(246,182,56,.10)"/></svg>
 <div><div class="brand">${MARK(64, '#f1f4ec')}<b>Formline</b></div>
-<p>Every national team, men and women, rated on recent form, each with a band showing how sure it is.</p></div>
+<p>Every national team, men and women, rated on recent form and updated every night.</p></div>
 <div class="cols">${list('men', 'Men')}${list('women', 'Women')}</div>
 <div class="date">Ratings as of ${esc(asOf.men || asOf.women || '')}</div>
 </body></html>`;

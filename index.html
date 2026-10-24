@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="google-site-verification" content="dZ_P7VdAGHZpNd-ZXnjyM-0kJB0ud_jHIjO3IU_XAgM" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Formline – football ratings with uncertainty</title>
-<meta name="description" content="Ratings for every men's and women's national football team, from a rolling window of results, each with a band showing how sure it is. Fixtures, predictions, a tournament simulator and a public forecast record.">
+<title>Formline – national-team football ratings</title>
+<meta name="description" content="Ratings and rankings for every men's and women's national football team, updated every night. Fixtures, predictions, a tournament simulator and a public forecast record.">
 <meta name="theme-color" content="#0e2117">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Formline">
-<meta property="og:title" content="Formline – football ratings with uncertainty">
-<meta property="og:description" content="Every national team rated on recent form, each rating with a band showing how sure it is.">
+<meta property="og:title" content="Formline – national-team football ratings">
+<meta property="og:description" content="Every national team, men and women, rated on recent form and updated every night.">
 <meta property="og:url" content="https://formlinedata.github.io/formline/">
 <meta property="og:image" content="https://formlinedata.github.io/formline/og.png">
 <meta property="og:image:width" content="1200">
@@ -2775,7 +2775,7 @@ async function render(){
   if (p.route === 'home') maybeStartTour();
   const h1 = document.querySelector('#app h1');
   const h1t = h1 ? h1.textContent.trim() : '';
-  document.title = p.route === 'home' || !h1t ? 'Formline – football ratings with uncertainty' : (/Formline/.test(h1t) ? h1t : h1t+' – Formline');
+  document.title = p.route === 'home' || !h1t ? 'Formline – national-team football ratings' : (/Formline/.test(h1t) ? h1t : h1t+' – Formline');
   if (state.lastRoute !== undefined && state.lastRoute !== p.path){ window.scrollTo(0, 0); }
   state.lastRoute = p.path;
 }
@@ -6361,7 +6361,7 @@ function viewEmbed(){
       '<td class="num"><span class="rating">'+fmtR(r.rating)+'</span>'+pmSpan(r.band)+'</td></tr>').join('')+'</tbody></table>'+
     '<a class="embed-foot" href="'+base+'#/rankings" target="_blank" rel="noopener">'+
       '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="var(--amber-band)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="var(--amber)"/></svg>'+
-      'Formline: full rankings, with a band on every rating</a></div>';
+      'Formline: full rankings and team pages</a></div>';
 }
 
 /* ---------- CSV downloads ---------- */
@@ -6437,7 +6437,7 @@ function siFrame(g, W, H, title, sub){
   if (sub) siText(g, sub, pad, pad*0.9 + 156, '400 28px Archivo, system-ui, sans-serif', SI.dim, 'left', W - 2*pad);
   g.fillStyle = SI.line; g.fillRect(pad, H - pad*0.9 - 34, W - 2*pad, 1.5);
   siText(g, siteHost(), pad, H - pad*0.9, '600 26px Archivo, system-ui, sans-serif', SI.amber);
-  siText(g, 'Every rating with a band showing how sure it is', W - pad, H - pad*0.9, '400 24px Archivo, system-ui, sans-serif', SI.dim, 'right');
+  siText(g, 'Rankings updated every night', W - pad, H - pad*0.9, '400 24px Archivo, system-ui, sans-serif', SI.dim, 'right');
   return pad;
 }
 async function siDraw(kind, size){
@@ -6446,7 +6446,7 @@ async function siDraw(kind, size){
   try { await Promise.all(['400 28px Archivo, system-ui, sans-serif', '600 28px Archivo, system-ui, sans-serif', '800 60px Archivo, system-ui, sans-serif'].map(f => document.fonts.load(f))); } catch(e){}
   if (kind === 'top10' || kind === 'movers'){
     let list, title, sub;
-    if (kind === 'top10'){ list = visibleTable(c.table).slice(0, 10); title = game+' top ten'; sub = day+' · rating ± band'; }
+    if (kind === 'top10'){ list = visibleTable(c.table).slice(0, 10); title = game+' top ten'; sub = day; }
     else { const pool = visibleTable(c.table).filter(r => r.rank <= 50 && r.change !== null && r.change !== undefined);
       const up = pool.slice().sort((a, b) => b.change - a.change).slice(0, 5), down = pool.slice().sort((a, b) => a.change - b.change).slice(0, 5);
       list = up.concat(down); title = 'Biggest movers of the year'; sub = game+' top 50 · '+day; }
@@ -6462,8 +6462,7 @@ async function siDraw(kind, size){
       const fh = rowH*0.42; siFlag(g, flags[i], x + 70, mid - fh*0.78, fh, fh*1.5);
       siText(g, nameText(r.team), x + 70 + fh*1.5 + 18, mid, '600 '+fs+'px Archivo, system-ui, sans-serif', SI.chalk, 'left', colW - 70 - fh*1.5 - (kind === 'top10' ? 230 : 110));
       if (kind === 'top10'){
-        const bw = siText(g, '±'+Math.round(r.band), x + colW - 20, mid, '400 '+Math.round(fs*0.7)+'px Archivo, system-ui, sans-serif', SI.dim, 'right');
-        siText(g, fmtR(r.rating), x + colW - 30 - bw, mid, '800 '+fs+'px Archivo, system-ui, sans-serif', SI.amber, 'right');
+        siText(g, fmtR(r.rating), x + colW - 20, mid, '800 '+fs+'px Archivo, system-ui, sans-serif', SI.amber, 'right');
       } else siText(g, (r.change > 0 ? '+' : '−')+Math.abs(Math.round(r.change)), x + colW - 20, mid, '800 '+fs+'px Archivo, system-ui, sans-serif', r.change > 0 ? SI.win : SI.loss, 'right');
     });
   } else if (kind === 'team'){
@@ -6479,7 +6478,7 @@ async function siDraw(kind, size){
     const stat = (label, value, sub, sx, sy, color) => { siText(g, label, sx, sy, '600 24px Archivo, system-ui, sans-serif', SI.dim); siText(g, value, sx, sy + 66, '800 64px Archivo, system-ui, sans-serif', color || SI.amber); if (sub) siText(g, sub, sx, sy + 104, '400 24px Archivo, system-ui, sans-serif', SI.dim); };
     const sy = wide ? top : top + fh + 60, cw = (W - 2*pad)/3;
     const sx0 = wide ? Math.max(x, pad + 330) : pad, cww = wide ? (W - pad - sx0)/2 : cw;
-    stat('Rating', fmtR(row.rating), '± '+Math.round(row.band)+' · '+scaleOf(row.rating)[1], sx0, sy);
+    stat('Rating', fmtR(row.rating), scaleOf(row.rating)[1], sx0, sy);
     stat('Rank', row.rank ? '#'+row.rank : '—', row.rank ? 'of '+c.table.length+' ranked · tier '+row.tier : 'not ranked yet', sx0 + cww, sy, SI.chalk);
     const y2 = sy + (wide ? 150 : 160);
     const ch = row.change === null || row.change === undefined ? null : row.change;
