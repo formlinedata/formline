@@ -1,14 +1,17 @@
 {
- "built": "2026-10-20T19:07:10.084Z",
- "today": "2026-10-20",
+ "built": "2026-10-24T18:43:04.158Z",
+ "today": "2026-10-24",
  "api": {
-  "keyPresent": false
+  "keyPresent": true,
+  "used": 1,
+  "remaining": null,
+  "stopped": "API: Free plans do not have access to this date, try from 2026-10-23 to 2026-10-25."
  },
  "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {},
  "men": {
-  "built": "2026-10-20T19:07:10.084Z",
+  "built": "2026-10-24T18:43:04.158Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49945
@@ -21,7 +24,7 @@
   "fixtures": 0
  },
  "women": {
-  "built": "2026-10-20T19:07:10.084Z",
+  "built": "2026-10-24T18:43:04.158Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
