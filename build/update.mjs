@@ -67,10 +67,11 @@ export function prune(gap, archive){
 }
 
 /* Dates to ask the API about this run: the recent and coming days every time, then older days not yet settled,
-   newest first. A day is settled once it has been fetched three or more days after it. */
+   newest first. A day is settled once it has been fetched three or more days after it. Yesterday, today and
+   tomorrow come first: they are all the free plan covers, so they must not wait behind days it will refuse. */
 export function planDates(today, earliest, fetched){
-  const t = dayNum(today), out = [];
-  for (let d = t - 3; d <= t + 14; d++) out.push(d);
+  const t = dayNum(today), out = [t - 1, t, t + 1, t - 2, t - 3];
+  for (let d = t + 2; d <= t + 14; d++) out.push(d);
   for (let d = t - 4; d >= dayNum(earliest); d--){
     const when = fetched[iso(d * DAY)];
     if (!when || dayNum(when) < d + 3) out.push(d);
@@ -134,8 +135,10 @@ export async function run(){
     const earliest = iso(dayNum(ends.men < ends.women ? ends.men : ends.women) * DAY + DAY);
     const byId = {men:new Map(gap.men.map(r => [String(r.api_id), r])), women:new Map(gap.women.map(r => [String(r.api_id), r]))};
     for (const date of planDates(today, earliest, state.fetched)){
+      if (!client.covers(date)) continue;          // outside what the plan allows: no request spent
       const list = await client.fixturesOn(date);
       if (list === null) break;
+      if (list.outside) continue;
       for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].date === date) delete fixturesStore[k];
       for (const f of list){
         const x = mapFixture(f, matchTeam, mapTournament);

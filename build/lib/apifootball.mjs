@@ -1,9 +1,11 @@
 // API-Football client: one request at a time, paced under the per-minute limit, stopping at the daily budget or
-// at the first error the API reports (a plan limit, a bad key). Docs: https://www.api-football.com/documentation-v3
+// at the first error the API reports (a plan limit, a bad key). One error is not a stop: the free plan answers a date
+// it does not cover with "try from <date> to <date>". The client then remembers that window, and dates outside it
+// are skipped without spending a request. Docs: https://www.api-football.com/documentation-v3
 const BASE = 'https://v3.football.api-sports.io';
 
 export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, log = () => {}}){
-  let used = 0, last = 0, remaining = null, stopped = null;
+  let used = 0, last = 0, remaining = null, stopped = null, window = null;
   async function get(path, params){
     if (stopped) return null;
     if (used >= budget){ stopped = 'request budget for this run used up'; return null; }
@@ -18,14 +20,19 @@ export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, l
     if (!res.ok){ stopped = 'HTTP ' + res.status + ' from ' + path; return null; }
     const body = await res.json();
     const errs = body && body.errors && (Array.isArray(body.errors) ? body.errors : Object.values(body.errors));
-    if (errs && errs.length){ stopped = 'API: ' + errs.join('; '); log(stopped); return null; }
+    if (errs && errs.length){
+      const msg = errs.join('; '), w = /try from (\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/i.exec(msg);
+      if (w && path === '/fixtures'){ window = {from:w[1], to:w[2]}; log('plan covers ' + w[1] + ' to ' + w[2] + ' only'); return {outside:true}; }
+      stopped = 'API: ' + msg; log(stopped); return null;
+    }
     if (remaining !== null && remaining <= 1) stopped = 'daily quota reached';
     return body.response || [];
   }
   return {
     fixturesOn: date => get('/fixtures', {date, timezone:'UTC'}),
+    covers: date => !window || (date >= window.from && date <= window.to),
     venue: id => get('/venues', {id}),
-    get stats(){ return {used, remaining, stopped}; }
+    get stats(){ return {used, remaining, stopped, planWindow: window}; }
   };
 }
 

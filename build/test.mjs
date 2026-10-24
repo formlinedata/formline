@@ -104,6 +104,19 @@ ok(fixtureCalls === 18, 'second run asks only for the recent and coming days (' 
 ok(planDates('2026-09-26', '2026-09-20', {}).length === 18 + 3, 'plan: 18 window days plus unsettled older days');
 ok(prune([{date:'2026-09-01', home_team:'A', away_team:'B'}], [{date:'2026-09-20', home_team:'X', away_team:'Y'}]).length === 0, 'rows a week before the archive end are dropped');
 
+// the free plan's date window: dates it refuses are skipped, not a stop, and later dates outside it cost nothing
+{
+  const asked = [];
+  globalThis.fetch = async url => { const u = new URL(url), d = u.searchParams.get('date'); asked.push(u.pathname + (d ? ' ' + d : ''));
+    const inside = !d || (d >= '2026-09-25' && d <= '2026-09-27');
+    const body = !inside ? {errors:{plan:'Free plans do not have access to this date, try from 2026-09-25 to 2026-09-27.'}, response:[]}
+      : u.pathname === '/fixtures' ? {errors:[], response: DAYS[d] || []} : {errors:[], response:[]};
+    return {ok:true, status:200, headers:{get:() => null}, json: async () => body}; };
+  const stw = await run();
+  const fx = asked.filter(a => a.startsWith('/fixtures'));
+  ok(fx.slice(0, 3).join() === '/fixtures 2026-09-25,/fixtures 2026-09-26,/fixtures 2026-09-27', 'yesterday, today and tomorrow asked first');
+  ok(fx.length === 4 && stw.api.stopped == null && stw.api.planWindow && stw.api.planWindow.from === '2026-09-25', 'one refused date teaches the window; no stop, no wasted requests');
+}
 // API error stops the run cleanly and keeps the data written
 globalThis.fetch = async () => ({ok:true, status:200, headers:{get:() => null}, json: async () => ({errors:{plan:'Free plans do not have access to this season'}, response:[]})});
 const st3 = await run();
