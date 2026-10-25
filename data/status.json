@@ -1,11 +1,11 @@
 {
- "built": "2026-10-25T00:35:57.420Z",
+ "built": "2026-10-25T06:46:09.878Z",
  "today": "2026-10-25",
  "mode": "full",
  "api": {
   "keyPresent": true,
-  "used": 34,
-  "remaining": 7469,
+  "used": 33,
+  "remaining": 7432,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,32 +15,25 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 0,
+   "usedTodayBeforeRun": 34,
    "perMinute": 300
   },
   "paid": true,
   "budget": 1500,
   "notice": null
  },
- "unmatched": {
-  "SC Freiburg": 1,
-  "FC Nordsjaelland": 1,
-  "CSKA Sofia": 1,
-  "Central Africa": 2,
-  "Bosnia-Herzegovina": 1,
-  "French Guyana": 1
- },
+ "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 18799,
-  "clubs": 195,
-  "youth": 246,
+  "domestic": 18802,
+  "clubs": 199,
+  "youth": 247,
   "not counted": 276,
   "status CANC": 3,
   "status WO": 4
  },
  "men": {
-  "built": "2026-10-25T00:35:57.420Z",
+  "built": "2026-10-25T06:46:09.878Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49945
@@ -53,7 +46,7 @@
   "fixtures": 0
  },
  "women": {
-  "built": "2026-10-25T00:35:57.420Z",
+  "built": "2026-10-25T06:46:09.878Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
