@@ -798,6 +798,39 @@
   .hero-stats .v{font-size:24px;font-weight:800;color:var(--chalk);font-variant-numeric:tabular-nums;line-height:1.1;}
   @media (max-width:640px){ .team-head .stat-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px;}
     .team-head .stat .v{white-space:normal;} .hero-stats{gap:20px;} }
+
+  /* ---------- v42: phones ----------
+     The full-width rule for About / How it works (v36) came after the phone rule and kept two columns on a phone, which
+     squeezed How it works into a strip. One column below 1000px for every doc page; How it works gets a small
+     "On this page" menu at the top instead of the side list. */
+  @media(max-width:1000px){ .doc-layout, .doc-layout.wide{grid-template-columns:minmax(0,1fr);gap:0;} }
+  details.toc-m{display:none;}
+  @media(max-width:1000px){
+    details.toc-m{display:block;margin:0 0 18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:14.5px;}
+    details.toc-m > summary{cursor:pointer;padding:10px 2px;font-weight:600;color:var(--chalk);}
+    details.toc-m a{display:block;padding:7px 2px;color:var(--amber);}
+    details.toc-m[open]{padding-bottom:8px;}
+  }
+  /* Word tables in running text (names, credits): an ordinary table on phones too, so long names wrap instead of being
+     cut off, and the header can stick under the site header. Number tables still scroll sideways when too wide. */
+  @media(max-width:640px){
+    .prose table.words{display:table;white-space:normal;}
+    .prose table.words td{overflow-wrap:anywhere;word-break:break-word;} .prose table.words td:first-child{white-space:normal;}
+    .prose table.words th, .prose table.words td{padding-left:8px;padding-right:8px;} .prose table.credits td{font-size:12.5px;}
+  }
+
+  /* v43: tier-mates on team pages */
+  .tier-mates{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px 36px;}
+  .tier-mates h3{font-size:15.5px;margin:0 0 8px;color:var(--chalk);} .tier-mates h3 .muted{font-weight:400;font-size:13.5px;}
+  .tm-list{display:grid;gap:2px;max-height:430px;overflow:auto;}
+  a.tm{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;color:var(--body);text-decoration:none;}
+  a.tm:hover{background:var(--panel-2);text-decoration:none;}
+  a.tm.me{background:var(--amber-soft);box-shadow:inset 0 0 0 1px var(--amber);color:var(--chalk);font-weight:600;}
+  .tm-pos{width:30px;flex:none;color:var(--dim);font-variant-numeric:tabular-nums;}
+  .tm-r{margin-left:auto;font-weight:700;color:var(--amber);font-variant-numeric:tabular-nums;}
+
+  /* v47: page guides */
+  .tour-card .tour-more{margin:10px 0 0;font-size:13px;color:var(--dim);} .tour-card .tour-more a{color:var(--amber);}
 </style>
 </head>
 <body>
@@ -806,14 +839,14 @@
 <header class="masthead">
   <div class="masthead-inner">
     <a class="brand" href="#/" aria-label="Formline, home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="var(--amber-band)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="var(--amber)"/></svg><span class="brand-word">Formline</span></a>
-    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The next fortnight, with predictions</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Embed the table, download the data, chip in</small></a><a href="#/contact" data-route="contact">Contact<small>Corrections, press and feedback</small></a></div></div></nav>
+    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The coming weeks, with predictions</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Embed the table, download the data, chip in</small></a><a href="#/contact" data-route="contact">Contact<small>Corrections, press and feedback</small></a></div></div></nav>
     <div class="mast-search" role="search"><input type="search" id="teamSearch" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResults" role="listbox" hidden></div></div>
     <div class="mast-right">
       <div class="gender-switch" id="genderSwitch" role="group" aria-label="Men's or women's football">
         <button type="button" data-gender="men" class="active">Men</button>
         <button type="button" data-gender="women">Women</button>
       </div>
-      <button class="icon-btn" id="helpBtn" type="button" aria-label="Show the guide to the site" title="Guide to the site"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.1" fill="currentColor"/></svg></button>
+      <button class="icon-btn" id="helpBtn" type="button" aria-label="Show a guide to this page" title="Guide to this page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.1" fill="currentColor"/></svg></button>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch theme"><svg viewBox="0 0 24 24" aria-hidden="true" class="i-sun"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.3M12 19.2v2.3M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.3M19.2 12h2.3M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" class="i-moon"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
       <button class="icon-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
     </div>
@@ -1224,7 +1257,7 @@ function flagTrue(team, ts){
 function matchLine(a, b, mid, href, o){
   o = o || {};
   const nm = (t, bold) => { const x = '<span class="ml-n'+(bold ? ' ml-w' : '')+'" title="'+esc(nameText(t))+'">'+nameHtml(t)+'</span>';
-    return href ? '<a href="'+href(t)+'">'+x+'</a>' : x; };
+    const h = href ? href(t) : ''; return h ? '<a href="'+h+'">'+x+'</a>' : x; };
   return '<span class="ml'+(o.cls ? ' '+o.cls : '')+'"><span class="ml-h">'+nm(a, o.win === 1)+(o.tagA || '')+flagHtml(a, o.ts)+'</span>'+
     '<span class="ml-m">'+(mid === undefined || mid === null ? '<span class="muted">v</span>' : mid)+'</span>'+
     '<span class="ml-a">'+flagHtml(b, o.ts)+nm(b, o.win === -1)+(o.tagB || '')+'</span></span>';
@@ -2079,6 +2112,31 @@ function confTierMap(c){
   for (const rows of by.values()) makeTiers(rows, r => r.rating, r => r.rdOwn).forEach(t => t.rows.forEach(r => m.set(r.key, t.n)));
   return c._confTiers = m;
 }
+/* The teams in a ranked team's tier: in the world table, or among its own confederation. Each row carries its place
+   in that table. */
+function tierMates(c, row, scope){
+  if (!row || !row.rank) return null;
+  if (scope === 'conf'){
+    const map = confTierMap(c), n = map.get(row.key); if (!n) return null;
+    const members = c.table.filter(r => r.conf === row.conf).sort((a, b) => a.rank - b.rank);
+    const pos = new Map(members.map((r, i) => [r, i + 1]));
+    const rows = members.filter(r => map.get(r.key) === n);
+    return {n, of:Math.max(...members.map(r => map.get(r.key) || 0)), rows, pos:r => pos.get(r), label:confLabel(row.conf)};
+  }
+  const t = c.tiers[row.tier - 1]; if (!t) return null;
+  const rows = t.rows.slice().sort((a, b) => a.rank - b.rank);
+  return {n:t.n, of:c.tiers.length, rows, pos:r => r.rank, label:'World', lo:t.lo, hi:t.hi};
+}
+function tierSection(c, row){
+  if (!row || !row.rank) return '';
+  const block = sc => { const T = tierMates(c, row, sc); if (!T) return '';
+    return '<div><h3>'+(sc === 'conf' ? esc(T.label) : 'World')+': tier '+T.n+' <span class="muted">of '+T.of+' &middot; '+T.rows.length+' team'+(T.rows.length === 1 ? '' : 's')+'</span></h3>'+
+      '<div class="tm-list">'+T.rows.map(r => '<a class="tm'+(r === row ? ' me' : '')+'" href="'+teamHref(r.team)+'"><span class="tm-pos">'+T.pos(r)+'</span>'+
+        withFlag(r.team)+'<span class="tm-r">'+fmtR(r.rating)+'</span></a>').join('')+'</div></div>'; };
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Tier<span class="aside">teams level with '+esc(dn(row.team))+'</span></div>'+
+    '<div class="panel-body"><div class="tier-mates">'+block('world')+block('conf')+'</div>'+
+    '<p class="chart-note">Teams in the same tier are too close to call apart. <a href="#/method" data-goto-method="m-tiers">How tiers work</a></p></div></div>';
+}
 /* The confederations side by side: overall strength, the model's regional level, median and best team. */
 function confStrengthTable(c, here){
   const list = [...(c.confStats || new Map()).values()].sort((a, b) => b.top10 - a.top10);
@@ -2531,7 +2589,7 @@ function filterQuery(extra){
 function applyParams(p){
   if (p.g === 'men' || p.g === 'women') state.gender = p.g;
   else state.gender = 'men';
-  state.windowYears = p.w !== undefined ? Math.max(0, Math.min(15, parseInt(p.w,10)||0)) : DEFAULTS.windowYears;
+  state.windowYears = p.w !== undefined ? Math.max(0, Math.min(16, parseInt(p.w,10)||0)) : DEFAULTS.windowYears;
   /* The competition filter has been withdrawn: every competition always counts, and old links that carry one are read
      without it, so nothing is filtered out of sight. */
   state.comps = new Set(COMP_ORDER);
@@ -2585,7 +2643,7 @@ function filterBar(){
       '<div class="frow"><div class="flabel">Years of results</div>'+
         '<div class="inline-ctls">'+
           '<div class="ctl"><label for="winSlider">Length</label>'+
-            '<input type="range" id="winSlider" min="2" max="15" step="1" value="'+(state.windowYears||DEFAULTS.windowYears)+'"'+
+            '<input type="range" id="winSlider" min="2" max="16" step="1" value="'+(state.windowYears||DEFAULTS.windowYears)+'"'+
               (state.windowYears===0?' disabled':'')+'>'+
             '<span class="val" id="winVal">'+(state.windowYears===0?'disabled':state.windowYears+' years')+'</span></div>'+
           '<div class="ctl"><label for="asOf">Ratings as of</label>'+
@@ -2815,6 +2873,10 @@ function skeleton(note){
     '<p class="sk-note" role="status">'+note+'</p></div>';
 }
 /* Decide, for every table on the page, how its header stays in view (see the .flow / .lock styles). */
+if (typeof window !== 'undefined' && typeof ResizeObserver !== 'undefined' && typeof document !== 'undefined' && document.querySelector){
+  const mh0 = document.querySelector('.masthead');
+  if (mh0) new ResizeObserver(() => document.documentElement.style.setProperty('--mh', mh0.getBoundingClientRect().height+'px')).observe(mh0);
+}
 function lockTables(root){
   const mh = document.querySelector('.masthead');
   if (mh && mh.getBoundingClientRect && document.documentElement && document.documentElement.style) document.documentElement.style.setProperty('--mh', mh.getBoundingClientRect().height+'px');
@@ -3254,6 +3316,7 @@ function viewRankings(){
   '<div class="wrap">'+
     '<h1 class="page-title">'+(state.gender==='men'?"Men's":"Women's")+' rankings</h1>'+
     '<p class="page-sub">'+vis.length+' ranked team'+(vis.length===1?'':'s')+limitTxt+
+      (state.asOf < Date.parse('1960-01-01') ? ' Few countries played much in '+new Date(state.asOf).getUTCFullYear()+', so most teams had few matches to go on.' : '')+
       (state.rankBy==='lower' ? ' Ordered by the bottom of each band, the cautious reading.' : '')+'</p>'+
     toolRow()+ readingPanel(c)+
     '<div class="rank-tools">'+
@@ -3357,6 +3420,7 @@ function viewTeam(){
     ? (() => { const x = new Date(c.windowStart); x.setUTCFullYear(x.getUTCFullYear()+SETTLE_YEARS); return x.getTime(); })()
     : -Infinity;
   const anySettling = h.some(m => m.ts < settleEnd);
+  const FM = fifaMethod(state.gender, state.asOf), fm = FM ? FM.byKey.get(key) : null;
 
   app.innerHTML =
   '<div class="wrap">'+
@@ -3385,6 +3449,8 @@ function viewTeam(){
         (row.tier ? '<div class="stat"><div class="k">Tier</div><div class="v plain" style="font-size:16px;padding-top:6px;">'+tierCell(row)+'</div>'+
           '<div class="s" title="'+row.tierMix.slice().sort((a, b) => b.p - a.p).slice(0, 3).map(x => 'tier '+x.n+' '+Math.round(x.p*100)+'%').join(', ')+'">'+
             (m => 'most likely tier '+m.n+' ('+Math.round(m.p*100)+'%)')(row.tierMix.slice().sort((a, b) => b.p - a.p)[0])+'</div></div>' : '')+
+        (fm && fm.rank ? '<div class="stat"><div class="k">FIFA method</div><div class="v plain">#'+fm.rank+'</div>'+
+          '<div class="s"><a href="#/compare" title="FIFA\'s own formula, worked out here from the same results">'+fm.pts.toFixed(2)+' points, our calculation</a></div></div>' : '')+
       '</div></div>'+
     (row.island ? '<div class="notice"><b>Cut off from everyone else.</b> In this window '+esc(dn(team))+' played only '+
       row.islandWith.map(k => esc((c.byKey.get(k)||{team:k}).team)).join(', ').replace(/, ([^,]*)$/, ' and $1')+
@@ -3395,9 +3461,12 @@ function viewTeam(){
       ', wider than the &plusmn;'+state.maxBand+' needed to be ranked. '+
       (row.mp < 10 ? 'It has played only '+row.mp+' match'+(row.mp===1?'':'es')+' inside this window.'
                    : 'Its last match was on '+fmtDay(row.lastTs)+', and uncertainty grows back while a team does not play.')+
-      '</div>' : '')+
+      '</div>' :
+     row.mp < 15 ? '<div class="notice"><b>Few matches so far.</b> '+esc(dn(team))+' has played '+row.mp+' match'+(row.mp===1?'':'es')+
+      ' in this window, so the model is less sure of it than of most teams, and its rating can move quickly.</div>' : '')+
     toolRow()+
     comingUp(c, key)+
+    tierSection(c, row)+
     '<div class="panel" style="margin-bottom:20px;">'+
       '<div class="panel-head">Rating over time<span class="aside">published rating and band</span></div>'+
       '<div class="panel-body">'+chartBox('teamChart','Published rating of '+esc(dn(team))+' with its uncertainty band, '+
@@ -3438,6 +3507,7 @@ function viewTeam(){
     '</div>';
 
   document.getElementById('teamPick').addEventListener('change', e => go({}, 'team/'+enc(e.target.value)));
+  document.querySelectorAll('.tm-list').forEach(l => { const m = l.querySelector('.me'); if (m) l.scrollTop = Math.max(0, m.offsetTop - l.offsetTop - l.clientHeight/2 + m.offsetHeight/2); });
   chartLater('teamChart', snaps => trackDatasets([key], snaps, {bands:true, labels:[team]}));
   loadBadges();
 }
@@ -3910,7 +3980,7 @@ function upcomingFor(g){
 }
 function fixtureRow(c, fx){
   const pr = fixturePrediction(c, fx), ko = fx.kickoff ? new Date(fx.kickoff) : null;
-  const time = ko && fx.kickoff.length > 10 ? ko.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '';
+  const time = fx.tbc ? '<span class="muted" title="Kick-off time not announced yet">Time TBC</span>' : (ko && fx.kickoff.length > 10 ? ko.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '');
   const venue = pr.side === 0 ? 'neutral' : (pr.side === -1 ? esc(dn(fx.away))+' at home' : '');
   const name = t => { const k = c.resolve(t), r = c.byKey.get(k); return r ? r.team : t; };
   const pc = x => Math.round(x*100)+'%';
@@ -3918,7 +3988,7 @@ function fixtureRow(c, fx){
   const prov = pr.p && (pr.rh.provisional || pr.ra.provisional);
   const mu = pr.p ? matchupText(pr.rh, pr.ra, pr.p) : '';
   return '<div class="fx"><div class="when">'+time+'</div>'+
-    '<div class="who">'+matchLine(name(fx.home), name(fx.away), null, teamHref)+
+    '<div class="who">'+matchLine(name(fx.home), name(fx.away), null, t => t === 'To be decided' ? '' : teamHref(t))+
       '<div class="meta">'+esc(shortComp(fx.tournament))+(fx.city ? ' &middot; '+esc(fx.city) : '')+(venue ? ' &middot; '+venue : '')+
         (pr.sl ? ' &middot; <span title="Expected goals for each side, and the single likeliest score">xG '+esc(name(fx.home))+' '+pr.sl.xg[0].toFixed(1)+'&ndash;'+pr.sl.xg[1].toFixed(1)+' '+esc(name(fx.away))+
           ', likeliest '+pr.sl.top[0][0]+'&ndash;'+pr.sl.top[0][1]+'</span>' : '')+
@@ -3927,7 +3997,7 @@ function fixtureRow(c, fx){
     '<div class="pbox">'+(pr.p
       ? '<div class="prob-bar mini" role="img" aria-label="'+esc(name(fx.home))+' win '+pc(pr.p.home)+', draw '+pc(pr.p.draw)+', '+esc(name(fx.away))+' win '+pc(pr.p.away)+'" title="'+esc(name(fx.home))+' '+pc(pr.p.home)+', draw '+pc(pr.p.draw)+', '+esc(name(fx.away))+' '+pc(pr.p.away)+'">'+
           seg(pr.p.home,'seg-h')+seg(pr.p.draw,'seg-d')+seg(pr.p.away,'seg-a')+'</div>'
-      : '<div class="na">no rating in this window</div>')+'</div></div>';
+      : '<div class="na">'+(fx.tbd ? 'opponent to be decided' : 'no rating in this window')+'</div>')+'</div></div>';
 }
 /* How evenly a match is balanced, in words, with the two teams' tiers. */
 function matchupLabel(p){
@@ -3957,7 +4027,7 @@ function viewFixtures(){
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">'+(g==='men'?"Men's":"Women's")+' fixtures</h1>'+
-    '<p class="page-sub">International matches in the next two weeks, with each side\'s chances. Each bar reads: first team wins, '+
+    '<p class="page-sub">International matches in the coming weeks, with each side\'s chances. Each bar reads: first team wins, '+
       'draw, second team wins. Times are in your time zone.</p>'+
     (!latest ? '<div class="notice"><b>Ratings as of '+fmtDay(state.asOf)+'.</b> The predictions below use the ratings '+
       'on your chosen date, not the latest ones.</div>' : '')+
@@ -3967,7 +4037,7 @@ function viewFixtures(){
         'They appear here once it runs where the update publishes its files.</div>'
       : list.length
         ? '<div class="panel">'+fixtureList(c, list)+'</div>'
-        : '<div class="status">No '+(g==='men'?"men's":"women's")+' internationals in the next two weeks.</div>')+
+        : '<div class="status">No '+(g==='men'?"men's":"women's")+' internationals listed yet.</div>')+
     upcomingTournaments(g)+
   '</div>';
 }
@@ -4454,6 +4524,9 @@ function renderSimResults(T, P, R, actual, forced){
   const actualCol = actual ? '<th>Actual</th>' : '';
   const nameOf = t => P.info.get(t).name;
   const winner = order[0], fav = R.reach[winner][R.nStage-1]/R.runs;
+  state.tourShare = {kind:'sim', title:T.name, R, order, name:i => nameOf(R.names[i]), ts:null,
+    sub:(T.status === 'rewind' ? 'Chances of winning going in' : 'Chances of winning')+' · '+R.runs.toLocaleString()+' simulations',
+    hl:actual && actual.champion ? R.names.indexOf(actual.champion) : -1};
   let summary = '';
   if (actual){
     const champName = R.names.find(t => P.info.get(t).row && P.info.get(t).row.key === actual.champ);
@@ -4494,7 +4567,8 @@ function renderSimResults(T, P, R, actual, forced){
               '&ndash;<input type="number" min="0" max="20" aria-label="'+esc(nameOf(f.away))+' goals" value="'+(val ? val[1] : '')+'"></span>')+
           '<span class="a">'+esc(nameOf(f.away))+'</span></div>'; }).join('')+'</div>')+'</div>';
   }).join('');
-  out.innerHTML = summary + odds + '<div class="card-grid sim-groups">'+groups+'</div>'+knockoutPredictions(T, P, R)+
+  out.innerHTML = '<div class="team-actions chips" style="margin:0 0 14px;"><button class="chip" type="button" data-shareimg="tour">Share image</button></div>'+
+    summary + odds + '<div class="card-grid sim-groups">'+groups+'</div>'+knockoutPredictions(T, P, R)+
     '<p class="chart-note">Results already played are fixed. Type a score into any other match to fix it; clear both boxes to undo. '+
     'Level teams in a group are split '+
     (T.tiebreak === 'h2h' ? 'by head-to-head results, then goal difference, then goals' : 'by goal difference, then goals')+
@@ -4580,13 +4654,76 @@ function recordSummary(list){
   const sum = k => list.reduce((s, e) => s + e[k], 0);
   return {n, ll:sum('ll')/n, brier:sum('brier')/n, hit:list.filter(e => e.hit).length/n};
 }
+/* Formline against plain Elo and the FIFA method, on the same matches. As in the Method page's test, each method's
+   ratings are frozen on 1 January and used to predict that year's matches; only matches between two teams the FIFA
+   method ranks count, so all three predict the same games. Scored on the expected result (a draw counts as half):
+   log-loss, and how often the side each method favoured won the matches that had a winner. */
+const vsCache = {};
+function vsYear(g, y){
+  const ts0 = Date.UTC(y, 0, 1), ts1 = Date.UTC(y + 1, 0, 1), ms = state.matches[g];
+  const F = fifaMethod(g, ts0 - 1), E = plainElo(g, ts0 - 1);
+  if (!F) return null;
+  return atDefaults(c => {
+    const acc = {y, n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0]};
+    for (let i = firstIndexAt(ms, ts0); i < ms.length && ms[i].ts < ts1; i++){
+      const m = ms[i]; namesFor(m);
+      const fh = F.byKey.get(m._h), fa = F.byKey.get(m._a), rh = c.byKey.get(m._h), ra = c.byKey.get(m._a);
+      if (!fh || !fa || !fh.rank || !fa.rank || !rh || !ra || !E.has(m._h) || !E.has(m._a)) continue;
+      const es = [calE(predictE({r:rh.rating, rd:matchRd(rh, ra)}, {r:ra.rating, rd:matchRd(ra, rh)}, homeOf(m)), g),
+        eloE(E.get(m._h) - E.get(m._a) + venueSide(m)*PLAIN_HOME[g]), fifaExpect(g, fh, fa, m)];
+      const s = m.hs > m.as ? 1 : m.hs < m.as ? 0 : 0.5;
+      es.forEach((e, j) => { const q = Math.min(Math.max(e, 1e-6), 1 - 1e-6);
+        acc.ll[j] -= s*Math.log(q) + (1 - s)*Math.log(1 - q);
+        if (s !== 0.5) acc.hit[j] += e === 0.5 ? 0.5 : (e > 0.5) === (s === 1) ? 1 : 0; });
+      acc.n++; if (s !== 0.5) acc.dec++;
+    }
+    return acc;
+  }, ts0 - 1);
+}
+function vsPanel(g){
+  const R = vsCache[g];
+  const head = '<div class="panel" id="vsPanel" style="margin-bottom:20px;"><div class="panel-head">Against plain Elo and the FIFA method'+
+    '<span class="aside">every year since 2019, the same matches</span></div>';
+  if (!R) return head+'<div class="panel-body"><p class="muted" style="margin:0;">Working it out&hellip;</p></div></div>';
+  const ys = R.filter(Boolean), tot = {n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0]};
+  ys.forEach(a => { tot.n += a.n; tot.dec += a.dec; [0, 1, 2].forEach(j => { tot.ll[j] += a.ll[j]; tot.hit[j] += a.hit[j]; }); });
+  if (!tot.n) return head+'<div class="panel-body"><p class="muted" style="margin:0;">No matches to test yet.</p></div></div>';
+  const names = ['Formline', 'Plain Elo', 'FIFA method'], best = Math.min(...tot.ll);
+  const pc = x => (x*100).toFixed(1)+'%';
+  return head+'<div class="table-wrap"><table class="kv-table"><thead><tr><th>Method</th><th>Picked the winner</th><th>Log-loss</th></tr></thead><tbody>'+
+      names.map((nm, j) => '<tr><td>'+(tot.ll[j] === best ? '<b>'+nm+'</b>' : nm)+'</td><td class="n">'+pc(tot.hit[j]/tot.dec)+'</td><td>'+(tot.ll[j]/tot.n).toFixed(3)+'</td></tr>').join('')+
+    '</tbody></table></div>'+
+    '<details class="vs-years" style="padding:0 15px;"><summary class="muted" style="cursor:pointer;padding:8px 0;font-size:13.5px;">Year by year</summary>'+
+      '<div class="table-wrap"><table class="kv-table"><thead><tr><th>Year</th><th>Matches</th>'+names.map(nm => '<th>'+nm+'</th>').join('')+'</tr></thead><tbody>'+
+      ys.map(a => '<tr><td>'+a.y+'</td><td class="n">'+a.n.toLocaleString()+'</td>'+a.ll.map(v => '<td class="n">'+(v/a.n).toFixed(3)+'</td>').join('')+'</tr>').join('')+
+      '</tbody></table></div><p class="chart-note" style="margin:6px 0 10px;">Log-loss by year; lower is better.</p></details>'+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">'+tot.n.toLocaleString()+' '+(g === 'men' ? "men's" : "women's")+' matches between teams '+
+      'the FIFA method ranks, each predicted with ratings frozen on 1 January of its year, as in the test on the <a href="#/method">How it works</a> page. '+
+      '<b>Picked the winner</b>: how often the side a method favoured won, among the '+tot.dec.toLocaleString()+' matches that had a winner. '+
+      '<b>Log-loss</b> scores how confident each method was in what happened, a draw counting as half a win; lower is better. '+
+      'Plain Elo is this site\'s own, and the FIFA method is FIFA\'s formula worked out here (see <a href="#/compare">Formline, Elo and FIFA</a>). '+
+      'FIFA\'s ranking is built for seeding draws, not for predicting, but its formula still says what result it expects, and that is what is scored.</p></div>';
+}
+function kickVs(g){
+  if (vsCache[g] || vsCache[g+'busy']) return;
+  vsCache[g+'busy'] = true;
+  const y1 = new Date(state.bounds[g].max).getUTCFullYear(), out = [];
+  let y = 2019;
+  const step = () => {
+    if (y > y1){ vsCache[g] = out; vsCache[g+'busy'] = false;
+      const el = document.getElementById('vsPanel'); if (el && state.route === 'record' && state.gender === g) el.outerHTML = vsPanel(g); return; }
+    try { out.push(vsYear(g, y)); } catch(e){ out.push(null); }
+    y++; setTimeout(step, 0);
+  };
+  setTimeout(step, 50);
+}
 function viewRecord(){
   const g = state.gender, rec = state.record, app = document.getElementById('app');
   const intro = '<h1 class="page-title">Forecast record</h1>'+
     '<p class="page-sub">Every match the site lists gets a forecast, which is updated until kick-off, then frozen and scored once '+
       'the result is in. Each one is saved publicly before its match, and none are removed: postponed matches are marked void.</p>';
   if (!rec){ app.innerHTML = '<div class="wrap">'+intro+'<div class="status">The record starts with the site\'s nightly update, '+
-    'which this copy of the site does not have. The online site has it.</div></div>'; return; }
+    'which this copy of the site does not have. The online site has it.</div>'+vsPanel(g)+'</div>'; kickVs(g); return; }
   const mine = rec.entries.filter(e => e.g === g), scored = mine.filter(e => e.result), pending = mine.filter(e => !e.result && !e.void);
   const S = recordSummary(scored), pc = x => Math.round(x*100)+'%';
   const card = (k, v, s) => '<div class="stat"><div class="k">'+k+'</div><div class="v plain">'+v+'</div><div class="s">'+s+'</div></div>';
@@ -4618,12 +4755,13 @@ function viewRecord(){
         'move a long way; the backtest on the Method page covers tens of thousands.</div>' : '')
       : '<div class="status">No '+(g==='men'?"men's":"women's")+' forecasts have been scored yet. '+
         (pending.length ? pending.length+' are waiting for their matches.' : '')+'</div>')+
-    calib+
+    calib+vsPanel(g)+
     (rows ? '<div class="panel"><div class="panel-head">Scored forecasts<span class="aside">newest first</span></div><div class="table-wrap lock"><table>'+
       '<thead><tr><th>Date</th><th style="text-align:center;">Match and result</th><th class="hide-sm">Forecast</th>'+
       '<th class="num" title="The chance the forecast gave to what happened">Chance given</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>' : '')+
     (mine.some(e => e.void) ? '<p class="chart-note">'+mine.filter(e => e.void).length+' forecast(s) void: no result was found within three weeks.</p>' : '')+
   '</div>';
+  kickVs(g);
 }
 
 /* ============================================================
@@ -5019,8 +5157,11 @@ function editionChances(e, run, tHref, R){
         '<td><span class="field-actual">'+esc(fmt.finish.get(k) || '')+'</span></td></tr>'; }).join('')+'</tbody></table></div>';
   const champName = nm.get(fmt.champion) || fmt.champion, ci = R.names.indexOf(fmt.champion);
   const rank = order.indexOf(ci) + 1, champP = R.reach[ci][R.nStage - 1]/R.runs;
+  state.tourShare = {kind:'edition', title:compName(e.tournament)+' '+e.label, R, order, name:i => nm.get(R.names[i]) || R.names[i], ts:run.preTs,
+    sub:'Chances going in · won by '+nameText(champName)+' ('+Math.round(champP*100)+'%)', hl:ci};
   return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Chances going in<span class="aside">'+R.runs.toLocaleString()+' simulated tournaments</span></div>'+
-    '<div class="panel-body" style="padding-bottom:0;"><p class="muted" style="margin:0 0 4px;font-size:13.5px;">'+esc(champName)+' won, given '+
+    '<div class="panel-body" style="padding-bottom:0;"><div class="team-actions chips" style="margin:0 0 12px;"><button class="chip" type="button" data-shareimg="tour">Share image</button></div>'+
+      '<p class="muted" style="margin:0 0 4px;font-size:13.5px;">'+esc(champName)+' won, given '+
       Math.round(champP*100)+'% before kick-off, '+(rank === 1 ? 'the favourite' : 'the '+ordinal(rank)+' favourite')+'. The tournament is replayed many times from the ratings each '+
       'team brought in, with the real '+(fmt.type === 'groups' ? 'groups, venues and bracket' : fmt.type === 'league' ? 'fixtures and venues' : 'bracket')+'.'+
       (fmt.type === 'groups' ? ' Knockout pairings are an approximation: group winners meet the lowest-placed qualifiers.' : '')+'</p></div>'+
@@ -5287,7 +5428,7 @@ function viewEdition(){
     const d = T.preRank ? T.preRank - T.postRank : null;
     return '#'+T.postRank+(d === null ? '' : ' <small class="mv '+(d > 0 ? 'up' : d < 0 ? 'down' : 'flat')+'" title="'+(d === 0 ? 'No change' : (d > 0 ? 'Up ' : 'Down ')+Math.abs(d)+' place'+(Math.abs(d) === 1 ? '' : 's'))+
       ' from #'+T.preRank+'">('+(d > 0 ? '+' : d < 0 ? '&minus;' : '&plusmn;')+Math.abs(d)+')</small>'); };
-  const upsetsHtml = editionUpsets(run, tHref, e), nUp = (upsetsHtml.match(/<tr>/g) || []).length;
+  const upsetsHtml = editionUpsets(run, tHref, e), nUp = (upsetsHtml.match(/<tr><td/g) || []).length;
 
   const body =
     sec('sec-numbers', 'The tournament in numbers', '<div id="edReview">'+unpanel(editionReview(e, run, tHref, null)).body+'</div>', {open:true, short:'In numbers'})+
@@ -5462,11 +5603,11 @@ function eraTable(){
 }
 /* Run something against the current archive at the site's default settings and latest date, then put every
    setting back. For live examples on the explanatory pages. */
-function atDefaults(fn){
+function atDefaults(fn, ts){
   const g = state.gender;
   if (!state.matches[g]) return null;
   const saved = {a:state.asOf, w:state.windowYears, c:state.comps, h:state.historicalNames, u:state.maxBand, r:state.rankBy, f:state.confs, m:state.fifaFilter};
-  state.asOf = state.bounds[g].max; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER);
+  state.asOf = ts ? Math.min(Math.max(ts, state.bounds[g].min), state.bounds[g].max) : state.bounds[g].max; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER);
   state.historicalNames = true; state.maxBand = DEFAULTS.maxBand; state.rankBy = 'rating'; state.confs = new Set();
   state.fifaFilter = DEFAULTS.fifaFilter; state.cache = {key:null};
   let out = null;
@@ -5497,6 +5638,10 @@ function viewMethod(){
     return {top, near, nearRank:near.rank, wideRanked, prov, tiers:c.tiers};
   });
   const pr = probsFromE(eloE(100)), pr200 = probsFromE(eloE(200)), r0 = x => Math.round(x*100)+'%';
+  /* The same model in 1910 (men) or 1985 (women): few teams, few matches, wide bands. */
+  const earlyYear = g === 'men' ? 1910 : 1985;
+  const early = atDefaults(c => { const best = c.table.slice().sort((a, b) => a.band - b.band)[0];
+    return {ranked:c.table.length, all:c.table.length + c.provisional.length, best}; }, Date.parse(earlyYear+'-07-01T00:00:00Z'));
   let demo = '';
   if (ex){
     const list = [ex.top, ex.wideRanked, ex.prov].filter(Boolean);
@@ -5518,6 +5663,7 @@ function viewMethod(){
     '<h1 class="page-title">How it works</h1>'+
     '<p class="page-sub">Formline turns match results into a strength rating for every national team, and says how sure '+
       'it is about each one. This page explains it in plain terms; the technical account is at the bottom.</p>'+
+    '<details class="toc-m"><summary>On this page</summary>'+toc.map(([id, t]) => '<a href="#/method" data-goto="'+id+'">'+t+'</a>').join('')+'</details>'+
 
     sec('m-short', 'The short version',
       '<div class="explain-grid">'+
@@ -5561,6 +5707,14 @@ function viewMethod(){
           'two years may have changed.</li>'+
         '<li><b>How connected its region is.</b> A team whose confederation rarely plays anyone else is harder to compare with '+
           'the rest of the world.</li></ul>'+
+      '<h3>Few matches, wide band</h3>'+
+      '<p>The window sets which years count, but the band depends on how much football was actually played in them. A team that '+
+        'has only just started playing has a wide band whatever the window, because there is little to go on yet. The same goes '+
+        'for everyone in the early decades, when few countries played and those that did met only a few times a year.</p>'+
+      (early && early.best && ex ? '<p>In '+earlyYear+', for example, '+early.ranked+' of the '+early.all+' '+game+' teams that had played '+
+        'were known well enough to rank, and the best-known of them, '+esc(dn(early.best.team))+', had a band of &plusmn;'+Math.round(early.best.band)+
+        ', far wider than the leaders\' today ('+esc(ex.top.team)+' &plusmn;'+Math.round(ex.top.band)+'). '+
+        '<a href="#/rankings?d='+earlyYear+'-07-01'+(g === 'women' ? '&g=women' : '')+'">See the '+earlyYear+' table</a>.</p>' : '')+
       '<table class="kv-table words"><thead><tr><th>Band</th><th>What it means</th></tr></thead><tbody>'+
         '<tr><td>&plusmn;125 to &plusmn;150</td><td>As sure as the model gets: teams that play often, against strong and varied opposition.</td></tr>'+
         '<tr><td>&plusmn;150 to &plusmn;200</td><td>Typical for a regular international side.</td></tr>'+
@@ -6016,7 +6170,7 @@ function methodTechnical(){
       'archive\'s last match from API-Football, files each one under the archive\'s own team and competition names, '+
       'and works out from the venue whether either side was at home. Those results count exactly like the archive\'s and '+
       'are marked &dagger; in match lists. When the archive catches up, its own record replaces them. The same update '+
-      'collects the next fortnight\'s fixtures for the Fixtures page. '+freshnessText()+'</p>'+
+      'collects the fixtures of the coming weeks for the Fixtures page. '+freshnessText()+'</p>'+
     '<p>The site also checks the archives and corrects what it can be sure of. Where the venue\'s country names one of '+
       'the teams, that team is treated as at home whatever the neutral flag says: the Soviet Union\'s home qualifiers in '+
       'Moscow and Kyiv, for example, were flagged neutral because the venue was recorded as the Soviet Union while the '+
@@ -6043,42 +6197,165 @@ function plainElo(g, asOf){
     const d = m.k*goalMult(Math.abs(m.hs - m.as))*(s - E); R.set(m._h, get(m._h) + d); R.set(m._a, get(m._a) - d); }
   return plainCache[key] = R;
 }
-/* The FIFA ranking, from a snapshot file: data/fifa-men.csv and data/fifa-women.csv, one team per line as
-   rank,team,points (copied from FIFA's site), with an optional first line "# 7 October 2026" giving its date. */
-function parseFifa(text){
-  const out = {date:null, rows:[]};
-  for (const raw of text.split(/\r?\n/)){
-    const line = raw.trim(); if (!line) continue;
-    if (line[0] === '#'){ if (!out.date) out.date = line.replace(/^#\s*/, ''); continue; }
-    const parts = line.includes('\t') ? line.split('\t') : line.includes(',') ? line.match(/("[^"]*"|[^,]+)/g) || [] : line.split(/\s+/);
-    const cells = parts.map(x => x.replace(/^"|"$/g, '').trim()).filter(Boolean);
-    const rank = parseInt(cells[0], 10); if (!(rank > 0)) continue;
-    const pts = parseFloat((cells[cells.length - 1] || '').replace(/,/g, ''));
-    const team = cells.slice(1, isNaN(pts) ? undefined : -1).join(' ').trim(); if (!team) continue;
-    out.rows.push({rank, team, points:isNaN(pts) ? null : pts});
+/* FIFA's own ranking methods, worked out here from FIFA's published procedures and the same results as everything
+   else ("FIFA method, our calculation"). This is not FIFA's published ranking: FIFA's match records differ from the
+   archive's in places and a few details are FIFA's own calls, so the two drift apart a little. How close it comes is
+   checked against FIFA's own releases on the Compare page.
+   Men: the method FIFA has used since August 2018. Each match adds I*(W - We) to each side's points, with
+   We = 1 / (10^(-dr/600) + 1) and dr the gap in points; W is 1 for a win, 0.5 for a draw and 0 for a defeat, or 0.75
+   for winning a shoot-out and 0.5 for losing one. I runs from 5 for a friendly outside FIFA's match dates to 60 for
+   World Cup matches from the quarter-finals on. Defeat costs nothing in the knockout rounds of a final tournament.
+   Only matches between FIFA members count, and points start from FIFA's June 2018 ranking as FIFA's own restart did:
+   1600 for the leader and 4 fewer for each place below (FIFA_SEED_2018, in order; teams level on points share a place).
+   Women: the method FIFA has used since 2003, run over every match since 1971: c = 200, 100 extra for playing at home,
+   a share of the result that grows with the margin (FIFA_W_SHARE), and K from 15 for a friendly to 60 at the World Cup
+   and the Olympics, with friendlies between two top-ten teams counting double. */
+const FIFA_SEED_2018 = 'Germany|Brazil|Belgium|Portugal|Argentina|Switzerland|France|Poland|Chile|Spain|Peru|Denmark,England|Uruguay|Mexico|Colombia|Netherlands|Wales|Italy|Croatia|Tunisia|Iceland|Costa Rica|Sweden|United States|Austria|Senegal|Slovakia|Northern Ireland|Romania|Republic of Ireland|Paraguay|Venezuela|Serbia|Ukraine|Australia|Iran|DR Congo,Turkey|Bosnia and Herzegovina|Morocco|Scotland|Montenegro|Greece|Egypt|Czech Republic|Ghana|Nigeria|Bulgaria,Cameroon|Hungary|Burkina Faso|Norway|Jamaica|Panama|Slovenia|South Korea|Albania|Bolivia|Ecuador|Japan|Honduras|Finland|Mali|Cape Verde|Algeria|Saudi Arabia|Guinea,Ivory Coast|Russia|North Macedonia|El Salvador|Syria|South Africa|China|Zambia|United Arab Emirates|Belarus|Canada,Lebanon|Curaçao|Uganda|Congo|Oman|Gabon,Luxembourg|Cyprus|Benin|Iraq|Faroe Islands|Trinidad and Tobago|Kyrgyzstan|Israel|Estonia|Uzbekistan|Georgia|India|Qatar|Palestine|Armenia|Libya|Vietnam|Niger|Haiti|Azerbaijan|Madagascar|Mauritania|Central African Republic,North Korea|Jordan|Sierra Leone|Kenya|Bahrain|Mozambique|Philippines|Namibia|Kazakhstan|Zimbabwe|Tajikistan|New Zealand|Guinea-Bissau|Thailand|Malawi,Taiwan|Togo|Antigua and Barbuda,Lithuania|Sudan|Latvia|Andorra,Turkmenistan|Nicaragua|Yemen|Eswatini|Saint Kitts and Nevis|Rwanda|Angola|Myanmar|Botswana|Tanzania|Kosovo|Hong Kong|Equatorial Guinea,Solomon Islands|Afghanistan|Guatemala|Lesotho|Burundi|Comoros|Maldives|Ethiopia|Dominican Republic|Suriname|New Caledonia|Mauritius|South Sudan|Tahiti|Liberia|Kuwait|Barbados|Nepal|Vanuatu|Belize|Indonesia|Fiji|Cambodia,Papua New Guinea|Grenada|Singapore|Saint Lucia|Malaysia|Gambia|Puerto Rico,Saint Vincent and the Grenadines|Chad,Moldova|Dominica|Bermuda,Laos|Liechtenstein|Cuba|Guyana|Bhutan|Malta|Macau|Mongolia,São Tomé and Príncipe|Aruba,Seychelles|Guam,Timor-Leste|American Samoa,Cook Islands|Bangladesh|Brunei,Gibraltar|Djibouti,Samoa|United States Virgin Islands|Sri Lanka|Pakistan|Cayman Islands|San Marino|British Virgin Islands,Montserrat|Anguilla,Bahamas,Eritrea,Somalia,Tonga,Turks and Caicos Islands';
+const FIFA_SEED_TS = Date.parse('2018-06-07T00:00:00Z'), FIFA_FIRST_TS = Date.parse('2018-08-16T00:00:00Z');
+const FIFA_ROUND_TS = Date.parse('2021-04-01T00:00:00Z');   // points kept to two decimals from then, as FIFA does
+const FIFA_W_FROM = Date.parse('1971-01-01T00:00:00Z');
+const FIFA_W_START = 1540;   // every women's team starts level in 1971; this level puts the top 20 on FIFA's own scale
+const FIFA_FINALS = {'FIFA World Cup':[50, 60], 'UEFA Euro':[35, 40], 'African Cup of Nations':[35, 40], 'AFC Asian Cup':[35, 40],
+  'Copa América':[35, 40], 'Gold Cup':[35, 40], 'Oceania Nations Cup':[35, 40]};
+const FIFA_QUAL = new Set(['FIFA World Cup qualification', 'UEFA Euro qualification', 'African Cup of Nations qualification',
+  'AFC Asian Cup qualification', 'Gold Cup qualification', 'Oceania Nations Cup qualification', 'Copa América qualification']);
+const FIFA_W_K60 = new Set(['FIFA World Cup', 'Olympic Games']);
+const FIFA_W_K45 = new Set(['FIFA World Cup qualification', 'AFC Olympic Qualifying Tournament', 'CAF Olympic Qualifying Tournament',
+  'CONCACAF Olympic Qualifying Tournament', 'OFC Olympic Qualifying Tournament', 'AFC Olympic qualification', 'CONMEBOL Nations League',
+  'UEFA Euro', 'Euro', 'AFC Asian Cup', 'AFC Championship', 'African Championship', 'Africa Cup of Nations', 'Copa América',
+  'CONCACAF Championship', 'CONCACAF Gold Cup', 'OFC Championship', 'OFC Nations Cup']);
+const FIFA_W_K30 = new Set(['UEFA Euro qualification', 'AFC Asian Cup qualification', 'African Championship qualification',
+  'Africa Cup of Nations qualification', 'African Cup of Nations qualification', 'CONCACAF Gold Cup qualification',
+  'CONCACAF Championship qualification', 'UEFA Nations League', 'CONCACAF Olympic Qualifying Tournament qualification']);
+/* The women's result share, by the losing (or drawing) side's goals and the margin, in per cent: 1-0 is 85/15,
+   2-1 is 84/16, 2-2 is 51/51. */
+const FIFA_W_SHARE = [[47, 85, 92, 96, 97, 98, 99], [50, 84, 91.1, 95.2, 96.3, 97.4, 98.5], [51, 83, 90.2, 94.4, 95.6, 96.8, 98],
+  [52, 82, 89.3, 93.6, 94.9, 96.2, 97.5], [52.5, 81, 88.4, 92.8, 94.2, 95.6, 97], [53, 80, 87.5, 92, 93.5, 95, 96.5]];
+const fifaWShare = (w, l) => { const v = FIFA_W_SHARE[Math.min(l, 5)][Math.min(w - l, 6)]/100; return w === l ? [v, v] : [v, 1 - v]; };
+/* FIFA's own releases, to check the calculation against (top 20, FIFA's names given as the archive spells them). */
+const FIFA_OFFICIAL = {
+  men:{ts:Date.parse('2026-10-07T00:00:00Z'), label:'7 October 2026', top:[['Spain', 2011.57], ['Argentina', 1972.80], ['France', 1958.86],
+    ['England', 1925.59], ['Portugal', 1807.69], ['Brazil', 1806.51], ['Morocco', 1805.34], ['Belgium', 1779.17], ['Netherlands', 1778.61],
+    ['Mexico', 1738.48], ['Colombia', 1735.80], ['Switzerland', 1725.39], ['Germany', 1717.52], ['Croatia', 1714.74], ['Italy', 1713.04],
+    ['United States', 1705.47], ['Japan', 1684.75], ['Senegal', 1648.84], ['Norway', 1637.89], ['Uruguay', 1635.54]]},
+  women:{ts:Date.parse('2026-06-16T00:00:00Z'), label:'16 June 2026', top:[['Spain', 2105.36], ['United States', 2057.92], ['Germany', 2028.99],
+    ['England', 2027.13], ['Japan', 1998.83], ['France', 1983.84], ['Brazil', 1976.73], ['Sweden', 1937.94], ['Canada', 1936.90],
+    ['Netherlands', 1911.75], ['North Korea', 1910.63], ['Denmark', 1910.20], ['Italy', 1891.83], ['Norway', 1878.52], ['Australia', 1830.66],
+    ['China', 1799.13], ['Iceland', 1792.32], ['Belgium', 1786.01], ['South Korea', 1780.68], ['Colombia', 1775.96]]}
+};
+const isoDayOf = ts => new Date(ts).toISOString().slice(0, 10);
+/* The men's importance of each match since June 2018, worked out once per load. Knockout matches of a final tournament
+   are each team's matches after its group games; "quarter-finals on" are the knockout matches played once eight or
+   fewer teams are left. A Nations League month with few matches holds its finals or play-offs (March 2019 in the
+   CONCACAF Nations League was the last round of its qualifying league). Other friendlies count as played on FIFA's
+   dates when the five days around them are busy with internationals. */
+function fifaPrep(ms){
+  if (ms._fifaPrep) return;
+  const i0 = firstIndexAt(ms, FIFA_SEED_TS + 1), list = ms.slice(i0), day = m => Math.round(m.ts/DAY);
+  const dens = new Map(); ms.slice(firstIndexAt(ms, FIFA_SEED_TS - 10*DAY)).forEach(m => dens.set(day(m), (dens.get(day(m)) || 0) + 1));
+  const busy = m => { let n = 0; for (let k = -2; k <= 2; k++) n += dens.get(day(m) + k) || 0; return n >= 60; };
+  const month = new Map(), mk = m => m.tournament+'|'+isoDayOf(m.ts).slice(0, 7);
+  list.forEach(m => { if (/Nations League$/.test(m.tournament)) month.set(mk(m), (month.get(mk(m)) || 0) + 1); });
+  const ko = new Set(), late = new Set(), byT = new Map();
+  list.forEach(m => { if (FIFA_FINALS[m.tournament]){ if (!byT.has(m.tournament)) byT.set(m.tournament, []); byT.get(m.tournament).push(m); } });
+  for (const ed of byT.values()){
+    const eds = []; let cur = null;
+    for (const m of ed){ if (!cur || m.ts - cur[cur.length - 1].ts > 60*DAY) eds.push(cur = []); cur.push(m); }
+    for (const e of eds){
+      const cnt = new Map(); e.forEach(m => { cnt.set(m.home, (cnt.get(m.home) || 0) + 1); cnt.set(m.away, (cnt.get(m.away) || 0) + 1); });
+      const gs = Math.min(...cnt.values()), seen = new Map(), kos = [];
+      e.forEach(m => { seen.set(m.home, (seen.get(m.home) || 0) + 1); seen.set(m.away, (seen.get(m.away) || 0) + 1);
+        if (seen.get(m.home) > gs || seen.get(m.away) > gs){ ko.add(m); kos.push(m); } });
+      const left = new Set();
+      for (let j = kos.length - 1; j >= 0; ){
+        let k = j; while (k >= 0 && kos[k].ts === kos[j].ts){ left.add(kos[k].home); left.add(kos[k].away); k--; }
+        for (let q = j; q > k; q--) if (left.size <= 8) late.add(kos[q]);
+        j = k;
+      }
+    }
   }
-  return out;
+  for (const m of list){
+    const t = m.tournament, nl = /^(UEFA|CONCACAF) Nations League$/.test(t);
+    const nlFinal = nl && !(t[0] === 'C' && isoDayOf(m.ts).slice(0, 7) === '2019-03') && month.get(mk(m)) <= 24;
+    m._fi = FIFA_FINALS[t] ? FIFA_FINALS[t][late.has(m) ? 1 : 0] : FIFA_QUAL.has(t) ? 25 : nl ? (nlFinal ? 25 : 15)
+      : t === 'CONCACAF Nations League qualification' ? 15 : busy(m) ? 10 : 5;
+    m._fko = ko.has(m) || nlFinal;
+  }
+  ms._fifaPrep = true;
 }
-function loadFifa(g){
-  state.fifa = state.fifa || {};
-  if (state.fifa[g] !== undefined) return Promise.resolve(state.fifa[g]);
-  if (typeof fetch !== 'function') return Promise.resolve(state.fifa[g] = null);
-  return fetch('data/fifa-'+g+'.csv', {cache:'no-cache'}).then(r => r.ok ? r.text() : null)
-    .then(t => (state.fifa[g] = t ? parseFifa(t) : null)).catch(() => (state.fifa[g] = null));
+const fifaCache = {};
+/* Points by the FIFA method as they stood at `asOf`, every team that has some, and the table FIFA would print: men, every
+   member that has played within four years; women, teams with five matches or more that have played within four years. */
+function fifaMethod(g, asOf){
+  const ms = state.matches[g];
+  if (!ms || (g === 'men' && asOf < FIFA_FIRST_TS)) return null;
+  const ck = g+'|'+asOf; if (fifaCache[ck]) return fifaCache[ck];
+  const P = new Map(), n = new Map(), last = new Map(), members = new Set();
+  let i = 0;
+  if (g === 'men'){
+    fifaPrep(ms);
+    FIFA_SEED_2018.split('|').forEach((grp, k) => grp.split(',').forEach(t => { const key = keyOfName(teamAlias(t, 'men')); P.set(key, 1600 - 4*k); members.add(key); }));
+    i = firstIndexAt(ms, FIFA_SEED_TS + 1);
+  } else i = firstIndexAt(ms, FIFA_W_FROM);
+  const get = k => P.has(k) ? P.get(k) : FIFA_W_START;
+  const top10 = () => new Set([...P.keys()].filter(k => (n.get(k) || 0) >= 5).sort((a, b) => P.get(b) - P.get(a)).slice(0, 10));
+  for (; i < ms.length && ms[i].ts <= asOf; i++){
+    const m = ms[i]; namesFor(m); const h = m._h, a = m._a;
+    if (h === a) continue;
+    let dh, da;
+    if (g === 'men'){
+      if (!members.has(h) || !members.has(a)) continue;
+      const so = m.hs === m.as ? (state.shootouts.men || new Map()).get(isoDayOf(m.ts)+'|'+m.home+'|'+m.away) : null;
+      const Wh = m.hs > m.as ? 1 : m.hs < m.as ? 0 : so === m.home ? 0.75 : 0.5;
+      const Wa = m.hs < m.as ? 1 : m.hs > m.as ? 0 : so === m.away ? 0.75 : 0.5;
+      const Eh = 1/(Math.pow(10, -(P.get(h) - P.get(a))/600) + 1);
+      dh = m._fi*(Wh - Eh); da = m._fi*(Wa - (1 - Eh));
+      if (m._fko){ dh = Math.max(dh, 0); da = Math.max(da, 0); }
+    } else {
+      const t = m.tournament;
+      let K = FIFA_W_K60.has(t) ? 60 : FIFA_W_K45.has(t) ? 45 : FIFA_W_K30.has(t) ? 30 : 15;
+      if (K === 15){ const T = top10(); if (T.has(h) && T.has(a)) K = 30; }
+      const Eh = 1/(1 + Math.pow(10, -(get(h) - get(a) + 100*venueSide(m))/400));
+      const [sh, sa] = m.hs >= m.as ? fifaWShare(m.hs, m.as) : fifaWShare(m.as, m.hs).reverse();
+      dh = K*(sh - Eh); da = K*(sa - (1 - Eh));
+    }
+    let ph = get(h) + dh, pa = get(a) + da;
+    if (g === 'men' && m.ts >= FIFA_ROUND_TS){ ph = Math.round(ph*100)/100; pa = Math.round(pa*100)/100; }
+    P.set(h, ph); P.set(a, pa);
+    n.set(h, (n.get(h) || 0) + 1); n.set(a, (n.get(a) || 0) + 1); last.set(h, m.ts); last.set(a, m.ts);
+  }
+  const cutoff = asOf - 4*365.25*DAY;
+  const ranked = [...P.keys()].filter(k => g === 'men' ? (last.get(k) || FIFA_SEED_TS) >= cutoff : (n.get(k) || 0) >= 5 && last.get(k) >= cutoff)
+    .sort((a, b) => P.get(b) - P.get(a));
+  const byKey = new Map();
+  for (const k of P.keys()) byKey.set(k, {key:k, pts:P.get(k), rank:null, n:n.get(k) || 0});
+  ranked.forEach((k, j) => { const prev = j ? byKey.get(ranked[j - 1]) : null;
+    byKey.get(k).rank = prev && prev.pts === P.get(k) ? prev.rank : j + 1; });
+  return fifaCache[ck] = {g, asOf, byKey, table:ranked.map(k => byKey.get(k))};
 }
-function fifaKeyMap(c, F){
-  const norm = x => badgeSlug(x).replace(/-/g, '');
-  const byNorm = new Map(); c.all.forEach(r => { byNorm.set(norm(r.team), r.key); byNorm.set(norm(r.key), r.key); byNorm.set(norm(dn(r.key)), r.key); });
-  const m = new Map(), missed = [];
-  for (const x of F.rows){ let k = c.resolve(x.team); if (!k || !c.byKey.has(k)) k = byNorm.get(norm(x.team));
-    if (k) m.set(k, x); else missed.push(x.team); }
-  return {m, missed};
+/* The FIFA method's expected result for the listed home side, as FIFA's formula gives it. */
+function fifaExpect(g, fh, fa, m){
+  return g === 'men' ? 1/(Math.pow(10, -(fh.pts - fa.pts)/600) + 1)
+    : 1/(1 + Math.pow(10, -(fh.pts - fa.pts + 100*venueSide(m))/400));
+}
+/* How close the calculation comes to FIFA's own release: the gap in points over FIFA's top 20, and how many of them sit
+   in the same place. */
+const fifaCheckCache = {};
+function fifaCheck(g){
+  if (fifaCheckCache[g] !== undefined) return fifaCheckCache[g];
+  const O = FIFA_OFFICIAL[g];
+  if (!O || !state.matches[g] || state.bounds[g].max < O.ts - 7*DAY) return null;
+  const F = fifaMethod(g, O.ts - 1); if (!F) return null;
+  let gap = 0, same = 0, n = 0;
+  O.top.forEach(([t, pts], j) => { const x = F.byKey.get(keyOfName(teamAlias(t, g))); if (!x) return;
+    n++; gap += Math.abs(x.pts - pts); if (x.rank === j + 1) same++; });
+  return fifaCheckCache[g] = n ? {label:O.label, n, gap:gap/n, same} : null;
 }
 function compareExplainer(){
   const g = state.gender, B = BACKTEST[g], row12 = B.rows.find(r => r[0] === 12) || B.rows[0];
   const t = (a, b, c, d) => '<tr><th>'+a+'</th><td>'+b+'</td><td>'+c+'</td><td>'+d+'</td></tr>';
-  return '<div class="table-wrap"><table class="kv-table cmp-table"><thead><tr><th></th><th>Formline</th><th>Plain Elo</th><th>FIFA ranking</th></tr></thead><tbody>'+
-    t('Which results count', 'The last 12 years (you can change it)', 'Every match since the archive begins', g === 'men' ? 'Every match since 2018, on top of points carried over from the old ranking' : 'Every match since the ranking began, with points carried forward')+
+  return '<div class="table-wrap"><table class="kv-table cmp-table"><thead><tr><th></th><th>Formline</th><th>Plain Elo</th><th>FIFA method</th></tr></thead><tbody>'+
+    t('Which results count', 'The last 12 years (you can change it)', 'Every match since the archive begins', g === 'men' ? 'Every match since June 2018, on top of points carried over from FIFA\'s June 2018 ranking' : 'Every match since 1971')+
     t('Bigger wins count more', 'Yes: two goals 1.5 times, three or more 1.75 times', 'Yes, the same', g === 'men' ? 'No' : 'Yes, on its own scale')+
     t('Home advantage', 'Yes, by era and venue: smaller in Europe, bigger in Africa and South America, doubled at altitude', 'Yes, one fixed value', g === 'men' ? 'No' : 'Yes, one fixed value')+
     t('How much each match counts', 'World Cup 60 down to friendlies 25 and non-FIFA 10; friendlies counted more before 1990', 'The same weights', g === 'men' ? 'World Cup knockouts 60 down to friendlies outside FIFA dates 5' : 'World Cup and Olympics 60 down to ordinary friendlies 15')+
@@ -6087,8 +6364,8 @@ function compareExplainer(){
     t('Defeat in a knockout', 'Costs points like any defeat', 'Costs points', g === 'men' ? 'No points lost in the knockout stages of a final tournament' : 'Costs points')+
     t('Penalty shoot-outs', 'A draw', 'A draw', g === 'men' ? 'The winner scores 0.75, the loser 0.5' : 'A draw')+
     t('How well it predicts', 'Log-loss '+row12[2].toFixed(3)+' on '+B.n+' '+(g === 'men' ? "men's" : "women's")+' matches since '+B.span.slice(0, 4)+' (lower is better)',
-      'Log-loss '+B.rows.find(r => r[0] === 0)[1].toFixed(3)+' on the same matches', 'Not designed for predictions; not tested here')+
-    t('Updated', 'Every night', 'Every night, alongside Formline', g === 'men' ? 'Every month or two' : 'About four times a year')+
+      'Log-loss '+B.rows.find(r => r[0] === 0)[1].toFixed(3)+' on the same matches', 'Not built for predictions, but tested anyway: see the <a href="#/record">Forecast record</a>')+
+    t('Updated', 'Every night', 'Every night, alongside Formline', 'Every night here; FIFA publishes its own '+(g === 'men' ? 'every month or two' : 'about four times a year'))+
   '</tbody></table></div>';
 }
 /* Where every past name's record went, and the sides that ended with no successor. */
@@ -6133,7 +6410,12 @@ function viewFlags(){
     '<ul><li><b>Rankings</b> show each team\'s flag as it was on the as-of date. Set the date to 1975 and you see the flags of 1975.</li>'+
       '<li><b>Match lists</b>, including meetings between two teams, show each team\'s flag on the day of the match. A tournament page shows the flags flown at that tournament.</li>'+
       '<li><b>Team pages</b> show the flag, shirt crest, association badge and confederation logo in use on the date the page is set to (today unless you change it). A team that no longer exists shows the last flag it used.</li></ul>'+
-    '<div class="flag-strips">'+strip('United States', [1930, 1959, 'now'])+strip('Brazil', [1950, 1970, 'now'])+strip('Canada', [1950, 1960, 'now'])+'</div>'+
+    '<div class="flag-strips">'+
+      strip('Canada', [1950, 'now'])+strip('Iran', [1975, 'now'])+strip('Libya', [1990, 'now'])+
+      '<div class="flag-strip"><b>'+esc(dn('DR Congo'))+'</b>'+eg('DR Congo', 1985, '1985, as Zaïre')+eg('DR Congo', 'now')+'</div>'+
+      '<div class="flag-strip"><b>'+esc(dn('Russia'))+'</b>'+eg('Russia', 1985, '1985, as the Soviet Union')+eg('Russia', 'now')+'</div>'+
+      '<div class="flag-strip"><b>'+esc(dn('Myanmar'))+'</b>'+eg('Myanmar', 1990, '1990, as Burma')+eg('Myanmar', 'now')+'</div>'+
+    '</div>'+
     '<p>Hover over a past flag to see which flag it is and the years it was used, for example <i>German Democratic Republic flag, '+
       '1959–1990</i>.</p>'+
     '<p>Every change that shows at the size flags appear on the site is included: stars added or removed (the United States from '+
@@ -6325,6 +6607,18 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['25 Oct 2026', ['How it works reads properly on phones again, with an "On this page" menu at the top.',
+    'Table headers on phones stay right under the site header, and long names in tables wrap instead of being cut off.',
+    'Tournament pages: the upsets count no longer counts the table heading (the 1998 World Cup has 3, not 4).',
+    'Up to 16 years of results in the filters.',
+    'Flags & names shows changes you can actually see at flag size: Canada, Iran, Libya, Zaïre, the Soviet Union and Burma.',
+    'How it works explains why bands are wide when there were few matches, and team pages say so for teams that have played little.',
+    'Team pages have a Tier section: the teams level with it, in the world and in its confederation. Share image can draw it too.',
+    'Share images for tournaments: the simulator\'s likeliest winners, and any past tournament\'s chances going in with the winner picked out.',
+    'Fixtures are listed about two months ahead instead of two weeks. Matches whose time or opponent is not known yet say so.',
+    'Formline, Elo and FIFA works out FIFA\'s own ranking here, from FIFA\'s published method and the same results, for any date since August 2018 (men) or 1971 (women). Team pages show it too.',
+    'The Forecast record compares Formline, plain Elo and the FIFA method on the same matches, every year since 2019.',
+    'The ? button now gives a short guide to the page you are on. The home page keeps the full tour.']],
   ['24 Oct 2026', ['A Support page: how to report a mistake, privacy, badges and credits, and room for donation links.',
     'Share images: a ready-made picture of the top ten, the year\'s movers or any team, tall or square for Instagram, or wide for X.',
     'On a team page, Share image can also show the team\'s place in the ranking: the five teams above it and the five below, in the world or in its confederation.',
@@ -6464,7 +6758,7 @@ async function siDraw(kind, size, opts = {}){
   const [W, H] = SI_SIZES[size], cv = document.createElement('canvas'); cv.width = W; cv.height = H;
   const g = cv.getContext('2d'), c = getRatings(), game = state.gender === 'men' ? "Men's" : "Women's", day = fmtDay(state.asOf);
   try { await Promise.all(['400 28px Archivo, system-ui, sans-serif', '600 28px Archivo, system-ui, sans-serif', '800 60px Archivo, system-ui, sans-serif'].map(f => document.fonts.load(f))); } catch(e){}
-  if (kind === 'top10' || kind === 'movers' || kind === 'around'){
+  if (kind === 'top10' || kind === 'movers' || kind === 'around' || kind === 'tier' || kind === 'tour'){
     let items, title, sub;
     const font = (w, px) => w+' '+px+'px Archivo, system-ui, sans-serif';
     if (kind === 'top10'){
@@ -6476,6 +6770,21 @@ async function siDraw(kind, size, opts = {}){
       items = up.concat(down).map((r, i) => ({r, lead:i < 5 ? '▲' : '▼', leadColor:i < 5 ? SI.win : SI.loss,
         val:(r.change > 0 ? '+' : '−')+Math.abs(Math.round(r.change)), valColor:r.change > 0 ? SI.win : SI.loss}));
       title = 'Biggest movers of the year'; sub = game+' top 50 · '+day;
+    } else if (kind === 'tour'){
+      const S = state.tourShare; if (!S) return null;
+      const win = i => S.R.reach[i][S.R.nStage - 1]/S.R.runs, pct = v => v >= 0.995 ? '>99%' : v < 0.005 ? '<1%' : Math.round(v*100)+'%';
+      const top = S.order.slice(0, 10);
+      if (S.hl >= 0 && !top.includes(S.hl)) top[9] = S.hl;   // a winner from outside the ten likeliest still shows
+      items = top.map(i => ({r:{team:S.name(i)}, lead:String(S.order.indexOf(i) + 1), val:pct(win(i)), hl:i === S.hl, ts:S.ts}));
+      title = S.title; sub = S.sub;
+    } else if (kind === 'tier'){
+      /* A team's tier-mates, world or confederation; a long tier shows the twelve nearest the team. */
+      const key = c.resolve(state.arg) || state.arg, me = c.byKey.get(key);
+      const T = tierMates(c, me, opts.scope === 'conf' ? 'conf' : 'world'); if (!T) return null;
+      const at = T.rows.indexOf(me), n = Math.min(12, T.rows.length), from = Math.max(0, Math.min(at - Math.floor(n/2), T.rows.length - n));
+      items = T.rows.slice(from, from + n).map(r => ({r, lead:String(T.pos(r)), val:fmtR(r.rating), hl:r === me}));
+      title = nameText(me.team)+': tier '+T.n;
+      sub = (opts.scope === 'conf' ? 'in '+me.conf+', '+game.toLowerCase()+' football' : 'in the '+game.toLowerCase()+' world tiers')+' · '+T.rows.length+' team'+(T.rows.length === 1 ? '' : 's')+' · '+day;
     } else {
       /* A team with the five ranked just above it and the five just below, in the world or in its confederation. */
       const key = c.resolve(state.arg) || state.arg, me = c.byKey.get(key); if (!me || !me.rank) return null;
@@ -6487,7 +6796,7 @@ async function siDraw(kind, size, opts = {}){
       title = nameText(me.team)+': '+ordinal(at + 1);
       sub = (inConf ? 'in '+me.conf+', '+game.toLowerCase()+' football' : 'in the '+game.toLowerCase()+' world ranking')+' · '+day;
     }
-    const flags = await Promise.all(items.map(it => siLoad(siFlagSrc(it.r.team))));
+    const flags = await Promise.all(items.map(it => siLoad(siFlagSrc(it.r.team, it.ts == null ? undefined : it.ts))));
     const pad = siFrame(g, W, H, title, sub), top = pad*0.9 + 200, bottom = H - pad*0.9 - 60;
     const cols = size === 'wide' ? 2 : 1, per = Math.ceil(items.length/cols);
     const rowH = Math.min(H > 1200 ? 100 : 78, (bottom - top)/per), colW = (W - 2*pad - (cols - 1)*40)/cols;
@@ -6540,8 +6849,8 @@ async function openShareImage(kind){
   o.innerHTML = '<div class="si-box" role="dialog" aria-modal="true" aria-label="Share image"><div class="si-head"><b>Share image</b>'+
     '<button type="button" class="linkish" id="siClose" aria-label="Close">&times;</button></div>'+
     '<div class="si-opts">'+
-    (teamRow ? '<span class="si-lab">Picture</span><div class="chips" id="siKind">'+chip('team', 'Team card', kind === 'team')+chip('around', 'Place in the ranking', kind === 'around')+'</div>'+
-      '<span class="si-lab" id="siScopeLab"'+(kind === 'around' ? '' : ' hidden')+'>Ranking</span><div class="chips" id="siScope"'+(kind === 'around' ? '' : ' hidden')+'>'+chip('world', 'World', true)+chip('conf', esc(teamRow.conf), false)+'</div>' : '')+
+    (teamRow ? '<span class="si-lab">Picture</span><div class="chips" id="siKind">'+chip('team', 'Team card', kind === 'team')+chip('around', 'Place in the ranking', kind === 'around')+(teamRow.rank ? chip('tier', 'Tier', kind === 'tier') : '')+'</div>'+
+      '<span class="si-lab" id="siScopeLab"'+(kind === 'around' || kind === 'tier' ? '' : ' hidden')+'>Ranking</span><div class="chips" id="siScope"'+(kind === 'around' || kind === 'tier' ? '' : ' hidden')+'>'+chip('world', 'World', true)+chip('conf', esc(teamRow.conf), false)+'</div>' : '')+
     '<span class="si-lab">Size</span><div class="chips" id="siSize">'+chip('portrait', 'Tall, for Instagram', true)+chip('square', 'Square', false)+chip('wide', 'Wide, for X', false)+'</div></div>'+
     '<div class="si-prev"><span class="muted">Drawing&hellip;</span></div>'+
     '<div class="si-actions"><button class="btn btn-primary" type="button" id="siSave">Download image</button>'+
@@ -6552,12 +6861,12 @@ async function openShareImage(kind){
   document.getElementById('siClose').addEventListener('click', closeShareImage);
   document.addEventListener('keydown', siKey);
   let blob = null, size = 'portrait', scope = 'world';
-  const name = () => 'formline-'+kind+(teamRow ? '-'+badgeSlug(dn(state.arg)) : '')+(kind === 'around' ? '-'+(scope === 'conf' ? teamRow.conf.toLowerCase() : 'world') : '')+'-'+state.gender+'-'+size+'.png';
+  const name = () => 'formline-'+(kind === 'tour' && state.tourShare ? badgeSlug(state.tourShare.title) : kind)+(teamRow ? '-'+badgeSlug(dn(state.arg)) : '')+(kind === 'around' || kind === 'tier' ? '-'+(scope === 'conf' ? teamRow.conf.toLowerCase() : 'world') : '')+'-'+state.gender+'-'+size+'.png';
   const draw = async () => {
     const prev = o.querySelector('.si-prev'), note = document.getElementById('siNote');
     prev.innerHTML = '<span class="muted">Drawing&hellip;</span>'; blob = null; note.textContent = '';
     const cv = await siDraw(kind, size, {scope});
-    if (!cv){ prev.innerHTML = '<span class="muted">'+(kind === 'around' ? 'This team is not ranked yet, so it has no place in the ranking to show.' : 'Nothing to draw here.')+'</span>'; return; }
+    if (!cv){ prev.innerHTML = '<span class="muted">'+(kind === 'around' || kind === 'tier' ? 'This team is not ranked yet, so it has no place in the ranking to show.' : 'Nothing to draw here.')+'</span>'; return; }
     try { blob = await new Promise((res, rej) => { try { cv.toBlob(b => b ? res(b) : rej(new Error('empty')), 'image/png'); } catch(e){ rej(e); } }); }
     catch(e){ note.textContent = 'Images can only be saved from the online site: a page opened from a file on your computer is not allowed to export pictures that include its flags.'; }
     prev.innerHTML = '';
@@ -6569,7 +6878,7 @@ async function openShareImage(kind){
     document.querySelectorAll('#'+id+' .chip').forEach(x => x.classList.toggle('on', x === b)); set(b.dataset.v); draw(); }));
   group('siSize', v => size = v);
   if (teamRow){
-    group('siKind', v => { kind = v; document.getElementById('siScope').hidden = document.getElementById('siScopeLab').hidden = v !== 'around'; });
+    group('siKind', v => { kind = v; document.getElementById('siScope').hidden = document.getElementById('siScopeLab').hidden = v !== 'around' && v !== 'tier'; });
     group('siScope', v => scope = v);
   }
   document.getElementById('siSave').addEventListener('click', () => { if (!blob) return;
@@ -6589,49 +6898,53 @@ if (typeof document !== 'undefined' && document.addEventListener) document.addEv
 
 function viewCompare(){
   const g = state.gender, c = getRatings(), app = document.getElementById('app');
-  const F = state.fifa && state.fifa[g];
-  if (!state.fifa || state.fifa[g] === undefined){ const gen = state.renderGen; loadFifa(g).then(() => { if (gen === state.renderGen) viewCompare(); }); }
+  const F = fifaMethod(g, state.asOf), chk = fifaCheck(g);
   const E = plainElo(g, state.asOf);
   const rows = c.all.filter(r => !infoFor(r.key).defunct && E.has(r.key));
   const eloRank = new Map(rows.slice().sort((a, b) => E.get(b.key) - E.get(a.key)).map((r, i) => [r.key, i + 1]));
-  const fm = F && F.rows.length ? fifaKeyMap(c, F) : null;
-  const sortBy = ['elo', 'fifa'].includes(state.params.s) && (state.params.s !== 'fifa' || fm) ? state.params.s : 'formline';
-  const fRank = r => r.rank || null;
+  const fx = r => F ? F.byKey.get(r.key) : null, fRk = r => { const x = fx(r); return x && x.rank ? x.rank : null; };
+  const sortBy = ['elo', 'fifa'].includes(state.params.s) && (state.params.s !== 'fifa' || F) ? state.params.s : 'formline';
   const list = rows.slice().sort((a, b) => {
-    const v = r => sortBy === 'elo' ? eloRank.get(r.key) : sortBy === 'fifa' ? (fm && fm.m.has(r.key) ? fm.m.get(r.key).rank : 1e6) : (fRank(r) || 1e5 + (1e4 - r.rating));
+    const v = r => sortBy === 'elo' ? eloRank.get(r.key) : sortBy === 'fifa' ? (fRk(r) || 1e6) : (r.rank || 1e5 + (1e4 - r.rating));
     return v(a) - v(b); });
   const diff = (a, b) => a && b ? '<span class="'+(a < b ? 'up' : a > b ? 'down' : 'flat')+'">'+(a === b ? '=' : (a < b ? '+' : '&minus;')+Math.abs(a - b))+'</span>' : '<span class="muted">&ndash;</span>';
   const sortHead = (k, label, cls, title) => '<th class="'+(cls || 'num')+'"'+(title ? ' title="'+title+'"' : '')+'><a href="#" data-sort="'+k+'" class="sorth'+(sortBy === k ? ' on' : '')+'">'+label+'</a></th>';
   const asOfTxt = fmtDay(state.asOf);
+  const fifaNote = '<b>FIFA method</b> is FIFA\'s own formula, worked out here from the same results: '+
+    (g === 'men' ? 'points carried over from FIFA\'s June 2018 ranking, as FIFA did when it restarted its ranking that August, then every match between FIFA members since.'
+                 : 'every match since 1971, all teams starting level. The archive has fewer women\'s friendlies than FIFA\'s own records, so this one is rougher, and its starting level is set so that the top 20 sit on FIFA\'s scale.')+
+    ' It is our calculation, not FIFA\'s published ranking'+
+    (chk ? ': checked against FIFA\'s own release of '+chk.label+', its top 20 are on average '+chk.gap.toFixed(1)+' points from FIFA\'s figures, and '+chk.same+' of the 20 are in exactly the same place.' : '.')+
+    (g === 'men' ? ' Run from 2018 to FIFA\'s September 2024 release, all 210 ranked teams were on average 4 points out, and 197 of them within three places.' : '');
   app.innerHTML = '<div class="wrap">'+
     '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip on" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
-    '<h1 class="page-title">Formline, plain Elo and the FIFA ranking</h1>'+
+    '<h1 class="page-title">Formline, plain Elo and the FIFA method</h1>'+
     '<p class="page-sub">Three ways of ordering the same teams. They mostly agree at the top and drift apart further down, '+
       'for reasons in the table below.</p>'+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">How they differ</div>'+compareExplainer()+
-      '<p class="chart-note" style="padding:8px 15px 12px;margin:0;"><b>Plain Elo</b> here is the classic method, worked out on this site from the same '+
+      '<p class="chart-note" style="padding:8px 15px 4px;margin:0;"><b>Plain Elo</b> here is the classic method, worked out on this site from the same '+
         'results as Formline: every match since the archive begins, the same match weights and margin rule, one home advantage, no band and '+
-        'no confederation levels. It is close in spirit to the well-known World Football Elo Ratings, but not identical to them. '+
-        '<b>FIFA</b>\'s own ranking is built to order teams fairly for draws and seeding, not to predict results.</p></div>'+
+        'no confederation levels. It is close in spirit to the well-known World Football Elo Ratings, but not identical to them.</p>'+
+      '<p class="chart-note" style="padding:4px 15px 12px;margin:0;">'+fifaNote+' FIFA\'s ranking is built to order teams fairly for draws and seeding, not to predict results.</p></div>'+
     toolRow()+
     '<div class="panel"><div class="panel-head">Side by side'+
-      '<span class="aside">'+(fm ? 'FIFA ranking '+(F.date ? 'of '+esc(F.date) : 'snapshot') : 'FIFA column: no snapshot loaded')+' &middot; Formline and Elo to '+asOfTxt+'</span></div>'+
-      (!fm ? '<p class="muted" style="margin:0;padding:10px 2px;border-bottom:1px solid var(--line);font-size:13.5px;">FIFA\'s own ranking is not loaded yet, so its column is missing for now.</p>' : '')+
-      (fm && fm.missed.length ? '<p class="muted" style="margin:0;padding:10px 15px;border-bottom:1px solid var(--line);font-size:13px;">Not matched to a team here: '+fm.missed.map(esc).join(', ')+'.</p>' : '')+
+      '<span class="aside">All three to '+asOfTxt+(F ? ' &middot; FIFA method, our calculation' : '')+'</span></div>'+
+      (!F ? '<p class="muted" style="margin:0;padding:10px 15px;border-bottom:1px solid var(--line);font-size:13.5px;">FIFA\'s current men\'s method starts in August 2018, so there is no FIFA column for earlier dates.</p>' : '')+
       '<div class="table-wrap lock"><table class="cmp-rank"><thead><tr>'+
         '<th>Team</th>'+sortHead('formline', 'Formline')+'<th class="num hide-sm">Rating</th>'+
         sortHead('elo', 'Plain Elo')+'<th class="num hide-sm">Elo rating</th>'+
-        (fm ? sortHead('fifa', 'FIFA')+'<th class="num hide-sm">FIFA points</th>' : '')+
+        (F ? sortHead('fifa', 'FIFA', 'num', 'FIFA method, our calculation')+'<th class="num hide-sm">FIFA points</th>' : '')+
         '<th class="num" title="Formline rank compared with plain Elo: + means Formline places the team higher">vs Elo</th>'+
-        (fm ? '<th class="num" title="Formline rank compared with FIFA: + means Formline places the team higher">vs FIFA</th>' : '')+
+        (F ? '<th class="num" title="Formline rank compared with the FIFA method: + means Formline places the team higher">vs FIFA</th>' : '')+
       '</tr></thead><tbody>'+
-      list.map(r => { const er = eloRank.get(r.key), fx = fm ? fm.m.get(r.key) : null;
+      list.map(r => { const er = eloRank.get(r.key), x = fx(r), xr = fRk(r);
         return '<tr><td><a href="'+teamHref(r.team)+'">'+withFlag(r.team)+'</a></td>'+
           '<td class="num">'+(r.rank ? '<b>'+r.rank+'</b>' : '<span class="muted" title="Not ranked: band too wide">&ndash;</span>')+'</td>'+
           '<td class="num rating hide-sm">'+fmtR(r.rating)+' '+pmSpan(r.band)+'</td>'+
           '<td class="num"><b>'+er+'</b></td><td class="num muted hide-sm">'+fmtR(E.get(r.key))+'</td>'+
-          (fm ? '<td class="num">'+(fx ? '<b>'+fx.rank+'</b>' : '<span class="muted">&ndash;</span>')+'</td><td class="num muted hide-sm">'+(fx && fx.points !== null ? fx.points.toFixed(2) : '')+'</td>' : '')+
-          '<td class="num mono">'+diff(r.rank, er)+'</td>'+(fm ? '<td class="num mono">'+diff(r.rank, fx ? fx.rank : null)+'</td>' : '')+'</tr>'; }).join('')+
+          (F ? '<td class="num">'+(xr ? '<b>'+xr+'</b>' : '<span class="muted" title="'+(x ? 'Not ranked by FIFA\'s rules: too few matches, or none for four years' : 'Not a FIFA member, or no FIFA points')+'">&ndash;</span>')+'</td>'+
+               '<td class="num muted hide-sm">'+(x ? x.pts.toFixed(2) : '')+'</td>' : '')+
+          '<td class="num mono">'+diff(r.rank, er)+'</td>'+(F ? '<td class="num mono">'+diff(r.rank, xr)+'</td>' : '')+'</tr>'; }).join('')+
       '</tbody></table></div>'+
       '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">Plain Elo ranks every team that has a Formline rating, including the ones Formline is too unsure '+
         'of to rank. A big gap usually means a team whose recent results differ from its long history, or one from a confederation '+
@@ -6754,8 +7067,9 @@ document.addEventListener('keydown', e => {
 
 /* ============================================================
    GUIDED TOUR
-   Offered once, on a first visit to the home page; the ? button in the header replays it. Each step lights up one
-   part of the page and says what it means. Steps whose element is not on screen are skipped.
+   The welcome tour is offered once, on a first visit to the home page. The ? button in the header starts a short guide
+   to the page you are on (the welcome tour on the home page, and on pages without a guide of their own). Each step
+   lights up one part of the page and says what it means. Steps whose element is not on screen are skipped.
    ============================================================ */
 const TOUR_KEY = 'formline-tour-seen';
 function tourSteps(){
@@ -6783,8 +7097,101 @@ function tourSteps(){
     {sel:narrow ? '#menuBtn' : '#nav', title:'Find your way around', text:'<b>Ratings</b>: rankings, a page for every team, '+
       'confederations and competitions. <b>Matches</b>: fixtures with predictions, the match predictor and the public forecast '+
       'record. <b>Tools</b>: the tournament simulator and head to head. <b>About</b>: how it all works, in plain English.'},
-    {sel:'#helpBtn', title:'That\'s it', text:'Click any team to open its page. If you want this guide again, it is behind the ? button.', end:true}
+    {sel:'#helpBtn', title:'That\'s it', text:'Click any team to open its page. The ? button brings this tour back, and on every other page it '+
+      'gives a short guide to that page.', end:true}
   ];
+}
+/* Short guides to single pages. A step points at an element by selector, or at the panel whose heading starts with
+   `panel`. */
+const panelByHead = t => [...document.querySelectorAll('#app .panel')].find(p => { const h = p.querySelector(':scope > .panel-head');
+  return h && h.textContent.trim().startsWith(t); });
+const tourEl = st => st.panel ? panelByHead(st.panel) || null : st.sel ? document.querySelector(st.sel) : null;
+const hasTarget = st => !(st.sel || st.panel) || !!tourEl(st);
+function pageTour(route){
+  const filters = {sel:'.filterbar', title:'Filters', text:'See it on any date in history, change how many years of results count and which '+
+    'competitions count. The filters carry over to every page, and the link keeps them.'};
+  const T = {
+    rankings:['Rankings', [
+      {sel:'.rank-table', title:'The table', text:'Every ranked team, strongest first. The &plusmn; after a rating is its band: how far the team\'s '+
+        'true strength could plausibly be from its rating. Click a team for its page.'},
+      {sel:'#readingDetails', title:'Reading the numbers', text:'Open this for what a gap between two ratings means in wins, draws and '+
+        'defeats, and how the average team and the leader compare.'},
+      {sel:'#viewChips', title:'List or tiers', text:'Tiers group teams that are too close to call apart: inside a tier, the order could '+
+        'easily change with the next few results.'},
+      {sel:'#rankSearch', title:'Find a team', text:'Type a name to jump to it in the table.'},
+      {sel:'.rank-actions', title:'Share or download', text:'A picture of the top ten for social media, or the whole table as a spreadsheet file.'},
+      filters,
+      {panel:'Provisional', title:'Not ranked yet', text:'Teams with too few recent matches to place with any confidence. They still have '+
+        'ratings, listed here by their best guess.'}]],
+    team:['This team', [
+      {sel:'.stat-row', title:'At a glance', text:'The rating and its band, the rank and where it would likely fall, how the team would do '+
+        'against an average side, its record, form and tier, and its place by the FIFA method.'},
+      {sel:'.team-actions', title:'Share, download, compare', text:'A share picture of this team, its matches as a spreadsheet file, '+
+        'head to head with any other team, or a prediction for any match.'},
+      {panel:'Coming up', title:'Coming up', text:'Its next matches, each with its chances.'},
+      {panel:'Tier', title:'Its tier', text:'The teams level with it, in the world and in its own confederation.'},
+      {panel:'Rating over time', title:'Rating over time', text:'How the rating moved, with the band shaded around it. The band widens '+
+        'while a team goes without playing.'},
+      {panel:'Matches', title:'Every match', text:'Each match in the window, with the rating before and after. Beating a strong team moves '+
+        'a rating most.'},
+      {sel:'#teamPick', title:'Another team', text:'Pick any other team here, or use the search box at the top.'}]],
+    fixtures:['Fixtures', [
+      {sel:'#app .fx', title:'A fixture', text:'Each match with its chances. The bar reads: first team wins, draw, second team wins. The '+
+        'likeliest score and the expected goals are underneath.'},
+      {panel:'Tournaments coming up', title:'Tournaments coming up', text:'Tournaments whose draw is made. Open one to simulate it.'}]],
+    predict:['Predict', [
+      {sel:'.vs-grid', title:'Pick two teams', text:'Any two teams, from any year: move the date in the filters to go back in time.'},
+      {sel:'#vHome', title:'Where it is played', text:'At the first team\'s home, or on neutral ground. Home advantage is worth more in some '+
+        'regions than others, and more again at altitude.'},
+      {sel:'#app .prob-bar', title:'The chances', text:'The first team\'s chances of winning, drawing and losing.'},
+      {panel:'Scorelines', title:'Scorelines', text:'How likely each exact score is, and the expected goals for each side.'},
+      {panel:'Under the hood', title:'Under the hood', text:'Every step from the two ratings to these numbers, for anyone who wants to check '+
+        'the working.'}]],
+    simulate:['Simulator', [
+      {sel:'#app .wrap > .chips', title:'Pick a tournament', text:'Tournaments coming up, past ones replayed from the ratings at the time, '+
+        'or your own with any teams you like.'},
+      {panel:'How the field shapes up', title:'The field', text:'Who is taking part, by tier or by confederation.'},
+      {panel:'Chances of reaching each stage', title:'The chances', text:'Each team\'s chance of reaching every round and of winning, from '+
+        'thousands of simulated tournaments.'},
+      {sel:'.sim-groups', title:'The groups', text:'Results already played are fixed. Type a score into any other match to fix it and see '+
+        'how the chances change.'},
+      {panel:'Knockout predictions', title:'Knockout rounds', text:'The likeliest pairings for each knockout match, and who most often went through.'},
+      {sel:'[data-shareimg="tour"]', title:'Share it', text:'A picture of the likeliest winners, ready for social media.'}]],
+    record:['Forecast record', [
+      {sel:'#app .stat-row', title:'The scores', text:'How the published forecasts have done. Log-loss and the Brier score reward confident '+
+        'forecasts that come true and punish confident ones that do not: lower is better.'},
+      {panel:'Calibration', title:'Calibration', text:'When the favourite was given about 70%, did it win about 70% of the time? This checks.'},
+      {sel:'#vsPanel', title:'Against Elo and FIFA', text:'Formline, plain Elo and the FIFA method, tested on the same matches every year since 2019.'},
+      {panel:'Scored forecasts', title:'Every forecast', text:'Each forecast as it stood at kick-off, and the chance it gave to what happened.'}]],
+    compare:['Formline, Elo and FIFA', [
+      {panel:'How they differ', title:'Three methods', text:'Formline, classic Elo and FIFA\'s own method: which results each one counts, and how.'},
+      {panel:'Side by side', title:'Three tables', text:'Each team\'s place in all three. Click a column heading to sort by it; the last columns '+
+        'show where Formline disagrees.'}]],
+    confederations:['Confederations', [
+      {panel:'How strong is each confederation', title:'Region by region', text:'Each confederation\'s median team, its best, and the level '+
+        'the model gives it from matches against other regions.'},
+      {sel:'.conf-list', title:'Each confederation\'s table', text:'Open one for its own ranking.'}]],
+    competitions:['Competitions', [
+      {sel:'#compSearch', title:'Find a tournament', text:'Search every competition in the archive, from the World Cup to regional cups.'},
+      {sel:'#app .comp-row', title:'Edition by edition', text:'Open an edition for its matches, its upsets and how every team\'s rating changed.'}]],
+    competition:['This tournament', [
+      {sel:'.ed-index', title:'Jump around', text:'Go straight to any section, or open or close them all.'},
+      {sel:'#sec-numbers', title:'In numbers', text:'The champion, the goals, the upsets and the biggest movers.'},
+      {sel:'#sec-chances', title:'Chances going in', text:'Who the ratings favoured before a ball was kicked, with the winner picked out.'},
+      {sel:'#sec-teams', title:'Before and after', text:'Every team\'s rating going in and coming out.'},
+      {sel:'#sec-upsets', title:'Upsets', text:'Wins the model gave less than a 25% chance.'}]],
+    records:['Records', [
+      {sel:'#recYear', title:'All time or one year', text:'Records across all of history, or for a single year.'},
+      {sel:'.rec-grid', title:'The records', text:'Biggest upsets, highest ratings, longest runs and more. Click a match or a team to open it.'}]],
+    h2h:['Head to head', [
+      {sel:'.vs-grid', title:'Two teams', text:'Pick any two teams.'},
+      {panel:'Ratings over time', title:'Over time', text:'Both ratings through the years, with their bands.'},
+      {panel:'Meetings', title:'Every meeting', text:'All their matches against each other.'}]]
+  };
+  const t = T[route]; if (!t) return null;
+  const steps = t[1].filter(hasTarget); if (!steps.length) return null;
+  steps[steps.length - 1] = {...steps[steps.length - 1], end:true};
+  return {label:t[0], steps};
 }
 let tourState = null;
 function maybeStartTour(){
@@ -6792,11 +7199,11 @@ function maybeStartTour(){
   let seen = '1'; try { seen = localStorage.getItem(TOUR_KEY); } catch(e){}
   if (!seen && !tourState) setTimeout(() => { if (state.route === 'home') startTour(true); }, 900);
 }
-function startTour(firstVisit){
+function startTour(firstVisit, page){
   endTour(false);
-  const steps = tourSteps().filter((st, i) => i === 0 ? firstVisit : (!st.sel || document.querySelector(st.sel)));
+  const steps = page ? page.steps : tourSteps().filter((st, i) => i === 0 ? firstVisit : hasTarget(st));
   if (!firstVisit && steps.length && steps[0].start) steps.shift();
-  tourState = {steps, i:0, prevFocus:document.activeElement};
+  tourState = {steps, i:0, prevFocus:document.activeElement, label:page ? page.label : null};
   const spot = document.createElement('div'); spot.className = 'tour-spot'; spot.id = 'tourSpot';
   const card = document.createElement('div'); card.className = 'tour-card'; card.id = 'tourCard';
   card.setAttribute('role', 'dialog'); card.setAttribute('aria-modal', 'true'); card.setAttribute('aria-labelledby', 'tourTitle');
@@ -6821,17 +7228,20 @@ function tourGo(d){
   tourState.i = n; showTourStep();
 }
 function showTourStep(){
-  const {steps, i} = tourState, st = steps[i], card = document.getElementById('tourCard');
+  const {steps, i, label} = tourState, st = steps[i], card = document.getElementById('tourCard');
   const real = steps.filter(x => !x.start), k = real.indexOf(st);
-  card.innerHTML = '<div class="tour-count">'+(st.start ? 'Quick tour' : 'Step '+(k+1)+' of '+real.length)+'</div>'+
+  card.innerHTML = '<div class="tour-count">'+(st.start ? 'Quick tour' : (label ? 'Guide to '+esc(label)+' &middot; ' : '')+'Step '+(k+1)+' of '+real.length)+'</div>'+
     '<h2 id="tourTitle">'+st.title+'</h2><p>'+st.text+'</p><div class="tour-btns">'+
     (st.start ? '<button type="button" class="btn" data-tour="skip">Not now</button><button type="button" class="btn primary" data-tour="next">Show me</button>'
-      : '<button type="button" class="btn ghost" data-tour="skip">'+(st.end ? 'Close' : 'Skip tour')+'</button>'+
+      : '<button type="button" class="btn ghost" data-tour="skip">'+(st.end || label ? 'Close' : 'Skip tour')+'</button>'+
         (i > 0 && !steps[i-1].start ? '<button type="button" class="btn" data-tour="back">Back</button>' : '')+
-        '<button type="button" class="btn primary" data-tour="next">'+(st.end ? 'Done' : 'Next')+'</button>')+'</div>';
-  card.querySelectorAll('[data-tour]').forEach(b => b.addEventListener('click', () => {
-    const a = b.dataset.tour; if (a === 'skip') endTour(true); else tourGo(a === 'next' ? 1 : -1); }));
-  const el = st.sel ? document.querySelector(st.sel) : null;
+        '<button type="button" class="btn primary" data-tour="next">'+(st.end ? 'Done' : 'Next')+'</button>')+'</div>'+
+    (st.end && label ? '<p class="tour-more">The full tour of the site is on the <a href="#/" data-tour="home">home page</a>.</p>' : '');
+  card.querySelectorAll('[data-tour]').forEach(b => b.addEventListener('click', ev => {
+    const a = b.dataset.tour;
+    if (a === 'home'){ ev.preventDefault(); endTour(true); if (state.route === 'home') startTour(false); else { state.pendingTour = true; location.hash = '#/'; } }
+    else if (a === 'skip') endTour(true); else tourGo(a === 'next' ? 1 : -1); }));
+  const el = tourEl(st);
   if (el){ const r = el.getBoundingClientRect();
     if (r.top < 70 || r.bottom > window.innerHeight - 20) window.scrollTo({top:Math.max(0, window.scrollY + r.top - 140), behavior:'instant'}); }
   placeTour();
@@ -6840,7 +7250,7 @@ function showTourStep(){
 function placeTour(){
   if (!tourState) return;
   const st = tourState.steps[tourState.i], spot = document.getElementById('tourSpot'), card = document.getElementById('tourCard');
-  const el = st.sel ? document.querySelector(st.sel) : null;
+  const el = tourEl(st);
   const W = window.innerWidth, H = window.innerHeight, cw = Math.min(360, W - 24);
   card.style.width = cw+'px';
   if (!el){ spot.style.display = 'none'; document.getElementById('tourShade').classList.add('dim');
@@ -6865,7 +7275,9 @@ function endTour(markSeen){
   tourState = null;
 }
 document.getElementById('helpBtn').addEventListener('click', () => {
-  if (state.route === 'home') startTour(false);
+  const pg = state.route === 'home' ? null : pageTour(state.route);
+  if (pg) startTour(false, pg);
+  else if (state.route === 'home') startTour(false);
   else { state.pendingTour = true; location.hash = '#/'; }
 });
 render();

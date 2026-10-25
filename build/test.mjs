@@ -142,6 +142,11 @@ ok(menMtime > 0, 'men.json written');
   const mt = n => n === 'Liechtenstein' ? {name:n, gender:'men'} : {unmatched:n, gender:'men'};
   const club = mapFixture({league:{name:'Friendlies', country:'World'}, teams:{home:{name:'Liechtenstein'}, away:{name:'SC Freiburg'}}, fixture:{status:{short:'FT'}}, goals:{home:0, away:3}}, mt, () => ({name:'Friendly'}));
   ok(club.skip === 'clubs', 'a club in a national-team friendly is a club match, not an unknown team');
+  const mt2 = n => n === 'Canada' ? {name:n, gender:'men'} : {unmatched:n, gender:'men'};
+  const ph = mapFixture({league:{name:'Friendlies', country:'World'}, teams:{home:{name:'Canada'}, away:{name:'Winner Play-off 2'}},
+    fixture:{id:77, date:'2026-12-01T00:00:00+00:00', status:{short:'TBD'}, venue:{}}, goals:{home:null, away:null}}, mt2, () => ({name:'Friendly'}));
+  ok(ph.kind === 'fixture' && ph.row.away_team === 'To be decided' && ph.row.tbd === 1 && ph.row.tbc === 1, 'a fixture with its opponent and time still to come is kept, marked plainly');
+  ok(planDates('2026-09-26', '2026-09-26', {}, 'full', 60).length === 3 + 2 + 59, 'paid plan looks 60 days ahead');
 }
 ok(prune([{date:'2026-09-01', home_team:'A', away_team:'B'}], [{date:'2026-09-20', home_team:'X', away_team:'Y'}]).length === 0, 'rows a week before the archive end are dropped');
 

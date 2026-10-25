@@ -64,6 +64,8 @@ export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, l
 }
 
 const DONE = new Set(['FT', 'AET', 'PEN']);
+export const TBD_NAME = 'To be decided';
+const PLACEHOLDER = /\b(winners?|losers?|tbd|tba|to be (decided|announced|confirmed)|play-?offs?|runners?-up|qualifier)\b|^(group|match)\s/i;
 const UPCOMING = new Set(['NS', 'TBD']);
 
 /* One API fixture -> {kind:'result'|'fixture', gender, row} or {skip}. Row fields follow the archive's columns. */
@@ -72,10 +74,17 @@ export function mapFixture(f, matchTeam, mapTournament){
   // National-team competitions are filed under 'World' by the API; anything else is a domestic club competition.
   if (f.league && f.league.country && f.league.country !== 'World') return {skip:'domestic'};
   if (mapTournament(league, 'men').skip && mapTournament(league, 'women').skip) return {skip:'not counted'};
-  const h = matchTeam(f.teams && f.teams.home && f.teams.home.name, league);
-  const a = matchTeam(f.teams && f.teams.away && f.teams.away.name, league);
+  let h = matchTeam(f.teams && f.teams.home && f.teams.home.name, league);
+  let a = matchTeam(f.teams && f.teams.away && f.teams.away.name, league);
   if (h.skip || a.skip) return {skip: h.skip || a.skip};
   if (h.unmatched && a.unmatched) return {skip:'clubs'};   // e.g. CAF or AFC club competitions, which the API also files under World
+  // A fixture far ahead whose opponent is not known yet ("Winner Play-off 1", "TBD"): listed with "To be decided".
+  let tbd = false;
+  const st0 = f.fixture && f.fixture.status && f.fixture.status.short;
+  if (UPCOMING.has(st0) && (h.unmatched || a.unmatched) && PLACEHOLDER.test(h.unmatched || a.unmatched)){
+    tbd = true;
+    if (h.unmatched) h = {name:TBD_NAME, gender:a.gender}; else a = {name:TBD_NAME, gender:h.gender};
+  }
   // A club playing a national team in a friendly (Liechtenstein v SC Freiburg): a club match, not an unknown team.
   const CLUB = /\b(FC|SC|AC|CF|CD|SK|FK|NK|SV|KF|BK|IF|IK|AIK|CSKA|Club|Sporting|Athletic|Atletico|Dinamo|Dynamo|Rapid|Olympique)\b/i;
   if ((h.unmatched && CLUB.test(h.unmatched)) || (a.unmatched && CLUB.test(a.unmatched))) return {skip:'clubs'};
@@ -90,7 +99,7 @@ export function mapFixture(f, matchTeam, mapTournament){
     date: String(iso || '').slice(0, 10), kickoff: iso || '', home_team: h.name, away_team: a.name,
     tournament: t.name, city: (f.fixture.venue && f.fixture.venue.city) || '', country: '', neutral: '',
     venue_id: (f.fixture.venue && f.fixture.venue.id) || '', api_id: f.fixture.id, league: league,
-    unmapped_tournament: t.unmapped ? 1 : ''
+    unmapped_tournament: t.unmapped ? 1 : '', tbd: tbd ? 1 : '', tbc: st === 'TBD' ? 1 : ''
   };
   if (DONE.has(st)){
     if (f.goals == null || f.goals.home == null || f.goals.away == null) return {skip:'no score'};

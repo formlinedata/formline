@@ -77,11 +77,11 @@ export function prune(gap, archive){
 /* Dates to ask the API about this run: the recent and coming days every time, then older days not yet settled,
    newest first. A day is settled once it has been fetched three or more days after it. Yesterday, today and
    tomorrow come first: they are all the free plan covers, so they must not wait behind days it will refuse. */
-export function planDates(today, earliest, fetched, mode){
+export function planDates(today, earliest, fetched, mode, ahead = 14){
   const t = dayNum(today), out = [t - 1, t, t + 1];
   if (mode === 'light') return out.map(d => iso(d * DAY));
   out.push(t - 2, t - 3);
-  for (let d = t + 2; d <= t + 14; d++) out.push(d);
+  for (let d = t + 2; d <= t + ahead; d++) out.push(d);
   for (let d = t - 4; d >= dayNum(earliest); d--){
     const when = fetched[iso(d * DAY)];
     if (!when || dayNum(when) < d + 3) out.push(d);
@@ -195,7 +195,9 @@ export async function run(){
     const client = makeClient({key:process.env.APIFOOTBALL_KEY, budget:pace.budget, gapMs:pace.gapMs, log: m => console.log(m)});
     const earliest = iso(dayNum(ends.men < ends.women ? ends.men : ends.women) * DAY + DAY);
     const byId = {men:new Map(gap.men.map(r => [String(r.api_id), r])), women:new Map(gap.women.map(r => [String(r.api_id), r]))};
-    for (const date of planDates(today, earliest, state.fetched, mode)){
+    // How far ahead to look for fixtures: 60 days on a paid plan (about 60 requests a night), two weeks on the free one.
+    const ahead = pace.paid ? +(process.env.FIXTURE_DAYS || 60) : 14;
+    for (const date of planDates(today, earliest, state.fetched, mode, ahead)){
       if (!client.covers(date)) continue;          // outside what the plan allows: no request spent
       const list = await client.fixturesOn(date);
       if (list === null) break;
@@ -242,7 +244,7 @@ export async function run(){
     if (r.date < today){ delete fixturesStore[r.api_id]; continue; }
     placeRow(r, venues);
     fixtures[r.gender].push({date:r.date, kickoff:r.kickoff, home:r.home_team, away:r.away_team, tournament:r.tournament,
-      city:r.city, country:r.country, neutral:r.neutral === 'TRUE'});
+      city:r.city, country:r.country, neutral:r.neutral === 'TRUE', ...(r.tbd ? {tbd:true} : {}), ...(r.tbc ? {tbc:true} : {})});
   }
   for (const g of ['men', 'women']){
     fixtures[g].sort((a, b) => a.kickoff < b.kickoff ? -1 : 1);
@@ -268,7 +270,8 @@ export async function run(){
       model.load(g, readJSON(path.join(DATA, g + '.json'), null));
       merged[g] = A[g].concat(gap[g]).filter(r => r.date >= iso(now - 60 * DAY));
     }
-    const u = updateRecord(record.entries, fixtures, (g, list) => model.forecast(g, list), merged, now, built);
+    const known = {men:fixtures.men.filter(f => !f.tbd), women:fixtures.women.filter(f => !f.tbd)};   // no forecast until both sides are known
+    const u = updateRecord(record.entries, known, (g, list) => model.forecast(g, list), merged, now, built);
     writeJSON(recFile, {built, entries:u.list});
     status.forecasts = {total:u.list.length, scored:u.list.filter(e => e.result).length, newThisRun:u.made, updatedThisRun:u.updated, scoredThisRun:u.scored};
   }
