@@ -983,21 +983,26 @@ const archiveName = n => ARCHIVE_NAMES[n] || n;
    2. COMPETITIONS
    ============================================================ */
 const COMPS = {
-  wc:       {label:'World Cup finals',              k:60},
-  cont:     {label:'Continental finals',            k:50},
-  olympics: {label:'Olympic tournament',            k:50},
-  intercont:{label:'Intercontinental championships',k:50},
-  wcq:      {label:'World Cup qualifying',          k:40},
-  contq:    {label:'Continental qualifying',        k:40},
-  nl:       {label:'Nations League',                k:40},
-  premier:  {label:'Historic premier championships',k:null, kText:'45 → 35 → 30'},
-  subreg:   {label:'Sub-regional championships',    k:30},
+  wc:       {label:'World Cup finals',              k:42.5},
+  cont:     {label:'Continental finals',            k:37.5},
+  olympics: {label:'Olympic tournament',            k:37.5},
+  intercont:{label:'Intercontinental championships',k:37.5},
+  wcq:      {label:'World Cup qualifying',          k:32.5},
+  contq:    {label:'Continental qualifying',        k:32.5},
+  nl:       {label:'Nations League',                k:32.5},
+  premier:  {label:'Historic premier championships',k:null, kText:'35 → 30 → 27.5'},
+  subreg:   {label:'Sub-regional championships',    k:27.5},
   games:    {label:'Multi-sport games',             k:25},
   subregq:  {label:'Sub-regional qualifying',       k:25},
-  invit:    {label:'Invitational & bilateral cups', k:30},
-  nonfifa:  {label:'Non-FIFA tournaments',          k:10},
-  friendly: {label:'Friendlies',                    k:25, kText:'30 → 25'}
+  invit:    {label:'Invitational & bilateral cups', k:27.5},
+  nonfifa:  {label:'Non-FIFA tournaments',          k:17.5},
+  friendly: {label:'Friendlies',                    k:25, kText:'27.5 → 25'}
 };
+/* The order of these weights is a judgement about what each competition meant. The gaps between them were halved in
+   October 2026 (user's decision; each K was 25 + 2 x (K - 25) before: World Cup 60, continental finals 50, qualifiers
+   40, sub-regional and invitational 30, non-FIFA 10). Big matches do tell more about a team than friendlies, but not as
+   much more as their importance suggests: halving the gaps predicted better in both halves of the test period for
+   both games, and widening them predicted worse. */
 const COMP_ORDER = ['wc','cont','olympics','intercont','wcq','contq','nl','premier','subreg','invit','friendly','games','subregq','nonfifa'];
 const kText = c => COMPS[c].kText || String(COMPS[c].k);   // friendlies: COMPS.friendly.k is today's value
 
@@ -1102,11 +1107,11 @@ function categorize(t, ts, g){
    PREMIER_K[0] before s1, PREMIER_K[1] until s2, PREMIER_K[2] after. Every other match takes its category's weight. */
 /* The last step matches a sub-regional championship (K30): once their teams play bigger competitions, that is what
    these tournaments are (user's decision, Oct 2026; it was K25). */
-const PREMIER_K = [45, 35, 30];
+const PREMIER_K = [35, 30, 27.5];
 /* Women's multi-sport tournaments played by full senior national teams (the men's sides at these games are age-limited
    or left the archive), counted like a sub-regional championship rather than at the multi-sport K25. */
 const WOMEN_SENIOR_GAMES = new Set(['Asian Games', 'Pan American Games', 'Southeast Asian Games']);
-const WOMEN_GAMES_K = 30;
+const WOMEN_GAMES_K = 27.5;
 /* Friendlies by era: [year, K] points, straight lines between them, level beyond the ends (like home advantage).
    Friendlies and tours were much of international football for most of its history; today they sit between club
    seasons, squads are rotated, and the Nations Leagues have taken over many of the dates (men 2018, women 2023).
@@ -1114,7 +1119,7 @@ const WOMEN_GAMES_K = 30;
    the Nations League's arrival. The data is close to indifferent: in backtests any friendly weight from K20 to K35
    moved accuracy by 0.3% at most, and this gentle step cost 0.09% on 1930-94 men's matches while gaining a little
    since 1995. A premium before 1930 (K35) cost 0.7% on that era and was left out. */
-const FRIENDLY_ERAS = {men:[[1990,30],[2018,25]], women:[[1991,30],[2023,25]]};
+const FRIENDLY_ERAS = {men:[[1990,27.5],[2018,25]], women:[[1991,27.5],[2023,25]]};
 function friendlyK(g, ts){
   const k = FRIENDLY_ERAS[g] || FRIENDLY_ERAS.men, y = 1970 + ts/(365.2425*864e5);
   if (y <= k[0][0]) return k[0][1];
@@ -1445,7 +1450,7 @@ function venueSide(m){
 /* Turning a rating gap into probabilities. Fitted on every match since 1995 (men) and 2005 (women):
    slope shrinks the gap, because raw gaps proved slightly overconfident; draw is the draw rate
    of an even contest, falling away as the match gets more lopsided. Ratings are not affected. */
-const CAL = {men:{slope:0.84, draw:0.31}, women:{slope:0.86, draw:0.23}};
+const CAL = {men:{slope:0.86, draw:0.31}, women:{slope:0.88, draw:0.23}};   // refitted Oct 2026 on long-memory forecasts
 const SETTLE_YEARS = 4;   // early-window matches move ratings further; see the Method page
 const Q   = Math.LN10 / 400;
 const DAY = 864e5;
@@ -4674,8 +4679,9 @@ function bindCustom(){
 /* ============================================================
    FORECAST RECORD
    ============================================================ */
-/* Backtest reference: calibrated three-way log-loss with the default settings, from the Method page's test. */
-const BACKTEST_3WAY = {men:0.879, women:0.735};
+/* Backtest reference: calibrated three-way log-loss of the forecasts as the site makes them (default settings, long
+   memory), on the Method page's test. */
+const BACKTEST_3WAY = {men:0.876, women:0.730};
 function recordSummary(list){
   const n = list.length; if (!n) return null;
   const sum = k => list.reduce((s, e) => s + e[k], 0);
@@ -5603,8 +5609,8 @@ function viewEdition(){
 
 /* Backtest results measured on the archives as of October 2026; see the Method page. */
 const BACKTEST = {
-  men:  {span:'1995–2026', n:'28,853', rows:[[4,0.59149,0.56659],[8,0.57805,0.55656],[12,0.57299,0.55404],[0,0.56557,0.55337]]},
-  women:{span:'2005–2026', n:'9,063',  rows:[[4,0.54562,0.50243],[8,0.52121,0.48030],[12,0.51227,0.47746],[0,0.50731,0.47823]]}
+  men:  {span:'1995–2026', n:'28,853', rows:[[4,0.59186,0.56495],[8,0.57735,0.55533],[12,0.57178,0.55292],[0,0.56361,0.55218]]},
+  women:{span:'2005–2026', n:'9,063',  rows:[[4,0.55124,0.49925],[8,0.52536,0.47844],[12,0.51530,0.47504],[0,0.50849,0.47451]]}
 };
 function backtestTable(key){
   const b = BACKTEST[key];
@@ -5671,7 +5677,7 @@ const COMP_EXAMPLES = {
   nl:'UEFA and CONCACAF Nations Leagues, the women\'s Nations Leagues', premier:'British Home Championship, Nordic Championship and other early regional cups',
   subreg:'Gulf Cup, Arab Cup, ASEAN Championship, COSAFA Cup, CECAFA Cup', games:'Asian Games, Pacific Games, Indian Ocean Island Games',
   subregq:'Qualifiers for the sub-regional cups', invit:'King\'s Cup, Kirin Cup, Algarve Cup, SheBelieves Cup',
-  nonfifa:'Island Games and other events outside FIFA', friendly:'Friendlies, including FIFA\'s own FIFA Series. K30 until 1990 (women 1991), easing to K25 by 2018 (women 2023)'
+  nonfifa:'Island Games and other events outside FIFA', friendly:'Friendlies, including FIFA\'s own FIFA Series. K27.5 until 1990 (women 1991), easing to K25 by 2018 (women 2023)'
 };
 function viewMethod(){
   const g = state.gender, game = g === 'men' ? "men's" : "women's";
@@ -5822,7 +5828,7 @@ function viewMethod(){
         'far the result beat or fell short of that. Beat a much stronger team and you gain a lot; beat a much weaker one '+
         'and you gain little. Lose to a much weaker team and you drop a lot.</p>'+
       '<p>Four things set the size of the move:</p><ul>'+
-        '<li><b>How important the match was.</b> A World Cup match counts about twice as much as a friendly (next section).</li>'+
+        '<li><b>How important the match was.</b> A World Cup match counts 1.7 times as much as a friendly (next section).</li>'+
         '<li><b>The margin.</b> Winning 4&ndash;0 counts for more than 1&ndash;0, but not four times as much.</li>'+
         '<li><b>How sure the model is.</b> A team with a wide band moves further, because each result teaches the model more about it.</li>'+
         '<li><b>Where it was played.</b> Winning away is worth more than winning at home (see Home advantage).</li></ul>'+
@@ -5835,6 +5841,11 @@ function viewMethod(){
         COMP_ORDER.map(c => '<tr><td>'+COMPS[c].label+'</td><td class="n">K'+(c === 'games' && g === 'women' ? COMPS.games.k+' / '+WOMEN_GAMES_K : kText(c))+'</td><td>'+
           (COMP_EXAMPLES[c] || '')+'</td></tr>').join('')+
       '</tbody></table>'+
+      '<p>The order is a judgement about what each competition means. The gaps between the weights were set by testing: a '+
+        'World Cup match does tell you more about a team than a friendly, but not as much more as its importance suggests. '+
+        'It is usually one game between two closely matched sides, often settled by a single moment, while friendlies are '+
+        'noisier but far more numerous. Halving the gaps the site used before (World Cup 60, friendlies 25) predicted better '+
+        'in every period tested, for both games, and widening them predicted worse.</p>'+
       '<p>Qualifying is weighted by what it leads to: qualifiers for a continental championship count as much as World Cup '+
         'qualifiers, qualifiers for a sub-regional cup much less. A few sub-regional cups were themselves the road to a '+
         'continental championship, such as the Caribbean Cup and the Central American Cup for the Gold Cup between 1991 and '+
@@ -6026,18 +6037,19 @@ function methodTechnical(){
       'championship. In the men\'s archive only 1908 to 1928 appear, and only 1924 and 1928 carry that weight: the '+
       'editions FIFA organised and recognised as world championships before the World Cup existed. They were still amateur, '+
       'but they were the top of the sport. 1908, 1912 and 1920 count as multi-sport games.</p>'+
-    '<p>These weights are a judgement about what each competition meant, not a fit to the data. Moving to the current '+
-      'scale (sub-regional cups K35 to K30, multi-sport games K30 to K25, non-FIFA tournaments K20 to K10, and the '+
-      'qualifying split) made no measurable difference to accuracy.</p>'+
+    '<p>The order of these weights is a judgement about what each competition meant, not a fit to the data; earlier '+
+      'reshuffles inside it (sub-regional cups, multi-sport games, non-FIFA tournaments, the qualifying split) made no '+
+      'measurable difference to accuracy. The size of the gaps is different: in October 2026 they were halved around the '+
+      'friendly\'s K25, which made predictions better in both halves of the test period for both games.</p>'+
     '<p>Friendlies are the exception, and the one place the data pushed back. They were tested at K20, K25 and K30, and '+
       'counting them more made predictions better every time. Raising every weight together did not, so friendlies '+
       'genuinely carry more information than K20 gave them credit for. They now count at K25: official matches, sanctioned '+
       'by FIFA or a confederation, but not qualifiers or tournaments. For most of football\'s history they mattered more: '+
-      'friendlies and tours were much of what national teams played, so they count K30 until 1990 (1991 for the women), '+
+      'friendlies and tours were much of what national teams played, so they count K27.5 until 1990 (1991 for the women), '+
       'easing to K25 by the arrival of the Nations League in 2018 (2023 for the women). The data is close to indifferent '+
       'here: any friendly weight between K20 and K35 moved historical accuracy by 0.3% at most, and this gentle step cost '+
       '0.09% on 1930&ndash;94 men\'s matches. FIFA\'s own FIFA Series, friendlies played in the '+
-      'international windows, count with them. Invitational cups count K30, a little above friendlies: a tournament a host '+
+      'international windows, count with them. Invitational cups count K27.5, a little above friendlies: a tournament a host '+
       'puts on means more than a one-off friendly.</p>'+
     '<h2>Margin of victory</h2>'+
     '<p>Winning 4&ndash;0 says more than winning 1&ndash;0, but not four times as much: one goal &times;1, two &times;1.5, '+
@@ -6073,11 +6085,11 @@ function methodTechnical(){
     '<p>Plain Elo here uses a single home advantage per archive; this model uses the era and venue values described above. Two conclusions. The uncertainty model beats plain '+
       'Elo at every window length on both archives, by the most where records are thinnest: short windows and the '+
       'women\'s game.</p>'+
-    '<p>The second is less comfortable. Longer windows predict better than shorter ones, and for the men full history '+
-      'predicts best, if only just. Old results do still carry some information about a team today. The rolling window is '+
+    '<p>The second is less comfortable. Longer windows predict better than shorter ones, and full history predicts '+
+      'best, if only just. Old results do still carry some information about a team today. The rolling window is '+
       'this site\'s point of view rather than the most accurate setting, which is why the default is 12 years rather than '+
-      'something shorter: it keeps the emphasis on recent form while giving up almost nothing. For the women, 12 years '+
-      'is the best setting tested. Under this model a 12-year window predicts better than conventional full-history Elo '+
+      'something shorter: it keeps the emphasis on recent form while giving up almost nothing, and forecasts get the rest '+
+      'back through long memory. Under this model a 12-year window predicts better than conventional full-history Elo '+
       'on both archives. Full history is one click away in the filter bar.</p>'+
 
     '<h2>Competitions and editions</h2>'+
@@ -6445,7 +6457,7 @@ function compareExplainer(){
     t('Which results count', 'The last 12 years (you can change it)', 'Every match since the archive begins', g === 'men' ? 'Every match since June 2018, on top of points carried over from FIFA\'s June 2018 ranking' : 'Every match since 1971')+
     t('Bigger wins count more', 'Yes: two goals 1.5 times, three or more 1.75 times', 'Yes: two goals 1.5 times, three 1.75 times, a little more for each goal after that', g === 'men' ? 'No' : 'Yes, on its own scale')+
     t('Home advantage', 'Yes, by era and venue: smaller in Europe, bigger in Africa and South America, doubled at altitude', 'Yes, 100 points everywhere', g === 'men' ? 'No' : 'Yes, 100 points everywhere')+
-    t('How much each match counts', 'World Cup 60 down to friendlies 25 and non-FIFA 10; friendlies counted more before 1990', 'World Cup 60, continental finals 50, qualifiers and Nations Leagues 40, other tournaments 30, friendlies 20', g === 'men' ? 'World Cup knockouts 60 down to friendlies outside FIFA dates 5' : 'World Cup and Olympics 60 down to ordinary friendlies 15')+
+    t('How much each match counts', 'World Cup 42.5 down to friendlies 25 and non-FIFA 17.5; friendlies counted a little more before 1990', 'World Cup 60, continental finals 50, qualifiers and Nations Leagues 40, other tournaments 30, friendlies 20', g === 'men' ? 'World Cup knockouts 60 down to friendlies outside FIFA dates 5' : 'World Cup and Olympics 60 down to ordinary friendlies 15')+
     t('How sure it is', 'Every rating has a &plusmn; band; unsure ratings move faster and predictions allow for them', 'One number, no band', 'One number, no band')+
     t('Teams that rarely meet', 'Each confederation carries a level, corrected by results against other confederations', 'Nothing special', 'Nothing special')+
     t('Defeat in a knockout', 'Costs points like any defeat', 'Costs points', g === 'men' ? 'No points lost in the knockout stages of a final tournament' : 'Costs points')+
@@ -6709,7 +6721,8 @@ const CHANGELOG = [
     'On phones, "How they differ" on Formline, Elo and FIFA reads as a list of questions, with the three answers under each, instead of a table that scrolls sideways.',
     'The Elo comparison now uses the World Football Elo Ratings formula (the one behind eloratings.net), worked out here, instead of the site\'s own plain Elo.',
     'The Forecast record explains why small gaps between the methods matter, and shows who was right when they picked different favourites.',
-    'Every forecast now uses long memory, which predicted past results better: fixtures, the simulator, past tournaments\' chances going in and the forecast record. Rankings and ratings are unchanged. The Predict page can still switch it off.']],
+    'Every forecast now uses long memory, which predicted past results better: fixtures, the simulator, past tournaments\' chances going in and the forecast record. Rankings and ratings are unchanged. The Predict page can still switch it off.',
+    'Match weights keep their order, but the gaps between them are halved: a World Cup match now counts 42.5 and a friendly 25 (it was 60 and 25). Big matches still count most; this predicted better in every period tested. Ratings near the top are about 30 points lower, and a few places have changed.']],
   ['24 Oct 2026', ['A Support page: how to report a mistake, privacy, badges and credits, and room for donation links.',
     'Share images: a ready-made picture of the top ten, the year\'s movers or any team, tall or square for Instagram, or wide for X.',
     'On a team page, Share image can also show the team\'s place in the ranking: the five teams above it and the five below, in the world or in its confederation.',
