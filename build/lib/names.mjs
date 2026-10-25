@@ -11,6 +11,7 @@ export const TEAM_ALIASES = {
   'Chinese Taipei': 'Taiwan', 'China PR': 'China',
   'Czechia': 'Czech Republic', 'Türkiye': 'Turkey', 'Turkiye': 'Turkey',
   'Bosnia': 'Bosnia and Herzegovina', 'Bosnia & Herzegovina': 'Bosnia and Herzegovina',
+  'Bosnia-Herzegovina': 'Bosnia and Herzegovina', 'Central Africa': 'Central African Republic', 'French Guyana': 'French Guiana',
   'FYR Macedonia': 'North Macedonia', 'Macedonia': 'North Macedonia',
   'Ireland': 'Republic of Ireland', 'Rep. of Ireland': 'Republic of Ireland',
   'Swaziland': 'Eswatini', 'East Timor': 'Timor-Leste', 'Brunei Darussalam': 'Brunei',

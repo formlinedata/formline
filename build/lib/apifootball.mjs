@@ -76,6 +76,9 @@ export function mapFixture(f, matchTeam, mapTournament){
   const a = matchTeam(f.teams && f.teams.away && f.teams.away.name, league);
   if (h.skip || a.skip) return {skip: h.skip || a.skip};
   if (h.unmatched && a.unmatched) return {skip:'clubs'};   // e.g. CAF or AFC club competitions, which the API also files under World
+  // A club playing a national team in a friendly (Liechtenstein v SC Freiburg): a club match, not an unknown team.
+  const CLUB = /\b(FC|SC|AC|CF|CD|SK|FK|NK|SV|KF|BK|IF|IK|AIK|CSKA|Club|Sporting|Athletic|Atletico|Dinamo|Dynamo|Rapid|Olympique)\b/i;
+  if ((h.unmatched && CLUB.test(h.unmatched)) || (a.unmatched && CLUB.test(a.unmatched))) return {skip:'clubs'};
   if (h.unmatched || a.unmatched) return {skip:'unmatched', names:[h.unmatched, a.unmatched].filter(Boolean), gender:h.gender};
   if (h.gender !== a.gender) return {skip:'gender mismatch'};
   const gender = h.gender;

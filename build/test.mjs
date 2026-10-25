@@ -135,6 +135,14 @@ ok(planDates('2026-09-26', '2026-09-20', {}, 'light').join() === '2026-09-25,202
   delete process.env.RUN_MODE; process.env.TODAY = '2026-09-26';
 }
 ok(menMtime > 0, 'men.json written');
+{
+  const {mapFixture} = await import('./lib/apifootball.mjs');
+  const {TEAM_ALIASES} = await import('./lib/names.mjs');
+  ok(TEAM_ALIASES['Bosnia-Herzegovina'] === 'Bosnia and Herzegovina' && TEAM_ALIASES['Central Africa'] === 'Central African Republic' && TEAM_ALIASES['French Guyana'] === 'French Guiana', 'API spellings seen on 25 Oct mapped');
+  const mt = n => n === 'Liechtenstein' ? {name:n, gender:'men'} : {unmatched:n, gender:'men'};
+  const club = mapFixture({league:{name:'Friendlies', country:'World'}, teams:{home:{name:'Liechtenstein'}, away:{name:'SC Freiburg'}}, fixture:{status:{short:'FT'}}, goals:{home:0, away:3}}, mt, () => ({name:'Friendly'}));
+  ok(club.skip === 'clubs', 'a club in a national-team friendly is a club match, not an unknown team');
+}
 ok(prune([{date:'2026-09-01', home_team:'A', away_team:'B'}], [{date:'2026-09-20', home_team:'X', away_team:'Y'}]).length === 0, 'rows a week before the archive end are dropped');
 
 // the free plan's date window: dates it refuses are skipped, not a stop, and later dates outside it cost nothing

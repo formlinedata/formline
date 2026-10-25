@@ -155,6 +155,9 @@ export async function run(){
   const mode = process.env.RUN_MODE === 'light' ? 'light' : 'full';
   const state = readJSON(path.join(STORE, 'state.json'), {fetched:{}});
   state.watch = state.watch || {};
+  // v2: team names added on 25 Oct 2026 (Bosnia-Herzegovina, Central Africa, French Guyana). Ask again about the last
+  // 30 days once, so matches dropped as unknown before are picked up.
+  if ((state.v || 1) < 2){ const cut = dayNum(today) - 30; for (const d of Object.keys(state.fetched)) if (dayNum(d) >= cut) delete state.fetched[d]; state.v = 2; }
   const venues = readJSON(path.join(STORE, 'venues.json'), {});
   const fixturesStore = readJSON(path.join(STORE, 'fixtures.json'), {});
 
@@ -199,11 +202,12 @@ export async function run(){
       if (list.outside || list.failed) continue;
       for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].date === date) delete fixturesStore[k];
       delete state.watch[date];
+      let unknownHere = false;
       for (const f of list){
         const x = mapFixture(f, matchTeam, mapTournament);
         if (x.skip && /^status (1H|HT|2H|ET|BT|P|SUSP|INT|LIVE)$/.test(x.skip)) state.watch[date] = true;   // being played now: look again on the next run
         if (x.skip){
-          if (x.skip === 'unmatched') x.names.forEach(n => status.unmatched[n] = (status.unmatched[n] || 0) + 1);
+          if (x.skip === 'unmatched'){ unknownHere = true; x.names.forEach(n => status.unmatched[n] = (status.unmatched[n] || 0) + 1); }
           else status.skipped[x.skip] = (status.skipped[x.skip] || 0) + 1;
           continue;
         }
@@ -211,7 +215,8 @@ export async function run(){
         if (x.kind === 'result'){ x.row.updated = built; byId[x.gender].set(String(x.row.api_id), x.row); }
         else fixturesStore[x.row.api_id] = {...x.row, gender:x.gender};
       }
-      state.fetched[date] = today;
+      if (unknownHere) delete state.fetched[date];   // a team we could not name: ask about this day again next run
+      else state.fetched[date] = today;
       console.log(date + ': ' + list.length + ' fixtures from the API');
     }
     // venues for rows and fixtures still missing a country
