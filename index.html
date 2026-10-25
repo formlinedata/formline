@@ -831,6 +831,18 @@
 
   /* v47: page guides */
   .tour-card .tour-more{margin:10px 0 0;font-size:13px;color:var(--dim);} .tour-card .tour-more a{color:var(--amber);}
+
+  /* v48: "How they differ" on phones: one card per question, the three answers stacked and labelled */
+  @media(max-width:640px){
+    .cmp-table thead{display:none;}
+    .cmp-table, .cmp-table tbody, .cmp-table tr, .cmp-table tbody th, .cmp-table td{display:block;width:auto;min-width:0;}
+    .cmp-table tr{padding:12px 15px 10px;border-bottom:1px solid var(--line);}
+    .cmp-table tr:last-child{border-bottom:0;}
+    .cmp-table tbody th{padding:0 0 6px;font-size:15.5px;border:0;}
+    .kv-table.cmp-table td, .kv-table.cmp-table td:last-child{padding:4px 0 6px;border:0;font-size:14px;}
+    .cmp-table td::before{content:attr(data-l);display:block;font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--dim);margin-bottom:1px;}
+    .table-wrap:has(> .cmp-table){overflow:visible;}
+  }
 </style>
 </head>
 <body>
@@ -3806,11 +3818,26 @@ function scorelinePanel(sl, a, b){
         'The model fits goals on the gap between the two ratings; it knows nothing of styles or line-ups.</p></div>'+
   '</div></div>';
 }
-/* Long memory for the Predict page: ratings from every match in the archive up to the as-of date, computed once per
-   date and kept, and the two predictions averaged on the log-odds scale. Half and half was close to the best mix in
-   testing for both games (around 30–40% window for the men and 60% for the women). */
+/* Long memory: ratings from every match in the archive up to the as-of date, computed once per date and kept. Every
+   forecast on the site uses it: a team's forecast strength is half its rating in the window and half its rating from
+   full history, both as published (confederation level and unproven-team correction included). Rankings and ratings
+   stay on the window. Tested out of sample (fitted on one half of the years, scored on the other, both ways round), this
+   beat the window alone every time: three-way log-loss about 0.2% lower for the men and 0.6% for the women. Averaging the
+   ratings and averaging the two predictions on the log-odds scale scored the same. */
 const LM_WEIGHT = 0.5;
-const lmCache = {};
+const lmCache = {}, lmTabCache = {};
+function lmTable(ts){
+  const g = state.gender; if (ts === undefined) ts = state.asOf;
+  if (!state.matches[g] || !(state.windowYears > 0)) return null;
+  const key = g+'|'+ts+'|'+state.historicalNames+'|'+HOME_VER;
+  if (lmTabCache[key]) return lmTabCache[key];
+  const st = lmCache[key] || (lmCache[key] = runWindow(state.bounds[g].min, ts)), out = new Map();
+  for (const k of st.keys()){ const x = pub(st, k, ts); if (x) out.set(k, x.r); }
+  return lmTabCache[key] = out;
+}
+/* A team's forecast strength (see above); its rating alone when there is no window (full history already). */
+const fcBlend = (r, key, T) => { const x = T ? T.get(key) : undefined; return x === undefined ? r : LM_WEIGHT*x + (1 - LM_WEIGHT)*r; };
+const fcRating = row => fcBlend(row.rating, row.key, lmTable());
 function longMemory(ka, kb, h){
   const g = state.gender, key = g+'|'+state.asOf+'|'+state.historicalNames+'|'+HOME_VER;
   if (!lmCache[key]) lmCache[key] = runWindow(state.bounds[g].min, state.asOf);
@@ -3838,7 +3865,7 @@ function viewPredict(){
   const eCertain = eloE(rowA.rating + h - rowB.rating);
   const eWin = predictE({r:rowA.rating, rd:matchRd(rowA, rowB)}, {r:rowB.rating, rd:matchRd(rowB, rowA)}, h);
   /* Long memory: the window's prediction averaged with one from every match since the archive began. */
-  const lmOn = state.params.lm === '1' && state.windowYears > 0;
+  const lmOn = state.params.lm !== '0' && state.windowYears > 0;
   const full = lmOn ? longMemory(rowA.key, rowB.key, h) : null;
   const eUnc = full ? blendE(eWin, full.E) : eWin;
   const eCal = calE(eUnc);
@@ -3866,10 +3893,10 @@ function viewPredict(){
       '<button class="chip'+(lmOn?'':' on')+'" id="lmOff">The ratings shown</button>'+
       '<button class="chip'+(lmOn?' on':'')+'" id="lmOn" title="Averages this prediction with one from every match since '+
         new Date(state.bounds[state.gender].min).getUTCFullYear()+'">Long memory</button></div>'+
-      (lmOn ? '<div class="notice"><b>Long memory is on.</b> These chances average the '+state.windowYears+'-year prediction with one '+
-        'from every match since '+new Date(state.bounds[state.gender].min).getUTCFullYear()+', so they no longer follow from the two '+
-        'ratings above alone. Tested on past matches, this blend predicted slightly better: about 0.14% for the men and 0.37% '+
-        'for the women. The rest of the site uses the '+state.windowYears+'-year ratings only.</div>' : '') : '')+
+      '<p class="chart-note" style="margin:-12px 0 20px;">'+(lmOn ? 'Like every forecast on the site, these chances mix the '+state.windowYears+'-year ratings '+
+        'with ratings from every match since '+new Date(state.bounds[state.gender].min).getUTCFullYear()+', which predicted past results better. '+
+        'Pick "The ratings shown" to predict from the two ratings above alone.'
+        : 'Predicting from the two ratings above alone. Every other forecast on the site uses long memory, which predicted past results better.')+'</p>' : '')+
     (prov.length ? '<div class="notice"><b>Wide uncertainty.</b> '+
       prov.map(r=>esc(r.team)+' (&plusmn;'+Math.round(r.band)+')').join(' and ')+
       ' '+(prov.length>1?'are':'is')+' too uncertain to rank, so the prediction below is pulled well toward an even contest.</div>' : '')+
@@ -3881,14 +3908,14 @@ function viewPredict(){
     scorelinePanel(sl, a, b)+
     underTheHood({c, rowA, rowB, a, b, h, neutral, eCertain, eWin, eUnc, eCal, p, full, sl})+'</div>';
 
-  const pick = v => go({a:document.getElementById('pA').value, b:document.getElementById('pB').value, v:v||venue, lm:lmOn ? '1' : undefined});
+  const pick = v => go({a:document.getElementById('pA').value, b:document.getElementById('pB').value, v:v||venue, lm:lmOn ? undefined : '0'});
   document.getElementById('pA').addEventListener('change',()=>pick());
   document.getElementById('pB').addEventListener('change',()=>pick());
   document.getElementById('vHome').addEventListener('click',()=>pick('home'));
   document.getElementById('vNeutral').addEventListener('click',()=>pick('neutral'));
   const lmB = (id, v) => { const el = document.getElementById(id); if (el) el.addEventListener('click', () =>
     go({a:document.getElementById('pA').value, b:document.getElementById('pB').value, v:venue, lm:v})); };
-  lmB('lmOn', '1'); lmB('lmOff', undefined);
+  lmB('lmOn', undefined); lmB('lmOff', '0');
 }
 
 
@@ -3967,7 +3994,7 @@ function fixturePrediction(c, fx){
   const side = own(fx.home) ? 1 : (own(fx.away) ? -1 : (fx.neutral ? 0 : 1));
   if (!rh || !ra) return {rh, ra, side, p:null};
   const host = side > 0 ? fx.home : fx.away, visitor = side > 0 ? fx.away : fx.home;
-  const E = predictE({r:rh.rating, rd:matchRd(rh, ra)}, {r:ra.rating, rd:matchRd(ra, rh)},
+  const E = predictE({r:fcRating(rh), rd:matchRd(rh, ra)}, {r:fcRating(ra), rd:matchRd(ra, rh)},
     side ? side*homeBonus(state.gender, ts, host, visitor, fx.city || undefined) : 0);
   const sl = scorelines(E);
   return {rh, ra, side, p:sl.probs, sl, E};
@@ -4245,7 +4272,7 @@ function prepareTournament(T, c, forced){
   for (const t of teams){
     const r = c.byKey.get(c.resolve(t));
     if (!r){ missing.push(t); info.set(t, {name:dn(t), rating:BASELINE, own:RD_MAX, pool:'?', poolSd:0, row:null}); continue; }
-    info.set(t, {name:r.team, rating:r.rating, own:r.rdOwn, pool:r.pool, poolSd:Math.sqrt(Math.max(0, r.rd*r.rd - r.rdOwn*r.rdOwn)), row:r,
+    info.set(t, {name:r.team, rating:r.rating, fc:fcRating(r), own:r.rdOwn, pool:r.pool, poolSd:Math.sqrt(Math.max(0, r.rd*r.rd - r.rdOwn*r.rdOwn)), row:r,
       tiers:{world:r.tier, conf:confTierMap(c).get(r.key)}});
   }
   const fixtures = groupFixtures(T);
@@ -4314,7 +4341,7 @@ function simulate(P, runs, seedStr, onDone, onProgress){
     const stop = Math.min(runs, done + 500);
     for (; done < stop; done++){
       poolZ.clear(); pools.forEach(p => poolZ.set(p, gauss()));
-      for (let i = 0; i < N; i++){ const t = info.get(names[i]); strength[i] = t.rating + t.own*gauss() + t.poolSd*poolZ.get(t.pool); }
+      for (let i = 0; i < N; i++){ const t = info.get(names[i]); strength[i] = (t.fc === undefined ? t.rating : t.fc) + t.own*gauss() + t.poolSd*poolZ.get(t.pool); }
       // group stage
       const table = new Map(groupNames.map(gn => [gn, T.groups[gn].map(t => ({t:idx.get(t), p:0, gd:0, gf:0, r:rand()}))]));
       const res = [];
@@ -4654,7 +4681,7 @@ function recordSummary(list){
   const sum = k => list.reduce((s, e) => s + e[k], 0);
   return {n, ll:sum('ll')/n, brier:sum('brier')/n, hit:list.filter(e => e.hit).length/n};
 }
-/* Formline against plain Elo and the FIFA method, on the same matches. As in the Method page's test, each method's
+/* Formline against World Elo and the FIFA method, on the same matches. As in the Method page's test, each method's
    ratings are frozen on 1 January and used to predict that year's matches; only matches between two teams the FIFA
    method ranks count, so all three predict the same games. Scored on the expected result (a draw counts as half):
    log-loss, and how often the side each method favoured won the matches that had a winner. */
@@ -4664,17 +4691,20 @@ function vsYear(g, y){
   const F = fifaMethod(g, ts0 - 1), E = plainElo(g, ts0 - 1);
   if (!F) return null;
   return atDefaults(c => {
-    const acc = {y, n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0]};
+    const acc = {y, n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0], dis:[null, [0, 0, 0, 0], [0, 0, 0, 0]]};
     for (let i = firstIndexAt(ms, ts0); i < ms.length && ms[i].ts < ts1; i++){
       const m = ms[i]; namesFor(m);
       const fh = F.byKey.get(m._h), fa = F.byKey.get(m._a), rh = c.byKey.get(m._h), ra = c.byKey.get(m._a);
       if (!fh || !fa || !fh.rank || !fa.rank || !rh || !ra || !E.has(m._h) || !E.has(m._a)) continue;
-      const es = [calE(predictE({r:rh.rating, rd:matchRd(rh, ra)}, {r:ra.rating, rd:matchRd(ra, rh)}, homeOf(m)), g),
-        eloE(E.get(m._h) - E.get(m._a) + venueSide(m)*PLAIN_HOME[g]), fifaExpect(g, fh, fa, m)];
+      const es = [calE(predictE({r:fcRating(rh), rd:matchRd(rh, ra)}, {r:fcRating(ra), rd:matchRd(ra, rh)}, homeOf(m)), g),
+        eloE(E.get(m._h) - E.get(m._a) + venueSide(m)*ELO_HOME), fifaExpect(g, fh, fa, m)];
       const s = m.hs > m.as ? 1 : m.hs < m.as ? 0 : 0.5;
       es.forEach((e, j) => { const q = Math.min(Math.max(e, 1e-6), 1 - 1e-6);
         acc.ll[j] -= s*Math.log(q) + (1 - s)*Math.log(1 - q);
         if (s !== 0.5) acc.hit[j] += e === 0.5 ? 0.5 : (e > 0.5) === (s === 1) ? 1 : 0; });
+      /* Matches where Formline and another method favoured different sides: [count, Formline right, the other right, draws]. */
+      [1, 2].forEach(j => { if ((es[0] > 0.5) === (es[j] > 0.5) || es[0] === 0.5 || es[j] === 0.5) return;
+        const D = acc.dis[j]; D[0]++; if (s === 0.5) D[3]++; else if ((es[0] > 0.5) === (s === 1)) D[1]++; else D[2]++; });
       acc.n++; if (s !== 0.5) acc.dec++;
     }
     return acc;
@@ -4682,26 +4712,42 @@ function vsYear(g, y){
 }
 function vsPanel(g){
   const R = vsCache[g];
-  const head = '<div class="panel" id="vsPanel" style="margin-bottom:20px;"><div class="panel-head">Against plain Elo and the FIFA method'+
+  const head = '<div class="panel" id="vsPanel" style="margin-bottom:20px;"><div class="panel-head">Against World Elo and the FIFA method'+
     '<span class="aside">every year since 2019, the same matches</span></div>';
   if (!R) return head+'<div class="panel-body"><p class="muted" style="margin:0;">Working it out&hellip;</p></div></div>';
-  const ys = R.filter(Boolean), tot = {n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0]};
-  ys.forEach(a => { tot.n += a.n; tot.dec += a.dec; [0, 1, 2].forEach(j => { tot.ll[j] += a.ll[j]; tot.hit[j] += a.hit[j]; }); });
+  const ys = R.filter(Boolean), tot = {n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0], dis:[null, [0, 0, 0, 0], [0, 0, 0, 0]]};
+  ys.forEach(a => { tot.n += a.n; tot.dec += a.dec; [0, 1, 2].forEach(j => { tot.ll[j] += a.ll[j]; tot.hit[j] += a.hit[j]; });
+    [1, 2].forEach(j => a.dis[j].forEach((v, k) => tot.dis[j][k] += v)); });
   if (!tot.n) return head+'<div class="panel-body"><p class="muted" style="margin:0;">No matches to test yet.</p></div></div>';
-  const names = ['Formline', 'Plain Elo', 'FIFA method'], best = Math.min(...tot.ll);
+  const names = ['Formline', 'World Elo', 'FIFA method'], best = Math.min(...tot.ll);
   const pc = x => (x*100).toFixed(1)+'%';
+  /* How much of the gap between guessing 50/50 (log-loss ln 2) and a perfect forecast each method closes, compared with
+     Formline. */
+  const skill = j => Math.LN2 - tot.ll[j]/tot.n, more = j => Math.round(100*(skill(0)/skill(j) - 1));
+  const nm = j => j === 2 ? 'the FIFA method' : names[j];
+  const dis = j => { const D = tot.dis[j]; return D[0] ? 'In the '+D[0].toLocaleString()+' matches where Formline and '+nm(j)+' favoured different sides, '+
+    'Formline was right '+D[1].toLocaleString()+' times and '+nm(j)+' '+D[2].toLocaleString()+' times; '+D[3].toLocaleString()+' were draws.' : ''; };
+  const why = skill(1) > 0 && skill(0) > skill(1) ?
+    '<div class="panel-body" style="padding-top:4px;"><h3 style="font-size:15.5px;margin:4px 0 6px;color:var(--chalk);">Why a small gap is a big one</h3>'+
+    '<p style="margin:0 0 8px;font-size:14px;">Forecasting football has a hard ceiling: even a perfect judge of strength cannot see a deflected shot or a red card coming, '+
+      'so every serious method lands close to the others. The useful comparison is how much each improves on knowing nothing. Calling every match 50/50 '+
+      'scores a log-loss of '+Math.LN2.toFixed(3)+'. Formline improves on that by '+skill(0).toFixed(3)+', World Elo by '+skill(1).toFixed(3)+
+      ': Formline gets about '+more(1)+'% more out of the same results'+(skill(2) > 0 ? ', and about '+more(2)+'% more than the FIFA method' : '')+'.</p>'+
+    '<p style="margin:0 0 4px;font-size:14px;">"Picked the winner" barely moves because the methods agree on the favourite in most matches; it can only differ '+
+      'where they disagree. '+dis(1)+' '+dis(2)+' Year by year, Formline had a lower log-loss than World Elo in '+
+      ys.filter(a => a.ll[0] < a.ll[1]).length+' of the '+ys.length+' years.</p></div>' : '';
   return head+'<div class="table-wrap"><table class="kv-table"><thead><tr><th>Method</th><th>Picked the winner</th><th>Log-loss</th></tr></thead><tbody>'+
       names.map((nm, j) => '<tr><td>'+(tot.ll[j] === best ? '<b>'+nm+'</b>' : nm)+'</td><td class="n">'+pc(tot.hit[j]/tot.dec)+'</td><td>'+(tot.ll[j]/tot.n).toFixed(3)+'</td></tr>').join('')+
     '</tbody></table></div>'+
     '<details class="vs-years" style="padding:0 15px;"><summary class="muted" style="cursor:pointer;padding:8px 0;font-size:13.5px;">Year by year</summary>'+
       '<div class="table-wrap"><table class="kv-table"><thead><tr><th>Year</th><th>Matches</th>'+names.map(nm => '<th>'+nm+'</th>').join('')+'</tr></thead><tbody>'+
       ys.map(a => '<tr><td>'+a.y+'</td><td class="n">'+a.n.toLocaleString()+'</td>'+a.ll.map(v => '<td class="n">'+(v/a.n).toFixed(3)+'</td>').join('')+'</tr>').join('')+
-      '</tbody></table></div><p class="chart-note" style="margin:6px 0 10px;">Log-loss by year; lower is better.</p></details>'+
+      '</tbody></table></div><p class="chart-note" style="margin:6px 0 10px;">Log-loss by year; lower is better.</p></details>'+why+
     '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">'+tot.n.toLocaleString()+' '+(g === 'men' ? "men's" : "women's")+' matches between teams '+
       'the FIFA method ranks, each predicted with ratings frozen on 1 January of its year, as in the test on the <a href="#/method">How it works</a> page. '+
       '<b>Picked the winner</b>: how often the side a method favoured won, among the '+tot.dec.toLocaleString()+' matches that had a winner. '+
       '<b>Log-loss</b> scores how confident each method was in what happened, a draw counting as half a win; lower is better. '+
-      'Plain Elo is this site\'s own, and the FIFA method is FIFA\'s formula worked out here (see <a href="#/compare">Formline, Elo and FIFA</a>). '+
+      'World Elo is the World Football Elo Ratings formula (eloratings.net) and the FIFA method is FIFA\'s formula, both worked out here (see <a href="#/compare">Formline, Elo and FIFA</a>). '+
       'FIFA\'s ranking is built for seeding draws, not for predicting, but its formula still says what result it expects, and that is what is scored.</p></div>';
 }
 function kickVs(g){
@@ -5070,7 +5116,8 @@ function matchStages(e){
    depended on the groups, so there group winners are paired with lower-placed qualifiers, best against worst. */
 function simEdition(e, run, fmt, runs, opts){
   const g = state.gender, rand = rng('ed|'+e.id+'|'+state.windowYears), cal = CAL[g];
-  const pre = new Map(run.teams.map(T => [T.key, T.pre ? {r:T.pre.r, rd:T.pre.rd} : {r:BASELINE, rd:175}]));
+  const LT = lmTable(run.preTs);
+  const pre = new Map(run.teams.map(T => [T.key, T.pre ? {r:fcBlend(T.pre.r, T.key, LT), rd:T.pre.rd} : {r:BASELINE, rd:175}]));
   const names = fmt.teams, idx = new Map(names.map((t, i) => [t, i])), N = names.length;
   const hosts = new Set(); e.matches.forEach(m => { const v = venueSide(m); if (v === 1) hosts.add(m._h); else if (v === -1) hosts.add(m._a); });
   const hb = (h, v) => homeBonus(g, e.start, h, v);
@@ -5833,10 +5880,12 @@ function viewMethod(){
       '<p>These chances allow for the bands: when either team is barely known, they move toward even. They know nothing '+
         'about injuries, squads or motivation. The tournament simulator plays a tournament ten thousand times with these '+
         'chances to show how often each team gets through each round.</p>'+
-      '<p>The Predict page has one extra option, <b>Long memory</b>. It averages the usual prediction with one made from '+
-        'every match since the archive began. That predicted slightly better in testing, because old results still say a '+
-        'little about a team today, but its chances no longer follow from the two ratings shown, so it is off by default '+
-        'and used nowhere else.</p>')+
+      '<p>Forecasts add one thing the table does not: <b>long memory</b>. For predicting, each team\'s strength is half its '+
+        'rating and half a rating from every match since the archive began. Old results still say a little about a team '+
+        'today, and in testing this mix predicted better than the window alone, every time it was checked: about 0.2% for '+
+        'the men and 0.6% for the women. So the fixtures, the simulator, past tournaments\' chances going in and the '+
+        'forecast record all use it, while the rankings stay on the window. The Predict page can switch it off, to show '+
+        'chances that follow from the two ratings alone.</p>')+
 
     sec('m-tested', 'How we know it works',
       '<p>Every choice in the model was tested by going back through the archives, predicting each match before it was '+
@@ -6184,18 +6233,56 @@ function methodTechnical(){
 /* ============================================================
    FORMLINE, PLAIN ELO AND THE FIFA RANKING
    ============================================================ */
-/* Classic Elo, worked out here for comparison: the same results and match weights, every match since the archive
-   begins, one fixed home advantage, no bands and no confederation levels. */
-const PLAIN_HOME = {men:100, women:60};
+/* World Elo: the World Football Elo Ratings formula, best known from eloratings.net, worked out here from the same
+   results as everything else ("World Football Elo method, our calculation"). Each match moves both sides by
+   K * G * (W - We), rounded to a whole number: We = 1 / (10^(-dr/400) + 1), with 100 added for the home side; W is 1, 0.5
+   or 0, a shoot-out counting as a draw; G is 1 for a draw or one-goal win, 1.5 for two goals and (11 + n)/8 for n of
+   three or more; K is 60 for the World Cup (and the Olympics while they were senior football), 50 for continental
+   championships and intercontinental tournaments, 40 for qualifiers and Nations Leagues, 30 for other tournaments and
+   20 for friendlies. Every team starts at ELO_START, which puts the men's table on eloratings.net's scale. Matches of
+   non-FIFA selections' own tournaments (CONIFA and the like) are left out. eloratings.net rates men's teams only; for
+   the women the same formula is run on the women's archive. */
+const ELO_START = 1420, ELO_HOME = 100, OLY_PRO_TS = Date.parse('1984-01-01T00:00:00Z');
+const ELO_K50 = new Set(['Copa América', 'African Cup of Nations', 'Africa Cup of Nations', 'AFC Asian Cup', 'Gold Cup', 'CONCACAF Gold Cup',
+  'CONCACAF Championship', 'UEFA Euro', 'Euro', 'Oceania Nations Cup', 'OFC Nations Cup', 'OFC Championship', 'Confederations Cup',
+  'CONMEBOL–UEFA Cup of Champions', 'AFC Championship', 'African Championship']);
+const ELO_SKIP = /^(CONIFA|Viva World Cup|FIFI Wild Cup|ELF Cup|Island Games|Inter Games|Muratti Vase)/;
+function eloK(m, g){
+  const t = m.tournament;
+  if (t === 'FIFA World Cup' || (t === 'Olympic Games' && (g === 'women' || m.ts < OLY_PRO_TS))) return 60;
+  if (ELO_K50.has(t)) return 50;
+  if (/qualif|nations league/i.test(t)) return 40;
+  return t === 'Friendly' ? 20 : 30;
+}
+const eloG = n => n <= 1 ? 1 : n === 2 ? 1.5 : (11 + n)/8;
 const plainCache = {};
 function plainElo(g, asOf){
-  const key = g+'|'+asOf+'|'+state.historicalNames;
+  const key = g+'|'+asOf;
   if (plainCache[key]) return plainCache[key];
-  const R = new Map(), get = k => R.has(k) ? R.get(k) : 1500, ms = state.matches[g] || [];
-  for (const m of ms){ if (m.ts > asOf) break; namesFor(m);
-    const E = eloE(get(m._h) - get(m._a) + venueSide(m)*PLAIN_HOME[g]), s = m.hs > m.as ? 1 : m.hs < m.as ? 0 : 0.5;
-    const d = m.k*goalMult(Math.abs(m.hs - m.as))*(s - E); R.set(m._h, get(m._h) + d); R.set(m._a, get(m._a) - d); }
+  const R = new Map(), get = k => R.has(k) ? R.get(k) : ELO_START, ms = state.matches[g] || [];
+  for (const m of ms){ if (m.ts > asOf) break; if (ELO_SKIP.test(m.tournament)) continue; namesFor(m);
+    if (m._h === m._a) continue;
+    const E = eloE(get(m._h) - get(m._a) + venueSide(m)*ELO_HOME), s = m.hs > m.as ? 1 : m.hs < m.as ? 0 : 0.5;
+    const d = Math.round(eloK(m, g)*eloG(Math.abs(m.hs - m.as))*(s - E)); R.set(m._h, get(m._h) + d); R.set(m._a, get(m._a) - d); }
   return plainCache[key] = R;
+}
+/* eloratings.net's own men's table, to check the calculation against (top 40, names as the archive spells them). */
+const ELO_REF = {label:'25 October 2026', top:[['Spain', 2287], ['Argentina', 2175], ['England', 2146], ['France', 2104], ['Portugal', 2055],
+  ['Brazil', 2001], ['Colombia', 1990], ['Switzerland', 1975], ['Netherlands', 1974], ['Belgium', 1956], ['Italy', 1910], ['Norway', 1900],
+  ['Japan', 1897], ['Morocco', 1896], ['Germany', 1895], ['Mexico', 1868], ['Denmark', 1861], ['Croatia', 1856], ['Uruguay', 1851],
+  ['Ecuador', 1849], ['Austria', 1841], ['Paraguay', 1836], ['Senegal', 1805], ['Greece', 1804], ['United States', 1793], ['Australia', 1786],
+  ['Russia', 1778], ['Sweden', 1774], ['Turkey', 1768], ['Algeria', 1744], ['Canada', 1739], ['Iran', 1738], ['Venezuela', 1732],
+  ['South Korea', 1730], ['Hungary', 1725], ['Ukraine', 1724], ['Ivory Coast', 1723], ['Chile', 1723], ['Scotland', 1718], ['Slovenia', 1718]]};
+let eloCheckCache;
+function eloCheck(){
+  if (eloCheckCache !== undefined) return eloCheckCache;
+  if (!state.matches.men) return null;
+  const E = plainElo('men', state.bounds.men.max), order = [...E.keys()].sort((a, b) => E.get(b) - E.get(a));
+  const rk = new Map(order.map((k, i) => [k, i + 1]));
+  let gap = 0, same = 0, top10 = 0, n = 0;
+  ELO_REF.top.forEach(([t, r], j) => { const k = keyOfName(teamAlias(t, 'men')); if (!E.has(k)) return;
+    n++; gap += Math.abs(E.get(k) - r); if (rk.get(k) === j + 1){ same++; if (j < 10) top10++; } });
+  return eloCheckCache = n ? {n, gap:gap/n, same, top10} : null;
 }
 /* FIFA's own ranking methods, worked out here from FIFA's published procedures and the same results as everything
    else ("FIFA method, our calculation"). This is not FIFA's published ranking: FIFA's match records differ from the
@@ -6353,19 +6440,19 @@ function fifaCheck(g){
 }
 function compareExplainer(){
   const g = state.gender, B = BACKTEST[g], row12 = B.rows.find(r => r[0] === 12) || B.rows[0];
-  const t = (a, b, c, d) => '<tr><th>'+a+'</th><td>'+b+'</td><td>'+c+'</td><td>'+d+'</td></tr>';
-  return '<div class="table-wrap"><table class="kv-table cmp-table"><thead><tr><th></th><th>Formline</th><th>Plain Elo</th><th>FIFA method</th></tr></thead><tbody>'+
+  const t = (a, b, c, d) => '<tr><th>'+a+'</th><td data-l="Formline">'+b+'</td><td data-l="World Elo">'+c+'</td><td data-l="FIFA method">'+d+'</td></tr>';
+  return '<div class="table-wrap"><table class="kv-table cmp-table"><thead><tr><th></th><th>Formline</th><th>World Elo</th><th>FIFA method</th></tr></thead><tbody>'+
     t('Which results count', 'The last 12 years (you can change it)', 'Every match since the archive begins', g === 'men' ? 'Every match since June 2018, on top of points carried over from FIFA\'s June 2018 ranking' : 'Every match since 1971')+
-    t('Bigger wins count more', 'Yes: two goals 1.5 times, three or more 1.75 times', 'Yes, the same', g === 'men' ? 'No' : 'Yes, on its own scale')+
-    t('Home advantage', 'Yes, by era and venue: smaller in Europe, bigger in Africa and South America, doubled at altitude', 'Yes, one fixed value', g === 'men' ? 'No' : 'Yes, one fixed value')+
-    t('How much each match counts', 'World Cup 60 down to friendlies 25 and non-FIFA 10; friendlies counted more before 1990', 'The same weights', g === 'men' ? 'World Cup knockouts 60 down to friendlies outside FIFA dates 5' : 'World Cup and Olympics 60 down to ordinary friendlies 15')+
+    t('Bigger wins count more', 'Yes: two goals 1.5 times, three or more 1.75 times', 'Yes: two goals 1.5 times, three 1.75 times, a little more for each goal after that', g === 'men' ? 'No' : 'Yes, on its own scale')+
+    t('Home advantage', 'Yes, by era and venue: smaller in Europe, bigger in Africa and South America, doubled at altitude', 'Yes, 100 points everywhere', g === 'men' ? 'No' : 'Yes, 100 points everywhere')+
+    t('How much each match counts', 'World Cup 60 down to friendlies 25 and non-FIFA 10; friendlies counted more before 1990', 'World Cup 60, continental finals 50, qualifiers and Nations Leagues 40, other tournaments 30, friendlies 20', g === 'men' ? 'World Cup knockouts 60 down to friendlies outside FIFA dates 5' : 'World Cup and Olympics 60 down to ordinary friendlies 15')+
     t('How sure it is', 'Every rating has a &plusmn; band; unsure ratings move faster and predictions allow for them', 'One number, no band', 'One number, no band')+
     t('Teams that rarely meet', 'Each confederation carries a level, corrected by results against other confederations', 'Nothing special', 'Nothing special')+
     t('Defeat in a knockout', 'Costs points like any defeat', 'Costs points', g === 'men' ? 'No points lost in the knockout stages of a final tournament' : 'Costs points')+
     t('Penalty shoot-outs', 'A draw', 'A draw', g === 'men' ? 'The winner scores 0.75, the loser 0.5' : 'A draw')+
     t('How well it predicts', 'Log-loss '+row12[2].toFixed(3)+' on '+B.n+' '+(g === 'men' ? "men's" : "women's")+' matches since '+B.span.slice(0, 4)+' (lower is better)',
-      'Log-loss '+B.rows.find(r => r[0] === 0)[1].toFixed(3)+' on the same matches', 'Not built for predictions, but tested anyway: see the <a href="#/record">Forecast record</a>')+
-    t('Updated', 'Every night', 'Every night, alongside Formline', 'Every night here; FIFA publishes its own '+(g === 'men' ? 'every month or two' : 'about four times a year'))+
+      'Tested against the other two on the <a href="#/record">Forecast record</a>', 'Not built for predictions, but tested anyway: see the <a href="#/record">Forecast record</a>')+
+    t('Updated', 'Every night', g === 'men' ? 'Every night here; eloratings.net updates its own after each match' : 'Every night here', 'Every night here; FIFA publishes its own '+(g === 'men' ? 'every month or two' : 'about four times a year'))+
   '</tbody></table></div>';
 }
 /* Where every past name's record went, and the sides that ended with no successor. */
@@ -6617,8 +6704,12 @@ const CHANGELOG = [
     'Share images for tournaments: the simulator\'s likeliest winners, and any past tournament\'s chances going in with the winner picked out.',
     'Fixtures are listed about two months ahead instead of two weeks. Matches whose time or opponent is not known yet say so.',
     'Formline, Elo and FIFA works out FIFA\'s own ranking here, from FIFA\'s published method and the same results, for any date since August 2018 (men) or 1971 (women). Team pages show it too.',
-    'The Forecast record compares Formline, plain Elo and the FIFA method on the same matches, every year since 2019.',
-    'The ? button now gives a short guide to the page you are on. The home page keeps the full tour.']],
+    'The Forecast record compares Formline, Elo and the FIFA method on the same matches, every year since 2019.',
+    'The ? button now gives a short guide to the page you are on. The home page keeps the full tour.',
+    'On phones, "How they differ" on Formline, Elo and FIFA reads as a list of questions, with the three answers under each, instead of a table that scrolls sideways.',
+    'The Elo comparison now uses the World Football Elo Ratings formula (the one behind eloratings.net), worked out here, instead of the site\'s own plain Elo.',
+    'The Forecast record explains why small gaps between the methods matter, and shows who was right when they picked different favourites.',
+    'Every forecast now uses long memory, which predicted past results better: fixtures, the simulator, past tournaments\' chances going in and the forecast record. Rankings and ratings are unchanged. The Predict page can still switch it off.']],
   ['24 Oct 2026', ['A Support page: how to report a mistake, privacy, badges and credits, and room for donation links.',
     'Share images: a ready-made picture of the top ten, the year\'s movers or any team, tall or square for Instagram, or wide for X.',
     'On a team page, Share image can also show the team\'s place in the ranking: the five teams above it and the five below, in the world or in its confederation.',
@@ -6909,7 +7000,14 @@ function viewCompare(){
     return v(a) - v(b); });
   const diff = (a, b) => a && b ? '<span class="'+(a < b ? 'up' : a > b ? 'down' : 'flat')+'">'+(a === b ? '=' : (a < b ? '+' : '&minus;')+Math.abs(a - b))+'</span>' : '<span class="muted">&ndash;</span>';
   const sortHead = (k, label, cls, title) => '<th class="'+(cls || 'num')+'"'+(title ? ' title="'+title+'"' : '')+'><a href="#" data-sort="'+k+'" class="sorth'+(sortBy === k ? ' on' : '')+'">'+label+'</a></th>';
-  const asOfTxt = fmtDay(state.asOf);
+  const asOfTxt = fmtDay(state.asOf), ek = g === 'men' ? eloCheck() : null;
+  const eloNote = '<b>World Elo</b> is the World Football Elo Ratings formula, best known from eloratings.net, worked out here from the '+
+    'same results: every match since the archive begins, weights from 60 for the World Cup down to 20 for friendlies, more for bigger wins, '+
+    '100 points for playing at home and a shoot-out counted as a draw. Every team starts at '+ELO_START+', which puts the men\'s table on '+
+    'eloratings.net\'s scale. It is our calculation, not eloratings.net\'s published table'+
+    (ek ? ': checked against their table of '+ELO_REF.label+', its top 40 are on average '+Math.round(ek.gap)+' points from theirs, '+
+      ek.top10+' of the top 10 are in the same place and '+ek.same+' of the 40.' : '.')+
+    (g === 'women' ? ' eloratings.net rates only men\'s teams, so for the women the same formula is run on the women\'s results.' : '');
   const fifaNote = '<b>FIFA method</b> is FIFA\'s own formula, worked out here from the same results: '+
     (g === 'men' ? 'points carried over from FIFA\'s June 2018 ranking, as FIFA did when it restarted its ranking that August, then every match between FIFA members since.'
                  : 'every match since 1971, all teams starting level. The archive has fewer women\'s friendlies than FIFA\'s own records, so this one is rougher, and its starting level is set so that the top 20 sit on FIFA\'s scale.')+
@@ -6918,13 +7016,11 @@ function viewCompare(){
     (g === 'men' ? ' Run from 2018 to FIFA\'s September 2024 release, all 210 ranked teams were on average 4 points out, and 197 of them within three places.' : '');
   app.innerHTML = '<div class="wrap">'+
     '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip on" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
-    '<h1 class="page-title">Formline, plain Elo and the FIFA method</h1>'+
+    '<h1 class="page-title">Formline, World Elo and the FIFA method</h1>'+
     '<p class="page-sub">Three ways of ordering the same teams. They mostly agree at the top and drift apart further down, '+
       'for reasons in the table below.</p>'+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">How they differ</div>'+compareExplainer()+
-      '<p class="chart-note" style="padding:8px 15px 4px;margin:0;"><b>Plain Elo</b> here is the classic method, worked out on this site from the same '+
-        'results as Formline: every match since the archive begins, the same match weights and margin rule, one home advantage, no band and '+
-        'no confederation levels. It is close in spirit to the well-known World Football Elo Ratings, but not identical to them.</p>'+
+      '<p class="chart-note" style="padding:8px 15px 4px;margin:0;">'+eloNote+'</p>'+
       '<p class="chart-note" style="padding:4px 15px 12px;margin:0;">'+fifaNote+' FIFA\'s ranking is built to order teams fairly for draws and seeding, not to predict results.</p></div>'+
     toolRow()+
     '<div class="panel"><div class="panel-head">Side by side'+
@@ -6932,21 +7028,21 @@ function viewCompare(){
       (!F ? '<p class="muted" style="margin:0;padding:10px 15px;border-bottom:1px solid var(--line);font-size:13.5px;">FIFA\'s current men\'s method starts in August 2018, so there is no FIFA column for earlier dates.</p>' : '')+
       '<div class="table-wrap lock"><table class="cmp-rank"><thead><tr>'+
         '<th>Team</th>'+sortHead('formline', 'Formline')+'<th class="num hide-sm">Rating</th>'+
-        sortHead('elo', 'Plain Elo')+'<th class="num hide-sm">Elo rating</th>'+
+        sortHead('elo', 'World Elo', 'num', 'World Football Elo method, our calculation')+'<th class="num hide-sm">Elo rating</th>'+
         (F ? sortHead('fifa', 'FIFA', 'num', 'FIFA method, our calculation')+'<th class="num hide-sm">FIFA points</th>' : '')+
-        '<th class="num" title="Formline rank compared with plain Elo: + means Formline places the team higher">vs Elo</th>'+
+        '<th class="num" title="Formline rank compared with World Elo: + means Formline places the team higher">vs Elo</th>'+
         (F ? '<th class="num" title="Formline rank compared with the FIFA method: + means Formline places the team higher">vs FIFA</th>' : '')+
       '</tr></thead><tbody>'+
       list.map(r => { const er = eloRank.get(r.key), x = fx(r), xr = fRk(r);
         return '<tr><td><a href="'+teamHref(r.team)+'">'+withFlag(r.team)+'</a></td>'+
           '<td class="num">'+(r.rank ? '<b>'+r.rank+'</b>' : '<span class="muted" title="Not ranked: band too wide">&ndash;</span>')+'</td>'+
           '<td class="num rating hide-sm">'+fmtR(r.rating)+' '+pmSpan(r.band)+'</td>'+
-          '<td class="num"><b>'+er+'</b></td><td class="num muted hide-sm">'+fmtR(E.get(r.key))+'</td>'+
+          '<td class="num"><b>'+er+'</b></td><td class="num muted hide-sm">'+Math.round(E.get(r.key))+'</td>'+
           (F ? '<td class="num">'+(xr ? '<b>'+xr+'</b>' : '<span class="muted" title="'+(x ? 'Not ranked by FIFA\'s rules: too few matches, or none for four years' : 'Not a FIFA member, or no FIFA points')+'">&ndash;</span>')+'</td>'+
                '<td class="num muted hide-sm">'+(x ? x.pts.toFixed(2) : '')+'</td>' : '')+
           '<td class="num mono">'+diff(r.rank, er)+'</td>'+(F ? '<td class="num mono">'+diff(r.rank, xr)+'</td>' : '')+'</tr>'; }).join('')+
       '</tbody></table></div>'+
-      '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">Plain Elo ranks every team that has a Formline rating, including the ones Formline is too unsure '+
+      '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">World Elo ranks every team that has a Formline rating, including the ones Formline is too unsure '+
         'of to rank. A big gap usually means a team whose recent results differ from its long history, or one from a confederation '+
         'whose level Formline has moved.</p></div>'+
   '</div>';
@@ -7161,10 +7257,10 @@ function pageTour(route){
       {sel:'#app .stat-row', title:'The scores', text:'How the published forecasts have done. Log-loss and the Brier score reward confident '+
         'forecasts that come true and punish confident ones that do not: lower is better.'},
       {panel:'Calibration', title:'Calibration', text:'When the favourite was given about 70%, did it win about 70% of the time? This checks.'},
-      {sel:'#vsPanel', title:'Against Elo and FIFA', text:'Formline, plain Elo and the FIFA method, tested on the same matches every year since 2019.'},
+      {sel:'#vsPanel', title:'Against Elo and FIFA', text:'Formline, World Elo and the FIFA method, tested on the same matches every year since 2019.'},
       {panel:'Scored forecasts', title:'Every forecast', text:'Each forecast as it stood at kick-off, and the chance it gave to what happened.'}]],
     compare:['Formline, Elo and FIFA', [
-      {panel:'How they differ', title:'Three methods', text:'Formline, classic Elo and FIFA\'s own method: which results each one counts, and how.'},
+      {panel:'How they differ', title:'Three methods', text:'Formline, the World Football Elo formula and FIFA\'s own method: which results each one counts, and how.'},
       {panel:'Side by side', title:'Three tables', text:'Each team\'s place in all three. Click a column heading to sort by it; the last columns '+
         'show where Formline disagrees.'}]],
     confederations:['Confederations', [
