@@ -4,8 +4,27 @@
 // are skipped without spending a request. Docs: https://www.api-football.com/documentation-v3
 const BASE = 'https://v3.football.api-sports.io';
 
+/* The account's plan, from /status (which does not count against the daily quota). Never throws: on any problem
+   it returns {error}, and the run carries on as if on the free plan. */
+export async function planStatus({key, fetchImpl = fetch}){
+  try {
+    const res = await fetchImpl(BASE + '/status', {headers:{'x-apisports-key': key}});
+    if (!res.ok) return {error:'HTTP ' + res.status};
+    const body = await res.json();
+    const errs = body && body.errors && (Array.isArray(body.errors) ? body.errors : Object.values(body.errors));
+    if (errs && errs.length) return {error: errs.join('; ')};
+    let r = body && body.response; if (Array.isArray(r)) r = r[0];
+    if (!r || !r.subscription) return {error:'no plan in the reply'};
+    const sub = r.subscription, req = r.requests || {};
+    const hdr = n => res.headers && res.headers.get ? res.headers.get(n) : null;
+    return {name: sub.plan || null, end: sub.end || null, active: sub.active !== false,
+      limitDay: +req.limit_day || null, usedToday: +req.current || 0, perMinute: +hdr('x-ratelimit-limit') || null};
+  } catch (e){ return {error: e.message}; }
+}
+export const isFreePlan = p => !p || !p.name || /free/i.test(p.name) || (p.limitDay != null && p.limitDay <= 100);
+
 export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, log = () => {}}){
-  let used = 0, last = 0, remaining = null, stopped = null, window = null;
+  let used = 0, last = 0, remaining = null, stopped = null, window = null, perMinute = null;
   const failed = [];   // requests the API answered with a server error twice: skipped, not a stop
   async function get(path, params, retry){
     if (stopped) return null;
@@ -18,6 +37,8 @@ export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, l
     catch (e){ stopped = 'network error: ' + e.message; return null; }
     const rem = res.headers && res.headers.get && res.headers.get('x-ratelimit-requests-remaining');
     if (rem != null) remaining = +rem;
+    const pm = res.headers && res.headers.get && res.headers.get('x-ratelimit-limit');
+    if (pm != null && +pm) perMinute = +pm;
     if (res.status >= 500){   // a hiccup on API-Football's side: try once more, then skip just this request
       if (!retry){ await new Promise(r => setTimeout(r, Math.min(gapMs, 3000))); return get(path, params, true); }
       failed.push(path + ' ' + (params.date || params.id) + ': HTTP ' + res.status); log('skipped after two server errors: ' + failed[failed.length - 1]);
@@ -38,7 +59,7 @@ export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, l
     fixturesOn: date => get('/fixtures', {date, timezone:'UTC'}),
     covers: date => !window || (date >= window.from && date <= window.to),
     venue: id => get('/venues', {id}),
-    get stats(){ return {used, remaining, stopped, planWindow: window, failed}; }
+    get stats(){ return {used, remaining, stopped, planWindow: window, failed, perMinute}; }
   };
 }
 

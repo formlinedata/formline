@@ -2,8 +2,9 @@ name: Nightly data update
 
 on:
   schedule:
-    - cron: '17 6 * * *'   # 06:17 UTC every day (02:17 in Toronto during daylight time)
-  workflow_dispatch:        # "Run workflow" button on the Actions tab
+    - cron: '17 6 * * *'   # full run: 06:17 UTC every day (02:17 in Toronto during daylight time)
+    - cron: '47 * * * *'   # light run, every hour: does nothing unless a national-team match is on within a day
+  workflow_dispatch:        # "Run workflow" button on the Actions tab (always a full run)
 
 permissions:
   contents: write
@@ -16,6 +17,8 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      RUN_MODE: ${{ github.event.schedule == '47 * * * *' && 'light' || 'full' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -29,6 +32,7 @@ jobs:
           API_BUDGET: ${{ vars.API_BUDGET || '80' }}
         run: node build/update.mjs
       - name: Share image with today's top five
+        if: env.RUN_MODE == 'full'
         continue-on-error: true
         run: |
           npm install --no-save --no-package-lock playwright@1.56.0
@@ -39,12 +43,15 @@ jobs:
       - name: Static team pages and sitemap
         run: node build/pages.mjs
       - name: Save the Wikipedia images the site falls back on
+        if: env.RUN_MODE == 'full'
         continue-on-error: true
         run: node build/wiki-images.mjs
       - name: Local copies of the chart library and font
+        if: env.RUN_MODE == 'full'
         continue-on-error: true
         run: node build/vendor.mjs
       - name: List bundled badges
+        if: env.RUN_MODE == 'full'
         run: node build/badges.mjs
       - name: Commit changed data
         run: |
@@ -56,6 +63,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes."
           else
-            git commit -m "Nightly data $(date -u +%Y-%m-%d)"
+            if [ "$RUN_MODE" = "light" ]; then git commit -m "Match-day data $(date -u +'%Y-%m-%d %H:%M')"; else git commit -m "Nightly data $(date -u +%Y-%m-%d)"; fi
+            git pull --rebase
             git push
           fi

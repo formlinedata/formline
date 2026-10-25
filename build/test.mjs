@@ -94,14 +94,47 @@ let day = 0; const dates = men.m.map(x => (day += x[0]));
 ok(dates.every((d, i) => !i || d >= dates[i - 1]), 'compact rows in date order');
 ok(men.m.filter(x => x[9] === 1).length === gapM.length, 'gap-filler rows flagged');
 ok(men.so.some(x => men.s[x[3]] === 'Zambia'), 'shootout carried into the compact file');
-ok(st.api.used === calls.length && st.api.stopped == null, 'request count tracked');
+ok(st.api.used === calls.filter(c => !c.startsWith('/status')).length && st.api.stopped == null, 'request count tracked (the free /status check not counted)');
 
 // second run: settled backfill dates are not asked for again
 const before = calls.length;
 await run();
 const fixtureCalls = calls.slice(before).filter(c => c.startsWith('/fixtures')).length;
+const menMtime = fs.statSync(path.join(root, 'data/men.json')).mtimeMs;
 ok(fixtureCalls === 18, 'second run asks only for the recent and coming days (' + fixtureCalls + ')');
 ok(planDates('2026-09-26', '2026-09-20', {}).length === 18 + 3, 'plan: 18 window days plus unsettled older days');
+ok(planDates('2026-09-26', '2026-09-20', {}, 'light').join() === '2026-09-25,2026-09-26,2026-09-27', 'light run: yesterday, today, tomorrow only');
+
+// paid plan: read from /status, paced and budgeted from it, recorded in status.json
+{
+  const {pacing, planNotice} = await import('./update.mjs');
+  const pro = {name:'Pro', end:'2027-01-24T00:00:00+00:00', active:true, limitDay:7500, usedToday:1000, perMinute:300};
+  const p1 = pacing(pro, 'full', {}), p2 = pacing(pro, 'light', {}), p3 = pacing({name:'Free', limitDay:100}, 'full', {API_BUDGET:'80'});
+  ok(p1.paid && p1.budget === 1500 && p1.gapMs === 400, 'paid plan: up to 1500 requests, at half the per-minute limit');
+  ok(p2.budget === 60 && pacing({...pro, usedToday:3700}, 'full', {}).budget === 50, 'light runs capped at 60; never past half the daily quota');
+  ok(!p3.paid && p3.budget === 80 && p3.gapMs === 6500, 'free plan keeps the old pacing');
+  ok(/ends on 2027-01-24, in 3 days/.test(planNotice(pro, true, null, '2027-01-21')) && planNotice(pro, true, null, '2026-10-25') === null, 'notice a week before the paid plan ends');
+  ok(/Back on the free API plan/.test(planNotice({name:'Free'}, false, {name:'Pro', paid:true, end:'2027-01-24'}, '2027-01-25')), 'notice when the plan has dropped back to free');
+  const asked = [];
+  globalThis.fetch = async url => { const u = new URL(url); asked.push(u.pathname);
+    if (u.pathname === '/status') return {ok:true, status:200, headers:{get: h => h === 'x-ratelimit-limit' ? '300' : null},
+      json: async () => ({errors:[], response:{subscription:{plan:'Pro', end:'2027-01-24T00:00:00+00:00', active:true}, requests:{current:10, limit_day:7500}}})};
+    return {ok:true, status:200, headers:{get:() => null}, json: async () => ({errors:[], response: u.pathname === '/fixtures' ? (DAYS[u.searchParams.get('date')] || []) : []})}; };
+  const sp = await run();
+  ok(sp.api.paid && sp.api.plan.name === 'Pro' && sp.api.plan.limitDay === 7500 && sp.api.plan.perMinute === 300 && sp.api.budget === 1500, 'plan, limits and budget in status.json');
+  ok(asked[0] === '/status', 'plan checked before any counted request');
+  // light run with no match near: nothing asked, nothing written
+  const sm = fs.statSync(path.join(root, 'data/status.json')).mtimeMs; asked.length = 0;
+  process.env.RUN_MODE = 'light'; process.env.TODAY = '2026-11-20';
+  const sl = await run();
+  ok(sl.idle && asked.length === 0 && fs.statSync(path.join(root, 'data/status.json')).mtimeMs === sm, 'light run with no match near: no requests, no files');
+  // light run with a fixture tomorrow: only three days asked
+  process.env.TODAY = '2026-10-08';
+  const sl2 = await run();
+  ok(!sl2.idle && sl2.mode === 'light' && asked.filter(a => a === '/fixtures').length === 3 && sl2.api.budget === 60, 'light run on a match day asks about three days');
+  delete process.env.RUN_MODE; process.env.TODAY = '2026-09-26';
+}
+ok(menMtime > 0, 'men.json written');
 ok(prune([{date:'2026-09-01', home_team:'A', away_team:'B'}], [{date:'2026-09-20', home_team:'X', away_team:'Y'}]).length === 0, 'rows a week before the archive end are dropped');
 
 // the free plan's date window: dates it refuses are skipped, not a stop, and later dates outside it cost nothing

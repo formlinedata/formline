@@ -257,6 +257,7 @@
 
   .flag{--fw:24px;--fh:16px;display:inline-flex;align-items:center;justify-content:flex-end;width:var(--fw);height:var(--fh);
     vertical-align:-3px;margin-right:7px;flex:none;}
+  .fn{display:inline-flex;align-items:center;max-width:100%;vertical-align:middle;} .fn > .flag{vertical-align:0;} .fn-t{min-width:0;}
   .ml-h .flag{justify-content:flex-start;} .sep{color:var(--faint);margin:0 8px;} .nowrap{white-space:nowrap;}
   /* In lists every flag fills the same 3:2 box (cropped to fit, never stretched), so columns stay even. Team pages show
      the true shape (.flag-true). Nepal's pennant is the one flag shown whole inside the box. */
@@ -659,7 +660,9 @@
   .si-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;} .si-head b{font-size:17px;color:var(--chalk);}
   .si-head .linkish{font-size:26px;line-height:1;}
   .si-prev{margin:12px 0;min-height:120px;display:flex;align-items:center;justify-content:center;background:var(--panel-2);border-radius:8px;}
-  .si-prev img, .si-prev canvas{max-width:100%;height:auto;display:block;border-radius:6px;}
+  .si-prev img, .si-prev canvas{max-width:100%;max-height:56vh;width:auto;height:auto;display:block;border-radius:6px;}
+  .si-opts{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center;margin-bottom:4px;} .si-opts .chips{margin:0;}
+  .si-opts .si-lab{font-size:13px;color:var(--dim);} .si-opts [hidden]{display:none;}
   .si-actions{display:flex;gap:10px;flex-wrap:wrap;} .si-note{font-size:12.5px;margin:10px 0 0;}
   /* Contact page */
   .contact-card{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;background:var(--panel);border:1px solid var(--line);
@@ -764,6 +767,37 @@
   .btn-secondary:hover{border-color:var(--amber);}
   .hero-copy .hero-links{gap:12px;margin-top:10px;align-items:center;}
   .btn-block{display:flex;margin:12px 15px 15px;}
+
+  /* ---------- v39 look: same colours and font, less clutter ----------
+     Sections are a heading over a rule, not a box; actions look like buttons; option pills get square-ish corners. */
+  .panel{background:transparent;border:0;border-radius:0;overflow:visible;}
+  .panel-head{padding:0 2px 9px;border-bottom:2px solid var(--chalk);font-size:21px;font-weight:800;letter-spacing:-.005em;line-height:1.25;}
+  .panel-head .aside{font-size:13.5px;font-weight:500;}
+  .panel-body{padding:14px 2px;}
+  .panel thead th{padding-top:12px;}
+  .filterbar{background:transparent;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;}
+  .filter-summary{padding:11px 2px;}
+  .filter-summary:hover{background:transparent;}
+  .filter-summary .chev{border:1px solid var(--line-strong);background:var(--panel);color:var(--chalk);border-radius:8px;padding:7px 13px;font-weight:600;font-size:13.5px;}
+  .filter-summary:hover .chev{border-color:var(--amber);color:var(--amber);}
+  .filter-open{padding:18px 2px;}
+  .chip{border-radius:8px;}
+  .team-actions .chip, .rank-actions .chip{display:inline-flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line-strong);
+    color:var(--chalk);font-weight:600;font-size:14px;padding:8px 14px;}
+  .team-actions .chip:hover, .rank-actions .chip:hover{border-color:var(--amber);color:var(--amber);}
+  [data-shareimg]::before, [data-csv]::before{content:"";width:15px;height:15px;flex:none;background:currentColor;
+    -webkit-mask:var(--ico) no-repeat center/contain;mask:var(--ico) no-repeat center/contain;}
+  [data-shareimg]{--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5'/%3E%3C/svg%3E");} [data-csv]{--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12M7 10l5 5 5-5M5 21h14'/%3E%3C/svg%3E");}
+  details.tip{margin:0 0 14px;font-size:13.5px;color:var(--dim);line-height:1.55;max-width:80ch;}
+  details.tip > summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;color:var(--amber);font-weight:600;list-style:none;}
+  details.tip > summary::-webkit-details-marker{display:none;}
+  details.tip > summary::before{content:"";width:16px;height:16px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='M12 11v6M12 7.5v.5'/%3E%3C/svg%3E") no-repeat center/contain;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='M12 11v6M12 7.5v.5'/%3E%3C/svg%3E") no-repeat center/contain;}
+  details.tip[open] > summary{margin-bottom:6px;}
+  .hero-stats{display:flex;gap:30px;flex-wrap:wrap;margin:4px 0 22px;align-items:flex-end;}
+  .hero-stats .k{font-size:13px;color:var(--dim);margin-bottom:3px;}
+  .hero-stats .v{font-size:24px;font-weight:800;color:var(--chalk);font-variant-numeric:tabular-nums;line-height:1.1;}
+  @media (max-width:640px){ .team-head .stat-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px;}
+    .team-head .stat .v{white-space:normal;} .hero-stats{gap:20px;} }
 </style>
 </head>
 <body>
@@ -1177,7 +1211,7 @@ function modernOf(name){
 }
 const nameHtml = team => { const m = modernOf(team); return esc(dn(team)) + (m ? ' <span class="modern">('+esc(m)+')</span>' : ''); };
 const nameText = team => { const m = modernOf(team); return dn(team) + (m ? ' ('+m+')' : ''); };
-const withFlag = (team, ts) => flagHtml(team, ts) + nameHtml(team);
+const withFlag = (team, ts) => '<span class="fn">' + flagHtml(team, ts) + '<span class="fn-t">' + nameHtml(team) + '</span></span>';
 /* A flag at its real proportions, for the top of a team page: the flag on the page's date (default: the latest). */
 function flagTrue(team, ts){
   const f = flagOf(team, ts == null ? Infinity : ts);
@@ -2051,20 +2085,19 @@ function confStrengthTable(c, here){
   if (!list.length) return '';
   return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">How strong is each confederation?</div>'+
     '<div class="table-wrap"><table><thead><tr><th>Confederation</th>'+
-    '<th class="num" title="Average rating of its ten best ranked teams">T-10 Strength</th>'+
+    '<th class="num" title="Average rating of its ten best ranked teams">Top-10 average</th>'+
     '<th class="num" title="The model\'s level for the confederation as a whole, compared with the average ranked team\'s, and how sure it is (95%)">Regional level</th>'+
-    '<th class="num hide-sm" title="Its middle ranked team, against the median team in the world">Median team</th>'+
+    '<th class="num hide-sm" title="Its middle ranked team, against the world\'s middle ranked team">Average team</th>'+
     '<th class="hide-sm">Best team</th><th class="num hide-sm">Ranked</th></tr></thead><tbody>'+
     list.map(x => '<tr><td>'+badgeImg(CONF_WIKI[x.conf], confLabel(x.conf)+' logo', 'conf-badge', 'conf-'+badgeSlug(x.conf))+'<b>'+confLabel(x.conf)+'</b></td>'+
-      '<td class="num rating">'+Math.round(x.top10)+'</td>'+
+      '<td class="num rating">'+fmtR(x.top10)+'</td>'+
       '<td class="num mono">'+signed(x.level)+' <span class="pm">&plusmn;'+Math.round(x.levelBand)+'</span></td>'+
-      '<td class="num muted hide-sm">'+Math.round(x.median)+' <span class="muted">('+signed(x.median - c.median)+')</span></td>'+
+      '<td class="num muted hide-sm">'+fmtR(x.median)+' <span class="muted">('+signed(x.median - c.median)+')</span></td>'+
       '<td class="hide-sm">'+(x.best ? withFlag(x.best.team) : '')+'</td><td class="num muted hide-sm">'+x.n+'</td></tr>').join('')+
     '</tbody></table></div>'+
-    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;"><b>T-10 Strength</b> is the average rating of a confederation\'s ten best '+
-      'ranked teams. <b>Regional level</b> is the model\'s own measure of the confederation as a whole: the shared offset every '+
-      'member carries, set by how its teams do against other confederations, shown against the average ranked team with its '+
-      '95% band. It moves whenever a member plays an outside team, which is why a rating can change between a team\'s own matches.'+
+    '<p class="chart-note" style="padding:8px 2px 12px;margin:0;"><b>Top-10 average</b>: the average rating of its ten best teams. '+
+      '<b>Regional level</b>: how strong the confederation is as a whole, from its results against other confederations. '+
+      'It moves whenever a member plays an outside team, which is why a rating can change between a team\'s own matches.'+
       (here ? '' : ' <a href="#/method" data-goto-method="m-confs">More on this</a>')+'</p></div>';
 }
 /* What a rating means in practice: named bands, 50 to 200 points wide (narrower where teams are packed together), each
@@ -2108,10 +2141,10 @@ const scaleOf = (r, g) => { const S = RATING_SCALE[g || state.gender]; return S.
 function ratingScaleTable(c){
   const S = RATING_SCALE[state.gender], href = t => teamHref(t);
   const vsMed = (lo, hi) => { const mid = lo === -Infinity ? hi - 100 : hi === Infinity ? lo + 75 : (lo + hi)/2, p = probsFromE(eloE(mid - c.median));
-    return '<span title="A team rated '+Math.round(mid)+' against the median team ('+Math.round(c.median)+'), neutral ground: win, draw, loss">'+
+    return '<span title="A team rated '+Math.round(mid)+' against an average team ('+fmtR(c.median)+'), neutral ground: win, draw, loss">'+
       Math.round(p.home*100)+'% &middot; '+Math.round(p.draw*100)+'% &middot; '+Math.round(p.away*100)+'%</span>'; };
   return '<div class="table-wrap"><table class="kv-table scale-table"><thead><tr><th>Rating</th><th>What it means</th>'+
-    '<th class="n" title="Win, draw and loss against the median team, neutral ground">Against a typical team <span class="muted">W&middot;D&middot;L</span></th>'+
+    '<th class="n" title="Win, draw and loss against an average team, neutral ground">Against a typical team <span class="muted">W&middot;D&middot;L</span></th>'+
     '<th class="n">Teams now</th><th>For example</th></tr></thead><tbody>'+
     S.map((x, i) => { const hi = i ? S[i - 1][0] : Infinity, rows = c.table.filter(r => r.rating >= x[0] && r.rating < hi);
       const lab = i === 0 ? x[0]+'+' : x[0] === -Infinity ? 'below '+hi : x[0]+'&ndash;'+(hi - 1);
@@ -2419,7 +2452,8 @@ function lineChart(id, datasets, labels){
             return ' '+d.label+': '+item.formattedValue+(b!=null?' ± '+b:'');
           }}}
       },
-      scales:{x:{grid:{display:false},ticks:{color:cssVar('--dim'),maxTicksLimit:8,font:{family:'Archivo',size:11.5}}},
+      scales:{x:{grid:{display:false},ticks:{color:cssVar('--dim'),maxTicksLimit:7,maxRotation:0,autoSkipPadding:12,font:{family:'Archivo',size:11.5},
+                callback(v){ const l = String(this.getLabelForValue(v)); return /^\d{4}-\d{2}/.test(l) ? l.slice(0, 4) : l; }}},
               y:{grid:{color:cssVar('--line')},ticks:{color:cssVar('--dim'),font:{family:'Archivo',size:12}}}}}
   });
   state.charts.push(ch); return ch;
@@ -2450,7 +2484,7 @@ function trackDatasets(teams, snaps, opts){
       datasets.push({label:t+' upper', _band:true, data:pts.map(p=>p?Math.round(p.r+BAND_Z*p.rd):null),
         borderColor:'transparent', backgroundColor:hexA(col, alpha), fill:'-1', pointRadius:0, tension:.2, spanGaps:false});
     }
-    datasets.push({label:t, data:pts.map(p=>p?Math.round(p.r):null),
+    datasets.push({label:t, data:pts.map(p=>p?Math.round(p.r*10)/10:null),
       _bands: pts.map(p=>p?Math.round(BAND_Z*p.rd):null),
       borderColor:col, backgroundColor:'transparent', borderWidth:2, pointRadius:0, tension:.2, spanGaps:false});
   });
@@ -2533,11 +2567,11 @@ const rankRangeHead = () => state.rankRange === 'plausible'
 function filterBar(){
   const b = state.bounds[state.gender];
   const counts = state.compCounts[state.gender] || {};
-  const winTxt = state.windowYears===0 ? 'Full history' : state.windowYears+'-year window';
+  const winTxt = state.windowYears===0 ? 'Every match since the start' : 'Last '+state.windowYears+' years';
   const confTxt = state.confs.size===0 ? 'All confederations' : [...state.confs].map(confLabel).join(', ');
   const fifaTxt = state.fifaFilter==='all' ? '' : (state.fifaFilter==='fifa' ? ' · FIFA only' : ' · non-FIFA only');
-  const bandTxt = state.maxBand>0 ? ' · ranked if ±'+state.maxBand+' or tighter' : ' · no uncertainty limit';
-  const rankTxt = (state.rankBy==='lower' ? ' · ordered by bottom of band' : '')+(state.rankRange==='plausible' ? ' · plausible ranks' : '');
+  const bandTxt = state.maxBand>0 ? ' · ranked once within ±'+state.maxBand : ' · every team ranked';
+  const rankTxt = (state.rankBy==='lower' ? ' · cautious order' : '')+(state.rankRange==='plausible' ? ' · wider rank ranges' : '');
 
   return '<div class="filterbar">'+
     '<button class="filter-summary" id="filterToggle" aria-expanded="'+(state.filterOpen?'true':'false')+'">'+
@@ -2548,7 +2582,7 @@ function filterBar(){
     '</button>'+
     '<div class="filter-open'+(state.filterOpen?' show':'')+'" id="filterPanel">'+
 
-      '<div class="frow"><div class="flabel">Window</div>'+
+      '<div class="frow"><div class="flabel">Years of results</div>'+
         '<div class="inline-ctls">'+
           '<div class="ctl"><label for="winSlider">Length</label>'+
             '<input type="range" id="winSlider" min="2" max="15" step="1" value="'+(state.windowYears||DEFAULTS.windowYears)+'"'+
@@ -2563,35 +2597,29 @@ function filterBar(){
         '<label class="switchrow" style="margin-top:14px;">'+
           '<input type="checkbox" id="fullHist"'+(state.windowYears===0?' checked':'')+'>'+
           '<span>Full history &mdash; rate every match since '+new Date(b.min).getUTCFullYear()+
-          ' <span class="hint">(turns the rolling window off)</span></span></label>'+
+          '</span></label>'+
       '</div>'+
 
-      '<div class="frow"><div class="flabel">Uncertainty limit &mdash; how sure the model must be to rank a team</div>'+
+      '<div class="frow"><div class="flabel">How sure the model must be to rank a team</div>'+
         '<div class="chips" id="bandChips">'+
           BAND_OPTIONS.map(n=>'<button class="chip'+(state.maxBand===n?' on':'')+'" data-band="'+n+'" title="'+BAND_WORDS[n]+'">'+
             (n===0?'No limit':'&plusmn;'+n)+'<span class="cnt">'+bandCount(n)+' teams</span></button>').join('')+
         '</div>'+
-        '<div class="fhint">A team\'s band is the range the model is 95% sure contains its true strength. Teams whose band is '+
-          'wider than the limit are still rated, and their results still count, but they are listed as provisional instead of '+
-          'ranked. <b>'+(state.maxBand===0?'No limit':'&plusmn;'+state.maxBand)+':</b> '+BAND_WORDS[state.maxBand in BAND_WORDS ? state.maxBand : 250]+'.</div>'+
+        '<div class="fhint">Teams the model is less sure of are still rated and still count, but are listed as provisional instead of ranked. <b>'+(state.maxBand===0?'No limit':'&plusmn;'+state.maxBand)+':</b> '+BAND_WORDS[state.maxBand in BAND_WORDS ? state.maxBand : 250]+'.</div>'+
         '<div class="flabel" style="margin-top:14px;">Order the ranking by</div>'+
         '<div class="chips" id="rankChips">'+
           '<button class="chip'+(state.rankBy==='rating'?' on':'')+'" data-rank="rating">Rating &mdash; best estimate</button>'+
           '<button class="chip'+(state.rankBy==='lower'?' on':'')+'" data-rank="lower">Bottom of the band &mdash; cautious</button>'+
         '</div>'+
-        '<div class="fhint"><b>Rating</b> is the model\'s best estimate of how strong each team is, and the most accurate order: '+
-          'it is what every prediction uses. <b>Bottom of the band</b> answers a different question: how good is each team '+
-          '<i>at least</i>, almost certainly? It rewards teams the model has seen a lot of and pushes down ones it has seen '+
-          'little of. Useful with no uncertainty limit, so a team cannot top the table on a few lucky results, but not a '+
-          'better forecast. Choosing no limit switches to it automatically.</div>'+
+        '<div class="fhint"><b>Rating</b> is the best estimate, and what every prediction uses. <b>Bottom of the band</b> is a cautious '+
+          'order that favours teams the model has seen a lot of. Choosing no limit switches to it.</div>'+
         '<div class="flabel" style="margin-top:14px;">Rank range shown in tables</div>'+
         '<div class="chips" id="rrChips">'+
           '<button class="chip'+(state.rankRange==='plausible'?'':' on')+'" data-rr="likely">Likely &mdash; middle half</button>'+
           '<button class="chip'+(state.rankRange==='plausible'?' on':'')+'" data-rr="plausible">Plausible &mdash; 95%</button>'+
         '</div>'+
-        '<div class="fhint">The table is redrawn 1,000 times, each time with every rating replaced by a random value from its band. '+
-          '<b>Likely</b> is the middle half of the places a team takes: where it usually finishes. <b>Plausible</b> covers 95% of '+
-          'them: the full range it could realistically be in. Plausible ranges are wider, often much wider in mid-table.</div>'+
+        '<div class="fhint">The table is replayed 1,000 times with every rating varied within its band. <b>Likely</b>: where a team '+
+          'usually finishes. <b>Plausible</b>: the full range it could realistically be in.</div>'+
       '</div>'+
 
       '<div class="frow"><div class="flabel">Confederation &mdash; filters the view only</div>'+
@@ -2835,7 +2863,7 @@ function viewHome(){
   const topTable = '<div class="panel"><div class="panel-head">Top ten<a class="aside" href="#/rankings'+(filterQuery()?'?'+filterQuery():'')+'">All '+vis.length+' ranked teams</a></div>'+
     '<table><thead><tr><th>#</th><th>Team</th><th class="num">Rating</th>'+
     rankRangeHead().replace('<th class="num"', '<th class="num hide-sm"')+
-    '<th class="num">1 year</th></tr></thead><tbody>'+
+    '<th class="num" title="Rating change over the last 12 months">Past year</th></tr></thead><tbody>'+
     top10.map(r => '<tr'+rowAttrs(r.team)+'><td class="rank">'+r.rank+'</td><td>'+withFlag(r.team)+'</td>'+
       '<td class="num rating">'+fmtR(r.rating)+' '+pmSpan(r.band)+'</td>'+
       '<td class="num muted hide-sm range">'+fmtRange(rankRangeOf(ranges.get(r.key)))+'</td>'+
@@ -2845,7 +2873,7 @@ function viewHome(){
   const pick = up ? up.filter(fx => topKeys.has(c.resolve(fx.home)) || topKeys.has(c.resolve(fx.away))).slice(0, 6) : [];
   const leadersChart = '<div class="panel"><div class="panel-head">The leading six over time</div>'+
     '<div class="panel-body">'+chartBox('homeChart','Published rating of the six highest ranked teams on each date')+
-    '<p class="chart-note">Each point is the rating the site would have published on that date.</p></div></div>';
+    '<p class="chart-note">Each team\'s rating as it stood on each date.</p></div></div>';
   const side = pick.length
     ? '<div class="panel"><div class="panel-head">Coming up<a class="aside" href="#/fixtures'+(filterQuery()?'?'+filterQuery():'')+'">All fixtures</a></div>'+fixtureList(c, pick)+'</div>'
     : leadersChart;
@@ -2854,14 +2882,18 @@ function viewHome(){
     '<section class="hero">'+
       '<div class="hero-copy">'+
         '<h1>'+flagHtml(leader.team, null, 'big')+nameHtml(leader.team)+' top the '+game+' table</h1>'+
-        '<p>Rated '+Math.round(leader.rating)+', and likely '+plainRange(lg.mid)+'. Formline rates every national team on '+eraTxt+
-          ', and every rating carries a band showing how sure it is.</p>'+
+        '<p>Rated '+fmtR(leader.rating)+' and most likely '+plainRange(lg.mid)+'. Formline rates every national team on '+eraTxt+'.</p>'+
+        '<div class="hero-stats">'+
+          (leader.change !== null && leader.change !== undefined ? '<div><div class="k">Past year</div><div class="v">'+changeCell(leader.change)+'</div></div>' : '')+
+          (vis[1] ? '<div><div class="k">Ahead of '+esc(dn(vis[1].team))+'</div><div class="v">'+fmtR(leader.rating - vis[1].rating)+'</div></div>' : '')+
+          ((c.history.get(leader.key) || []).length ? '<div><div class="k">Last five</div><div class="v" style="font-size:16px;">'+formChips(c.history.get(leader.key))+'</div></div>' : '')+
+        '</div>'+
         '<p class="muted" style="font-size:14px;">'+freshnessText()+'</p>'+
         '<div class="hero-links"><a class="btn-primary" href="#/rankings'+(filterQuery()?'?'+filterQuery():'')+'">View the full rankings &rarr;</a>'+
           '<a class="btn-secondary" href="#/method">How it works</a></div>'+
       '</div>'+
       '<figure class="formline" id="heroLine" style="margin:0;">'+
-        '<div class="fl-now"><div class="big">'+Math.round(leader.rating)+pmSpan(leader.band)+'</div>'+
+        '<div class="fl-now"><div class="big">'+fmtR(leader.rating)+pmSpan(leader.band)+'</div>'+
           '<div class="cap">'+esc(leader.team)+'\'s rating and band over the window</div></div>'+
         '<div class="fl-svgwrap"><div class="sk fl-wait"></div></div><div class="fl-years" id="heroYears"></div>'+
       '</figure>'+
@@ -3001,10 +3033,10 @@ function viewRecords(){
   if (!y){
     const surest = D.surest.slice().sort((a, b) => b.lo - a.lo).slice(0, 12);
     html += panel('Strongest sides the model was surest of', 'peak of rating minus band: at least this good', table(surest, u => '<tr>'+dateCell(u.ts)+'<td>'+team(u.nm, u.ts)+'</td>'+
-      '<td class="num"><span class="rating">'+Math.round(u.lo)+'</span> <span class="muted" style="font-size:12.5px;">('+Math.round(u.r)+' &plusmn;'+Math.round(u.band)+')</span></td></tr>'));
+      '<td class="num"><span class="rating">'+fmtR(u.lo)+'</span> <span class="muted" style="font-size:12.5px;">('+fmtR(u.r)+' &plusmn;'+Math.round(u.band)+')</span></td></tr>'));
     const peaks = D.peak.slice().sort((a, b) => b.r - a.r).slice(0, 12);
     html += panel('Highest ratings ever', 'one entry per team, at its peak', table(peaks, u => '<tr>'+dateCell(u.ts)+'<td>'+team(u.nm, u.ts)+'</td>'+
-      '<td class="num"><span class="rating">'+Math.round(u.r)+'</span> '+pmSpan(u.band)+'</td></tr>'));
+      '<td class="num"><span class="rating">'+fmtR(u.r)+'</span> '+pmSpan(u.band)+'</td></tr>'));
     const wr = D.streaks.filter(s => s.kind === 'w').sort((a, b) => b.n - a.n).slice(0, 10);
     const ur = D.streaks.filter(s => s.kind === 'u').sort((a, b) => b.n - a.n).slice(0, 10);
     const runCell = s => '<tr><td>'+team(s.nm, s.from)+'<div class="muted" style="font-size:12.5px;margin-top:2px;">'+fmtDay(s.from)+' to '+fmtDay(s.to)+'</div></td>'+
@@ -3016,7 +3048,7 @@ function viewRecords(){
     if (ye){
       const surest = [...ye.values()].filter(u => u.band < 250).sort((a, b) => (b.r - b.band) - (a.r - a.band)).slice(0, 12);
       html += panel('Top of '+y+', most surely', 'rating minus band at the year\'s last match', table(surest, u => '<tr><td>'+team(u.nm, yEnd)+'</td>'+
-        '<td class="num"><span class="rating">'+Math.round(u.r - u.band)+'</span> <span class="muted" style="font-size:12.5px;">('+Math.round(u.r)+' &plusmn;'+Math.round(u.band)+')</span></td></tr>'));
+        '<td class="num"><span class="rating">'+fmtR(u.r - u.band)+'</span> <span class="muted" style="font-size:12.5px;">('+fmtR(u.r)+' &plusmn;'+Math.round(u.band)+')</span></td></tr>'));
       if (prevMap){
         const risers = [...ye.values()].filter(u => prevMap.has(u.k) && u.band < 300).map(u => ({u, d:u.r - prevMap.get(u.k).r})).sort((a, b) => b.d - a.d).slice(0, 10);
         html += panel('Biggest risers of '+y, 'rating gained over the year', table(risers, z => '<tr><td>'+team(z.u.nm, yEnd)+'</td><td class="num mono up">+'+Math.round(z.d)+'</td></tr>'));
@@ -3035,9 +3067,8 @@ function viewRecords(){
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">'+(g === 'men' ? "Men's" : "Women's")+' records</h1>'+
-    '<p class="page-sub">'+(y ? 'Records of '+y+'.' : 'All-time records, from '+years[years.length-1]+' to today.')+' Worked out with every match in the archive '+
-      'rated in one continuous run, so the ratings here can differ a little from the '+state.windowYears+'-year window used elsewhere. '+
-      'Upsets only count matches where the model knew both sides well.</p>'+
+    '<p class="page-sub">'+(y ? 'Records of '+y+'.' : 'All-time records, from '+years[years.length-1]+' to today.')+' These use every match ever played, not just the last '+state.windowYears+' years, so ratings can differ a little from the rest '+
+      'of the site. Upsets only count matches between well-known teams.</p>'+
     '<div class="ctl" style="margin-bottom:18px;max-width:240px;"><label for="recYear">Period</label><select id="recYear">'+
       '<option value="">All time</option>'+years.map(v => '<option value="'+v+'"'+(v === y ? ' selected' : '')+'>'+v+'</option>').join('')+'</select></div>'+
     '<div class="rec-grid">'+html+'</div>'+
@@ -3074,7 +3105,7 @@ function viewAbout(){
         '<a href="#/method" data-goto-method="m-scale">How it works</a> has the full scale with today\'s teams in each band.</dd>'+
       '<dt>Which confederation is strongest?</dt>'+
       '<dd>'+(atDefaults(c => { const l = [...(c.confStats || new Map()).values()].sort((a, b) => b.top10 - a.top10);
-          return l.length > 1 ? confLabel(l[0].conf)+' at the moment, ahead of '+confLabel(l[1].conf)+', judged by T-10 Strength, the average rating of each one\'s ten best teams. ' : ''; }) || '')+
+          return l.length > 1 ? confLabel(l[0].conf)+' at the moment, ahead of '+confLabel(l[1].conf)+', judged by the average rating of each one\'s ten best teams. ' : ''; }) || '')+
         'The model also keeps a level for each confederation as a whole, set by how its teams do against the rest of the world. '+
         '<a href="#/method" data-goto-method="m-confs">How it works</a> shows both for every confederation.</dd>'+
       '<dt>Why is a team listed as provisional?</dt>'+
@@ -3184,16 +3215,16 @@ function readingPanel(c){
   const gapE = g => calE(eloE(g));
   return '<details class="panel reading-details" id="readingDetails" style="margin-bottom:20px;"'+(state.readingOpen?' open':'')+'>'+
     '<summary class="panel-head"><span>Reading the numbers</span>'+
-      '<span class="summary-val">median team '+Math.round(c.median)+' &middot; top '+Math.round(t[0].rating)+
+      '<span class="summary-val">average team '+fmtR(c.median)+' &middot; top '+fmtR(t[0].rating)+
       ' &middot; 100 points ahead wins &asymp; '+pct(probsFromE(eloE(100)).home)+'</span></summary>'+
     '<div class="reading">'+
       '<div><h3>Where the current table sits</h3><table><tbody>'+
         uniq.map(([l,r]) => '<tr><td class="muted" style="width:70px;">'+l+'</td><td>'+withFlag(r.team)+'</td>'+
-          '<td class="num" style="color:var(--amber);">'+Math.round(r.rating)+'</td>'+
+          '<td class="num" style="color:var(--amber);">'+fmtR(r.rating)+'</td>'+
           '<td class="num muted" style="width:70px;">'+(l==='Median'?'&mdash;':signed(r.vsMedian))+'</td></tr>').join('')+
       '</tbody></table>'+
-      '<p>The scale has no fixed meaning: 1500 is only where an unknown team is placed, and the median drifts. '+
-        'What matters is distance from the median team.</p></div>'+
+      '<p>The numbers only mean something next to each other: 1500 is just where an unknown team starts. '+
+        'What matters is the gap to the average team.</p></div>'+
       '<div><h3>What a lead is worth <span class="muted" style="font-weight:400;">on neutral ground, both teams well known</span></h3><table><thead><tr><th></th>'+
         '<th class="num">Win</th><th class="num">Draw</th><th class="num">Lose</th></tr></thead><tbody>'+
         [50,100,200,300,400].map(g => { const p = probsFromE(eloE(g)); return '<tr><td>'+g+' points ahead</td>'+
@@ -3217,9 +3248,8 @@ function viewRankings(){
       islands.push(visAll.filter(x => x.island === r.island).sort((a,b) => b.rating - a.rating)); }); }
   const ranges = rankRanges(c);
   const limitTxt = state.maxBand > 0
-    ? ', each with a band of &plusmn;'+state.maxBand+' or tighter. '+visProv.length+' further team'+
-      (visProv.length===1?' is':'s are')+' too uncertain to rank and listed separately.'
-    : '. No uncertainty limit is applied, so thinly tested teams are ranked alongside established ones.';
+    ? '. '+(visProv.length ? visProv.length+' more '+(visProv.length===1?'has':'have')+' played too little lately to be ranked, and '+(visProv.length===1?'is':'are')+' listed below the table.' : '')
+    : '. Every team is ranked here, however few matches it has played.';
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">'+(state.gender==='men'?"Men's":"Women's")+' rankings</h1>'+
@@ -3232,20 +3262,21 @@ function viewRankings(){
       '<div class="ctl"><label>Show</label><div class="chips" id="viewChips">'+
         '<button class="chip'+(tierView?'':' on')+'" data-view="list">Ranked list</button>'+
         '<button class="chip'+(tierView?' on':'')+'" data-view="tiers">Tiers</button></div></div>'+
-      '<div class="ctl rank-actions"><label>Take it with you</label><div class="chips"><button class="chip" type="button" data-shareimg="top10">Share image</button>'+
+      '<div class="ctl rank-actions"><label>Share or download</label><div class="chips"><button class="chip" type="button" data-shareimg="top10">Share image</button>'+
         '<button class="chip" type="button" data-shareimg="movers">Movers image</button><button class="chip" type="button" data-csv="rankings">Download CSV</button></div></div>'+
     '</div>'+
-    '<p class="tier-note">'+(tierView ? 'Teams in the same tier cannot be confidently told apart. Each tier is led by its '+
-      'highest-rated team; a team joins it unless the model is at least 90% sure the leader is better. '+c.tiers.length+' tiers in this table. ' : '')+
+    (tierView ? '<p class="tier-note">Teams in the same tier are too close to call. '+c.tiers.length+' tiers in this table.</p>' : '')+
+    '<details class="tip"><summary>What the Tier column means</summary>'+
+      (tierView ? 'Each tier is led by its highest-rated team; a team joins it unless the model is at least 90% sure the leader is better. ' : '')+
       'The <b>Tier</b> bar shows how likely each team is to belong in each tier, in that tier\'s colour, so it shades into '+
       'the next tier as the team\'s band overlaps it. <span class="talso" style="margin:0">/1</span> beside a team marks another '+
-      'tier it has at least a one-in-three chance of belonging to. <a href="#/method" data-goto-method="m-tiers">How tiers work</a></p>'+
+      'tier it has at least a one-in-three chance of belonging to. <a href="#/method" data-goto-method="m-tiers">How tiers work</a></details>'+
     '<div class="panel" style="margin-bottom:20px;"><div class="scroll table-wrap"><table class="rank-table">'+
       '<thead><tr><th>#</th><th>Team</th><th class="num">Rating</th>'+
       '<th title="Coloured by how likely the team is to belong in each tier; a second number marks another tier with at least a one-in-three chance">Tier</th>'+
       rankRangeHead()+
-      '<th class="num hide-sm" title="Points above or below the median ranked team">vs median</th>'+
-      '<th class="num hide-sm">Matches</th><th class="hide-sm">Form</th><th class="num">1yr</th></tr></thead>'+
+      '<th class="num hide-sm" title="Points above or below the average (middle ranked) team">vs average</th>'+
+      '<th class="num hide-sm">Matches</th><th class="hide-sm">Form</th><th class="num" title="Rating change over the last 12 months">Year</th></tr></thead>'+
       '<tbody id="rankBody"></tbody></table></div></div>'+
     (visProv.length ?
       '<div class="panel"><div class="panel-head">Provisional<span class="aside">too uncertain to rank &middot; listed by the bottom of each band</span></div>'+
@@ -3268,7 +3299,7 @@ function viewRankings(){
         'group, but nothing links them to anyone outside it, so they cannot be compared with the teams above and are '+
         'not ranked.</p>'+
         islands.map(list => '<div class="island-row">'+list.map(r => '<a href="'+teamHref(r.team)+'" class="island-team">'+
-          withFlag(r.team)+' <span class="muted">'+Math.round(r.rating)+'</span></a>').join('')+'</div>').join('')+
+          withFlag(r.team)+' <span class="muted">'+fmtR(r.rating)+'</span></a>').join('')+'</div>').join('')+
         '</div></div>'
       : '')+
   '</div>';
@@ -3332,7 +3363,7 @@ function viewTeam(){
     '<div class="ctl team-pick" style="margin-bottom:18px;"><label for="teamPick">Team</label>'+
       '<select id="teamPick">'+all.slice().sort((a,b)=>a.team.localeCompare(b.team)).map(r=>
         '<option value="'+esc(r.team)+'"'+(r.key===key?' selected':'')+'>'+
-        esc(r.team)+' &middot; '+(r.rank ? '#'+r.rank : 'not ranked')+' &middot; '+Math.round(r.rating)+'</option>').join('')+'</select></div>'+
+        esc(r.team)+' &middot; '+(r.rank ? '#'+r.rank : 'not ranked')+' &middot; '+fmtR(r.rating)+'</option>').join('')+'</select></div>'+
     teamBanner(team, row, i)+lineageNote(key)+
     '<div class="team-actions chips"><button class="chip" type="button" data-shareimg="team">Share image</button><button class="chip" type="button" data-csv="team">Download matches (CSV)</button>'+
       '<a class="chip" href="#/h2h/'+enc(dn(key))+'">Head to head</a><a class="chip" href="#/predict?a='+enc(dn(key))+'">Predict a match</a></div>'+
@@ -3341,9 +3372,9 @@ function viewTeam(){
         '<div class="stat"><div class="k">Rating</div><div class="v">'+fmtR(row.rating)+pmSpan(row.band)+'</div>'+
           '<div class="s"><a href="#/method" data-goto-method="m-scale" title="What this rating means">'+scaleOf(row.rating)[1]+'</a> &middot; likely between '+Math.round(row.lower)+' and '+Math.round(row.upper)+'</div></div>'+
         '<div class="stat"><div class="k">Rank</div><div class="v">'+(row.rank?('#'+row.rank):'&mdash;')+'</div>'+
-          '<div class="s">'+(rg ? 'likely '+fmtRange(rg.mid)+', plausibly '+fmtRange(rg.wide) : 'not ranked')+'</div></div>'+
-        '<div class="stat"><div class="k">vs median team</div><div class="v">'+signed(row.vsMedian)+'</div>'+
-          '<div class="s">would win '+pct(row.pVsMedian.home)+', draw '+pct(row.pVsMedian.draw)+' against it, neutral ground</div></div>'+
+          '<div class="s" title="'+(rg ? 'Plausibly '+plainRange(rg.wide) : '')+'">'+(rg ? 'likely '+fmtRange(rg.mid) : 'not ranked')+'</div></div>'+
+        '<div class="stat"><div class="k">vs an average team</div><div class="v">'+signed(row.vsMedian)+'</div>'+
+          '<div class="s">would win '+pct(row.pVsMedian.home)+', draw '+pct(row.pVsMedian.draw)+'</div></div>'+
         (c.bench && c.bench.key !== key && row.pVsBench ?
         '<div class="stat"><div class="k">vs '+esc(c.bench.team)+' (20th)</div><div class="v">'+pct(row.pVsBench.home)+' <span class="muted" style="font-size:15px;">win</span></div>'+
           '<div class="s">draw '+pct(row.pVsBench.draw)+', lose '+pct(row.pVsBench.away)+', neutral ground</div></div>' : '')+
@@ -3352,7 +3383,8 @@ function viewTeam(){
         '<div class="stat"><div class="k">Form</div><div class="v plain" style="font-size:16px;padding-top:6px;">'+formChips(h)+'</div>'+
           '<div class="s">last five, newest on the right</div></div>'+
         (row.tier ? '<div class="stat"><div class="k">Tier</div><div class="v plain" style="font-size:16px;padding-top:6px;">'+tierCell(row)+'</div>'+
-          '<div class="s">'+row.tierMix.slice().sort((a, b) => b.p - a.p).slice(0, 3).map(x => 'tier '+x.n+' '+Math.round(x.p*100)+'%').join(', ')+'</div></div>' : '')+
+          '<div class="s" title="'+row.tierMix.slice().sort((a, b) => b.p - a.p).slice(0, 3).map(x => 'tier '+x.n+' '+Math.round(x.p*100)+'%').join(', ')+'">'+
+            (m => 'most likely tier '+m.n+' ('+Math.round(m.p*100)+'%)')(row.tierMix.slice().sort((a, b) => b.p - a.p)[0])+'</div></div>' : '')+
       '</div></div>'+
     (row.island ? '<div class="notice"><b>Cut off from everyone else.</b> In this window '+esc(dn(team))+' played only '+
       row.islandWith.map(k => esc((c.byKey.get(k)||{team:k}).team)).join(', ').replace(/, ([^,]*)$/, ' and $1')+
@@ -3370,8 +3402,7 @@ function viewTeam(){
       '<div class="panel-head">Rating over time<span class="aside">published rating and band</span></div>'+
       '<div class="panel-body">'+chartBox('teamChart','Published rating of '+esc(dn(team))+' with its uncertainty band, '+
           'currently '+Math.round(row.rating)+' plus or minus '+Math.round(row.band))+
-      '<p class="chart-note">Each point is the rating the site would have published on that date. The band narrows '+
-        'with matches and widens in gaps between them. Before a team\'s first match there is no rating.</p>'+
+      '<p class="chart-note">The shaded band shows how sure the model is: it narrows with matches and widens in gaps between them.</p>'+
       '</div></div>'+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Matches <span class="muted" style="font-weight:400;">'+h.length+'</span><span class="aside">rating before and after each one</span></div>'+
       '<div class="table-wrap lock">'+
@@ -3547,8 +3578,8 @@ function viewConfeds(){
     const open = (state.params.cx || '').split(',').includes(key);
     return '<details class="panel conf-panel" data-conf="'+key+'"'+(open ? ' open' : '')+'><summary class="conf-sum">'+
       '<span class="conf-name">'+badgeImg(CONF_WIKI[key], confLabel(key)+' logo', 'conf-badge', 'conf-'+badgeSlug(key))+'<b>'+confLabel(key)+'</b>'+
-        (c.confStats && c.confStats.get(key) ? ' <span class="conf-str" title="T-10 Strength: the average rating of its ten best ranked teams">T-10 '+Math.round(c.confStats.get(key).top10)+'</span>' : '')+'</span>'+
-      '<span class="conf-note">'+note+(med!==null?' &middot; median team '+signed(med - c.median)+' on the overall median':'')+'</span>'+
+        (c.confStats && c.confStats.get(key) ? ' <span class="conf-str" title="Top-10 average: the average rating of its ten best ranked teams">Top 10: '+fmtR(c.confStats.get(key).top10)+'</span>' : '')+'</span>'+
+      '<span class="conf-note">'+note+(med!==null?' &middot; average team '+signed(med - c.median)+' against the world average':'')+'</span>'+
       '<span class="conf-top">'+rows.slice(0, 3).map(r => flagHtml(r.team)).join('')+'</span>'+
       '<span class="conf-open">'+(open ? 'Hide' : 'Show all '+(rows.length + prov.length))+'</span></summary>'+
       (rows.length ? '<div class="scroll table-wrap"><table class="conf-table"><thead><tr>'+
@@ -3579,12 +3610,8 @@ function viewConfeds(){
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">Confederations</h1>'+
-    '<p class="page-sub">Teams are grouped by the confederation they belong to, not by geography. '+
-      'Associations inside a confederation without FIFA membership are grouped with it and marked: six in CONCACAF, '+
-      'one in the AFC, and two each in CAF and the OFC. Associations belonging to neither FIFA nor a confederation '+
-      'are not rated by this site. Because most matches are played inside a confederation, each one carries an offset '+
-      'that is corrected by its results against the others; see How it works. Open a confederation to see all its teams, '+
-      'with their world and confederation ranks and tiers.</p>'+
+    '<p class="page-sub">Teams grouped by the confederation they belong to. Members that are not in FIFA are included and marked. '+
+      'Open a confederation to see all its teams, with their world and confederation ranks.</p>'+
     toolRow()+
     confStrengthTable(c)+
     '<div class="conf-list" style="margin-bottom:22px;">'+CONF_ORDER.map(card).join('')+'</div>'+
@@ -3626,13 +3653,13 @@ function viewH2H(){
   const aw = meets.filter(m=>m.gf>m.ga).length, dr = meets.filter(m=>m.gf===m.ga).length, bw = meets.filter(m=>m.gf<m.ga).length;
   const overlap = Math.max(0, Math.min(rA.upper, rB.upper) - Math.max(rA.lower, rB.lower));
   const sepTxt = overlap > 0
-    ? 'Their bands overlap by '+Math.round(overlap)+' points, so the order between them is not settled.'
-    : 'Their bands do not overlap: the model is confident about the order between them.';
+    ? 'Too close to call: their ranges overlap by '+Math.round(overlap)+' points.'
+    : 'Clear order: their ranges do not overlap.';
 
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">Head to head</h1>'+
-    '<p class="page-sub">Two rating tracks with their bands on one axis, plus every meeting inside the current window.</p>'+
+    '<p class="page-sub">Both teams\' ratings over time, and every meeting between them in the period shown.</p>'+
     '<div class="vs-grid">'+
       '<div class="ctl"><label for="pickA">Team A</label><select id="pickA" style="width:100%;">'+opts(ka)+'</select></div>'+
       '<div class="vs-mid">vs</div>'+
@@ -3645,13 +3672,13 @@ function viewH2H(){
         '<div class="v">'+fmtR(r.rating)+pmSpan(r.band)+' <span class="muted" style="font-size:18px;">'+
           (r.rank?('#'+r.rank):'unranked')+'</span></div></div>'+
         '<p class="muted" style="margin:10px 0 6px;font-size:13px;">'+r.mp+' matches &middot; '+
-          signed(r.vsMedian)+' on the median team</p>'+
+          signed(r.vsMedian)+' against an average team</p>'+
         teamTags(t,r.provisional)+'</div></div>').join('')+
     '</div>'+
     '<p class="muted" style="font-size:13.5px;margin:0 0 20px;">'+sepTxt+'</p>'+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Ratings over time<span class="aside">published ratings and bands</span></div>'+
       '<div class="panel-body">'+chartBox('h2hChart','Published ratings and uncertainty bands for '+esc(dn(a))+' and '+esc(dn(b)))+
-      '<p class="chart-note">Each point is the rating the site would have published on that date.</p></div></div>'+
+      '<p class="chart-note">Each team\'s rating as it stood on each date.</p></div></div>'+
     '<div class="panel"><div class="panel-head">Meetings <span class="muted" style="font-weight:400;">'+meets.length+'</span><span class="aside">'+
       (meets.length ? esc(dn(a))+' won '+aw+' &middot; drawn '+dr+' &middot; '+esc(dn(b))+' won '+bw : 'none in this window')+'</span></div>'+
       (meets.length
@@ -3660,8 +3687,8 @@ function viewH2H(){
           '<th class="num">'+flagHtml(b)+'<span class="hide-sm">before &rarr; after</span></th></tr></thead><tbody>'+
           meets.slice().reverse().map(x=>{
             const ed = x.m && x.m._ed, pen = x.m ? shootoutWinner(x.m) : null;
-            const side = (pre, post) => '<td class="num mono ba">'+Math.round(pre)+' &rarr; '+
-              '<span class="rating">'+Math.round(post)+'</span> <span class="'+(post>pre?'up':(post<pre?'down':'flat'))+'">'+
+            const side = (pre, post) => '<td class="num mono ba">'+fmtR(pre)+' &rarr; '+
+              '<span class="rating">'+fmtR(post)+'</span> <span class="'+(post>pre?'up':(post<pre?'down':'flat'))+'">'+
               (post>=pre?'+':'&minus;')+Math.abs(post-pre).toFixed(1)+'</span></td>';
             return '<tr><td class="muted date">'+fmtDay(x.ts)+'</td>'+
             '<td class="num mono">'+x.gf+'&ndash;'+x.ga+(pen ? '<span class="pens" title="'+esc(pen)+' won on penalties">'+(lineageKey(pen)===kb?'L':'W')+'p</span>' : resMark(x.gf, x.ga))+'</td>'+
@@ -3736,7 +3763,7 @@ function viewPredict(){
   const venue = state.params.v || 'home', neutral = venue==='neutral';
   const opts = sel => all.slice().sort((x,y)=>x.team.localeCompare(y.team)).map(r=>
     '<option value="'+esc(r.team)+'"'+(r.key===sel?' selected':'')+'>'+
-    esc(r.team)+' &middot; '+Math.round(r.rating)+' &plusmn;'+Math.round(r.band)+'</option>').join('');
+    esc(r.team)+' &middot; '+fmtR(r.rating)+' &plusmn;'+Math.round(r.band)+'</option>').join('');
   const h = neutral ? 0 : Math.round(homeBonus(state.gender, Date.now(), a, b));
   const eCertain = eloE(rowA.rating + h - rowB.rating);
   const eWin = predictE({r:rowA.rating, rd:matchRd(rowA, rowB)}, {r:rowB.rating, rd:matchRd(rowB, rowA)}, h);
@@ -3754,9 +3781,8 @@ function viewPredict(){
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">Match predictor</h1>'+
-    '<p class="page-sub">Outcome probabilities implied by the ratings, allowing for how uncertain each rating is and '+
-      'calibrated against real results: across tens of thousands of past matches, favourites won and drew about as often as '+
-      'these numbers say. Still a prior, not a betting model: it knows nothing about injuries, squads or motivation.</p>'+
+    '<p class="page-sub">How likely each result is, from the two teams\' ratings. Checked against tens of thousands of past '+
+      'matches. It knows nothing about injuries, squads or motivation.</p>'+
     '<div class="vs-grid">'+
       '<div class="ctl"><label for="pA">Home</label><select id="pA" style="width:100%;">'+opts(ka)+'</select></div>'+
       '<div class="vs-mid">vs</div>'+
@@ -3819,7 +3845,7 @@ function underTheHood(o){
   const fk = friendlyK(state.gender, state.asOf);
   const stakes = [['as a friendly', fk], ['at a World Cup', COMPS.wc.k]].map(([lab, k]) => [lab, k, ratingStakes(c, rowA.key, rowB.key, neutral, k)]);
   const sg = x => Math.abs(x) < 0.05 ? '0.0' : (x > 0 ? '+' : '&minus;')+Math.abs(x).toFixed(1);
-  const stakeTable = stakes[0][2] ? '<table class="kv-table uh-stakes"><thead><tr><th>Result</th>'+stakes.map(([lab, k]) => '<th colspan="2">'+lab+' (K'+k+')</th>').join('')+'</tr>'+
+  const stakeTable = stakes[0][2] ? '<table class="kv-table uh-stakes"><thead><tr><th>Result</th>'+stakes.map(([lab, k]) => '<th colspan="2">'+lab+' (weight '+k+')</th>').join('')+'</tr>'+
       '<tr><th></th>'+stakes.map(() => '<th>'+A+'</th><th>'+B+'</th>').join('')+'</tr></thead><tbody>'+
       [0, 1, 2, 3, 4].map(i => { const x = stakes[0][2][i];
         const lab = x.hs > x.as ? A+' win '+x.hs+'&ndash;'+x.as : x.hs < x.as ? B+' win '+x.as+'&ndash;'+x.hs : 'Draw '+x.hs+'&ndash;'+x.as;
@@ -3931,10 +3957,8 @@ function viewFixtures(){
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">'+(g==='men'?"Men's":"Women's")+' fixtures</h1>'+
-    '<p class="page-sub">The next fortnight of international matches, each with win, draw and loss chances from the '+
-      'current ratings: the same calculation as the Predict page, with home advantage given to whichever side is playing '+
-      'in its own country. Each bar reads first team\'s win, draw, second team\'s win, left to right. Times are in your '+
-      'time zone.</p>'+
+    '<p class="page-sub">International matches in the next two weeks, with each side\'s chances. Each bar reads: first team wins, '+
+      'draw, second team wins. Times are in your time zone.</p>'+
     (!latest ? '<div class="notice"><b>Ratings as of '+fmtDay(state.asOf)+'.</b> The predictions below use the ratings '+
       'on your chosen date, not the latest ones.</div>' : '')+
     toolRow()+
@@ -4334,9 +4358,8 @@ function viewSimulate(){
   const runs = p.n === '2000' ? 2000 : 10000;
   const head =
     '<h1 class="page-title">Tournament simulator</h1>'+
-    '<p class="page-sub">Each tournament is played out thousands of times. In every run each team\'s strength is drawn '+
-      'from its band, so a team the model knows little about can surprise either way, and each match follows the same '+
-      'chances and scorelines as the Predict page. Click any unplayed group match to fix its result and see what changes.</p>'+chips;
+    '<p class="page-sub">Each tournament is played out thousands of times, using the same chances as the Predict page. '+
+      'Type a score into any match not yet played to see what changes.</p>'+chips;
   const customForm = custom ? customControls(c, p) : '';
   if (!T){
     app.innerHTML = '<div class="wrap">'+head+filterBar()+customForm+(err ? '<div class="status">'+esc(err)+'</div>' : '')+'</div>';
@@ -4373,8 +4396,7 @@ function viewSimulate(){
    group, outsiders. For a groups-only league, by the chance of winning the group. */
 function fieldShape(T, P, R, actual, modes, intro){
   modes = modes || [['world', 'World'], ['conf', 'Confederation']];
-  intro = intro === undefined ? 'Grouped by each team\'s chances, from the simulations. The chip beside each name is its rating tier: '+
-    'across the world, or inside its own confederation.' : intro;
+  intro = intro === undefined ? 'Teams grouped by their chances. The chip beside each name is its tier, in the world or in its confederation.' : intro;
   const N = R.names.length, KO = T.knockout || [], runs = R.runs;
   const share = (i, k) => R.reach[i][k]/runs;
   const groups = [];
@@ -4446,11 +4468,11 @@ function renderSimResults(T, P, R, actual, forced){
     cols.map(c => '<th class="num">'+c+'</th>').join('')+actualCol+'</tr></thead><tbody>'+
     order.map(i => { const t = R.names[i], inf = P.info.get(t);
       return '<tr><td>'+(inf.row ? '<a href="'+teamHref(inf.name)+'">'+withFlag(inf.name)+'</a>' : esc(dn(t)))+'</td>'+
-        '<td class="num muted hide-sm">'+Math.round(inf.rating)+(inf.row ? ' '+pmSpan(inf.row.band) : '')+'</td>'+
+        '<td class="num muted hide-sm">'+fmtR(inf.rating)+(inf.row ? ' '+pmSpan(inf.row.band) : '')+'</td>'+
         (T.league ? '<td class="num sc">'+bar(R.reach[i][0], R.runs)+'<span>'+pc(R.reach[i][0], R.runs)+'</span></td>'
           : [...Array(R.nStage).keys()].map(k => '<td class="num sc">'+bar(R.reach[i][k], R.runs)+'<span>'+pc(R.reach[i][k], R.runs)+'</span></td>').join(''))+
         (actual ? '<td class="muted">'+esc(actual.out.get(t) || '')+'</td>' : '')+'</tr>'; }).join('')+
-    '</tbody></table></div><p class="chart-note" style="padding:0 15px 12px;">Percent of runs in which each team reached that stage.'+
+    '</tbody></table></div><p class="chart-note" style="padding:0 15px 12px;">How often each team reached each stage.'+
       (T.knockout && T.knockout.length ? ' The likeliest final: '+[...R.finals].sort((a, b) => b[1] - a[1]).slice(0, 1).map(([k, n]) =>
         esc(k.split(' v ').map(nameOf).join(' v '))+' ('+pc(n, R.runs)+')').join('')+'.' : '')+'</p></div>';
   const groups = Object.entries(T.groups).map(([gn, ts]) => {
@@ -4473,10 +4495,10 @@ function renderSimResults(T, P, R, actual, forced){
           '<span class="a">'+esc(nameOf(f.away))+'</span></div>'; }).join('')+'</div>')+'</div>';
   }).join('');
   out.innerHTML = summary + odds + '<div class="card-grid sim-groups">'+groups+'</div>'+knockoutPredictions(T, P, R)+
-    '<p class="chart-note">Played results come from the data and cannot be changed. Type a score into any other match to fix it '+
-    'in every run; clear both boxes to let it be simulated again. Ties in a group are broken '+
-    (T.tiebreak === 'h2h' ? 'on head-to-head results first, then goal difference and goals' : 'on goal difference, then goals')+
-    ', and finally at random; real competitions have further steps (fair play, drawing of lots) that rarely matter.</p>';
+    '<p class="chart-note">Results already played are fixed. Type a score into any other match to fix it; clear both boxes to undo. '+
+    'Level teams in a group are split '+
+    (T.tiebreak === 'h2h' ? 'by head-to-head results, then goal difference, then goals' : 'by goal difference, then goals')+
+    ', then at random.</p>';
   out.querySelectorAll('.sfx input').forEach(inp => inp.addEventListener('change', () => {
     const box = inp.closest('.sfx'), [x, y] = [...box.querySelectorAll('input')].map(i => i.value.trim());
     const f = {...forced}, i = +box.dataset.fx;
@@ -4515,9 +4537,8 @@ function knockoutPredictions(T, P, R){
     return '<div class="ko-round"><h3>'+esc(round.name || 'Round '+(ri + 1))+'</h3><div class="ko-grid">'+cards+'</div></div>';
   }).join('');
   return '<div class="panel" style="margin:20px 0;"><div class="panel-head">Knockout predictions<span class="aside">from the same '+R.runs.toLocaleString()+' runs</span></div>'+
-    '<div class="panel-body">'+rounds+'<p class="chart-note">For each knockout match: the three pairings that came up most often, '+
-    'how often each one did, and how often each side then went through, counting extra time and penalties. '+
-    'Fix group results above and these update with everything else.</p></div></div>';
+    '<div class="panel-body">'+rounds+'<p class="chart-note">The three likeliest pairings for each knockout match, and how often each side '+
+    'went through, extra time and penalties included.</p></div></div>';
 }
 function customControls(c, p){
   const teams = (p.ct || '').split('|').filter(Boolean);
@@ -4562,12 +4583,10 @@ function recordSummary(list){
 function viewRecord(){
   const g = state.gender, rec = state.record, app = document.getElementById('app');
   const intro = '<h1 class="page-title">Forecast record</h1>'+
-    '<p class="page-sub">Every fixture the site lists gets a forecast from the ratings, written down by the nightly update. '+
-      'It is revised each night until kick-off and then frozen; once the result is in, it is scored. The forecasts are '+
-      'published with the rest of the data every night, so the file\'s history shows each one existed before its match. '+
-      'Nothing is removed: postponed matches are marked void, never dropped quietly.</p>';
+    '<p class="page-sub">Every match the site lists gets a forecast, which is updated until kick-off, then frozen and scored once '+
+      'the result is in. Each one is saved publicly before its match, and none are removed: postponed matches are marked void.</p>';
   if (!rec){ app.innerHTML = '<div class="wrap">'+intro+'<div class="status">The record starts with the site\'s nightly update, '+
-    'which this copy of the site does not have.</div></div>'; return; }
+    'which this copy of the site does not have. The online site has it.</div></div>'; return; }
   const mine = rec.entries.filter(e => e.g === g), scored = mine.filter(e => e.result), pending = mine.filter(e => !e.result && !e.void);
   const S = recordSummary(scored), pc = x => Math.round(x*100)+'%';
   const card = (k, v, s) => '<div class="stat"><div class="k">'+k+'</div><div class="v plain">'+v+'</div><div class="s">'+s+'</div></div>';
@@ -4705,9 +4724,9 @@ function sparkline(vals){
 const fmtDay = ts => { const d = new Date(ts);
   return d.getUTCDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()]+' '+d.getUTCFullYear(); };
 const edK = e => { const ks = [...new Set(e.matches.map(m => Math.round(m.k)))].sort((a,b) => a-b);
-  return 'K' + (ks.length === 1 ? ks[0] : ks[0] + '&ndash;' + ks[ks.length-1]); };
+  return 'match weight ' + (ks.length === 1 ? ks[0] : ks[0] + '&ndash;' + ks[ks.length-1]); };
 const COMP_GROUP_NOTE = {
-  premier:'Weighted K'+PREMIER_K[0]+' until something higher existed, K'+PREMIER_K[1]+' until their teams took part in it, then K'+PREMIER_K[2]+'. How it works lists the dates.',
+  premier:'Match weight '+PREMIER_K[0]+' until something bigger existed, '+PREMIER_K[1]+' until their teams took part in it, then '+PREMIER_K[2]+'. How it works lists the dates.',
   wcq:'Qualifying has no clean edition boundary in the data, so it is grouped by calendar year.',
   contq:'Grouped by calendar year, for the same reason.',
   nl:'Grouped by calendar year: league phases and finals run across seasons.'
@@ -4733,7 +4752,7 @@ function viewCompetitions(){
     const y0 = new Date(t.first).getUTCFullYear(), y1 = new Date(t.last).getUTCFullYear();
     return '<div class="comp-row"><div class="comp-name"><b>'+esc(compName(t.name))+'</b>'+
       '<span class="muted"> &middot; '+(y0===y1?y0:y0+'&ndash;'+y1)+' &middot; '+t.editions.length+' edition'+(t.editions.length===1?'':'s')+
-      ' &middot; '+t.matches.toLocaleString()+' matches</span></div>'+
+      ' &middot; '+t.matches.toLocaleString()+(t.matches === 1 ? ' match' : ' matches')+'</span></div>'+
       '<div class="chips ed-chips'+(eds.length > LIMIT ? ' clipped' : '')+'">'+
         eds.map((e,k) => '<a class="chip'+(k >= LIMIT ? ' extra' : '')+'" href="'+editionHref(e)+'">'+e.label+'</a>').join('')+
         (eds.length > LIMIT ? '<button class="chip more" data-more="1">+'+(eds.length-LIMIT)+' more</button>' : '')+
@@ -4742,12 +4761,11 @@ function viewCompetitions(){
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">'+(state.gender==='men'?"Men's":"Women's")+' competitions</h1>'+
-    '<p class="page-sub">Every tournament in the archive, edition by edition. Each edition page shows the ratings every team '+
-      'took into it and came out with, and how they moved match by match, as the site would have published them at the time.</p>'+
+    '<p class="page-sub">Every tournament in the archive, edition by edition, with each team\'s rating going in and coming out.</p>'+
     '<div class="ctl" style="margin-bottom:20px;"><label for="compSearch">Search</label>'+
       '<input type="text" id="compSearch" placeholder="World Cup, Copa, Gulf&hellip;" style="width:300px;" value="'+esc(state.params.q||'')+'"></div>'+
     groups.map(c => byCat[c].length ? '<div class="panel" style="margin-bottom:18px;"><div class="panel-head">'+COMPS[c].label+
-      ' <span style="text-transform:none;letter-spacing:0;font-weight:400;">&middot; weighted K'+kText(c)+
+      ' <span style="text-transform:none;letter-spacing:0;font-weight:400;">&middot; match weight '+kText(c)+
       (COMP_GROUP_NOTE[c] ? ' &middot; '+COMP_GROUP_NOTE[c] : '')+'</span></div>'+
       '<div class="panel-body comp-list">'+byCat[c].sort((a,b) => a.name.localeCompare(b.name)).map(tRow).join('')+'</div></div>' : '').join('')+
     (groups.every(c => !byCat[c].length) ? '<div class="status">No competition matches that search.</div>' : '')+
@@ -5003,13 +5021,12 @@ function editionChances(e, run, tHref, R){
   const rank = order.indexOf(ci) + 1, champP = R.reach[ci][R.nStage - 1]/R.runs;
   return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Chances going in<span class="aside">'+R.runs.toLocaleString()+' simulated tournaments</span></div>'+
     '<div class="panel-body" style="padding-bottom:0;"><p class="muted" style="margin:0 0 4px;font-size:13.5px;">'+esc(champName)+' won, given '+
-      Math.round(champP*100)+'% before kick-off, the '+ordinal(rank)+' favourite. The tournament is played again and again from the ratings each '+
-      'team brought in: the real '+(fmt.type === 'groups' ? 'groups and venues, then the real knockout bracket' : fmt.type === 'league' ? 'fixtures and venues' : 'bracket')+
-      '. '+(fmt.type === 'groups' ? 'Who met whom in the first knockout round depended on the groups, so there group winners face lower-placed qualifiers, best against worst: an approximation.' : '')+'</p></div>'+
+      Math.round(champP*100)+'% before kick-off, '+(rank === 1 ? 'the favourite' : 'the '+ordinal(rank)+' favourite')+'. The tournament is replayed many times from the ratings each '+
+      'team brought in, with the real '+(fmt.type === 'groups' ? 'groups, venues and bracket' : fmt.type === 'league' ? 'fixtures and venues' : 'bracket')+'.'+
+      (fmt.type === 'groups' ? ' Knockout pairings are an approximation: group winners meet the lowest-placed qualifiers.' : '')+'</p></div>'+
     fieldShape(T, P, R, actual, [['field', 'World'], ['conf', 'Confederation']],
-      'Grouped by each team\'s chances going in, from the simulations. The chip beside each name is its tier on '+fmtDay(run.preTs)+
-      ', the day before kick-off: among all the world\'s ranked teams, or inside its own confederation. Tiers can change during a tournament; '+
-      'team links open each team as it stood at the end.').replace(/^<div class="panel field-panel tmode-a" style="margin-bottom:20px;">/, '<div class="field-panel tmode-a">')+
+      'Teams grouped by their chances going in. The chip beside each name is its tier on '+fmtDay(run.preTs)+
+      ', the day before kick-off, in the world or in its confederation. Team links show each team as it stood at the end.').replace(/^<div class="panel field-panel tmode-a" style="margin-bottom:20px;">/, '<div class="field-panel tmode-a">')+
     odds+'</div>';
 }
 /* The tournament in numbers. Each team's expected finish is the furthest stage it was more likely than not to reach,
@@ -5049,10 +5066,9 @@ function editionReview(e, run, tHref, R){
         (met.length ? [...new Set(met.map(x => x.act))].map(st => '<div class="rev-met"><div class="rev-why">'+actTxt(st).replace(/^./, c => c.toUpperCase())+'</div>'+
           '<div class="rev-chips">'+met.filter(x => x.act === st).sort((a, b) => nm(a.k).localeCompare(nm(b.k))).map(x => '<span class="rev-chip">'+link(x.k)+'</span>').join('')+'</div></div>').join('') : '<p class="muted">Nobody.</p>')+'</div>'+
     '</div>'+
-    '<p class="chart-note" style="padding:0 16px 12px;margin:0;"><b>Expected</b> is the furthest stage a team was more likely '+
-      'than not to reach, from the '+R.runs.toLocaleString()+' simulations. Even a clear favourite is rarely more likely than not to win a '+
-      'tournament, so winning it usually counts as beating expectations. The percentage is how often the simulations had the '+
-      'team going at least as far (or going out at least as early) as it really did.</p>';
+    '<p class="chart-note" style="padding:0 2px 12px;margin:0;"><b>Expected</b>: the furthest stage a team was more likely than not to reach. '+
+      'The percentage is how often the simulations had it going as far as it really did (or going out as early). Even favourites are '+
+      'rarely more likely than not to win, so winning usually beats expectations.</p>';
   }
   const cards = [];
   const card = (title, body, note) => cards.push('<div class="rev-card"><h3>'+title+'</h3>'+body+(note ? '<p class="muted">'+note+'</p>' : '')+'</div>');
@@ -5171,7 +5187,7 @@ function editionMissedPanel(e, run, tHref){
   const byConf = M.byConf.length ? '<div class="field-grid">'+cols.map(c => { const L = M.byConf.filter(x => x.conf === c);
       return '<div class="field-col"><h3>'+confLabel(c)+' <span class="muted" style="font-weight:400;">'+L.length+'</span></h3>'+
         '<p class="muted">its giants: top '+M.confN(c)+' of '+M.confCount.get(c)+'</p>'+
-        L.map(x => '<div class="mo-row"><div class="mo-team"><a href="'+tHref(nm(x.key))+'">'+withFlag(nm(x.key))+'</a> <span class="rating" style="font-size:13px;">'+Math.round(x.r)+'</span></div>'+
+        L.map(x => '<div class="mo-row"><div class="mo-team"><a href="'+tHref(nm(x.key))+'">'+withFlag(nm(x.key))+'</a> <span class="rating" style="font-size:13px;">'+fmtR(x.r)+'</span></div>'+
           '<div class="mo-meta"><span class="muted">world #'+x.rank+' &middot; '+confLabel(c)+' #'+x.confRank+'</span> '+tag(x)+' '+
           (M.qPlayed.has(x.key) ? '<span class="down">out in qualifying</span>' : '<span class="muted">did not play qualifying</span>')+'</div></div>').join('')+'</div>'; }).join('')+'</div>'
     : '<div class="panel-body muted">No world giant and no confederation giant'+(M.conf ? ' from '+confLabel(M.conf) : '')+' missed out.</div>';
@@ -5488,7 +5504,7 @@ function viewMethod(){
     const X = v => ((v - lo)/(hi - lo)*100).toFixed(2)+'%';
     const step = 200, ticks = []; for (let v = Math.ceil(lo/step)*step; v <= hi; v += step) ticks.push(v);
     demo = '<div class="band-demo" role="img" aria-label="Three teams and their bands drawn on one scale: the leader, the 60th-ranked team and a provisional team">'+
-      list.map(r => '<div class="row"><div>'+withFlag(r.team)+' <span class="muted">'+Math.round(r.rating)+' &plusmn;'+Math.round(r.band)+'</span></div>'+
+      list.map(r => '<div class="row"><div>'+withFlag(r.team)+' <span class="muted">'+fmtR(r.rating)+' &plusmn;'+Math.round(r.band)+'</span></div>'+
         '<div class="track"><span class="b" style="left:'+X(r.lower)+';width:calc('+X(r.upper)+' - '+X(r.lower)+')"></span>'+
         '<span class="c" style="left:'+X(r.rating)+'"></span></div></div>').join('')+
       '<div class="scale">'+ticks.map(v => '<span>'+v+'</span>').join('')+'</div></div>';
@@ -5526,16 +5542,16 @@ function viewMethod(){
         'side is a celebration. The names below describe where a team sits among all national teams, and how it tends to fare '+
         'against a typical one, not how its supporters should feel. In the '+game+' game today, roughly:</p>'+
       (atDefaults(c => ratingScaleTable(c)) || '')+
-      '<p>The median ranked team is rated about '+(atDefaults(c => Math.round(c.median)) || '')+'. '+
+      '<p>The average (middle ranked) team is rated about '+(atDefaults(c => Math.round(c.median)) || '')+'. '+
         (state.gender === 'men' ? 'The women\'s game is on a wider scale at the top, so a 2000 there is not the same as a 2000 here.'
           : 'The men\'s game is on a narrower scale at the top, so a 2000 there is not the same as a 2000 here.')+
         ' The descriptions are a guide, not a rule: a team\'s band says how sure the model is of where it sits.</p>')+
 
     sec('m-band', 'What the band means',
       '<p>Every rating comes with a &plusmn; number: the band. It is the model being honest about what it does not know. '+
-        (ex ? '<b>'+esc(ex.top.team)+' '+Math.round(ex.top.rating)+' &plusmn;'+Math.round(ex.top.band)+'</b> means the model '+
+        (ex ? '<b>'+esc(ex.top.team)+' '+fmtR(ex.top.rating)+' &plusmn;'+Math.round(ex.top.band)+'</b> means the model '+
           'is about 95% sure '+esc(ex.top.team)+'\'s real strength is somewhere between '+Math.round(ex.top.lower)+' and '+
-          Math.round(ex.top.upper)+', with '+Math.round(ex.top.rating)+' the best single guess.' :
+          Math.round(ex.top.upper)+', with '+fmtR(ex.top.rating)+' the best single guess.' :
           '&plusmn;130 means the model is about 95% sure the team\'s real strength is within 130 points either side of the number shown.')+'</p>'+
       demo+
       '<p>How wide a band is depends on how much the model has to go on:</p><ul>'+
@@ -5577,7 +5593,7 @@ function viewMethod(){
         'ratings. That led to the mark-down for unproven teams (see <i>What the band means</i>), which made the predictions '+
         'clearly better. Marking down every uncertain team more heavily, which is what ordering by the bottom of the band '+
         'amounts to, made them worse again. So the <b>rating</b> is the one to use for how strong a team is. The bottom of the '+
-        'band is a cautious view, useful with no uncertainty limit so that a team with five lucky results cannot top the table.</p>')+
+        'band is a cautious view, useful when every team is ranked, so that a team with five lucky results cannot top the table.</p>')+
 
     sec('m-tiers', 'Tiers',
       '<p>Because every rating is a range, so is every rank: 5th and 8th can be the same strength. So the rankings can '+
@@ -5641,7 +5657,7 @@ function viewMethod(){
         'own, set by every result, and a level its whole confederation shares, set only by matches against other '+
         'confederations. When Morocco beat Spain, every African team edges up a little and every European team down, because '+
         'the result says something about the two regions as well as the two teams.</p>'+
-      '<p>Today\'s levels, with each confederation\'s <b>T-10 Strength</b>, the average rating of its ten best ranked teams, as an overall measure:</p>'+
+      '<p>Today\'s levels, with each confederation\'s <b>top-10 average</b>, the average rating of its ten best ranked teams, as an overall measure:</p>'+
       (atDefaults(c => confStrengthTable(c, true)) || '')+
       '<p>The <a href="#/confederations">Confederations page</a> lists every team region by region.</p>')+
 
@@ -5699,8 +5715,8 @@ function methodTechnical(){
       'every team at 1500, at zero, or at ten thousand would produce exactly the same predictions and the same table '+
       'shifted up or down. 1500 is a convention borrowed from chess, where the system was first built, and it is used '+
       'here only as the place an unknown team is put.</p>'+
-    '<p>Because of that, this site reads every rating against the <b>median ranked team</b> rather than against 1500. '+
-      '"+250 on the median team" is a real statement; "1750" on its own is not. The median also moves, which is the '+
+    '<p>Because of that, this site reads every rating against the <b>average team</b>, the median ranked team, rather than against 1500. '+
+      '"+250 on the average team" is a real statement; "1750" on its own is not. The median also moves, which is the '+
       'point: the scale has no fixed meaning, and the drift of the average away from 1500 is expected rather than '+
       'a fault.</p>'+
 
@@ -5716,8 +5732,8 @@ function methodTechnical(){
         '<td class="n">'+pct(calE(eloE(g),'men'))+'</td><td>'+pct(calE(eloE(g),'women'))+'</td></tr>').join('')+
     '</tbody></table>'+
     '<p>The Rankings page shows where the current table\'s leaders, median and tail sit, and the team pages give each '+
-      'side\'s chances against the median team and against the 20th-ranked one. The second is there because the '+
-      'median team is weak enough that every leading side beats it almost every time, which separates nothing.</p>'+
+      'side\'s chances against the average team and against the 20th-ranked one. The second is there because the '+
+      'average team is weak enough that every leading side beats it almost every time, which separates nothing.</p>'+
 
     '<h2>No rating before the first match</h2>'+
     '<p>Before a team has played, there is nothing to estimate its strength from, so it has no rating: not 1500 '+
@@ -6277,9 +6293,8 @@ function viewSupport(){
     '<h2 id="privacy">Privacy</h2>'+
     '<p>No cookies, no analytics and no accounts. Your browser keeps three small things on your own device: your light or dark choice, '+
       'whether you have seen the guide, and which badges it has already looked up. Nothing is sent back to Formline.</p>'+
-    '<p>The online site serves its own copies of the font, the chart library and the Wikipedia images it uses, so your browser only '+
-      'talks to this site. A copy opened from a file on your computer fetches them from the public sources instead (Google Fonts, '+
-      'cdnjs, jsDelivr, Wikipedia and GitHub). Donation links go to the payment provider\'s own page, where its privacy policy applies.</p>'+
+    '<p>The site keeps its own copies of its font, charts and images, so your browser only talks to this site. Donation links go to '+
+      'Ko-fi, where its own privacy policy applies.</p>'+
     '<h2 id="trademarks">Badges, flags and credits</h2>'+
     '<p>Association, confederation and tournament badges are the trademarks of their owners. They are shown only to identify teams '+
       'and competitions, and Formline is not affiliated with FIFA, any confederation or any association. If you own a mark and want it '+
@@ -6311,7 +6326,8 @@ function viewSupport(){
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
   ['24 Oct 2026', ['A Support page: how to report a mistake, privacy, badges and credits, and room for donation links.',
-    'Share images: a ready-made picture of the top ten, the year\'s movers or any team, square for Instagram or wide for X.',
+    'Share images: a ready-made picture of the top ten, the year\'s movers or any team, tall or square for Instagram, or wide for X.',
+    'On a team page, Share image can also show the team\'s place in the ranking: the five teams above it and the five below, in the world or in its confederation.',
     'Download CSV on the Rankings, team and tournament pages.',
     'A top-ten box other sites can embed, built on the Support page.',
     'The online site now serves its own copies of the font, chart library and Wikipedia images.',
@@ -6319,7 +6335,11 @@ const CHANGELOG = [
     'A Contact page for corrections, press and feedback, linked from the About menu and the footer.',
     'Donations are open, through Ko-fi on the Support page.',
     'Formline is on X (@FormlineData) and Instagram (@formline.data), linked from the Contact and Support pages and the footer.',
-    'The nightly update now rides out the data provider\'s brief outages, and leaves club matches out.']],
+    'The nightly update now rides out the data provider\'s brief outages, and leaves club matches out.',
+    'On match days, results now come in through the day, not only overnight.',
+    'A cleaner look: sections are headings instead of boxes, actions look like buttons, and plainer words on the home, rankings, team and predictor pages. Every flag, badge and number stays.',
+    'The home page shows the leader\'s rating to one decimal, with its past year, its lead over second and its last five results.',
+    'Plainer words on every other page too: the simulator, tournaments, confederations, fixtures, head to head, records, the filters and How it works.']],
   ['23 Oct 2026', ['Former names now show today\'s side in brackets, such as Zaïre (Congo DR), and team pages give each side\'s name history.',
     'Before a confederation was founded, team pages say so instead of showing its logo.',
     'Looking at the past, a team page shows the team\'s next matches after that date, with results.',
@@ -6405,7 +6425,7 @@ function csvFor(kind){
 
 /* ---------- Share images ---------- */
 const SI = {bg:'#0e2117', panel:'#14301f', line:'#2a4a37', chalk:'#f1f4ec', body:'#d9e2da', dim:'#a7bba9', amber:'#f6b638', win:'#6fdc95', loss:'#ff8a7e', draw:'#c9d3c8'};
-const SI_SIZES = {square:[1080, 1080], wide:[1200, 675]};
+const SI_SIZES = {portrait:[1080, 1350], square:[1080, 1080], wide:[1200, 675]};
 function siLoad(src){ return new Promise(res => { if (!src) return res(null); const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; }); }
 const siFlagSrc = (team, ts) => { const f = flagOf(team, ts); return f && FLAG_BASE !== FLAG_CDN ? FLAG_BASE+'h240/'+f.file+'.webp' : null; };
 function siRound(g, x, y, w, h, r){ g.beginPath(); g.moveTo(x+r, y); g.arcTo(x+w, y, x+w, y+h, r); g.arcTo(x+w, y+h, x, y+h, r); g.arcTo(x, y+h, x, y, r); g.arcTo(x, y, x+w, y, r); g.closePath(); }
@@ -6440,30 +6460,47 @@ function siFrame(g, W, H, title, sub){
   siText(g, 'Rankings updated every night', W - pad, H - pad*0.9, '400 24px Archivo, system-ui, sans-serif', SI.dim, 'right');
   return pad;
 }
-async function siDraw(kind, size){
+async function siDraw(kind, size, opts = {}){
   const [W, H] = SI_SIZES[size], cv = document.createElement('canvas'); cv.width = W; cv.height = H;
   const g = cv.getContext('2d'), c = getRatings(), game = state.gender === 'men' ? "Men's" : "Women's", day = fmtDay(state.asOf);
   try { await Promise.all(['400 28px Archivo, system-ui, sans-serif', '600 28px Archivo, system-ui, sans-serif', '800 60px Archivo, system-ui, sans-serif'].map(f => document.fonts.load(f))); } catch(e){}
-  if (kind === 'top10' || kind === 'movers'){
-    let list, title, sub;
-    if (kind === 'top10'){ list = visibleTable(c.table).slice(0, 10); title = game+' top ten'; sub = day; }
-    else { const pool = visibleTable(c.table).filter(r => r.rank <= 50 && r.change !== null && r.change !== undefined);
+  if (kind === 'top10' || kind === 'movers' || kind === 'around'){
+    let items, title, sub;
+    const font = (w, px) => w+' '+px+'px Archivo, system-ui, sans-serif';
+    if (kind === 'top10'){
+      items = visibleTable(c.table).slice(0, 10).map(r => ({r, lead:String(r.rank), val:fmtR(r.rating)}));
+      title = game+' top ten'; sub = day;
+    } else if (kind === 'movers'){
+      const pool = visibleTable(c.table).filter(r => r.rank <= 50 && r.change !== null && r.change !== undefined);
       const up = pool.slice().sort((a, b) => b.change - a.change).slice(0, 5), down = pool.slice().sort((a, b) => a.change - b.change).slice(0, 5);
-      list = up.concat(down); title = 'Biggest movers of the year'; sub = game+' top 50 · '+day; }
-    const flags = await Promise.all(list.map(r => siLoad(siFlagSrc(r.team))));
+      items = up.concat(down).map((r, i) => ({r, lead:i < 5 ? '▲' : '▼', leadColor:i < 5 ? SI.win : SI.loss,
+        val:(r.change > 0 ? '+' : '−')+Math.abs(Math.round(r.change)), valColor:r.change > 0 ? SI.win : SI.loss}));
+      title = 'Biggest movers of the year'; sub = game+' top 50 · '+day;
+    } else {
+      /* A team with the five ranked just above it and the five just below, in the world or in its confederation. */
+      const key = c.resolve(state.arg) || state.arg, me = c.byKey.get(key); if (!me || !me.rank) return null;
+      const inConf = opts.scope === 'conf';
+      const pool = c.table.filter(r => !inConf || r.conf === me.conf).slice().sort((x, y) => x.rank - y.rank);
+      const at = pool.indexOf(me), n = Math.min(11, pool.length);
+      const from = Math.max(0, Math.min(at - 5, pool.length - n));
+      items = pool.slice(from, from + n).map((r, j) => ({r, lead:String(from + j + 1), val:fmtR(r.rating), hl:r === me}));
+      title = nameText(me.team)+': '+ordinal(at + 1);
+      sub = (inConf ? 'in '+me.conf+', '+game.toLowerCase()+' football' : 'in the '+game.toLowerCase()+' world ranking')+' · '+day;
+    }
+    const flags = await Promise.all(items.map(it => siLoad(siFlagSrc(it.r.team))));
     const pad = siFrame(g, W, H, title, sub), top = pad*0.9 + 200, bottom = H - pad*0.9 - 60;
-    const cols = size === 'wide' ? 2 : 1, per = Math.ceil(list.length/cols), rowH = Math.min(78, (bottom - top)/per), colW = (W - 2*pad - (cols - 1)*40)/cols;
-    list.forEach((r, i) => {
-      const col = Math.floor(i/per), row = i % per, x = pad + col*(colW + 40), y = top + row*rowH;
-      g.fillStyle = i % 2 ? 'rgba(255,255,255,.03)' : 'rgba(255,255,255,.06)'; siRound(g, x, y, colW, rowH - 10, 10); g.fill();
-      const mid = y + (rowH - 10)/2 + 11, fs = Math.round(rowH*0.38);
-      const lead = kind === 'top10' ? String(r.rank) : (i < 5 ? '▲' : '▼');
-      siText(g, lead, x + 22, mid, '800 '+fs+'px Archivo, system-ui, sans-serif', kind === 'top10' ? SI.dim : (i < 5 ? SI.win : SI.loss));
-      const fh = rowH*0.42; siFlag(g, flags[i], x + 70, mid - fh*0.78, fh, fh*1.5);
-      siText(g, nameText(r.team), x + 70 + fh*1.5 + 18, mid, '600 '+fs+'px Archivo, system-ui, sans-serif', SI.chalk, 'left', colW - 70 - fh*1.5 - (kind === 'top10' ? 230 : 110));
-      if (kind === 'top10'){
-        siText(g, fmtR(r.rating), x + colW - 20, mid, '800 '+fs+'px Archivo, system-ui, sans-serif', SI.amber, 'right');
-      } else siText(g, (r.change > 0 ? '+' : '−')+Math.abs(Math.round(r.change)), x + colW - 20, mid, '800 '+fs+'px Archivo, system-ui, sans-serif', r.change > 0 ? SI.win : SI.loss, 'right');
+    const cols = size === 'wide' ? 2 : 1, per = Math.ceil(items.length/cols);
+    const rowH = Math.min(H > 1200 ? 100 : 78, (bottom - top)/per), colW = (W - 2*pad - (cols - 1)*40)/cols;
+    items.forEach((it, i) => {
+      const r = it.r, col = Math.floor(i/per), row = i % per, x = pad + col*(colW + 40), y = top + row*rowH;
+      g.fillStyle = it.hl ? 'rgba(246,182,56,.18)' : (i % 2 ? 'rgba(255,255,255,.03)' : 'rgba(255,255,255,.06)');
+      siRound(g, x, y, colW, rowH - 10, 10); g.fill();
+      if (it.hl){ g.strokeStyle = SI.amber; g.lineWidth = 3; siRound(g, x + 1.5, y + 1.5, colW - 3, rowH - 13, 9); g.stroke(); }
+      const mid = y + (rowH - 10)/2 + 11, fs = Math.round(rowH*0.38), lx = x + Math.max(70, Math.round(fs*2.3));
+      siText(g, it.lead, x + 22, mid, font('800', fs), it.leadColor || (it.hl ? SI.amber : SI.dim));
+      const fh = rowH*0.42; siFlag(g, flags[i], lx, mid - fh*0.78, fh, fh*1.5);
+      siText(g, nameText(r.team), lx + fh*1.5 + 18, mid, font(it.hl ? '800' : '600', fs), SI.chalk, 'left', x + colW - (lx + fh*1.5 + 18) - 150);
+      siText(g, it.val, x + colW - 20, mid, font('800', fs), it.valColor || SI.amber, 'right');
     });
   } else if (kind === 'team'){
     const key = c.resolve(state.arg) || state.arg, row = c.byKey.get(key); if (!row) return null;
@@ -6471,7 +6508,7 @@ async function siDraw(kind, size){
     const flag = await siLoad(siFlagSrc(row.team, latest ? Infinity : state.asOf));
     const crestEl = document.querySelector('.tb-crest-img.ready'), crest = crestEl && /^badges\//.test(crestEl.getAttribute('src') || '') ? await siLoad(crestEl.getAttribute('src')) : null;
     const pad = siFrame(g, W, H, nameText(row.team), game+' football · '+day);
-    const top = pad*0.9 + 200, wide = size === 'wide';
+    const top = pad*0.9 + 200 + (H > 1200 ? 90 : 0), wide = size === 'wide';
     const fh = wide ? 120 : 150; let x = pad;
     if (crest){ const ch = fh*1.15, cw = ch*crest.naturalWidth/crest.naturalHeight; g.drawImage(crest, x, top, cw, ch); x += cw + 30; }
     if (flag) x += siFlag(g, flag, x, top + (crest ? fh*0.075 : 0), fh) + 40;
@@ -6488,7 +6525,7 @@ async function siDraw(kind, size){
     last5.forEach((m, i) => { const r = m.gf > m.ga ? 'W' : m.gf < m.ga ? 'L' : 'D', col = r === 'W' ? '#1f8a4c' : r === 'L' ? '#b5382f' : '#5c6b62';
       g.fillStyle = col; siRound(g, fx + i*62, y2 + 18, 52, 52, 8); g.fill(); siText(g, r, fx + i*62 + 26, y2 + 56, '800 28px Archivo, system-ui, sans-serif', '#fff', 'center'); });
     if (!wide){ const lm = h[h.length - 1], pm = row.pVsMedian;
-      if (row.vsMedian !== undefined) siText(g, (row.vsMedian >= 0 ? '+' : '−')+Math.abs(Math.round(row.vsMedian))+' on the median team'+(pm ? ': would win '+Math.round(pm.home*100)+'%, draw '+Math.round(pm.draw*100)+'%' : ''), pad, y2 + 170, '400 28px Archivo, system-ui, sans-serif', SI.body, 'left', W - 2*pad);
+      if (row.vsMedian !== undefined) siText(g, (row.vsMedian >= 0 ? '+' : '−')+Math.abs(Math.round(row.vsMedian))+' against an average team'+(pm ? ': would win '+Math.round(pm.home*100)+'%, draw '+Math.round(pm.draw*100)+'%' : ''), pad, y2 + 170, '400 28px Archivo, system-ui, sans-serif', SI.body, 'left', W - 2*pad);
       if (lm) siText(g, 'Last match: '+lm.gf+'–'+lm.ga+' v '+lm.oppName+', '+fmtDay(lm.ts), pad, y2 + 215, '400 28px Archivo, system-ui, sans-serif', SI.body, 'left', W - 2*pad); }
   } else return null;
   return cv;
@@ -6497,10 +6534,15 @@ function closeShareImage(){ const o = document.getElementById('siOverlay'); if (
 function siKey(e){ if (e.key === 'Escape') closeShareImage(); }
 async function openShareImage(kind){
   closeShareImage();
+  const teamRow = kind === 'team' || kind === 'around' ? (() => { const c = getRatings(); return c.byKey.get(c.resolve(state.arg) || state.arg); })() : null;
+  const chip = (v, label, on) => '<button class="chip'+(on ? ' on' : '')+'" data-v="'+v+'">'+label+'</button>';
   const o = document.createElement('div'); o.id = 'siOverlay'; o.className = 'si-overlay';
   o.innerHTML = '<div class="si-box" role="dialog" aria-modal="true" aria-label="Share image"><div class="si-head"><b>Share image</b>'+
     '<button type="button" class="linkish" id="siClose" aria-label="Close">&times;</button></div>'+
-    '<div class="chips" id="siSize"><button class="chip on" data-v="square">Square, for Instagram</button><button class="chip" data-v="wide">Wide, for X</button></div>'+
+    '<div class="si-opts">'+
+    (teamRow ? '<span class="si-lab">Picture</span><div class="chips" id="siKind">'+chip('team', 'Team card', kind === 'team')+chip('around', 'Place in the ranking', kind === 'around')+'</div>'+
+      '<span class="si-lab" id="siScopeLab"'+(kind === 'around' ? '' : ' hidden')+'>Ranking</span><div class="chips" id="siScope"'+(kind === 'around' ? '' : ' hidden')+'>'+chip('world', 'World', true)+chip('conf', esc(teamRow.conf), false)+'</div>' : '')+
+    '<span class="si-lab">Size</span><div class="chips" id="siSize">'+chip('portrait', 'Tall, for Instagram', true)+chip('square', 'Square', false)+chip('wide', 'Wide, for X', false)+'</div></div>'+
     '<div class="si-prev"><span class="muted">Drawing&hellip;</span></div>'+
     '<div class="si-actions"><button class="btn btn-primary" type="button" id="siSave">Download image</button>'+
     '<button class="btn btn-secondary" type="button" id="siShare" hidden>Share</button></div>'+
@@ -6509,20 +6551,27 @@ async function openShareImage(kind){
   o.addEventListener('click', e => { if (e.target === o) closeShareImage(); });
   document.getElementById('siClose').addEventListener('click', closeShareImage);
   document.addEventListener('keydown', siKey);
-  let blob = null, size = 'square';
-  const name = () => 'formline-'+kind+(kind === 'team' ? '-'+badgeSlug(dn(state.arg)) : '')+'-'+state.gender+'-'+size+'.png';
+  let blob = null, size = 'portrait', scope = 'world';
+  const name = () => 'formline-'+kind+(teamRow ? '-'+badgeSlug(dn(state.arg)) : '')+(kind === 'around' ? '-'+(scope === 'conf' ? teamRow.conf.toLowerCase() : 'world') : '')+'-'+state.gender+'-'+size+'.png';
   const draw = async () => {
-    const prev = o.querySelector('.si-prev'); prev.innerHTML = '<span class="muted">Drawing&hellip;</span>'; blob = null;
-    const cv = await siDraw(kind, size); if (!cv){ prev.innerHTML = '<span class="muted">Nothing to draw here.</span>'; return; }
+    const prev = o.querySelector('.si-prev'), note = document.getElementById('siNote');
+    prev.innerHTML = '<span class="muted">Drawing&hellip;</span>'; blob = null; note.textContent = '';
+    const cv = await siDraw(kind, size, {scope});
+    if (!cv){ prev.innerHTML = '<span class="muted">'+(kind === 'around' ? 'This team is not ranked yet, so it has no place in the ranking to show.' : 'Nothing to draw here.')+'</span>'; return; }
     try { blob = await new Promise((res, rej) => { try { cv.toBlob(b => b ? res(b) : rej(new Error('empty')), 'image/png'); } catch(e){ rej(e); } }); }
-    catch(e){ document.getElementById('siNote').textContent = 'Images can only be saved from the online site: a page opened from a file on your computer is not allowed to export pictures that include its flags.'; }
+    catch(e){ note.textContent = 'Images can only be saved from the online site: a page opened from a file on your computer is not allowed to export pictures that include its flags.'; }
     prev.innerHTML = '';
     if (blob){ const img = new Image(); img.alt = 'Preview of the share image'; img.src = URL.createObjectURL(blob); prev.appendChild(img); } else prev.appendChild(cv);
     const f = blob && new File([blob], name(), {type:'image/png'});
     document.getElementById('siShare').hidden = !(f && navigator.canShare && navigator.canShare({files:[f]}));
   };
-  document.querySelectorAll('#siSize .chip').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('#siSize .chip').forEach(x => x.classList.toggle('on', x === b)); size = b.dataset.v; draw(); }));
+  const group = (id, set) => document.querySelectorAll('#'+id+' .chip').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('#'+id+' .chip').forEach(x => x.classList.toggle('on', x === b)); set(b.dataset.v); draw(); }));
+  group('siSize', v => size = v);
+  if (teamRow){
+    group('siKind', v => { kind = v; document.getElementById('siScope').hidden = document.getElementById('siScopeLab').hidden = v !== 'around'; });
+    group('siScope', v => scope = v);
+  }
   document.getElementById('siSave').addEventListener('click', () => { if (!blob) return;
     const a = Object.assign(document.createElement('a'), {href: URL.createObjectURL(blob), download: name()}); document.body.appendChild(a); a.click(); a.remove(); });
   document.getElementById('siShare').addEventListener('click', () => { if (!blob) return;
@@ -6567,8 +6616,7 @@ function viewCompare(){
     toolRow()+
     '<div class="panel"><div class="panel-head">Side by side'+
       '<span class="aside">'+(fm ? 'FIFA ranking '+(F.date ? 'of '+esc(F.date) : 'snapshot') : 'FIFA column: no snapshot loaded')+' &middot; Formline and Elo to '+asOfTxt+'</span></div>'+
-      (!fm ? '<p class="muted" style="margin:0;padding:10px 15px;border-bottom:1px solid var(--line);font-size:13.5px;">The FIFA column appears once a copy of FIFA\'s '+
-        'latest ranking is added to the site as <code>data/fifa-'+g+'.csv</code>.</p>' : '')+
+      (!fm ? '<p class="muted" style="margin:0;padding:10px 2px;border-bottom:1px solid var(--line);font-size:13.5px;">FIFA\'s own ranking is not loaded yet, so its column is missing for now.</p>' : '')+
       (fm && fm.missed.length ? '<p class="muted" style="margin:0;padding:10px 15px;border-bottom:1px solid var(--line);font-size:13px;">Not matched to a team here: '+fm.missed.map(esc).join(', ')+'.</p>' : '')+
       '<div class="table-wrap lock"><table class="cmp-rank"><thead><tr>'+
         '<th>Team</th>'+sortHead('formline', 'Formline')+'<th class="num hide-sm">Rating</th>'+
@@ -6673,7 +6721,7 @@ function bindSearch(inputId, boxId){
     hits = searchTeams(input.value);
     box.hidden = false;
     box.innerHTML = hits.length ? hits.map((r, i) => '<a href="'+teamHref(r.team)+'" role="option" class="'+(i === sel ? 'sel' : '')+'">'+
-      '<span>'+withFlag(r.team)+'</span><span class="muted">'+(r.rank ? '#'+r.rank+' &middot; ' : '')+Math.round(r.rating)+'</span></a>').join('')
+      '<span>'+withFlag(r.team)+'</span><span class="muted">'+(r.rank ? '#'+r.rank+' &middot; ' : '')+fmtR(r.rating)+'</span></a>').join('')
       : '<div class="none">No team matches.</div>';
     box.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { input.value = ''; box.hidden = true; closeMenus(); }));
   };

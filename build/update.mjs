@@ -9,15 +9,23 @@
 //    data/status.json. The site reads these when it is served from the same place; opened any other way it falls
 //    back to the archive on GitHub.
 //
-// Environment: APIFOOTBALL_KEY (optional), API_BUDGET (requests per run, default 80), ARCHIVE_DIR (read the
-// archives from a local folder with men/ and women/ subfolders instead of downloading; used by the tests),
-// TODAY (YYYY-MM-DD, for tests), API_GAP_MS (pause between requests, default 6500).
+// The plan is read from API-Football's /status first (it costs nothing). On the free plan a run makes at most
+// API_BUDGET requests (default 80), 6.5 s apart. On a paid plan the run may use up to half of what is left of the
+// day's quota (at most 1500, or 60 for a light run), paced at half the per-minute limit. The plan, its end date and
+// the requests used go into status.json, with a notice when the paid plan is about to end or has ended.
+//
+// RUN_MODE=light (the runs through the day): does nothing, and spends nothing, unless a national-team match is on
+// yesterday, today or tomorrow; then it asks only about those three days. The nightly run is RUN_MODE=full.
+//
+// Environment: APIFOOTBALL_KEY (optional), API_BUDGET (free-plan requests per run, default 80), RUN_MODE,
+// ARCHIVE_DIR (read the archives from a local folder with men/ and women/ subfolders instead of downloading; used by
+// the tests), TODAY (YYYY-MM-DD, for tests), API_GAP_MS (pause between requests; overrides the plan's pacing).
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {parseCSV, toCSV} from './lib/csv.mjs';
 import {makeTeamMatcher, makeTournamentMapper, archiveCountry} from './lib/names.mjs';
-import {makeClient, mapFixture} from './lib/apifootball.mjs';
+import {makeClient, mapFixture, planStatus, isFreePlan} from './lib/apifootball.mjs';
 import {loadModel} from './lib/model.mjs';
 import {updateRecord} from './lib/forecasts.mjs';
 
@@ -69,8 +77,10 @@ export function prune(gap, archive){
 /* Dates to ask the API about this run: the recent and coming days every time, then older days not yet settled,
    newest first. A day is settled once it has been fetched three or more days after it. Yesterday, today and
    tomorrow come first: they are all the free plan covers, so they must not wait behind days it will refuse. */
-export function planDates(today, earliest, fetched){
-  const t = dayNum(today), out = [t - 1, t, t + 1, t - 2, t - 3];
+export function planDates(today, earliest, fetched, mode){
+  const t = dayNum(today), out = [t - 1, t, t + 1];
+  if (mode === 'light') return out.map(d => iso(d * DAY));
+  out.push(t - 2, t - 3);
   for (let d = t + 2; d <= t + 14; d++) out.push(d);
   for (let d = t - 4; d >= dayNum(earliest); d--){
     const when = fetched[iso(d * DAY)];
@@ -104,13 +114,58 @@ export function compact(g, rows, shootouts, former, meta){
   return {v:1, gender:g, built:meta.built, archive:meta.archive, gapfill:meta.gapfill, s:S, m, so, former:fm};
 }
 
+/* Requests allowed this run and the pause between them, from the plan. */
+export function pacing(plan, mode, env = process.env){
+  const paid = !plan.error && !isFreePlan(plan);
+  let budget, gapMs;
+  if (paid){
+    const left = plan.limitDay ? Math.floor(plan.limitDay / 2) - (plan.usedToday || 0) : 500;   // never more than half the day's quota
+    budget = Math.max(0, Math.min(mode === 'light' ? 60 : 1500, left));
+    gapMs = plan.perMinute ? Math.max(250, Math.ceil(120000 / plan.perMinute)) : 2500;          // half the per-minute limit
+  } else {
+    budget = +(env.API_BUDGET || 80);
+    gapMs = 6500;
+  }
+  if (env.API_GAP_MS != null && env.API_GAP_MS !== '') gapMs = +env.API_GAP_MS;
+  return {paid, budget, gapMs};
+}
+
+/* A line for status.json when the paid plan is ending or has ended. */
+export function planNotice(plan, paid, before, today){
+  if (paid && plan.end){
+    const days = dayNum(String(plan.end).slice(0, 10)) - dayNum(today);
+    if (days <= 7) return 'The paid API plan (' + plan.name + ') ends on ' + String(plan.end).slice(0, 10) + (days >= 0 ? ', in ' + days + ' day' + (days === 1 ? '' : 's') : '') + '.';
+  }
+  if (!paid && before && before.paid) return 'Back on the free API plan: the paid plan (' + before.name + ') ended' + (before.end ? ' on ' + String(before.end).slice(0, 10) : '') +
+    '. Only yesterday to tomorrow can be fetched now.';
+  return null;
+}
+
+/* Write a data file only when something other than its build time changed, so the runs through the day do not
+   add a new copy of a 1.5 MB file to the history every hour. */
+function writeIfChanged(f, v){
+  const old = readJSON(f, null), strip = o => o && JSON.stringify({...o, built:null});
+  if (old && strip(old) === strip(v)) return false;
+  writeJSON(f, v); return true;
+}
+
 export async function run(){
   const today = process.env.TODAY || iso(Date.now());
   const built = new Date().toISOString();
+  const mode = process.env.RUN_MODE === 'light' ? 'light' : 'full';
   const state = readJSON(path.join(STORE, 'state.json'), {fetched:{}});
+  state.watch = state.watch || {};
   const venues = readJSON(path.join(STORE, 'venues.json'), {});
   const fixturesStore = readJSON(path.join(STORE, 'fixtures.json'), {});
-  const status = {built, today, api:{keyPresent:!!process.env.APIFOOTBALL_KEY}, unmatched:{}, unmappedTournaments:{}, skipped:{}};
+
+  // A light run only works when a national-team match is on yesterday, today or tomorrow (from the fixture list,
+  // or a match that was still being played at the last look).
+  if (mode === 'light'){
+    const t = dayNum(today), near = d => d && dayNum(d) >= t - 1 && dayNum(d) <= t + 1;
+    const on = Object.values(fixturesStore).some(r => near(r.date)) || Object.keys(state.watch).some(near);
+    if (!on || !process.env.APIFOOTBALL_KEY){ console.log('Light run: no national-team match within a day, nothing to do.'); return {idle:true}; }
+  }
+  const status = {built, today, mode, api:{keyPresent:!!process.env.APIFOOTBALL_KEY}, unmatched:{}, unmappedTournaments:{}, skipped:{}};
 
   // 1. Archives
   const A = {}, SO = {}, gap = {};
@@ -130,18 +185,23 @@ export async function run(){
     const teams = {men:new Set(), women:new Set()}, tours = {men:new Set(), women:new Set()};
     for (const g of ['men', 'women']) for (const r of A[g]){ teams[g].add(r.home_team); teams[g].add(r.away_team); tours[g].add(r.tournament); }
     const matchTeam = makeTeamMatcher(teams), mapTournament = makeTournamentMapper(tours);
-    const client = makeClient({key:process.env.APIFOOTBALL_KEY, budget:+(process.env.API_BUDGET || 80),
-      gapMs:+(process.env.API_GAP_MS || 6500), log: m => console.log(m)});
+    const plan = await planStatus({key:process.env.APIFOOTBALL_KEY});
+    const pace = pacing(plan, mode);
+    const notice = planNotice(plan, pace.paid, state.plan, today);
+    if (!plan.error) state.plan = {name:plan.name, end:plan.end, paid:pace.paid, seen:today};
+    const client = makeClient({key:process.env.APIFOOTBALL_KEY, budget:pace.budget, gapMs:pace.gapMs, log: m => console.log(m)});
     const earliest = iso(dayNum(ends.men < ends.women ? ends.men : ends.women) * DAY + DAY);
     const byId = {men:new Map(gap.men.map(r => [String(r.api_id), r])), women:new Map(gap.women.map(r => [String(r.api_id), r]))};
-    for (const date of planDates(today, earliest, state.fetched)){
+    for (const date of planDates(today, earliest, state.fetched, mode)){
       if (!client.covers(date)) continue;          // outside what the plan allows: no request spent
       const list = await client.fixturesOn(date);
       if (list === null) break;
       if (list.outside || list.failed) continue;
       for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].date === date) delete fixturesStore[k];
+      delete state.watch[date];
       for (const f of list){
         const x = mapFixture(f, matchTeam, mapTournament);
+        if (x.skip && /^status (1H|HT|2H|ET|BT|P|SUSP|INT|LIVE)$/.test(x.skip)) state.watch[date] = true;   // being played now: look again on the next run
         if (x.skip){
           if (x.skip === 'unmatched') x.names.forEach(n => status.unmatched[n] = (status.unmatched[n] || 0) + 1);
           else status.skipped[x.skip] = (status.skipped[x.skip] || 0) + 1;
@@ -165,7 +225,10 @@ export async function run(){
       venues[id] = v[0] ? {name:v[0].name || '', city:v[0].city || '', country:v[0].country || ''} : {name:'', city:'', country:''};
     }
     for (const g of ['men', 'women']) gap[g] = [...byId[g].values()];
-    status.api = {keyPresent:true, ...client.stats};
+    status.api = {keyPresent:true, ...client.stats,
+      plan: plan.error ? {error:plan.error} : {name:plan.name, end:plan.end, active:plan.active, limitDay:plan.limitDay,
+        usedTodayBeforeRun:plan.usedToday, perMinute:plan.perMinute || client.stats.perMinute || null},
+      paid: pace.paid, budget: pace.budget, notice};
   }
 
   // 3. Merge, write
@@ -185,10 +248,10 @@ export async function run(){
     const so = SO[g].concat(gap[g].filter(r => r.shootout_winner).map(r => ({date:r.date, home_team:r.home_team, away_team:r.away_team, winner:r.shootout_winner})));
     const meta = {built, archive:{end:ends[g], rows:A[g].length},
       gapfill:{rows:gap[g].length, from:gap[g].length ? gap[g][0].date : null, to:gap[g].length ? gap[g][gap[g].length - 1].date : null}};
-    writeJSON(path.join(DATA, g + '.json'), compact(g, rows, so, former, meta));
+    writeIfChanged(path.join(DATA, g + '.json'), compact(g, rows, so, former, meta));
     status[g] = {...meta, fixtures:fixtures[g].length};
   }
-  writeJSON(path.join(DATA, 'fixtures.json'), fixtures);
+  writeIfChanged(path.join(DATA, 'fixtures.json'), fixtures);
 
   // 4. Forecast record: forecasts from the site's own model, frozen at kick-off, scored once played
   const recFile = path.join(DATA, 'forecasts.json');
@@ -205,6 +268,7 @@ export async function run(){
     status.forecasts = {total:u.list.length, scored:u.list.filter(e => e.result).length, newThisRun:u.made, updatedThisRun:u.updated, scoredThisRun:u.scored};
   }
   writeJSON(path.join(DATA, 'status.json'), status, true);
+  for (const d of Object.keys(state.watch)) if (dayNum(d) < dayNum(today) - 2) delete state.watch[d];
   writeJSON(path.join(STORE, 'state.json'), state, true);
   writeJSON(path.join(STORE, 'venues.json'), venues, true);
   writeJSON(path.join(STORE, 'fixtures.json'), fixturesStore, true);
