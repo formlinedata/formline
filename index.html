@@ -3140,6 +3140,26 @@ function viewRecords(){
     html += panel('Best records of '+y, 'at least six matches; points per game', table(best, o => '<tr><td>'+team(o.nm, yEnd)+'</td><td class="num muted">'+o.w+'&ndash;'+o.d+'&ndash;'+o.l+'</td>'+
       '<td class="num"><span class="rating">'+((3*o.w + o.d)/o.p).toFixed(2)+'</span></td></tr>'));
   }
+  /* The FIFA method through history: number one year by year (all time) or the top ten at the year's end. */
+  /* Women: from the first Women's World Cup (1991); before it the regions barely met, so the early order says little. */
+  const FH0 = fifaHistory(g), FH = g === 'women' ? {years:FH0.years.filter(r => r.y >= 1991), peaks:FH0.peaks.filter(u => u.y >= 1991)} : FH0;
+  const fteam = (u, yr) => team(u.nm || u.key, Date.UTC(yr, 11, 31));
+  if (!y){
+    const spells = []; FH.years.forEach(r => { const k = r.top[0] && r.top[0].key; if (!k) return;
+      const s0 = spells[spells.length - 1]; if (s0 && s0.key === k && s0.to === r.y - 1){ s0.to = r.y; s0.nm = r.top[0].nm; } else spells.push({key:k, nm:r.top[0].nm, from:r.y, to:r.y}); });
+    const yearsAt = new Map(); FH.years.forEach(r => { const k = r.top[0] && r.top[0].key; if (k) yearsAt.set(k, (yearsAt.get(k) || 0) + 1); });
+    const most = [...yearsAt.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
+    html += panel('FIFA method: years at number one', 'at the end of each year', table(most, ([k, c]) => {
+      const sp = spells.filter(s => s.key === k).sort((a, b) => (b.to - b.from) - (a.to - a.from))[0];
+      return '<tr><td>'+fteam(sp, sp.to)+'<div class="muted" style="font-size:12.5px;margin-top:2px;">longest run '+sp.from+(sp.to > sp.from ? '&ndash;'+sp.to : '')+'</div></td>'+
+        '<td class="num"><span class="rating">'+c+'</span></td></tr>'; }));
+    html += panel('FIFA method: highest points ever', 'one entry per team, at a year\'s end', table(FH.peaks.slice(0, 12), u =>
+      '<tr><td class="muted date">'+u.y+'</td><td>'+fteam(u, u.y)+'</td><td class="num"><span class="rating">'+u.pts.toFixed(0)+'</span></td></tr>'));
+  } else {
+    const r = FH.years.find(x => x.y === y);
+    if (r) html += panel('FIFA method at the end of '+y, y < (g === 'men' ? 1993 : 2003) ? 'reverse calculation' : (g === 'men' && y < 2018 ? 'today\'s method, run back' : 'our calculation'),
+      table(r.top, (u, j) => '<tr><td class="muted">'+(j + 1)+'</td><td>'+fteam(u, y)+'</td><td class="num"><span class="rating">'+u.pts.toFixed(0)+'</span></td></tr>'));
+  }
   html += panel('Biggest wins', 'goal margin', table(wins, u => '<tr>'+dateCellM(u.x.ts)+'<td class="ml-cell">'+matchLine(u.w, u.l, u.s, tH, {win:1, ts:u.x.ts})+compCell(u.x)+'</td></tr>'));
   html += panel('Biggest rating gains in one match', 'points gained', table(jumps, u => '<tr>'+dateCellM(u.x.ts)+'<td class="ml-cell">'+matchLine(u.nm, u.o, u.x.hn === u.nm ? u.x.m.hs+'&ndash;'+u.x.m.as : u.x.m.as+'&ndash;'+u.x.m.hs, tH, {win:1, ts:u.x.ts})+compCell(u.x)+'</td>'+
     '<td class="num mono up">+'+u.d.toFixed(0)+'</td></tr>'));
@@ -3147,7 +3167,9 @@ function viewRecords(){
   '<div class="wrap">'+
     '<h1 class="page-title">'+(g === 'men' ? "Men's" : "Women's")+' records</h1>'+
     '<p class="page-sub">'+(y ? 'Records of '+y+'.' : 'All-time records, from '+years[years.length-1]+' to today.')+' These use every match ever played, not just the last '+state.windowYears+' years, so ratings can differ a little from the rest '+
-      'of the site. Upsets only count matches between well-known teams.</p>'+
+      'of the site. Upsets only count matches between well-known teams. The FIFA method panels show '+(g === 'men' ? 'FIFA\'s current method run back from 1872, '+
+      'without its 2018 restart; before 1993, when FIFA had no ranking, this is a reverse calculation.' : 'FIFA\'s women\'s method from 1971; before 2003, when FIFA\'s '+
+      'women\'s ranking began, this is a reverse calculation; the all-time lists start at the first Women\'s World Cup in 1991.')+'</p>'+
     '<div class="ctl" style="margin-bottom:18px;max-width:240px;"><label for="recYear">Period</label><select id="recYear">'+
       '<option value="">All time</option>'+years.map(v => '<option value="'+v+'"'+(v === y ? ' selected' : '')+'>'+v+'</option>').join('')+'</select></div>'+
     '<div class="rec-grid">'+html+'</div>'+
@@ -3467,7 +3489,8 @@ function viewTeam(){
           '<div class="s" title="'+row.tierMix.slice().sort((a, b) => b.p - a.p).slice(0, 3).map(x => 'tier '+x.n+' '+Math.round(x.p*100)+'%').join(', ')+'">'+
             (m => 'most likely tier '+m.n+' ('+Math.round(m.p*100)+'%)')(row.tierMix.slice().sort((a, b) => b.p - a.p)[0])+'</div></div>' : '')+
         (fm && fm.rank ? '<div class="stat"><div class="k">FIFA method</div><div class="v plain">#'+fm.rank+'</div>'+
-          '<div class="s"><a href="#/compare" title="FIFA\'s own formula, worked out here from the same results">'+fm.pts.toFixed(2)+' points, our calculation</a></div></div>' : '')+
+          '<div class="s"><a href="#/compare" title="FIFA\'s own formula, worked out here from the same results'+(FM.kind === 'back' ? ', run back from 1872' : '')+'">'+
+            fm.pts.toFixed(2)+' points, '+(FM.kind === 'back' ? 'reverse calculation' : 'our calculation')+'</a></div></div>' : '')+
       '</div></div>'+
     (row.island ? '<div class="notice"><b>Cut off from everyone else.</b> In this window '+esc(dn(team))+' played only '+
       row.islandWith.map(k => esc((c.byKey.get(k)||{team:k}).team)).join(', ').replace(/, ([^,]*)$/, ' and $1')+
@@ -4756,6 +4779,37 @@ function vsPanel(g){
       'World Elo is the World Football Elo Ratings formula (eloratings.net) and the FIFA method is FIFA\'s formula, both worked out here (see <a href="#/compare">Formline, Elo and FIFA</a>). '+
       'FIFA\'s ranking is built for seeding draws, not for predicting, but its formula still says what result it expects, and that is what is scored.</p></div>';
 }
+/* The same test through every era, measured on the archives in October 2026 (ratings frozen on 1 January, the
+   year's matches between teams all three methods had ranked). Rows: period, matches, picked the winner (Formline,
+   World Elo, FIFA, %), log-loss (the same order), years Formline had the lower log-loss than World Elo and than FIFA,
+   years, and what the FIFA column is: 'back' a reverse calculation of FIFA's current method (men run from 1872,
+   women from 1971), 'pub' FIFA's ranking as published at the time (1993-2018 used other methods with no win formula,
+   so its rank gaps and home advantage were turned into chances with a formula fitted on the other half of those
+   years), 'calc' FIFA's current method worked out here. */
+const VS_ERAS = {
+  men:[['1920–59', 3612, 72.2, 70.1, 66.0, 0.601, 0.613, 0.644, 28, 34, 40, 'back'], ['1960–92', 12872, 75.0, 73.2, 68.3, 0.582, 0.600, 0.637, 33, 33, 33, 'back'],
+       ['1993–18', 21736, 77.1, 76.3, 73.8, 0.556, 0.571, 0.604, 26, 26, 26, 'pub'], ['2019–26', 7314, 79.2, 79.0, 76.0, 0.534, 0.545, 0.574, 8, 8, 8, 'calc']],
+  women:[['1991–03', 1318, 83.8, 82.8, 79.2, 0.455, 0.472, 0.516, 10, 13, 13, 'back'], ['2004–18', 4294, 82.5, 81.1, 78.5, 0.465, 0.486, 0.514, 14, 15, 15, 'calc'],
+       ['2019–26', 4235, 81.3, 78.6, 76.4, 0.478, 0.511, 0.535, 8, 8, 8, 'calc']]
+};
+function vsEras(g){
+  const R = VS_ERAS[g]; if (!R) return '';
+  const mark = k => k === 'back' ? ' <span class="muted" title="Reverse calculation: FIFA\'s current method run back">&dagger;</span>' : k === 'pub' ? ' <span class="muted" title="FIFA\'s ranking as published at the time">&Dagger;</span>' : '';
+  const yrs = R.reduce((t, r) => t + r[10], 0), vsE = R.reduce((t, r) => t + r[8], 0), vsF = R.reduce((t, r) => t + r[9], 0);
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Every era<span class="aside">'+(g === 'men' ? 'since 1920' : 'since 1991')+', how often each picked the winner</span></div>'+
+    '<div class="table-wrap"><table class="kv-table"><thead><tr><th>Years</th><th class="hide-sm">Matches</th><th>Formline</th><th>World Elo</th><th>FIFA</th><th class="hide-sm">Years Formline ahead (vs Elo / vs FIFA)</th></tr></thead><tbody>'+
+    R.map(r => '<tr><td class="nowrap">'+r[0]+'</td><td class="n hide-sm">'+r[1].toLocaleString()+'</td><td class="n"><b>'+r[2].toFixed(1)+'%</b></td><td class="n">'+r[3].toFixed(1)+'%</td>'+
+      '<td class="n nowrap">'+r[4].toFixed(1)+'%'+mark(r[11])+'</td><td class="hide-sm" title="Years with a lower log-loss than World Elo / than FIFA">'+r[8]+' / '+r[9]+' of '+r[10]+'</td></tr>').join('')+
+    '</tbody></table></div>'+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">The same test as above, back through history: ratings frozen on 1 January, used to predict that '+
+      'year\'s matches between teams all three methods had ranked. <b>Formline ahead</b>: in how many years Formline\'s forecasts scored better (lower log-loss) '+
+      'than World Elo\'s and than FIFA\'s; over all '+yrs+' years, '+vsE+' against World Elo and '+vsF+' against FIFA. '+
+      '&dagger; <b>Reverse calculation:</b> '+(g === 'men' ? 'FIFA had no ranking before 1993, so this is FIFA\'s current method run back from the first international in 1872.'
+        : 'FIFA\'s women\'s ranking began in 2003, so this is its method run back to 1971, as FIFA itself did when it launched.')+
+      (g === 'men' ? ' &Dagger; <b>FIFA\'s ranking as published at the time.</b> Its methods then had no formula for a match\'s chances, so its rank gaps and home '+
+        'advantage were turned into chances with a formula fitted on the other half of those years, the fairest chance it could be given.' : '')+
+      ' Measured on the archives in October 2026; the table above updates with every new result.</p></div>';
+}
 function kickVs(g){
   if (vsCache[g] || vsCache[g+'busy']) return;
   vsCache[g+'busy'] = true;
@@ -4775,7 +4829,7 @@ function viewRecord(){
     '<p class="page-sub">Every match the site lists gets a forecast, which is updated until kick-off, then frozen and scored once '+
       'the result is in. Each one is saved publicly before its match, and none are removed: postponed matches are marked void.</p>';
   if (!rec){ app.innerHTML = '<div class="wrap">'+intro+'<div class="status">The record starts with the site\'s nightly update, '+
-    'which this copy of the site does not have. The online site has it.</div>'+vsPanel(g)+'</div>'; kickVs(g); return; }
+    'which this copy of the site does not have. The online site has it.</div>'+vsPanel(g)+vsEras(g)+'</div>'; kickVs(g); return; }
   const mine = rec.entries.filter(e => e.g === g), scored = mine.filter(e => e.result), pending = mine.filter(e => !e.result && !e.void);
   const S = recordSummary(scored), pc = x => Math.round(x*100)+'%';
   const card = (k, v, s) => '<div class="stat"><div class="k">'+k+'</div><div class="v plain">'+v+'</div><div class="s">'+s+'</div></div>';
@@ -4807,7 +4861,7 @@ function viewRecord(){
         'move a long way; the backtest on the Method page covers tens of thousands.</div>' : '')
       : '<div class="status">No '+(g==='men'?"men's":"women's")+' forecasts have been scored yet. '+
         (pending.length ? pending.length+' are waiting for their matches.' : '')+'</div>')+
-    calib+vsPanel(g)+
+    calib+vsPanel(g)+vsEras(g)+
     (rows ? '<div class="panel"><div class="panel-head">Scored forecasts<span class="aside">newest first</span></div><div class="table-wrap lock"><table>'+
       '<thead><tr><th>Date</th><th style="text-align:center;">Match and result</th><th class="hide-sm">Forecast</th>'+
       '<th class="num" title="The chance the forecast gave to what happened">Chance given</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>' : '')+
@@ -6382,34 +6436,91 @@ function fifaPrep(ms){
   }
   ms._fifaPrep = true;
 }
+/* Before August 2018 there is no FIFA table to start from, so for earlier dates the men's method is run back from the
+   first international in 1872, every team starting at FIFA_BACK_START: a reverse calculation of what today's method
+   would have said (FIFA's own ranking began in 1993 and used other methods until 2018). Importance follows the site's
+   competition types: World Cup 50 (60 from the quarter-finals), continental finals and the 1924/28 Olympics 35 (40),
+   the Confederations Cup 40, World Cup and continental qualifiers 25, the Nations League 15, and every other match 10,
+   as FIFA counts regional cups and friendlies today (there was no match calendar to put a friendly outside of). No
+   points are lost in the knockout rounds of a final tournament, read from the site's decoded formats (each team's
+   matches after its group games where a format could not be read). Non-FIFA tournaments are left out. From June 2018
+   today's exact rules apply, as for the seeded calculation. */
+const FIFA_BACK_START = 1000;
+const FIFA_BACK_FIN = {wc:[50, 60], cont:[35, 40], olympics:[35, 40], intercont:[40, 40]};
+function fifaBackPrep(ms){
+  if (ms._fifaBack) return ms._fifaBack;
+  const ko = new Set(), late = new Set();
+  for (const e of getEditions('men').list){
+    if (!FIFA_BACK_FIN[e.cat] || e.qualLike) continue;
+    let list;
+    try { const st = matchStages(e); list = st.size ? e.matches.filter(m => { const x = st.get(m); return x && !/Group|League|Qualifying/.test(x); }) : null; } catch(err){ list = null; }
+    if (!list){
+      const cnt = new Map(); e.matches.forEach(m => { cnt.set(m.home, (cnt.get(m.home) || 0) + 1); cnt.set(m.away, (cnt.get(m.away) || 0) + 1); });
+      const gs = Math.min(...cnt.values()), seen = new Map(); list = [];
+      e.matches.forEach(m => { seen.set(m.home, (seen.get(m.home) || 0) + 1); seen.set(m.away, (seen.get(m.away) || 0) + 1);
+        if (seen.get(m.home) > gs || seen.get(m.away) > gs) list.push(m); });
+    }
+    list.forEach(m => ko.add(m));
+    const left = new Set();
+    for (let j = list.length - 1; j >= 0; ){
+      let k = j; while (k >= 0 && list[k].ts === list[j].ts){ left.add(list[k].home); left.add(list[k].away); k--; }
+      for (let q = j; q > k; q--) if (left.size <= 8) late.add(list[q]);
+      j = k;
+    }
+  }
+  return ms._fifaBack = {ko, late};
+}
 const fifaCache = {};
 /* Points by the FIFA method as they stood at `asOf`, every team that has some, and the table FIFA would print: men, every
-   member that has played within four years; women, teams with five matches or more that have played within four years. */
-function fifaMethod(g, asOf){
+   member that has played within four years (run back from 1872: five matches or more, as for the women); women, teams
+   with five matches or more that have played within four years. kind is 'seeded' (men from August 2018), 'back' (men
+   before) or 'women'. opts.back runs the men's method from 1872 whatever the date; opts.onYear(y, top) is called at
+   the end of each year with that year's top ten. */
+function fifaMethod(g, asOf, opts){
   const ms = state.matches[g];
-  if (!ms || (g === 'men' && asOf < FIFA_FIRST_TS)) return null;
-  const ck = g+'|'+asOf; if (fifaCache[ck]) return fifaCache[ck];
-  const P = new Map(), n = new Map(), last = new Map(), members = new Set();
-  let i = 0;
+  if (!ms) return null;
+  const back = g === 'men' && (asOf < FIFA_FIRST_TS || !!(opts && opts.back));
+  const ck = g+'|'+asOf+'|'+back; if (!opts && fifaCache[ck]) return fifaCache[ck];
+  const P = new Map(), n = new Map(), last = new Map(), members = new Set(), NM = new Map();
+  let i = 0, B = null;
   if (g === 'men'){
     fifaPrep(ms);
-    FIFA_SEED_2018.split('|').forEach((grp, k) => grp.split(',').forEach(t => { const key = keyOfName(teamAlias(t, 'men')); P.set(key, 1600 - 4*k); members.add(key); }));
-    i = firstIndexAt(ms, FIFA_SEED_TS + 1);
+    if (back){ B = fifaBackPrep(ms); i = 0; }
+    else {
+      FIFA_SEED_2018.split('|').forEach((grp, k) => grp.split(',').forEach(t => { const key = keyOfName(teamAlias(t, 'men')); P.set(key, 1600 - 4*k); members.add(key); }));
+      i = firstIndexAt(ms, FIFA_SEED_TS + 1);
+    }
   } else i = firstIndexAt(ms, FIFA_W_FROM);
-  const get = k => P.has(k) ? P.get(k) : FIFA_W_START;
+  const START = g === 'men' ? FIFA_BACK_START : FIFA_W_START;
+  const get = k => P.has(k) ? P.get(k) : START;
+  const isRanked = (k, at) => g === 'men' && !back ? (last.get(k) || FIFA_SEED_TS) >= at - 4*365.25*DAY
+    : (n.get(k) || 0) >= 5 && last.get(k) >= at - 4*365.25*DAY;
+  const topN = (at, N) => [...P.keys()].filter(k => isRanked(k, at)).sort((a, b) => P.get(b) - P.get(a)).slice(0, N);
   const top10 = () => new Set([...P.keys()].filter(k => (n.get(k) || 0) >= 5).sort((a, b) => P.get(b) - P.get(a)).slice(0, 10));
+  const onYear = opts && opts.onYear;
+  let year = null;
   for (; i < ms.length && ms[i].ts <= asOf; i++){
-    const m = ms[i]; namesFor(m); const h = m._h, a = m._a;
+    const m = ms[i];
+    if (onYear){ const y = new Date(m.ts).getUTCFullYear();
+      if (year !== null && y !== year){ const at = Date.UTC(year, 11, 31); onYear(year, topN(at, 10).map(k => ({key:k, pts:P.get(k), nm:NM.get(k)}))); }
+      year = y; }
+    namesFor(m); const h = m._h, a = m._a;
     if (h === a) continue;
     let dh, da;
     if (g === 'men'){
-      if (!members.has(h) || !members.has(a)) continue;
+      let I, ko;
+      if (back){
+        if (m.cat === 'nonfifa') continue;
+        if (m.ts > FIFA_SEED_TS){ I = m._fi; ko = m._fko; }
+        else { const F = FIFA_BACK_FIN[m.cat]; I = F ? F[B.late.has(m) ? 1 : 0] : m.cat === 'wcq' || m.cat === 'contq' ? 25 : m.cat === 'nl' ? 15 : 10;
+          ko = B.ko.has(m); }
+      } else { if (!members.has(h) || !members.has(a)) continue; I = m._fi; ko = m._fko; }
       const so = m.hs === m.as ? (state.shootouts.men || new Map()).get(isoDayOf(m.ts)+'|'+m.home+'|'+m.away) : null;
       const Wh = m.hs > m.as ? 1 : m.hs < m.as ? 0 : so === m.home ? 0.75 : 0.5;
       const Wa = m.hs < m.as ? 1 : m.hs > m.as ? 0 : so === m.away ? 0.75 : 0.5;
-      const Eh = 1/(Math.pow(10, -(P.get(h) - P.get(a))/600) + 1);
-      dh = m._fi*(Wh - Eh); da = m._fi*(Wa - (1 - Eh));
-      if (m._fko){ dh = Math.max(dh, 0); da = Math.max(da, 0); }
+      const Eh = 1/(Math.pow(10, -(get(h) - get(a))/600) + 1);
+      dh = I*(Wh - Eh); da = I*(Wa - (1 - Eh));
+      if (ko){ dh = Math.max(dh, 0); da = Math.max(da, 0); }
     } else {
       const t = m.tournament;
       let K = FIFA_W_K60.has(t) ? 60 : FIFA_W_K45.has(t) ? 45 : FIFA_W_K30.has(t) ? 30 : 15;
@@ -6422,15 +6533,29 @@ function fifaMethod(g, asOf){
     if (g === 'men' && m.ts >= FIFA_ROUND_TS){ ph = Math.round(ph*100)/100; pa = Math.round(pa*100)/100; }
     P.set(h, ph); P.set(a, pa);
     n.set(h, (n.get(h) || 0) + 1); n.set(a, (n.get(a) || 0) + 1); last.set(h, m.ts); last.set(a, m.ts);
+    if (onYear){ NM.set(h, m._hn); NM.set(a, m._an); }
   }
-  const cutoff = asOf - 4*365.25*DAY;
-  const ranked = [...P.keys()].filter(k => g === 'men' ? (last.get(k) || FIFA_SEED_TS) >= cutoff : (n.get(k) || 0) >= 5 && last.get(k) >= cutoff)
-    .sort((a, b) => P.get(b) - P.get(a));
+  if (onYear && year !== null) onYear(year, topN(asOf, 10).map(k => ({key:k, pts:P.get(k), nm:NM.get(k)})), true);
+  const ranked = [...P.keys()].filter(k => isRanked(k, asOf)).sort((a, b) => P.get(b) - P.get(a));
   const byKey = new Map();
   for (const k of P.keys()) byKey.set(k, {key:k, pts:P.get(k), rank:null, n:n.get(k) || 0});
   ranked.forEach((k, j) => { const prev = j ? byKey.get(ranked[j - 1]) : null;
     byKey.get(k).rank = prev && prev.pts === P.get(k) ? prev.rank : j + 1; });
-  return fifaCache[ck] = {g, asOf, byKey, table:ranked.map(k => byKey.get(k))};
+  const out = {g, asOf, byKey, table:ranked.map(k => byKey.get(k)), kind:g === 'women' ? 'women' : back ? 'back' : 'seeded'};
+  if (!opts) fifaCache[ck] = out;
+  return out;
+}
+/* The FIFA method through all of history, for the Records page: the number one and top ten at the end of each year, and
+   each team's highest points. Men: run back from 1872 without FIFA's 2018 restart; women: from 1971. */
+const fifaHistCache = {};
+function fifaHistory(g){
+  if (fifaHistCache[g]) return fifaHistCache[g];
+  const years = [], peaks = new Map();
+  fifaMethod(g, state.bounds[g].max, {back:true, onYear:(y, top, now) => {
+    years.push({y, top, now:!!now});
+    top.forEach(x => { const p = peaks.get(x.key); if (!p || x.pts > p.pts) peaks.set(x.key, {key:x.key, nm:x.nm, pts:x.pts, y}); });
+  }});
+  return fifaHistCache[g] = {years, peaks:[...peaks.values()].sort((a, b) => b.pts - a.pts)};
 }
 /* The FIFA method's expected result for the listed home side, as FIFA's formula gives it. */
 function fifaExpect(g, fh, fa, m){
@@ -6722,6 +6847,8 @@ const CHANGELOG = [
     'The Elo comparison now uses the World Football Elo Ratings formula (the one behind eloratings.net), worked out here, instead of the site\'s own plain Elo.',
     'The Forecast record explains why small gaps between the methods matter, and shows who was right when they picked different favourites.',
     'Every forecast now uses long memory, which predicted past results better: fixtures, the simulator, past tournaments\' chances going in and the forecast record. Rankings and ratings are unchanged. The Predict page can still switch it off.',
+    'The Forecast record compares all three methods through every era: since 1920 for the men and 1991 for the women, with FIFA\'s published ranking for 1993-2018 and a reverse calculation before it.',
+    'The FIFA method now goes back before 2018: today\'s men\'s method run back from 1872, a reverse calculation, on Formline, Elo and FIFA, team pages and the Records page (years at number one, highest points, each year\'s top ten).',
     'Match weights keep their order, but the gaps between them are halved: a World Cup match now counts 42.5 and a friendly 25 (it was 60 and 25). Big matches still count most; this predicted better in every period tested. Ratings near the top are about 30 points lower, and a few places have changed.']],
   ['24 Oct 2026', ['A Support page: how to report a mistake, privacy, badges and credits, and room for donation links.',
     'Share images: a ready-made picture of the top ten, the year\'s movers or any team, tall or square for Instagram, or wide for X.',
@@ -7026,7 +7153,12 @@ function viewCompare(){
                  : 'every match since 1971, all teams starting level. The archive has fewer women\'s friendlies than FIFA\'s own records, so this one is rougher, and its starting level is set so that the top 20 sit on FIFA\'s scale.')+
     ' It is our calculation, not FIFA\'s published ranking'+
     (chk ? ': checked against FIFA\'s own release of '+chk.label+', its top 20 are on average '+chk.gap.toFixed(1)+' points from FIFA\'s figures, and '+chk.same+' of the 20 are in exactly the same place.' : '.')+
-    (g === 'men' ? ' Run from 2018 to FIFA\'s September 2024 release, all 210 ranked teams were on average 4 points out, and 197 of them within three places.' : '');
+    (g === 'men' ? ' Run from 2018 to FIFA\'s September 2024 release, all 210 ranked teams were on average 4 points out, and 197 of them within three places.' : '')+
+    (F && F.kind === 'back' ? ' <b>For dates before August 2018 the column is a reverse calculation:</b> today\'s method run back from the first '+
+      'international in 1872, every team starting level. FIFA\'s own ranking began in 1993 and used other methods until 2018, so these are '+
+      'not the rankings FIFA published at the time but what its current method would have said.' : '')+
+    (g === 'women' && state.asOf < Date.parse('2003-07-01T00:00:00Z') ? ' FIFA\'s women\'s ranking began in 2003, worked out back to 1971 as here; '+
+      'for earlier dates this is the same reverse calculation.' : '');
   app.innerHTML = '<div class="wrap">'+
     '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip on" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
     '<h1 class="page-title">Formline, World Elo and the FIFA method</h1>'+
@@ -7037,7 +7169,7 @@ function viewCompare(){
       '<p class="chart-note" style="padding:4px 15px 12px;margin:0;">'+fifaNote+' FIFA\'s ranking is built to order teams fairly for draws and seeding, not to predict results.</p></div>'+
     toolRow()+
     '<div class="panel"><div class="panel-head">Side by side'+
-      '<span class="aside">All three to '+asOfTxt+(F ? ' &middot; FIFA method, our calculation' : '')+'</span></div>'+
+      '<span class="aside">All three to '+asOfTxt+(F ? ' &middot; FIFA method, '+(F.kind === 'back' ? 'reverse calculation from 1872' : 'our calculation') : '')+'</span></div>'+
       (!F ? '<p class="muted" style="margin:0;padding:10px 15px;border-bottom:1px solid var(--line);font-size:13.5px;">FIFA\'s current men\'s method starts in August 2018, so there is no FIFA column for earlier dates.</p>' : '')+
       '<div class="table-wrap lock"><table class="cmp-rank"><thead><tr>'+
         '<th>Team</th>'+sortHead('formline', 'Formline')+'<th class="num hide-sm">Rating</th>'+
