@@ -1,11 +1,11 @@
 {
- "built": "2026-10-26T06:52:58.120Z",
- "today": "2026-10-26",
+ "built": "2026-10-27T06:49:11.807Z",
+ "today": "2026-10-27",
  "mode": "full",
  "api": {
   "keyPresent": true,
   "used": 64,
-  "remaining": 7437,
+  "remaining": 7435,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -30,13 +30,13 @@
  },
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 23637,
-  "not counted": 297,
-  "clubs": 195,
-  "youth": 466
+  "domestic": 23670,
+  "not counted": 292,
+  "youth": 470,
+  "clubs": 186
  },
  "men": {
-  "built": "2026-10-26T06:52:58.120Z",
+  "built": "2026-10-27T06:49:11.807Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49945
@@ -46,10 +46,10 @@
    "from": null,
    "to": null
   },
-  "fixtures": 134
+  "fixtures": 151
  },
  "women": {
-  "built": "2026-10-26T06:52:58.120Z",
+  "built": "2026-10-27T06:49:11.807Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -62,10 +62,10 @@
   "fixtures": 36
  },
  "forecasts": {
-  "total": 170,
+  "total": 187,
   "scored": 0,
-  "newThisRun": 170,
-  "updatedThisRun": 0,
+  "newThisRun": 17,
+  "updatedThisRun": 170,
   "scoredThisRun": 0
  }
 }
