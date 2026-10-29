@@ -86,7 +86,7 @@ export function mapFixture(f, matchTeam, mapTournament){
     if (h.unmatched) h = {name:TBD_NAME, gender:a.gender}; else a = {name:TBD_NAME, gender:h.gender};
   }
   // A club playing a national team in a friendly (Liechtenstein v SC Freiburg): a club match, not an unknown team.
-  const CLUB = /\b(FC|SC|AC|CF|CD|SK|FK|NK|SV|KF|BK|IF|IK|AIK|CSKA|Club|Sporting|Athletic|Atletico|Dinamo|Dynamo|Rapid|Olympique)\b/i;
+  const CLUB = /\b(FC|SC|AC|CF|CD|SK|FK|NK|SV|KF|BK|IF|IK|AIK|CSKA|Club|Sporting|Athletic|Atletico|Dinamo|Dynamo|Rapid|Olympique|Hearts?|Midlothian|Brighton|Albion|Rovers|Wanderers|Hotspur|Celtic|Rangers|Borussia|Bayern|Real|Juventus|Ajax|Benfica|Porto|PSV|Feyenoord|Galatasaray|Fenerbahce|Besiktas|Al)\b/i;
   if ((h.unmatched && CLUB.test(h.unmatched)) || (a.unmatched && CLUB.test(a.unmatched))) return {skip:'clubs'};
   if (h.unmatched || a.unmatched) return {skip:'unmatched', names:[h.unmatched, a.unmatched].filter(Boolean), gender:h.gender};
   if (h.gender !== a.gender) return {skip:'gender mismatch'};

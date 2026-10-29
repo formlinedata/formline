@@ -9,6 +9,9 @@ import {parseCSV} from './lib/csv.mjs';
 import {makeTeamMatcher, makeTournamentMapper, normKey} from './lib/names.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
+/* The workflow sets RUN_MODE for the whole job; the tests set it themselves where they need it. Without this, every
+   hourly (light) run failed here before building anything. */
+delete process.env.RUN_MODE; delete process.env.TODAY;
 let passed = 0;
 const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  ok  ' + label); };
 
@@ -26,6 +29,9 @@ ok(mt('Spain W', 'Friendlies Women').gender === 'women', 'W suffix -> women');
 ok(mt('Turks and Caicos W', 'Friendlies Women').name === 'Turks and Caicos Islands', 'women alias');
 ok(mt('Spain U21', 'Euro U21 - Qualification').skip === 'youth', 'U21 skipped');
 ok(mt('Atlantis', 'Friendlies').unmatched === 'Atlantis', 'unknown team reported, not guessed');
+ok(mt('Rep. Of Ireland', 'Friendlies').name === 'Republic of Ireland', 'aliases ignore letter case');
+ok(mt('Spain W', 'Friendlies Women').name === 'Spain' && makeTeamMatcher({men:new Set(['San Marino']), women:new Set(['Spain'])})('San Marino W', 'Friendlies Women').name === 'San Marino',
+   'a national team new to one archive is taken from the other');
 const tours = {men:new Set(['Friendly', 'FIFA World Cup qualification', 'Gold Cup qualification', 'ASEAN Championship', 'SAFF Cup']),
                women:new Set(['Friendly', 'CONCACAF Gold Cup qualification', 'SAFF Championship', 'Olympic Games'])};
 const tm = makeTournamentMapper(tours);
@@ -135,6 +141,20 @@ ok(planDates('2026-09-26', '2026-09-20', {}, 'light').join() === '2026-09-25,202
   delete process.env.RUN_MODE; process.env.TODAY = '2026-09-26';
 }
 ok(menMtime > 0, 'men.json written');
+{
+  const {placeRow, cityCountries} = await import('./update.mjs');
+  const cc = cityCountries([{city:'Monterrey', country:'Mexico'}, {city:'Monterrey', country:'Mexico'}, {city:'Auckland', country:'New Zealand'}]);
+  const r1 = placeRow({home_team:'Panama', away_team:'Jamaica', tournament:'Friendly', city:'Monterrey', date:'2026-11-12'}, {}, cc);
+  ok(r1.country === 'Mexico' && r1.neutral === 'TRUE' && r1.venue_src === 'city', 'a known city gives the country: neutral when neither side is from there');
+  const r2 = placeRow({home_team:'Mexico', away_team:'Spain', tournament:'FIFA World Cup', city:'', date:'2026-06-20'}, {}, cc);
+  ok(r2.neutral === 'FALSE' && r2.country === 'Mexico' && r2.venue_src === 'event', 'a host at its own finals keeps home advantage');
+  const r3 = placeRow({home_team:'Brazil', away_team:'Spain', tournament:'FIFA World Cup', city:'', date:'2026-06-20'}, {}, cc);
+  ok(r3.neutral === 'TRUE' && r3.venue_src === 'event', 'other matches at a finals tournament are neutral');
+  const r4 = placeRow({home_team:'Curaçao', away_team:'Panama', tournament:'CONCACAF Nations League', city:'', date:'2026-11-09'}, {}, cc);
+  ok(r4.neutral === 'FALSE' && r4.country === 'Curaçao' && r4.venue_src === 'assumed', 'otherwise the first-named team is assumed at home, and marked so');
+  const r5 = placeRow({home_team:'Curaçao', away_team:'Panama', tournament:'Friendly', city:'', venue_id:7, date:'2026-11-09'}, {7:{country:'Panama', city:'Panama City'}}, cc);
+  ok(r5.neutral === 'FALSE' && r5.country === 'Panama' && r5.venue_src === 'api', 'the venue\'s own country wins when the API gives one');
+}
 {
   const {mapFixture} = await import('./lib/apifootball.mjs');
   const {TEAM_ALIASES} = await import('./lib/names.mjs');

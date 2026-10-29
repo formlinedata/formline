@@ -89,14 +89,45 @@ export function planDates(today, earliest, fetched, mode, ahead = 14){
   return out.map(d => iso(d * DAY));
 }
 
-/* Neutral and country from the venue, once its country is known. */
-function placeRow(r, venues){
+/* Where a match is played, worked out from what is known, best first:
+   1. the venue's country from API-Football (venue_src 'api');
+   2. the city, looked up in the archive's own record of where each city is (venue_src 'city');
+   3. finals tournaments and other events played in one place are neutral, except for the hosts (venue_src 'event');
+   4. otherwise the first-named team is taken to be at home (venue_src 'assumed').
+   Home advantage only goes to a team playing in its own country, as everywhere else on the site. Recomputed every run,
+   so a venue announced late replaces the guess. */
+export const NEUTRAL_EVENTS = new Set(['FIFA World Cup', 'UEFA Euro', 'Copa América', 'African Cup of Nations', 'AFC Asian Cup', 'Gold Cup',
+  'CONCACAF Gold Cup', 'Oceania Nations Cup', 'OFC Nations Cup', 'Olympic Games', 'Confederations Cup', 'Arab Cup', 'Gulf Cup', 'COSAFA Cup',
+  'CECAFA Cup', 'AFF Championship', 'ASEAN Championship', 'SAFF Cup', 'EAFF Championship', 'WAFF Championship', 'CAFA Nations Cup',
+  'FIFA Series', 'King\'s Cup', 'Intercontinental Cup', 'Kirin Cup', 'Kirin Challenge Cup', 'Pacific Games', 'Island Games',
+  'CONMEBOL–UEFA Cup of Champions', 'Euro', 'AFC Championship', 'African Championship', 'CONCACAF Championship', 'OFC Championship',
+  'Algarve Cup', 'SheBelieves Cup', 'Pinatar Cup', 'Cyprus Cup', 'Turkish Women\'s Cup']);
+/* Hosts of the finals coming up (tournament|year). Add each edition when its hosts are decided. */
+export const EVENT_HOSTS = {'FIFA World Cup|2026':['United States', 'Canada', 'Mexico'], 'AFC Asian Cup|2027':['Saudi Arabia'],
+  'African Cup of Nations|2027':['Kenya', 'Uganda', 'Tanzania'], 'FIFA World Cup|2027':['Brazil'], 'Arab Cup|2025':['Qatar'],
+  'Gold Cup|2027':['United States'], 'UEFA Euro|2028':['England', 'Republic of Ireland', 'Scotland', 'Wales'], 'SheBelieves Cup|2027':['United States'],
+  'Algarve Cup|2027':['Portugal'], 'Kirin Cup|2026':['Japan'], 'Kirin Challenge Cup|2026':['Japan'], 'King\'s Cup|2026':['Thailand']};
+const cityKey = c => String(c || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]/g, '');
+/* city -> country from the archive: the country each city appears with most often. */
+export function cityCountries(rows){
+  const n = new Map();
+  for (const r of rows){ if (!r.city || !r.country) continue; const k = cityKey(r.city); const m = n.get(k) || new Map(); m.set(r.country, (m.get(r.country) || 0) + 1); n.set(k, m); }
+  const out = new Map(); for (const [k, m] of n) out.set(k, [...m.entries()].sort((a, b) => b[1] - a[1])[0][0]);
+  return out;
+}
+export function placeRow(r, venues, cities){
   const v = r.venue_id && venues[r.venue_id];
-  if (v && v.country){
-    r.country = archiveCountry(v.country);
-    r.neutral = r.country === r.home_team ? 'FALSE' : (r.country === r.away_team ? 'FALSE' : 'TRUE');
-    if (!r.city && v.city) r.city = v.city;
-  } else if (!r.neutral) r.neutral = 'FALSE';
+  const set = (country, src) => { r.country = country; r.neutral = country === r.home_team || country === r.away_team ? 'FALSE' : 'TRUE'; r.venue_src = src; };
+  if (v && v.country){ if (!r.city && v.city) r.city = v.city; set(archiveCountry(v.country), 'api'); return r; }
+  const fromCity = r.city && cities ? cities.get(cityKey(r.city)) : null;
+  if (fromCity){ set(fromCity, 'city'); return r; }
+  if (NEUTRAL_EVENTS.has(r.tournament)){
+    const hosts = EVENT_HOSTS[r.tournament+'|'+String(r.date || '').slice(0, 4)] || [];
+    const host = hosts.includes(r.home_team) ? r.home_team : hosts.includes(r.away_team) ? r.away_team : null;
+    if (host) set(host, 'event'); else { r.country = ''; r.neutral = 'TRUE'; r.venue_src = 'event'; }
+    return r;
+  }
+  set(r.home_team, 'assumed');
   return r;
 }
 
@@ -182,6 +213,8 @@ export async function run(){
   }
   const former = await readArchive('men', 'former_names.csv');
   const ends = {men: A.men[A.men.length - 1].date, women: A.women[A.women.length - 1].date};
+  const cities = cityCountries(A.men.concat(A.women));
+  status.seen = {men:{results:0, latest:null}, women:{results:0, latest:null}};
 
   // 2. Gap-filler
   if (process.env.APIFOOTBALL_KEY){
@@ -214,7 +247,8 @@ export async function run(){
           continue;
         }
         if (x.row.unmapped_tournament) status.unmappedTournaments[x.row.league] = (status.unmappedTournaments[x.row.league] || 0) + 1;
-        if (x.kind === 'result'){ x.row.updated = built; byId[x.gender].set(String(x.row.api_id), x.row); }
+        if (x.kind === 'result'){ x.row.updated = built; byId[x.gender].set(String(x.row.api_id), x.row);
+          const S = status.seen[x.gender]; S.results++; if (!S.latest || x.row.date > S.latest) S.latest = x.row.date; }
         else fixturesStore[x.row.api_id] = {...x.row, gender:x.gender};
       }
       if (unknownHere) delete state.fetched[date];   // a team we could not name: ask about this day again next run
@@ -242,13 +276,13 @@ export async function run(){
   const fixtures = {built, men:[], women:[]};
   for (const r of Object.values(fixturesStore)){
     if (r.date < today){ delete fixturesStore[r.api_id]; continue; }
-    placeRow(r, venues);
+    placeRow(r, venues, cities);
     fixtures[r.gender].push({date:r.date, kickoff:r.kickoff, home:r.home_team, away:r.away_team, tournament:r.tournament,
-      city:r.city, country:r.country, neutral:r.neutral === 'TRUE', ...(r.tbd ? {tbd:true} : {}), ...(r.tbc ? {tbc:true} : {})});
+      city:r.city, country:r.country, neutral:r.neutral === 'TRUE', venue:r.venue_src, ...(r.tbd ? {tbd:true} : {}), ...(r.tbc ? {tbc:true} : {})});
   }
   for (const g of ['men', 'women']){
     fixtures[g].sort((a, b) => a.kickoff < b.kickoff ? -1 : 1);
-    gap[g] = prune(gap[g].map(r => placeRow(r, venues)), A[g]).sort((a, b) => a.date < b.date ? -1 : 1);
+    gap[g] = prune(gap[g].map(r => placeRow(r, venues, cities)), A[g]).sort((a, b) => a.date < b.date ? -1 : 1);
     fs.mkdirSync(STORE, {recursive:true});
     fs.writeFileSync(path.join(STORE, 'gapfill-' + g + '.csv'), toCSV(gap[g], GAP_COLS));
     const rows = A[g].map(r => ({...r, src:'archive'})).concat(gap[g].map(r => ({...r, src:'gapfill'})));
@@ -259,6 +293,9 @@ export async function run(){
     status[g] = {...meta, fixtures:fixtures[g].length};
   }
   writeIfChanged(path.join(DATA, 'fixtures.json'), fixtures);
+  /* How each fixture's venue was worked out, so missing venues show up. */
+  status.venues = {};
+  for (const g of ['men', 'women']) for (const f of fixtures[g]) status.venues[f.venue] = (status.venues[f.venue] || 0) + 1;
 
   // 4. Forecast record: forecasts from the site's own model, frozen at kick-off, scored once played
   const recFile = path.join(DATA, 'forecasts.json');

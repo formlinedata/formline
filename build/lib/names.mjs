@@ -37,7 +37,7 @@ const YOUTH = /\bU-?\s?(1[5-9]|2[0-3])\b|\bunder[- ]?(1[5-9]|2[0-3])\b|\byouth\b
 /* Decide gender and archive name for an API team name. Returns {gender, name} or {skip:reason}. */
 export function makeTeamMatcher(archiveTeams){
   // archiveTeams: {men:Set, women:Set}
-  const index = {};
+  const index = {}, alias = new Map(Object.entries(TEAM_ALIASES).map(([k, v]) => [normKey(k), v]));
   for (const g of ['men', 'women']){
     index[g] = new Map();
     for (const t of archiveTeams[g]) index[g].set(normKey(t), t);
@@ -48,8 +48,10 @@ export function makeTeamMatcher(archiveTeams){
     let g = 'men';
     if (/\sW$/.test(n) || /\bwomen\b/i.test(n)){ g = 'women'; n = n.replace(/\sW$/, '').replace(/\s*women('s)?\s*/i, ' ').trim(); }
     if (/\bwomen|female|féminin/i.test(leagueName || '')) g = 'women';
-    const aliased = TEAM_ALIASES[n] || n;
-    const hit = index[g].get(normKey(aliased));
+    const aliased = TEAM_ALIASES[n] || alias.get(normKey(n)) || n;
+    /* A national team the other archive knows (San Marino's women, say, before their first archived match) is the same
+       team: take its name from there rather than dropping the match. */
+    const hit = index[g].get(normKey(aliased)) || index[g === 'men' ? 'women' : 'men'].get(normKey(aliased));
     return hit ? {gender:g, name:hit} : {gender:g, unmatched:n};
   };
 }
