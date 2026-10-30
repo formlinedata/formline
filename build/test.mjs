@@ -289,6 +289,39 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   ok(fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8').includes('https://example.github.io/formline/teams/men/'), 'sitemap lists the pages');
   ok(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8').includes('Sitemap: https://example.github.io/formline/sitemap.xml'), 'robots.txt points to the sitemap');
 }
+// --- IndexNow: tell Bing which pages changed
+{
+  const X = await import('./indexnow.mjs');
+  const base = 'https://example.github.io/formline/', K = '0123456789abcdef0123456789abcdef';
+  ok(X.findKey(root) === null, 'IndexNow: no key file, no key');
+  fs.writeFileSync(path.join(root, 'ffffffffffffffffffffffffffffffff.txt'), 'something else');
+  fs.writeFileSync(path.join(root, K + '.txt'), K + '\n');
+  ok(X.findKey(root) === K, 'IndexNow: key read from the file whose contents match its name');
+  const listed = X.sitemapUrls(fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8'));
+  const page = [...listed].find(u => u.includes('/teams/men/')), rel = page.slice(base.length);
+  const urls = X.urlsFor([rel, 'data/men.json', 'build/store/state.json', 'teams/men/not-a-team.html', 'og.png', ''], base, listed);
+  ok(urls.length === 2 && urls.includes(page) && urls.includes(base), 'IndexNow: changed team page and home page (from its data), nothing outside the sitemap');
+  ok(X.urlsFor(['build/store/state.json'], base, listed).length === 0, 'IndexNow: data-only store changes send nothing');
+  const sent = [], files = new Map([[base + K + '.txt', K + '\n'], [page, fs.readFileSync(path.join(root, rel), 'utf8')]]);
+  let stale = 2;   // the site serves the old page twice before the deploy lands
+  const fake = async (url, opt = {}) => {
+    if (opt.method === 'POST'){ sent.push({url, body:JSON.parse(opt.body)}); return {status:200}; }
+    const u = url.replace(/[?&]v=\d+$/, '');
+    if (u === page && stale-- > 0) return {ok:true, text:async () => 'old'};
+    return files.has(u) ? {ok:true, text:async () => files.get(u)} : {ok:false, text:async () => ''};
+  };
+  const quiet = () => {};
+  const r = await X.run(root, {files:[rel, 'data/men.json'], repo:'example/formline', fetchImpl:fake, tries:5, pause:0, log:quiet});
+  ok(r.sent === 2 && r.live === true && stale < 0, 'IndexNow: waits for the new page to be live, then sends');
+  const b = sent[0] && sent[0].body;
+  ok(sent.length === 1 && sent[0].url === X.ENDPOINT && b.host === 'example.github.io' && b.key === K && b.keyLocation === base + K + '.txt' && b.urlList.length === 2,
+    'IndexNow: one request with host, key, key file address and the pages');
+  const r2 = await X.run(root, {files:['build/store/state.json'], repo:'example/formline', fetchImpl:fake, tries:1, pause:0, log:quiet});
+  ok(r2.sent === 0 && sent.length === 1, 'IndexNow: nothing changed, nothing sent');
+  const r3 = await X.run(root, {files:[rel], repo:'example/formline', fetchImpl:async (u, o = {}) => o.method === 'POST' ? (sent.push(1), {status:202}) : {ok:false, text:async () => ''}, tries:2, pause:0, log:quiet});
+  ok(r3.sent === 1 && r3.live === false && sent.length === 2, 'IndexNow: site not updated in time, still sends');
+  fs.rmSync(path.join(root, K + '.txt')); fs.rmSync(path.join(root, 'ffffffffffffffffffffffffffffffff.txt'));
+}
 // --- local copies of outside files, and saved Wikipedia images
 {
   const {rewriteHtml, localiseFontCss, LIBS, FONT_CSS} = await import('./vendor.mjs');
