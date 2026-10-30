@@ -6,7 +6,7 @@
   "away_team": "Belgium",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Turkey",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528958,
@@ -14,7 +14,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528959": {
   "date": "2026-11-12",
@@ -23,7 +24,7 @@
   "away_team": "Cyprus",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Armenia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528959,
@@ -31,7 +32,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528960": {
   "date": "2026-11-12",
@@ -40,7 +42,7 @@
   "away_team": "France",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Italy",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528960,
@@ -48,7 +50,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528961": {
   "date": "2026-11-12",
@@ -57,7 +60,7 @@
   "away_team": "Spain",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Czech Republic",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528961,
@@ -65,7 +68,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528962": {
   "date": "2026-11-12",
@@ -74,7 +78,7 @@
   "away_team": "Croatia",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "England",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528962,
@@ -82,7 +86,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528963": {
   "date": "2026-11-12",
@@ -91,7 +96,7 @@
   "away_team": "Finland",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Albania",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528963,
@@ -99,7 +104,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528964": {
   "date": "2026-11-12",
@@ -108,7 +114,7 @@
   "away_team": "Belarus",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "San Marino",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528964,
@@ -116,7 +122,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528965": {
   "date": "2026-11-13",
@@ -125,7 +132,7 @@
   "away_team": "Germany",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Serbia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528965,
@@ -133,7 +140,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528966": {
   "date": "2026-11-13",
@@ -142,7 +150,7 @@
   "away_team": "Greece",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Netherlands",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528966,
@@ -150,7 +158,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528967": {
   "date": "2026-11-13",
@@ -159,7 +168,7 @@
   "away_team": "Faroe Islands",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Slovakia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528967,
@@ -167,7 +176,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528968": {
   "date": "2026-11-13",
@@ -176,7 +186,7 @@
   "away_team": "Kazakhstan",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Moldova",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528968,
@@ -184,7 +194,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528969": {
   "date": "2026-11-13",
@@ -193,7 +204,7 @@
   "away_team": "Iceland",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Bulgaria",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528969,
@@ -201,7 +212,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528970": {
   "date": "2026-11-13",
@@ -210,7 +222,7 @@
   "away_team": "Azerbaijan",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Liechtenstein",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528970,
@@ -218,7 +230,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528971": {
   "date": "2026-11-14",
@@ -227,7 +240,7 @@
   "away_team": "Israel",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Kosovo",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528971,
@@ -235,7 +248,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528972": {
   "date": "2026-11-14",
@@ -244,7 +258,7 @@
   "away_team": "Wales",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Norway",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528972,
@@ -252,7 +266,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528973": {
   "date": "2026-11-14",
@@ -261,7 +276,7 @@
   "away_team": "Hungary",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Georgia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528973,
@@ -269,7 +284,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528974": {
   "date": "2026-11-14",
@@ -278,7 +294,7 @@
   "away_team": "Denmark",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Portugal",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528974,
@@ -286,7 +302,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528975": {
   "date": "2026-11-14",
@@ -295,7 +312,7 @@
   "away_team": "Ukraine",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Northern Ireland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528975,
@@ -303,7 +320,26 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
+ },
+ "1528976": {
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T19:45:00+00:00",
+  "home_team": "Austria",
+  "away_team": "Republic of Ireland",
+  "tournament": "UEFA Nations League",
+  "city": "",
+  "country": "Austria",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1528976,
+  "league": "UEFA Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528977": {
   "date": "2026-11-14",
@@ -312,7 +348,7 @@
   "away_team": "Poland",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Romania",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528977,
@@ -320,7 +356,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528978": {
   "date": "2026-11-14",
@@ -329,7 +366,7 @@
   "away_team": "Bosnia and Herzegovina",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Sweden",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528978,
@@ -337,7 +374,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528979": {
   "date": "2026-11-15",
@@ -346,7 +384,7 @@
   "away_team": "Montenegro",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Cyprus",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528979,
@@ -354,7 +392,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528980": {
   "date": "2026-11-15",
@@ -363,7 +402,7 @@
   "away_team": "Albania",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Belarus",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528980,
@@ -371,7 +410,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528981": {
   "date": "2026-11-15",
@@ -380,7 +420,7 @@
   "away_team": "San Marino",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Finland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528981,
@@ -388,7 +428,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528982": {
   "date": "2026-11-15",
@@ -397,7 +438,7 @@
   "away_team": "Turkey",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "France",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528982,
@@ -405,7 +446,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528983": {
   "date": "2026-11-15",
@@ -414,7 +456,7 @@
   "away_team": "Italy",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Belgium",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528983,
@@ -422,7 +464,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528984": {
   "date": "2026-11-15",
@@ -431,7 +474,7 @@
   "away_team": "England",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Spain",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528984,
@@ -439,7 +482,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528985": {
   "date": "2026-11-15",
@@ -448,7 +492,7 @@
   "away_team": "Czech Republic",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Croatia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528985,
@@ -456,7 +500,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528986": {
   "date": "2026-11-16",
@@ -465,7 +510,7 @@
   "away_team": "Slovakia",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Kazakhstan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528986,
@@ -473,7 +518,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528987": {
   "date": "2026-11-16",
@@ -482,7 +528,7 @@
   "away_team": "Moldova",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Faroe Islands",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528987,
@@ -490,7 +536,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528988": {
   "date": "2026-11-16",
@@ -499,7 +546,7 @@
   "away_team": "Bulgaria",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Estonia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528988,
@@ -507,7 +554,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528989": {
   "date": "2026-11-16",
@@ -516,7 +564,7 @@
   "away_team": "Liechtenstein",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Lithuania",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528989,
@@ -524,7 +572,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528990": {
   "date": "2026-11-16",
@@ -533,7 +582,7 @@
   "away_team": "Netherlands",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Germany",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528990,
@@ -541,7 +590,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528991": {
   "date": "2026-11-16",
@@ -550,7 +600,7 @@
   "away_team": "Serbia",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Greece",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528991,
@@ -558,7 +608,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528992": {
   "date": "2026-11-17",
@@ -567,7 +618,7 @@
   "away_team": "Portugal",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Wales",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528992,
@@ -575,7 +626,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528993": {
   "date": "2026-11-17",
@@ -584,7 +636,7 @@
   "away_team": "Norway",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Denmark",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528993,
@@ -592,7 +644,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528994": {
   "date": "2026-11-17",
@@ -601,7 +654,7 @@
   "away_team": "Georgia",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Ukraine",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528994,
@@ -609,7 +662,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528995": {
   "date": "2026-11-17",
@@ -618,7 +672,7 @@
   "away_team": "Northern Ireland",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Hungary",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528995,
@@ -626,7 +680,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528996": {
   "date": "2026-11-17",
@@ -635,7 +690,7 @@
   "away_team": "Austria",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Israel",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528996,
@@ -643,7 +698,26 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
+ },
+ "1528997": {
+  "date": "2026-11-17",
+  "kickoff": "2026-11-17T19:45:00+00:00",
+  "home_team": "Republic of Ireland",
+  "away_team": "Kosovo",
+  "tournament": "UEFA Nations League",
+  "city": "",
+  "country": "Republic of Ireland",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1528997,
+  "league": "UEFA Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528998": {
   "date": "2026-11-17",
@@ -652,7 +726,7 @@
   "away_team": "Sweden",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Poland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528998,
@@ -660,7 +734,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1528999": {
   "date": "2026-11-17",
@@ -669,7 +744,7 @@
   "away_team": "Romania",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Bosnia and Herzegovina",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1528999,
@@ -677,7 +752,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545613": {
   "date": "2026-11-12",
@@ -686,7 +762,7 @@
   "away_team": "Latvia",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Montenegro",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545613,
@@ -694,7 +770,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545614": {
   "date": "2026-11-13",
@@ -703,7 +780,7 @@
   "away_team": "Estonia",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Luxembourg",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545614,
@@ -711,7 +788,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545615": {
   "date": "2026-11-13",
@@ -720,7 +798,7 @@
   "away_team": "Gibraltar",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Andorra",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545615,
@@ -728,7 +806,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545616": {
   "date": "2026-11-15",
@@ -737,7 +816,7 @@
   "away_team": "Armenia",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Latvia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545616,
@@ -745,7 +824,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545617": {
   "date": "2026-11-16",
@@ -754,7 +834,7 @@
   "away_team": "Luxembourg",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Iceland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545617,
@@ -762,7 +842,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545618": {
   "date": "2026-11-16",
@@ -771,7 +852,7 @@
   "away_team": "Malta",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Gibraltar",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545618,
@@ -779,7 +860,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545652": {
   "date": "2026-11-16",
@@ -788,7 +870,7 @@
   "away_team": "Scotland",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Switzerland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545652,
@@ -796,7 +878,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545654": {
   "date": "2026-11-13",
@@ -805,7 +888,7 @@
   "away_team": "Switzerland",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Slovenia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545654,
@@ -813,7 +896,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545659": {
   "date": "2026-11-13",
@@ -822,7 +906,7 @@
   "away_team": "North Macedonia",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "Scotland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545659,
@@ -830,7 +914,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545662": {
   "date": "2026-11-16",
@@ -839,7 +924,7 @@
   "away_team": "Slovenia",
   "tournament": "UEFA Nations League",
   "city": "",
-  "country": "",
+  "country": "North Macedonia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545662,
@@ -847,7 +932,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545862": {
   "date": "2026-11-11",
@@ -856,7 +942,7 @@
   "away_team": "Togo",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Algeria",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545862,
@@ -864,7 +950,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545863": {
   "date": "2026-11-11",
@@ -873,7 +960,7 @@
   "away_team": "South Sudan",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Angola",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545863,
@@ -881,7 +968,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545864": {
   "date": "2026-11-11",
@@ -890,7 +978,7 @@
   "away_team": "Central African Republic",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Benin",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545864,
@@ -898,7 +986,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545865": {
   "date": "2026-11-11",
@@ -907,7 +996,7 @@
   "away_team": "Mauritania",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Burkina Faso",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545865,
@@ -915,7 +1004,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545866": {
   "date": "2026-11-11",
@@ -924,7 +1014,7 @@
   "away_team": "Namibia",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Cameroon",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545866,
@@ -932,7 +1022,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545867": {
   "date": "2026-11-11",
@@ -941,7 +1032,7 @@
   "away_team": "Liberia",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Cape Verde",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545867,
@@ -949,7 +1040,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545868": {
   "date": "2026-11-11",
@@ -958,7 +1050,7 @@
   "away_team": "Congo",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Comoros",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545868,
@@ -966,7 +1058,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545869": {
   "date": "2026-11-11",
@@ -975,7 +1068,7 @@
   "away_team": "Sierra Leone",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "DR Congo",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545869,
@@ -983,7 +1076,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545870": {
   "date": "2026-11-11",
@@ -992,7 +1086,7 @@
   "away_team": "Malawi",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Egypt",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545870,
@@ -1000,7 +1094,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545871": {
   "date": "2026-11-11",
@@ -1009,7 +1104,7 @@
   "away_team": "Zimbabwe",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Equatorial Guinea",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545871,
@@ -1017,7 +1112,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545872": {
   "date": "2026-11-11",
@@ -1026,7 +1122,7 @@
   "away_team": "Lesotho",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Gabon",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545872,
@@ -1034,7 +1130,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545873": {
   "date": "2026-11-11",
@@ -1043,7 +1140,7 @@
   "away_team": "Somalia",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Ghana",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545873,
@@ -1051,7 +1148,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545874": {
   "date": "2026-11-11",
@@ -1060,7 +1158,7 @@
   "away_team": "Eritrea",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Guinea",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545874,
@@ -1068,7 +1166,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545875": {
   "date": "2026-11-11",
@@ -1077,7 +1176,7 @@
   "away_team": "Gambia",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Ivory Coast",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545875,
@@ -1085,7 +1184,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545876": {
   "date": "2026-11-11",
@@ -1094,7 +1194,7 @@
   "away_team": "Guinea-Bissau",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Madagascar",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545876,
@@ -1102,7 +1202,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545877": {
   "date": "2026-11-11",
@@ -1111,7 +1212,7 @@
   "away_team": "Rwanda",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Mali",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545877,
@@ -1119,7 +1220,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545878": {
   "date": "2026-11-11",
@@ -1128,7 +1230,7 @@
   "away_team": "Niger",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Morocco",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545878,
@@ -1136,7 +1238,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545879": {
   "date": "2026-11-11",
@@ -1145,7 +1248,7 @@
   "away_team": "Ethiopia",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Mozambique",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545879,
@@ -1153,7 +1256,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545880": {
   "date": "2026-11-11",
@@ -1162,7 +1266,7 @@
   "away_team": "Tanzania",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Nigeria",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545880,
@@ -1170,7 +1274,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545881": {
   "date": "2026-11-11",
@@ -1179,7 +1284,7 @@
   "away_team": "Sudan",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Senegal",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545881,
@@ -1187,7 +1292,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545882": {
   "date": "2026-11-11",
@@ -1196,7 +1302,7 @@
   "away_team": "Kenya",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "South Africa",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545882,
@@ -1204,7 +1310,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545883": {
   "date": "2026-11-11",
@@ -1213,7 +1320,7 @@
   "away_team": "Libya",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Tunisia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545883,
@@ -1221,7 +1328,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545884": {
   "date": "2026-11-11",
@@ -1230,7 +1338,7 @@
   "away_team": "Botswana",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Uganda",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545884,
@@ -1238,7 +1346,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545885": {
   "date": "2026-11-11",
@@ -1247,7 +1356,7 @@
   "away_team": "Burundi",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Zambia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545885,
@@ -1255,7 +1364,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545886": {
   "date": "2026-11-15",
@@ -1264,7 +1374,7 @@
   "away_team": "Uganda",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Botswana",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545886,
@@ -1272,7 +1382,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545887": {
   "date": "2026-11-15",
@@ -1281,7 +1392,7 @@
   "away_team": "Zambia",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Burundi",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545887,
@@ -1289,7 +1400,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545888": {
   "date": "2026-11-15",
@@ -1298,7 +1410,7 @@
   "away_team": "Benin",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Central African Republic",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545888,
@@ -1306,7 +1418,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545889": {
   "date": "2026-11-15",
@@ -1315,7 +1428,7 @@
   "away_team": "Comoros",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Congo",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545889,
@@ -1323,7 +1436,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545890": {
   "date": "2026-11-15",
@@ -1332,7 +1446,7 @@
   "away_team": "Guinea",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Eritrea",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545890,
@@ -1340,7 +1454,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545891": {
   "date": "2026-11-15",
@@ -1349,7 +1464,7 @@
   "away_team": "Mozambique",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Ethiopia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545891,
@@ -1357,7 +1472,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545892": {
   "date": "2026-11-15",
@@ -1366,7 +1482,7 @@
   "away_team": "Ivory Coast",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Gambia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545892,
@@ -1374,7 +1490,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545893": {
   "date": "2026-11-15",
@@ -1383,7 +1500,7 @@
   "away_team": "Madagascar",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Guinea-Bissau",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545893,
@@ -1391,7 +1508,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545894": {
   "date": "2026-11-15",
@@ -1400,7 +1518,7 @@
   "away_team": "South Africa",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Kenya",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545894,
@@ -1408,7 +1526,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545895": {
   "date": "2026-11-15",
@@ -1417,7 +1536,7 @@
   "away_team": "Gabon",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Lesotho",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545895,
@@ -1425,7 +1544,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545896": {
   "date": "2026-11-15",
@@ -1434,7 +1554,7 @@
   "away_team": "Cape Verde",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Liberia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545896,
@@ -1442,7 +1562,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545897": {
   "date": "2026-11-15",
@@ -1451,7 +1572,7 @@
   "away_team": "Tunisia",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Libya",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545897,
@@ -1459,7 +1580,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545898": {
   "date": "2026-11-15",
@@ -1468,7 +1590,7 @@
   "away_team": "Egypt",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Malawi",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545898,
@@ -1476,7 +1598,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545899": {
   "date": "2026-11-15",
@@ -1485,7 +1608,7 @@
   "away_team": "Burkina Faso",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Mauritania",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545899,
@@ -1493,7 +1616,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545900": {
   "date": "2026-11-15",
@@ -1502,7 +1626,7 @@
   "away_team": "Cameroon",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Namibia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545900,
@@ -1510,7 +1634,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545901": {
   "date": "2026-11-15",
@@ -1519,7 +1644,7 @@
   "away_team": "Morocco",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Niger",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545901,
@@ -1527,7 +1652,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545902": {
   "date": "2026-11-15",
@@ -1536,7 +1662,7 @@
   "away_team": "Mali",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Rwanda",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545902,
@@ -1544,7 +1670,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545903": {
   "date": "2026-11-15",
@@ -1553,7 +1680,7 @@
   "away_team": "DR Congo",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Sierra Leone",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545903,
@@ -1561,7 +1688,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545904": {
   "date": "2026-11-15",
@@ -1570,7 +1698,7 @@
   "away_team": "Ghana",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Somalia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545904,
@@ -1578,7 +1706,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545905": {
   "date": "2026-11-15",
@@ -1587,7 +1716,7 @@
   "away_team": "Angola",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "South Sudan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545905,
@@ -1595,7 +1724,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545906": {
   "date": "2026-11-15",
@@ -1604,7 +1734,7 @@
   "away_team": "Senegal",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Sudan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545906,
@@ -1612,7 +1742,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545907": {
   "date": "2026-11-15",
@@ -1621,7 +1752,7 @@
   "away_team": "Nigeria",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Tanzania",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545907,
@@ -1629,7 +1760,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545908": {
   "date": "2026-11-15",
@@ -1638,7 +1770,7 @@
   "away_team": "Algeria",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Togo",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545908,
@@ -1646,7 +1778,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1545909": {
   "date": "2026-11-15",
@@ -1655,7 +1788,7 @@
   "away_team": "Equatorial Guinea",
   "tournament": "African Cup of Nations qualification",
   "city": "",
-  "country": "",
+  "country": "Zimbabwe",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545909,
@@ -1663,7 +1796,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1550710": {
   "date": "2026-11-27",
@@ -1672,7 +1806,7 @@
   "away_team": "Costa Rica",
   "tournament": "FIFA World Cup qualification",
   "city": "Mansfield",
-  "country": "",
+  "country": "Jamaica",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1550710,
@@ -1680,7 +1814,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1550711": {
   "date": "2026-11-27",
@@ -1689,7 +1824,7 @@
   "away_team": "El Salvador",
   "tournament": "FIFA World Cup qualification",
   "city": "Mansfield",
-  "country": "",
+  "country": "United States",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1550711,
@@ -1697,7 +1832,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1550712": {
   "date": "2026-11-28",
@@ -1706,7 +1842,7 @@
   "away_team": "Panama",
   "tournament": "FIFA World Cup qualification",
   "city": "Mansfield",
-  "country": "",
+  "country": "Canada",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1550712,
@@ -1714,7 +1850,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1550713": {
   "date": "2026-11-28",
@@ -1723,7 +1860,7 @@
   "away_team": "Haiti",
   "tournament": "FIFA World Cup qualification",
   "city": "Mansfield",
-  "country": "",
+  "country": "Mexico",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1550713,
@@ -1731,7 +1868,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1586133": {
   "date": "2026-11-15",
@@ -1740,7 +1878,7 @@
   "away_team": "India",
   "tournament": "Friendly",
   "city": "Christchurch",
-  "country": "",
+  "country": "New Zealand",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1586133,
@@ -1748,7 +1886,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1586134": {
   "date": "2026-11-12",
@@ -1757,7 +1896,7 @@
   "away_team": "India",
   "tournament": "Friendly",
   "city": "Auckland",
-  "country": "",
+  "country": "New Zealand",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1586134,
@@ -1765,7 +1904,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1638241": {
   "date": "2026-11-28",
@@ -1774,7 +1914,7 @@
   "away_team": "South Africa",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Taiwan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638241,
@@ -1782,7 +1922,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638242": {
   "date": "2026-11-28",
@@ -1791,7 +1932,7 @@
   "away_team": "Ecuador",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Ghana",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638242,
@@ -1799,7 +1940,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638243": {
   "date": "2026-11-28",
@@ -1808,7 +1950,7 @@
   "away_team": "Papua New Guinea",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Uzbekistan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638243,
@@ -1816,7 +1958,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638244": {
   "date": "2026-12-01",
@@ -1825,7 +1968,7 @@
   "away_team": "Taiwan",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Papua New Guinea",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638244,
@@ -1833,7 +1976,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638245": {
   "date": "2026-12-01",
@@ -1842,7 +1986,7 @@
   "away_team": "Ecuador",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "South Africa",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638245,
@@ -1850,7 +1994,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638246": {
   "date": "2026-12-01",
@@ -1859,7 +2004,7 @@
   "away_team": "Ghana",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Uzbekistan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638246,
@@ -1867,7 +2012,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638247": {
   "date": "2026-12-05",
@@ -1876,7 +2022,7 @@
   "away_team": "Ecuador",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Taiwan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638247,
@@ -1884,7 +2030,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638248": {
   "date": "2026-12-05",
@@ -1893,7 +2040,7 @@
   "away_team": "Ghana",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Papua New Guinea",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638248,
@@ -1901,7 +2048,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638249": {
   "date": "2026-12-05",
@@ -1910,7 +2058,7 @@
   "away_team": "Uzbekistan",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "South Africa",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638249,
@@ -1918,7 +2066,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638588": {
   "date": "2026-11-28",
@@ -1927,7 +2076,7 @@
   "away_team": "Colombia",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Australia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638588,
@@ -1935,7 +2084,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1638605": {
   "date": "2026-11-16",
@@ -1944,7 +2094,7 @@
   "away_team": "Azerbaijan",
   "tournament": "Friendly",
   "city": "Encamp",
-  "country": "",
+  "country": "Andorra",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1638605,
@@ -1952,7 +2102,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1640004": {
   "date": "2026-11-11",
@@ -1961,7 +2112,7 @@
   "away_team": "Guadeloupe",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Barbados",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640004,
@@ -1969,7 +2120,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640005": {
   "date": "2026-11-11",
@@ -1978,7 +2130,7 @@
   "away_team": "Sint Maarten",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Belize",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640005,
@@ -1986,7 +2138,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640006": {
   "date": "2026-11-11",
@@ -1995,7 +2148,7 @@
   "away_team": "Saint Lucia",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Bermuda",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640006,
@@ -2003,7 +2156,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640007": {
   "date": "2026-11-11",
@@ -2012,7 +2166,7 @@
   "away_team": "Cuba",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Bonaire",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640007,
@@ -2020,7 +2174,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640008": {
   "date": "2026-11-11",
@@ -2029,7 +2184,7 @@
   "away_team": "Guyana",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Cayman Islands",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640008,
@@ -2037,7 +2192,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640009": {
   "date": "2026-11-11",
@@ -2046,7 +2202,7 @@
   "away_team": "Grenada",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Cuba",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640009,
@@ -2054,7 +2210,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640010": {
   "date": "2026-11-11",
@@ -2063,7 +2220,7 @@
   "away_team": "Cayman Islands",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Dominica",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640010,
@@ -2071,7 +2228,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640011": {
   "date": "2026-11-11",
@@ -2080,7 +2238,7 @@
   "away_team": "Saint Vincent and the Grenadines",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "French Guiana",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640011,
@@ -2088,7 +2246,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640012": {
   "date": "2026-11-11",
@@ -2097,7 +2256,7 @@
   "away_team": "Saint Kitts and Nevis",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Grenada",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640012,
@@ -2105,7 +2264,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640013": {
   "date": "2026-11-11",
@@ -2114,7 +2274,7 @@
   "away_team": "Bermuda",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Guadeloupe",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640013,
@@ -2122,7 +2282,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640014": {
   "date": "2026-11-11",
@@ -2131,7 +2292,7 @@
   "away_team": "Puerto Rico",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Guyana",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640014,
@@ -2139,7 +2300,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640015": {
   "date": "2026-11-11",
@@ -2148,7 +2310,7 @@
   "away_team": "Dominica",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Puerto Rico",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640015,
@@ -2156,7 +2318,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640016": {
   "date": "2026-11-11",
@@ -2165,7 +2328,7 @@
   "away_team": "Bonaire",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Saint Kitts and Nevis",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640016,
@@ -2173,7 +2336,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640017": {
   "date": "2026-11-11",
@@ -2182,7 +2346,7 @@
   "away_team": "Barbados",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Saint Lucia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640017,
@@ -2190,7 +2354,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640018": {
   "date": "2026-11-11",
@@ -2199,7 +2364,7 @@
   "away_team": "Belize",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Saint Vincent and the Grenadines",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640018,
@@ -2207,7 +2372,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640019": {
   "date": "2026-11-11",
@@ -2216,7 +2382,7 @@
   "away_team": "French Guiana",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Sint Maarten",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640019,
@@ -2224,7 +2390,44 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
+ },
+ "1640031": {
+  "date": "2026-11-28",
+  "kickoff": "2026-11-28T13:00:00+00:00",
+  "home_team": "San Marino",
+  "away_team": "Liechtenstein",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "San Marino",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1640031,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "venue_src": "assumed"
+ },
+ "1640032": {
+  "date": "2026-12-05",
+  "kickoff": "2026-12-05T13:00:00+00:00",
+  "home_team": "San Marino",
+  "away_team": "Gibraltar",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "San Marino",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1640032,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1640083": {
   "date": "2026-11-13",
@@ -2233,7 +2436,7 @@
   "away_team": "Paraguay",
   "tournament": "Friendly",
   "city": "Kallang",
-  "country": "",
+  "country": "Singapore",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640083,
@@ -2241,7 +2444,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1640084": {
   "date": "2026-11-13",
@@ -2250,7 +2454,7 @@
   "away_team": "Australia",
   "tournament": "Friendly",
   "city": "Doha",
-  "country": "",
+  "country": "Qatar",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640084,
@@ -2258,7 +2462,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1640085": {
   "date": "2026-11-13",
@@ -2267,7 +2472,7 @@
   "away_team": "Indonesia",
   "tournament": "Friendly",
   "city": "Amman",
-  "country": "",
+  "country": "Jordan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640085,
@@ -2275,7 +2480,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1640086": {
   "date": "2026-11-14",
@@ -2284,15 +2490,16 @@
   "away_team": "Brazil",
   "tournament": "Friendly",
   "city": "Kallang",
-  "country": "",
-  "neutral": "FALSE",
+  "country": "Singapore",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640086,
   "league": "Friendlies",
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1640087": {
   "date": "2026-11-17",
@@ -2301,7 +2508,7 @@
   "away_team": "Brazil",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Singapore",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640087,
@@ -2309,7 +2516,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640088": {
   "date": "2026-11-17",
@@ -2318,7 +2526,7 @@
   "away_team": "Paraguay",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Japan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640088,
@@ -2326,7 +2534,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1640089": {
   "date": "2026-11-17",
@@ -2335,7 +2544,7 @@
   "away_team": "Australia",
   "tournament": "Friendly",
   "city": "Amman",
-  "country": "",
+  "country": "Jordan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640089,
@@ -2343,7 +2552,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1640518": {
   "date": "2026-11-13",
@@ -2352,7 +2562,7 @@
   "away_team": "Chile",
   "tournament": "Friendly",
   "city": "Cali",
-  "country": "",
+  "country": "Colombia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640518,
@@ -2360,7 +2570,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1640519": {
   "date": "2026-11-17",
@@ -2369,7 +2580,7 @@
   "away_team": "Colombia",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Chile",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640519,
@@ -2377,7 +2588,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1641089": {
   "date": "2026-12-05",
@@ -2386,7 +2598,7 @@
   "away_team": "Brazil",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Japan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1641089,
@@ -2394,7 +2606,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1641091": {
   "date": "2026-11-29",
@@ -2403,7 +2616,7 @@
   "away_team": "Brazil",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Japan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1641091,
@@ -2411,7 +2624,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1641698": {
   "date": "2026-11-28",
@@ -2420,7 +2634,7 @@
   "away_team": "Estonia",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Faroe Islands",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1641698,
@@ -2428,7 +2642,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1641699": {
   "date": "2026-11-28",
@@ -2437,7 +2652,7 @@
   "away_team": "Lithuania",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Latvia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1641699,
@@ -2445,7 +2660,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1643243": {
   "date": "2026-12-05",
@@ -2454,7 +2670,7 @@
   "away_team": "Zambia",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Denmark",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1643243,
@@ -2462,7 +2678,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1644690": {
   "date": "2026-11-09",
@@ -2471,7 +2688,7 @@
   "away_team": "Panama",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Curaçao",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1644690,
@@ -2479,7 +2696,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1644691": {
   "date": "2026-11-09",
@@ -2488,7 +2706,7 @@
   "away_team": "Mexico",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Jamaica",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1644691,
@@ -2496,7 +2714,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1644692": {
   "date": "2026-11-13",
@@ -2505,7 +2724,7 @@
   "away_team": "Canada",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Guatemala",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1644692,
@@ -2513,7 +2732,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1644693": {
   "date": "2026-11-14",
@@ -2522,7 +2742,7 @@
   "away_team": "United States",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Haiti",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1644693,
@@ -2530,7 +2750,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1644694": {
   "date": "2026-11-17",
@@ -2539,7 +2760,7 @@
   "away_team": "Guatemala",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Canada",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1644694,
@@ -2547,7 +2768,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1644695": {
   "date": "2026-11-17",
@@ -2556,7 +2778,7 @@
   "away_team": "Jamaica",
   "tournament": "CONCACAF Nations League",
   "city": "Monterrey",
-  "country": "",
+  "country": "Mexico",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1644695,
@@ -2564,7 +2786,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1644696": {
   "date": "2026-11-17",
@@ -2573,7 +2796,7 @@
   "away_team": "Curaçao",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "Panama",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1644696,
@@ -2581,7 +2804,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1644697": {
   "date": "2026-11-18",
@@ -2590,7 +2814,7 @@
   "away_team": "Haiti",
   "tournament": "CONCACAF Nations League",
   "city": "",
-  "country": "",
+  "country": "United States",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1644697,
@@ -2598,7 +2822,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1645470": {
   "date": "2026-12-02",
@@ -2607,7 +2832,7 @@
   "away_team": "Colombia",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Australia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1645470,
@@ -2615,7 +2840,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646037": {
   "date": "2026-11-26",
@@ -2624,7 +2850,7 @@
   "away_team": "Italy",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Finland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646037,
@@ -2632,7 +2858,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646038": {
   "date": "2026-11-26",
@@ -2641,7 +2868,7 @@
   "away_team": "Republic of Ireland",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Poland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646038,
@@ -2649,7 +2876,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646039": {
   "date": "2026-11-26",
@@ -2658,7 +2886,7 @@
   "away_team": "Iceland",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Portugal",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646039,
@@ -2666,7 +2894,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646040": {
   "date": "2026-11-26",
@@ -2675,7 +2904,7 @@
   "away_team": "Sweden",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Scotland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646040,
@@ -2683,7 +2912,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646041": {
   "date": "2026-11-26",
@@ -2692,7 +2922,7 @@
   "away_team": "Netherlands",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Slovenia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646041,
@@ -2700,7 +2930,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646042": {
   "date": "2026-11-26",
@@ -2709,7 +2940,7 @@
   "away_team": "Austria",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Switzerland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646042,
@@ -2717,7 +2948,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646043": {
   "date": "2026-11-26",
@@ -2726,7 +2958,7 @@
   "away_team": "England",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Ukraine",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646043,
@@ -2734,7 +2966,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646044": {
   "date": "2026-11-26",
@@ -2743,7 +2976,7 @@
   "away_team": "Norway",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Wales",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646044,
@@ -2751,7 +2984,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646045": {
   "date": "2026-12-05",
@@ -2760,7 +2994,7 @@
   "away_team": "Switzerland",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Austria",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646045,
@@ -2768,7 +3002,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646046": {
   "date": "2026-12-05",
@@ -2777,7 +3012,7 @@
   "away_team": "Ukraine",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "England",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646046,
@@ -2785,7 +3020,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646047": {
   "date": "2026-12-05",
@@ -2794,7 +3030,7 @@
   "away_team": "Portugal",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Iceland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646047,
@@ -2802,7 +3038,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646048": {
   "date": "2026-12-05",
@@ -2811,7 +3048,7 @@
   "away_team": "Poland",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Republic of Ireland",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646048,
@@ -2819,7 +3056,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646049": {
   "date": "2026-12-05",
@@ -2828,7 +3066,7 @@
   "away_team": "Finland",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Italy",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646049,
@@ -2836,7 +3074,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646050": {
   "date": "2026-12-05",
@@ -2845,7 +3084,7 @@
   "away_team": "Slovenia",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Netherlands",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646050,
@@ -2853,7 +3092,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646051": {
   "date": "2026-12-05",
@@ -2862,7 +3102,7 @@
   "away_team": "Wales",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Norway",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646051,
@@ -2870,7 +3110,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1646052": {
   "date": "2026-12-05",
@@ -2879,7 +3120,7 @@
   "away_team": "Scotland",
   "tournament": "FIFA World Cup qualification",
   "city": "",
-  "country": "",
+  "country": "Sweden",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1646052,
@@ -2887,7 +3128,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1647357": {
   "date": "2026-11-11",
@@ -2896,7 +3138,7 @@
   "away_team": "Taiwan",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Vietnam",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647357,
@@ -2904,7 +3146,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647358": {
   "date": "2026-11-12",
@@ -2913,7 +3156,7 @@
   "away_team": "Russia",
   "tournament": "Friendly",
   "city": "Tashkent",
-  "country": "",
+  "country": "Uzbekistan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647358,
@@ -2921,7 +3164,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1647359": {
   "date": "2026-11-12",
@@ -2930,7 +3174,7 @@
   "away_team": "Eswatini",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Malta",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647359,
@@ -2938,7 +3182,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647360": {
   "date": "2026-11-13",
@@ -2947,7 +3192,7 @@
   "away_team": "Kyrgyzstan",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Taiwan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647360,
@@ -2955,7 +3200,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647361": {
   "date": "2026-11-13",
@@ -2964,7 +3210,7 @@
   "away_team": "South Korea",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Saudi Arabia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647361,
@@ -2972,7 +3218,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647362": {
   "date": "2026-11-13",
@@ -2981,7 +3228,7 @@
   "away_team": "Uruguay",
   "tournament": "Friendly",
   "city": "Buenos Aires",
-  "country": "",
+  "country": "Argentina",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647362,
@@ -2989,7 +3236,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1647363": {
   "date": "2026-11-13",
@@ -2998,7 +3246,7 @@
   "away_team": "Costa Rica",
   "tournament": "Friendly",
   "city": "Quito",
-  "country": "",
+  "country": "Ecuador",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647363,
@@ -3006,7 +3254,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1647364": {
   "date": "2026-11-13",
@@ -3015,7 +3264,7 @@
   "away_team": "Bolivia",
   "tournament": "Friendly",
   "city": "Lima",
-  "country": "",
+  "country": "Peru",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647364,
@@ -3023,7 +3272,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1647365": {
   "date": "2026-11-14",
@@ -3032,7 +3282,7 @@
   "away_team": "Malaysia",
   "tournament": "Friendly",
   "city": "Guangzhou",
-  "country": "",
+  "country": "China",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647365,
@@ -3040,7 +3290,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1647366": {
   "date": "2026-11-15",
@@ -3049,7 +3300,7 @@
   "away_team": "Vietnam",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Kyrgyzstan",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647366,
@@ -3057,7 +3308,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647367": {
   "date": "2026-11-17",
@@ -3066,7 +3318,7 @@
   "away_team": "Malaysia",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Yemen",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647367,
@@ -3074,7 +3326,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647368": {
   "date": "2026-11-17",
@@ -3083,7 +3336,7 @@
   "away_team": "Bahrain",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "China",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647368,
@@ -3091,7 +3344,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647369": {
   "date": "2026-11-17",
@@ -3100,7 +3354,7 @@
   "away_team": "South Korea",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Qatar",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647369,
@@ -3108,7 +3362,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647370": {
   "date": "2026-11-17",
@@ -3117,7 +3372,7 @@
   "away_team": "Uzbekistan",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Saudi Arabia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647370,
@@ -3125,7 +3380,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647371": {
   "date": "2026-11-17",
@@ -3134,7 +3390,7 @@
   "away_team": "Venezuela",
   "tournament": "Friendly",
   "city": "Krasnodar",
-  "country": "",
+  "country": "Russia",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647371,
@@ -3142,7 +3398,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "city"
  },
  "1647372": {
   "date": "2026-11-17",
@@ -3151,7 +3408,7 @@
   "away_team": "Costa Rica",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Argentina",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647372,
@@ -3159,7 +3416,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647373": {
   "date": "2026-11-17",
@@ -3168,7 +3426,7 @@
   "away_team": "Bolivia",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Ecuador",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647373,
@@ -3176,7 +3434,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647628": {
   "date": "2026-11-27",
@@ -3185,7 +3444,7 @@
   "away_team": "Venezuela",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "France",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647628,
@@ -3193,7 +3452,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1647629": {
   "date": "2026-11-29",
@@ -3202,7 +3462,7 @@
   "away_team": "Philippines",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "New Zealand",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647629,
@@ -3210,7 +3470,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1647630": {
   "date": "2026-12-01",
@@ -3219,7 +3480,7 @@
   "away_team": "Venezuela",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Morocco",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647630,
@@ -3227,7 +3488,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1647631": {
   "date": "2026-12-04",
@@ -3236,7 +3498,7 @@
   "away_team": "Philippines",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "New Zealand",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647631,
@@ -3244,7 +3506,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1647632": {
   "date": "2026-12-05",
@@ -3253,7 +3516,7 @@
   "away_team": "Morocco",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "France",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647632,
@@ -3261,7 +3524,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "women"
+  "gender": "women",
+  "venue_src": "assumed"
  },
  "1647636": {
   "date": "2026-11-13",
@@ -3270,7 +3534,7 @@
   "away_team": "Honduras",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "United Arab Emirates",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647636,
@@ -3278,7 +3542,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647638": {
   "date": "2026-11-14",
@@ -3287,7 +3552,7 @@
   "away_team": "Yemen",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Bahrain",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647638,
@@ -3295,7 +3560,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647641": {
   "date": "2026-11-14",
@@ -3304,7 +3570,7 @@
   "away_team": "Venezuela",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Basque Country",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647641,
@@ -3312,7 +3578,8 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  },
  "1647643": {
   "date": "2026-11-17",
@@ -3321,7 +3588,7 @@
   "away_team": "Honduras",
   "tournament": "Friendly",
   "city": "",
-  "country": "",
+  "country": "Kuwait",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647643,
@@ -3329,6 +3596,7 @@
   "unmapped_tournament": "",
   "tbd": "",
   "tbc": "",
-  "gender": "men"
+  "gender": "men",
+  "venue_src": "assumed"
  }
 }

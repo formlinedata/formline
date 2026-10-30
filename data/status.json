@@ -1,6 +1,6 @@
 {
- "built": "2026-10-29T07:00:12.888Z",
- "today": "2026-10-29",
+ "built": "2026-10-30T07:01:24.906Z",
+ "today": "2026-10-30",
  "mode": "full",
  "api": {
   "keyPresent": true,
@@ -22,21 +22,26 @@
   "budget": 1500,
   "notice": null
  },
- "unmatched": {
-  "Rep. Of Ireland": 2,
-  "Heart Of Midlothian": 1,
-  "San Marino": 2,
-  "Brighton": 1
- },
+ "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 21253,
-  "clubs": 168,
-  "not counted": 278,
+  "domestic": 21215,
+  "not counted": 297,
+  "clubs": 191,
   "youth": 468
  },
+ "seen": {
+  "men": {
+   "results": 0,
+   "latest": null
+  },
+  "women": {
+   "results": 0,
+   "latest": null
+  }
+ },
  "men": {
-  "built": "2026-10-29T07:00:12.888Z",
+  "built": "2026-10-30T07:01:24.906Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49945
@@ -46,10 +51,10 @@
    "from": null,
    "to": null
   },
-  "fixtures": 155
+  "fixtures": 157
  },
  "women": {
-  "built": "2026-10-29T07:00:12.888Z",
+  "built": "2026-10-30T07:01:24.906Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -59,13 +64,17 @@
    "from": null,
    "to": null
   },
-  "fixtures": 41
+  "fixtures": 43
+ },
+ "venues": {
+  "assumed": 184,
+  "city": 16
  },
  "forecasts": {
-  "total": 195,
+  "total": 197,
   "scored": 0,
-  "newThisRun": 8,
-  "updatedThisRun": 187,
+  "newThisRun": 2,
+  "updatedThisRun": 195,
   "scoredThisRun": 0
  }
 }
