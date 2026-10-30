@@ -25,6 +25,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {parseCSV, toCSV} from './lib/csv.mjs';
 import {makeTeamMatcher, makeTournamentMapper, archiveCountry} from './lib/names.mjs';
+import {wikiVenues} from './lib/wikivenues.mjs';
 import {makeClient, mapFixture, planStatus, isFreePlan} from './lib/apifootball.mjs';
 import {loadModel} from './lib/model.mjs';
 import {updateRecord} from './lib/forecasts.mjs';
@@ -92,6 +93,7 @@ export function planDates(today, earliest, fetched, mode, ahead = 14){
 /* Where a match is played, worked out from what is known, best first:
    1. the venue's country from API-Football (venue_src 'api');
    2. the city, looked up in the archive's own record of where each city is (venue_src 'city');
+   2b. the match box in the team's Wikipedia results article (venue_src 'wiki'), for fixtures the API has no venue for yet;
    3. finals tournaments and other events played in one place are neutral, except for the hosts (venue_src 'event');
    4. otherwise the first-named team is taken to be at home (venue_src 'assumed').
    Home advantage only goes to a team playing in its own country, as everywhere else on the site. Recomputed every run,
@@ -107,7 +109,7 @@ export const EVENT_HOSTS = {'FIFA World Cup|2026':['United States', 'Canada', 'M
   'African Cup of Nations|2027':['Kenya', 'Uganda', 'Tanzania'], 'FIFA World Cup|2027':['Brazil'], 'Arab Cup|2025':['Qatar'],
   'Gold Cup|2027':['United States'], 'UEFA Euro|2028':['England', 'Republic of Ireland', 'Scotland', 'Wales'], 'SheBelieves Cup|2027':['United States'],
   'Algarve Cup|2027':['Portugal'], 'Kirin Cup|2026':['Japan'], 'Kirin Challenge Cup|2026':['Japan'], 'King\'s Cup|2026':['Thailand']};
-const cityKey = c => String(c || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]/g, '');
+export const cityKey = c => String(c || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]/g, '');
 /* city -> country from the archive: the country each city appears with most often. */
 export function cityCountries(rows){
   const n = new Map();
@@ -121,6 +123,7 @@ export function placeRow(r, venues, cities){
   if (v && v.country){ if (!r.city && v.city) r.city = v.city; set(archiveCountry(v.country), 'api'); return r; }
   const fromCity = r.city && cities ? cities.get(cityKey(r.city)) : null;
   if (fromCity){ set(fromCity, 'city'); return r; }
+  if (r.wiki && r.wiki.country){ if (!r.city) r.city = r.wiki.city; set(r.wiki.country, 'wiki'); return r; }
   if (NEUTRAL_EVENTS.has(r.tournament)){
     const hosts = EVENT_HOSTS[r.tournament+'|'+String(r.date || '').slice(0, 4)] || [];
     const host = hosts.includes(r.home_team) ? r.home_team : hosts.includes(r.away_team) ? r.away_team : null;
@@ -270,6 +273,21 @@ export async function run(){
       plan: plan.error ? {error:plan.error} : {name:plan.name, end:plan.end, active:plan.active, limitDay:plan.limitDay,
         usedTodayBeforeRun:plan.usedToday, perMinute:plan.perMinute || client.stats.perMinute || null},
       paid: pace.paid, budget: pace.budget, notice};
+  }
+
+  // 2b. Wikipedia, for fixtures in the next 30 days that still have no venue (full runs only; never fatal)
+  if (mode === 'full' && process.env.WIKI_VENUES !== '0'){
+    const horizon = iso(dayNum(today) * DAY + 30 * DAY);
+    const open = Object.values(fixturesStore).filter(r => r.date >= today && r.date <= horizon && !r.tbd &&
+      ['assumed', 'event', 'wiki'].includes(placeRow({...r, wiki:null}, venues, cities).venue_src));
+    const wcache = readJSON(path.join(STORE, 'wiki-venues.json'), {});
+    try {
+      const W = await wikiVenues(open, wcache, {today, cities, cityKey, toArchive:archiveCountry, log: m => console.log(m),
+        fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_LIMIT || 100)});
+      for (const r of Object.values(fixturesStore)) r.wiki = W.found.get(String(r.api_id)) || null;
+      status.wiki = {open:open.length, ...W.stats};
+    } catch(e){ status.wiki = {error:e.message}; }
+    writeJSON(path.join(STORE, 'wiki-venues.json'), wcache, true);
   }
 
   // 3. Merge, write

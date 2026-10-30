@@ -15,6 +15,49 @@ delete process.env.RUN_MODE; delete process.env.TODAY;
 let passed = 0;
 const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  ok  ' + label); };
 
+// --- unit: Wikipedia venues
+{
+  const W = await import('./lib/wikivenues.mjs');
+  const text = "==2026==\n{{Football box collapsible\n|date={{Start date|2026|11|14}}\n|time=19:30 SGT\n|team1={{fb-rt|JPN}}\n|score=\n|team2={{fb|BRA}}\n" +
+    "|stadium=[[National Stadium, Singapore|National Stadium]]\n|location=[[Kallang]], [[Singapore]]<ref>{{cite web|url=x}}</ref>\n|result=}}\n" +
+    "{{footballbox collapsible|date=17 November 2026|team1=[[Japan national football team|Japan]] {{flagicon|JPN}}|team2={{fb|PAR}}|stadium=[[Toyota Stadium]]|location=[[Toyota, Aichi|Toyota]]}}";
+  const M = W.pageMatches(text);
+  ok(M.length === 2, 'Wikipedia: two match boxes read');
+  ok(M[0].date === '2026-11-14' && M[0].t1 === 'JPN' && M[0].t2 === 'BRA', 'Wikipedia: date and codes from templates');
+  ok(M[0].city === 'Kallang' && M[0].country === 'Singapore' && M[0].stadium === 'National Stadium', 'Wikipedia: stadium, city and country, references dropped');
+  ok(M[1].date === '2026-11-17' && M[1].t1 === 'JPN' && M[1].country === '', 'Wikipedia: plain date, team from a link, no country');
+  ok(W.findMatch(M, {date:'2026-11-13', home_team:'Brazil', away_team:'Japan'}) === M[0], 'Wikipedia: a fixture matched within a day, either way round');
+  ok(W.findMatch(M, {date:'2026-11-20', home_team:'Japan', away_team:'Brazil'}) === null, 'Wikipedia: not three days out');
+  const cities = new Map([['toyota', 'Japan'], ['kallang', 'Singapore']]), ck = c => String(c).toLowerCase();
+  ok(W.boxCountry(M[1], cities, ck, x => x) === 'Japan', 'Wikipedia: a city alone is looked up in the archive');
+  ok(W.titleRe('United States', false).test("United States men's national soccer team results (2020–present)"), 'Wikipedia: US article title');
+  ok(W.titleRe('Japan', true).test("Japan women's national football team results") && !W.titleRe('Japan', false).test("Japan women's national football team results"), 'Wikipedia: men and women kept apart');
+  // the lookup end to end, with a fake Wikipedia
+  const calls = [];
+  const fake = async url => { calls.push(url); const q = new URL(url).searchParams;
+    const body = q.get('titles') ? {query:{pages:[{title:q.get('titles').replace(/^Taiwan/, 'Chinese Taipei')}]}}
+      : q.get('list') === 'search' ? {query:{search:(q.get('srsearch').startsWith('Chinese Taipei') ? [{title:'Chinese Taipei national football team results'}] : [])
+          .concat([{title:'Japan national football team results (2010–2019)'}, {title:'Japan national football team results (2020–present)'}])}}
+      : {parse:{wikitext:text.replace('{{fb|BRA}}', '{{fb|BRA}}') + (q.get('page').startsWith('Chinese Taipei') ? "{{Football box collapsible|date={{Start date|2026|11|13}}|team1={{fb-rt|TPE}}|team2={{fb|KGZ}}|stadium=Taipei Stadium|location=[[Taipei]], [[Taiwan]]}}" : '')}};
+    return {ok:true, json: async () => body}; };
+  const fx = [{api_id:1, gender:'men', date:'2026-11-14', home_team:'Japan', away_team:'Brazil'}];
+  const cache = {};
+  const R = await W.wikiVenues(fx, cache, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
+  ok(R.found.get('1') && R.found.get('1').country === 'Singapore', 'Wikipedia: Japan v Brazil found in Singapore');
+  ok(cache.titles['men|Japan'].title === 'Japan national football team results (2020–present)', 'Wikipedia: the article running to the present is chosen');
+  const n = calls.length; await W.wikiVenues(fx, cache, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
+  ok(calls.length === n + 2 || calls.length === n, 'Wikipedia: cached titles not searched again');
+  const R2 = await W.wikiVenues(fx, {}, {fetchImpl: async () => { throw new Error('offline'); }, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
+  ok(R2.found.size === 0 && R2.stats.errors > 0, 'Wikipedia: offline means no venues, not a failure');
+  const fx3 = [{api_id:3, gender:'men', date:'2026-11-13', home_team:'Taiwan', away_team:'Kyrgyzstan'}], c3 = {};
+  const R3 = await W.wikiVenues(fx3, c3, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
+  ok(c3.titles['men|Taiwan'].title === 'Chinese Taipei national football team results' && R3.found.get('3') && R3.found.get('3').country === 'Taiwan',
+    'Wikipedia: Taiwan found under its Wikipedia name, Chinese Taipei');
+  ok(W.boxCountry({city:'Harrison', country:'New Jersey'}, new Map([['harrison', 'United States']]), ck, x => x, new Set(['United States'])) === 'United States', 'Wikipedia: a US state is not taken for a country');
+  ok(W.boxCountry({city:'Kinshasa', country:'Democratic Republic of the Congo'}, new Map(), ck, x => x, new Set(['DR Congo'])) === 'DR Congo', 'Wikipedia: country spellings mapped to the archive');
+  ok(W.baseName("United States men's national soccer team") === 'United States' && W.baseName("Japan women's national football team") === 'Japan', 'Wikipedia: team name from an article title');
+}
+
 // --- unit: names
 const teams = {men:new Set(['United States', 'South Korea', 'DR Congo', 'Ivory Coast', 'Curaçao', 'Republic of Ireland', 'Saint Kitts and Nevis', 'Spain']),
                women:new Set(['Spain', 'United States', 'Turks and Caicos Islands'])};

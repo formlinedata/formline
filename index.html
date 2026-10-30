@@ -962,7 +962,9 @@
       (<a href="https://github.com/martj42/international_results" target="_blank" rel="noopener">men's</a> and
       <a href="https://github.com/martj42/womens-international-results" target="_blank" rel="noopener">women's</a> results),
       compiled from Wikipedia, RSSSF and football association sources and released under CC0. Results newer than the archives,
-      and upcoming fixtures, come from <a href="https://www.api-football.com" target="_blank" rel="noopener">API-Football</a>.</p>
+      and upcoming fixtures, come from <a href="https://www.api-football.com" target="_blank" rel="noopener">API-Football</a>; venues API-Football does
+      not have yet come from <a href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a>'s match listings
+      (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>).</p>
       <p>Current flags from <a href="https://flagpedia.net" target="_blank" rel="noopener">Flagpedia.net</a>, past flags from
       <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, each shown as it was on the date in view;
       <a href="#/flags">Flags &amp; names</a> has the details and credits. Association and confederation badges, mostly from <a href="https://logos.fandom.com" target="_blank" rel="noopener">Logopedia</a>, are the trademarks of their owners, shown for identification; where none is bundled with the site, Wikipedia's image is used.
@@ -3802,7 +3804,7 @@ function teamHistoryData(key, mode){
   const c = getRatings(), all = mode === 'all';
   const done = (ranks, peak, items, from) => {
     const S = histStats(items);
-    return Object.assign(S, {mode, key, from, ranks, peak, first:firstMatch(key), fin:bestFinishes(key, from, state.asOf)});
+    return Object.assign(S, {mode, key, from, ranks, peak, first:firstMatch(key), fin:bestFinishes(key, -Infinity, state.asOf)});   // trophies are facts: always all time
   };
   if (all) return new Promise(res => setTimeout(() => {
     const H = histAll(state.gender), B = H.best.get(key) || {};
@@ -3829,12 +3831,20 @@ function historyLines(D, html){
   const comp = x => x.m ? (html ? esc(shortComp(x.m.tournament)) : shortComp(x.m.tournament)) : '';
   const day = ts => html ? '<a href="'+rankDayHref(ts)+'">'+fmtDay(ts)+'</a>' : fmtDay(ts);
   const pc = v => v < 0.01 ? '<1%' : Math.round(v*100)+'%';
-  const fin = (f, word) => { if (!f) return null;
-    if (!f.eds.length) return {k:'Best '+word+' finish', v:'–', s:f.apps+' appearance'+(f.apps === 1 ? '' : 's')+', stages not readable from the archive'};
-    const edName = e => (word === 'World Cup' ? '' : compName(e.tournament)+' ')+e.label;
+  /* A tournament line: the best finish, how many times (titles counted), which years, and appearances, all time. The
+     World Cup is named for the game; a continental line names the championship (or championships) it comes from. */
+  const women = state.gender === 'women';
+  const fin = (f, wc) => { if (!f) return null;
+    const apps = f.apps+' appearance'+(f.apps === 1 ? '' : 's')+' in all';
+    const names = f.eds.length ? [...new Set(f.eds.map(e => compName(e.tournament)))] : [];
+    const k = wc ? (women ? "Women's World Cup" : 'World Cup') : (names.length === 1 ? names[0] : (women ? "Women's continental championship" : 'Continental championship'));
+    if (!f.eds.length) return {k, v:'–', s:apps+'; the stages cannot be read from the archive'};
+    const edName = e => (names.length > 1 ? compName(e.tournament)+' ' : '')+e.label;
     const edLink = e => html ? '<a href="'+editionHref(e)+'">'+esc(edName(e))+'</a>' : edName(e);
-    const eds = f.eds.length > 4 ? f.eds.length+' times, the latest '+edLink(f.eds[f.eds.length - 1]) : f.eds.map(edLink).join(', ');
-    return {k:'Best '+word+' finish', v:f.label, s:eds+' · '+f.apps+' appearance'+(f.apps === 1 ? '' : 's')}; };
+    const n = f.eds.length, shown = n > 5 ? f.eds.slice(-4) : f.eds;
+    const yrs = (n > 5 ? 'most recently ' : '')+shown.map(edLink).join(', ');
+    const v = f.label === 'Champions' ? (n === 1 ? 'Champions once' : 'Champions '+n+' times') : (n === 1 ? f.label : f.label+', '+n+' times');
+    return {k, v, s:yrs+' · '+apps}; };
   const when = ts => D.mode === 'all' ? 'first in '+(html ? '<a href="'+rankDayHref(ts)+'">'+monYear(ts)+'</a>' : monYear(ts)) : 'first on '+day(ts);
   if (D.ranks.r) L.push({k:'Best rank', v:'#'+D.ranks.r.n, s:when(D.ranks.r.ts)});
   if (D.ranks.lo && html) L.push({k:'Best rank, cautious order', v:'#'+D.ranks.lo.n, s:'by the bottom of its band, '+when(D.ranks.lo.ts)});
@@ -3845,8 +3855,8 @@ function historyLines(D, html){
   if (D.uRun) L.push({k:'Longest unbeaten run', v:D.uRun.n+' match'+(D.uRun.n === 1 ? '' : 'es'), s:monYear(D.uRun.from.ts)+(D.uRun.n > 1 ? ' to '+monYear(D.uRun.to.ts) : '')});
   if (D.upWin) L.push({k:'Biggest upset win', v:sc(D.upWin), s:'v '+opp(D.upWin)+' · '+pc(D.upWin.p)+' chance before kick-off · '+day(D.upWin.ts)});
   if (D.upLoss) L.push({k:'Worst upset defeat', v:sc(D.upLoss), s:'v '+opp(D.upLoss)+' · '+'only '+pc(D.upLoss.q)+' chance of losing · '+day(D.upLoss.ts)});
-  const wc = fin(D.fin.wc, 'World Cup'); if (wc) L.push(wc);
-  const ct = fin(D.fin.cont, 'continental'); if (ct) L.push(ct);
+  const wc = fin(D.fin.wc, true); if (wc) L.push(Object.assign(wc, {kind:'wc'}));
+  const ct = fin(D.fin.cont, false); if (ct) L.push(Object.assign(ct, {kind:'cont'}));
   if (D.first) L.push({k:'First match on record', v:sc(D.first), s:'v '+opp(D.first)+' · '+fmtDay(D.first.ts)+' · '+comp(D.first)});
   return L;
 }
@@ -3860,7 +3870,9 @@ function historySection(key){
     '<p class="chart-note">'+(mode === 'all'
       ? '<b>All time</b>: one continuous run through every match on record, as on the Records page, so the numbers can differ a little from the rest of the site. Ranks are checked at the start of every month, once at least '+RANK_MIN_TEAMS+' teams were ranked.'
       : '<b>'+winTxt+'</b>: what the site showed at the time, from the published rating on each date (checked every four months, and after each match in the last two years). Results and runs count matches inside the window.')+
-      ' Upsets count only matches where the model knew both sides well. Names and flags as they were at the time.</p></div></div>';
+      ' Tournament records are all time in both views. Upsets count only matches where the model knew both sides well. Names and flags as they were at the time.'+
+      ' <a href="#/team/'+enc(dn(key))+(filterQuery({g:state.gender === 'men' ? 'women' : undefined}) ? '?'+filterQuery({g:state.gender === 'men' ? 'women' : undefined}) : '')+'">'+
+        esc(dn(key))+(state.gender === 'men' ? '\'s women\'s team' : '\'s men\'s team')+' &rarr;</a></p></div></div>';
 }
 function fillHistory(key){
   const gen = state.renderGen, mode = state.params.hv === 'all' ? 'all' : 'win';
@@ -4722,7 +4734,7 @@ const TOURNAMENTS = [
      'The three hosts are already through and play their groups anyway: in groups D, H and L the host and the best of the other '+
      'three qualify, so 24 teams go through. Ties are broken by head-to-head results, as CAF does.'},
   {id:'asian-cup-2027', name:'AFC Asian Cup 2027', short:'Asian Cup 2027', gender:'men', status:'upcoming', start:'2027-01-07',
-   where:'Saudi Arabia, 7 January to 5 February 2027', hosts:['Saudi Arabia'], rounds:1, tiebreak:'h2h',
+   where:'Saudi Arabia, 7 January to 5 February 2027', hosts:['Saudi Arabia'], rounds:1, tiebreak:'h2h', tournament:'AFC Asian Cup', end:'2027-02-05',
    groups:{A:['Saudi Arabia','Kuwait','Oman','Palestine'], B:['Uzbekistan','Bahrain','North Korea','Jordan'],
            C:['Iran','Syria','Kyrgyzstan','China'], D:['Australia','Tajikistan','Iraq','Singapore'],
            E:['South Korea','United Arab Emirates','Vietnam','Yemen'], F:['Japan','Qatar','Thailand','Indonesia']},
@@ -4770,7 +4782,7 @@ const TOURNAMENTS = [
    note:'Two groups of three, home and away; played results are fixed and November is simulated. Group winners go up to '+
      'League C; runners-up play League C\'s two best-ranked fourth-placed teams in March 2028.'},
   {id:'concacaf-nl-a-2026', name:'CONCACAF Nations League 2026–27, League A knockouts', short:'CONCACAF Nations League A', gender:'men', status:'upcoming',
-   start:'2026-11-09', where:'Two-legged quarter-finals 9–17 November 2026; Finals in Los Angeles, March 2027', groups:{},
+   start:'2026-11-09', end:'2027-03-31', tournament:'CONCACAF Nations League', where:'Two-legged quarter-finals 9–17 November 2026; Finals in Los Angeles, March 2027', groups:{},
    seeded:['Mexico','Jamaica','Panama','Curaçao','United States','Haiti','Canada','Guatemala'],
    knockout:[
      {name:'Quarter-finals', col:'Quarters', legs:2, matches:[['S1','S2'],['S3','S4'],['S5','S6'],['S7','S8']]},
@@ -4909,21 +4921,28 @@ function prepareTournament(T, c, forced){
   }
   const fixtures = groupFixtures(T);
   const g = T.gender;
-  // results already in the data (tournaments in progress)
-  if (T.status === 'in progress'){
+  /* Results already in the data, fixed in every run: from the day a tournament starts (not only once it is marked in
+     progress), never for a rewind. Group fixtures first; any other match between two of its teams is a knockout leg,
+     kept for the simulation of that tie. */
+  const koPlayed = new Map();
+  if (T.status !== 'rewind' && T.tournament && T.start && (T.status === 'in progress' || Date.parse(T.start+'T00:00:00Z') <= state.bounds[g].max)){
     const s = Date.parse(T.start+'T00:00:00Z'), e = Date.parse((T.end || '2100-01-01')+'T00:00:00Z');
-    const key = t => c.resolve(t);
+    const key = t => c.resolve(t), byKey = new Map(teams.map(t => [key(t), t]));
     for (const m of state.matches[g]){
       if (m.ts < s || m.ts > e || m.tournament !== T.tournament) continue;
       const f = fixtures.find(f => !f.played && key(f.home) === keyOfName(m.home) && key(f.away) === keyOfName(m.away));
       if (f){ f.played = [m.hs, m.as]; continue; }
       /* Matches at central venues are sometimes recorded the other way round: take the reverse fixture if it is free. */
       const r = fixtures.find(f => !f.played && key(f.home) === keyOfName(m.away) && key(f.away) === keyOfName(m.home));
-      if (r) r.played = [m.as, m.hs];
+      if (r){ r.played = [m.as, m.hs]; continue; }
+      const h = byKey.get(keyOfName(m.home)), a = byKey.get(keyOfName(m.away)); if (!h || !a) continue;
+      const pk = [h, a].sort().join('|'), so = shootoutWinner(m);
+      if (!koPlayed.has(pk)) koPlayed.set(pk, []);
+      koPlayed.get(pk).push({home:h, away:a, hs:m.hs, as:m.as, so:so ? byKey.get(keyOfName(so)) || null : null});
     }
   }
   fixtures.forEach((f, i) => { f.i = i; if (!f.played && forced[i]) f.forced = forced[i]; });
-  return {T, info, fixtures, missing, g};
+  return {T, info, fixtures, missing, g, koPlayed};
 }
 
 function simulate(P, runs, seedStr, onDone, onProgress){
@@ -4955,12 +4974,20 @@ function simulate(P, runs, seedStr, onDone, onProgress){
     return [x, y, lh, la];
   }
   function koTie(a, b, legs){
+    /* Legs already played between these two come from the data; the rest are simulated. */
+    const done = (P.koPlayed && P.koPlayed.get([names[a], names[b]].sort().join('|'))) || [];
+    const leg = home => done.find(x => x.home === names[home]);
     if (legs === 2){   // first leg at b, second at a (a finished higher)
-      const [y1, x1] = play(b, a, 1), [x2, y2, lh, la] = play(a, b, 1);
+      const L1 = leg(b), L2 = leg(a);
+      const [y1, x1] = L1 ? [L1.hs, L1.as] : play(b, a, 1), [x2, y2, lh, la] = L2 ? [L2.hs, L2.as, null, null] : play(a, b, 1);
       let A = x1 + x2, B = y1 + y2;
-      if (A === B){ A += poissonDraw(lh/3, rand); B += poissonDraw(la/3, rand); if (A === B) return rand() < 0.5 ? a : b; }
+      if (A === B && L1 && L2){ const so = L2.so || L1.so; if (so) return so === names[a] ? a : b; }
+      if (A === B){ const [mh, ma] = lh === null ? goalMeans(calE(eloE(strength[a] - strength[b] + homeBonusOf(a, b)), g), g) : [lh, la];
+        A += poissonDraw(mh/3, rand); B += poissonDraw(ma/3, rand); if (A === B) return rand() < 0.5 ? a : b; }
       return A > B ? a : b;
     }
+    const L = done[0];
+    if (L){ if (L.hs !== L.as) return (L.hs > L.as) === (L.home === names[a]) ? a : b; if (L.so) return L.so === names[a] ? a : b; }
     const side = venueOf(names[a], names[b], false), [x, y, lh, la] = play(a, b, side);
     if (x !== y) return x > y ? a : b;
     const ex = poissonDraw(lh/3, rand), ey = poissonDraw(la/3, rand);
@@ -7577,8 +7604,11 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['30 Oct 2026', ['Fixtures: venues not yet announced through API-Football are looked up in each team\'s Wikipedia results article every night, so neutral grounds and home advantage are right earlier.',
+    'Simulator: results are fixed from the day a tournament starts, and knockout legs already played (the CONCACAF Nations League quarter-finals in November) come from the data, so the chances update through the window.']],
   ['29 Oct 2026', ['Simulator: the Africa Cup of Nations 2027 qualifiers, twelve groups with the September and October results fixed; each team\'s chance of qualifying, with the hosts\' groups sending the host and the best of the rest.',
     'Forecast record: a rolling check of the last 12 months against World Elo, with a warning if World Elo has done better over that year. Checked since 2010: Formline was ahead every year, and blending in World Elo adds nothing.',
+    'Team pages: tournament records in History are always all time, named for the game (World Cup or Women\'s World Cup, and the continental championship), with the number of titles; a link goes to the same country\'s other team.',
     'Every tournament edition is now read in full, including second group stages (World Cups of 1974 to 1982), final rounds (1950), home-and-away groups (old Copa Américas), best third-placed teams, byes and play-offs for fifth place: 303 of 306 finals get Chances going in, How the field shapes up and the expectation cards. Simulations follow the real bracket, each place going to whoever finishes where the real qualifier did.',
     'Tournament pages: The field by rating, by confederation, now groups each confederation\'s teams by tier, like the world view.',
     'Records: "Highest ratings" and "Highest, cautious", each one per country or the best sides with a team listed again only 4, 8, 12 or 16 years from its other entries; dates link to the Rankings on that day.',
@@ -7880,14 +7910,14 @@ async function siDraw(kind, size, opts = {}){
     const key = c.resolve(state.arg) || state.arg, row = c.byKey.get(key); if (!row) return null;
     const mode = state.params.hv === 'all' ? 'all' : 'win', D = await teamHistoryData(key, mode); if (!D) return null;
     const pick = ['Best rank', 'Peak rating', 'Biggest win', 'Biggest defeat', 'Longest unbeaten run', 'Biggest upset win', 'Best World Cup finish', 'Best continental finish', 'First match on record'];
-    const L = historyLines(D, false).filter(x => pick.includes(x.k)).slice(0, size === 'square' ? 6 : 8);
+    const L = historyLines(D, false).filter(x => pick.includes(x.k) || x.kind).slice(0, size === 'square' ? 6 : 8);
     const flag = await siLoad(siFlagSrc(row.team, state.asOf >= state.bounds[state.gender].max ? Infinity : state.asOf));
     const pad = siFrame(g, W, H, nameText(row.team)+': history', (mode === 'all' ? 'All time' : 'Last '+state.windowYears+' years')+' · '+game.toLowerCase()+' football · '+day);
     if (flag && size !== 'wide') siFlag(g, flag, W - pad - 120, pad*0.9 + 70, 80);
     const top = pad*0.9 + 210, bottom = H - pad*0.9 - 60, cols = size === 'wide' ? 2 : 1, per = Math.ceil(L.length/cols);
     const rowH = (bottom - top)/per, colW = (W - 2*pad - (cols - 1)*40)/cols, fs = Math.min(40, Math.round(rowH*0.34));
     L.forEach((x, i) => { const col = Math.floor(i/per), xx = pad + col*(colW + 40), y = top + (i % per)*rowH;
-      siText(g, x.k, xx, y + fs*0.75, '600 '+Math.round(fs*0.62)+'px Archivo, system-ui, sans-serif', SI.dim, 'left', colW);
+      siText(g, x.kind ? x.k+' · all time' : x.k, xx, y + fs*0.75, '600 '+Math.round(fs*0.62)+'px Archivo, system-ui, sans-serif', SI.dim, 'left', colW);
       const vw = siText(g, x.v, xx, y + fs*1.9, '800 '+fs+'px Archivo, system-ui, sans-serif', SI.amber, 'left', colW*0.45);
       siText(g, x.s, xx + vw + 18, y + fs*1.9, '400 '+Math.round(fs*0.62)+'px Archivo, system-ui, sans-serif', SI.body, 'left', colW - vw - 18); });
   } else if (kind === 'team'){
