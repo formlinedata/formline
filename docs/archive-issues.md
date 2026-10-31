@@ -4,13 +4,14 @@ Found by the Formline data check against the archives as of 6 Oct 2026 (men) and
 
 ## Men's archive (martj42/international_results)
 
-### Home side flagged neutral when the venue is in its own country under a former name (45 rows)
+### Home side flagged neutral when the venue is in its own country under a former name (46 rows)
 
 The `country` column uses the period name (Soviet Union, United Arab Republic, Malaya, Irish Free State, Dahomey, Upper Volta) while `home_team` uses the current name, so the neutral flag seems to have been set by comparing the two. These were home matches.
 
 | Date | Home | Score | Away | Tournament | Venue | neutral |
 |---|---|---|---|---|---|---|
 | 1934-02-25 | Republic of Ireland | 4–4 | Belgium | FIFA World Cup qualification | Dublin, Irish Free State | TRUE |
+| 1937-11-07 | Republic of Ireland | 3–3 | Norway | FIFA World Cup qualification | Dublin, Irish Free State | TRUE |
 | 1956-03-17 | Malaysia | 9–2 | Cambodia | AFC Asian Cup qualification | Kuala Lumpur, Malaya | TRUE |
 | 1956-05-24 | Malaysia | 3–3 | Vietnam Republic | AFC Asian Cup qualification | Kuala Lumpur, Malaya | TRUE |
 | 1957-06-23 | Russia | 3–0 | Poland | FIFA World Cup qualification | Moscow, Soviet Union | TRUE |
@@ -55,12 +56,6 @@ The `country` column uses the period name (Soviet Union, United Arab Republic, M
 | 1989-04-26 | Russia | 3–0 | German DR | FIFA World Cup qualification | Kyiv, Soviet Union | TRUE |
 | 1989-05-31 | Russia | 1–1 | Iceland | FIFA World Cup qualification | Moscow, Soviet Union | TRUE |
 | 1989-11-15 | Russia | 2–0 | Turkey | FIFA World Cup qualification | Simferopol, Soviet Union | TRUE |
-
-### Not flagged neutral, but played outside the home side's country (1 rows)
-
-| Date | Home | Score | Away | Tournament | Venue | neutral |
-|---|---|---|---|---|---|---|
-| 2019-10-12 | Ivory Coast | 3–1 | DR Congo | Friendly | Amiens, France | TRUE |
 
 ### Duplicated matches
 
@@ -112,7 +107,7 @@ Home and away legs, in different cities, filed under one date, so one date in ea
 
 ### Flagged neutral, but the venue is in the away side's country (6 rows)
 
-Either the away side was at home (and the flag should be FALSE with the teams swapped), or the venue is wrong.
+Some of these may be the listed home side's designated home match played in the opponent's country (Haiti and Ukraine played home matches abroad in 2023). If so, the rows follow the archive's convention, but the neutral flag hides that the away side was playing at home. Worth a look in case any are a wrong venue or a home/away swap instead.
 
 | Date | Home | Score | Away | Tournament | Venue | neutral |
 |---|---|---|---|---|---|---|
@@ -123,14 +118,13 @@ Either the away side was at home (and the flag should be FALSE with the teams sw
 | 2023-12-01 | Ukraine | 0–1 | Poland | UEFA Nations League | Stalowa Wola, Poland | TRUE |
 | 2023-12-05 | Mexico | 1–0 | Trinidad and Tobago | CONCACAF Gold Cup qualification | Port of Spain, Trinidad and Tobago | TRUE |
 
-### Not flagged neutral, but played outside the home side's country (6 rows)
+### Not flagged neutral, but played outside the home side's country (5 rows)
 
 | Date | Home | Score | Away | Tournament | Venue | neutral |
 |---|---|---|---|---|---|---|
 | 2013-04-04 | Faroe Islands | 3–3 | Montenegro | FIFA World Cup qualification | Vilnius, Lithuania | FALSE |
 | 2013-04-09 | Faroe Islands | 2–1 | Georgia | FIFA World Cup qualification | Vilnius, Lithuania | FALSE |
 | 2026-06-05 | New Zealand | 1–2 | Haiti | Friendly | Antequera, Spain | FALSE |
-| 2026-06-07 | Saudi Arabia | 4–0 | Sri Lanka | Friendly | Bangkok, Thailand | TRUE |
 | 2026-06-08 | Equatorial Guinea | 1–3 | Haiti | Friendly | Antequera, Spain | FALSE |
 | 2026-06-09 | New Zealand | 0–0 | Morocco | Friendly | Antequera, Spain | FALSE |
 
@@ -147,7 +141,6 @@ Either the away side was at home (and the flag should be FALSE with the teams sw
 | United States Virgin Islands (24 matches) | U.S. Virgin Islands (10) | team |
 | Turks and Caicos Islands (15 matches) | Turks and Caicos (3) | team |
 | Shetland (5 matches) | Shetland Islands (4) | team |
-| African Cup of Nations qualification (0) | Africa Cup of Nations qualification (170) | tournament |
 | UEFA Nations League (318) | UEFA Women's Nations League (20) | tournament |
 | WAFF Championship (79) | WAFF Women's Championship (10) | tournament |
 | CONCACAF Olympic Qualifying Tournament (55) | Olympic qualifyication (2) | tournament |
