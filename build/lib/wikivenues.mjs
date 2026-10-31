@@ -262,8 +262,11 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
   }
   /* Every fixture against every cached article of either team, then the competition's articles. A box with a venue
      is preferred to one without. */
-  const known = new Set(cities ? [...cities.values()] : []); fixtures.forEach(fx => { known.add(fx.home_team); known.add(fx.away_team); });
-  for (const fx of fixtures){
+  /* Every fixture coming up is checked against the cached articles, not only the ones still without a venue: a box can
+     also correct a fixture's date or kick-off (the API often has a placeholder time, e.g. 21:00 UTC). */
+  const known = new Set(cities ? [...cities.values()] : []); all.forEach(fx => { known.add(fx.home_team); known.add(fx.away_team); });
+  const coming = all.filter(fx => !fx.tbd && fx.date >= today && dayDiff(fx.date, today) <= horizonDays);
+  for (const fx of coming){
     const pages = [];
     for (const t of [fx.home_team, fx.away_team]){ const T = cache.titles[fx.gender + '|' + t]; if (T && T.title && cache.pages[T.title]) pages.push(cache.pages[T.title]); }
     const C = cache.comps[compKey(fx)]; if (C) for (const t of C.titles) if (cache.pages[t]) pages.push(cache.pages[t]);
@@ -272,7 +275,7 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
       const m = findMatch(P.matches, fx); if (!m) continue;
       const country = boxCountry(m, cities, cityKey, toArchive, known);
       if (!country && !m.moved) continue;
-      const hit = {city:m.city, country, stadium:m.stadium, ...(m.moved ? {date:m.date} : {}), ...(m.kickoff ? {kickoff:m.kickoff} : {})};
+      const hit = {city:m.city, country, stadium:m.stadium, boxDate:m.date, ...(m.moved ? {date:m.date} : {}), ...(m.kickoff ? {kickoff:m.kickoff} : {})};
       if (!best || (!best.country && country) || (!best.kickoff && hit.kickoff && !!best.country === !!country)) best = hit;
       if (best.country && best.kickoff) break;
     }

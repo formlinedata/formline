@@ -94,6 +94,9 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   const c7 = Rc.found.get('7'), c8 = Rc.found.get('8');
   ok(c7 && c7.date === '2026-11-12' && c7.kickoff === '2026-11-13T00:00:00+00:00' && c7.country === 'Curaçao' && c7.stadium === 'Ergilio Hato Stadium', 'Wikipedia: first leg moved to its real date and kick-off from the competition article');
   ok(c8 && c8.date === '2026-11-15' && !c8.kickoff && c8.country === 'Panama', 'Wikipedia: second leg moved too, its time left unconfirmed');
+  ok(c7.boxDate === '2026-11-12', 'Wikipedia: the box date passed on with every match found');
+  const Rk = await W.wikiVenues([], {}, {fetchImpl:fakeC, today:'2026-11-01', cities:new Map([['willemstad', 'Curaçao']]), cityKey:ck, toArchive:x => x, all:[fxc[0]]});
+  ok(Rk.found.get('7') && Rk.found.get('7').kickoff === '2026-11-13T00:00:00+00:00', 'Wikipedia: fixtures that already have a venue are still checked for date and kick-off');
   const ex = Rc.extra;
   ok(ex.length === 2 && ex[0].home_team === 'Aruba' && ex[0].away_team === 'Martinique' && ex[0].date === '2026-11-12' && ex[0].kickoff === '2026-11-12T19:00:00+00:00' && ex[0].country === 'Aruba'
     && ex[0].tournament === 'CONCACAF Nations League' && ex[1].home_team === 'Martinique' && ex[1].country === 'Martinique',

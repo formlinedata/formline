@@ -302,7 +302,7 @@ export async function run(){
       for (const x of W.extra){
         const key = 'wiki:' + x.id;
         fixturesStore[key] = {date:x.date, kickoff:x.kickoff || '', home_team:x.home_team, away_team:x.away_team, tournament:x.tournament,
-          city:x.city || '', country:'', neutral:'', venue_id:'', api_id:key, league:x.tournament, unmapped_tournament:'', tbd:'', tbc:x.kickoff ? '' : 1,
+          city:'', country:'', neutral:'', venue_id:'', api_id:key, league:x.tournament, unmapped_tournament:'', tbd:'', tbc:x.kickoff ? '' : 1,
           gender:x.gender, wikiOnly:1, wikiSource:x.source, wiki:{city:x.city, country:x.country, stadium:x.stadium}};
       }
       status.wiki = {open:open.length, ...W.stats};
@@ -315,16 +315,20 @@ export async function run(){
   for (const r of Object.values(fixturesStore)){
     /* A date Wikipedia gives for a match the API still lists on another day (see findMatch): the Wikipedia date wins,
        with the kick-off time shown as not announced, until the API's own date agrees again. */
-    const moved = r.wiki && r.wiki.date && r.wiki.date !== r.date ? r.wiki.date : null;
+    /* Wikipedia's date and kick-off win over the API's when they differ: a date the API still lists on another day (see
+       findMatch), or a kick-off given with its UTC offset that differs from the API's by an hour or more (the API's is
+       often a placeholder such as 21:00 UTC). With a corrected kick-off the date follows the box. Until the API agrees. */
+    const w = r.wiki || {};
+    const wk = w.kickoff && (!r.kickoff || Math.abs(Date.parse(w.kickoff) - Date.parse(r.kickoff)) >= 36e5) ? w.kickoff : null;
+    const moved = w.date && w.date !== r.date ? w.date : (wk && w.boxDate && w.boxDate !== r.date ? w.boxDate : null);
     if ((moved || r.date) < today){ delete fixturesStore[r.api_id]; continue; }
     /* A Wikipedia-only match the API has since added (a light run can add it before the next full run): the API's wins. */
     if (r.wikiOnly && Object.values(fixturesStore).some(f => !f.wikiOnly && f.gender === r.gender && dayNum(f.date) - dayNum(r.date) <= 7 && dayNum(r.date) - dayNum(f.date) <= 7 &&
       ((f.home_team === r.home_team && f.away_team === r.away_team) || (f.home_team === r.away_team && f.away_team === r.home_team)))){ delete fixturesStore[r.api_id]; continue; }
     placeRow(r, venues, cities);
-    const wk = moved && r.wiki.kickoff;   // the box's kick-off, when it gave one with its UTC offset
-    fixtures[r.gender].push({date:moved || r.date, kickoff:moved ? (wk || moved + 'T12:00:00+00:00') : (r.kickoff || r.date + 'T12:00:00+00:00'), home:r.home_team, away:r.away_team, tournament:r.tournament,
-      city:r.city, country:r.country, neutral:r.neutral === 'TRUE', venue:r.venue_src, ...(r.tbd ? {tbd:true} : {}), ...((r.tbc && !wk) || (moved && !wk) ? {tbc:true} : {}),
-      ...(moved ? {dateSrc:'wiki', apiDate:r.date} : {}), ...(r.wikiOnly ? {src:'wiki'} : {})});
+    fixtures[r.gender].push({date:moved || r.date, kickoff:wk || (moved ? moved + 'T12:00:00+00:00' : (r.kickoff || r.date + 'T12:00:00+00:00')), home:r.home_team, away:r.away_team, tournament:r.tournament,
+      city:r.city, country:r.country, neutral:r.neutral === 'TRUE', venue:r.venue_src, ...(r.tbd ? {tbd:true} : {}), ...(!wk && (r.tbc || moved) ? {tbc:true} : {}),
+      ...(moved ? {dateSrc:'wiki', apiDate:r.date} : {}), ...(wk && !r.wikiOnly ? {kickoffSrc:'wiki'} : {}), ...(r.wikiOnly ? {src:'wiki'} : {})});
   }
   for (const g of ['men', 'women']){
     fixtures[g].sort((a, b) => a.kickoff < b.kickoff ? -1 : 1);
