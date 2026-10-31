@@ -1,0 +1,480 @@
+{
+ "titles": {
+  "men|Curaçao": {
+   "title": "Curaçao national football team results (2020–present)",
+   "name": "Curaçao",
+   "checked": "2026-10-31"
+  },
+  "men|Panama": {
+   "title": "",
+   "name": "Panama",
+   "checked": "2026-10-31"
+  },
+  "men|Jamaica": {
+   "title": "Jamaica national football team results (2020–present)",
+   "name": "Jamaica",
+   "checked": "2026-10-31"
+  },
+  "men|Mexico": {
+   "title": "Mexico national football team results",
+   "name": "Mexico",
+   "checked": "2026-10-31"
+  },
+  "men|Algeria": {
+   "title": "Algeria national football team results (2020–present)",
+   "name": "Algeria",
+   "checked": "2026-10-31"
+  },
+  "men|Togo": {
+   "title": "",
+   "name": "Togo",
+   "checked": "2026-10-31"
+  },
+  "men|Angola": {
+   "title": "Angola national football team results (2020–present)",
+   "name": "Angola",
+   "checked": "2026-10-31"
+  },
+  "men|South Sudan": {
+   "title": "South Sudan national football team results",
+   "name": "South Sudan",
+   "checked": "2026-10-31"
+  },
+  "men|Benin": {
+   "title": "Benin national football team results (2020–present)",
+   "name": "Benin",
+   "checked": "2026-10-31"
+  },
+  "men|Central African Republic": {
+   "title": "",
+   "name": "Central African Republic",
+   "checked": "2026-10-31"
+  },
+  "men|Burkina Faso": {
+   "title": "Burkina Faso national football team results (2000–2019)",
+   "name": "Burkina Faso",
+   "checked": "2026-10-31"
+  },
+  "men|Mauritania": {
+   "title": "Mauritania national football team results (1961–2019)",
+   "name": "Mauritania",
+   "checked": "2026-10-31"
+  },
+  "men|Cameroon": {
+   "title": "Cameroon national football team results (2020–present)",
+   "name": "Cameroon",
+   "checked": "2026-10-31"
+  },
+  "men|Namibia": {
+   "title": "Namibia national football team results (2020–present)",
+   "name": "Namibia",
+   "checked": "2026-10-31"
+  },
+  "men|Cape Verde": {
+   "title": "Cape Verde national football team results",
+   "name": "Cape Verde",
+   "checked": "2026-10-31"
+  },
+  "men|Liberia": {
+   "title": "Liberia national football team results (2020–present)",
+   "name": "Liberia",
+   "checked": "2026-10-31"
+  },
+  "men|Comoros": {
+   "title": "Comoros national football team results (2020–present)",
+   "name": "Comoros",
+   "checked": "2026-10-31"
+  },
+  "men|Congo": {
+   "title": "",
+   "name": "Congo",
+   "checked": "2026-10-31"
+  },
+  "men|DR Congo": {
+   "title": "DR Congo national football team results (2010–2019)",
+   "name": "DR Congo",
+   "checked": "2026-10-31"
+  },
+  "men|Sierra Leone": {
+   "title": "Sierra Leone national football team results (2020–present)",
+   "name": "Sierra Leone",
+   "checked": "2026-10-31"
+  },
+  "men|Egypt": {
+   "title": "Egypt national football team results (2020–present)",
+   "name": "Egypt",
+   "checked": "2026-10-31"
+  },
+  "men|Malawi": {
+   "title": "",
+   "name": "Malawi",
+   "checked": "2026-10-31"
+  },
+  "men|Equatorial Guinea": {
+   "title": "",
+   "name": "Equatorial Guinea",
+   "checked": "2026-10-31"
+  },
+  "men|Zimbabwe": {
+   "title": "Zimbabwe national football team results (2000–2019)",
+   "name": "Zimbabwe",
+   "checked": "2026-10-31"
+  },
+  "men|Gabon": {
+   "title": "Gabon national football team results (2020–present)",
+   "name": "Gabon",
+   "checked": "2026-10-31"
+  },
+  "men|Lesotho": {
+   "title": "",
+   "name": "Lesotho",
+   "checked": "2026-10-31"
+  },
+  "men|Ghana": {
+   "title": "Ghana national football team results (1990–99)",
+   "name": "Ghana",
+   "checked": "2026-10-31"
+  },
+  "men|Somalia": {
+   "title": "Somalia national football team results",
+   "name": "Somalia",
+   "checked": "2026-10-31"
+  },
+  "men|Guinea": {
+   "title": "",
+   "name": "Guinea",
+   "checked": "2026-10-31"
+  },
+  "men|Eritrea": {
+   "title": "Eritrea national football team results",
+   "name": "Eritrea",
+   "checked": "2026-10-31"
+  },
+  "men|Ivory Coast": {
+   "title": "",
+   "name": "Ivory Coast",
+   "checked": "2026-10-31"
+  },
+  "men|Gambia": {
+   "title": "",
+   "name": "Gambia",
+   "checked": "2026-10-31"
+  },
+  "men|Madagascar": {
+   "title": "Madagascar national football team results (2020–present)",
+   "name": "Madagascar",
+   "checked": "2026-10-31"
+  },
+  "men|Guinea-Bissau": {
+   "title": "Guinea-Bissau national football team results (2020–present)",
+   "name": "Guinea-Bissau",
+   "checked": "2026-10-31"
+  },
+  "men|Mali": {
+   "title": "Mali national football team results (2020–present)",
+   "name": "Mali",
+   "checked": "2026-10-31"
+  },
+  "men|Rwanda": {
+   "title": "",
+   "name": "Rwanda",
+   "checked": "2026-10-31"
+  },
+  "men|Morocco": {
+   "title": "Morocco national football team results (2020–present)",
+   "name": "Morocco",
+   "checked": "2026-10-31"
+  },
+  "men|Niger": {
+   "title": "Niger national football team results (2020–present)",
+   "name": "Niger",
+   "checked": "2026-10-31"
+  },
+  "men|Mozambique": {
+   "title": "",
+   "name": "Mozambique",
+   "checked": "2026-10-31"
+  },
+  "men|Ethiopia": {
+   "title": "",
+   "name": "Ethiopia",
+   "checked": "2026-10-31"
+  },
+  "men|Nigeria": {
+   "title": "Nigeria national football team results (1949–1959)",
+   "name": "Nigeria",
+   "checked": "2026-10-31"
+  },
+  "men|Tanzania": {
+   "title": "Tanzania national football team results",
+   "name": "Tanzania",
+   "checked": "2026-10-31"
+  },
+  "men|Senegal": {
+   "title": "Senegal national football team results (2010–2019)",
+   "name": "Senegal",
+   "checked": "2026-10-31"
+  },
+  "men|Sudan": {
+   "title": "",
+   "name": "Sudan",
+   "checked": "2026-10-31"
+  },
+  "men|South Africa": {
+   "title": "South Africa national soccer team results (1947–1955)",
+   "name": "South Africa",
+   "checked": "2026-10-31"
+  },
+  "men|Kenya": {
+   "title": "",
+   "name": "Kenya",
+   "checked": "2026-10-31"
+  },
+  "men|Tunisia": {
+   "title": "Tunisia national football team results (2020–present)",
+   "name": "Tunisia",
+   "checked": "2026-10-31"
+  },
+  "men|Libya": {
+   "title": "Libya national football team results (2020–present)",
+   "name": "Libya",
+   "checked": "2026-10-31"
+  },
+  "men|Uganda": {
+   "title": "Uganda national football team results (2020–present)",
+   "name": "Uganda",
+   "checked": "2026-10-31"
+  },
+  "men|Botswana": {
+   "title": "Botswana national football team results (2020–present)",
+   "name": "Botswana",
+   "checked": "2026-10-31"
+  },
+  "men|Zambia": {
+   "title": "Zambia national football team results (2020–present)",
+   "name": "Zambia",
+   "checked": "2026-10-31"
+  },
+  "men|Burundi": {
+   "title": "",
+   "name": "Burundi",
+   "checked": "2026-10-31"
+  },
+  "men|Barbados": {
+   "title": "Barbados national football team results (2020–present)",
+   "name": "Barbados",
+   "checked": "2026-10-31"
+  },
+  "men|Guadeloupe": {
+   "title": "",
+   "name": "Guadeloupe",
+   "checked": "2026-10-31"
+  },
+  "men|Belize": {
+   "title": "Belize national football team results",
+   "name": "Belize",
+   "checked": "2026-10-31"
+  },
+  "men|Sint Maarten": {
+   "title": "Sint Maarten national football team results",
+   "name": "Sint Maarten",
+   "checked": "2026-10-31"
+  }
+ },
+ "pages": {
+  "Curaçao national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Jamaica national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Mexico national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Algeria national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Angola national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "South Sudan national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Benin national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Burkina Faso national football team results (2000–2019)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Mauritania national football team results (1961–2019)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Cameroon national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Namibia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Cape Verde national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Liberia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Comoros national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "DR Congo national football team results (2010–2019)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Sierra Leone national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Egypt national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Zimbabwe national football team results (2000–2019)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Gabon national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Ghana national football team results (1990–99)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Somalia national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Eritrea national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Madagascar national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Guinea-Bissau national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Mali national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Morocco national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-11",
+     "t1": "MAR",
+     "t2": "NIG",
+     "stadium": "TBD",
+     "city": "TBD",
+     "country": "Morocco",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "NIG",
+     "t2": "MAR",
+     "stadium": "TBD",
+     "city": "TBD",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2027-03-24",
+     "t1": "GAB",
+     "t2": "MAR",
+     "stadium": "TBD",
+     "city": "TBD",
+     "country": "Gabon",
+     "kickoff": null
+    },
+    {
+     "date": "2027-03-28",
+     "t1": "MAR",
+     "t2": "LES",
+     "stadium": "TBD",
+     "city": "TBD",
+     "country": "Morocco",
+     "kickoff": null
+    }
+   ]
+  },
+  "Niger national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Nigeria national football team results (1949–1959)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Tanzania national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Senegal national football team results (2010–2019)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "South Africa national soccer team results (1947–1955)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Tunisia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Libya national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Uganda national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Botswana national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Zambia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Barbados national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Belize national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Sint Maarten national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  }
+ },
+ "comps": {}
+}
