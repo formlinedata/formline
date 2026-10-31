@@ -5,7 +5,7 @@
   "home_team": "Turkey",
   "away_team": "Belgium",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "İzmir",
   "country": "Turkey",
   "neutral": "FALSE",
   "venue_id": "",
@@ -15,8 +15,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "İzmir",
+   "country": "Turkey",
+   "stadium": "Gürsel Aksel Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528959": {
   "date": "2026-11-12",
@@ -24,7 +28,7 @@
   "home_team": "Armenia",
   "away_team": "Cyprus",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Yerevan",
   "country": "Armenia",
   "neutral": "FALSE",
   "venue_id": "",
@@ -34,8 +38,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Yerevan",
+   "country": "Armenia",
+   "stadium": "Vazgen Sargsyan Republican Stadium",
+   "kickoff": "2026-11-12T17:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528960": {
   "date": "2026-11-12",
@@ -43,7 +52,7 @@
   "home_team": "Italy",
   "away_team": "France",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Milan",
   "country": "Italy",
   "neutral": "FALSE",
   "venue_id": "",
@@ -53,8 +62,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Milan",
+   "country": "Italy",
+   "stadium": "San Siro"
+  },
+  "venue_src": "wiki"
  },
  "1528961": {
   "date": "2026-11-12",
@@ -62,7 +75,7 @@
   "home_team": "Czech Republic",
   "away_team": "Spain",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Prague",
   "country": "Czech Republic",
   "neutral": "FALSE",
   "venue_id": "",
@@ -72,8 +85,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Prague",
+   "country": "Czech Republic",
+   "stadium": "Fortuna Arena",
+   "kickoff": "2026-11-12T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528962": {
   "date": "2026-11-12",
@@ -81,7 +99,7 @@
   "home_team": "England",
   "away_team": "Croatia",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "London",
   "country": "England",
   "neutral": "FALSE",
   "venue_id": "",
@@ -91,8 +109,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "London",
+   "country": "England",
+   "stadium": "Wembley Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528963": {
   "date": "2026-11-12",
@@ -100,7 +122,7 @@
   "home_team": "Albania",
   "away_team": "Finland",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Tirana",
   "country": "Albania",
   "neutral": "FALSE",
   "venue_id": "",
@@ -110,8 +132,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Tirana",
+   "country": "Albania",
+   "stadium": "Arena Kombëtare"
+  },
+  "venue_src": "wiki"
  },
  "1528964": {
   "date": "2026-11-12",
@@ -119,7 +145,7 @@
   "home_team": "San Marino",
   "away_team": "Belarus",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Serravalle",
   "country": "San Marino",
   "neutral": "FALSE",
   "venue_id": "",
@@ -129,8 +155,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Serravalle",
+   "country": "San Marino",
+   "stadium": "San Marino Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528965": {
   "date": "2026-11-13",
@@ -138,7 +168,7 @@
   "home_team": "Serbia",
   "away_team": "Germany",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Belgrade",
   "country": "Serbia",
   "neutral": "FALSE",
   "venue_id": "",
@@ -148,8 +178,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Belgrade",
+   "country": "Serbia",
+   "stadium": "Rajko Mitić Stadium",
+   "kickoff": "2026-11-13T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528966": {
   "date": "2026-11-13",
@@ -157,7 +192,7 @@
   "home_team": "Netherlands",
   "away_team": "Greece",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Amsterdam",
   "country": "Netherlands",
   "neutral": "FALSE",
   "venue_id": "",
@@ -167,8 +202,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Amsterdam",
+   "country": "Netherlands",
+   "stadium": "Johan Cruyff Arena"
+  },
+  "venue_src": "wiki"
  },
  "1528967": {
   "date": "2026-11-13",
@@ -176,7 +215,7 @@
   "home_team": "Slovakia",
   "away_team": "Faroe Islands",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Košice",
   "country": "Slovakia",
   "neutral": "FALSE",
   "venue_id": "",
@@ -186,8 +225,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Košice",
+   "country": "Slovakia",
+   "stadium": "Košická futbalová aréna",
+   "kickoff": "2026-11-13T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528968": {
   "date": "2026-11-13",
@@ -195,7 +239,7 @@
   "home_team": "Moldova",
   "away_team": "Kazakhstan",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Chișinău",
   "country": "Moldova",
   "neutral": "FALSE",
   "venue_id": "",
@@ -205,8 +249,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Chișinău",
+   "country": "Moldova",
+   "stadium": "Zimbru Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528969": {
   "date": "2026-11-13",
@@ -214,7 +262,7 @@
   "home_team": "Bulgaria",
   "away_team": "Iceland",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Plovdiv",
   "country": "Bulgaria",
   "neutral": "FALSE",
   "venue_id": "",
@@ -224,8 +272,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Plovdiv",
+   "country": "Bulgaria",
+   "stadium": "Hristo Botev Stadium",
+   "kickoff": "2026-11-13T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528970": {
   "date": "2026-11-13",
@@ -233,7 +286,7 @@
   "home_team": "Liechtenstein",
   "away_team": "Azerbaijan",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Vaduz",
   "country": "Liechtenstein",
   "neutral": "FALSE",
   "venue_id": "",
@@ -243,8 +296,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Vaduz",
+   "country": "Liechtenstein",
+   "stadium": "Rheinpark Stadion",
+   "kickoff": "2026-11-13T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528971": {
   "date": "2026-11-14",
@@ -252,7 +310,7 @@
   "home_team": "Kosovo",
   "away_team": "Israel",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Pristina",
   "country": "Kosovo",
   "neutral": "FALSE",
   "venue_id": "",
@@ -262,8 +320,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Pristina",
+   "country": "Kosovo",
+   "stadium": "Fadil Vokrri Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528972": {
   "date": "2026-11-14",
@@ -271,7 +333,7 @@
   "home_team": "Norway",
   "away_team": "Wales",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Oslo",
   "country": "Norway",
   "neutral": "FALSE",
   "venue_id": "",
@@ -281,8 +343,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Oslo",
+   "country": "Norway",
+   "stadium": "Ullevaal Stadion",
+   "kickoff": "2026-11-14T17:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528973": {
   "date": "2026-11-14",
@@ -290,7 +357,7 @@
   "home_team": "Georgia",
   "away_team": "Hungary",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Tbilisi",
   "country": "Georgia",
   "neutral": "FALSE",
   "venue_id": "",
@@ -300,8 +367,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Tbilisi",
+   "country": "Georgia",
+   "stadium": "Boris Paichadze Dinamo Arena"
+  },
+  "venue_src": "wiki"
  },
  "1528974": {
   "date": "2026-11-14",
@@ -309,7 +380,7 @@
   "home_team": "Portugal",
   "away_team": "Denmark",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Braga",
   "country": "Portugal",
   "neutral": "FALSE",
   "venue_id": "",
@@ -319,8 +390,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Braga",
+   "country": "Portugal",
+   "stadium": "Estádio Municipal de Braga",
+   "kickoff": "2026-11-14T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528975": {
   "date": "2026-11-14",
@@ -328,7 +404,7 @@
   "home_team": "Northern Ireland",
   "away_team": "Ukraine",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Belfast",
   "country": "Northern Ireland",
   "neutral": "FALSE",
   "venue_id": "",
@@ -338,8 +414,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Belfast",
+   "country": "Northern Ireland",
+   "stadium": "Windsor Park",
+   "kickoff": "2026-11-14T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528976": {
   "date": "2026-11-14",
@@ -347,7 +428,7 @@
   "home_team": "Austria",
   "away_team": "Republic of Ireland",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Linz",
   "country": "Austria",
   "neutral": "FALSE",
   "venue_id": "",
@@ -357,8 +438,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Linz",
+   "country": "Austria",
+   "stadium": "Raiffeisen Arena",
+   "kickoff": "2026-11-14T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528977": {
   "date": "2026-11-14",
@@ -366,7 +452,7 @@
   "home_team": "Romania",
   "away_team": "Poland",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Bucharest",
   "country": "Romania",
   "neutral": "FALSE",
   "venue_id": "",
@@ -376,8 +462,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Bucharest",
+   "country": "Romania",
+   "stadium": "Arena Națională",
+   "kickoff": "2026-11-14T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528978": {
   "date": "2026-11-14",
@@ -385,7 +476,7 @@
   "home_team": "Sweden",
   "away_team": "Bosnia and Herzegovina",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Solna",
   "country": "Sweden",
   "neutral": "FALSE",
   "venue_id": "",
@@ -395,8 +486,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Solna",
+   "country": "Sweden",
+   "stadium": "Nationalarenan",
+   "kickoff": "2026-11-14T18:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528979": {
   "date": "2026-11-15",
@@ -404,7 +500,7 @@
   "home_team": "Cyprus",
   "away_team": "Montenegro",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Limassol",
   "country": "Cyprus",
   "neutral": "FALSE",
   "venue_id": "",
@@ -414,8 +510,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Limassol",
+   "country": "Cyprus",
+   "stadium": "Alphamega Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528980": {
   "date": "2026-11-15",
@@ -423,9 +523,9 @@
   "home_team": "Belarus",
   "away_team": "Albania",
   "tournament": "UEFA Nations League",
-  "city": "",
-  "country": "Belarus",
-  "neutral": "FALSE",
+  "city": "Budapest",
+  "country": "Hungary",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1528980,
   "league": "UEFA Nations League",
@@ -433,8 +533,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Budapest",
+   "country": "Hungary",
+   "stadium": "Illovszky Rudolf Stadion"
+  },
+  "venue_src": "wiki"
  },
  "1528981": {
   "date": "2026-11-15",
@@ -442,7 +546,7 @@
   "home_team": "Finland",
   "away_team": "San Marino",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Helsinki",
   "country": "Finland",
   "neutral": "FALSE",
   "venue_id": "",
@@ -452,8 +556,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Helsinki",
+   "country": "Finland",
+   "stadium": "Helsinki Olympic Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528982": {
   "date": "2026-11-15",
@@ -461,7 +569,7 @@
   "home_team": "France",
   "away_team": "Turkey",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Bordeaux",
   "country": "France",
   "neutral": "FALSE",
   "venue_id": "",
@@ -471,8 +579,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Bordeaux",
+   "country": "France",
+   "stadium": "Stade Atlantique"
+  },
+  "venue_src": "wiki"
  },
  "1528983": {
   "date": "2026-11-15",
@@ -480,7 +592,7 @@
   "home_team": "Belgium",
   "away_team": "Italy",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Brussels",
   "country": "Belgium",
   "neutral": "FALSE",
   "venue_id": "",
@@ -490,8 +602,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Brussels",
+   "country": "Belgium",
+   "stadium": "King Baudouin Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528984": {
   "date": "2026-11-15",
@@ -499,7 +615,7 @@
   "home_team": "Spain",
   "away_team": "England",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Madrid",
   "country": "Spain",
   "neutral": "FALSE",
   "venue_id": "",
@@ -509,8 +625,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Madrid",
+   "country": "Spain",
+   "stadium": "Metropolitano Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528985": {
   "date": "2026-11-15",
@@ -518,7 +638,7 @@
   "home_team": "Croatia",
   "away_team": "Czech Republic",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Osijek",
   "country": "Croatia",
   "neutral": "FALSE",
   "venue_id": "",
@@ -528,8 +648,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Osijek",
+   "country": "Croatia",
+   "stadium": "Opus Arena",
+   "kickoff": "2026-11-15T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528986": {
   "date": "2026-11-16",
@@ -537,7 +662,7 @@
   "home_team": "Kazakhstan",
   "away_team": "Slovakia",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Astana",
   "country": "Kazakhstan",
   "neutral": "FALSE",
   "venue_id": "",
@@ -547,8 +672,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Astana",
+   "country": "Kazakhstan",
+   "stadium": "Astana Arena",
+   "kickoff": "2026-11-16T15:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528987": {
   "date": "2026-11-16",
@@ -556,7 +686,7 @@
   "home_team": "Faroe Islands",
   "away_team": "Moldova",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Tórshavn",
   "country": "Faroe Islands",
   "neutral": "FALSE",
   "venue_id": "",
@@ -566,8 +696,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Tórshavn",
+   "country": "Faroe Islands",
+   "stadium": "Tórsvøllur"
+  },
+  "venue_src": "wiki"
  },
  "1528988": {
   "date": "2026-11-16",
@@ -575,7 +709,7 @@
   "home_team": "Estonia",
   "away_team": "Bulgaria",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Tallinn",
   "country": "Estonia",
   "neutral": "FALSE",
   "venue_id": "",
@@ -585,8 +719,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Tallinn",
+   "country": "Estonia",
+   "stadium": "Lilleküla Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528989": {
   "date": "2026-11-16",
@@ -594,7 +732,7 @@
   "home_team": "Lithuania",
   "away_team": "Liechtenstein",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Kaunas",
   "country": "Lithuania",
   "neutral": "FALSE",
   "venue_id": "",
@@ -604,8 +742,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Kaunas",
+   "country": "Lithuania",
+   "stadium": "Darius and Girėnas Stadium",
+   "kickoff": "2026-11-16T17:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528990": {
   "date": "2026-11-16",
@@ -613,7 +756,7 @@
   "home_team": "Germany",
   "away_team": "Netherlands",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Berlin",
   "country": "Germany",
   "neutral": "FALSE",
   "venue_id": "",
@@ -623,8 +766,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Berlin",
+   "country": "Germany",
+   "stadium": "Olympiastadion",
+   "kickoff": "2026-11-16T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528991": {
   "date": "2026-11-16",
@@ -632,7 +780,7 @@
   "home_team": "Greece",
   "away_team": "Serbia",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Piraeus",
   "country": "Greece",
   "neutral": "FALSE",
   "venue_id": "",
@@ -642,8 +790,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Piraeus",
+   "country": "Greece",
+   "stadium": "Karaiskakis Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528992": {
   "date": "2026-11-17",
@@ -651,7 +803,7 @@
   "home_team": "Wales",
   "away_team": "Portugal",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Cardiff",
   "country": "Wales",
   "neutral": "FALSE",
   "venue_id": "",
@@ -661,8 +813,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Cardiff",
+   "country": "Wales",
+   "stadium": "Cardiff City Stadium",
+   "kickoff": "2026-11-17T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528993": {
   "date": "2026-11-17",
@@ -670,7 +827,7 @@
   "home_team": "Denmark",
   "away_team": "Norway",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Copenhagen",
   "country": "Denmark",
   "neutral": "FALSE",
   "venue_id": "",
@@ -680,8 +837,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Copenhagen",
+   "country": "Denmark",
+   "stadium": "Parken Stadium",
+   "kickoff": "2026-11-17T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528994": {
   "date": "2026-11-17",
@@ -689,9 +851,9 @@
   "home_team": "Ukraine",
   "away_team": "Georgia",
   "tournament": "UEFA Nations League",
-  "city": "",
-  "country": "Ukraine",
-  "neutral": "FALSE",
+  "city": "Trnava",
+  "country": "Slovakia",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1528994,
   "league": "UEFA Nations League",
@@ -699,8 +861,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Trnava",
+   "country": "Slovakia",
+   "stadium": "Anton Malatinský Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1528995": {
   "date": "2026-11-17",
@@ -708,7 +874,7 @@
   "home_team": "Hungary",
   "away_team": "Northern Ireland",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Budapest",
   "country": "Hungary",
   "neutral": "FALSE",
   "venue_id": "",
@@ -718,8 +884,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Budapest",
+   "country": "Hungary",
+   "stadium": "Puskás Aréna"
+  },
+  "venue_src": "wiki"
  },
  "1528996": {
   "date": "2026-11-17",
@@ -727,9 +897,9 @@
   "home_team": "Israel",
   "away_team": "Austria",
   "tournament": "UEFA Nations League",
-  "city": "",
-  "country": "Israel",
-  "neutral": "FALSE",
+  "city": "Debrecen",
+  "country": "Hungary",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1528996,
   "league": "UEFA Nations League",
@@ -737,8 +907,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Debrecen",
+   "country": "Hungary",
+   "stadium": "Nagyerdei Stadion"
+  },
+  "venue_src": "wiki"
  },
  "1528997": {
   "date": "2026-11-17",
@@ -746,7 +920,7 @@
   "home_team": "Republic of Ireland",
   "away_team": "Kosovo",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Dublin",
   "country": "Republic of Ireland",
   "neutral": "FALSE",
   "venue_id": "",
@@ -756,8 +930,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Dublin",
+   "country": "Republic of Ireland",
+   "stadium": "Aviva Stadium",
+   "kickoff": "2026-11-17T18:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1528998": {
   "date": "2026-11-17",
@@ -765,7 +944,7 @@
   "home_team": "Poland",
   "away_team": "Sweden",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Warsaw",
   "country": "Poland",
   "neutral": "FALSE",
   "venue_id": "",
@@ -775,8 +954,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Warsaw",
+   "country": "Poland",
+   "stadium": "Stadion Narodowy"
+  },
+  "venue_src": "wiki"
  },
  "1528999": {
   "date": "2026-11-17",
@@ -784,7 +967,7 @@
   "home_team": "Bosnia and Herzegovina",
   "away_team": "Romania",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Zenica",
   "country": "Bosnia and Herzegovina",
   "neutral": "FALSE",
   "venue_id": "",
@@ -794,8 +977,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Zenica",
+   "country": "Bosnia and Herzegovina",
+   "stadium": "Stadion Bilino Polje",
+   "kickoff": "2026-11-17T18:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1545613": {
   "date": "2026-11-12",
@@ -803,7 +991,7 @@
   "home_team": "Montenegro",
   "away_team": "Latvia",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Podgorica",
   "country": "Montenegro",
   "neutral": "FALSE",
   "venue_id": "",
@@ -813,8 +1001,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Podgorica",
+   "country": "Montenegro",
+   "stadium": "Podgorica City Stadium",
+   "kickoff": "2026-11-12T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1545614": {
   "date": "2026-11-13",
@@ -822,7 +1015,7 @@
   "home_team": "Luxembourg",
   "away_team": "Estonia",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Luxembourg City",
   "country": "Luxembourg",
   "neutral": "FALSE",
   "venue_id": "",
@@ -832,8 +1025,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Luxembourg City",
+   "country": "Luxembourg",
+   "stadium": "Stade de Luxembourg",
+   "kickoff": "2026-11-13T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1545615": {
   "date": "2026-11-13",
@@ -841,7 +1039,7 @@
   "home_team": "Andorra",
   "away_team": "Gibraltar",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Encamp",
   "country": "Andorra",
   "neutral": "FALSE",
   "venue_id": "",
@@ -851,8 +1049,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Encamp",
+   "country": "Andorra",
+   "stadium": "Estadi de la FAF"
+  },
+  "venue_src": "wiki"
  },
  "1545616": {
   "date": "2026-11-15",
@@ -860,7 +1062,7 @@
   "home_team": "Latvia",
   "away_team": "Armenia",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Riga",
   "country": "Latvia",
   "neutral": "FALSE",
   "venue_id": "",
@@ -870,8 +1072,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Riga",
+   "country": "Latvia",
+   "stadium": "Skonto Stadium",
+   "kickoff": "2026-11-15T14:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1545617": {
   "date": "2026-11-16",
@@ -879,7 +1086,7 @@
   "home_team": "Iceland",
   "away_team": "Luxembourg",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Reykjavík",
   "country": "Iceland",
   "neutral": "FALSE",
   "venue_id": "",
@@ -889,8 +1096,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Reykjavík",
+   "country": "Iceland",
+   "stadium": "Laugardalsvöllur",
+   "kickoff": "2026-11-15T17:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1545618": {
   "date": "2026-11-16",
@@ -898,7 +1110,7 @@
   "home_team": "Gibraltar",
   "away_team": "Malta",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Gibraltar",
   "country": "Gibraltar",
   "neutral": "FALSE",
   "venue_id": "",
@@ -908,8 +1120,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Gibraltar",
+   "country": "Gibraltar",
+   "stadium": "Europa Sports Park"
+  },
+  "venue_src": "wiki"
  },
  "1545652": {
   "date": "2026-11-16",
@@ -917,7 +1133,7 @@
   "home_team": "Switzerland",
   "away_team": "Scotland",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "St.Gallen",
   "country": "Switzerland",
   "neutral": "FALSE",
   "venue_id": "",
@@ -927,8 +1143,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "St.Gallen",
+   "country": "Switzerland",
+   "stadium": "Kybunpark",
+   "kickoff": "2026-11-16T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1545654": {
   "date": "2026-11-13",
@@ -936,7 +1157,7 @@
   "home_team": "Slovenia",
   "away_team": "Switzerland",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Ljubljana",
   "country": "Slovenia",
   "neutral": "FALSE",
   "venue_id": "",
@@ -946,8 +1167,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Ljubljana",
+   "country": "Slovenia",
+   "stadium": "Stožice Stadium",
+   "kickoff": "2026-11-13T19:45:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1545659": {
   "date": "2026-11-13",
@@ -955,7 +1181,7 @@
   "home_team": "Scotland",
   "away_team": "North Macedonia",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Glasgow",
   "country": "Scotland",
   "neutral": "FALSE",
   "venue_id": "",
@@ -965,8 +1191,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Glasgow",
+   "country": "Scotland",
+   "stadium": "Hampden Park"
+  },
+  "venue_src": "wiki"
  },
  "1545662": {
   "date": "2026-11-16",
@@ -974,7 +1204,7 @@
   "home_team": "North Macedonia",
   "away_team": "Slovenia",
   "tournament": "UEFA Nations League",
-  "city": "",
+  "city": "Skopje",
   "country": "North Macedonia",
   "neutral": "FALSE",
   "venue_id": "",
@@ -984,8 +1214,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Skopje",
+   "country": "North Macedonia",
+   "stadium": "Toše Proeski Arena"
+  },
+  "venue_src": "wiki"
  },
  "1545862": {
   "date": "2026-11-11",
@@ -2232,8 +2466,8 @@
   "home_team": "Barbados",
   "away_team": "Guadeloupe",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Barbados",
+  "city": "Le Gosier",
+  "country": "Guadeloupe",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640004,
@@ -2242,8 +2476,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Le Gosier",
+   "country": "Guadeloupe",
+   "stadium": "Stade Roger Zami",
+   "kickoff": "2026-11-12T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640005": {
   "date": "2026-11-11",
@@ -2251,9 +2490,9 @@
   "home_team": "Belize",
   "away_team": "Sint Maarten",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Belize",
-  "neutral": "FALSE",
+  "city": "Kingstown",
+  "country": "Saint Vincent and the Grenadines",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640005,
   "league": "CONCACAF Nations League",
@@ -2261,8 +2500,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Kingstown",
+   "country": "Saint Vincent and the Grenadines",
+   "stadium": "Arnos Vale Stadium",
+   "date": "2026-11-17",
+   "kickoff": "2026-11-17T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640006": {
   "date": "2026-11-11",
@@ -2270,9 +2515,9 @@
   "home_team": "Bermuda",
   "away_team": "Saint Lucia",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Bermuda",
-  "neutral": "FALSE",
+  "city": "Le Gosier",
+  "country": "Guadeloupe",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640006,
   "league": "CONCACAF Nations League",
@@ -2280,8 +2525,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Le Gosier",
+   "country": "Guadeloupe",
+   "stadium": "Stade Roger Zami",
+   "date": "2026-11-13",
+   "kickoff": "2026-11-13T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640007": {
   "date": "2026-11-11",
@@ -2289,8 +2540,8 @@
   "home_team": "Bonaire",
   "away_team": "Cuba",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Bonaire",
+  "city": "Havana",
+  "country": "Cuba",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640007,
@@ -2299,8 +2550,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Havana",
+   "country": "Cuba",
+   "stadium": "Estadio La Polar"
+  },
+  "venue_src": "wiki"
  },
  "1640008": {
   "date": "2026-11-11",
@@ -2308,8 +2563,8 @@
   "home_team": "Cayman Islands",
   "away_team": "Guyana",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Cayman Islands",
+  "city": "Georgetown",
+  "country": "Guyana",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640008,
@@ -2318,8 +2573,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Georgetown",
+   "country": "Guyana",
+   "stadium": "Leonora National Track and Field Centre",
+   "kickoff": "2026-11-12T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640009": {
   "date": "2026-11-11",
@@ -2327,7 +2587,7 @@
   "home_team": "Cuba",
   "away_team": "Grenada",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Havana",
   "country": "Cuba",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2337,8 +2597,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Havana",
+   "country": "Cuba",
+   "stadium": "Estadio La Polar",
+   "date": "2026-11-16"
+  },
+  "venue_src": "wiki"
  },
  "1640010": {
   "date": "2026-11-11",
@@ -2346,9 +2611,9 @@
   "home_team": "Dominica",
   "away_team": "Cayman Islands",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Dominica",
-  "neutral": "FALSE",
+  "city": "Georgetown",
+  "country": "Guyana",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640010,
   "league": "CONCACAF Nations League",
@@ -2356,8 +2621,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Georgetown",
+   "country": "Guyana",
+   "stadium": "Leonora National Track and Field Centre",
+   "date": "2026-11-17",
+   "kickoff": "2026-11-17T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640011": {
   "date": "2026-11-11",
@@ -2365,8 +2636,8 @@
   "home_team": "French Guiana",
   "away_team": "Saint Vincent and the Grenadines",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "French Guiana",
+  "city": "Kingstown",
+  "country": "Saint Vincent and the Grenadines",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640011,
@@ -2375,8 +2646,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Kingstown",
+   "country": "Saint Vincent and the Grenadines",
+   "stadium": "Arnos Vale Stadium",
+   "date": "2026-11-17",
+   "kickoff": "2026-11-18T00:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640012": {
   "date": "2026-11-11",
@@ -2384,9 +2661,9 @@
   "home_team": "Grenada",
   "away_team": "Saint Kitts and Nevis",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Grenada",
-  "neutral": "FALSE",
+  "city": "Havana",
+  "country": "Cuba",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640012,
   "league": "CONCACAF Nations League",
@@ -2394,8 +2671,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Havana",
+   "country": "Cuba",
+   "stadium": "Estadio La Polar",
+   "date": "2026-11-13"
+  },
+  "venue_src": "wiki"
  },
  "1640013": {
   "date": "2026-11-11",
@@ -2403,7 +2685,7 @@
   "home_team": "Guadeloupe",
   "away_team": "Bermuda",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Le Gosier",
   "country": "Guadeloupe",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2413,8 +2695,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Le Gosier",
+   "country": "Guadeloupe",
+   "stadium": "Stade Roger Zami",
+   "date": "2026-11-16",
+   "kickoff": "2026-11-16T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640014": {
   "date": "2026-11-11",
@@ -2422,7 +2710,7 @@
   "home_team": "Guyana",
   "away_team": "Puerto Rico",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Georgetown",
   "country": "Guyana",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2432,8 +2720,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Georgetown",
+   "country": "Guyana",
+   "stadium": "Leonora National Track and Field Centre",
+   "date": "2026-11-16",
+   "kickoff": "2026-11-16T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640015": {
   "date": "2026-11-11",
@@ -2441,9 +2735,9 @@
   "home_team": "Puerto Rico",
   "away_team": "Dominica",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Puerto Rico",
-  "neutral": "FALSE",
+  "city": "Georgetown",
+  "country": "Guyana",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640015,
   "league": "CONCACAF Nations League",
@@ -2451,8 +2745,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Georgetown",
+   "country": "Guyana",
+   "stadium": "Leonora National Track and Field Centre",
+   "date": "2026-11-13",
+   "kickoff": "2026-11-13T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640016": {
   "date": "2026-11-11",
@@ -2460,9 +2760,9 @@
   "home_team": "Saint Kitts and Nevis",
   "away_team": "Bonaire",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Saint Kitts and Nevis",
-  "neutral": "FALSE",
+  "city": "Havana",
+  "country": "Cuba",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640016,
   "league": "CONCACAF Nations League",
@@ -2470,8 +2770,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Havana",
+   "country": "Cuba",
+   "stadium": "Estadio La Polar",
+   "date": "2026-11-17"
+  },
+  "venue_src": "wiki"
  },
  "1640017": {
   "date": "2026-11-11",
@@ -2479,9 +2784,9 @@
   "home_team": "Saint Lucia",
   "away_team": "Barbados",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Saint Lucia",
-  "neutral": "FALSE",
+  "city": "Le Gosier",
+  "country": "Guadeloupe",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640017,
   "league": "CONCACAF Nations League",
@@ -2489,8 +2794,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Le Gosier",
+   "country": "Guadeloupe",
+   "stadium": "Stade Roger Zami",
+   "date": "2026-11-17",
+   "kickoff": "2026-11-17T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640018": {
   "date": "2026-11-11",
@@ -2498,7 +2809,7 @@
   "home_team": "Saint Vincent and the Grenadines",
   "away_team": "Belize",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Kingstown",
   "country": "Saint Vincent and the Grenadines",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2508,8 +2819,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Kingstown",
+   "country": "Saint Vincent and the Grenadines",
+   "stadium": "Arnos Vale Stadium",
+   "date": "2026-11-14",
+   "kickoff": "2026-11-15T00:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640019": {
   "date": "2026-11-11",
@@ -2517,9 +2834,9 @@
   "home_team": "Sint Maarten",
   "away_team": "French Guiana",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Sint Maarten",
-  "neutral": "FALSE",
+  "city": "Kingstown",
+  "country": "Saint Vincent and the Grenadines",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640019,
   "league": "CONCACAF Nations League",
@@ -2527,8 +2844,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Kingstown",
+   "country": "Saint Vincent and the Grenadines",
+   "stadium": "Arnos Vale Stadium",
+   "date": "2026-11-14",
+   "kickoff": "2026-11-14T19:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1640031": {
   "date": "2026-11-28",
@@ -2764,7 +3087,7 @@
   "home_team": "Japan",
   "away_team": "Brazil",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Hiroshima",
   "country": "Japan",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2774,8 +3097,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Hiroshima",
+   "country": "Japan",
+   "stadium": "Edion Peace Wing Hiroshima"
+  },
+  "venue_src": "wiki"
  },
  "1641698": {
   "date": "2026-11-28",
@@ -2840,7 +3167,7 @@
   "home_team": "Curaçao",
   "away_team": "Panama",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Willemstad",
   "country": "Curaçao",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2850,8 +3177,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Willemstad",
+   "country": "Curaçao",
+   "stadium": "Ergilio Hato Stadium",
+   "date": "2026-11-12",
+   "kickoff": "2026-11-13T00:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1644691": {
   "date": "2026-11-09",
@@ -2859,7 +3192,7 @@
   "home_team": "Jamaica",
   "away_team": "Mexico",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Kingston",
   "country": "Jamaica",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2869,8 +3202,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Kingston",
+   "country": "Jamaica",
+   "stadium": "Independence Park",
+   "date": "2026-11-14",
+   "kickoff": "2026-11-15T01:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1644692": {
   "date": "2026-11-13",
@@ -2878,7 +3217,7 @@
   "home_team": "Guatemala",
   "away_team": "Canada",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Guatemala City",
   "country": "Guatemala",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2888,8 +3227,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Guatemala City",
+   "country": "Guatemala",
+   "stadium": "Estadio Manuel Felipe Carrera",
+   "kickoff": "2026-11-14T02:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1644693": {
   "date": "2026-11-14",
@@ -2897,8 +3241,8 @@
   "home_team": "Haiti",
   "away_team": "United States",
   "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Haiti",
+  "city": "Miami",
+  "country": "United States",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1644693,
@@ -2907,8 +3251,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Miami",
+   "country": "United States",
+   "stadium": "Nu Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1644694": {
   "date": "2026-11-17",
@@ -2916,7 +3264,7 @@
   "home_team": "Canada",
   "away_team": "Guatemala",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Toronto",
   "country": "Canada",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2926,8 +3274,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Toronto",
+   "country": "Canada",
+   "stadium": "BMO Field",
+   "kickoff": "2026-11-17T01:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1644695": {
   "date": "2026-11-17",
@@ -2954,7 +3307,7 @@
   "home_team": "Panama",
   "away_team": "Curaçao",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Panama City",
   "country": "Panama",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2964,8 +3317,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Panama City",
+   "country": "Panama",
+   "stadium": "Estadio Rommel Fernández",
+   "date": "2026-11-15"
+  },
+  "venue_src": "wiki"
  },
  "1644697": {
   "date": "2026-11-18",
@@ -2973,7 +3331,7 @@
   "home_team": "United States",
   "away_team": "Haiti",
   "tournament": "CONCACAF Nations League",
-  "city": "",
+  "city": "Cincinnati",
   "country": "United States",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2983,8 +3341,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Cincinnati",
+   "country": "United States",
+   "stadium": "TQL Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1645470": {
   "date": "2026-12-02",
@@ -3562,9 +3924,9 @@
   "home_team": "Saudi Arabia",
   "away_team": "Uzbekistan",
   "tournament": "Friendly",
-  "city": "",
-  "country": "Saudi Arabia",
-  "neutral": "FALSE",
+  "city": "Doha",
+  "country": "Qatar",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1647370,
   "league": "Friendlies",
@@ -3572,8 +3934,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Doha",
+   "country": "Qatar",
+   "stadium": "TBC",
+   "kickoff": "2026-11-17T15:30:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1647371": {
   "date": "2026-11-17",
@@ -3600,7 +3967,7 @@
   "home_team": "Argentina",
   "away_team": "Costa Rica",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Córdoba",
   "country": "Argentina",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3610,8 +3977,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Córdoba",
+   "country": "Argentina",
+   "stadium": "Estadio Mario Alberto Kempes"
+  },
+  "venue_src": "wiki"
  },
  "1647373": {
   "date": "2026-11-17",
@@ -3802,5 +4173,205 @@
   "gender": "men",
   "wiki": null,
   "venue_src": "assumed"
+ },
+ "wiki:men|2026-11-12|Aruba|Martinique": {
+  "date": "2026-11-12",
+  "kickoff": "2026-11-12T19:00:00+00:00",
+  "home_team": "Aruba",
+  "away_team": "Martinique",
+  "tournament": "CONCACAF Nations League",
+  "city": "Oranjestad",
+  "country": "Aruba",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": "wiki:men|2026-11-12|Aruba|Martinique",
+  "league": "CONCACAF Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wikiOnly": 1,
+  "wikiSource": "2026–27 CONCACAF Nations League Play-in",
+  "wiki": {
+   "city": "Oranjestad",
+   "country": "Aruba",
+   "stadium": "Trinidad Stadium"
+  },
+  "venue_src": "city"
+ },
+ "wiki:men|2026-11-12|Antigua and Barbuda|Trinidad and Tobago": {
+  "date": "2026-11-12",
+  "kickoff": "2026-11-12T23:00:00+00:00",
+  "home_team": "Antigua and Barbuda",
+  "away_team": "Trinidad and Tobago",
+  "tournament": "CONCACAF Nations League",
+  "city": "St. John's",
+  "country": "Antigua and Barbuda",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": "wiki:men|2026-11-12|Antigua and Barbuda|Trinidad and Tobago",
+  "league": "CONCACAF Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wikiOnly": 1,
+  "wikiSource": "2026–27 CONCACAF Nations League Play-in",
+  "wiki": {
+   "city": "St. John's",
+   "country": "Antigua and Barbuda",
+   "stadium": "Sir Vivian Richards Stadium"
+  },
+  "venue_src": "city"
+ },
+ "wiki:men|2026-11-13|Saint Martin|El Salvador": {
+  "date": "2026-11-13",
+  "kickoff": "2026-11-13T23:00:00+00:00",
+  "home_team": "Saint Martin",
+  "away_team": "El Salvador",
+  "tournament": "CONCACAF Nations League",
+  "city": "Basseterre",
+  "country": "Saint Kitts and Nevis",
+  "neutral": "TRUE",
+  "venue_id": "",
+  "api_id": "wiki:men|2026-11-13|Saint Martin|El Salvador",
+  "league": "CONCACAF Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wikiOnly": 1,
+  "wikiSource": "2026–27 CONCACAF Nations League Play-in",
+  "wiki": {
+   "city": "Basseterre",
+   "country": "Saint Kitts and Nevis",
+   "stadium": "SKNFA Technical Center"
+  },
+  "venue_src": "city"
+ },
+ "wiki:men|2026-11-13|Montserrat|Nicaragua": {
+  "date": "2026-11-13",
+  "kickoff": "2026-11-14T00:00:00+00:00",
+  "home_team": "Montserrat",
+  "away_team": "Nicaragua",
+  "tournament": "CONCACAF Nations League",
+  "city": "Santiago",
+  "country": "Chile",
+  "neutral": "TRUE",
+  "venue_id": "",
+  "api_id": "wiki:men|2026-11-13|Montserrat|Nicaragua",
+  "league": "CONCACAF Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wikiOnly": 1,
+  "wikiSource": "2026–27 CONCACAF Nations League Play-in",
+  "wiki": {
+   "city": "Santiago",
+   "country": "Dominican Republic",
+   "stadium": "Estadio Cibao FC"
+  },
+  "venue_src": "city"
+ },
+ "wiki:men|2026-11-16|Martinique|Aruba": {
+  "date": "2026-11-16",
+  "kickoff": "2026-11-17T00:00:00+00:00",
+  "home_team": "Martinique",
+  "away_team": "Aruba",
+  "tournament": "CONCACAF Nations League",
+  "city": "Fort-de-France",
+  "country": "Martinique",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": "wiki:men|2026-11-16|Martinique|Aruba",
+  "league": "CONCACAF Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wikiOnly": 1,
+  "wikiSource": "2026–27 CONCACAF Nations League Play-in",
+  "wiki": {
+   "city": "Fort-de-France",
+   "country": "Martinique",
+   "stadium": "Stade Pierre-Aliker"
+  },
+  "venue_src": "city"
+ },
+ "wiki:men|2026-11-16|Trinidad and Tobago|Antigua and Barbuda": {
+  "date": "2026-11-16",
+  "kickoff": "2026-11-17T00:00:00+00:00",
+  "home_team": "Trinidad and Tobago",
+  "away_team": "Antigua and Barbuda",
+  "tournament": "CONCACAF Nations League",
+  "city": "Port of Spain",
+  "country": "Trinidad and Tobago",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": "wiki:men|2026-11-16|Trinidad and Tobago|Antigua and Barbuda",
+  "league": "CONCACAF Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wikiOnly": 1,
+  "wikiSource": "2026–27 CONCACAF Nations League Play-in",
+  "wiki": {
+   "city": "Port of Spain",
+   "country": "Trinidad and Tobago",
+   "stadium": "Hasely Crawford Stadium"
+  },
+  "venue_src": "city"
+ },
+ "wiki:men|2026-11-17|El Salvador|Saint Martin": {
+  "date": "2026-11-17",
+  "kickoff": "2026-11-18T01:00:00+00:00",
+  "home_team": "El Salvador",
+  "away_team": "Saint Martin",
+  "tournament": "CONCACAF Nations League",
+  "city": "San Salvador",
+  "country": "El Salvador",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": "wiki:men|2026-11-17|El Salvador|Saint Martin",
+  "league": "CONCACAF Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wikiOnly": 1,
+  "wikiSource": "2026–27 CONCACAF Nations League Play-in",
+  "wiki": {
+   "city": "San Salvador",
+   "country": "El Salvador",
+   "stadium": "Estadio Jorge \"El Mágico\" González"
+  },
+  "venue_src": "city"
+ },
+ "wiki:men|2026-11-17|Nicaragua|Montserrat": {
+  "date": "2026-11-17",
+  "kickoff": "2026-11-18T03:00:00+00:00",
+  "home_team": "Nicaragua",
+  "away_team": "Montserrat",
+  "tournament": "CONCACAF Nations League",
+  "city": "Managua",
+  "country": "Nicaragua",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": "wiki:men|2026-11-17|Nicaragua|Montserrat",
+  "league": "CONCACAF Nations League",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wikiOnly": 1,
+  "wikiSource": "2026–27 CONCACAF Nations League Play-in",
+  "wiki": {
+   "city": "Managua",
+   "country": "Nicaragua",
+   "stadium": "Estadio Nacional"
+  },
+  "venue_src": "city"
  }
 }

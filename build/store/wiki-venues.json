@@ -6,7 +6,7 @@
    "checked": "2026-10-31"
   },
   "men|Panama": {
-   "title": "",
+   "title": "Panama national football team results (2020–present)",
    "name": "Panama",
    "checked": "2026-10-31"
   },
@@ -16,7 +16,7 @@
    "checked": "2026-10-31"
   },
   "men|Mexico": {
-   "title": "Mexico national football team results",
+   "title": "Mexico national football team results (2020–present)",
    "name": "Mexico",
    "checked": "2026-10-31"
   },
@@ -51,12 +51,12 @@
    "checked": "2026-10-31"
   },
   "men|Burkina Faso": {
-   "title": "Burkina Faso national football team results (2000–2019)",
+   "title": "Burkina Faso national football team results (2020–present)",
    "name": "Burkina Faso",
    "checked": "2026-10-31"
   },
   "men|Mauritania": {
-   "title": "Mauritania national football team results (1961–2019)",
+   "title": "Mauritania national football team results (2020–present)",
    "name": "Mauritania",
    "checked": "2026-10-31"
   },
@@ -71,7 +71,7 @@
    "checked": "2026-10-31"
   },
   "men|Cape Verde": {
-   "title": "Cape Verde national football team results",
+   "title": "Cape Verde national football team results (2020–present)",
    "name": "Cape Verde",
    "checked": "2026-10-31"
   },
@@ -86,12 +86,12 @@
    "checked": "2026-10-31"
   },
   "men|Congo": {
-   "title": "",
+   "title": "Congo national football team results (2020–present)",
    "name": "Congo",
    "checked": "2026-10-31"
   },
   "men|DR Congo": {
-   "title": "DR Congo national football team results (2010–2019)",
+   "title": "DR Congo national football team results (2020–present)",
    "name": "DR Congo",
    "checked": "2026-10-31"
   },
@@ -111,12 +111,12 @@
    "checked": "2026-10-31"
   },
   "men|Equatorial Guinea": {
-   "title": "",
+   "title": "Equatorial Guinea national football team results (2020–present)",
    "name": "Equatorial Guinea",
    "checked": "2026-10-31"
   },
   "men|Zimbabwe": {
-   "title": "Zimbabwe national football team results (2000–2019)",
+   "title": "Zimbabwe national football team results (2020–present)",
    "name": "Zimbabwe",
    "checked": "2026-10-31"
   },
@@ -131,7 +131,7 @@
    "checked": "2026-10-31"
   },
   "men|Ghana": {
-   "title": "Ghana national football team results (1990–99)",
+   "title": "Ghana national football team results (2020–present)",
    "name": "Ghana",
    "checked": "2026-10-31"
   },
@@ -141,7 +141,7 @@
    "checked": "2026-10-31"
   },
   "men|Guinea": {
-   "title": "",
+   "title": "Guinea national football team results (2020–present)",
    "name": "Guinea",
    "checked": "2026-10-31"
   },
@@ -151,12 +151,12 @@
    "checked": "2026-10-31"
   },
   "men|Ivory Coast": {
-   "title": "",
+   "title": "Ivory Coast national football team results (2020–present)",
    "name": "Ivory Coast",
    "checked": "2026-10-31"
   },
   "men|Gambia": {
-   "title": "",
+   "title": "Gambia national football team results (2020–present)",
    "name": "Gambia",
    "checked": "2026-10-31"
   },
@@ -196,12 +196,12 @@
    "checked": "2026-10-31"
   },
   "men|Ethiopia": {
-   "title": "",
+   "title": "Ethiopia national football team results (2020–present)",
    "name": "Ethiopia",
    "checked": "2026-10-31"
   },
   "men|Nigeria": {
-   "title": "Nigeria national football team results (1949–1959)",
+   "title": "Nigeria national football team results (2020–present)",
    "name": "Nigeria",
    "checked": "2026-10-31"
   },
@@ -211,17 +211,17 @@
    "checked": "2026-10-31"
   },
   "men|Senegal": {
-   "title": "Senegal national football team results (2010–2019)",
+   "title": "Senegal national football team results (2020–present)",
    "name": "Senegal",
    "checked": "2026-10-31"
   },
   "men|Sudan": {
-   "title": "",
+   "title": "Sudan national football team results (2020–present)",
    "name": "Sudan",
    "checked": "2026-10-31"
   },
   "men|South Africa": {
-   "title": "South Africa national soccer team results (1947–1955)",
+   "title": "South Africa national soccer team results (2020–present)",
    "name": "South Africa",
    "checked": "2026-10-31"
   },
@@ -278,6 +278,711 @@
   "men|Sint Maarten": {
    "title": "Sint Maarten national football team results",
    "name": "Sint Maarten",
+   "checked": "2026-10-31"
+  },
+  "men|Bermuda": {
+   "title": "Bermuda national football team results (2020–present)",
+   "name": "Bermuda",
+   "checked": "2026-10-31"
+  },
+  "men|Saint Lucia": {
+   "title": "Saint Lucia national football team results",
+   "name": "Saint Lucia",
+   "checked": "2026-10-31"
+  },
+  "men|Bonaire": {
+   "title": "Bonaire national football team results",
+   "name": "Bonaire",
+   "checked": "2026-10-31"
+  },
+  "men|Cuba": {
+   "title": "Cuba national football team results (2020–present)",
+   "name": "Cuba",
+   "checked": "2026-10-31"
+  },
+  "men|Cayman Islands": {
+   "title": "Cayman Islands national football team results",
+   "name": "Cayman Islands",
+   "checked": "2026-10-31"
+  },
+  "men|Guyana": {
+   "title": "",
+   "name": "Guyana",
+   "checked": "2026-10-31"
+  },
+  "men|Grenada": {
+   "title": "",
+   "name": "Grenada",
+   "checked": "2026-10-31"
+  },
+  "men|Dominica": {
+   "title": "Dominica national football team results",
+   "name": "Dominica",
+   "checked": "2026-10-31"
+  },
+  "men|French Guiana": {
+   "title": "",
+   "name": "French Guiana",
+   "checked": "2026-10-31"
+  },
+  "men|Saint Vincent and the Grenadines": {
+   "title": "Saint Vincent and the Grenadines national football team results",
+   "name": "Saint Vincent and the Grenadines",
+   "checked": "2026-10-31"
+  },
+  "men|Saint Kitts and Nevis": {
+   "title": "Saint Kitts and Nevis national football team results",
+   "name": "Saint Kitts and Nevis",
+   "checked": "2026-10-31"
+  },
+  "men|Puerto Rico": {
+   "title": "Puerto Rico national football team results",
+   "name": "Puerto Rico",
+   "checked": "2026-10-31"
+  },
+  "men|Vietnam": {
+   "title": "Vietnam national football team results (2020–present)",
+   "name": "Vietnam",
+   "checked": "2026-10-31"
+  },
+  "men|Taiwan": {
+   "title": "Chinese Taipei national football team results",
+   "name": "Chinese Taipei",
+   "checked": "2026-10-31"
+  },
+  "men|Turkey": {
+   "title": "Turkey national football team results (2020–present)",
+   "name": "Turkey",
+   "checked": "2026-10-31"
+  },
+  "men|Belgium": {
+   "title": "Belgium national football team results (2020–present)",
+   "name": "Belgium",
+   "checked": "2026-10-31"
+  },
+  "men|Armenia": {
+   "title": "Armenia national football team results (2020–present)",
+   "name": "Armenia",
+   "checked": "2026-10-31"
+  },
+  "men|Cyprus": {
+   "title": "Cyprus national football team results (2020–present)",
+   "name": "Cyprus",
+   "checked": "2026-10-31"
+  },
+  "men|Italy": {
+   "title": "Italy national football team results",
+   "name": "Italy",
+   "checked": "2026-10-31"
+  },
+  "men|France": {
+   "title": "France national football team results (2020–present)",
+   "name": "France",
+   "checked": "2026-10-31"
+  },
+  "men|Czech Republic": {
+   "title": "Czech Republic national football team results (2020–present)",
+   "name": "Czech Republic",
+   "checked": "2026-10-31"
+  },
+  "men|Spain": {
+   "title": "Spain national football team results (2020–present)",
+   "name": "Spain",
+   "checked": "2026-10-31"
+  },
+  "men|England": {
+   "title": "England national football team results (2020–present)",
+   "name": "England",
+   "checked": "2026-10-31"
+  },
+  "men|Croatia": {
+   "title": "Croatia national football team results (2020–present)",
+   "name": "Croatia",
+   "checked": "2026-10-31"
+  },
+  "men|Albania": {
+   "title": "Albania national football team results (2020–present)",
+   "name": "Albania",
+   "checked": "2026-10-31"
+  },
+  "men|Finland": {
+   "title": "Finland national football team results (2020–present)",
+   "name": "Finland",
+   "checked": "2026-10-31"
+  },
+  "men|San Marino": {
+   "title": "San Marino national football team results",
+   "name": "San Marino",
+   "checked": "2026-10-31"
+  },
+  "men|Belarus": {
+   "title": "",
+   "name": "Belarus",
+   "checked": "2026-10-31"
+  },
+  "men|Montenegro": {
+   "title": "Montenegro national football team results",
+   "name": "Montenegro",
+   "checked": "2026-10-31"
+  },
+  "men|Latvia": {
+   "title": "Latvia national football team results (2020–present)",
+   "name": "Latvia",
+   "checked": "2026-10-31"
+  },
+  "men|Malta": {
+   "title": "Malta national football team results (2020–present)",
+   "name": "Malta",
+   "checked": "2026-10-31"
+  },
+  "men|Eswatini": {
+   "title": "",
+   "name": "Eswatini",
+   "checked": "2026-10-31"
+  },
+  "men|Serbia": {
+   "title": "Serbia national football team results (2020–present)",
+   "name": "Serbia",
+   "checked": "2026-10-31"
+  },
+  "men|Germany": {
+   "title": "Germany national football team results (2020–present)",
+   "name": "Germany",
+   "checked": "2026-10-31"
+  },
+  "men|Netherlands": {
+   "title": "Netherlands national football team results (2020–present)",
+   "name": "Netherlands",
+   "checked": "2026-10-31"
+  },
+  "men|Greece": {
+   "title": "Greece national football team results (2020–present)",
+   "name": "Greece",
+   "checked": "2026-10-31"
+  },
+  "men|Slovakia": {
+   "title": "Slovakia national football team results (2020–present)",
+   "name": "Slovakia",
+   "checked": "2026-10-31"
+  },
+  "men|Faroe Islands": {
+   "title": "Faroe Islands national football team results (2020–present)",
+   "name": "Faroe Islands",
+   "checked": "2026-10-31"
+  },
+  "men|Moldova": {
+   "title": "Moldova national football team results (2020–present)",
+   "name": "Moldova",
+   "checked": "2026-10-31"
+  },
+  "men|Kazakhstan": {
+   "title": "Kazakhstan national football team results",
+   "name": "Kazakhstan",
+   "checked": "2026-10-31"
+  },
+  "men|Bulgaria": {
+   "title": "Bulgaria national football team results (2020–present)",
+   "name": "Bulgaria",
+   "checked": "2026-10-31"
+  },
+  "men|Iceland": {
+   "title": "Iceland national football team results (2020–present)",
+   "name": "Iceland",
+   "checked": "2026-10-31"
+  },
+  "men|Liechtenstein": {
+   "title": "Liechtenstein national football team results (2020–present)",
+   "name": "Liechtenstein",
+   "checked": "2026-10-31"
+  },
+  "men|Azerbaijan": {
+   "title": "Azerbaijan national football team results (2020–present)",
+   "name": "Azerbaijan",
+   "checked": "2026-10-31"
+  },
+  "men|Estonia": {
+   "title": "Estonia national football team results (2020–present)",
+   "name": "Estonia",
+   "checked": "2026-10-31"
+  },
+  "men|Luxembourg": {
+   "title": "Luxembourg national football team results (2020–present)",
+   "name": "Luxembourg",
+   "checked": "2026-10-31"
+  },
+  "men|Andorra": {
+   "title": "Andorra national football team results (2020–present)",
+   "name": "Andorra",
+   "checked": "2026-10-31"
+  },
+  "men|Gibraltar": {
+   "title": "Gibraltar national football team results",
+   "name": "Gibraltar",
+   "checked": "2026-10-31"
+  },
+  "men|Switzerland": {
+   "title": "Switzerland national football team results (2020–present)",
+   "name": "Switzerland",
+   "checked": "2026-10-31"
+  },
+  "men|Scotland": {
+   "title": "Scotland national football team results (2020–present)",
+   "name": "Scotland",
+   "checked": "2026-10-31"
+  },
+  "men|Slovenia": {
+   "title": "Slovenia national football team results (2020–present)",
+   "name": "Slovenia",
+   "checked": "2026-10-31"
+  },
+  "men|North Macedonia": {
+   "title": "North Macedonia national football team results",
+   "name": "North Macedonia",
+   "checked": "2026-10-31"
+  },
+  "men|Guatemala": {
+   "title": "Guatemala national football team results",
+   "name": "Guatemala",
+   "checked": "2026-10-31"
+  },
+  "men|Canada": {
+   "title": "Canada men's national soccer team results (2020–present)",
+   "name": "Canada",
+   "checked": "2026-10-31"
+  },
+  "men|Kyrgyzstan": {
+   "title": "Kyrgyzstan national football team results (2020–present)",
+   "name": "Kyrgyzstan",
+   "checked": "2026-10-31"
+  },
+  "men|Saudi Arabia": {
+   "title": "Saudi Arabia national football team results (2020–present)",
+   "name": "Saudi Arabia",
+   "checked": "2026-10-31"
+  },
+  "men|South Korea": {
+   "title": "South Korea national football team results (2020–present)",
+   "name": "South Korea",
+   "checked": "2026-10-31"
+  },
+  "men|United Arab Emirates": {
+   "title": "United Arab Emirates national football team results (2020–present)",
+   "name": "United Arab Emirates",
+   "checked": "2026-10-31"
+  },
+  "men|Honduras": {
+   "title": "Honduras national football team results (2020–present)",
+   "name": "Honduras",
+   "checked": "2026-10-31"
+  },
+  "men|Kosovo": {
+   "title": "Kosovo national football team results (2020–present)",
+   "name": "Kosovo",
+   "checked": "2026-10-31"
+  },
+  "men|Israel": {
+   "title": "Israel national football team results (2020–present)",
+   "name": "Israel",
+   "checked": "2026-10-31"
+  },
+  "men|Norway": {
+   "title": "Norway national football team results (2020–present)",
+   "name": "Norway",
+   "checked": "2026-10-31"
+  },
+  "men|Wales": {
+   "title": "Wales national football team results (2020–present)",
+   "name": "Wales",
+   "checked": "2026-10-31"
+  },
+  "men|Georgia": {
+   "title": "Georgia national football team results (2020–present)",
+   "name": "Georgia",
+   "checked": "2026-10-31"
+  },
+  "men|Hungary": {
+   "title": "Hungary national football team results (2020–present)",
+   "name": "Hungary",
+   "checked": "2026-10-31"
+  },
+  "men|Portugal": {
+   "title": "Portugal national football team results (2020–present)",
+   "name": "Portugal",
+   "checked": "2026-10-31"
+  },
+  "men|Denmark": {
+   "title": "Denmark national football team results (2020–present)",
+   "name": "Denmark",
+   "checked": "2026-10-31"
+  },
+  "men|Northern Ireland": {
+   "title": "Northern Ireland national football team results (2020–present)",
+   "name": "Northern Ireland",
+   "checked": "2026-10-31"
+  },
+  "men|Ukraine": {
+   "title": "Ukraine national football team results (2020–present)",
+   "name": "Ukraine",
+   "checked": "2026-10-31"
+  },
+  "men|Austria": {
+   "title": "Austria national football team results (2020–present)",
+   "name": "Austria",
+   "checked": "2026-10-31"
+  },
+  "men|Republic of Ireland": {
+   "title": "Republic of Ireland national football team results (2020–present)",
+   "name": "Republic of Ireland",
+   "checked": "2026-10-31"
+  },
+  "men|Romania": {
+   "title": "Romania national football team results (2020–present)",
+   "name": "Romania",
+   "checked": "2026-10-31"
+  },
+  "men|Poland": {
+   "title": "Poland national football team results (2020–present)",
+   "name": "Poland",
+   "checked": "2026-10-31"
+  },
+  "men|Sweden": {
+   "title": "Sweden men's national football team results (2020–present)",
+   "name": "Sweden",
+   "checked": "2026-10-31"
+  },
+  "men|Bosnia and Herzegovina": {
+   "title": "Bosnia and Herzegovina national football team results (2020–present)",
+   "name": "Bosnia and Herzegovina",
+   "checked": "2026-10-31"
+  },
+  "men|Haiti": {
+   "title": "",
+   "name": "Haiti",
+   "checked": "2026-10-31"
+  },
+  "men|United States": {
+   "title": "United States men's national soccer team results (2020–present)",
+   "name": "United States",
+   "checked": "2026-10-31"
+  },
+  "men|Yemen": {
+   "title": "Yemen national football team results",
+   "name": "Yemen",
+   "checked": "2026-10-31"
+  },
+  "men|Bahrain": {
+   "title": "Bahrain national football team results (2020–present)",
+   "name": "Bahrain",
+   "checked": "2026-10-31"
+  },
+  "men|Basque Country": {
+   "title": "Basque Country national football team results",
+   "name": "Basque Country",
+   "checked": "2026-10-31"
+  },
+  "men|Venezuela": {
+   "title": "Venezuela national football team results (2020–present)",
+   "name": "Venezuela",
+   "checked": "2026-10-31"
+  },
+  "men|Lithuania": {
+   "title": "Lithuania national football team results (2020–present)",
+   "name": "Lithuania",
+   "checked": "2026-10-31"
+  },
+  "men|Singapore": {
+   "title": "Singapore national football team results (2020–present)",
+   "name": "Singapore",
+   "checked": "2026-10-31"
+  },
+  "men|Brazil": {
+   "title": "Brazil national football team results (2010–present)",
+   "name": "Brazil",
+   "checked": "2026-10-31"
+  },
+  "men|Japan": {
+   "title": "Japan national football team results (2020–present)",
+   "name": "Japan",
+   "checked": "2026-10-31"
+  },
+  "men|Paraguay": {
+   "title": "Paraguay national football team results (2020–present)",
+   "name": "Paraguay",
+   "checked": "2026-10-31"
+  },
+  "men|Chile": {
+   "title": "Chile national football team results (2020–present)",
+   "name": "Chile",
+   "checked": "2026-10-31"
+  },
+  "men|Colombia": {
+   "title": "Colombia national football team results (2020–present)",
+   "name": "Colombia",
+   "checked": "2026-10-31"
+  },
+  "men|Malaysia": {
+   "title": "Malaysia national football team results (2020–present)",
+   "name": "Malaysia",
+   "checked": "2026-10-31"
+  },
+  "men|China": {
+   "title": "China national football team results (2020–present)",
+   "name": "China",
+   "checked": "2026-10-31"
+  },
+  "men|Qatar": {
+   "title": "Qatar national football team results (2020–present)",
+   "name": "Qatar",
+   "checked": "2026-10-31"
+  },
+  "men|Uzbekistan": {
+   "title": "Uzbekistan national football team results (2020–present)",
+   "name": "Uzbekistan",
+   "checked": "2026-10-31"
+  },
+  "men|Argentina": {
+   "title": "Argentina national football team results (2020–present)",
+   "name": "Argentina",
+   "checked": "2026-10-31"
+  },
+  "men|Costa Rica": {
+   "title": "Costa Rica national football team results (2020–present)",
+   "name": "Costa Rica",
+   "checked": "2026-10-31"
+  },
+  "men|Ecuador": {
+   "title": "Ecuador national football team results (2020–present)",
+   "name": "Ecuador",
+   "checked": "2026-10-31"
+  },
+  "men|Bolivia": {
+   "title": "Bolivia national football team results (2020–present)",
+   "name": "Bolivia",
+   "checked": "2026-10-31"
+  },
+  "men|Kuwait": {
+   "title": "Kuwait national football team results (2020–present)",
+   "name": "Kuwait",
+   "checked": "2026-10-31"
+  },
+  "women|Finland": {
+   "title": "",
+   "name": "Finland",
+   "checked": "2026-10-31"
+  },
+  "women|Italy": {
+   "title": "Italy women's national football team results (2020–present)",
+   "name": "Italy",
+   "checked": "2026-10-31"
+  },
+  "women|Poland": {
+   "title": "",
+   "name": "Poland",
+   "checked": "2026-10-31"
+  },
+  "women|Republic of Ireland": {
+   "title": "Republic of Ireland women's national football team results (2020–present)",
+   "name": "Republic of Ireland",
+   "checked": "2026-10-31"
+  },
+  "women|Portugal": {
+   "title": "Portugal women's national football team results (2020–present)",
+   "name": "Portugal",
+   "checked": "2026-10-31"
+  },
+  "women|Iceland": {
+   "title": "",
+   "name": "Iceland",
+   "checked": "2026-10-31"
+  },
+  "women|Scotland": {
+   "title": "Scotland women's national football team results (2020–present)",
+   "name": "Scotland",
+   "checked": "2026-10-31"
+  },
+  "women|Sweden": {
+   "title": "",
+   "name": "Sweden",
+   "checked": "2026-10-31"
+  },
+  "women|Slovenia": {
+   "title": "",
+   "name": "Slovenia",
+   "checked": "2026-10-31"
+  },
+  "women|Netherlands": {
+   "title": "",
+   "name": "Netherlands",
+   "checked": "2026-10-31"
+  },
+  "women|Switzerland": {
+   "title": "",
+   "name": "Switzerland",
+   "checked": "2026-10-31"
+  },
+  "women|Austria": {
+   "title": "",
+   "name": "Austria",
+   "checked": "2026-10-31"
+  },
+  "women|Ukraine": {
+   "title": "",
+   "name": "Ukraine",
+   "checked": "2026-10-31"
+  },
+  "women|England": {
+   "title": "England women's national football team results (2020–present)",
+   "name": "England",
+   "checked": "2026-10-31"
+  },
+  "women|Wales": {
+   "title": "Wales women's national football team results (2020–present)",
+   "name": "Wales",
+   "checked": "2026-10-31"
+  },
+  "women|Norway": {
+   "title": "",
+   "name": "Norway",
+   "checked": "2026-10-31"
+  },
+  "women|Jamaica": {
+   "title": "",
+   "name": "Jamaica",
+   "checked": "2026-10-31"
+  },
+  "women|Costa Rica": {
+   "title": "",
+   "name": "Costa Rica",
+   "checked": "2026-10-31"
+  },
+  "women|United States": {
+   "title": "United States women's national soccer team results (2020–present)",
+   "name": "United States",
+   "checked": "2026-10-31"
+  },
+  "women|El Salvador": {
+   "title": "",
+   "name": "El Salvador",
+   "checked": "2026-10-31"
+  },
+  "women|France": {
+   "title": "",
+   "name": "France",
+   "checked": "2026-10-31"
+  },
+  "women|Venezuela": {
+   "title": "",
+   "name": "Venezuela",
+   "checked": "2026-10-31"
+  },
+  "women|Canada": {
+   "title": "Canada women's national soccer team results",
+   "name": "Canada",
+   "checked": "2026-10-31"
+  },
+  "women|Panama": {
+   "title": "",
+   "name": "Panama",
+   "checked": "2026-10-31"
+  },
+  "women|Mexico": {
+   "title": "",
+   "name": "Mexico",
+   "checked": "2026-10-31"
+  },
+  "women|Haiti": {
+   "title": "",
+   "name": "Haiti",
+   "checked": "2026-10-31"
+  },
+  "women|Taiwan": {
+   "title": "",
+   "name": "Chinese Taipei",
+   "checked": "2026-10-31"
+  },
+  "women|South Africa": {
+   "title": "South Africa women's national soccer team results",
+   "name": "South Africa",
+   "checked": "2026-10-31"
+  },
+  "women|Ghana": {
+   "title": "Ghana women's national football team results",
+   "name": "Ghana",
+   "checked": "2026-10-31"
+  },
+  "women|Ecuador": {
+   "title": "",
+   "name": "Ecuador",
+   "checked": "2026-10-31"
+  },
+  "women|Uzbekistan": {
+   "title": "Uzbekistan women's national football team results",
+   "name": "Uzbekistan",
+   "checked": "2026-10-31"
+  },
+  "women|Papua New Guinea": {
+   "title": "",
+   "name": "Papua New Guinea",
+   "checked": "2026-10-31"
+  },
+  "women|Australia": {
+   "title": "Australia women's national soccer team results (2020–present)",
+   "name": "Australia",
+   "checked": "2026-10-31"
+  },
+  "women|Colombia": {
+   "title": "Colombia women's national football team results",
+   "name": "Colombia",
+   "checked": "2026-10-31"
+  },
+  "women|San Marino": {
+   "title": "",
+   "name": "San Marino",
+   "checked": "2026-10-31"
+  },
+  "women|Liechtenstein": {
+   "title": "Liechtenstein women's national football team results",
+   "name": "Liechtenstein",
+   "checked": "2026-10-31"
+  },
+  "women|Faroe Islands": {
+   "title": "",
+   "name": "Faroe Islands",
+   "checked": "2026-10-31"
+  },
+  "women|Estonia": {
+   "title": "Estonia women's national football team results",
+   "name": "Estonia",
+   "checked": "2026-10-31"
+  },
+  "women|Latvia": {
+   "title": "",
+   "name": "Latvia",
+   "checked": "2026-10-31"
+  },
+  "women|Lithuania": {
+   "title": "",
+   "name": "Lithuania",
+   "checked": "2026-10-31"
+  },
+  "women|Japan": {
+   "title": "Japan women's national football team results (2020–present)",
+   "name": "Japan",
+   "checked": "2026-10-31"
+  },
+  "women|Brazil": {
+   "title": "Brazil women's national football team results (2020–present)",
+   "name": "Brazil",
+   "checked": "2026-10-31"
+  },
+  "women|New Zealand": {
+   "title": "",
+   "name": "New Zealand",
+   "checked": "2026-10-31"
+  },
+  "women|Philippines": {
+   "title": "Philippines women's national football team results (2020–present)",
+   "name": "Philippines",
    "checked": "2026-10-31"
   }
  },
@@ -474,7 +1179,2017 @@
   "Sint Maarten national football team results": {
    "fetched": "2026-10-31",
    "matches": []
+  },
+  "2026–27 CONCACAF Nations League": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "2026–27 CONCACAF Nations League A": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "CUW",
+     "t2": "PAN",
+     "stadium": "Ergilio Hato Stadium",
+     "city": "Willemstad",
+     "country": "",
+     "kickoff": "2026-11-13T00:00:00+00:00"
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "PAN",
+     "t2": "CUW",
+     "stadium": "Estadio Rommel Fernández",
+     "city": "Panama City",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "GUA",
+     "t2": "CAN",
+     "stadium": "Estadio Manuel Felipe Carrera",
+     "city": "Guatemala City",
+     "country": "",
+     "kickoff": "2026-11-14T02:00:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "CAN",
+     "t2": "GUA",
+     "stadium": "BMO Field",
+     "city": "Toronto",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "HAI",
+     "t2": "USA",
+     "stadium": "Nu Stadium",
+     "city": "Miami",
+     "country": "United States",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "USA",
+     "t2": "HAI",
+     "stadium": "TQL Stadium",
+     "city": "Cincinnati",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "JAM",
+     "t2": "MEX",
+     "stadium": "Independence Park",
+     "city": "Kingston",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "MEX",
+     "t2": "JAM",
+     "stadium": "Estadio BBVA",
+     "city": "Guadalupe",
+     "country": "",
+     "kickoff": "2026-11-18T02:30:00+00:00"
+    }
+   ]
+  },
+  "2026–27 CONCACAF Nations League B": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "CAY",
+     "t2": "GUY",
+     "stadium": "Leonora National Track and Field Centre",
+     "city": "Georgetown",
+     "country": "Guyana",
+     "kickoff": "2026-11-12T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "PUR",
+     "t2": "DMA",
+     "stadium": "Leonora National Track and Field Centre",
+     "city": "Georgetown",
+     "country": "Guyana",
+     "kickoff": "2026-11-13T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "GUY",
+     "t2": "PUR",
+     "stadium": "Leonora National Track and Field Centre",
+     "city": "Georgetown",
+     "country": "Guyana",
+     "kickoff": "2026-11-16T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "DMA",
+     "t2": "CAY",
+     "stadium": "Leonora National Track and Field Centre",
+     "city": "Georgetown",
+     "country": "Guyana",
+     "kickoff": "2026-11-17T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-12",
+     "t1": "BRB",
+     "t2": "GLP",
+     "stadium": "Stade Roger Zami",
+     "city": "Le Gosier",
+     "country": "Guadeloupe",
+     "kickoff": "2026-11-12T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "BER",
+     "t2": "LCA",
+     "stadium": "Stade Roger Zami",
+     "city": "Le Gosier",
+     "country": "Guadeloupe",
+     "kickoff": "2026-11-13T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "GLP",
+     "t2": "BER",
+     "stadium": "Stade Roger Zami",
+     "city": "Le Gosier",
+     "country": "Guadeloupe",
+     "kickoff": "2026-11-16T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "LCA",
+     "t2": "BRB",
+     "stadium": "Stade Roger Zami",
+     "city": "Le Gosier",
+     "country": "Guadeloupe",
+     "kickoff": "2026-11-17T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-12",
+     "t1": "BOE",
+     "t2": "CUB",
+     "stadium": "Estadio La Polar",
+     "city": "Havana",
+     "country": "Cuba",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "GRN",
+     "t2": "SKN",
+     "stadium": "Estadio La Polar",
+     "city": "Havana",
+     "country": "Cuba",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "CUB",
+     "t2": "GRN",
+     "stadium": "Estadio La Polar",
+     "city": "Havana",
+     "country": "Cuba",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "SKN",
+     "t2": "BOE",
+     "stadium": "Estadio La Polar",
+     "city": "Havana",
+     "country": "Cuba",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "VIN",
+     "t2": "BLZ",
+     "stadium": "Arnos Vale Stadium",
+     "city": "Kingstown",
+     "country": "Saint Vincent and the Grenadines",
+     "kickoff": "2026-11-15T00:00:00+00:00"
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "SMA",
+     "t2": "GUF",
+     "stadium": "Arnos Vale Stadium",
+     "city": "Kingstown",
+     "country": "Saint Vincent and the Grenadines",
+     "kickoff": "2026-11-14T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "GUF",
+     "t2": "VIN",
+     "stadium": "Arnos Vale Stadium",
+     "city": "Kingstown",
+     "country": "Saint Vincent and the Grenadines",
+     "kickoff": "2026-11-18T00:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "BLZ",
+     "t2": "SMA",
+     "stadium": "Arnos Vale Stadium",
+     "city": "Kingstown",
+     "country": "Saint Vincent and the Grenadines",
+     "kickoff": "2026-11-17T19:00:00+00:00"
+    }
+   ]
+  },
+  "2026–27 CONCACAF Nations League C": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "2026–27 CONCACAF Nations League Play-in": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "ARU",
+     "t2": "MTQ",
+     "stadium": "Trinidad Stadium",
+     "city": "Oranjestad",
+     "country": "",
+     "kickoff": "2026-11-12T19:00:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "MTQ",
+     "t2": "ARU",
+     "stadium": "Stade Pierre-Aliker",
+     "city": "Fort-de-France",
+     "country": "",
+     "kickoff": "2026-11-17T00:00:00+00:00"
+    },
+    {
+     "date": "2026-11-12",
+     "t1": "ATG",
+     "t2": "TRI",
+     "stadium": "Sir Vivian Richards Stadium",
+     "city": "St. John's",
+     "country": "",
+     "kickoff": "2026-11-12T23:00:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "TRI",
+     "t2": "ATG",
+     "stadium": "Hasely Crawford Stadium",
+     "city": "Port of Spain",
+     "country": "",
+     "kickoff": "2026-11-17T00:00:00+00:00"
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "SMN",
+     "t2": "SLV",
+     "stadium": "SKNFA Technical Center",
+     "city": "Basseterre",
+     "country": "Saint Kitts and Nevis",
+     "kickoff": "2026-11-13T23:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "SLV",
+     "t2": "SMN",
+     "stadium": "Estadio Jorge \"El Mágico\" González",
+     "city": "San Salvador",
+     "country": "",
+     "kickoff": "2026-11-18T01:00:00+00:00"
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "MSR",
+     "t2": "NCA",
+     "stadium": "Estadio Cibao FC",
+     "city": "Santiago",
+     "country": "Dominican Republic",
+     "kickoff": "2026-11-14T00:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "NCA",
+     "t2": "MSR",
+     "stadium": "Estadio Nacional",
+     "city": "Managua",
+     "country": "",
+     "kickoff": "2026-11-18T03:00:00+00:00"
+    }
+   ]
+  },
+  "2027 Africa Cup of Nations qualification": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "2026–27 UEFA Nations League": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "2026–27 UEFA Nations League A": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "TUR",
+     "t2": "BEL",
+     "stadium": "Gürsel Aksel Stadium",
+     "city": "İzmir",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-12",
+     "t1": "ITA",
+     "t2": "FRA",
+     "stadium": "San Siro",
+     "city": "Milan",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "BEL",
+     "t2": "ITA",
+     "stadium": "King Baudouin Stadium",
+     "city": "Brussels",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "FRA",
+     "t2": "TUR",
+     "stadium": "Stade Atlantique",
+     "city": "Bordeaux",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "NED",
+     "t2": "GRE",
+     "stadium": "Johan Cruyff Arena",
+     "city": "Amsterdam",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "SRB",
+     "t2": "GER",
+     "stadium": "Rajko Mitić Stadium",
+     "city": "Belgrade",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "GER",
+     "t2": "NED",
+     "stadium": "Olympiastadion",
+     "city": "Berlin",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "GRE",
+     "t2": "SRB",
+     "stadium": "Panthessaliko Stadium",
+     "city": "Volos",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-12",
+     "t1": "CZE",
+     "t2": "ESP",
+     "stadium": "Stadion Letná",
+     "city": "Prague",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-12",
+     "t1": "ENG",
+     "t2": "CRO",
+     "stadium": "Wembley Stadium",
+     "city": "London",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "CRO",
+     "t2": "CZE",
+     "stadium": "Opus Arena",
+     "city": "Osijek",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "ESP",
+     "t2": "ENG",
+     "stadium": "Metropolitano Stadium",
+     "city": "Madrid",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "NOR",
+     "t2": "WAL",
+     "stadium": "Ullevaal Stadion",
+     "city": "Oslo",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "POR",
+     "t2": "DEN",
+     "stadium": "Estádio Municipal",
+     "city": "Braga",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "DEN",
+     "t2": "NOR",
+     "stadium": "Parken Stadium",
+     "city": "Copenhagen",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "WAL",
+     "t2": "POR",
+     "stadium": "Cardiff City Stadium",
+     "city": "Cardiff",
+     "country": "",
+     "kickoff": null
+    }
+   ]
+  },
+  "2026–27 UEFA Nations League B": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "SCO",
+     "t2": "MKD",
+     "stadium": "Hampden Park",
+     "city": "Glasgow",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "SVN",
+     "t2": "SUI",
+     "stadium": "Ljudski vrt",
+     "city": "Maribor",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "MKD",
+     "t2": "SVN",
+     "stadium": "Toše Proeski Arena",
+     "city": "Skopje",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "SUI",
+     "t2": "SCO",
+     "stadium": "Sitterstadion",
+     "city": "St. Gallen",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "GEO",
+     "t2": "HUN",
+     "stadium": "Boris Paichadze Dinamo Arena",
+     "city": "Tbilisi",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "NIR",
+     "t2": "UKR",
+     "stadium": "Windsor Park",
+     "city": "Belfast",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "HUN",
+     "t2": "NIR",
+     "stadium": "Puskás Aréna",
+     "city": "Budapest",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "UKR",
+     "t2": "GEO",
+     "stadium": "Anton Malatinský Stadium",
+     "city": "Trnava",
+     "country": "Slovakia",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "KOS",
+     "t2": "ISR",
+     "stadium": "Fadil Vokrri Stadium",
+     "city": "Pristina",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "AUT",
+     "t2": "IRL",
+     "stadium": "Raiffeisen Arena",
+     "city": "Linz",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "ISR",
+     "t2": "AUT",
+     "stadium": "Nagyerdei Stadion",
+     "city": "Debrecen",
+     "country": "Hungary",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "IRL",
+     "t2": "KOS",
+     "stadium": "Aviva Stadium",
+     "city": "Dublin",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "ROU",
+     "t2": "POL",
+     "stadium": "Arena Națională",
+     "city": "Bucharest",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-14",
+     "t1": "SWE",
+     "t2": "BIH",
+     "stadium": "Nationalarenan",
+     "city": "Solna",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "BIH",
+     "t2": "ROU",
+     "stadium": "Bilino Polje Stadium",
+     "city": "Zenica",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "POL",
+     "t2": "SWE",
+     "stadium": "Wrocław Stadium",
+     "city": "Wrocław",
+     "country": "",
+     "kickoff": null
+    }
+   ]
+  },
+  "2026–27 UEFA Nations League C": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "ALB",
+     "t2": "FIN",
+     "stadium": "Arena Kombëtare",
+     "city": "Tirana",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-12",
+     "t1": "SMR",
+     "t2": "BLR",
+     "stadium": "San Marino Stadium",
+     "city": "Serravalle",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "BLR",
+     "t2": "ALB",
+     "stadium": "Illovszky Rudolf Stadion",
+     "city": "Budapest",
+     "country": "Hungary",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "FIN",
+     "t2": "SMR",
+     "stadium": "Töölö Football Stadium",
+     "city": "Helsinki",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-12",
+     "t1": "ARM",
+     "t2": "CYP",
+     "stadium": "Vazgen Sargsyan Republican Stadium",
+     "city": "Yerevan",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-12",
+     "t1": "MNE",
+     "t2": "LVA",
+     "stadium": "Podgorica City Stadium",
+     "city": "Podgorica",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "CYP",
+     "t2": "MNE",
+     "stadium": "Alphamega Stadium",
+     "city": "Limassol",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "LVA",
+     "t2": "ARM",
+     "stadium": "Skonto Stadium",
+     "city": "Riga",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "MDA",
+     "t2": "KAZ",
+     "stadium": "Zimbru Stadium",
+     "city": "Chișinău",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "SVK",
+     "t2": "FRO",
+     "stadium": "Košická futbalová aréna",
+     "city": "Košice",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "FRO",
+     "t2": "MDA",
+     "stadium": "Tórsvøllur",
+     "city": "Tórshavn",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "KAZ",
+     "t2": "SVK",
+     "stadium": "Astana Arena",
+     "city": "Astana",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "BUL",
+     "t2": "ISL",
+     "stadium": "Hristo Botev Stadium",
+     "city": "Plovdiv",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "LUX",
+     "t2": "EST",
+     "stadium": "Stade de Luxembourg",
+     "city": "Luxembourg City",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "EST",
+     "t2": "BUL",
+     "stadium": "Lilleküla Stadium",
+     "city": "Tallinn",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "ISL",
+     "t2": "LUX",
+     "stadium": "Laugardalsvöllur",
+     "city": "Reykjavík",
+     "country": "",
+     "kickoff": null
+    }
+   ]
+  },
+  "2026–27 UEFA Nations League D": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "AND",
+     "t2": "GIB",
+     "stadium": "Estadi de la FAF",
+     "city": "Encamp",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "GIB",
+     "t2": "MLT",
+     "stadium": "Europa Sports Park",
+     "city": "Gibraltar",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-13",
+     "t1": "LIE",
+     "t2": "AZE",
+     "stadium": "Rheinpark Stadion",
+     "city": "Vaduz",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "LTU",
+     "t2": "LIE",
+     "stadium": "Darius and Girėnas Stadium",
+     "city": "Kaunas",
+     "country": "",
+     "kickoff": null
+    }
+   ]
+  },
+  "2027 FIFA Women's World Cup qualification": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "2027 FIFA Women's World Cup qualification (inter-confederation play-offs)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "2027 FIFA Women's World Cup qualification (UEFA)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Panama national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Mexico national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "JAM",
+     "t2": "MEX",
+     "stadium": "Independence Park",
+     "city": "Kingston",
+     "country": "Jamaica",
+     "kickoff": "2026-11-15T01:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "MEX",
+     "t2": "JAM",
+     "stadium": "Estadio BBVA",
+     "city": "Guadalupe",
+     "country": "Mexico",
+     "kickoff": "2026-11-18T02:30:00+00:00"
+    }
+   ]
+  },
+  "Burkina Faso national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Mauritania national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Cape Verde national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Congo national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "DR Congo national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Equatorial Guinea national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Zimbabwe national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Ghana national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Guinea national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Ivory Coast national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Gambia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Ethiopia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Nigeria national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Senegal national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Sudan national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "South Africa national soccer team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Bermuda national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Saint Lucia national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Bonaire national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Cuba national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Cayman Islands national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Dominica national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Saint Vincent and the Grenadines national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Saint Kitts and Nevis national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Puerto Rico national football team results": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "PUR",
+     "t2": "DMA",
+     "stadium": "Synthetic Track and Field Facility",
+     "city": "Georgetown",
+     "country": "Guyana",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "GUY",
+     "t2": "PUR",
+     "stadium": "Synthetic Track and Field Facility",
+     "city": "Georgetown",
+     "country": "Guyana",
+     "kickoff": null
+    }
+   ]
+  },
+  "Vietnam national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Chinese Taipei national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Turkey national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "TUR",
+     "t2": "BEL",
+     "stadium": "Gürsel Aksel Stadium",
+     "city": "İzmir",
+     "country": "Turkey",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "FRA",
+     "t2": "TUR",
+     "stadium": "Stade Atlantique",
+     "city": "Bordeaux",
+     "country": "France",
+     "kickoff": null
+    }
+   ]
+  },
+  "Belgium national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "TUR",
+     "t2": "BEL",
+     "stadium": "Gürsel Aksel Stadium",
+     "city": "İzmir",
+     "country": "Turkey",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "BEL",
+     "t2": "ITA",
+     "stadium": "King Baudouin Stadium",
+     "city": "Brussels",
+     "country": "Belgium",
+     "kickoff": null
+    }
+   ]
+  },
+  "Armenia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "ARM",
+     "t2": "CYP",
+     "stadium": "Vazgen Sargsyan Republican Stadium",
+     "city": "Yerevan",
+     "country": "Armenia",
+     "kickoff": "2026-11-12T17:00:00+00:00"
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "LVA",
+     "t2": "ARM",
+     "stadium": "Skonto Stadium",
+     "city": "Riga",
+     "country": "Latvia",
+     "kickoff": "2026-11-15T13:00:00+00:00"
+    }
+   ]
+  },
+  "Cyprus national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Italy national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "France national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "ITA",
+     "t2": "FRA",
+     "stadium": "San Siro",
+     "city": "Milan",
+     "country": "Italy",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "FRA",
+     "t2": "TUR",
+     "stadium": "Stade Atlantique",
+     "city": "Bordeaux",
+     "country": "France",
+     "kickoff": null
+    }
+   ]
+  },
+  "Czech Republic national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "CZE",
+     "t2": "ESP",
+     "stadium": "Fortuna Arena",
+     "city": "Prague",
+     "country": "Czech Republic",
+     "kickoff": "2026-11-12T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "CRO",
+     "t2": "CZE",
+     "stadium": "Opus Arena",
+     "city": "Osijek",
+     "country": "Croatia",
+     "kickoff": "2026-11-15T19:45:00+00:00"
+    }
+   ]
+  },
+  "Spain national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "England national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Croatia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "ENG",
+     "t2": "CRO",
+     "stadium": "Wembley Stadium",
+     "city": "London",
+     "country": "England",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "CRO",
+     "t2": "CZE",
+     "stadium": "Opus Arena",
+     "city": "Osijek",
+     "country": "Croatia",
+     "kickoff": null
+    }
+   ]
+  },
+  "Albania national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Finland national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "ALB",
+     "t2": "FIN",
+     "stadium": "Arena Kombëtare",
+     "city": "Tirana",
+     "country": "Albania",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "FIN",
+     "t2": "SMR",
+     "stadium": "Helsinki Olympic Stadium",
+     "city": "Helsinki",
+     "country": "Finland",
+     "kickoff": null
+    }
+   ]
+  },
+  "San Marino national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Montenegro national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Latvia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "MNE",
+     "t2": "LVA",
+     "stadium": "Podgorica City Stadium",
+     "city": "Podgorica",
+     "country": "Montenegro",
+     "kickoff": "2026-11-12T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "LVA",
+     "t2": "ARM",
+     "stadium": "Skonto Stadium",
+     "city": "Riga",
+     "country": "Latvia",
+     "kickoff": "2026-11-15T14:00:00+00:00"
+    }
+   ]
+  },
+  "Malta national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Serbia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "SRB",
+     "t2": "GER",
+     "stadium": "Rajko Mitić Stadium",
+     "city": "Belgrade",
+     "country": "Serbia",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "GRE",
+     "t2": "SRB",
+     "stadium": "Panthessaliko Stadium",
+     "city": "Volos",
+     "country": "Greece",
+     "kickoff": null
+    }
+   ]
+  },
+  "Germany national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "SRB",
+     "t2": "GER",
+     "stadium": "Rajko Mitić Stadium",
+     "city": "Belgrade",
+     "country": "Serbia",
+     "kickoff": "2026-11-13T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "GER",
+     "t2": "NED",
+     "stadium": "Olympiastadion",
+     "city": "Berlin",
+     "country": "Germany",
+     "kickoff": "2026-11-16T19:45:00+00:00"
+    }
+   ]
+  },
+  "Netherlands national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Greece national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "NED",
+     "t2": "GRE",
+     "stadium": "Johan Cruyff Arena",
+     "city": "Amsterdam",
+     "country": "Netherlands",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "GRE",
+     "t2": "SRB",
+     "stadium": "Karaiskakis Stadium",
+     "city": "Piraeus",
+     "country": "Greece",
+     "kickoff": null
+    }
+   ]
+  },
+  "Slovakia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "SVK",
+     "t2": "FRO",
+     "stadium": "Košická futbalová aréna",
+     "city": "Košice",
+     "country": "Slovakia",
+     "kickoff": "2026-11-13T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "KAZ",
+     "t2": "SVK",
+     "stadium": "Astana Arena",
+     "city": "Astana",
+     "country": "Kazakhstan",
+     "kickoff": "2026-11-16T15:00:00+00:00"
+    }
+   ]
+  },
+  "Faroe Islands national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Moldova national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Kazakhstan national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Bulgaria national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Iceland national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "BUL",
+     "t2": "ISL",
+     "stadium": "Hristo Botev Stadium",
+     "city": "Plovdiv",
+     "country": "Bulgaria",
+     "kickoff": "2026-11-13T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-15",
+     "t1": "ISL",
+     "t2": "LUX",
+     "stadium": "Laugardalsvöllur",
+     "city": "Reykjavík",
+     "country": "Iceland",
+     "kickoff": "2026-11-15T17:00:00+00:00"
+    }
+   ]
+  },
+  "Liechtenstein national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Azerbaijan national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "LIE",
+     "t2": "AZE",
+     "stadium": "Rheinpark Stadion",
+     "city": "Vaduz",
+     "country": "Liechtenstein",
+     "kickoff": "2026-11-13T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "AND",
+     "t2": "AZE",
+     "stadium": "Estadi de la FAF",
+     "city": "Encamp",
+     "country": "Andorra",
+     "kickoff": "2026-11-16T13:00:00+00:00"
+    }
+   ]
+  },
+  "Estonia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Luxembourg national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "LUX",
+     "t2": "EST",
+     "stadium": "Stade de Luxembourg",
+     "city": "Luxembourg City",
+     "country": "Luxembourg",
+     "kickoff": "2026-11-13T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "ISL",
+     "t2": "LUX",
+     "stadium": "Laugardalsvöllur",
+     "city": "Reykjavík",
+     "country": "Iceland",
+     "kickoff": "2026-11-16T17:00:00+00:00"
+    }
+   ]
+  },
+  "Andorra national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Gibraltar national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Switzerland national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "SVN",
+     "t2": "SUI",
+     "stadium": "Stožice Stadium",
+     "city": "Ljubljana",
+     "country": "Slovenia",
+     "kickoff": "2026-11-13T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "SUI",
+     "t2": "SCO",
+     "stadium": "Kybunpark",
+     "city": "St.Gallen",
+     "country": "Switzerland",
+     "kickoff": "2026-11-16T19:45:00+00:00"
+    }
+   ]
+  },
+  "Scotland national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Slovenia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "North Macedonia national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Guatemala national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Canada men's national soccer team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "GUA",
+     "t2": "CAN",
+     "stadium": "Estadio Manuel Felipe Carrera",
+     "city": "Guatemala City",
+     "country": "Guatemala",
+     "kickoff": "2026-11-14T02:00:00+00:00"
+    },
+    {
+     "date": "2026-11-16",
+     "t1": "CAN",
+     "t2": "GUA",
+     "stadium": "BMO Field",
+     "city": "Toronto",
+     "country": "Ontario",
+     "kickoff": "2026-11-17T01:00:00+00:00"
+    }
+   ]
+  },
+  "Kyrgyzstan national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Saudi Arabia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "South Korea national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "United Arab Emirates national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Honduras national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Kosovo national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Israel national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Norway national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Wales national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "NOR",
+     "t2": "WAL",
+     "stadium": "Ullevaal Stadion",
+     "city": "Oslo",
+     "country": "Norway",
+     "kickoff": "2026-11-14T17:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "WAL",
+     "t2": "POR",
+     "stadium": "Cardiff City Stadium",
+     "city": "Cardiff",
+     "country": "Wales",
+     "kickoff": "2026-11-17T19:45:00+00:00"
+    }
+   ]
+  },
+  "Georgia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Hungary national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "GEO",
+     "t2": "HUN",
+     "stadium": "Boris Paichadze Dinamo Arena",
+     "city": "Tbilisi",
+     "country": "Georgia",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "HUN",
+     "t2": "NIR",
+     "stadium": "Puskás Aréna",
+     "city": "Budapest",
+     "country": "Hungary",
+     "kickoff": null
+    }
+   ]
+  },
+  "Portugal national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "POR",
+     "t2": "DEN",
+     "stadium": "Estádio Municipal de Braga",
+     "city": "Braga",
+     "country": "Portugal",
+     "kickoff": "2026-11-14T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "WAL",
+     "t2": "POR",
+     "stadium": "Cardiff City Stadium",
+     "city": "Cardiff",
+     "country": "Wales",
+     "kickoff": "2026-11-17T19:45:00+00:00"
+    }
+   ]
+  },
+  "Denmark national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "POR",
+     "t2": "DEN",
+     "stadium": "",
+     "city": "Portugal",
+     "country": "",
+     "kickoff": "2026-11-14T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "DEN",
+     "t2": "NOR",
+     "stadium": "Parken Stadium",
+     "city": "Copenhagen",
+     "country": "Denmark",
+     "kickoff": "2026-11-17T19:45:00+00:00"
+    }
+   ]
+  },
+  "Northern Ireland national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Ukraine national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "NIR",
+     "t2": "UKR",
+     "stadium": "Windsor Park",
+     "city": "Belfast",
+     "country": "Northern Ireland",
+     "kickoff": "2026-11-14T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "UKR",
+     "t2": "HUN",
+     "stadium": "Štadión Antona Malatinského",
+     "city": "Trnava",
+     "country": "Slovakia",
+     "kickoff": "2026-11-17T19:45:00+00:00"
+    }
+   ]
+  },
+  "Austria national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "AUT",
+     "t2": "IRL",
+     "stadium": "Raiffeisen Arena",
+     "city": "Linz",
+     "country": "Austria",
+     "kickoff": "2026-11-14T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "ISR",
+     "t2": "AUT",
+     "stadium": "",
+     "city": "TBD",
+     "country": "",
+     "kickoff": "2026-11-17T19:45:00+00:00"
+    }
+   ]
+  },
+  "Republic of Ireland national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "AUT",
+     "t2": "IRL",
+     "stadium": "Ernst-Happel-Stadion",
+     "city": "Vienna",
+     "country": "Austria",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "IRL",
+     "t2": "KOS",
+     "stadium": "Aviva Stadium",
+     "city": "Dublin",
+     "country": "Ireland",
+     "kickoff": "2026-11-17T18:45:00+00:00"
+    }
+   ]
+  },
+  "Romania national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "ROU",
+     "t2": "POL",
+     "stadium": "Arena Națională",
+     "city": "Bucharest",
+     "country": "Romania",
+     "kickoff": "2026-11-14T19:45:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "BIH",
+     "t2": "ROU",
+     "stadium": "Stadion Bilino Polje",
+     "city": "Zenica",
+     "country": "Bosnia and Herzegovina",
+     "kickoff": "2026-11-17T19:45:00+00:00"
+    }
+   ]
+  },
+  "Poland national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "ROU",
+     "t2": "POL",
+     "stadium": "Arena Națională",
+     "city": "Bucharest",
+     "country": "Romania",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "POL",
+     "t2": "SWE",
+     "stadium": "Stadion Narodowy",
+     "city": "Warsaw",
+     "country": "Poland",
+     "kickoff": null
+    }
+   ]
+  },
+  "Sweden men's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "SWE",
+     "t2": "BIH",
+     "stadium": "Nationalarenan",
+     "city": "Solna",
+     "country": "Sweden",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "POL",
+     "t2": "SWE",
+     "stadium": "Stadion Narodowy",
+     "city": "Warsaw",
+     "country": "Poland",
+     "kickoff": null
+    }
+   ]
+  },
+  "Bosnia and Herzegovina national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-14",
+     "t1": "SWE",
+     "t2": "BIH",
+     "stadium": "Nationalarenan",
+     "city": "Solna",
+     "country": "Sweden",
+     "kickoff": "2026-11-14T18:45:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "BIH",
+     "t2": "ROU",
+     "stadium": "Stadion Bilino Polje",
+     "city": "Zenica",
+     "country": "Bosnia and Herzegovina",
+     "kickoff": "2026-11-17T18:45:00+00:00"
+    }
+   ]
+  },
+  "United States men's national soccer team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Yemen national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Bahrain national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Basque Country national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Venezuela national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-17",
+     "t1": "RUS",
+     "t2": "VEN",
+     "stadium": "Krasnodar Stadium",
+     "city": "Krasnodar",
+     "country": "Russia",
+     "kickoff": "2026-11-17T17:00:00+00:00"
+    }
+   ]
+  },
+  "Lithuania national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-16",
+     "t1": "LTU",
+     "t2": "LIE",
+     "stadium": "Darius and Girėnas Stadium",
+     "city": "Kaunas",
+     "country": "Lithuania",
+     "kickoff": "2026-11-16T17:00:00+00:00"
+    }
+   ]
+  },
+  "Singapore national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Brazil national football team results (2010–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Japan national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Paraguay national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Chile national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Colombia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Malaysia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "China national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Qatar national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Uzbekistan national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-12",
+     "t1": "UZB",
+     "t2": "RUS",
+     "stadium": "Pakhtakor Central Stadium",
+     "city": "Tashkent",
+     "country": "Uzbekistan",
+     "kickoff": "2026-11-12T15:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "KSA",
+     "t2": "UZB",
+     "stadium": "TBC",
+     "city": "Doha",
+     "country": "Qatar",
+     "kickoff": "2026-11-17T15:30:00+00:00"
+    }
+   ]
+  },
+  "Argentina national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Costa Rica national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-13",
+     "t1": "ECU",
+     "t2": "CRC",
+     "stadium": "Estadio Olímpico Atahualpa",
+     "city": "Quito",
+     "country": "Ecuador",
+     "kickoff": "2026-11-14T00:00:00+00:00"
+    },
+    {
+     "date": "2026-11-17",
+     "t1": "ARG",
+     "t2": "CRC",
+     "stadium": "Estadio Mario Alberto Kempes",
+     "city": "Córdoba",
+     "country": "Argentina",
+     "kickoff": null
+    }
+   ]
+  },
+  "Ecuador national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Bolivia national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Kuwait national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Italy women's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Republic of Ireland women's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Portugal women's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Scotland women's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "England women's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Wales women's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "United States women's national soccer team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Canada women's national soccer team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "South Africa women's national soccer team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Ghana women's national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Uzbekistan women's national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Australia women's national soccer team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Colombia women's national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Liechtenstein women's national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Estonia women's national football team results": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Japan women's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Brazil women's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": [
+    {
+     "date": "2026-11-29",
+     "t1": "JPN",
+     "t2": "BRA",
+     "stadium": "Edion Peace Wing Hiroshima",
+     "city": "Hiroshima",
+     "country": "Japan",
+     "kickoff": null
+    },
+    {
+     "date": "2026-12-05",
+     "t1": "JPN",
+     "t2": "BRA",
+     "stadium": "JFE Harenokuni Stadium",
+     "city": "Okayama",
+     "country": "Japan",
+     "kickoff": null
+    }
+   ]
+  },
+  "Philippines women's national football team results (2020–present)": {
+   "fetched": "2026-10-31",
+   "matches": []
   }
  },
- "comps": {}
+ "comps": {
+  "men|CONCACAF Nations League|2026": {
+   "titles": [
+    "2026–27 CONCACAF Nations League",
+    "2026–27 CONCACAF Nations League A",
+    "2026–27 CONCACAF Nations League B",
+    "2026–27 CONCACAF Nations League C",
+    "2026–27 CONCACAF Nations League Play-in"
+   ],
+   "checked": "2026-10-31"
+  },
+  "men|African Cup of Nations qualification|2026": {
+   "titles": [
+    "2027 Africa Cup of Nations qualification"
+   ],
+   "checked": "2026-10-31"
+  },
+  "men|UEFA Nations League|2026": {
+   "titles": [
+    "2026–27 UEFA Nations League",
+    "2026–27 UEFA Nations League A",
+    "2026–27 UEFA Nations League B",
+    "2026–27 UEFA Nations League C",
+    "2026–27 UEFA Nations League D"
+   ],
+   "checked": "2026-10-31"
+  },
+  "women|FIFA World Cup qualification|2026": {
+   "titles": [
+    "2027 FIFA Women's World Cup qualification",
+    "2027 FIFA Women's World Cup qualification (inter-confederation play-offs)",
+    "2027 FIFA Women's World Cup qualification (UEFA)"
+   ],
+   "checked": "2026-10-31"
+  }
+ },
+ "titlesV": 2
 }
