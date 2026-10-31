@@ -59,6 +59,7 @@ export function makeClient({key, budget = 80, gapMs = 6500, fetchImpl = fetch, l
     fixturesOn: date => get('/fixtures', {date, timezone:'UTC'}),
     covers: date => !window || (date >= window.from && date <= window.to),
     venue: id => get('/venues', {id}),
+    leagues: () => get('/leagues', {}),
     get stats(){ return {used, remaining, stopped, planWindow: window, failed, perMinute}; }
   };
 }

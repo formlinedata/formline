@@ -28,6 +28,7 @@ import {makeTeamMatcher, makeTournamentMapper, archiveCountry} from './lib/names
 import {wikiVenues} from './lib/wikivenues.mjs';
 import {makeClient, mapFixture, planStatus, isFreePlan} from './lib/apifootball.mjs';
 import {loadModel} from './lib/model.mjs';
+import {survey as clubSurvey} from './lib/clubsurvey.mjs';
 import {updateRecord} from './lib/forecasts.mjs';
 
 const ROOT = process.env.FORMLINE_ROOT || path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -269,6 +270,13 @@ export async function run(){
       venues[id] = v[0] ? {name:v[0].name || '', city:v[0].city || '', country:v[0].country || ''} : {name:'', city:'', country:''};
     }
     for (const g of ['men', 'women']) gap[g] = [...byId[g].values()];
+    // club football groundwork: what the API covers, once a week on full runs (one request; nothing shown on the site)
+    if (mode === 'full' && process.env.CLUB_SURVEY !== '0'){
+      const dir = path.join(STORE, 'clubs');
+      const r = await clubSurvey({get: () => client.leagues(), state, today, log: m => console.log(m),
+        write: sum => { fs.mkdirSync(dir, {recursive:true}); writeIfChanged(path.join(dir, 'coverage.json'), sum); }});
+      status.clubs = r || (state.clubSurvey ? {checked:state.clubSurvey} : null);
+    }
     status.api = {keyPresent:true, ...client.stats,
       plan: plan.error ? {error:plan.error} : {name:plan.name, end:plan.end, active:plan.active, limitDay:plan.limitDay,
         usedTodayBeforeRun:plan.usedToday, perMinute:plan.perMinute || client.stats.perMinute || null},

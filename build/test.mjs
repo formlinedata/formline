@@ -112,11 +112,24 @@ const DAYS = {
 };
 const VENUES = {101:{country:'Gambia', city:'Banjul'}, 102:{country:'Spain', city:'Madrid'}, 105:{country:'South-Africa', city:'Durban'},
   108:{country:'France', city:'Paris'}, 109:{country:'Argentina', city:'Buenos Aires'}};
+const cov = (ev, st) => ({fixtures:{events:ev, lineups:ev, statistics_fixtures:false}, standings:st, odds:false});
+const LEAGUES = [
+  {league:{id:39, name:'Premier League', type:'League'}, country:{name:'England', code:'GB'},
+    seasons:[{year:2011, current:false, coverage:cov(false, true)}, {year:2010, current:false, coverage:cov(true, true)}, {year:2026, current:true, coverage:cov(true, true)}]},
+  {league:{id:44, name:"FA WSL", type:'League'}, country:{name:'England', code:'GB'}, seasons:[{year:2026, current:true, coverage:cov(true, true)}]},
+  {league:{id:254, name:"NWSL Women", type:'League'}, country:{name:'USA', code:'US'}, seasons:[{year:2026, current:true, coverage:cov(false, true)}]},
+  {league:{id:2, name:'UEFA Champions League', type:'Cup'}, country:{name:'World', code:null}, seasons:[{year:2026, current:true, coverage:cov(true, false)}]},
+  {league:{id:15, name:'FIFA Club World Cup', type:'Cup'}, country:{name:'World', code:null}, seasons:[{year:2025, current:false, coverage:cov(true, false)}]},
+  {league:{id:5, name:'UEFA Nations League', type:'Cup'}, country:{name:'World', code:null}, seasons:[{year:2026, current:true, coverage:cov(true, true)}]},
+  {league:{id:10, name:'Friendlies', type:'Cup'}, country:{name:'World', code:null}, seasons:[{year:2026, current:true, coverage:cov(false, false)}]},
+  {league:{id:667, name:'Friendlies Clubs', type:'Cup'}, country:{name:'World', code:null}, seasons:[{year:2026, current:true, coverage:cov(false, false)}]}
+];
 const calls = [];
 globalThis.fetch = async url => {
   const u = new URL(url); calls.push(u.pathname + u.search);
   const body = u.pathname === '/fixtures' ? {errors:[], response: DAYS[u.searchParams.get('date')] || []}
     : u.pathname === '/venues' ? {errors:[], response: VENUES[u.searchParams.get('id')] ? [{id:+u.searchParams.get('id'), name:'V', ...VENUES[u.searchParams.get('id')]}] : []}
+    : u.pathname === '/leagues' ? {errors:[], response: LEAGUES}
     : {errors:{endpoint:'unknown'}};
   return {ok:true, status:200, headers:{get: h => h === 'x-ratelimit-requests-remaining' ? '90' : null}, json: async () => body};
 };
@@ -145,9 +158,22 @@ ok(men.m.filter(x => x[9] === 1).length === gapM.length, 'gap-filler rows flagge
 ok(men.so.some(x => men.s[x[3]] === 'Zambia'), 'shootout carried into the compact file');
 ok(st.api.used === calls.filter(c => !c.startsWith('/status')).length && st.api.stopped == null, 'request count tracked (the free /status check not counted)');
 
+// club football groundwork: what API-Football covers, summarised once a week
+{
+  const C = JSON.parse(fs.readFileSync(path.join(root, 'build/store/clubs/coverage.json'), 'utf8')).leagues;
+  const names = C.map(l => l.name);
+  ok(names.join() === 'FA WSL,Premier League,NWSL Women,FIFA Club World Cup,Friendlies Clubs,UEFA Champions League', 'club survey: club competitions kept, national-team ones left out (' + names.join(', ') + ')');
+  const pl = C.find(l => l.id === 39);
+  ok(pl.first === 2010 && pl.last === 2026 && pl.current === 2026 && pl.seasons[0][0] === 2010 && pl.seasons[0][1] === 7 && pl.seasons[1][1] === 4, 'club survey: seasons in order with what each covers');
+  ok(C.filter(l => l.women).map(l => l.name).join() === 'FA WSL,NWSL Women', "club survey: women's competitions marked");
+  ok(st.clubs && st.clubs.competitions === 6 && st.clubs.women === 2 && st.clubs.earliest === 2010 && st.clubs.checked === '2026-09-26', 'club survey: headline in status.json');
+  ok(calls.filter(c => c.startsWith('/leagues')).length === 1, 'club survey: one request');
+}
+
 // second run: settled backfill dates are not asked for again
 const before = calls.length;
 await run();
+ok(calls.slice(before).filter(c => c.startsWith('/leagues')).length === 0, 'club survey: not asked again within a week');
 const fixtureCalls = calls.slice(before).filter(c => c.startsWith('/fixtures')).length;
 const menMtime = fs.statSync(path.join(root, 'data/men.json')).mtimeMs;
 ok(fixtureCalls === 18, 'second run asks only for the recent and coming days (' + fixtureCalls + ')');
