@@ -44,6 +44,15 @@ export function updateRecord(entries, fixtures, predict, rows, now, built){
         Object.assign(e, fc, {kickoff:f.kickoff, updated:built}); updated++; }
     });
   }
+  /* A forecast for a match that hasn't kicked off and is no longer in the fixture list was for a date that moved (or a
+     fixture withdrawn): it was never frozen, so it goes, and the fixture's new date gets its own. Only when that
+     gender's list is non-empty, so an empty list from a failed run can't wipe the record. */
+  let dropped = 0;
+  for (const g of ['men', 'women']){
+    const list = fixtures[g] || []; if (!list.length) continue;
+    const live = new Set(list.map(f => fxId(g, f)));
+    for (const [id, e] of byId) if (e.g === g && !e.result && !e.void && Date.parse(e.kickoff || (e.date + 'T23:59:00Z')) > now && !live.has(id)){ byId.delete(id); dropped++; }
+  }
   // results for forecasts whose match has been played
   for (const e of byId.values()){
     if (e.result || e.void) continue;
@@ -53,5 +62,5 @@ export function updateRecord(entries, fixtures, predict, rows, now, built){
     else if (now - Date.parse(e.date + 'T00:00:00Z') > 21 * DAY) e.void = 'no result found within three weeks (postponed or not played)';
   }
   const list = [...byId.values()].sort((a, b) => (a.kickoff || a.date) < (b.kickoff || b.date) ? -1 : 1);
-  return {list, made, updated, scored};
+  return {list, made, updated, scored, dropped};
 }

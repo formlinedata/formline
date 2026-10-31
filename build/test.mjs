@@ -27,7 +27,10 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   ok(M[0].city === 'Kallang' && M[0].country === 'Singapore' && M[0].stadium === 'National Stadium', 'Wikipedia: stadium, city and country, references dropped');
   ok(M[1].date === '2026-11-17' && M[1].t1 === 'JPN' && M[1].country === '', 'Wikipedia: plain date, team from a link, no country');
   ok(W.findMatch(M, {date:'2026-11-13', home_team:'Brazil', away_team:'Japan'}) === M[0], 'Wikipedia: a fixture matched within a day, either way round');
-  ok(W.findMatch(M, {date:'2026-11-20', home_team:'Japan', away_team:'Brazil'}) === null, 'Wikipedia: not three days out');
+  const mv = W.findMatch(M, {date:'2026-11-09', home_team:'Japan', away_team:'Brazil'});
+  ok(mv && mv.moved && mv.date === '2026-11-14', 'Wikipedia: a placeholder date in the API found within a week, same home side');
+  ok(W.findMatch(M, {date:'2026-11-09', home_team:'Brazil', away_team:'Japan'}) === null, 'Wikipedia: a moved date needs the same home side (never the other leg)');
+  ok(W.findMatch(M, {date:'2026-11-22', home_team:'Japan', away_team:'Brazil'}) === null, 'Wikipedia: not more than a week out');
   const cities = new Map([['toyota', 'Japan'], ['kallang', 'Singapore']]), ck = c => String(c).toLowerCase();
   ok(W.boxCountry(M[1], cities, ck, x => x) === 'Japan', 'Wikipedia: a city alone is looked up in the archive');
   ok(W.titleRe('United States', false).test("United States men's national soccer team results (2020–present)"), 'Wikipedia: US article title');
@@ -47,12 +50,41 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   ok(cache.titles['men|Japan'].title === 'Japan national football team results (2020–present)', 'Wikipedia: the article running to the present is chosen');
   const n = calls.length; await W.wikiVenues(fx, cache, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
   ok(calls.length === n + 2 || calls.length === n, 'Wikipedia: cached titles not searched again');
+  const fxm = [{api_id:2, gender:'men', date:'2026-11-09', home_team:'Japan', away_team:'Brazil'}];
+  const Rm = await W.wikiVenues(fxm, cache, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
+  ok(Rm.found.get('2') && Rm.found.get('2').date === '2026-11-14' && Rm.found.get('2').country === 'Singapore' && Rm.stats.moved === 1, 'Wikipedia: the real date passed on for a fixture the API lists on the wrong day');
   const R2 = await W.wikiVenues(fx, {}, {fetchImpl: async () => { throw new Error('offline'); }, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
   ok(R2.found.size === 0 && R2.stats.errors > 0, 'Wikipedia: offline means no venues, not a failure');
   const fx3 = [{api_id:3, gender:'men', date:'2026-11-13', home_team:'Taiwan', away_team:'Kyrgyzstan'}], c3 = {};
   const R3 = await W.wikiVenues(fx3, c3, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
   ok(c3.titles['men|Taiwan'].title === 'Chinese Taipei national football team results' && R3.found.get('3') && R3.found.get('3').country === 'Taiwan',
     'Wikipedia: Taiwan found under its Wikipedia name, Chinese Taipei');
+  // the competition's own season article: Curaçao v Panama, listed in the API on a placeholder date
+  ok(W.boxKickoff('2026-11-14', '{{UTZ|20:00|-5}}') === '2026-11-15T01:00:00+00:00' && W.boxKickoff('2026-11-15', '18:00') === null, 'Wikipedia: kick-off from a time with its UTC offset only');
+  ok(W.boxTeam('Mexico {{#invoke:flag|deco|MEX}}') === 'MEX' && W.boxTeam('{{#invoke:flag|deco|JAM}}') === 'JAM', 'Wikipedia: teams written with flag modules');
+  ok(W.compTitles(['2026–27 CONCACAF Nations League A', '2026–27 CONCACAF Nations League B', "2026–27 CONCACAF W Championship", '2024–25 CONCACAF Nations League A', 'CONCACAF Nations League'],
+    'CONCACAF Nations League', 2026, false).join() === '2026–27 CONCACAF Nations League A,2026–27 CONCACAF Nations League B', 'Wikipedia: season articles of the competition picked from a search');
+  const compText = "===Quarter-finals===\n{{Football box collapsible |id=Curaçao v Panama |date={{Start date|2026|11|12|df=y}} |time=19:00 ({{UTZ|20:00|-4}}) |team1={{fb-rt|CUW}} |score=Match 69 |team2={{fb|PAN}} |stadium=[[Ergilio Hato Stadium]], [[Willemstad]] }}\n" +
+    "{{Football box collapsible |id=Panama v Curaçao |date={{Start date|2026|11|15|df=y}} |time=18:00 |team1={{fb-rt|PAN}} |score=Match 86 |team2={{fb|CUW}} |stadium=[[Estadio Rommel Fernández]], [[Panama City]] }}\n" +
+    "{{Football box collapsible |date={{Start date|2026|11|12|df=y}} |time=14:00 ({{UTZ|15:00|-4}}) |team1={{fb-rt|ARU}} |score=Match 99 |team2={{fb|MTQ}} |stadium=[[Trinidad Stadium]], [[Oranjestad]] }}\n" +
+    "{{Football box collapsible |date={{Start date|2026|11|16|df=y}} |time=19:00 |team1={{fb-rt|MTQ}} |score=Match 100 |team2={{fb|ARU}} |stadium=[[Stade Pierre-Aliker]], [[Fort-de-France]] }}\n" +
+    "{{Football box collapsible |date={{Start date|2026|11|13|df=y}} |time=19:00 |team1=Winner Match 70 |score= |team2={{fb|PAN}} |stadium=[[Somewhere]] }}";
+  const fakeC = async url => { const q = new URL(url).searchParams;
+    const body = q.get('titles') ? {query:{pages:[{missing:true}]}}
+      : q.get('list') === 'search' ? {query:{search: /Nations League/.test(q.get('srsearch')) ? [{title:'2026–27 CONCACAF Nations League A'}, {title:'2024–25 CONCACAF Nations League A'}] : []}}
+      : {parse:{wikitext: q.get('page') === '2026–27 CONCACAF Nations League A' ? compText : ''}};
+    return {ok:true, json: async () => body}; };
+  const fxc = [{api_id:7, gender:'men', date:'2026-11-09', home_team:'Curaçao', away_team:'Panama', tournament:'CONCACAF Nations League'},
+               {api_id:8, gender:'men', date:'2026-11-17', home_team:'Panama', away_team:'Curaçao', tournament:'CONCACAF Nations League'}];
+  const Rc = await W.wikiVenues(fxc, {}, {fetchImpl:fakeC, today:'2026-11-01', cities:new Map([['willemstad', 'Curaçao'], ['panama city', 'Panama'], ['oranjestad', 'Aruba'], ['fort-de-france', 'Martinique']]),
+    cityKey:ck, toArchive:x => x, teams:{men:new Set(['Curaçao', 'Panama', 'Aruba', 'Martinique']), women:new Set()}});
+  const c7 = Rc.found.get('7'), c8 = Rc.found.get('8');
+  ok(c7 && c7.date === '2026-11-12' && c7.kickoff === '2026-11-13T00:00:00+00:00' && c7.country === 'Curaçao' && c7.stadium === 'Ergilio Hato Stadium', 'Wikipedia: first leg moved to its real date and kick-off from the competition article');
+  ok(c8 && c8.date === '2026-11-15' && !c8.kickoff && c8.country === 'Panama', 'Wikipedia: second leg moved too, its time left unconfirmed');
+  const ex = Rc.extra;
+  ok(ex.length === 2 && ex[0].home_team === 'Aruba' && ex[0].away_team === 'Martinique' && ex[0].date === '2026-11-12' && ex[0].kickoff === '2026-11-12T19:00:00+00:00' && ex[0].country === 'Aruba'
+    && ex[0].tournament === 'CONCACAF Nations League' && ex[1].home_team === 'Martinique' && ex[1].country === 'Martinique',
+    'Wikipedia: matches the API lacks (both legs of Aruba v Martinique) added; ones the API has, and unknown teams, left out');
   ok(W.boxCountry({city:'Harrison', country:'New Jersey'}, new Map([['harrison', 'United States']]), ck, x => x, new Set(['United States'])) === 'United States', 'Wikipedia: a US state is not taken for a country');
   ok(W.boxCountry({city:'Kinshasa', country:'Democratic Republic of the Congo'}, new Map(), ck, x => x, new Set(['DR Congo'])) === 'DR Congo', 'Wikipedia: country spellings mapped to the archive');
   ok(W.baseName("United States men's national soccer team") === 'United States' && W.baseName("Japan women's national football team") === 'Japan', 'Wikipedia: team name from an article title');
@@ -156,7 +188,7 @@ let day = 0; const dates = men.m.map(x => (day += x[0]));
 ok(dates.every((d, i) => !i || d >= dates[i - 1]), 'compact rows in date order');
 ok(men.m.filter(x => x[9] === 1).length === gapM.length, 'gap-filler rows flagged');
 ok(men.so.some(x => men.s[x[3]] === 'Zambia'), 'shootout carried into the compact file');
-ok(st.api.used === calls.filter(c => !c.startsWith('/status')).length && st.api.stopped == null, 'request count tracked (the free /status check not counted)');
+ok(st.api.used === calls.filter(c => !c.startsWith('/status') && !c.startsWith('/w/api.php')).length && st.api.stopped == null, 'request count tracked (the free /status check not counted)');
 
 // club football groundwork: what API-Football covers, summarised once a week
 {
@@ -285,6 +317,14 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   const lost = updateRecord([{id:'x', g:'men', date:'2026-09-01', kickoff:'2026-09-01T18:00:00Z', home:'C', away:'D', p:[0.4, 0.3, 0.3], result:null}],
     {men:[], women:[]}, pred, {men:[], women:[]}, Date.parse('2026-10-01T06:00:00Z'), 'r');
   ok(lost.list[0].void, 'forecast with no result after three weeks is marked void, not scored');
+  // a fixture whose date moves before kick-off: the old forecast goes, the new date gets its own
+  const fxA = {men:[{date:'2026-11-09', kickoff:'2026-11-09T21:00:00+00:00', home:'Jamaica', away:'Mexico', tournament:'CONCACAF Nations League'}], women:[]};
+  let mvd = updateRecord([], fxA, pred, {men:[], women:[]}, Date.parse('2026-10-31T06:00:00Z'), 'r1');
+  const fxB = {men:[{date:'2026-11-14', kickoff:'2026-11-14T12:00:00+00:00', home:'Jamaica', away:'Mexico', tournament:'CONCACAF Nations League'}], women:[]};
+  mvd = updateRecord(mvd.list, fxB, pred, {men:[], women:[]}, Date.parse('2026-11-01T06:00:00Z'), 'r2');
+  ok(mvd.dropped === 1 && mvd.made === 1 && mvd.list.length === 1 && mvd.list[0].date === '2026-11-14', 'moved fixture: stale forecast dropped, new date forecast');
+  const kept = updateRecord(mvd.list, {men:[], women:[]}, pred, {men:[], women:[]}, Date.parse('2026-11-02T06:00:00Z'), 'r3');
+  ok(kept.dropped === 0 && kept.list.length === 1, 'an empty fixture list never wipes open forecasts');
 }
 // end to end: the site's own model inside the job
 {

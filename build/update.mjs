@@ -239,7 +239,8 @@ export async function run(){
       const list = await client.fixturesOn(date);
       if (list === null) break;
       if (list.outside || list.failed) continue;
-      for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].date === date) delete fixturesStore[k];
+      const wikiKept = {};   // what Wikipedia found (venue, or the real date) survives the day being asked about again
+      for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].date === date){ if (fixturesStore[k].wiki) wikiKept[k] = fixturesStore[k].wiki; delete fixturesStore[k]; }
       delete state.watch[date];
       let unknownHere = false;
       for (const f of list){
@@ -253,7 +254,7 @@ export async function run(){
         if (x.row.unmapped_tournament) status.unmappedTournaments[x.row.league] = (status.unmappedTournaments[x.row.league] || 0) + 1;
         if (x.kind === 'result'){ x.row.updated = built; byId[x.gender].set(String(x.row.api_id), x.row);
           const S = status.seen[x.gender]; S.results++; if (!S.latest || x.row.date > S.latest) S.latest = x.row.date; }
-        else fixturesStore[x.row.api_id] = {...x.row, gender:x.gender};
+        else fixturesStore[x.row.api_id] = {...x.row, gender:x.gender, ...(wikiKept[x.row.api_id] ? {wiki:wikiKept[x.row.api_id]} : {})};
       }
       if (unknownHere) delete state.fetched[date];   // a team we could not name: ask about this day again next run
       else state.fetched[date] = today;
@@ -286,13 +287,24 @@ export async function run(){
   // 2b. Wikipedia, for fixtures in the next 30 days that still have no venue (full runs only; never fatal)
   if (mode === 'full' && process.env.WIKI_VENUES !== '0'){
     const horizon = iso(dayNum(today) * DAY + 30 * DAY);
-    const open = Object.values(fixturesStore).filter(r => r.date >= today && r.date <= horizon && !r.tbd &&
+    const apiFx = Object.values(fixturesStore).filter(r => !r.wikiOnly);
+    const open = apiFx.filter(r => r.date >= today && r.date <= horizon && !r.tbd &&
       ['assumed', 'event', 'wiki'].includes(placeRow({...r, wiki:null}, venues, cities).venue_src));
     const wcache = readJSON(path.join(STORE, 'wiki-venues.json'), {});
+    const archTeams = {men:new Set(), women:new Set()};
+    for (const g of ['men', 'women']) for (const r of A[g]) if (r.date >= '2018-01-01'){ archTeams[g].add(r.home_team); archTeams[g].add(r.away_team); }
     try {
-      const W = await wikiVenues(open, wcache, {today, cities, cityKey, toArchive:archiveCountry, log: m => console.log(m),
-        fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_LIMIT || 100)});
-      for (const r of Object.values(fixturesStore)) r.wiki = W.found.get(String(r.api_id)) || null;
+      const W = await wikiVenues(open, wcache, {today, cities, cityKey, toArchive:archiveCountry, log: m => console.log(m), all:apiFx, teams:archTeams,
+        fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_LIMIT || 150)});
+      for (const r of apiFx) r.wiki = W.found.get(String(r.api_id)) || null;
+      /* Matches only Wikipedia lists (the API has no fixture for them): rebuilt on every full run, kept between runs. */
+      for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].wikiOnly) delete fixturesStore[k];
+      for (const x of W.extra){
+        const key = 'wiki:' + x.id;
+        fixturesStore[key] = {date:x.date, kickoff:x.kickoff || '', home_team:x.home_team, away_team:x.away_team, tournament:x.tournament,
+          city:x.city || '', country:'', neutral:'', venue_id:'', api_id:key, league:x.tournament, unmapped_tournament:'', tbd:'', tbc:x.kickoff ? '' : 1,
+          gender:x.gender, wikiOnly:1, wikiSource:x.source, wiki:{city:x.city, country:x.country, stadium:x.stadium}};
+      }
       status.wiki = {open:open.length, ...W.stats};
     } catch(e){ status.wiki = {error:e.message}; }
     writeJSON(path.join(STORE, 'wiki-venues.json'), wcache, true);
@@ -301,10 +313,18 @@ export async function run(){
   // 3. Merge, write
   const fixtures = {built, men:[], women:[]};
   for (const r of Object.values(fixturesStore)){
-    if (r.date < today){ delete fixturesStore[r.api_id]; continue; }
+    /* A date Wikipedia gives for a match the API still lists on another day (see findMatch): the Wikipedia date wins,
+       with the kick-off time shown as not announced, until the API's own date agrees again. */
+    const moved = r.wiki && r.wiki.date && r.wiki.date !== r.date ? r.wiki.date : null;
+    if ((moved || r.date) < today){ delete fixturesStore[r.api_id]; continue; }
+    /* A Wikipedia-only match the API has since added (a light run can add it before the next full run): the API's wins. */
+    if (r.wikiOnly && Object.values(fixturesStore).some(f => !f.wikiOnly && f.gender === r.gender && dayNum(f.date) - dayNum(r.date) <= 7 && dayNum(r.date) - dayNum(f.date) <= 7 &&
+      ((f.home_team === r.home_team && f.away_team === r.away_team) || (f.home_team === r.away_team && f.away_team === r.home_team)))){ delete fixturesStore[r.api_id]; continue; }
     placeRow(r, venues, cities);
-    fixtures[r.gender].push({date:r.date, kickoff:r.kickoff, home:r.home_team, away:r.away_team, tournament:r.tournament,
-      city:r.city, country:r.country, neutral:r.neutral === 'TRUE', venue:r.venue_src, ...(r.tbd ? {tbd:true} : {}), ...(r.tbc ? {tbc:true} : {})});
+    const wk = moved && r.wiki.kickoff;   // the box's kick-off, when it gave one with its UTC offset
+    fixtures[r.gender].push({date:moved || r.date, kickoff:moved ? (wk || moved + 'T12:00:00+00:00') : (r.kickoff || r.date + 'T12:00:00+00:00'), home:r.home_team, away:r.away_team, tournament:r.tournament,
+      city:r.city, country:r.country, neutral:r.neutral === 'TRUE', venue:r.venue_src, ...(r.tbd ? {tbd:true} : {}), ...((r.tbc && !wk) || (moved && !wk) ? {tbc:true} : {}),
+      ...(moved ? {dateSrc:'wiki', apiDate:r.date} : {}), ...(r.wikiOnly ? {src:'wiki'} : {})});
   }
   for (const g of ['men', 'women']){
     fixtures[g].sort((a, b) => a.kickoff < b.kickoff ? -1 : 1);
@@ -336,7 +356,7 @@ export async function run(){
     const known = {men:fixtures.men.filter(f => !f.tbd), women:fixtures.women.filter(f => !f.tbd)};   // no forecast until both sides are known
     const u = updateRecord(record.entries, known, (g, list) => model.forecast(g, list), merged, now, built);
     writeJSON(recFile, {built, entries:u.list});
-    status.forecasts = {total:u.list.length, scored:u.list.filter(e => e.result).length, newThisRun:u.made, updatedThisRun:u.updated, scoredThisRun:u.scored};
+    status.forecasts = {total:u.list.length, scored:u.list.filter(e => e.result).length, newThisRun:u.made, updatedThisRun:u.updated, scoredThisRun:u.scored, droppedThisRun:u.dropped || 0};
   }
   writeJSON(path.join(DATA, 'status.json'), status, true);
   for (const d of Object.keys(state.watch)) if (dayNum(d) < dayNum(today) - 2) delete state.watch[d];
