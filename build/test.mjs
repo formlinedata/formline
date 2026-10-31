@@ -38,7 +38,11 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   // the lookup end to end, with a fake Wikipedia
   const calls = [];
   const fake = async url => { calls.push(url); const q = new URL(url).searchParams;
-    const body = q.get('titles') ? {query:{pages:[{title:q.get('titles').replace(/^Taiwan/, 'Chinese Taipei')}]}}
+    const EXIST = new Set(['Japan national football team', 'Chinese Taipei national football team', 'Kyrgyzstan national football team', 'Brazil national football team',
+      'Japan national football team results (2020–present)', 'Japan national football team results (2010–2019)', 'Chinese Taipei national football team results']);
+    const asked = (q.get('titles') || '').split('|').filter(Boolean);
+    const redirects = asked.filter(t => /^Taiwan/.test(t)).map(t => ({from:t, to:t.replace(/^Taiwan/, 'Chinese Taipei')}));
+    const body = q.get('titles') ? {query:{redirects, pages:asked.map(t => t.replace(/^Taiwan/, 'Chinese Taipei')).map(t => EXIST.has(t) ? {title:t} : {title:t, missing:true})}}
       : q.get('list') === 'search' ? {query:{search:(q.get('srsearch').startsWith('Chinese Taipei') ? [{title:'Chinese Taipei national football team results'}] : [])
           .concat([{title:'Japan national football team results (2010–2019)'}, {title:'Japan national football team results (2020–present)'}])}}
       : {parse:{wikitext:text.replace('{{fb|BRA}}', '{{fb|BRA}}') + (q.get('page').startsWith('Chinese Taipei') ? "{{Football box collapsible|date={{Start date|2026|11|13}}|team1={{fb-rt|TPE}}|team2={{fb|KGZ}}|stadium=Taipei Stadium|location=[[Taipei]], [[Taiwan]]}}" : '')}};
@@ -61,9 +65,18 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
     'Wikipedia: Taiwan found under its Wikipedia name, Chinese Taipei');
   // the competition's own season article: Curaçao v Panama, listed in the API on a placeholder date
   ok(W.boxKickoff('2026-11-14', '{{UTZ|20:00|-5}}') === '2026-11-15T01:00:00+00:00' && W.boxKickoff('2026-11-15', '18:00') === null, 'Wikipedia: kick-off from a time with its UTC offset only');
+  const odd = W.pageMatches("{{Football box |date={{Start date|2026|11|13}} |team1={{fb-rt|MSR}} |team2={{fb|NCA}} |stadium=[[Estadio Cibao FC]], [[Santiago de los Caballeros|Santiago]], Dominican Republic }}" +
+    "{{Football box |date={{Start date|2026|11|17}} |team1={{fb-rt|BLZ}} |team2={{fb|SMA}} |stadium=[[Arnos Vale Stadium]], [[Kingstown]] (Saint Vincent and the Grenadines) }}" +
+    "{{Football box |date={{Start date|2026|11|14}} |team1={{fb-rt|HAI}} |team2={{fb|USA}} |stadium=[[Nu Stadium]], [[Miami]], (United States){{refn|group=note|Haiti played at home in Miami}} }}");
+  ok(odd[0].city === 'Santiago' && odd[0].country === 'Dominican Republic' && odd[1].city === 'Kingstown' && odd[1].country === 'Saint Vincent and the Grenadines'
+    && odd[2].city === 'Miami' && odd[2].country === 'United States' && odd[2].stadium === 'Nu Stadium', 'Wikipedia: a country after the city, or in brackets, read from the stadium field');
   ok(W.boxTeam('Mexico {{#invoke:flag|deco|MEX}}') === 'MEX' && W.boxTeam('{{#invoke:flag|deco|JAM}}') === 'JAM', 'Wikipedia: teams written with flag modules');
   ok(W.compTitles(['2026–27 CONCACAF Nations League A', '2026–27 CONCACAF Nations League B', "2026–27 CONCACAF W Championship", '2024–25 CONCACAF Nations League A', 'CONCACAF Nations League'],
     'CONCACAF Nations League', 2026, false).join() === '2026–27 CONCACAF Nations League A,2026–27 CONCACAF Nations League B', 'Wikipedia: season articles of the competition picked from a search');
+  ok(W.compTitles(['2027 Africa Cup of Nations qualification', '2027 Africa Cup of Nations', '2026 Futsal Africa Cup of Nations qualification', '2026 U-17 Africa Cup of Nations qualification', '2025 Africa Cup of Nations qualification'], 'African Cup of Nations qualification', 2026, false).join() === '2027 Africa Cup of Nations qualification'
+    && W.compTitles(['2026–27 CONCACAF Nations League', '2026–27 CONCACAF Nations League A', '2026–27 CONCACAF Nations League B', '2026–27 CONCACAF Nations League C', 'CONCACAF Nations League', '2026–27 CONCACAF Nations League Play-in'], 'CONCACAF Nations League', 2026, false).length === 5
+    && W.compTitles(["2027 FIFA Women's World Cup qualification (UEFA)", '2026 FIFA World Cup qualification (UEFA)'], 'FIFA World Cup qualification', 2026, true).join() === "2027 FIFA Women's World Cup qualification (UEFA)"
+    && W.compTitles(['2026 Friendly'], 'Friendly', 2026, false).length === 0, "Wikipedia: next year's qualifying, loose spellings (African/Africa), the play-in article, women's articles; no youth or futsal; none for friendlies");
   const compText = "===Quarter-finals===\n{{Football box collapsible |id=Curaçao v Panama |date={{Start date|2026|11|12|df=y}} |time=19:00 ({{UTZ|20:00|-4}}) |team1={{fb-rt|CUW}} |score=Match 69 |team2={{fb|PAN}} |stadium=[[Ergilio Hato Stadium]], [[Willemstad]] }}\n" +
     "{{Football box collapsible |id=Panama v Curaçao |date={{Start date|2026|11|15|df=y}} |time=18:00 |team1={{fb-rt|PAN}} |score=Match 86 |team2={{fb|CUW}} |stadium=[[Estadio Rommel Fernández]], [[Panama City]] }}\n" +
     "{{Football box collapsible |date={{Start date|2026|11|12|df=y}} |time=14:00 ({{UTZ|15:00|-4}}) |team1={{fb-rt|ARU}} |score=Match 99 |team2={{fb|MTQ}} |stadium=[[Trinidad Stadium]], [[Oranjestad]] }}\n" +

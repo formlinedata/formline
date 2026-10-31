@@ -84,7 +84,9 @@ export function pageMatches(wikitext){
     if (!date || !t1 || !t2) continue;
     let loc = plain(P.location).split(',').map(x => x.trim()).filter(Boolean), stadium = plain(P.stadium);
     /* Competition articles often give "[[Stadium]], [[City]]" with no location: the city is the stadium's last part. */
-    if (!loc.length && stadium.includes(',')){ const sp = stadium.split(',').map(x => x.trim()).filter(Boolean); stadium = sp[0]; loc = sp.slice(1, 2); }
+    if (!loc.length && stadium.includes(',')){ const sp = stadium.split(',').map(x => x.trim()).filter(Boolean); stadium = sp[0]; loc = sp.slice(1); }
+    /* "Kingstown (Saint Vincent and the Grenadines)" or a bare "(United States)": the part in brackets is the country. */
+    loc = loc.flatMap(x => { const b = x.match(/^(.*?)\s*\(([^()]+)\)$/); return b ? [b[1], b[2]].map(y => y.trim()).filter(Boolean) : [x]; });
     out.push({date, t1, t2, stadium, city:loc[0] || '', country:loc.length > 1 ? loc[loc.length - 1] : '', kickoff:boxKickoff(date, P.time)});
   }
   return out;
@@ -130,24 +132,67 @@ const WIKI_TEAM = {
 /* Wikipedia's own name for a team: its main article, redirects followed (Taiwan -> Chinese Taipei), the "national
    football team" part taken off. Falls back to the archive's name. */
 export const baseName = title => title.replace(/ (men's |women's )?national (football|soccer) team$/i, '').trim();
-async function wikiName(fetchImpl, team, women){
-  const tries = [WIKI_TEAM[women ? 'women' : 'men'][team], team + (women ? " women's" : '') + ' national football team', team + (women ? " women's" : " men's") + ' national soccer team'].filter(Boolean);
-  for (const t of tries){
-    const j = await api(fetchImpl, {action:'query', titles:t, redirects:'1'});
-    const pg = j.query && j.query.pages && j.query.pages[0];
-    if (pg && !pg.missing && pg.title) return baseName(pg.title);
+/* Which of these titles exist, after normalising and redirects: Map requested title -> the article's title. 50 titles
+   per request, as Wikipedia allows. */
+async function existing(fetchImpl, titles, stats){
+  const out = new Map();
+  for (let i = 0; i < titles.length; i += 50){
+    const chunk = titles.slice(i, i + 50); stats.asked++;
+    const j = await api(fetchImpl, {action:'query', titles:chunk.join('|'), redirects:'1'});
+    const q = j.query || {}, norm = new Map((q.normalized || []).map(x => [x.from, x.to])), red = new Map((q.redirects || []).map(x => [x.from, x.to]));
+    const ok = new Set((q.pages || []).filter(pg => pg && pg.title && !pg.missing && !pg.invalid).map(pg => pg.title));
+    for (const t of chunk){ let f = norm.get(t) || t; f = red.get(f) || f; if (ok.has(f)) out.set(t, f); }
   }
-  return team;
+  return out;
+}
+/* The results article for each team not looked up recently, without a search where possible: Wikipedia's name comes
+   from the team's main article (redirects followed: Taiwan -> Chinese Taipei), then the usual results titles are
+   tried in order, 2020–present first. A search is the fallback, for at most ten teams a run. */
+async function resolveTitles(fetchImpl, keys, cache, today, stats, limit){
+  const need = keys.filter(k => { const T = cache.titles[k]; return !T || dayDiff(T.checked, today) > (T.title ? 90 : 30); });
+  if (!need.length) return;
+  const mains = new Map(need.map(k => { const [g, team] = k.split('|'), w = g === 'women';
+    return [k, [WIKI_TEAM[g][team], team + (w ? " women's" : '') + ' national football team', team + (w ? " women's" : " men's") + ' national soccer team'].filter(Boolean)]; }));
+  const M = await existing(fetchImpl, [...new Set([...mains.values()].flat())], stats);
+  const names = new Map(need.map(k => { const hit = mains.get(k).map(t => M.get(t)).find(Boolean); return [k, hit ? baseName(hit) : k.split('|')[1]]; }));
+  const cands = new Map(need.map(k => { const w = k.startsWith('women|'), n = names.get(k);
+    const stems = w ? [n + " women's national football team results", n + " women's national soccer team results"]
+      : [n + ' national football team results', n + " men's national football team results", n + " men's national soccer team results", n + ' national soccer team results'];
+    return [k, stems.map(x => x + ' (2020–present)').concat(stems)]; }));
+  const R = await existing(fetchImpl, [...new Set([...cands.values()].flat())], stats);
+  let searches = 0;
+  for (const k of need){
+    let title = cands.get(k).map(t => R.get(t)).find(Boolean) || '';
+    if (!title && searches < 10 && stats.asked < limit){
+      searches++; stats.asked++;
+      const w = k.startsWith('women|'), n = names.get(k);
+      const j = await api(fetchImpl, {action:'query', list:'search', srlimit:'10', srsearch:n + (w ? " women's" : '') + ' national team results'});
+      const re = titleRe(n, w), hits = ((j.query && j.query.search) || []).map(x => x.title).filter(t => re.test(t));
+      /* the one running to the present, else the undated one, else the one ending latest */
+      const end = t => { const m = t.match(/(\d{4})\)$/) || t.match(/–(\d{2})\)$/); return m ? +m[1] : 0; };
+      title = hits.find(t => /present/i.test(t)) || hits.find(t => !/\(/.test(t)) || hits.sort((a, b) => end(b) - end(a))[0] || '';
+    }
+    cache.titles[k] = {title, name:names.get(k), checked:today};
+  }
 }
 /* The competition key for a fixture: gender, tournament, year. */
 const compKey = fx => fx.gender + '|' + fx.tournament + '|' + String(fx.date).slice(0, 4);
-/* Season articles for a competition from search results: titles that start with the season ("2026", "2026–27",
-   "2025–26") and contain the competition's name, with "women's" only for the women. At most four (League A, B, C …). */
+/* Season articles for a competition from search results. A title must start with the season ("2026", "2026–27",
+   "2025–26"; for qualifying, also next year's: "2027 Africa Cup of Nations qualification" is played in 2026) and contain
+   every word of the competition's name, loosely (the first five letters: "African" finds "Africa"), with "women's"
+   only for the women, and no youth, futsal or beach versions. Up to six articles (the main one, League A, B, C, D, the
+   play-in round …). Friendlies have no season article. */
+const COMP_STOP = new Set(['of', 'the', 'and', 'de', 'cup']);
 export function compTitles(titles, tour, year, women){
-  const name = normKey(tour), seasons = [String(year), year + '–' + String(year + 1).slice(2), (year - 1) + '–' + String(year).slice(2),
-    year + '-' + String(year + 1).slice(2), (year - 1) + '-' + String(year).slice(2)];
-  return titles.filter(t => seasons.some(s => t.startsWith(s + ' ')) && normKey(t).includes(name) && /women/i.test(t) === !!women)
-    .filter(t => !/qualification/i.test(t) || /qualification/i.test(tour)).slice(0, 4);
+  if (/^friendly$/i.test(tour)) return [];
+  const qual = /qualification/i.test(tour);
+  const seasons = [String(year), year + '–' + String(year + 1).slice(2), (year - 1) + '–' + String(year).slice(2),
+    year + '-' + String(year + 1).slice(2), (year - 1) + '-' + String(year).slice(2)].concat(qual ? [String(year + 1)] : []);
+  const words = tour.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').split(/[^a-z]+/).filter(w => w && !COMP_STOP.has(w));
+  const has = t => { const tl = t.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, ''); return words.every(w => tl.includes(w.slice(0, 5))); };
+  const YOUTH = /futsal|beach|\bU-?\d{2}\b|under-?\d{2}|youth|olympic/i;
+  return titles.filter(t => seasons.some(s => t.startsWith(s + ' ')) && has(t) && /women/i.test(t) === !!women)
+    .filter(t => (!/qualification/i.test(t) || qual) && (!YOUTH.test(t) || YOUTH.test(tour))).slice(0, 6);
 }
 async function api(fetchImpl, q){
   const res = await fetchImpl(API + '?' + new URLSearchParams({format:'json', formatversion:'2', ...q}), {headers:{'User-Agent':UA}});
@@ -156,41 +201,12 @@ async function api(fetchImpl, q){
 }
 /* Looks up venues for fixtures still without one. cache: {titles:{'men|Japan': {title, checked}}, pages:{title: {fetched, matches}}}.
    Returns Map fixture api_id -> {city, country, stadium}. Never throws: Wikipedia trouble only means fewer venues. */
-export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch, today, limit = 150, cities, cityKey, toArchive, log = () => {},
+export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch, today, limit = 400, cities, cityKey, toArchive, log = () => {},
   all = fixtures, teams = null, horizonDays = 30} = {}){
   cache.titles = cache.titles || {}; cache.pages = cache.pages || {};
   const found = new Map(), stats = {asked:0, pages:0, matched:0, errors:0};
   const soon = fx => dayDiff(fx.date, today) <= 4;
-  const want = new Map();   // 'gender|team' -> soonest fixture date
-  for (const fx of fixtures) for (const t of [fx.home_team, fx.away_team]){ const k = fx.gender + '|' + t; if (!want.has(k) || fx.date < want.get(k)) want.set(k, fx.date); }
-  const keys = [...want.keys()].sort((a, b) => want.get(a) < want.get(b) ? -1 : 1);
-  for (const k of keys){
-    if (stats.asked >= limit) break;
-    const [g, team] = k.split('|');
-    try {
-      let T = cache.titles[k];
-      if (!T || dayDiff(T.checked, today) > (T.title ? 90 : 30)){   // found: checked again every 90 days (a new 2030- article); not found: every 30
-        stats.asked += 2;
-        const name = await wikiName(fetchImpl, team, g === 'women');
-        const j = await api(fetchImpl, {action:'query', list:'search', srlimit:'8', srsearch:name + (g === 'women' ? " women's" : '') + ' national team results'});
-        /* Several articles can match (2010-2019, 2020-present): the one running to the present, else the undated one. */
-        const re = titleRe(name, g === 'women'), hits = ((j.query && j.query.search) || []).map(x => x.title).filter(t => re.test(t));
-        const hit = hits.find(t => /present/i.test(t)) || hits.find(t => !/\(/.test(t)) || hits[0];
-        T = cache.titles[k] = {title:hit || '', name, checked:today};
-      }
-      if (!T.title) continue;
-      const P = cache.pages[T.title], fresh = P && dayDiff(P.fetched, today) < (soon({date:want.get(k)}) ? 1 : 3);
-      if (!fresh){
-        stats.asked++;
-        const j = await api(fetchImpl, {action:'parse', page:T.title, prop:'wikitext', redirects:'1'});
-        const text = j.parse && (typeof j.parse.wikitext === 'string' ? j.parse.wikitext : j.parse.wikitext && j.parse.wikitext['*']);
-        if (!text) continue;
-        cache.pages[T.title] = {fetched:today, matches:pageMatches(text).filter(m => m.date >= today)};
-        stats.pages++;
-      }
-    } catch(e){ stats.errors++; log('Wikipedia: ' + team + ': ' + e.message); if (stats.errors >= 5) break; }
-  }
-  /* The competition's own season articles too ("2026–27 CONCACAF Nations League A"): they list every match with its
+  /* First the competition's own season articles ("2026–27 CONCACAF Nations League A"): they list every match with its
      date, time and stadium, and are often kept up better than smaller teams' results articles. */
   cache.comps = cache.comps || {};
   const compWant = new Map();   // 'gender|tournament|year' -> soonest fixture date: every competition with a fixture coming up
@@ -200,6 +216,7 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
     const [g, tour, year] = k.split('|');
     try {
       let C = cache.comps[k];
+      if (/^friendly$/i.test(tour)) continue;
       if (!C || dayDiff(C.checked, today) > 30){
         stats.asked++;
         const j = await api(fetchImpl, {action:'query', list:'search', srlimit:'10', srsearch:year + ' ' + tour + (g === 'women' && !/women/i.test(tour) ? " women's" : '')});
@@ -217,6 +234,31 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
         stats.pages++;
       }
     } catch(e){ stats.errors++; log('Wikipedia: ' + tour + ': ' + e.message); if (stats.errors >= 5) break; }
+  }
+  const want = new Map();   // 'gender|team' -> soonest fixture date
+  for (const fx of fixtures) for (const t of [fx.home_team, fx.away_team]){ const k = fx.gender + '|' + t; if (!want.has(k) || fx.date < want.get(k)) want.set(k, fx.date); }
+  const keys = [...want.keys()].sort((a, b) => want.get(a) < want.get(b) ? -1 : 1);
+  /* Titles found before 31 Oct 2026 came from a search that sometimes picked an old decade's article (Ghana 1990–99,
+     Mexico's undated one instead of 2020–present): look them all up again once. */
+  if (cache.titlesV !== 2){ cache.titles = {}; cache.titlesV = 2; }
+  try { await resolveTitles(fetchImpl, keys, cache, today, stats, limit); }
+  catch(e){ stats.errors++; log('Wikipedia: titles: ' + e.message); }
+  for (const k of keys){
+    if (stats.asked >= limit) break;
+    const [g, team] = k.split('|');
+    try {
+      const T = cache.titles[k];
+      if (!T || !T.title) continue;
+      const P = cache.pages[T.title], fresh = P && dayDiff(P.fetched, today) < (soon({date:want.get(k)}) ? 1 : 3);
+      if (!fresh){
+        stats.asked++;
+        const j = await api(fetchImpl, {action:'parse', page:T.title, prop:'wikitext', redirects:'1'});
+        const text = j.parse && (typeof j.parse.wikitext === 'string' ? j.parse.wikitext : j.parse.wikitext && j.parse.wikitext['*']);
+        if (!text) continue;
+        cache.pages[T.title] = {fetched:today, matches:pageMatches(text).filter(m => m.date >= today)};
+        stats.pages++;
+      }
+    } catch(e){ stats.errors++; log('Wikipedia: ' + team + ': ' + e.message); if (stats.errors >= 5) break; }
   }
   /* Every fixture against every cached article of either team, then the competition's articles. A box with a venue
      is preferred to one without. */

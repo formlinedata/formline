@@ -295,7 +295,7 @@ export async function run(){
     for (const g of ['men', 'women']) for (const r of A[g]) if (r.date >= '2018-01-01'){ archTeams[g].add(r.home_team); archTeams[g].add(r.away_team); }
     try {
       const W = await wikiVenues(open, wcache, {today, cities, cityKey, toArchive:archiveCountry, log: m => console.log(m), all:apiFx, teams:archTeams,
-        fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_LIMIT || 150)});
+        fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_LIMIT || 400)});
       for (const r of apiFx) r.wiki = W.found.get(String(r.api_id)) || null;
       /* Matches only Wikipedia lists (the API has no fixture for them): rebuilt on every full run, kept between runs. */
       for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].wikiOnly) delete fixturesStore[k];
