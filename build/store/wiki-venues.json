@@ -984,6 +984,11 @@
    "title": "Philippines women's national football team results (2020–present)",
    "name": "Philippines",
    "checked": "2026-10-31"
+  },
+  "women|Morocco": {
+   "title": "Morocco women's national football team results",
+   "name": "Morocco",
+   "checked": "2026-11-01"
   }
  },
  "pages": {
@@ -3152,6 +3157,10 @@
   },
   "Philippines women's national football team results (2020–present)": {
    "fetched": "2026-10-31",
+   "matches": []
+  },
+  "Morocco women's national football team results": {
+   "fetched": "2026-11-01",
    "matches": []
   }
  },
