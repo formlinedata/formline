@@ -3048,7 +3048,7 @@
   "home_team": "Singapore",
   "away_team": "Brazil",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Kallang",
   "country": "Singapore",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3059,7 +3059,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1640088": {
   "date": "2026-11-17",
@@ -3067,9 +3067,9 @@
   "home_team": "Japan",
   "away_team": "Paraguay",
   "tournament": "Friendly",
-  "city": "",
-  "country": "Japan",
-  "neutral": "FALSE",
+  "city": "Kallang",
+  "country": "Singapore",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640088,
   "league": "Friendlies",
@@ -3078,7 +3078,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1640089": {
   "date": "2026-11-17",
@@ -3100,8 +3100,8 @@
   "venue_src": "city"
  },
  "1640518": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T21:00:00+00:00",
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T00:00:00+00:00",
   "home_team": "Colombia",
   "away_team": "Chile",
   "tournament": "Friendly",
@@ -3124,7 +3124,7 @@
   "home_team": "Chile",
   "away_team": "Colombia",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Santiago de Chile",
   "country": "Chile",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3877,12 +3877,17 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
+  "wiki": {
+   "city": "Buenos Aires",
+   "country": "Argentina",
+   "stadium": "La Bombonera",
+   "boxDate": "2026-11-13"
+  },
   "venue_src": "city"
  },
  "1647363": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T21:00:00+00:00",
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T00:00:00+00:00",
   "home_team": "Ecuador",
   "away_team": "Costa Rica",
   "tournament": "Friendly",
@@ -3906,8 +3911,8 @@
   "venue_src": "city"
  },
  "1647364": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T21:00:00+00:00",
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T01:00:00+00:00",
   "home_team": "Peru",
   "away_team": "Bolivia",
   "tournament": "Friendly",
@@ -3987,7 +3992,7 @@
   "home_team": "China",
   "away_team": "Bahrain",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Guangzhou",
   "country": "China",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3998,7 +4003,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647369": {
   "date": "2026-11-17",
@@ -4006,7 +4011,7 @@
   "home_team": "Qatar",
   "away_team": "South Korea",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Doha",
   "country": "Qatar",
   "neutral": "FALSE",
   "venue_id": "",
@@ -4017,11 +4022,11 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647370": {
   "date": "2026-11-17",
-  "kickoff": "2026-11-17T15:00:00+00:00",
+  "kickoff": "2026-11-17T15:30:00+00:00",
   "home_team": "Saudi Arabia",
   "away_team": "Uzbekistan",
   "tournament": "Friendly",
@@ -4075,7 +4080,7 @@
   "home_team": "Argentina",
   "away_team": "Costa Rica",
   "tournament": "Friendly",
-  "city": "Córdoba",
+  "city": "Cordoba",
   "country": "Argentina",
   "neutral": "FALSE",
   "venue_id": "",
@@ -4091,15 +4096,15 @@
    "stadium": "Estadio Mario Alberto Kempes",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1647373": {
   "date": "2026-11-17",
-  "kickoff": "2026-11-17T21:00:00+00:00",
+  "kickoff": "2026-11-17T23:30:00+00:00",
   "home_team": "Ecuador",
   "away_team": "Bolivia",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Quito",
   "country": "Ecuador",
   "neutral": "FALSE",
   "venue_id": "",
@@ -4110,7 +4115,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647628": {
   "date": "2026-11-27",
@@ -4213,7 +4218,7 @@
   "home_team": "United Arab Emirates",
   "away_team": "Honduras",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Abu Dhabi",
   "country": "United Arab Emirates",
   "neutral": "FALSE",
   "venue_id": "",
@@ -4224,7 +4229,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647638": {
   "date": "2026-11-14",
@@ -4232,9 +4237,9 @@
   "home_team": "Bahrain",
   "away_team": "Yemen",
   "tournament": "Friendly",
-  "city": "",
-  "country": "Bahrain",
-  "neutral": "FALSE",
+  "city": "Guangzhou",
+  "country": "China",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1647638,
   "league": "Friendlies",
@@ -4243,7 +4248,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647641": {
   "date": "2026-11-14",
@@ -4251,9 +4256,9 @@
   "home_team": "Basque Country",
   "away_team": "Venezuela",
   "tournament": "Friendly",
-  "city": "",
-  "country": "Basque Country",
-  "neutral": "FALSE",
+  "city": "Bilbao",
+  "country": "Spain",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1647641,
   "league": "Friendlies",
@@ -4262,7 +4267,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647643": {
   "date": "2026-11-17",
@@ -4270,11 +4275,49 @@
   "home_team": "Kuwait",
   "away_team": "Honduras",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Kuwait",
   "country": "Kuwait",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647643,
+  "league": "Friendlies",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1648285": {
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T13:00:00+00:00",
+  "home_team": "Palestine",
+  "away_team": "Iran",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Palestine",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1648285,
+  "league": "Friendlies",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1648287": {
+  "date": "2026-11-17",
+  "kickoff": "2026-11-17T23:30:00+00:00",
+  "home_team": "Uruguay",
+  "away_team": "Dominican Republic",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Uruguay",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1648287,
   "league": "Friendlies",
   "unmapped_tournament": "",
   "tbd": "",
