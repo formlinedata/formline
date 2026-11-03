@@ -405,6 +405,88 @@
   .home-grid .fx .pbox{grid-column:2;}
   @media(max-width:640px){.fx, .home-grid .fx{grid-template-columns:58px minmax(0,1fr);} .fx .pbox{grid-column:2;}}
   .gf{color:var(--amber);margin-left:3px;cursor:help;}
+  .h2h-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+  .h2h-scope{color:var(--dim);font-weight:400;font-size:12.5px;text-transform:none;letter-spacing:0;margin-left:8px;}
+  .h2h-all{display:inline-flex;align-items:center;gap:9px;font:inherit;font-size:13.5px;font-weight:600;text-transform:none;letter-spacing:0;
+    padding:6px 13px 6px 8px;border-radius:20px;border:1px solid var(--line-strong);background:var(--panel-2);color:var(--chalk);cursor:pointer;}
+  .h2h-all:hover{border-color:var(--amber);}
+  .h2h-all:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+  .h2h-all .tg{position:relative;width:30px;height:17px;border-radius:9px;background:var(--line-strong);transition:background .15s;flex:none;}
+  .h2h-all .tg::after{content:'';position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--chalk);transition:transform .15s;}
+  .h2h-all[aria-checked="true"]{border-color:var(--amber);color:var(--amber);background:var(--amber-soft);}
+  .h2h-all[aria-checked="true"] .tg{background:var(--amber);}
+  .h2h-all[aria-checked="true"] .tg::after{transform:translateX(13px);background:var(--panel);}
+  .h2h-all .cnt{color:var(--dim);font-weight:500;font-size:12px;}
+  .h2h-all:disabled{cursor:default;opacity:.75;}
+  .h2h-chips{padding:12px 15px 0;} .h2h-chips .chip{padding:4px 11px;font-size:12.5px;} .h2h-chips .chip.zero{opacity:.4;cursor:default;}
+  .h2h-sum{padding:12px 15px 14px;}
+  .h2h-sum-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:10px;font-size:13.5px;color:var(--chalk);}
+  .h2h-sum-row > span{display:flex;flex-direction:column;gap:2px;min-width:0;}
+  .h2h-sum-row b{font-size:24px;line-height:1.1;font-variant-numeric:tabular-nums;}
+  .h2h-d{align-items:center;} .h2h-b{align-items:flex-end;text-align:right;}
+  .h2h-a b{color:var(--s1);} .h2h-b b{color:var(--s3);} .h2h-d{color:var(--dim);} .h2h-d b{color:var(--body);}
+  .h2h-bar{display:flex;gap:2px;height:8px;margin:8px 0 6px;}
+  .h2h-bar span{border-radius:2px;} .h2h-bar .sa{background:var(--s1);} .h2h-bar .sd{background:var(--line-strong);} .h2h-bar .sb{background:var(--s3);}
+  .h2h-goals{font-size:12.5px;}
+  .h2h-meta{color:var(--dim);font-size:12px;margin-top:4px;text-align:center;line-height:1.5;}
+  .h2h-meta a{color:var(--body);}
+  .h2h-res{display:inline-block;font-size:12.5px;font-weight:650;padding:2px 8px;border-radius:5px;white-space:nowrap;border:1px solid var(--line);}
+  .h2h-res.a{color:var(--s1);border-color:var(--s1);} .h2h-res.b{color:var(--s3);border-color:var(--s3);} .h2h-res.d{color:var(--dim);}
+  .h2h-res small{font-weight:500;font-size:11px;opacity:.85;}
+  .h2h-table td.h2h-rc{white-space:nowrap;}
+  @media(max-width:640px){ .h2h-mh .muted{display:none;} .h2h-table td.date{font-size:11.5px;white-space:normal;min-width:40px;padding-left:10px;padding-right:2px;} .h2h-table .ml-tag{display:none;} .h2h-table td.h2h-rc{padding-left:2px;padding-right:10px;} .h2h-res{font-size:11.5px;padding:1px 6px;white-space:normal;text-align:center;} .h2h-res small{display:block;} .h2h-sum-row{font-size:12.5px;} }
+  .fx-tools{margin:0 0 14px;display:flex;flex-direction:column;gap:10px;}
+  .fx-top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;}
+  .fx-q{flex:1 1 220px;max-width:320px;font:inherit;font-size:14px;padding:7px 11px;border-radius:8px;border:1px solid var(--line-strong);background:var(--panel);color:var(--chalk);}
+  .fx-q:focus{outline:2px solid var(--amber);outline-offset:1px;}
+  .fx-seg{display:flex;align-items:center;gap:6px;} .fx-seg .chip{padding:4px 11px;font-size:12.5px;}
+  .fx-lab{color:var(--dim);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+  #fxFacets{display:flex;flex-direction:column;gap:8px;}
+  .fx-facet{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;align-items:center;}
+  .fx-strip{display:flex;gap:6px;flex-wrap:wrap;}
+  .fx-strip .chip{padding:4px 10px;font-size:12.5px;white-space:nowrap;}
+  .fx-strip .chip.zero{opacity:.4;}
+  .fx-count{color:var(--dim);font-size:13px;}
+  .fx-list .cnt{color:var(--dim);font-weight:500;font-size:12px;margin-left:4px;}
+  .fx-sec + .fx-sec{border-top:1px solid var(--line-strong);}
+  .fx-day{display:flex;align-items:baseline;gap:2px;}
+  .fx-day-sub{font-size:12.5px;color:var(--body);padding:10px 15px 4px;}
+  .fx-comp .aside, .fx-comphead .aside{white-space:nowrap;}
+  .fx-comp, .fx-comphead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:8px 15px 6px;color:var(--amber);
+    font-size:12px;font-weight:650;text-transform:uppercase;letter-spacing:.04em;}
+  .fx-comphead{font-size:14px;padding:14px 15px 4px;text-transform:none;letter-spacing:0;}
+  .fx-comp .aside, .fx-comphead .aside{font-size:12.5px;text-transform:none;letter-spacing:0;font-weight:500;}
+  .fxc-row{display:grid;grid-template-columns:62px minmax(0,1fr) 44px minmax(150px,210px) 44px minmax(0,1fr) 14px;
+    grid-template-areas:"t hn hp mid ap an ch";gap:10px;align-items:center;width:100%;padding:9px 15px;background:none;border:0;
+    border-top:1px solid var(--line);color:var(--body);font:inherit;font-size:14px;text-align:left;cursor:pointer;}
+  .fxc-row:hover{background:var(--panel-2);}
+  .fxc-row:focus-visible{outline:2px solid var(--amber);outline-offset:-2px;}
+  .fxc-t{grid-area:t;color:var(--dim);font-size:13px;font-variant-numeric:tabular-nums;}
+  .fxc-hn, .fxc-an{min-width:0;overflow:hidden;white-space:nowrap;color:var(--chalk);}
+  .fxc-hn{grid-area:hn;justify-self:end;} .fxc-an{grid-area:an;}
+  .fxc-hn .fn-t, .fxc-an .fn-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .fxc-hn.fav, .fxc-an.fav{font-weight:650;}
+  .fxc-hp, .fxc-ap{font-weight:750;font-variant-numeric:tabular-nums;}
+  .fxc-hp{grid-area:hp;color:var(--side-h);text-align:right;} .fxc-ap{grid-area:ap;color:var(--side-a);}
+  .fxc-mid{grid-area:mid;display:flex;flex-direction:column;align-items:stretch;gap:3px;min-width:0;}
+  .fxc-bar.prob-bar.mini{height:8px;min-width:0;border-radius:4px;gap:2px;border:0;background:none;}
+  .fxc-bar .prob-seg{border-radius:2px;} .fxc-bar .seg-h{background:var(--side-h);} .fxc-bar .seg-a{background:var(--side-a);}
+  .fxc-bar .seg-d{background:var(--line-strong);}
+  .fxc-sub{color:var(--dim);font-size:11.5px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .fxc-chev{grid-area:ch;width:12px;height:12px;color:var(--dim);transition:transform .15s;}
+  .fxc.open .fxc-chev{transform:rotate(180deg);}
+  .fxc.open .fxc-row{background:var(--panel-2);}
+  .fxc-card .mx{border-top:1px dashed var(--line);background:var(--panel-2);}
+  @media(max-width:640px){
+    .fx-facet{grid-template-columns:1fr;gap:4px;}
+    .fx-strip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 2px;}
+    .fx-strip::-webkit-scrollbar{display:none;}
+    .fx-q{max-width:none;flex-basis:100%;}
+    .fxc-row{grid-template-columns:58px minmax(0,1fr) 40px 12px;grid-template-areas:"t hn hp ch" "t an ap ch" "t mid mid ch";gap:3px 8px;padding:9px 12px;}
+    .fxc-hn{justify-self:start;} .fxc-hp, .fxc-ap{text-align:right;}
+    .fxc-mid{margin-top:4px;} .fxc-sub{text-align:left;}
+    .fxc-t{align-self:start;padding-top:2px;font-size:12.5px;white-space:nowrap;}
+  }
 
   .prose{max-width:72ch;}
   .prose h2{font-size:23px;margin:34px 0 10px;}
@@ -1540,7 +1622,6 @@ function venueSide(m){
    slope shrinks the gap, because raw gaps proved slightly overconfident; draw is the draw rate
    of an even contest, falling away as the match gets more lopsided. Ratings are not affected. */
 const CAL = {men:{slope:0.86, draw:0.31}, women:{slope:0.88, draw:0.23}};   // refitted Oct 2026 on long-memory forecasts
-const SETTLE_YEARS = 4;   // early-window matches move ratings further; see the Method page
 const Q   = Math.LN10 / 400;
 const DAY = 864e5;
 const BAND_Z = 2;         // band shown is rating ± 2·RD, roughly a 95% range
@@ -3632,6 +3713,45 @@ function trendCell(t, T, withNum){
    one pass in full history. The team chart adds a point after each of the team's matches in the last two years to
    the site-wide snapshots (every four months), so a rise or a drop between snapshots shows.
    ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+   Matches as published at the time. The ratings shown on any date (charts, rankings at a past date) come from the
+   window ending on that date. A single run over today's window starts every team level at its first day, so its
+   first years show ratings still settling (France went into its first match of today's window at 1140 while the
+   site had it at 1998). Match lists therefore take each match from the window that ended the day before it: the
+   ratings going in, the chances and the change are what the site showed then, and agree with the charts. With full
+   history on there is no window, so the single run is already exact.
+   ------------------------------------------------------------ */
+const pubCache = {key:null, day:new Map(), team:new Map()};
+function pubReset(){ const k = snapKey(); if (pubCache.key !== k){ pubCache.key = k; pubCache.day = new Map(); pubCache.team = new Map(); } }
+/* Every counted match on one day, played in order from the window that ended the day before. */
+function pubDay(ts){
+  pubReset();
+  let d = pubCache.day.get(ts); if (d) return d;
+  d = new Map();
+  const ms = state.matches[state.gender], st = runWindow(windowStartFor(ts), ts - 1);
+  for (let i = firstIndexAt(ms, ts); i < ms.length && ms[i].ts === ts; i++){
+    const m = ms[i]; if (!includeMatch(m)) continue;
+    d.set(m, applyMatch(st, m, true));
+  }
+  pubCache.day.set(ts, d);
+  return d;
+}
+/* One team's side of a match as published then; base carries the fields that do not depend on the ratings. */
+function pubEntry(base, key){
+  if (state.windowYears === 0 || !base.m) return base;
+  const x = pubDay(base.ts).get(base.m); if (!x) return base;
+  const home = x.home === key, me = home ? x.A : x.B, op = home ? x.B : x.A, nMe = home ? x.nA : x.nB, nOp = home ? x.nB : x.nA;
+  return Object.assign({}, base, {pre:me.r, rating:nMe.r, rd:nMe.rd, oppPre:op.r, oppPost:nOp.r, delta:nMe.r - me.r,
+    exp:home ? x.expHome : 1 - x.expHome, published:true});
+}
+function publishedHistory(key){
+  const h = getRatings().history.get(key) || [];
+  if (state.windowYears === 0) return h;
+  pubReset();
+  let out = pubCache.team.get(key);
+  if (!out){ out = h.map(x => pubEntry(x, key)); pubCache.team.set(key, out); }
+  return out;
+}
 function mapsAt(stamps){
   return new Promise(resolve => {
     const maps = new Array(stamps.length);
@@ -3672,7 +3792,7 @@ function teamChartLater(key, team){
   const gen = state.renderGen;
   teamSnapshots(key).then(T => {
     if (!T || gen !== state.renderGen || T.key !== snapKey() || !document.getElementById('teamChart')) return;
-    const h = getRatings().history.get(key) || [], byTs = new Map(h.map(x => [x.ts, x])), col = seriesColors()[0];
+    const h = publishedHistory(key), byTs = new Map(h.map(x => [x.ts, x])), col = seriesColors()[0];
     const pts = T.pts.map(p => { const v = p.mp && pub(p.mp, key, p.ts);
       return v ? {x:p.ts, r:v.r, b:BAND_Z*rankRd(v, poolRef(p.mp, p.ts)), m:p.match ? byTs.get(p.ts) : null} : {x:p.ts, r:null, m:null}; });
     const val = f => pts.map(p => ({x:p.x, y:p.r === null ? null : f(p)}));
@@ -3810,9 +3930,8 @@ function teamHistoryData(key, mode){
     const H = histAll(state.gender), B = H.best.get(key) || {};
     res(done({r:B.r || null, lo:B.lo || null}, H.peak.get(key) || null, H.items.get(key) || [], -Infinity));
   }, 20));
-  const settleEnd = state.windowYears > 0 ? (() => { const x = new Date(c.windowStart); x.setUTCFullYear(x.getUTCFullYear() + SETTLE_YEARS); return x.getTime(); })() : -Infinity;
-  const items = (c.history.get(key) || []).map(x => { const P = probsFromE(x.exp);
-    return {ts:x.ts, m:x.m, gf:x.gf, ga:x.ga, p:P.home, q:P.away, opp:x.oppName, nm:x.name, known:x.ts >= settleEnd}; });
+  const items = publishedHistory(key).map(x => { const P = probsFromE(x.exp);
+    return {ts:x.ts, m:x.m, gf:x.gf, ga:x.ga, p:P.home, q:P.away, opp:x.oppName, nm:x.name, known:true}; });
   return teamSnapshots(key).then(T => {
     if (!T) return null;
     let r = null, lo = null, peak = null;
@@ -3943,15 +4062,11 @@ function viewTeam(){
       'Move the as-of date or widen the window.</span></div></div>';
     return;
   }
-  const row = c.byKey.get(key), team = row.team, h = c.history.get(key)||[];
+  const row = c.byKey.get(key), team = row.team, h = publishedHistory(key);
   const w = h.filter(x=>x.gf>x.ga).length, d = h.filter(x=>x.gf===x.ga).length, l = h.filter(x=>x.gf<x.ga).length;
   const gf = h.reduce((s,x)=>s+x.gf,0), ga = h.reduce((s,x)=>s+x.ga,0);
   const i = {...infoFor(key), conf:row.conf};
   const rg = row.rank ? rankRanges(c).get(key) : null;
-  const settleEnd = state.windowYears > 0
-    ? (() => { const x = new Date(c.windowStart); x.setUTCFullYear(x.getUTCFullYear()+SETTLE_YEARS); return x.getTime(); })()
-    : -Infinity;
-  const anySettling = h.some(m => m.ts < settleEnd);
   const FM = fifaMethod(state.gender, state.asOf), fm = FM ? FM.byKey.get(key) : null;
   const pickRows = all.slice().sort((a, b) => a.team.localeCompare(b.team));
   const T12 = trendData(c, 12), T24 = trendData(c, 24), t12 = T12.map.get(key), t24 = T24.map.get(key);
@@ -4011,7 +4126,7 @@ function viewTeam(){
         'Each dot is the published rating after one of its matches in the last two years; before that the line takes a point every four months.</p>'+
       '</div></div>'+
     historySection(key)+
-    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Matches <span class="muted" style="font-weight:400;">'+h.length+'</span><span class="aside">rating before and after each one</span></div>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Matches <span class="muted" style="font-weight:400;">'+h.length+'</span><span class="aside">ratings as published at the time of each one</span></div>'+
       '<div class="table-wrap lock">'+
         '<table><thead><tr><th>Date</th><th>Opponent</th><th class="hide-sm">Competition</th><th class="num">Score</th>'+
         '<th class="num hide-sm" title="The opponent\'s rating going into the match">Opp.</th>'+
@@ -4020,7 +4135,7 @@ function viewTeam(){
         '<th class="num">&Delta;</th></tr></thead><tbody>'+
         h.slice().reverse().map(x=>{
           const ed = x.m && x.m._ed, pen = x.m ? shootoutWinner(x.m) : null;
-          return '<tr'+(x.ts < settleEnd ? ' class="settling"' : '')+'><td class="muted date">'+fmtDay(x.ts)+
+          return '<tr><td class="muted date">'+fmtDay(x.ts)+
             (x.m && x.m.src === 'gapfill' ? '<span class="gf" title="Not yet in the archive: result from API-Football, collected by the nightly update">&dagger;</span>' : '')+'</td>'+
           '<td><a href="'+teamHref(x.oppName)+'">'+withFlag(x.oppName, x.ts)+'</a>'+
             (x.neutral?' <span class="muted">(N)</span>':(x.home?'':' <span class="muted">(A)</span>'))+'</td>'+
@@ -4037,9 +4152,6 @@ function viewTeam(){
         '</tbody></table></div>'+
         (h.some(x => x.m && x.m.src === 'gapfill') ? '<p class="chart-note" style="padding:10px 15px 0;margin:0;border-top:1px solid var(--line);">'+
           '&dagger; Not yet in the archive. Collected from API-Football by the nightly update, and replaced by the archive\'s own record once it catches up.</p>' : '')+
-        (anySettling ? '<p class="chart-note" style="padding:10px 15px 12px;margin:0;border-top:1px solid var(--line);">'+
-          'Faded rows fall in the first '+SETTLE_YEARS+' years of the window, when every team is still settling from its '+
-          'starting band, so ratings move further per match and the chances shown are less reliable.</p>' : '')+
       '</div>'+
       '<div class="panel"><div class="panel-head">Record by opponent</div><div class="scroll table-wrap">'+opponentTable(h)+'</div></div>'+
     '</div>';
@@ -4175,7 +4287,7 @@ function aroundPanel(c, key){
   const before = [], after = [];
   for (let i = firstIndexAt(ms, ao + 1) - 1; i >= 0 && before.length < 6; i--) if (mine(ms[i])) before.push(ms[i]);
   for (let i = firstIndexAt(ms, ao + 1); i < ms.length && after.length < 6; i++) if (mine(ms[i])) after.push(ms[i]);
-  const h = key ? c.history.get(key) || [] : [], byM = new Map(h.map(x => [x.m, x]));
+  const h = key ? publishedHistory(key) : [], byM = new Map(h.map(x => [x.m, x]));
   const delta = m => { const x = byM.get(m); return x ? '<span class="'+(x.delta > 0 ? 'up' : x.delta < 0 ? 'down' : 'flat')+'">'+(x.delta > 0 ? '+' : '')+x.delta.toFixed(1)+'</span>' : ''; };
   const eds = bigEditions(key);
   let movers = '';
@@ -4227,11 +4339,10 @@ function opponentTable(h){
   }
   const rows = [...agg.values()].sort((a,b)=>b.p-a.p||b.net-a.net);
   return '<table><thead><tr><th>Opponent</th><th class="num">P</th><th class="num">W&ndash;D&ndash;L</th>'+
-    '<th class="num">Net</th></tr></thead><tbody>'+rows.map(a=>
+    '<th class="num" title="Rating gained or lost against this opponent, as published at the time of each match">Net</th></tr></thead><tbody>'+rows.map(a=>
     '<tr><td><a href="'+teamHref(a.opp)+'">'+withFlag(a.opp)+'</a></td>'+
     '<td class="num muted">'+a.p+'</td><td class="num mono">'+a.w+'&ndash;'+a.d+'&ndash;'+a.l+'</td>'+
-    '<td class="num mono '+(a.net>0?'up':(a.net<0?'down':'flat'))+'">'+
-      (a.net>0?'+':'')+a.net.toFixed(1)+'</td></tr>').join('')+'</tbody></table>';
+    '<td class="num mono '+(a.net>0?'up':(a.net<0?'down':'flat'))+'">'+(a.net>0?'+':'')+a.net.toFixed(1)+'</td></tr>').join('')+'</tbody></table>';
 }
 
 function viewConfeds(){
@@ -4320,6 +4431,79 @@ function viewConfeds(){
   }));
 }
 
+/* Head to head: every meeting, newest first, grouped by year. Team A is always on the left, so the score reads the
+   same way down the list; the winner is in bold and named in the result column, the home side is tagged (H), and the
+   line under each match gives the competition, its stage and where it was played. */
+function h2hOutcome(x, kb){
+  const pen = x.m ? shootoutWinner(x.m) : null;
+  return {pen, r:x.gf > x.ga ? 1 : x.gf < x.ga ? -1 : pen ? (lineageKey(pen) === kb ? -1 : 1) : 0};
+}
+function h2hMeetingsHtml(c, ka, kb, a, b, meets, f, allTime){
+  const shown = meets.filter(x => f === 'comp' ? x.tournament !== 'Friendly' : f === 'friendly' ? x.tournament === 'Friendly' : true);
+  const nComp = meets.filter(x => x.tournament !== 'Friendly').length, nFr = meets.length - nComp;
+  const chip = (v, label, n) => '<button type="button" class="chip'+(f === v ? ' on' : '')+(n === 0 ? ' zero' : '')+'" data-h2h-f="'+v+'"'+(n === 0 ? ' disabled' : '')+'>'+label+
+    '<span class="cnt">'+n+'</span></button>';
+  const chips = nComp && nFr ? '<div class="chips h2h-chips">'+chip('all', 'All', meets.length)+chip('comp', 'Competitive', nComp)+chip('friendly', 'Friendlies', nFr)+'</div>' : '';
+  if (!shown.length) return chips+'<div class="panel-body muted">No meetings of this kind in this window.</div>';
+  let aw = 0, dr = 0, bw = 0, ag = 0, bg = 0;
+  shown.forEach(x => { const o = h2hOutcome(x, kb); if (o.r > 0) aw++; else if (o.r < 0) bw++; else dr++; ag += x.gf; bg += x.ga; });
+  const N = shown.length, pct = v => (v/N*100)+'%';
+  const summary = '<div class="h2h-sum">'+
+    '<div class="h2h-sum-row"><span class="h2h-a"><b>'+aw+'</b><span>'+withFlag(a)+' win'+(aw === 1 ? '' : 's')+'</span></span>'+
+      '<span class="h2h-d"><b>'+dr+'</b><span>draw'+(dr === 1 ? '' : 's')+'</span></span>'+
+      '<span class="h2h-b"><b>'+bw+'</b><span>'+withFlag(b)+' win'+(bw === 1 ? '' : 's')+'</span></span></div>'+
+    '<div class="h2h-bar" role="img" aria-label="'+esc(dn(a))+' won '+aw+', drawn '+dr+', '+esc(dn(b))+' won '+bw+'">'+
+      '<span class="sa" style="width:'+pct(aw)+'"></span><span class="sd" style="width:'+pct(dr)+'"></span><span class="sb" style="width:'+pct(bw)+'"></span></div>'+
+    '<div class="h2h-goals muted">Goals '+esc(dn(a))+' '+ag+' &ndash; '+bg+' '+esc(dn(b))+' &middot; '+N+' meeting'+(N === 1 ? '' : 's')+
+      ' &middot; penalty shoot-outs count as wins'+
+'</div></div>';
+  const outTitle = 'No rating for this match';
+  const side = (pre, post) => pre == null ? '<td class="num muted hide-sm" title="'+outTitle+'">&mdash;</td>' : '<td class="num mono ba hide-sm">'+fmtR(pre)+' &rarr; '+
+    '<span class="rating">'+fmtR(post)+'</span> <span class="'+(post>pre?'up':(post<pre?'down':'flat'))+'">'+
+    (post>=pre?'+':'&minus;')+Math.abs(post-pre).toFixed(1)+'</span></td>';
+  let lastYear = null;
+  const rows = shown.slice().reverse().map(x => {
+    const m = x.m, o = h2hOutcome(x, kb), yr = new Date(x.ts).getUTCFullYear();
+    const head = yr !== lastYear ? '<tr class="dayrow"><td colspan="6">'+yr+'</td></tr>' : '';
+    lastYear = yr;
+    const aName = x.name || a, bName = x.oppName || b, vs = m ? venueSide(m) : 1;
+    const aHome = m ? x.name === m._hn : x.home;          // A is the listed home side
+    const aHost = vs === 0 ? false : (vs === 1) === aHome, bHost = vs !== 0 && !aHost;
+    const ed = m && m._ed, st0 = ed ? matchStages(ed).get(m) : '', stage = st0 === 'Qualifying' ? '' : st0;
+    const comp = ed ? '<a href="'+editionHref(ed)+'">'+esc(compName(x.tournament))+'</a>' : esc(compName(x.tournament));
+    const where = m ? venueText(m, vs, aHome ? aName : bName, aHome ? bName : aName).replace(/ <span class="nc"[\s\S]*$/, '') : '';
+    const res = o.r === 0 ? '<span class="h2h-res d">Draw</span>'
+      : '<span class="h2h-res '+(o.r > 0 ? 'a' : 'b')+'">'+esc(dn(o.r > 0 ? aName : bName))+(o.pen ? ' <small>on pens</small>' : '')+'</span>';
+    const H = '<span class="ml-tag" title="Playing at home">(H)</span>';
+    return head+'<tr><td class="muted date" title="'+fmtDay(x.ts)+'">'+fmtDay(x.ts).replace(/,? \d{4}$/, '')+'</td>'+
+      '<td class="ml-cell">'+matchLine(aName, bName, x.gf+'&ndash;'+x.ga, t => teamHref(t), {ts:x.ts, win:o.r, tagA:aHost ? H : '', tagB:bHost ? H : ''})+
+        '<div class="h2h-meta">'+[comp, stage ? '<span class="stage-tag">'+stage+'</span>' : '', where].filter(Boolean).join(' &middot; ')+'</div></td>'+
+      '<td class="h2h-rc">'+res+'</td>'+
+      '<td class="num muted hide-sm"'+(x.exp == null ? ' title="'+outTitle+'">&mdash;' : '>'+wdlCell(x.exp, aName, bName))+'</td>'+
+      side(x.pre, x.rating)+side(x.oppPre, x.oppPost)+'</tr>';
+  }).join('');
+  return chips+summary+
+    '<div class="table-wrap lock"><table class="h2h-table"><thead><tr><th>Date</th><th class="h2h-mh">Match <span class="muted">('+esc(dn(a))+' first)</span></th><th>Winner</th>'+
+    '<th class="num hide-sm" title="The model\'s chances before kick-off: '+esc(dn(a))+' wins, draw, '+esc(dn(b))+' wins (%)">Chances <span class="muted">'+flagHtml(a)+' &middot; D &middot; '+flagHtml(b)+'</span></th>'+
+    '<th class="num hide-sm">'+flagHtml(a)+'before &rarr; after</th><th class="num hide-sm">'+flagHtml(b)+'before &rarr; after</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    '<p class="chart-note" style="padding:10px 15px 12px;margin:0;border-top:1px solid var(--line);">Ratings and chances are as the site published them at the time: '+
+      'each match is taken from the window that ended the day before it, the same ratings the charts show.</p>';
+}
+/* Every meeting of two teams up to the as-of date, with the window's own entries where it has them. */
+function h2hAllTime(ka, kb, meetsWin){
+  const byM = new Map(meetsWin.map(x => [x.m, x])), out = [], ms = state.matches[state.gender] || [];
+  for (const m of ms){
+    if (m.ts > state.asOf) break;
+    if (!includeMatch(m)) continue;
+    namesFor(m);
+    const aHome = m._h === ka && m._a === kb; if (!aHome && !(m._h === kb && m._a === ka)) continue;
+    const w = byM.get(m); if (w){ out.push(w); continue; }
+    const vs = venueSide(m);
+    out.push(pubEntry({ts:m.ts, m, opp:kb, gf:aHome ? m.hs : m.as, ga:aHome ? m.as : m.hs, name:aHome ? m._hn : m._an, oppName:aHome ? m._an : m._hn,
+      tournament:m.tournament, cat:m.cat, neutral:vs === 0, home:aHome ? vs === 1 : vs === -1, outside:true, pre:null, oppPre:null}, ka));
+  }
+  return out;
+}
 function viewH2H(){
   getEditions();
   const c = getRatings();
@@ -4333,9 +4517,9 @@ function viewH2H(){
   const rA = c.byKey.get(ka), rB = c.byKey.get(kb), a = rA.team, b = rB.team;
   const opts = sel => all.slice().sort((x,y)=>x.team.localeCompare(y.team)).map(r=>
     '<option value="'+esc(r.team)+'"'+(r.key===sel?' selected':'')+'>'+esc(r.team)+'</option>').join('');
-  const meets = (c.history.get(ka)||[]).filter(m=>m.opp===kb);
-  const aw = meets.filter(m=>m.gf>m.ga).length, dr = meets.filter(m=>m.gf===m.ga).length, bw = meets.filter(m=>m.gf<m.ga).length;
+  const meets = publishedHistory(ka).filter(m=>m.opp===kb);
   const overlap = Math.max(0, Math.min(rA.upper, rB.upper) - Math.max(rA.lower, rB.lower));
+  const h2hF = ['comp', 'friendly'].includes(state.params.hf) ? state.params.hf : 'all';
   const sepTxt = overlap > 0
     ? 'Too close to call: their ranges overlap by '+Math.round(overlap)+' points.'
     : 'Clear order: their ranges do not overlap.';
@@ -4363,26 +4547,40 @@ function viewH2H(){
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Ratings over time<span class="aside">published ratings and bands</span></div>'+
       '<div class="panel-body">'+chartBox('h2hChart','Published ratings and uncertainty bands for '+esc(dn(a))+' and '+esc(dn(b)))+
       '<p class="chart-note">Each team\'s rating as it stood on each date.</p></div></div>'+
-    '<div class="panel"><div class="panel-head">Meetings <span class="muted" style="font-weight:400;">'+meets.length+'</span><span class="aside">'+
-      (meets.length ? esc(dn(a))+' won '+aw+' &middot; drawn '+dr+' &middot; '+esc(dn(b))+' won '+bw : 'none in this window')+'</span></div>'+
-      (meets.length
-        ? '<div class="table-wrap lock"><table><thead><tr><th>Date</th><th class="num">Result</th><th class="hide-sm">Competition</th>'+
-          '<th class="num hide-sm" title="The model\'s chances before kick-off: first team wins, draw, second team wins (%)">Chances <span class="muted">W&middot;D&middot;L</span></th><th class="num">'+flagHtml(a)+'<span class="hide-sm">before &rarr; after</span></th>'+
-          '<th class="num">'+flagHtml(b)+'<span class="hide-sm">before &rarr; after</span></th></tr></thead><tbody>'+
-          meets.slice().reverse().map(x=>{
-            const ed = x.m && x.m._ed, pen = x.m ? shootoutWinner(x.m) : null;
-            const side = (pre, post) => '<td class="num mono ba">'+fmtR(pre)+' &rarr; '+
-              '<span class="rating">'+fmtR(post)+'</span> <span class="'+(post>pre?'up':(post<pre?'down':'flat'))+'">'+
-              (post>=pre?'+':'&minus;')+Math.abs(post-pre).toFixed(1)+'</span></td>';
-            return '<tr><td class="muted date">'+fmtDay(x.ts)+'</td>'+
-            '<td class="num mono">'+x.gf+'&ndash;'+x.ga+(pen ? '<span class="pens" title="'+esc(pen)+' won on penalties">'+(lineageKey(pen)===kb?'L':'W')+'p</span>' : resMark(x.gf, x.ga))+'</td>'+
-            '<td class="comp hide-sm" title="'+esc(x.tournament)+'">'+(ed ? '<a href="'+editionHref(ed)+'">'+esc(shortComp(x.tournament))+'</a>' : esc(shortComp(x.tournament)))+'</td>'+
-            '<td class="num muted hide-sm">'+wdlCell(x.exp, x.name || a, x.oppName || b)+'</td>'+
-            side(x.pre, x.rating) + side(x.oppPre, x.oppPost) + '</tr>'; }).join('')+'</tbody></table></div>'
-        : '<div class="panel-body muted">These two have not met in this window. Try a longer window, full history, or an earlier as-of date.</div>')+
-    '</div></div>';
+    '<div class="panel" id="h2hMeet"></div></div>';
 
-  const pick = () => go({a:document.getElementById('pickA').value, b:document.getElementById('pickB').value});
+  /* All-time meetings: every match between the two up to the as-of date, whatever the window. The window still sets
+     the ratings, so matches before it show no chances or rating change. */
+  const winOn = state.windowYears > 0, stored = (() => { try { return localStorage.getItem('formline.h2hAll'); } catch(e){ return null; } })();
+  let allTime = winOn && (state.params.ha !== undefined ? state.params.ha === '1' : stored === '1');
+  const meetsAll = winOn ? h2hAllTime(ka, kb, meets) : meets;
+  const panel = document.getElementById('h2hMeet');
+  const drawMeet = () => {
+    const list = allTime ? meetsAll : meets, f = state.params.hf;
+    const toggle = '<button type="button" class="h2h-all" role="switch" aria-checked="'+(allTime || !winOn)+'"'+(winOn ? '' : ' disabled')+
+      ' title="'+(winOn ? 'Show every meeting since the first, not just those in the '+state.windowYears+'-year window. The ratings keep the window.' : 'Full history is on in the filters, so every meeting is shown')+'">'+
+      '<span class="tg" aria-hidden="true"></span>All-time meetings<span class="cnt">'+meetsAll.length+'</span></button>';
+    panel.innerHTML = '<div class="panel-head h2h-head"><span>Meetings <span class="muted" style="font-weight:400;">'+list.length+'</span>'+
+        '<span class="h2h-scope">'+(allTime || !winOn ? 'all time' : 'last '+state.windowYears+' years')+'</span></span>'+toggle+'</div>'+
+      (list.length
+        ? '<div id="h2hMeetBody">'+h2hMeetingsHtml(c, ka, kb, a, b, list, ['comp', 'friendly'].includes(f) ? f : 'all', allTime)+'</div>'
+        : '<div class="panel-body muted">'+(meetsAll.length ? 'These two have not met in the last '+state.windowYears+' years. Switch on All-time meetings to see their '+
+            meetsAll.length+' earlier meeting'+(meetsAll.length === 1 ? '' : 's')+'.'
+          : 'These two have never met'+(state.asOf < state.bounds[state.gender].max ? ' up to this date' : '')+'.')+'</div>');
+  };
+  const sync = () => { const extra = {a, b}; if (state.params.hf) extra.hf = state.params.hf; if (winOn) extra.ha = allTime ? 1 : 0;
+    history.replaceState(null, '', '#/h2h?'+filterQuery(extra)); };
+  drawMeet();
+  panel.addEventListener('click', e => {
+    const sw = e.target.closest('.h2h-all');
+    if (sw){ if (!winOn) return; allTime = !allTime; state.params.ha = allTime ? '1' : '0';
+      try { localStorage.setItem('formline.h2hAll', allTime ? '1' : '0'); } catch(err){}
+      drawMeet(); sync(); panel.querySelector('.h2h-all').focus(); return; }
+    const btn = e.target.closest('[data-h2h-f]'); if (!btn) return;
+    const v = btn.dataset.h2hF; state.params.hf = v === 'all' ? undefined : v;
+    drawMeet(); sync();
+  });
+  const pick = () => go(Object.assign({a:document.getElementById('pickA').value, b:document.getElementById('pickB').value}, winOn ? {ha:allTime ? 1 : 0} : {}));
   document.getElementById('pickA').addEventListener('change', pick);
   document.getElementById('pickB').addEventListener('change', pick);
   chartLater('h2hChart', snaps => trackDatasets([ka,kb], snaps, {bands:true, labels:[a,b], colors:[cssVar('--s1'), cssVar('--s3')]}));
@@ -4679,25 +4877,244 @@ function fixtureList(c, list){
   }
   return html;
 }
+/* The Fixtures page: grouped by day (in the visitor's own time zone) and by competition, or by competition and then day.
+   Filters for the day, the competition, the region and a team narrow the list; the choices live in the link, so a filtered
+   list can be shared. The compact list shows one line per match and opens the full card in place. */
+const FX = {open:new Set(), items:null, f:null};
+const fxPad = n => (n < 10 ? '0' : '')+n;
+const fxKey = fx => fx.date+'|'+fx.home+'|'+fx.away;
+function fxDay(fx){
+  if (fx.kickoff && fx.kickoff.length > 10){ const d = new Date(fx.kickoff); return d.getFullYear()+'-'+fxPad(d.getMonth()+1)+'-'+fxPad(d.getDate()); }
+  return fx.date;
+}
+function fxDayLabel(key, short){
+  const d = new Date(key+'T12:00:00'), t = new Date(), today = t.getFullYear()+'-'+fxPad(t.getMonth()+1)+'-'+fxPad(t.getDate());
+  const tm = new Date(t.getTime() + 864e5), tomorrow = tm.getFullYear()+'-'+fxPad(tm.getMonth()+1)+'-'+fxPad(tm.getDate());
+  const rel = key === today ? 'Today' : key === tomorrow ? 'Tomorrow' : '';
+  if (short) return rel || d.toLocaleDateString([], {weekday:'short', day:'numeric', month:'short'});
+  const full = d.toLocaleDateString([], {weekday:'long', day:'numeric', month:'long'});
+  return rel ? rel+', '+full : full;
+}
+function fxTime(fx){
+  if (fx.tbc) return '<span title="Kick-off time not announced yet">TBC</span>';
+  if (!fx.kickoff || fx.kickoff.length <= 10) return '<span class="muted">&ndash;</span>';
+  const d = new Date(fx.kickoff);
+  let t; try { t = d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}); } catch(e){ t = d.toISOString().slice(11, 16); }
+  return '<span title="'+d.toISOString().slice(11, 16)+' UTC">'+esc(t)+'</span>';
+}
+/* Which group or round of a simulated tournament a fixture belongs to, from the Simulator's own draw. */
+function fxStage(c, fx, g){
+  const k = t => c.resolve(t), h = k(fx.home), a = k(fx.away);
+  for (const T of TOURNAMENTS){
+    if (T.gender !== g || T.status === 'rewind' || T.tournament !== fx.tournament) continue;
+    const lg = (/Nations League ([A-D])$/.exec(T.short) || [])[1];
+    for (const gk of Object.keys(T.groups || {})){
+      const keys = T.groups[gk].map(k);
+      if (keys.includes(h) && keys.includes(a)) return {id:T.id, label:(lg ? 'League '+lg+' &middot; ' : '')+'Group '+esc(gk), sort:(lg || '')+gk};
+    }
+    if (T.seeded){ const keys = T.seeded.map(k);
+      if (keys.includes(h) && keys.includes(a)) return {id:T.id, label:(lg ? 'League '+lg+' ' : '')+'quarter-final', sort:(lg || '')+'0'}; }
+  }
+  return null;
+}
+function fxItems(c, list, g){
+  const name = t => { const r = c.byKey.get(c.resolve(t)); return r ? r.team : t; };
+  const conf = t => { const r = c.byKey.get(c.resolve(t)); return r && r.conf && r.conf !== 'UNKNOWN' ? r.conf : null; };
+  const norm = x => String(x).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const items = list.map(fx => {
+    const hName = name(fx.home), aName = name(fx.away);
+    return {fx, key:fxKey(fx), day:fxDay(fx), comp:fx.tournament || 'Other', hName, aName,
+      confs:[conf(fx.home), conf(fx.away)].filter(Boolean), stage:fxStage(c, fx, g),
+      find:norm([fx.home, fx.away, hName, aName, dn(fx.home), dn(fx.away)].join(' ')),
+      t:fx.kickoff && fx.kickoff.length > 10 ? Date.parse(fx.kickoff) : Date.parse(fx.date+'T23:59:00Z')};
+  });
+  items.sort((x, y) => x.day < y.day ? -1 : x.day > y.day ? 1 : (x.t - y.t) || x.hName.localeCompare(y.hName));
+  return items;
+}
+/* A competition's name on its filter button. */
+const fxShort = k => k === 'Friendly' ? 'Friendlies' : compName(k).replace(/^FIFA /, '').replace(/^Africa Cup of Nations/, 'AFCON')
+  .replace(/^Women's Africa Cup of Nations/, 'WAFCON').replace(/ qualification$/i, ' qualifiers');
+/* Competitions in a fixed order: the most matches first, friendlies last. */
+function fxCompOrder(items){
+  const n = {}; items.forEach(x => n[x.comp] = (n[x.comp] || 0) + 1);
+  return Object.keys(n).sort((a, b) => (a === 'Friendly') - (b === 'Friendly') || n[b] - n[a] || a.localeCompare(b));
+}
+function fxReadFilters(){
+  const p = state.params || {}, store = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
+  return {day:p.day || '', comp:p.comp || '', reg:p.reg || '', q:p.q || '',
+    by:(p.by || store('formline.fxBy')) === 'comp' ? 'comp' : 'date',
+    view:(p.v || store('formline.fxView')) === 'cards' ? 'cards' : 'list'};
+}
+function fxMatch(x, f, skip){
+  if (skip !== 'day' && f.day && x.day !== f.day) return false;
+  if (skip !== 'comp' && f.comp && x.comp !== f.comp) return false;
+  if (skip !== 'reg' && f.reg && !x.confs.includes(f.reg)) return false;
+  if (f.q){ const q = f.q.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim(); if (q && !x.find.includes(q)) return false; }
+  return true;
+}
+function fxSync(){
+  const f = FX.f, extra = {};
+  if (f.day) extra.day = f.day; if (f.comp) extra.comp = f.comp; if (f.reg) extra.reg = f.reg; if (f.q.trim()) extra.q = f.q.trim();
+  if (f.by === 'comp') extra.by = 'comp'; if (f.view === 'cards') extra.v = 'cards';
+  const q = filterQuery(extra);
+  state.params = Object.assign({}, filterParams(), extra);
+  history.replaceState(null, '', '#/fixtures'+(q ? '?'+q : ''));
+}
+function fxCompact(c, x){
+  const fx = x.fx, open = FX.open.has(x.key), pr = fixturePrediction(c, fx), pc = v => Math.round(v*100)+'%';
+  const stage = x.stage ? '<span class="fxc-stage">'+x.stage.label+'</span>' : '';
+  let hp = '&ndash;', ap = '&ndash;', mid;
+  if (pr.p){
+    hp = pc(pr.p.home); ap = pc(pr.p.away);
+    const seg = (v, cls) => '<span class="prob-seg '+cls+'" style="width:'+(v*100)+'%"></span>';
+    mid = '<span class="prob-bar mini fxc-bar" role="img" aria-label="'+esc(x.hName)+' win '+hp+', draw '+pc(pr.p.draw)+', '+esc(x.aName)+' win '+ap+'">'+
+      seg(pr.p.home, 'seg-h')+seg(pr.p.draw, 'seg-d')+seg(pr.p.away, 'seg-a')+'</span>'+
+      '<span class="fxc-sub">Draw '+pc(pr.p.draw)+(stage ? ' &middot; '+stage : '')+'</span>';
+  } else mid = '<span class="fxc-sub">'+(fx.tbd ? 'Opponent to be decided' : 'No rating in this window')+(stage ? ' &middot; '+stage : '')+'</span>';
+  const fav = pr.p ? (pr.p.home > pr.p.away ? 'h' : pr.p.away > pr.p.home ? 'a' : '') : '';
+  return '<div class="fxc'+(open ? ' open' : '')+'" data-k="'+esc(x.key)+'">'+
+    '<button type="button" class="fxc-row" aria-expanded="'+open+'" title="'+(open ? 'Hide' : 'Show')+' the full prediction">'+
+      '<span class="fxc-t">'+fxTime(fx)+'</span>'+
+      '<span class="fxc-hn'+(fav === 'h' ? ' fav' : '')+'">'+withFlag(x.hName)+'</span><span class="fxc-hp">'+hp+'</span>'+
+      '<span class="fxc-mid">'+mid+'</span>'+
+      '<span class="fxc-ap">'+ap+'</span><span class="fxc-an'+(fav === 'a' ? ' fav' : '')+'">'+withFlag(x.aName)+'</span>'+
+      '<svg class="fxc-chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+    '</button>'+(open ? '<div class="fxc-card">'+fixtureRow(c, fx)+'</div>' : '')+'</div>';
+}
+function fxRows(c, rows, f){
+  return rows.map(x => f.view === 'cards' ? fixtureRow(c, x.fx) : fxCompact(c, x)).join('');
+}
+/* The link to the Simulator for a competition's matches, when they all belong to one simulated tournament. */
+function fxSimLink(rows){
+  const ids = [...new Set(rows.map(x => x.stage ? x.stage.id : ''))];
+  if (ids.length !== 1 || !ids[0]) return '';
+  return '<a class="aside" href="#/simulate?t='+ids[0]+(filterQuery() ? '&'+filterQuery() : '')+'">Simulate &rarr;</a>';
+}
+function fxListHtml(c){
+  const f = FX.f, all = FX.items, order = fxCompOrder(all), rows = all.filter(x => fxMatch(x, f));
+  if (!rows.length) return '<div class="status" style="margin:0;border:0;">No matches fit these filters. '+
+    '<button type="button" class="linkish" data-fx-clear="1">Clear the filters</button></div>';
+  const n = k => k+' match'+(k === 1 ? '' : 'es');
+  const byStage = (a, b) => (a.stage ? a.stage.sort : '~').localeCompare(b.stage ? b.stage.sort : '~');
+  let html = '';
+  if (f.by === 'comp'){
+    for (const comp of order){
+      const cr = rows.filter(x => x.comp === comp); if (!cr.length) continue;
+      html += '<div class="fx-sec"><div class="fx-comphead"><span>'+esc(compName(comp))+' <span class="cnt">'+n(cr.length)+'</span></span>'+fxSimLink(cr)+'</div>';
+      const days = [...new Set(cr.map(x => x.day))];
+      for (const d of days){
+        const dr = cr.filter(x => x.day === d);
+        html += '<div class="fx-day fx-day-sub">'+fxDayLabel(d)+' <span class="cnt">'+dr.length+'</span></div>'+fxRows(c, dr, f);
+      }
+      html += '</div>';
+    }
+  } else {
+    const days = [...new Set(rows.map(x => x.day))];
+    for (const d of days){
+      const dr = rows.filter(x => x.day === d);
+      html += '<div class="fx-sec"><div class="fx-day">'+fxDayLabel(d)+' <span class="cnt">'+n(dr.length)+'</span></div>';
+      for (const comp of order){
+        const cr = dr.filter(x => x.comp === comp); if (!cr.length) continue;
+        if (!f.comp) html += '<div class="fx-comp"><span>'+esc(compName(comp))+' <span class="cnt">'+cr.length+'</span></span>'+fxSimLink(cr)+'</div>';
+        html += fxRows(c, cr, f);
+      }
+      html += '</div>';
+    }
+  }
+  return html;
+}
+function fxFacetsHtml(){
+  const f = FX.f, all = FX.items, chip = (on, attr, v, label, cnt, title) =>
+    '<button type="button" class="chip'+(on ? ' on' : '')+(cnt === 0 && !on ? ' zero' : '')+'" '+attr+'="'+esc(v)+'"'+(title ? ' title="'+esc(title)+'"' : '')+'>'+label+
+      (cnt !== undefined ? '<span class="cnt">'+cnt+'</span>' : '')+'</button>';
+  const count = (skip, test) => all.filter(x => fxMatch(x, f, skip) && test(x)).length;
+  const days = [...new Set(all.map(x => x.day))], comps = fxCompOrder(all);
+  const regs = CONF_ORDER.filter(r => all.some(x => x.confs.includes(r)));
+  const shown = all.filter(x => fxMatch(x, f)).length, any = f.day || f.comp || f.reg || f.q.trim();
+  const facet = (label, body) => '<div class="fx-facet"><span class="fx-lab">'+label+'</span><div class="fx-strip">'+body+'</div></div>';
+  return facet('Day', chip(!f.day, 'data-fx-day', '', 'All days', count('day', () => true))+
+      days.map(d => chip(f.day === d, 'data-fx-day', d, fxDayLabel(d, true), count('day', x => x.day === d), fxDayLabel(d))).join(''))+
+    (comps.length > 1 ? facet('Competition', chip(!f.comp, 'data-fx-comp', '', 'All', count('comp', () => true))+
+      comps.map(k => chip(f.comp === k, 'data-fx-comp', k, esc(fxShort(k)), count('comp', x => x.comp === k), compName(k))).join('')) : '')+
+    (regs.length > 1 ? facet('Region', chip(!f.reg, 'data-fx-reg', '', 'All', count('reg', () => true))+
+      regs.map(r => chip(f.reg === r, 'data-fx-reg', r, esc(r), count('reg', x => x.confs.includes(r)), 'Matches with a '+confLabel(r)+' team')).join('')) : '')+
+    '<div class="fx-count">'+(any ? 'Showing '+shown+' of '+all.length+' matches &middot; <button type="button" class="linkish" data-fx-clear="1">Clear filters</button>'
+      : all.length+' matches')+'</div>';
+}
 function viewFixtures(){
   const c = getRatings(), g = state.gender, list = upcomingFor(g);
   const latest = state.asOf >= state.bounds[g].max;
+  FX.f = fxReadFilters();
+  FX.items = list && list.length ? fxItems(c, list, g) : null;
+  if (FX.items){
+    if (FX.f.day && !FX.items.some(x => x.day === FX.f.day)) FX.f.day = '';
+    if (FX.f.comp && !FX.items.some(x => x.comp === FX.f.comp)) FX.f.comp = '';
+  }
+  const seg = (attr, v, label, on) => '<button type="button" class="chip'+(on ? ' on' : '')+'" '+attr+'="'+v+'" aria-pressed="'+on+'">'+label+'</button>';
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">'+(g==='men'?"Men's":"Women's")+' fixtures</h1>'+
-    '<p class="page-sub">International matches in the coming weeks, with each side\'s chances under its name. The bar reads: first team '+
-      'wins, draw, second team wins. Kick-off times are in your time zone'+(z => z ? ' ('+esc(z)+')' : '')((() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(e){ return ''; } })())+'.</p>'+
+    '<p class="page-sub">International matches in the coming weeks, by day and competition, with each side\'s chance of winning. '+
+      'Open a match for the full prediction. Kick-off times are in your time zone'+(z => z ? ' ('+esc(z)+')' : '')((() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(e){ return ''; } })())+'.</p>'+
     (!latest ? '<div class="notice"><b>Ratings as of '+fmtDay(state.asOf)+'.</b> The predictions below use the ratings '+
       'on your chosen date, not the latest ones.</div>' : '')+
     toolRow()+
     (list === null
       ? '<div class="status">Fixtures come from the site\'s nightly update, which this copy of the site does not have. '+
         'They appear here once it runs where the update publishes its files.</div>'
-      : list.length
-        ? '<div class="panel">'+fixtureList(c, list)+'</div>'
+      : FX.items
+        ? '<div class="fx-tools" id="fxTools">'+
+            '<div class="fx-top">'+
+              '<input type="search" id="fxQ" class="fx-q" placeholder="Filter by team" aria-label="Filter fixtures by team" autocomplete="off" value="'+esc(FX.f.q)+'">'+
+              '<div class="fx-seg" role="group" aria-label="Group by"><span class="fx-lab">Group by</span>'+
+                seg('data-fx-by', 'date', 'Date', FX.f.by === 'date')+seg('data-fx-by', 'comp', 'Competition', FX.f.by === 'comp')+'</div>'+
+              '<div class="fx-seg" role="group" aria-label="Show as"><span class="fx-lab">Show</span>'+
+                seg('data-fx-view', 'list', 'List', FX.f.view === 'list')+seg('data-fx-view', 'cards', 'Cards', FX.f.view === 'cards')+'</div>'+
+            '</div>'+
+            '<div id="fxFacets">'+fxFacetsHtml()+'</div>'+
+          '</div>'+
+          '<div class="panel fx-list'+(FX.f.view === 'list' ? ' compact' : '')+'" id="fxList">'+fxListHtml(c)+'</div>'
         : '<div class="status">No '+(g==='men'?"men's":"women's")+' internationals listed yet.</div>')+
     upcomingTournaments(g)+
   '</div>';
+  if (FX.items) fxBind(c);
+}
+function fxBind(c){
+  const tools = document.getElementById('fxTools'), listEl = document.getElementById('fxList'), q = document.getElementById('fxQ');
+  const refresh = (top) => {
+    document.getElementById('fxFacets').innerHTML = fxFacetsHtml();
+    listEl.innerHTML = fxListHtml(c);
+    listEl.classList.toggle('compact', FX.f.view === 'list');
+    tools.querySelectorAll('[data-fx-by]').forEach(b => { const on = b.dataset.fxBy === FX.f.by; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+    tools.querySelectorAll('[data-fx-view]').forEach(b => { const on = b.dataset.fxView === FX.f.view; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+    fxSync();
+    if (top){ const r = tools.getBoundingClientRect(); if (r.top < 0) window.scrollTo({top:window.scrollY + r.top - 80, behavior:'instant'}); }
+  };
+  const save = (k, v) => { try { localStorage.setItem(k, v); } catch(e){} };
+  const clear = () => { Object.assign(FX.f, {day:'', comp:'', reg:'', q:''}); q.value = ''; refresh(true); };
+  tools.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const d = b.dataset;
+    if (d.fxDay !== undefined) FX.f.day = d.fxDay;
+    else if (d.fxComp !== undefined) FX.f.comp = d.fxComp;
+    else if (d.fxReg !== undefined) FX.f.reg = d.fxReg;
+    else if (d.fxBy){ FX.f.by = d.fxBy; save('formline.fxBy', d.fxBy); }
+    else if (d.fxView){ FX.f.view = d.fxView; save('formline.fxView', d.fxView); }
+    else if (d.fxClear){ clear(); return; }
+    else return;
+    refresh(true);
+  });
+  let timer = null;
+  q.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(() => { FX.f.q = q.value; refresh(false); }, 140); });
+  listEl.addEventListener('click', e => {
+    if (e.target.closest('[data-fx-clear]')){ clear(); return; }
+    const row = e.target.closest('.fxc-row'); if (!row) return;
+    const box = row.parentElement, k = box.dataset.k, x = FX.items.find(i => i.key === k); if (!x) return;
+    if (FX.open.has(k)) FX.open.delete(k); else FX.open.add(k);
+    box.outerHTML = fxCompact(c, x);
+    const again = [...listEl.querySelectorAll('.fxc')].find(el => el.dataset.k === k);
+    if (again) again.querySelector('.fxc-row').focus();
+  });
 }
 /* Tournaments on the Simulator page that are still to be played or still going on. */
 function upcomingTournaments(g){
@@ -7036,10 +7453,10 @@ function methodTechnical(){
       'are still a median of 81 points off two years into the window, 47 points off at four years and 25 at six.</p>'+
     '<p>So the charts never use that run. Each point on a chart is <b>the rating the site would have published on that '+
       'date</b>, computed from that date\'s own window, which is why charts take a moment to appear. The 1-year change '+
-      'is worked out the same way, as today\'s rating against the one published a year ago. In a team\'s match list, '+
-      'matches from the first '+SETTLE_YEARS+' years of the window are faded: they are part of the current calculation, '+
-      'but ratings were still settling, so their expected scores and rating changes are less reliable. With full history '+
-      'on, none of this applies, because there is no window to restart.</p>'+
+      'is worked out the same way, as today\'s rating against the one published a year ago. Match lists (team pages, head '+
+      'to head) follow the same rule: each match is taken from the window that ended the day before it, so the ratings '+
+      'going in, the chances and the change are what the site showed at the time, and agree with the charts. With full '+
+      'history on, none of this applies, because there is no window to restart.</p>'+
 
     '<h2>Data</h2>'+
     '<p>Results come from two open archives on GitHub, compiled from Wikipedia, RSSSF and association sources and released '+
@@ -7604,6 +8021,9 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['3 Nov 2026', ['Fixtures: matches are grouped by day and, within each day, by competition (or by competition and then day), with filters for the day, the competition, the region and a team. The choices stay in the link, so a filtered list can be shared. A compact list shows one line per match, with its group or round from the Simulator, and opens the full prediction in place; full cards are one click away and the choice is remembered.',
+    'Head to head: each meeting names its winner (penalty shoot-outs included), tags the side at home and gives the competition, the round and the venue under the score, grouped by year. A bar sums up the wins and draws, with the goals, and the list can be narrowed to competitive matches or friendlies. An All-time meetings switch shows every meeting since the first while the ratings keep your window; it is remembered, and older matches show the ratings and chances published at the time.',
+    'Match lists on team pages and head to head now show each match as the site published it at the time, taken from the window that ended the day before, so they agree with the rating charts. They used to come from one run through today\'s window, where every team starts level, so the first years showed ratings still settling: France went into its first match of the current window at 1140 in the list while the chart had it at 1998, and England\'s 5&ndash;0 against San Marino showed +446. The faded rows and their note are gone, and Net in Record by opponent adds up the published changes.']],
   ['30 Oct 2026', ['Fixtures: venues not yet announced through API-Football are looked up in each team\'s Wikipedia results article every night, so neutral grounds and home advantage are right earlier.',
     'Simulator: results are fixed from the day a tournament starts, and knockout legs already played (the CONCACAF Nations League quarter-finals in November) come from the data, so the chances update through the window.']],
   ['29 Oct 2026', ['Simulator: the Africa Cup of Nations 2027 qualifiers, twelve groups with the September and October results fixed; each team\'s chance of qualifying, with the hosts\' groups sending the host and the best of the rest.',
@@ -7737,7 +8157,7 @@ function csvFor(kind){
     return {name:'formline-rankings-'+fileStamp()+'.csv', text:csvText(['Rank','Team','Confederation','Rating','Band (±)','Lower','Upper','Likely rank','Plausible rank','Tier','Matches','Last match','1-year change'], ranked.concat(prov))};
   }
   if (kind === 'team'){
-    const key = c.resolve(state.arg) || state.arg, h = c.history.get(key) || [];
+    const key = c.resolve(state.arg) || state.arg, h = publishedHistory(key);
     const rows = h.map(x => { const p = x.exp !== undefined ? probsFromE(x.exp) : null;
       return [fmtDate(x.ts), x.oppName, x.neutral ? 'neutral' : (x.home ? 'home' : 'away'), compName(x.tournament), x.gf, x.ga, x.gf > x.ga ? 'W' : x.gf < x.ga ? 'L' : 'D',
         p ? Math.round(p.home*100) : '', p ? Math.round(p.draw*100) : '', p ? Math.round(p.away*100) : '', r1(x.pre), r1(x.rating), r1(x.delta)]; });
@@ -8269,6 +8689,10 @@ function pageTour(route){
         'a rating most.'},
       {sel:'#teamPick', title:'Another team', text:'Pick any other team here: type to filter the list. Or use the search box at the top.'}]],
     fixtures:['Fixtures', [
+      {sel:'#fxTools', title:'Find a match', text:'Pick a day, a competition or a region, or type a team\'s name. Group the matches by date or by '+
+        'competition, and show them as a compact list or as full cards. The link keeps your choices, so you can share a filtered list.'},
+      {sel:'#app .fxc', title:'One line per match', text:'Kick-off in your time zone, each side\'s chance of winning either side of the bar, and the '+
+        'draw under it. Click a match to open its full prediction.'},
       {sel:'#app .mx', title:'A fixture', text:'Each team\'s numbers sit under its name: rank, tier, expected goals (xG) and its chance of winning. '+
         'The bar in the middle reads first team wins, draw, second team wins, with the three likeliest scores below it.'},
       {sel:'#app .mx-top', title:'When and where', text:'Kick-off in your own time zone, the competition, the venue and who has home advantage. '+
