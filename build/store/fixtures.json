@@ -18,7 +18,8 @@
   "wiki": {
    "city": "İzmir",
    "country": "Turkey",
-   "stadium": "Gürsel Aksel Stadium"
+   "stadium": "Gürsel Aksel Stadium",
+   "boxDate": "2026-11-12"
   },
   "venue_src": "wiki"
  },
@@ -42,6 +43,7 @@
    "city": "Yerevan",
    "country": "Armenia",
    "stadium": "Vazgen Sargsyan Republican Stadium",
+   "boxDate": "2026-11-12",
    "kickoff": "2026-11-12T17:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -65,7 +67,8 @@
   "wiki": {
    "city": "Milan",
    "country": "Italy",
-   "stadium": "San Siro"
+   "stadium": "San Siro",
+   "boxDate": "2026-11-12"
   },
   "venue_src": "wiki"
  },
@@ -89,6 +92,7 @@
    "city": "Prague",
    "country": "Czech Republic",
    "stadium": "Fortuna Arena",
+   "boxDate": "2026-11-12",
    "kickoff": "2026-11-12T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -112,7 +116,8 @@
   "wiki": {
    "city": "London",
    "country": "England",
-   "stadium": "Wembley Stadium"
+   "stadium": "Wembley Stadium",
+   "boxDate": "2026-11-12"
   },
   "venue_src": "wiki"
  },
@@ -135,7 +140,8 @@
   "wiki": {
    "city": "Tirana",
    "country": "Albania",
-   "stadium": "Arena Kombëtare"
+   "stadium": "Arena Kombëtare",
+   "boxDate": "2026-11-12"
   },
   "venue_src": "wiki"
  },
@@ -158,7 +164,8 @@
   "wiki": {
    "city": "Serravalle",
    "country": "San Marino",
-   "stadium": "San Marino Stadium"
+   "stadium": "San Marino Stadium",
+   "boxDate": "2026-11-12"
   },
   "venue_src": "wiki"
  },
@@ -182,6 +189,7 @@
    "city": "Belgrade",
    "country": "Serbia",
    "stadium": "Rajko Mitić Stadium",
+   "boxDate": "2026-11-13",
    "kickoff": "2026-11-13T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -205,7 +213,8 @@
   "wiki": {
    "city": "Amsterdam",
    "country": "Netherlands",
-   "stadium": "Johan Cruyff Arena"
+   "stadium": "Johan Cruyff Arena",
+   "boxDate": "2026-11-13"
   },
   "venue_src": "wiki"
  },
@@ -229,6 +238,7 @@
    "city": "Košice",
    "country": "Slovakia",
    "stadium": "Košická futbalová aréna",
+   "boxDate": "2026-11-13",
    "kickoff": "2026-11-13T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -252,7 +262,8 @@
   "wiki": {
    "city": "Chișinău",
    "country": "Moldova",
-   "stadium": "Zimbru Stadium"
+   "stadium": "Zimbru Stadium",
+   "boxDate": "2026-11-13"
   },
   "venue_src": "wiki"
  },
@@ -276,6 +287,7 @@
    "city": "Plovdiv",
    "country": "Bulgaria",
    "stadium": "Hristo Botev Stadium",
+   "boxDate": "2026-11-13",
    "kickoff": "2026-11-13T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -300,6 +312,7 @@
    "city": "Vaduz",
    "country": "Liechtenstein",
    "stadium": "Rheinpark Stadion",
+   "boxDate": "2026-11-13",
    "kickoff": "2026-11-13T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -323,7 +336,8 @@
   "wiki": {
    "city": "Pristina",
    "country": "Kosovo",
-   "stadium": "Fadil Vokrri Stadium"
+   "stadium": "Fadil Vokrri Stadium",
+   "boxDate": "2026-11-14"
   },
   "venue_src": "wiki"
  },
@@ -347,6 +361,7 @@
    "city": "Oslo",
    "country": "Norway",
    "stadium": "Ullevaal Stadion",
+   "boxDate": "2026-11-14",
    "kickoff": "2026-11-14T17:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -370,7 +385,8 @@
   "wiki": {
    "city": "Tbilisi",
    "country": "Georgia",
-   "stadium": "Boris Paichadze Dinamo Arena"
+   "stadium": "Boris Paichadze Dinamo Arena",
+   "boxDate": "2026-11-14"
   },
   "venue_src": "wiki"
  },
@@ -394,6 +410,7 @@
    "city": "Braga",
    "country": "Portugal",
    "stadium": "Estádio Municipal de Braga",
+   "boxDate": "2026-11-14",
    "kickoff": "2026-11-14T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -418,6 +435,7 @@
    "city": "Belfast",
    "country": "Northern Ireland",
    "stadium": "Windsor Park",
+   "boxDate": "2026-11-14",
    "kickoff": "2026-11-14T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -442,6 +460,7 @@
    "city": "Linz",
    "country": "Austria",
    "stadium": "Raiffeisen Arena",
+   "boxDate": "2026-11-14",
    "kickoff": "2026-11-14T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -466,6 +485,7 @@
    "city": "Bucharest",
    "country": "Romania",
    "stadium": "Arena Națională",
+   "boxDate": "2026-11-14",
    "kickoff": "2026-11-14T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -490,6 +510,7 @@
    "city": "Solna",
    "country": "Sweden",
    "stadium": "Nationalarenan",
+   "boxDate": "2026-11-14",
    "kickoff": "2026-11-14T18:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -513,7 +534,8 @@
   "wiki": {
    "city": "Limassol",
    "country": "Cyprus",
-   "stadium": "Alphamega Stadium"
+   "stadium": "Alphamega Stadium",
+   "boxDate": "2026-11-15"
   },
   "venue_src": "wiki"
  },
@@ -536,7 +558,8 @@
   "wiki": {
    "city": "Budapest",
    "country": "Hungary",
-   "stadium": "Illovszky Rudolf Stadion"
+   "stadium": "Illovszky Rudolf Stadion",
+   "boxDate": "2026-11-15"
   },
   "venue_src": "wiki"
  },
@@ -559,7 +582,8 @@
   "wiki": {
    "city": "Helsinki",
    "country": "Finland",
-   "stadium": "Helsinki Olympic Stadium"
+   "stadium": "Helsinki Olympic Stadium",
+   "boxDate": "2026-11-15"
   },
   "venue_src": "wiki"
  },
@@ -582,7 +606,8 @@
   "wiki": {
    "city": "Bordeaux",
    "country": "France",
-   "stadium": "Stade Atlantique"
+   "stadium": "Stade Atlantique",
+   "boxDate": "2026-11-15"
   },
   "venue_src": "wiki"
  },
@@ -605,7 +630,8 @@
   "wiki": {
    "city": "Brussels",
    "country": "Belgium",
-   "stadium": "King Baudouin Stadium"
+   "stadium": "King Baudouin Stadium",
+   "boxDate": "2026-11-15"
   },
   "venue_src": "wiki"
  },
@@ -628,7 +654,8 @@
   "wiki": {
    "city": "Madrid",
    "country": "Spain",
-   "stadium": "Metropolitano Stadium"
+   "stadium": "Metropolitano Stadium",
+   "boxDate": "2026-11-15"
   },
   "venue_src": "wiki"
  },
@@ -652,6 +679,7 @@
    "city": "Osijek",
    "country": "Croatia",
    "stadium": "Opus Arena",
+   "boxDate": "2026-11-15",
    "kickoff": "2026-11-15T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -676,6 +704,7 @@
    "city": "Astana",
    "country": "Kazakhstan",
    "stadium": "Astana Arena",
+   "boxDate": "2026-11-16",
    "kickoff": "2026-11-16T15:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -699,7 +728,8 @@
   "wiki": {
    "city": "Tórshavn",
    "country": "Faroe Islands",
-   "stadium": "Tórsvøllur"
+   "stadium": "Tórsvøllur",
+   "boxDate": "2026-11-16"
   },
   "venue_src": "wiki"
  },
@@ -722,7 +752,8 @@
   "wiki": {
    "city": "Tallinn",
    "country": "Estonia",
-   "stadium": "Lilleküla Stadium"
+   "stadium": "Lilleküla Stadium",
+   "boxDate": "2026-11-16"
   },
   "venue_src": "wiki"
  },
@@ -746,6 +777,7 @@
    "city": "Kaunas",
    "country": "Lithuania",
    "stadium": "Darius and Girėnas Stadium",
+   "boxDate": "2026-11-16",
    "kickoff": "2026-11-16T17:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -770,6 +802,7 @@
    "city": "Berlin",
    "country": "Germany",
    "stadium": "Olympiastadion",
+   "boxDate": "2026-11-16",
    "kickoff": "2026-11-16T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -793,7 +826,8 @@
   "wiki": {
    "city": "Piraeus",
    "country": "Greece",
-   "stadium": "Karaiskakis Stadium"
+   "stadium": "Karaiskakis Stadium",
+   "boxDate": "2026-11-16"
   },
   "venue_src": "wiki"
  },
@@ -817,6 +851,7 @@
    "city": "Cardiff",
    "country": "Wales",
    "stadium": "Cardiff City Stadium",
+   "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -841,6 +876,7 @@
    "city": "Copenhagen",
    "country": "Denmark",
    "stadium": "Parken Stadium",
+   "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -864,7 +900,8 @@
   "wiki": {
    "city": "Trnava",
    "country": "Slovakia",
-   "stadium": "Anton Malatinský Stadium"
+   "stadium": "Anton Malatinský Stadium",
+   "boxDate": "2026-11-17"
   },
   "venue_src": "wiki"
  },
@@ -887,7 +924,8 @@
   "wiki": {
    "city": "Budapest",
    "country": "Hungary",
-   "stadium": "Puskás Aréna"
+   "stadium": "Puskás Aréna",
+   "boxDate": "2026-11-17"
   },
   "venue_src": "wiki"
  },
@@ -910,7 +948,8 @@
   "wiki": {
    "city": "Debrecen",
    "country": "Hungary",
-   "stadium": "Nagyerdei Stadion"
+   "stadium": "Nagyerdei Stadion",
+   "boxDate": "2026-11-17"
   },
   "venue_src": "wiki"
  },
@@ -934,6 +973,7 @@
    "city": "Dublin",
    "country": "Republic of Ireland",
    "stadium": "Aviva Stadium",
+   "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T18:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -957,7 +997,8 @@
   "wiki": {
    "city": "Warsaw",
    "country": "Poland",
-   "stadium": "Stadion Narodowy"
+   "stadium": "Stadion Narodowy",
+   "boxDate": "2026-11-17"
   },
   "venue_src": "wiki"
  },
@@ -981,6 +1022,7 @@
    "city": "Zenica",
    "country": "Bosnia and Herzegovina",
    "stadium": "Stadion Bilino Polje",
+   "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T18:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -1005,6 +1047,7 @@
    "city": "Podgorica",
    "country": "Montenegro",
    "stadium": "Podgorica City Stadium",
+   "boxDate": "2026-11-12",
    "kickoff": "2026-11-12T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -1029,6 +1072,7 @@
    "city": "Luxembourg City",
    "country": "Luxembourg",
    "stadium": "Stade de Luxembourg",
+   "boxDate": "2026-11-13",
    "kickoff": "2026-11-13T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -1052,7 +1096,8 @@
   "wiki": {
    "city": "Encamp",
    "country": "Andorra",
-   "stadium": "Estadi de la FAF"
+   "stadium": "Estadi de la FAF",
+   "boxDate": "2026-11-13"
   },
   "venue_src": "wiki"
  },
@@ -1076,6 +1121,7 @@
    "city": "Riga",
    "country": "Latvia",
    "stadium": "Skonto Stadium",
+   "boxDate": "2026-11-15",
    "kickoff": "2026-11-15T14:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -1100,6 +1146,7 @@
    "city": "Reykjavík",
    "country": "Iceland",
    "stadium": "Laugardalsvöllur",
+   "boxDate": "2026-11-15",
    "kickoff": "2026-11-15T17:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -1123,7 +1170,8 @@
   "wiki": {
    "city": "Gibraltar",
    "country": "Gibraltar",
-   "stadium": "Europa Sports Park"
+   "stadium": "Europa Sports Park",
+   "boxDate": "2026-11-16"
   },
   "venue_src": "wiki"
  },
@@ -1147,6 +1195,7 @@
    "city": "St.Gallen",
    "country": "Switzerland",
    "stadium": "Kybunpark",
+   "boxDate": "2026-11-16",
    "kickoff": "2026-11-16T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -1171,6 +1220,7 @@
    "city": "Ljubljana",
    "country": "Slovenia",
    "stadium": "Stožice Stadium",
+   "boxDate": "2026-11-13",
    "kickoff": "2026-11-13T19:45:00+00:00"
   },
   "venue_src": "wiki"
@@ -1194,7 +1244,8 @@
   "wiki": {
    "city": "Glasgow",
    "country": "Scotland",
-   "stadium": "Hampden Park"
+   "stadium": "Hampden Park",
+   "boxDate": "2026-11-13"
   },
   "venue_src": "wiki"
  },
@@ -1217,7 +1268,8 @@
   "wiki": {
    "city": "Skopje",
    "country": "North Macedonia",
-   "stadium": "Toše Proeski Arena"
+   "stadium": "Toše Proeski Arena",
+   "boxDate": "2026-11-16"
   },
   "venue_src": "wiki"
  },
@@ -1544,7 +1596,8 @@
   "wiki": {
    "city": "TBD",
    "country": "Morocco",
-   "stadium": "TBD"
+   "stadium": "TBD",
+   "boxDate": "2026-11-11"
   },
   "venue_src": "wiki"
  },
@@ -2457,7 +2510,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
+  "wiki": {
+   "city": "Encamp",
+   "country": "Andorra",
+   "stadium": "Estadi de la FAF",
+   "boxDate": "2026-11-16",
+   "kickoff": "2026-11-16T13:00:00+00:00"
+  },
   "venue_src": "city"
  },
  "1640004": {
@@ -2480,6 +2539,7 @@
    "city": "Le Gosier",
    "country": "Guadeloupe",
    "stadium": "Stade Roger Zami",
+   "boxDate": "2026-11-12",
    "kickoff": "2026-11-12T19:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -2504,6 +2564,7 @@
    "city": "Kingstown",
    "country": "Saint Vincent and the Grenadines",
    "stadium": "Arnos Vale Stadium",
+   "boxDate": "2026-11-17",
    "date": "2026-11-17",
    "kickoff": "2026-11-17T19:00:00+00:00"
   },
@@ -2529,6 +2590,7 @@
    "city": "Le Gosier",
    "country": "Guadeloupe",
    "stadium": "Stade Roger Zami",
+   "boxDate": "2026-11-13",
    "date": "2026-11-13",
    "kickoff": "2026-11-13T19:00:00+00:00"
   },
@@ -2553,7 +2615,8 @@
   "wiki": {
    "city": "Havana",
    "country": "Cuba",
-   "stadium": "Estadio La Polar"
+   "stadium": "Estadio La Polar",
+   "boxDate": "2026-11-12"
   },
   "venue_src": "wiki"
  },
@@ -2577,6 +2640,7 @@
    "city": "Georgetown",
    "country": "Guyana",
    "stadium": "Leonora National Track and Field Centre",
+   "boxDate": "2026-11-12",
    "kickoff": "2026-11-12T19:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -2601,6 +2665,7 @@
    "city": "Havana",
    "country": "Cuba",
    "stadium": "Estadio La Polar",
+   "boxDate": "2026-11-16",
    "date": "2026-11-16"
   },
   "venue_src": "wiki"
@@ -2625,6 +2690,7 @@
    "city": "Georgetown",
    "country": "Guyana",
    "stadium": "Leonora National Track and Field Centre",
+   "boxDate": "2026-11-17",
    "date": "2026-11-17",
    "kickoff": "2026-11-17T19:00:00+00:00"
   },
@@ -2650,6 +2716,7 @@
    "city": "Kingstown",
    "country": "Saint Vincent and the Grenadines",
    "stadium": "Arnos Vale Stadium",
+   "boxDate": "2026-11-17",
    "date": "2026-11-17",
    "kickoff": "2026-11-18T00:00:00+00:00"
   },
@@ -2675,6 +2742,7 @@
    "city": "Havana",
    "country": "Cuba",
    "stadium": "Estadio La Polar",
+   "boxDate": "2026-11-13",
    "date": "2026-11-13"
   },
   "venue_src": "wiki"
@@ -2699,6 +2767,7 @@
    "city": "Le Gosier",
    "country": "Guadeloupe",
    "stadium": "Stade Roger Zami",
+   "boxDate": "2026-11-16",
    "date": "2026-11-16",
    "kickoff": "2026-11-16T19:00:00+00:00"
   },
@@ -2724,6 +2793,7 @@
    "city": "Georgetown",
    "country": "Guyana",
    "stadium": "Leonora National Track and Field Centre",
+   "boxDate": "2026-11-16",
    "date": "2026-11-16",
    "kickoff": "2026-11-16T19:00:00+00:00"
   },
@@ -2749,6 +2819,7 @@
    "city": "Georgetown",
    "country": "Guyana",
    "stadium": "Leonora National Track and Field Centre",
+   "boxDate": "2026-11-13",
    "date": "2026-11-13",
    "kickoff": "2026-11-13T19:00:00+00:00"
   },
@@ -2774,6 +2845,7 @@
    "city": "Havana",
    "country": "Cuba",
    "stadium": "Estadio La Polar",
+   "boxDate": "2026-11-17",
    "date": "2026-11-17"
   },
   "venue_src": "wiki"
@@ -2798,6 +2870,7 @@
    "city": "Le Gosier",
    "country": "Guadeloupe",
    "stadium": "Stade Roger Zami",
+   "boxDate": "2026-11-17",
    "date": "2026-11-17",
    "kickoff": "2026-11-17T19:00:00+00:00"
   },
@@ -2823,6 +2896,7 @@
    "city": "Kingstown",
    "country": "Saint Vincent and the Grenadines",
    "stadium": "Arnos Vale Stadium",
+   "boxDate": "2026-11-14",
    "date": "2026-11-14",
    "kickoff": "2026-11-15T00:00:00+00:00"
   },
@@ -2848,6 +2922,7 @@
    "city": "Kingstown",
    "country": "Saint Vincent and the Grenadines",
    "stadium": "Arnos Vale Stadium",
+   "boxDate": "2026-11-14",
    "date": "2026-11-14",
    "kickoff": "2026-11-14T19:00:00+00:00"
   },
@@ -2973,7 +3048,7 @@
   "home_team": "Singapore",
   "away_team": "Brazil",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Kallang",
   "country": "Singapore",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2984,7 +3059,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1640088": {
   "date": "2026-11-17",
@@ -2992,9 +3067,9 @@
   "home_team": "Japan",
   "away_team": "Paraguay",
   "tournament": "Friendly",
-  "city": "",
-  "country": "Japan",
-  "neutral": "FALSE",
+  "city": "Kallang",
+  "country": "Singapore",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640088,
   "league": "Friendlies",
@@ -3003,7 +3078,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1640089": {
   "date": "2026-11-17",
@@ -3025,8 +3100,8 @@
   "venue_src": "city"
  },
  "1640518": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T21:00:00+00:00",
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T00:00:00+00:00",
   "home_team": "Colombia",
   "away_team": "Chile",
   "tournament": "Friendly",
@@ -3049,7 +3124,7 @@
   "home_team": "Chile",
   "away_team": "Colombia",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Santiago de Chile",
   "country": "Chile",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3100,7 +3175,8 @@
   "wiki": {
    "city": "Hiroshima",
    "country": "Japan",
-   "stadium": "Edion Peace Wing Hiroshima"
+   "stadium": "Edion Peace Wing Hiroshima",
+   "boxDate": "2026-11-29"
   },
   "venue_src": "wiki"
  },
@@ -3181,6 +3257,7 @@
    "city": "Willemstad",
    "country": "Curaçao",
    "stadium": "Ergilio Hato Stadium",
+   "boxDate": "2026-11-12",
    "date": "2026-11-12",
    "kickoff": "2026-11-13T00:00:00+00:00"
   },
@@ -3206,6 +3283,7 @@
    "city": "Kingston",
    "country": "Jamaica",
    "stadium": "Independence Park",
+   "boxDate": "2026-11-14",
    "date": "2026-11-14",
    "kickoff": "2026-11-15T01:00:00+00:00"
   },
@@ -3231,6 +3309,7 @@
    "city": "Guatemala City",
    "country": "Guatemala",
    "stadium": "Estadio Manuel Felipe Carrera",
+   "boxDate": "2026-11-13",
    "kickoff": "2026-11-14T02:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -3254,7 +3333,8 @@
   "wiki": {
    "city": "Miami",
    "country": "United States",
-   "stadium": "Nu Stadium"
+   "stadium": "Nu Stadium",
+   "boxDate": "2026-11-14"
   },
   "venue_src": "wiki"
  },
@@ -3278,6 +3358,7 @@
    "city": "Toronto",
    "country": "Canada",
    "stadium": "BMO Field",
+   "boxDate": "2026-11-16",
    "kickoff": "2026-11-17T01:00:00+00:00"
   },
   "venue_src": "wiki"
@@ -3298,7 +3379,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
+  "wiki": {
+   "city": "Guadalupe",
+   "country": "Mexico",
+   "stadium": "Estadio BBVA",
+   "boxDate": "2026-11-17",
+   "kickoff": "2026-11-18T02:30:00+00:00"
+  },
   "venue_src": "city"
  },
  "1644696": {
@@ -3321,6 +3408,7 @@
    "city": "Panama City",
    "country": "Panama",
    "stadium": "Estadio Rommel Fernández",
+   "boxDate": "2026-11-15",
    "date": "2026-11-15"
   },
   "venue_src": "wiki"
@@ -3344,7 +3432,8 @@
   "wiki": {
    "city": "Cincinnati",
    "country": "United States",
-   "stadium": "TQL Stadium"
+   "stadium": "TQL Stadium",
+   "boxDate": "2026-11-17"
   },
   "venue_src": "wiki"
  },
@@ -3706,7 +3795,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
+  "wiki": {
+   "city": "Tashkent",
+   "country": "Uzbekistan",
+   "stadium": "Pakhtakor Central Stadium",
+   "boxDate": "2026-11-12",
+   "kickoff": "2026-11-12T15:00:00+00:00"
+  },
   "venue_src": "city"
  },
  "1647359": {
@@ -3782,12 +3877,17 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
+  "wiki": {
+   "city": "Buenos Aires",
+   "country": "Argentina",
+   "stadium": "La Bombonera",
+   "boxDate": "2026-11-13"
+  },
   "venue_src": "city"
  },
  "1647363": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T21:00:00+00:00",
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T00:00:00+00:00",
   "home_team": "Ecuador",
   "away_team": "Costa Rica",
   "tournament": "Friendly",
@@ -3801,12 +3901,18 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
+  "wiki": {
+   "city": "Quito",
+   "country": "Ecuador",
+   "stadium": "Estadio Olímpico Atahualpa",
+   "boxDate": "2026-11-13",
+   "kickoff": "2026-11-14T00:00:00+00:00"
+  },
   "venue_src": "city"
  },
  "1647364": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T21:00:00+00:00",
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T01:00:00+00:00",
   "home_team": "Peru",
   "away_team": "Bolivia",
   "tournament": "Friendly",
@@ -3886,7 +3992,7 @@
   "home_team": "China",
   "away_team": "Bahrain",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Guangzhou",
   "country": "China",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3897,7 +4003,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647369": {
   "date": "2026-11-17",
@@ -3905,7 +4011,7 @@
   "home_team": "Qatar",
   "away_team": "South Korea",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Doha",
   "country": "Qatar",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3916,11 +4022,11 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647370": {
   "date": "2026-11-17",
-  "kickoff": "2026-11-17T15:00:00+00:00",
+  "kickoff": "2026-11-17T15:30:00+00:00",
   "home_team": "Saudi Arabia",
   "away_team": "Uzbekistan",
   "tournament": "Friendly",
@@ -3938,6 +4044,7 @@
    "city": "Doha",
    "country": "Qatar",
    "stadium": "TBC",
+   "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T15:30:00+00:00"
   },
   "venue_src": "wiki"
@@ -3958,7 +4065,13 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
+  "wiki": {
+   "city": "Krasnodar",
+   "country": "Russia",
+   "stadium": "Krasnodar Stadium",
+   "boxDate": "2026-11-17",
+   "kickoff": "2026-11-17T17:00:00+00:00"
+  },
   "venue_src": "city"
  },
  "1647372": {
@@ -3967,7 +4080,7 @@
   "home_team": "Argentina",
   "away_team": "Costa Rica",
   "tournament": "Friendly",
-  "city": "Córdoba",
+  "city": "Cordoba",
   "country": "Argentina",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3980,17 +4093,18 @@
   "wiki": {
    "city": "Córdoba",
    "country": "Argentina",
-   "stadium": "Estadio Mario Alberto Kempes"
+   "stadium": "Estadio Mario Alberto Kempes",
+   "boxDate": "2026-11-17"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1647373": {
   "date": "2026-11-17",
-  "kickoff": "2026-11-17T21:00:00+00:00",
+  "kickoff": "2026-11-17T23:30:00+00:00",
   "home_team": "Ecuador",
   "away_team": "Bolivia",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Quito",
   "country": "Ecuador",
   "neutral": "FALSE",
   "venue_id": "",
@@ -4001,7 +4115,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647628": {
   "date": "2026-11-27",
@@ -4104,7 +4218,7 @@
   "home_team": "United Arab Emirates",
   "away_team": "Honduras",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Abu Dhabi",
   "country": "United Arab Emirates",
   "neutral": "FALSE",
   "venue_id": "",
@@ -4115,7 +4229,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647638": {
   "date": "2026-11-14",
@@ -4123,9 +4237,9 @@
   "home_team": "Bahrain",
   "away_team": "Yemen",
   "tournament": "Friendly",
-  "city": "",
-  "country": "Bahrain",
-  "neutral": "FALSE",
+  "city": "Guangzhou",
+  "country": "China",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1647638,
   "league": "Friendlies",
@@ -4134,7 +4248,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647641": {
   "date": "2026-11-14",
@@ -4142,9 +4256,9 @@
   "home_team": "Basque Country",
   "away_team": "Venezuela",
   "tournament": "Friendly",
-  "city": "",
-  "country": "Basque Country",
-  "neutral": "FALSE",
+  "city": "Bilbao",
+  "country": "Spain",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1647641,
   "league": "Friendlies",
@@ -4153,7 +4267,7 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
+  "venue_src": "city"
  },
  "1647643": {
   "date": "2026-11-17",
@@ -4161,11 +4275,49 @@
   "home_team": "Kuwait",
   "away_team": "Honduras",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Kuwait",
   "country": "Kuwait",
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1647643,
+  "league": "Friendlies",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1648285": {
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T13:00:00+00:00",
+  "home_team": "Palestine",
+  "away_team": "Iran",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Palestine",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1648285,
+  "league": "Friendlies",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1648287": {
+  "date": "2026-11-17",
+  "kickoff": "2026-11-17T23:30:00+00:00",
+  "home_team": "Uruguay",
+  "away_team": "Dominican Republic",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Uruguay",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1648287,
   "league": "Friendlies",
   "unmapped_tournament": "",
   "tbd": "",
@@ -4197,7 +4349,7 @@
    "country": "Aruba",
    "stadium": "Trinidad Stadium"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "wiki:men|2026-11-12|Antigua and Barbuda|Trinidad and Tobago": {
   "date": "2026-11-12",
@@ -4222,7 +4374,7 @@
    "country": "Antigua and Barbuda",
    "stadium": "Sir Vivian Richards Stadium"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "wiki:men|2026-11-13|Saint Martin|El Salvador": {
   "date": "2026-11-13",
@@ -4247,7 +4399,7 @@
    "country": "Saint Kitts and Nevis",
    "stadium": "SKNFA Technical Center"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "wiki:men|2026-11-13|Montserrat|Nicaragua": {
   "date": "2026-11-13",
@@ -4256,7 +4408,7 @@
   "away_team": "Nicaragua",
   "tournament": "CONCACAF Nations League",
   "city": "Santiago",
-  "country": "Chile",
+  "country": "Dominican Republic",
   "neutral": "TRUE",
   "venue_id": "",
   "api_id": "wiki:men|2026-11-13|Montserrat|Nicaragua",
@@ -4272,7 +4424,7 @@
    "country": "Dominican Republic",
    "stadium": "Estadio Cibao FC"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "wiki:men|2026-11-16|Martinique|Aruba": {
   "date": "2026-11-16",
@@ -4297,7 +4449,7 @@
    "country": "Martinique",
    "stadium": "Stade Pierre-Aliker"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "wiki:men|2026-11-16|Trinidad and Tobago|Antigua and Barbuda": {
   "date": "2026-11-16",
@@ -4322,7 +4474,7 @@
    "country": "Trinidad and Tobago",
    "stadium": "Hasely Crawford Stadium"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "wiki:men|2026-11-17|El Salvador|Saint Martin": {
   "date": "2026-11-17",
@@ -4347,7 +4499,7 @@
    "country": "El Salvador",
    "stadium": "Estadio Jorge \"El Mágico\" González"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "wiki:men|2026-11-17|Nicaragua|Montserrat": {
   "date": "2026-11-17",
@@ -4372,6 +4524,6 @@
    "country": "Nicaragua",
    "stadium": "Estadio Nacional"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  }
 }
