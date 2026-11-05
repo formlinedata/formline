@@ -1009,15 +1009,60 @@
    "title": "",
    "name": "Dominican Republic",
    "checked": "2026-11-03"
+  },
+  "men|Pakistan": {
+   "title": "Pakistan national football team results (2020–present)",
+   "name": "Pakistan",
+   "checked": "2026-11-05"
+  },
+  "men|India": {
+   "title": "India national football team results (2020–present)",
+   "name": "India",
+   "checked": "2026-11-05"
+  },
+  "men|Bhutan": {
+   "title": "Bhutan national football team results",
+   "name": "Bhutan",
+   "checked": "2026-11-05"
+  },
+  "men|Bangladesh": {
+   "title": "Bangladesh national football team results (2020–present)",
+   "name": "Bangladesh",
+   "checked": "2026-11-05"
+  },
+  "men|Maldives": {
+   "title": "Maldives national football team results",
+   "name": "Maldives",
+   "checked": "2026-11-05"
+  },
+  "men|Sri Lanka": {
+   "title": "Sri Lanka national football team results",
+   "name": "Sri Lanka",
+   "checked": "2026-11-05"
+  },
+  "women|Gibraltar": {
+   "title": "Gibraltar women's national football team results",
+   "name": "Gibraltar",
+   "checked": "2026-11-05"
+  },
+  "women|Denmark": {
+   "title": "Denmark women's national football team results (2020–present)",
+   "name": "Denmark",
+   "checked": "2026-11-05"
+  },
+  "women|Zambia": {
+   "title": "Zambia women's national football team results",
+   "name": "Zambia",
+   "checked": "2026-11-05"
   }
  },
  "pages": {
   "Curaçao national football team results (2020–present)": {
-   "fetched": "2026-11-03",
+   "fetched": "2026-11-05",
    "matches": []
   },
   "Jamaica national football team results (2020–present)": {
-   "fetched": "2026-11-03",
+   "fetched": "2026-11-05",
    "matches": []
   },
   "Mexico national football team results": {
@@ -1206,11 +1251,11 @@
    "matches": []
   },
   "2026–27 CONCACAF Nations League": {
-   "fetched": "2026-11-03",
+   "fetched": "2026-11-05",
    "matches": []
   },
   "2026–27 CONCACAF Nations League A": {
-   "fetched": "2026-11-03",
+   "fetched": "2026-11-05",
    "matches": [
     {
      "date": "2026-11-12",
@@ -1287,7 +1332,7 @@
    ]
   },
   "2026–27 CONCACAF Nations League B": {
-   "fetched": "2026-11-03",
+   "fetched": "2026-11-05",
    "matches": [
     {
      "date": "2026-11-12",
@@ -1436,11 +1481,11 @@
    ]
   },
   "2026–27 CONCACAF Nations League C": {
-   "fetched": "2026-11-03",
+   "fetched": "2026-11-05",
    "matches": []
   },
   "2026–27 CONCACAF Nations League Play-in": {
-   "fetched": "2026-11-03",
+   "fetched": "2026-11-05",
    "matches": [
     {
      "date": "2026-11-12",
@@ -2025,11 +2070,11 @@
    "matches": []
   },
   "Panama national football team results (2020–present)": {
-   "fetched": "2026-11-03",
+   "fetched": "2026-11-05",
    "matches": []
   },
   "Mexico national football team results (2020–present)": {
-   "fetched": "2026-11-03",
+   "fetched": "2026-11-05",
    "matches": [
     {
      "date": "2026-11-14",
@@ -3241,6 +3286,115 @@
      "kickoff": null
     }
    ]
+  },
+  "2026 SAFF Championship": {
+   "fetched": "2026-11-05",
+   "matches": [
+    {
+     "date": "2026-11-05",
+     "t1": "BHU",
+     "t2": "BAN",
+     "stadium": "National Stadium",
+     "city": "Dhaka",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-08",
+     "t1": "SRI",
+     "t2": "BHU",
+     "stadium": "National Stadium",
+     "city": "Dhaka",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-11",
+     "t1": "BAN",
+     "t2": "SRI",
+     "stadium": "National Stadium",
+     "city": "Dhaka",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-05",
+     "t1": "PAK",
+     "t2": "IND",
+     "stadium": "National Stadium",
+     "city": "Dhaka",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-08",
+     "t1": "MDV",
+     "t2": "PAK",
+     "stadium": "National Stadium",
+     "city": "Dhaka",
+     "country": "",
+     "kickoff": null
+    },
+    {
+     "date": "2026-11-11",
+     "t1": "IND",
+     "t2": "MDV",
+     "stadium": "National Stadium",
+     "city": "Dhaka",
+     "country": "",
+     "kickoff": null
+    }
+   ]
+  },
+  "2026 SAFF Club Championship": {
+   "fetched": "2026-11-05",
+   "matches": []
+  },
+  "Pakistan national football team results (2020–present)": {
+   "fetched": "2026-11-05",
+   "matches": []
+  },
+  "India national football team results (2020–present)": {
+   "fetched": "2026-11-05",
+   "matches": []
+  },
+  "Bhutan national football team results": {
+   "fetched": "2026-11-05",
+   "matches": []
+  },
+  "Bangladesh national football team results (2020–present)": {
+   "fetched": "2026-11-05",
+   "matches": [
+    {
+     "date": "2026-11-10",
+     "t1": "BAN",
+     "t2": "BHU",
+     "stadium": "National Stadium",
+     "city": "Dhaka",
+     "country": "Bangladesh",
+     "kickoff": null
+    }
+   ]
+  },
+  "Maldives national football team results": {
+   "fetched": "2026-11-05",
+   "matches": []
+  },
+  "Sri Lanka national football team results": {
+   "fetched": "2026-11-05",
+   "matches": []
+  },
+  "Gibraltar women's national football team results": {
+   "fetched": "2026-11-05",
+   "matches": []
+  },
+  "Denmark women's national football team results (2020–present)": {
+   "fetched": "2026-11-05",
+   "matches": []
+  },
+  "Zambia women's national football team results": {
+   "fetched": "2026-11-05",
+   "matches": []
   }
  },
  "comps": {
@@ -3277,6 +3431,13 @@
     "2027 FIFA Women's World Cup qualification (UEFA)"
    ],
    "checked": "2026-10-31"
+  },
+  "men|SAFF Cup|2026": {
+   "titles": [
+    "2026 SAFF Championship",
+    "2026 SAFF Club Championship"
+   ],
+   "checked": "2026-11-05"
   }
  },
  "titlesV": 2
