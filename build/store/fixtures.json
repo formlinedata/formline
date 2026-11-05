@@ -4331,30 +4331,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1648702": {
-  "date": "2026-11-05",
-  "kickoff": "2026-11-05T09:30:00+00:00",
-  "home_team": "Pakistan",
-  "away_team": "India",
-  "tournament": "SAFF Cup",
-  "city": "Dhaka",
-  "country": "Bangladesh",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1648702,
-  "league": "SAFF Championship",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Dhaka",
-   "country": "Bangladesh",
-   "stadium": "National Stadium",
-   "boxDate": "2026-11-05"
-  },
-  "venue_src": "wiki"
- },
  "1648703": {
   "date": "2026-11-05",
   "kickoff": "2026-11-05T14:00:00+00:00",
