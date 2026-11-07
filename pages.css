@@ -15,3 +15,4 @@ ul.cols{columns:3 180px;padding-left:18px}
 .rec{display:flex;justify-content:space-between;text-align:center}.rec b{display:block;font-size:30px;color:var(--chalk)}.rec span{font-size:13px;color:var(--dim)}
 h2{color:var(--chalk);font-size:22px;margin:28px 0 8px}td.yr{color:var(--amber);font-weight:700;border-top:0;padding-top:16px}
 .src{font-size:13px;color:var(--dim);border-top:1px solid var(--line);margin-top:30px;padding-top:12px}
+ul.opp{font-size:15px;line-height:1.7}
