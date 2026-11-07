@@ -64,6 +64,44 @@ export function loadModel(htmlPath){
           drawn:drawn(r.key)}))};
       })()`);
     },
+    /* Every pair of teams that has met, all time, counted the way the site's Head to head page counts them: lineages
+       (West Germany is Germany), penalty shoot-outs as wins, every competition. Call table(g) first. Pairs with fewer
+       than min meetings are left out unless listed in keep (["keyA|keyB", ...], either order). */
+    pairs(g, min, keep){
+      ctx.__g = g; ctx.__min = min; ctx.__keep = keep || [];
+      return run(`(() => {
+        const keep = new Set(__keep), ms = state.matches[__g] || [], P = new Map();
+        for (const m of ms){
+          if (m.ts > state.asOf || !includeMatch(m)) continue;
+          namesFor(m);
+          const h = m._h, a = m._a; if (!h || !a || h === a) continue;
+          const [k1, k2] = h < a ? [h, a] : [a, h], id = k1+'|'+k2;
+          let p = P.get(id); if (!p){ p = {k1, k2, list:[]}; P.set(id, p); }
+          p.list.push(m);
+        }
+        const out = [];
+        for (const p of P.values()){
+          if (p.list.length < __min && !keep.has(p.k1+'|'+p.k2) && !keep.has(p.k2+'|'+p.k1)) continue;
+          let w1 = 0, w2 = 0, d = 0, g1 = 0, g2 = 0, comp = 0;
+          const meets = p.list.map(m => {
+            const oneHome = m._h === p.k1, s1 = oneHome ? m.hs : m.as, s2 = oneHome ? m.as : m.hs;
+            const pen = shootoutWinner(m), pk = pen ? keyOfName(pen) : null;
+            const r = s1 > s2 ? 1 : s1 < s2 ? -1 : pk ? (pk === p.k1 ? 1 : -1) : 0;
+            if (r > 0) w1++; else if (r < 0) w2++; else d++;
+            g1 += s1; g2 += s2; if (m.tournament !== 'Friendly') comp++;
+            return {date:fmtDate(m.ts), home:m._hn, away:m._an, hs:m.hs, as:m.as, r, pen:!!pk, s1, s2,
+              tournament:compName(m.tournament), city:m.city, country:m.country, neutral:venueSide(m) === 0};
+          });
+          out.push({k1:p.k1, k2:p.k2, n:meets.length, w1, w2, d, g1, g2, comp, meets});
+        }
+        return out;
+      })()`);
+    },
+    /* Lineage key and display name of a team as the fixtures name it, and the site's name for a competition. Call
+       table(g) first, so the right game is set. */
+    keyOf(name){ ctx.__n = name; return run('keyOfName(__n)'); },
+    compName(t){ ctx.__n = t; return run('compName(__n)'); },
+    analytics(){ return run('SITE.analytics || ""'); },
     /* Forecasts for a list of fixtures with the site's default settings and the latest ratings. */
     forecast(g, fixtures){
       ctx.__g = g; ctx.__fx = fixtures;

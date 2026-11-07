@@ -5221,8 +5221,8 @@ const TOURNAMENTS = [
      'November and March matchdays are simulated. The top two in each group qualify for the finals in Kenya, Uganda and Tanzania. '+
      'The three hosts are already through and play their groups anyway: in groups D, H and L the host and the best of the other '+
      'three qualify, so 24 teams go through. Ties are broken by head-to-head results, as CAF does.'},
-  {id:'asian-cup-2027', name:'AFC Asian Cup 2027', short:'Asian Cup 2027', gender:'men', status:'upcoming', start:'2027-01-07',
-   where:'Saudi Arabia, 7 January to 5 February 2027', hosts:['Saudi Arabia'], rounds:1, tiebreak:'h2h', tournament:'AFC Asian Cup', end:'2027-02-05',
+  {id:'asian-cup-2027', name:'AFC Asian Cup 2027', short:'Asian Cup 2027', gender:'men', status:'upcoming', start:'2027-12-23',
+   where:'Saudi Arabia, 23 December 2027 to 21 January 2028', hosts:['Saudi Arabia'], rounds:1, tiebreak:'h2h', tournament:'AFC Asian Cup', end:'2028-01-21',
    groups:{A:['Saudi Arabia','Kuwait','Oman','Palestine'], B:['Uzbekistan','Bahrain','North Korea','Jordan'],
            C:['Iran','Syria','Kyrgyzstan','China'], D:['Australia','Tajikistan','Iraq','Singapore'],
            E:['South Korea','United Arab Emirates','Vietnam','Yemen'], F:['Japan','Qatar','Thailand','Indonesia']},
@@ -5232,7 +5232,8 @@ const TOURNAMENTS = [
      {name:'Quarter-finals', col:'Quarters', matches:[[0,2],[1,4],[7,6],[3,5]]},
      {name:'Semi-finals', col:'Semis', matches:[[0,1],[2,3]]},
      {name:'Final', col:'Final', matches:[[0,1]]}],
-   note:'Six groups of four; the top two and the four best third-placed teams reach the last 16, which third-placed teams '+
+   note:'Moved on 3 November 2026 from January 2027 to December 2027, keeping its name; the new dates still need FIFA\'s approval. '+
+     'Six groups of four; the top two and the four best third-placed teams reach the last 16, which third-placed teams '+
      'meet which group winners following the AFC\'s table. Saudi Arabia have home advantage; every other match is neutral.'},
   {id:'saff-2026', name:'SAFF Championship 2026', short:'SAFF Championship 2026', gender:'men', status:'in progress', start:'2026-11-05', end:'2026-11-17',
    where:'Dhaka, Bangladesh, 5 to 17 November 2026', hosts:['Bangladesh'], rounds:1, tiebreak:'h2h', tournament:'SAFF Cup',
@@ -7985,8 +7986,17 @@ function viewFlags(){
 const SITE = {
   mail: ['formline.info', 'gmail.com'],
   donate: [{name:'Support on Ko-fi', url:'https://ko-fi.com/formline'}],
-  social: [{name:'X', url:'https://x.com/FormlineData'}, {name:'Instagram', url:'https://www.instagram.com/formline.data/'}]   // also in the footer, near the top of the file
+  social: [{name:'X', url:'https://x.com/FormlineData'}, {name:'Instagram', url:'https://www.instagram.com/formline.data/'}],   // also in the footer, near the top of the file
+  analytics: ''   // Cloudflare Web Analytics site token (public). Empty = no visit counting. build/pages.mjs reads it for the static pages too.
 };
+/* Cookie-free visit counting (Cloudflare Web Analytics), only when a token is set. */
+function startAnalytics(){
+  if (!SITE.analytics || typeof document.createElement !== 'function') return;
+  const sc = document.createElement('script');
+  sc.defer = true; sc.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  sc.setAttribute('data-cf-beacon', JSON.stringify({token:SITE.analytics, spa:true}));
+  if (document.head && document.head.appendChild) document.head.appendChild(sc);
+}
 const contactEmail = () => SITE.mail && SITE.mail.length ? SITE.mail.join('@') : '';
 function contactLink(subject, cls){
   const e = contactEmail();
@@ -8044,7 +8054,7 @@ function viewSupport(){
   document.getElementById('app').innerHTML =
   '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
     '<h1 class="page-title">Support Formline</h1>'+
-    '<p class="page-sub">Formline is free to use, with no ads, no accounts and no tracking. It is built and kept running by one person, '+
+    '<p class="page-sub">Formline is free to use, with no ads, no accounts and no cookies. It is built and kept running by one person, '+
       'and every rating is worked out in your browser from open data.</p>'+
     '<h2 id="donate">Chip in</h2>'+
     (SITE.donate.length
@@ -8068,10 +8078,15 @@ function viewSupport(){
     '<p>The Rankings, team and tournament pages each have a <b>Download CSV</b> button: the table as you see it, with your filters, '+
       'ready for a spreadsheet. The match results themselves come from the open archives credited below, released under CC0.</p>'+
     '<h2 id="privacy">Privacy</h2>'+
-    '<p>No cookies, no analytics and no accounts. Your browser keeps three small things on your own device: your light or dark choice, '+
-      'whether you have seen the guide, and which badges it has already looked up. Nothing is sent back to Formline.</p>'+
-    '<p>The site keeps its own copies of its font, charts and images, so your browser only talks to this site. Donation links go to '+
-      'Ko-fi, where its own privacy policy applies.</p>'+
+    (SITE.analytics
+      ? '<p>No cookies and no accounts. Visits are counted with <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">Cloudflare Web Analytics</a>, '+
+        'which uses no cookies, doesn\'t fingerprint your browser and doesn\'t follow you to other sites. It only tells Formline how many people visited, '+
+        'which pages they opened, roughly which country they were in and which site sent them.</p>'
+      : '<p>No cookies, no analytics and no accounts.</p>')+
+    '<p>Your browser keeps a few small things on your own device: your light or dark choice, whether you have seen the guide, '+
+      'how you like the fixtures and head-to-head views, and which badges it has already looked up. None of it is sent anywhere.</p>'+
+    '<p>The site keeps its own copies of its font, charts and images'+(SITE.analytics ? ', so apart from the visit counter your browser only talks to this site' : ', so your browser only talks to this site')+
+      '. Donation links go to Ko-fi, where its own privacy policy applies.</p>'+
     '<h2 id="trademarks">Badges, flags and credits</h2>'+
     '<p>Association, confederation and tournament badges are the trademarks of their owners. They are shown only to identify teams '+
       'and competitions, and Formline is not affiliated with FIFA, any confederation or any association. If you own a mark and want it '+
@@ -8102,6 +8117,9 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['7 Nov 2026', ['New plain pages that search engines can read: one for every upcoming match, with Formline\'s prediction and the head-to-head record, '+
+      'and one for every pair of teams that have met at least five times, with every result between them. Team pages link to their next matches and most-played opponents.',
+    'Simulator: the Asian Cup has moved to 23 December 2027 to 21 January 2028, still called the 2027 Asian Cup. The new dates still need FIFA\'s approval.']],
   ['6 Nov 2026', ['The men\'s SAFF Cup is now shown under its official name, SAFF Championship, and the 2026 edition in Dhaka is on the Simulator, with the two results already played fixed.',
     'New page: Sources &amp; thanks, under About. It lists every source Formline uses, with its licence: the results archives, API-Football, Wikipedia, RSSSF, the formulas it is compared with, flags and badges, and the chart library, file reader and typeface. Sources are credited whether or not their licence asks for it.']],
   ['3 Nov 2026', ['Fixtures: matches are grouped by day and, within each day, by competition (or by competition and then day), with filters for the day, the competition, the region and a team. The choices stay in the link, so a filtered list can be shared. A compact list shows one line per match, with its group or round from the Simulator, and opens the full prediction in place; full cards are one click away and the choice is remembered.',
@@ -8925,6 +8943,7 @@ document.getElementById('helpBtn').addEventListener('click', () => {
   else { state.pendingTour = true; location.hash = '#/'; }
 });
 render();
+startAnalytics();
 </script>
 </body>
 </html>

@@ -370,6 +370,11 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   ok(/<title>.+ men's football rating – Formline<\/title>/.test(html) && html.includes('Open the full team page'), 'team page has a title and a link to the site');
   ok(fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8').includes('https://example.github.io/formline/teams/men/'), 'sitemap lists the pages');
   ok(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8').includes('Sitemap: https://example.github.io/formline/sitemap.xml'), 'robots.txt points to the sitemap');
+  ok(['matches/index.html', 'h2h/index.html', 'pages.css'].every(f => fs.existsSync(path.join(root, f))), 'match and head-to-head index pages and the shared stylesheet written');
+  const h2hDir = path.join(root, 'h2h', 'men'), h2hs = fs.existsSync(h2hDir) ? fs.readdirSync(h2hDir) : [];
+  ok(h2hs.every(f => /^[a-z0-9-]+-vs-[a-z0-9-]+\.html$/.test(f)) && h2hs.every(f => /head to head: (the only meeting|all \d+ results) \| Formline/.test(fs.readFileSync(path.join(h2hDir, f), 'utf8'))),
+    'head-to-head pages are named a-vs-b and titled with the meeting count');
+  ok(!html.includes('cloudflareinsights'), 'no visit counter on the static pages while no token is set');
 }
 // --- IndexNow: tell Bing which pages changed
 {
