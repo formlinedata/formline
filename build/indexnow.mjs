@@ -100,6 +100,12 @@ export async function run(root, {files, repo, fetchImpl = fetch, tries, pause, l
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)){
   if (process.env.INDEXNOW === '0'){ console.log('IndexNow: turned off (INDEXNOW=0).'); process.exit(0); }
   const list = process.env.CHANGED_FILES && fs.existsSync(process.env.CHANGED_FILES) ? fs.readFileSync(process.env.CHANGED_FILES, 'utf8').split('\n') : [];
-  try { await run(ROOT, {files:list, repo:process.env.GITHUB_REPOSITORY}); }
-  catch (e) { console.log('IndexNow: ' + e.message + ' (nothing else affected).'); }
+  // Inside GitHub Actions each line is also posted as an annotation, which shows on the run's public summary page,
+  // so the answer can be checked without signing in to read the log.
+  const gh = !!process.env.GITHUB_ACTIONS;
+  const note = (m, kind = 'notice') => { console.log(m); if (gh) console.log('::' + kind + ' title=IndexNow::' + String(m).replace(/^IndexNow: /, '').replace(/\r?\n/g, ' ')); };
+  try {
+    await run(ROOT, {files:list, repo:process.env.GITHUB_REPOSITORY, log:m => note(m, /answer (200|202)\b/.test(m) || /nothing sent/.test(m) ? 'notice' : 'warning')});
+  }
+  catch (e) { note('IndexNow: ' + e.message + ' (nothing else affected).', 'warning'); }
 }
