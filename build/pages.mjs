@@ -4,8 +4,10 @@
 //   teams/<men|women>/<slug>.html     one plain page per team: rating, band, rank, tier, last five results
 //   matches/<g>/<date>-<a>-vs-<b>.html one page per upcoming fixture (the prediction) and per scored forecast (prediction
 //                                     and result), for searches like "Italy vs France prediction"; matches/index.html lists them
-//   h2h/<g>/<a>-vs-<b>.html           every meeting of two teams, all time, for pairs with H2H_MIN or more meetings and any
-//                                     pair with a fixture coming up; h2h/index.html lists the most-played
+//   h2h/<g>/<a>-vs-<b>.html           every meeting of two teams, all time, for every pair that has met and any pair with a
+//                                     fixture coming up; h2h/index.html lists the most-played. Pairs with fewer than INDEX_MIN
+//                                     meetings are kept out of the sitemap and marked noindex (too thin for search engines),
+//                                     but every team page links to all its opponents.
 //   sitemap.xml and robots.txt        when the site's address is known
 // The match and head-to-head pages carry no "updated on" date, so a page's file only changes when its content does.
 // Each page links to the full interactive team page.   node build/pages.mjs
@@ -38,10 +40,12 @@ ul.cols{columns:3 180px;padding-left:18px}
 .rec{display:flex;justify-content:space-between;text-align:center}.rec b{display:block;font-size:30px;color:var(--chalk)}.rec span{font-size:13px;color:var(--dim)}
 h2{color:var(--chalk);font-size:22px;margin:28px 0 8px}td.yr{color:var(--amber);font-weight:700;border-top:0;padding-top:16px}
 .src{font-size:13px;color:var(--dim);border-top:1px solid var(--line);margin-top:30px;padding-top:12px}
+ul.opp{font-size:15px;line-height:1.7}
 `;
 const STYLE = '<link rel="stylesheet" href="../../pages.css">';
 const STYLE_UP = '<link rel="stylesheet" href="../pages.css">';
-const H2H_MIN = 5;                               // meetings needed for a head-to-head page without a fixture coming up
+const H2H_MIN = 1;                               // meetings needed for a head-to-head page without a fixture coming up
+const INDEX_MIN = 3;                             // meetings needed for a head-to-head page to be offered to search engines
 const MATCH_KEEP_DAYS = 120;                     // scored forecasts keep their page this long, then drop out of the sitemap
 const pct = x => Math.round(x * 100);
 const dayName = d => new Date(d + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
@@ -54,7 +58,7 @@ function head(o){
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(o.title)}</title>
 <meta name="description" content="${esc(o.desc)}">
-${o.base ? `<link rel="canonical" href="${o.base}${o.path}">` : ''}
+${o.base ? `<link rel="canonical" href="${o.base}${o.path}">` : ''}${o.noindex ? '\n<meta name="robots" content="noindex">' : ''}
 <meta property="og:title" content="${esc(o.ogTitle || o.title)}"><meta property="og:description" content="${esc(o.desc)}">
 ${o.base ? `<meta property="og:image" content="${o.base}og.png">` : ''}
 ${STYLE}${beacon(o.analytics)}</head><body><main>
@@ -86,6 +90,8 @@ ${extra.matches.length ? `<div class="box"><b>Next matches</b><table>${extra.mat
   `<tr><td class="muted">${shortDay(x.day || x.date)}</td><td><a href="../../matches/${g}/${x.slug}.html">${esc(x.home)} v ${esc(x.away)}</a> <span class="muted">· ${esc(x.comp)}</span></td></tr>`).join('')}</table></div>` : ''}
 ${extra.rivals.length ? `<div class="box"><b>Most-played opponents</b><table>${extra.rivals.map(x =>
   `<tr><td><a href="../../h2h/${g}/${x.slug}.html">${esc(r.team)} v ${esc(x.opp)}</a></td><td class="n muted">${x.n} meetings: ${x.w}–${x.d}–${x.l}</td></tr>`).join('')}</table></div>` : ''}
+${extra.all && extra.all.length > extra.rivals.length ? `<h2>Every opponent (${extra.all.length})</h2>
+<ul class="cols opp">${extra.all.map(x => `<li><a href="../../h2h/${g}/${x.slug}.html">${esc(x.opp)}</a> <span class="muted">${x.w}–${x.d}–${x.l}</span></li>`).join('')}</ul>` : ''}
 <p><a class="btn" href="${href}">Open the full team page</a></p>
 <p class="muted">Every rating, chart and prediction on <a href="../../index.html">Formline</a> is worked out from open match data. <a href="../index.html">All teams</a></p>
 </main></body></html>
@@ -126,7 +132,8 @@ function h2hPage(g, P, a, b, meta){
     n > 1 ? `${P.comp} of the ${n} meetings were competitive matches and ${n - P.comp} were friendlies.` : ''
   ].filter(Boolean).map(t => `<li>${t}</li>`).join('');
   return head({title:`${a} vs ${b} head to head: ${n === 1 ? 'the only meeting' : `all ${n} results`} | Formline`,
-      ogTitle:`${a} v ${b}: ${n === 1 ? 'one meeting' : lead}`, desc, base:meta.base, path:`h2h/${g}/${meta.slug}.html`, analytics:meta.analytics}) + `
+      ogTitle:`${a} v ${b}: ${n === 1 ? 'one meeting' : lead}`, desc, base:meta.base, path:`h2h/${g}/${meta.slug}.html`, analytics:meta.analytics,
+      noindex:n < INDEX_MIN && !meta.next}) + `
 <p class="muted" style="margin:18px 0 0">Head to head · ${GAME[g][0].toUpperCase() + GAME[g].slice(1)} national teams</p>
 <h1>${esc(a)} v ${esc(b)}</h1>
 <p>${n === 1 ? `${esc(a)} and ${esc(b)} have met once.` : `${esc(a)} and ${esc(b)} have met ${n} times since ${first.date.slice(0, 4)}: ${esc(lead)}.`}</p>
@@ -226,7 +233,7 @@ export function buildPages(root, base){
       const slug = h2hSlug(P), a = nameOf(P.k1), b = nameOf(P.k2);
       fs.writeFileSync(path.join(root, 'h2h', g, slug + '.html'), h2hPage(g, P, a, b,
         {base, slug, analytics, slugA:slugOf.get(P.k1), slugB:slugOf.get(P.k2), next:nextFor.get(P)}));
-      if (base) extraUrls.push(`${base}h2h/${g}/${slug}.html`);
+      if (base && (P.n >= INDEX_MIN || nextFor.has(P))) extraUrls.push(`${base}h2h/${g}/${slug}.html`);
       hub.h2h[g].push({a, b, slug, n:P.n});
     }
     for (const x of matches){
@@ -244,8 +251,11 @@ export function buildPages(root, base){
       const href = `../../index.html#/team/${encodeURIComponent(r.team)}${g === 'women' ? '?g=women' : ''}`;
       const extra = {
         matches:matches.filter(x => !x.result && (x.kh === r.key || x.ka === r.key)).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 4),
-        rivals:pairs.filter(P => P.k1 === r.key || P.k2 === r.key).sort((a, b) => b.n - a.n).slice(0, 8).map(P => {
-          const one = P.k1 === r.key; return {opp:nameOf(one ? P.k2 : P.k1), n:P.n, w:one ? P.w1 : P.w2, d:P.d, l:one ? P.w2 : P.w1, slug:h2hSlug(P)}; })};
+        rivals:[]};
+      const opps = pairs.filter(P => P.k1 === r.key || P.k2 === r.key).map(P => {
+        const one = P.k1 === r.key; return {opp:nameOf(one ? P.k2 : P.k1), n:P.n, w:one ? P.w1 : P.w2, d:P.d, l:one ? P.w2 : P.w1, slug:h2hSlug(P)}; });
+      extra.rivals = opps.slice().sort((a, b) => b.n - a.n || a.opp.localeCompare(b.opp)).slice(0, 8);
+      extra.all = opps.sort((a, b) => a.opp.localeCompare(b.opp));
       fs.writeFileSync(path.join(root, 'teams', g, slug + '.html'), teamPage(g, r, {asOf:t.asOf, teams:t.teams, base, analytics}, href, extra));
       out[g].push({team:r.team, slug, rank:r.rank});
     }
@@ -275,8 +285,8 @@ export function buildPages(root, base){
     .map(x => `<tr><td><a href="${g}/${x.slug}.html">${esc(x.a)} v ${esc(x.b)}</a></td><td class="n muted">${x.n} meetings</td></tr>`).join('') + '</table>';
   fs.mkdirSync(path.join(root, 'h2h'), {recursive:true});
   fs.writeFileSync(path.join(root, 'h2h', 'index.html'), hubHead('Head to head – Formline',
-    "Head-to-head records for every pair of national teams that have met at least " + H2H_MIN + " times: every result since 1872.", '../') +
-`<p>The most-played pairs. Every team page lists its own most-played opponents.</p><h2>Men</h2>${hList('men', 200)}<h2>Women</h2>${hList('women', 100)}</main></body></html>
+    "Head-to-head records for every pair of national teams that have ever met: every result since 1872.", '../') +
+`<p>The most-played pairs. Every team page lists all its opponents, each with its own head-to-head page.</p><h2>Men</h2>${hList('men', 200)}<h2>Women</h2>${hList('women', 100)}</main></body></html>
 `);
   if (base){
     const urls = [base, base + 'teams/index.html', base + 'matches/index.html', base + 'h2h/index.html',
