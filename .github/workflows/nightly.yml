@@ -62,8 +62,10 @@ jobs:
           git config user.name "formline-bot"
           git config user.email "formline-bot@users.noreply.github.com"
           git add data build/store og.png apple-touch-icon.png index.html teams badges
-          git add sitemap.xml robots.txt matches h2h sim records pages.css previews 2>/dev/null || true
-          git add vendor 2>/dev/null || true
+          # one path at a time: a single missing folder would make git add skip every path on the line
+          for p in sitemap.xml robots.txt matches h2h sim records pages.css previews vendor; do
+            if [ -e "$p" ] || git ls-files --error-unmatch "$p" >/dev/null 2>&1; then git add -A -- "$p"; fi
+          done
           if git diff --cached --quiet; then
             echo "No changes."
           else

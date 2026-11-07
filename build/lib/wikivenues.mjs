@@ -6,7 +6,7 @@ import {codeOf} from './fifacodes.mjs';
 import {normKey} from './names.mjs';
 
 const API = 'https://en.wikipedia.org/w/api.php';
-const UA = 'Formline national-team ratings (nightly venue check; formline.info@gmail.com; https://formlinedata.com/)';
+const UA = 'Formline national-team ratings (nightly venue check; hello@formlinedata.com; https://formlinedata.com/)';
 const MONTHS = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 
 /* The template at each "{{Football box" in a page, braces balanced. */
