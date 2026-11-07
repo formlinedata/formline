@@ -20,7 +20,7 @@ import {slugify} from './pages.mjs';
 
 const ROOT = process.env.FORMLINE_ROOT || path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = process.env.SOCIAL_OUT || path.join(ROOT, '_social');
-const BASE = siteBase(ROOT, process.env.GITHUB_REPOSITORY) || 'https://formlinedata.github.io/formline/';
+const BASE = siteBase(ROOT, process.env.GITHUB_REPOSITORY) || 'https://formlinedata.com/';
 const torontoDate = () => new Date().toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
 const DATE = process.env.SOCIAL_DATE || torontoDate();
 const WEEK = ['pastTournament', 'rankings', 'spotlight', 'onThisDay', 'tournament', 'rivalry', 'match'];   // Sun … Sat
@@ -110,7 +110,7 @@ h2{font-weight:800;font-stretch:112%;font-size:46px;line-height:1.1;margin-top:1
 const flagImg = (f, h) => f ? `<img class="fl" src="${esc(f.src)}" style="height:${h}px;width:${r0(h * (f.ar || 1.5))}px" alt="">` : '';
 const page = (W, H, inner, o = {}) => `<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../vendor/fonts.css"><style>:root{--W:${W}px;--H:${H}px${o.vars || ''}}${CSS}</style></head><body><div class="pg">` +
   `<div class="brand">${LOGO}Formline</div><div class="ct">${inner}</div></div>` +
-  `<div class="foot"><b>formlinedata.github.io/formline</b><span>${esc(o.right || 'Rankings updated every night')}</span></div></body></html>`;
+  `<div class="foot"><b>${esc(BASE.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</b><span>${esc(o.right || 'Rankings updated every night')}</span></div></body></html>`;
 const slide = inner => page(1080, 1350, inner);
 const wide = inner => page(1200, 675, inner, {vars:';--pt:40px;--px:60px;--fb:70px;--fbot:30px'});
 const pickBar = (p, A, B) => `<div class="pick"><div class="pa" style="flex:${p[0]}">${p[0]}%</div><div class="pd" style="flex:${p[1]}">${p[1]}%</div><div class="pb" style="flex:${p[2]}">${p[2]}%</div></div>
