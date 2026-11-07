@@ -4,6 +4,7 @@
   <url><loc>https://formlinedata.com/teams/index.html</loc></url>
   <url><loc>https://formlinedata.com/matches/index.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/index.html</loc></url>
+  <url><loc>https://formlinedata.com/records/index.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/spain.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/argentina.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/france.html</loc></url>
@@ -4673,6 +4674,21 @@
   <url><loc>https://formlinedata.com/matches/men/2026-11-18-nicaragua-vs-montserrat.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-05-pakistan-vs-india.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-05-bhutan-vs-bangladesh.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/afcon-2027-qualifiers.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/asian-cup-2027.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/saff-2026.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/nations-league-a-2026.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/nations-league-b-2026.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/nations-league-c-2026.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/nations-league-d-2026.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/concacaf-nl-a-2026.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/concacaf-nl-b-2026.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/world-cup-2022.html</loc></url>
+  <url><loc>https://formlinedata.com/records/men/biggest-upsets.html</loc></url>
+  <url><loc>https://formlinedata.com/records/men/biggest-wins.html</loc></url>
+  <url><loc>https://formlinedata.com/records/men/longest-runs.html</loc></url>
+  <url><loc>https://formlinedata.com/records/men/best-ever-teams.html</loc></url>
+  <url><loc>https://formlinedata.com/records/men/fifa-ranking-vs-formline.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/women/germany-vs-netherlands.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/women/england-vs-germany.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/women/austria-vs-netherlands.html</loc></url>
@@ -6022,4 +6038,10 @@
   <url><loc>https://formlinedata.com/matches/women/2026-12-05-norway-vs-wales.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-12-05-sweden-vs-scotland.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-12-05-france-vs-morocco.html</loc></url>
+  <url><loc>https://formlinedata.com/sim/womens-world-cup-2023.html</loc></url>
+  <url><loc>https://formlinedata.com/records/women/biggest-upsets.html</loc></url>
+  <url><loc>https://formlinedata.com/records/women/biggest-wins.html</loc></url>
+  <url><loc>https://formlinedata.com/records/women/longest-runs.html</loc></url>
+  <url><loc>https://formlinedata.com/records/women/best-ever-teams.html</loc></url>
+  <url><loc>https://formlinedata.com/records/women/fifa-ranking-vs-formline.html</loc></url>
 </urlset>
