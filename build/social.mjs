@@ -48,8 +48,7 @@ function hashtags(g, teams, comp){
 /* ---------- slide drawing ---------- */
 const LOGO = '<svg viewBox="0 0 32 32" width="48" height="48"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="rgba(246,182,56,.25)"/>' +
   '<path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="#f1f4ec" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="#f6b638"/></svg>';
-const CSS = `@import url('../vendor/fonts.css');
-*{box-sizing:border-box;margin:0;padding:0}
+const CSS = `*{box-sizing:border-box;margin:0;padding:0}
 html,body{width:var(--W);height:var(--H);overflow:hidden}
 body{background:#0e2117;color:#f1f4ec;font-family:Archivo,system-ui,sans-serif;position:relative;font-variant-numeric:tabular-nums}
 .pg{position:absolute;inset:0;padding:var(--pt,64px) var(--px,92px) 0;display:flex;flex-direction:column}
@@ -85,9 +84,11 @@ h2{font-weight:800;font-stretch:112%;font-size:46px;line-height:1.1;margin-top:1
 .W{background:#5fcf8a}.D{background:#a7bba9}.L{background:#f08a7a}
 .facts{font-size:28px;line-height:1.5;color:#d9e2da}.facts li{margin:0 0 14px 28px}.facts b{color:#f1f4ec}
 .big{font-size:150px;font-weight:800;font-stretch:112%;color:#f6b638;line-height:1}
-.note{font-size:20px;color:#89a291;margin-top:18px}`;
+.note{font-size:20px;color:#89a291;margin-top:18px}
+.sub{display:block;font-size:21px;font-weight:500;color:#a7bba9;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row>span{min-width:0}`;
 const flagImg = (f, h) => f ? `<img class="fl" src="${esc(f.src)}" style="height:${h}px;width:${r0(h * (f.ar || 1.5))}px" alt="">` : '';
-const page = (W, H, inner, o = {}) => `<!doctype html><html><head><meta charset="utf-8"><style>:root{--W:${W}px;--H:${H}px${o.vars || ''}}${CSS}</style></head><body><div class="pg">` +
+const page = (W, H, inner, o = {}) => `<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../vendor/fonts.css"><style>:root{--W:${W}px;--H:${H}px${o.vars || ''}}${CSS}</style></head><body><div class="pg">` +
   `<div class="brand">${LOGO}Formline</div><div class="ct">${inner}</div></div>` +
   `<div class="foot"><b>formlinedata.github.io/formline</b><span>${esc(o.right || 'Rankings updated every night')}</span></div></body></html>`;
 const slide = inner => page(1080, 1350, inner);
@@ -111,7 +112,7 @@ const BUILD = {
 <div class="box"><div class="lab">Formline's chances</div>${pickBar(d.pr.p, A, B)}<div class="body" style="margin-top:18px">Most likely score <b>${esc(d.pr.likely)}</b>${venue(d) ? ' · ' + esc(venue(d)) : ''}</div></div>`);
     const s2 = slide(`<div class="kick">Head to head · ${GAME[d.g]}</div><h2>${esc(A)} v ${esc(B)}</h2>
 ${h.n ? `<div class="box">${recBlock(A, B, h.w, h.d, h.l, h.n)}<div class="body dim" style="font-size:24px">${h.n} meeting${h.n === 1 ? '' : 's'} · goals ${h.gf}–${h.ga}</div></div>
-<div class="lab" style="margin-top:34px">Last meetings</div>${h.last.map(m => `<div class="row"><span class="dim" style="font-size:24px">${m.year}</span><span>${esc(m.home)} ${m.hs}–${m.as} ${esc(m.away)}</span><span class="dim" style="font-size:22px">${esc(m.comp.replace(/qualification/, 'qual.'))}</span></div>`).join('')}`
+<div class="lab" style="margin-top:34px">Last meetings</div>${h.last.map(m => `<div class="row" style="grid-template-columns:auto 1fr"><span class="dim" style="font-size:24px">${m.year}</span><span>${esc(m.home)} ${m.hs}–${m.as} ${esc(m.away)}<span class="sub">${esc(m.comp)}</span></span></div>`).join('')}`
   : `<p class="body" style="margin-top:30px">This will be the first meeting on record between ${esc(A)} and ${esc(B)}.</p>`}`);
     const x = wide(`<div class="kick" style="font-size:20px">${esc(d.comp)} · ${esc(d.day)}</div>
 <div class="match" style="margin-top:18px"><div class="side" style="font-size:34px;gap:10px">${flagImg(d.home.flag, 72)}${esc(A)}</div><div class="vs">v</div><div class="side" style="font-size:34px;gap:10px">${flagImg(d.away.flag, 72)}${esc(B)}</div></div>
@@ -130,7 +131,7 @@ ${h.n ? `<div class="box">${recBlock(A, B, h.w, h.d, h.l, h.n)}<div class="body 
 <div><div class="lab">Rank</div><div class="big" style="color:#f1f4ec">${T.rank ? ord(T.rank) : '–'}</div></div></div>
 <p class="body" style="margin-top:26px">${T.rank ? `${ord(T.rank)} of ${T.ranked} ranked teams` : 'Not ranked yet'}${T.conf ? ' · ' + esc(T.conf) : ''}${chg ? '<br>' + esc(chg) : ''}</p>`);
     const s2 = slide(`<div class="kick">${esc(t)} · form and rivals</div>
-<div class="lab" style="margin-top:30px">Last five results</div>${d.last5.map(m => `<div class="row"><span class="chip ${m.r}">${m.r}</span><span>v ${esc(m.opp)} <span class="dim" style="font-size:22px">· ${esc(m.comp.replace(/qualification/, 'qual.'))}</span></span><span>${m.gf}–${m.ga}</span></div>`).join('')}
+<div class="lab" style="margin-top:30px">Last five results</div>${d.last5.map(m => `<div class="row"><span class="chip ${m.r}">${m.r}</span><span>v ${esc(m.opp)}<span class="sub">${esc(m.comp)}</span></span><span>${m.gf}–${m.ga}</span></div>`).join('')}
 ${d.rival ? `<div class="box"><div class="lab">Most-played opponent: ${esc(d.rival.opp)}</div><div class="body">${d.rival.n} meetings: ${esc(t)} won <b>${d.rival.w}</b>, drew ${d.rival.d}, lost ${d.rival.l}</div></div>` : ''}
 ${d.next && d.next.pr ? `<div class="box" style="margin-top:20px"><div class="lab">Next: ${esc(d.next.home)} v ${esc(d.next.away)}, ${esc(d.next.day)}</div>${pickBar(d.next.pr.p, d.next.home, d.next.away)}</div>` : ''}`);
     const x = wide(`<div style="display:flex;gap:40px;align-items:center;margin-top:10px">${flagImg(T.flag, 130)}<div><div class="kick" style="font-size:20px">Team spotlight · ${GAME[d.g]}</div><h1 style="font-size:64px">${esc(t)}</h1></div></div>
