@@ -118,7 +118,10 @@ ${h.n ? `<div class="box">${recBlock(A, B, h.w, h.d, h.l, h.n)}<div class="body 
 <div class="match" style="margin-top:18px"><div class="side" style="font-size:34px;gap:10px">${flagImg(d.home.flag, 72)}${esc(A)}</div><div class="vs">v</div><div class="side" style="font-size:34px;gap:10px">${flagImg(d.away.flag, 72)}${esc(B)}</div></div>
 <div style="margin-top:22px">${pickBar(d.pr.p, A, B)}</div>`);
     const h2hTxt = h.n ? `All-time: ${A} ${h.w} win${h.w === 1 ? '' : 's'}, ${h.d} draw${h.d === 1 ? '' : 's'}, ${B} ${h.l} win${h.l === 1 ? '' : 's'} (${h.n} meetings).` : `It will be their first meeting on record.`;
-    return {title:`${A} v ${B} preview`, slides:[s1, s2], x,
+    const alts = [`${d.comp}, ${d.day}: ${A}${d.home.rank ? ` (ranked ${ord(d.home.rank)})` : ''} v ${B}${d.away.rank ? ` (ranked ${ord(d.away.rank)})` : ''}${venue(d) ? `, in ${venue(d)}` : ''}. Formline's chances: ${A} win ${d.pr.p[0]}%, draw ${d.pr.p[1]}%, ${B} win ${d.pr.p[2]}%. Most likely score ${d.pr.likely}.`,
+      h.n ? `Head to head, ${A} v ${B} (${GAME[d.g].toLowerCase()}): ${h.n} meetings, ${A} ${h.w} wins, ${h.d} draws, ${B} ${h.l} wins, goals ${h.gf}–${h.ga}. Last meetings: ${h.last.map(m => `${m.year}, ${m.home} ${m.hs}–${m.as} ${m.away} (${m.comp})`).join('; ')}.`
+        : `Head to head, ${A} v ${B}: this will be their first meeting on record.`];
+    return {title:`${A} v ${B} preview`, slides:[s1, s2], x, alts,
       caption:`${A} v ${B} · ${d.comp}, ${d.day}.\n\n${fav}. Formline's chances: ${A} ${d.pr.p[0]}%, draw ${d.pr.p[1]}%, ${B} ${d.pr.p[2]}%. Most likely score ${d.pr.likely}.\n\n${h2hTxt}\n\nWho are you backing? Every upcoming match has a preview on Formline (link in bio).\n\n${hashtags(d.g, [A, B], d.comp)}`,
       xText:`${A} v ${B}, ${d.day}\n\n${A} ${d.pr.p[0]}% · Draw ${d.pr.p[1]}% · ${B} ${d.pr.p[2]}%\nMost likely: ${d.pr.likely}\n${h.n ? `Head to head: ${h.w}–${h.d}–${h.l}` : 'First meeting on record'}\n\n${url}`};
   },
@@ -138,7 +141,9 @@ ${d.next && d.next.pr ? `<div class="box" style="margin-top:20px"><div class="la
 <div style="display:flex;gap:50px;margin-top:30px;align-items:flex-end"><div><div class="lab">Rating</div><div class="big" style="font-size:96px">${T.rating}</div></div><div><div class="lab">Rank</div><div class="big" style="font-size:96px;color:#f1f4ec">${T.rank ? ord(T.rank) : '–'}</div></div>
 <div><div class="lab">Last five</div><div style="display:flex;gap:8px">${d.last5.map(m => `<span class="chip ${m.r}">${m.r}</span>`).join('')}</div></div></div>`);
     const form = d.last5.map(m => m.r).join('');
-    return {title:`${t} spotlight`, slides:[s1, s2], x,
+    const alts = [`Team spotlight: ${t} (${GAME[d.g].toLowerCase()}). Rating ${T.rating}${T.rank ? `, ranked ${ord(T.rank)} of ${T.ranked}` : ', not ranked yet'}${T.conf ? `, ${T.conf}` : ''}.${chg ? ' ' + chg + '.' : ''}`,
+      `${t}'s last five results: ${d.last5.map(m => `${{W:'won', D:'drew', L:'lost'}[m.r]} ${m.gf}–${m.ga} v ${m.opp} (${m.comp})`).join('; ')}.${d.rival ? ` Most-played opponent: ${d.rival.opp}, ${d.rival.n} meetings, ${d.rival.w} wins, ${d.rival.d} draws, ${d.rival.l} defeats.` : ''}${d.next && d.next.pr ? ` Next: ${d.next.home} v ${d.next.away}, ${d.next.day}; chances ${d.next.home} ${d.next.pr.p[0]}%, draw ${d.next.pr.p[1]}%, ${d.next.away} ${d.next.pr.p[2]}%.` : ''}`];
+    return {title:`${t} spotlight`, slides:[s1, s2], x, alts,
       caption:`Team spotlight: ${t} (${GAME[d.g].toLowerCase()}).\n\nRated ${T.rating}${T.rank ? `, ${ord(T.rank)} of ${T.ranked}` : ''}${chg ? `. ${chg}` : ''}. Last five: ${form}.${d.rival ? `\n\nMost-played opponent: ${d.rival.opp}, ${d.rival.n} meetings (${d.rival.w} wins, ${d.rival.d} draws, ${d.rival.l} defeats).` : ''}${d.next && d.next.pr ? `\n\nNext up: ${d.next.home} v ${d.next.away}, ${d.next.day}.` : ''}\n\nEvery team has its own page on Formline (link in bio).\n\n${hashtags(d.g, [t], d.next ? d.next.comp : null)}`,
       xText:`Team spotlight: ${t}\n\nRating ${T.rating}${T.rank ? ` · ${ord(T.rank)} of ${T.ranked}` : ''}\nLast five: ${form}${d.rival ? `\nv ${d.rival.opp}: ${d.rival.w}–${d.rival.d}–${d.rival.l} in ${d.rival.n} meetings` : ''}\n\n${url}`};
   },
@@ -157,7 +162,9 @@ ${d.h2h.n > 1 ? `<div class="box"><div class="lab">All-time between them</div>${
     const x = wide(`<div class="kick" style="font-size:20px">On this day, ${d.year} · ${esc(what)}</div>
 <div class="match" style="margin-top:20px"><div class="side" style="font-size:34px;gap:10px">${flagImg(d.home.flag, 80)}${esc(H)}</div><div class="score" style="font-size:96px">${d.hs}–${d.as}</div><div class="side" style="font-size:34px;gap:10px">${flagImg(d.away.flag, 80)}${esc(A)}</div></div>
 ${wp != null && wp < 35 ? `<p class="body" style="text-align:center;margin-top:18px">${esc(winner)} had a ${wp}% chance going in</p>` : ''}`);
-    return {title:`On this day: ${H} ${d.hs}–${d.as} ${A}`, slides:[s1, s2], x,
+    const alts = [`On this day ${d.yearsAgo} years ago, ${what}: ${H} ${d.hs}–${d.as} ${A}, ${shortDay(d.date)}${venue(d) ? `, in ${venue(d)}` : ''}.${d.pen ? ` ${d.pen} won on penalties.` : ''}`,
+      `${H} v ${A}, ${d.year}.${d.p ? ` Chances before kick-off, from the ratings at the time: ${H} ${d.p[0]}%, draw ${d.p[1]}%, ${A} ${d.p[2]}%.` : ''}${d.h2h.n > 1 ? ` All-time between them: ${d.home.modern} ${d.h2h.w} wins, ${d.h2h.d} draws, ${d.away.modern} ${d.h2h.l} wins, ${d.h2h.n} meetings.` : ''}`];
+    return {title:`On this day: ${H} ${d.hs}–${d.as} ${A}`, slides:[s1, s2], x, alts,
       caption:`On this day in ${d.year}: ${H} ${d.hs}–${d.as} ${A}${d.pen ? ` (${d.pen} won on penalties)` : ''}, ${what}${d.city ? `, in ${d.city}` : ''}.${wp != null && wp < 35 ? `\n\nGoing by the ratings at the time, ${winner} had just a ${wp}% chance of winning.` : ''}${d.h2h.n > 1 ? `\n\nAll-time: ${d.home.modern} ${d.h2h.w} wins, ${d.h2h.d} draws, ${d.away.modern} ${d.h2h.l} wins.` : ''}\n\nDo you remember this one?\n\n${hashtags(d.g, [d.home.modern, d.away.modern], d.comp)} #OnThisDay #FootballHistory`,
       xText:`On this day in ${d.year}: ${H} ${d.hs}–${d.as} ${A}\n${what}${wp != null && wp < 35 ? `\n\n${winner} had a ${wp}% chance going in.` : ''}\n\n${BASE}`};
   },
@@ -175,7 +182,9 @@ ${d.next && d.next.pr ? `<div class="box"><div class="lab">Next: ${esc(d.next.ho
     const x = wide(`<div class="kick" style="font-size:20px">Rivalry · ${d.n} meetings</div>
 <div class="match" style="margin-top:14px"><div class="side" style="font-size:34px;gap:10px">${flagImg(d.a.flag, 72)}${esc(A)}</div><div class="vs">v</div><div class="side" style="font-size:34px;gap:10px">${flagImg(d.b.flag, 72)}${esc(B)}</div></div>
 <div style="margin-top:14px">${recBlock(A, B, d.w, d.d, d.l, d.n).replace(/font-size:96px/g, '')}</div>`.replace('class="rec"', 'class="rec" style="--x:1"'));
-    return {title:`${A} v ${B} rivalry`, slides:[s1, s2], x,
+    const alts = [`Rivalry, ${A} v ${B} (${GAME[d.g].toLowerCase()}), ${d.n} meetings: ${A} ${d.w} wins, ${d.d} draws, ${B} ${d.l} wins. Goals ${d.gf}–${d.ga}. Penalty shoot-outs count as wins.`,
+      `${A} v ${B}: ${lead}. First meeting on record: ${d.first.home} ${d.first.hs}–${d.first.as} ${d.first.away}, ${d.first.year}.${d.bigA ? ` ${A}'s biggest win: ${d.bigA.home} ${d.bigA.hs}–${d.bigA.as} ${d.bigA.away}, ${d.bigA.year}.` : ''}${d.bigB ? ` ${B}'s biggest win: ${d.bigB.home} ${d.bigB.hs}–${d.bigB.as} ${d.bigB.away}, ${d.bigB.year}.` : ''} Most recent: ${d.last.home} ${d.last.hs}–${d.last.as} ${d.last.away}, ${d.last.year}.${d.next && d.next.pr ? ` Next: ${d.next.home} v ${d.next.away}, ${d.next.day}; chances ${d.next.home} ${d.next.pr.p[0]}%, draw ${d.next.pr.p[1]}%, ${d.next.away} ${d.next.pr.p[2]}%.` : ''}`];
+    return {title:`${A} v ${B} rivalry`, slides:[s1, s2], x, alts,
       caption:`${A} v ${B}: ${d.n} meetings since ${d.first.year}. ${lead}, with ${d.d} draws.\n\nFirst meeting on record: ${d.first.home} ${d.first.hs}–${d.first.as} ${d.first.away} (${d.first.year}).${d.bigA ? ` ${A}'s biggest win: ${d.bigA.hs}–${d.bigA.as} in ${d.bigA.year}.` : ''}${d.bigB ? ` ${B}'s: ${d.bigB.hs}–${d.bigB.as} in ${d.bigB.year}.` : ''}${d.next && d.next.pr ? `\n\nThey meet again ${d.next.day}: ${d.next.home} ${d.next.pr.p[0]}%, draw ${d.next.pr.p[1]}%, ${d.next.away} ${d.next.pr.p[2]}%.` : ''}\n\nEvery result between them is on Formline (link in bio).\n\n${hashtags(d.g, [A, B], d.next ? d.next.comp : null)}`,
       xText:`${A} v ${B}: ${d.n} meetings since ${d.first.year}\n\n${A} ${d.w} · Draws ${d.d} · ${B} ${d.l}\n${lead}\n\nEvery result: ${url}`};
   },
@@ -188,7 +197,8 @@ ${rows.map(r => `<div class="row" style="grid-template-columns:1fr 150px 150px">
     const x = wide(`<div class="kick" style="font-size:20px">Simulator · ${esc(d.short)}</div><h2 style="font-size:40px">Who wins it?</h2>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;margin-top:16px">${rows.slice(0, 6).map(r => `<div class="row" style="font-size:26px;padding:10px 0">${flagImg(r.flag, 30)}<span>${esc(r.team)}</span><span class="v">${pctTxt(r.win)}%</span></div>`).join('')}</div>`);
     const lines = rows.slice(0, 5).map(r => `${r.team} ${pctTxt(r.win)}%`).join('\n');
-    return {title:`${d.short}: who wins it?`, slides:[s1], x,
+    const alts = [`Formline Simulator, 10,000 runs of ${d.name}${d.where ? ` (${d.where})` : ''}. Chance of reaching the ${d.firstKo.toLowerCase()} and of winning: ${rows.map(r => `${r.team} ${pctTxt(r.ko)}% and ${pctTxt(r.win)}%`).join('; ')}.`];
+    return {title:`${d.short}: who wins it?`, slides:[s1], x, alts,
       caption:`${d.name}: who wins it?\n\nFormline's Simulator played it out 10,000 times. Chances of winning:\n${lines}\n\nPlay with the results yourself on Formline's Simulator (link in bio).\n\n${hashtags(d.g, rows.slice(0, 3).map(r => r.team), d.name.replace(/ \d{4}.*$/, ''))}`,
       xText:`${d.short}: who wins it? 10,000 simulations:\n\n${rows.slice(0, 4).map(r => `${r.team} ${pctTxt(r.win)}%`).join('\n')}\n\n${BASE}#/simulate`};
   },
@@ -204,7 +214,9 @@ ${d.upset ? `<div class="box"><div class="lab">Biggest upset of the tournament</
 <p class="body dim" style="font-size:24px;margin-top:26px">${d.teams} teams took part.</p>`);
     const x = wide(`<div style="display:flex;gap:40px;align-items:center;margin-top:16px">${flagImg(d.champ.flag, 120)}<div><div class="kick" style="font-size:20px">${esc(title)}</div><h1 style="font-size:60px">${esc(d.champ.name)}</h1><div class="body">Champions</div></div></div>
 <div class="body" style="margin-top:26px">Final: <b>${esc(f.home)} ${f.hs}–${f.as} ${esc(f.away)}</b>${f.pen ? ` (${esc(f.pen)} on pens)` : ''}${d.upset ? `<br>Biggest upset: ${esc(d.upset.winner)}, ${d.upset.wp}% going in` : ''}</div>`);
-    return {title:`${title}: ${d.champ.name}`, slides:[s1, s2], x,
+    const alts = [`From the archive, ${title}: ${d.champ.name} were champions. The final${f.city ? `, in ${f.city}` : ''}: ${f.home} ${f.hs}–${f.as} ${f.away}.${f.pen ? ` ${f.pen} won on penalties.` : ''}`,
+      `How ${d.champ.name} won the ${title}${d.host ? `, in ${d.host}` : ''}: won ${d.record.w}, drew ${d.record.d}, lost ${d.record.l}, goals ${d.record.gf}–${d.record.ga}.${d.upset ? ` Biggest upset of the tournament: ${d.upset.home} ${d.upset.hs}–${d.upset.as} ${d.upset.away}; ${d.upset.winner} had a ${d.upset.wp}% chance going in.` : ''} ${d.teams} teams took part.`];
+    return {title:`${title}: ${d.champ.name}`, slides:[s1, s2], x, alts,
       caption:`${title}: ${d.champ.name} were champions${d.host ? `, in ${d.host}` : ''}.\n\nThe final: ${f.home} ${f.hs}–${f.as} ${f.away}${f.pen ? ` (${f.pen} won on penalties)` : ''}. ${d.champ.name}'s record: won ${d.record.w}, drew ${d.record.d}, lost ${d.record.l}.${d.upset ? `\n\nBiggest upset: ${d.upset.home} ${d.upset.hs}–${d.upset.as} ${d.upset.away}. ${d.upset.winner} had a ${d.upset.wp}% chance going in.` : ''}\n\nEvery edition of every tournament is on Formline (link in bio).\n\n${hashtags(d.g, [d.champ.name], d.tournament)} #FootballHistory`,
       xText:`${title}: ${d.champ.name} were champions\n\nFinal: ${f.home} ${f.hs}–${f.as} ${f.away}${f.pen ? ` (${f.pen} on pens)` : ''}${d.upset ? `\nBiggest upset: ${d.upset.winner}, ${d.upset.wp}% going in` : ''}\n\n${BASE}`};
   },
@@ -218,7 +230,9 @@ ${d.top.map(r => `<div class="row" style="padding:12px 0"><span class="n">${r.ra
 ${d.down.length ? `<div class="lab" style="margin-top:34px">Biggest fallers</div>${mv(d.down, false)}` : ''}`);
     const x = wide(`<div class="kick" style="font-size:20px">${G} rankings · ${esc(d.asOf)}</div><h2 style="font-size:40px">The top ten</h2>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;margin-top:12px">${d.top.map(r => `<div class="row" style="font-size:24px;padding:7px 0"><span class="n" style="font-size:20px">${r.rank}</span><span style="display:flex;align-items:center;gap:12px">${flagImg(r.flag, 26)}${esc(r.team)}</span><span class="v">${r.rating}</span></div>`).join('')}</div>`);
-    return {title:`${G} top ten`, slides:[s1, s2], x,
+    const alts = [`Formline ${G.toLowerCase()} rankings, ${d.asOf}, top ten with ratings: ${d.top.map(r => `${r.rank} ${r.team} ${r.rating}`).join(', ')}.`,
+      `${G} rankings, the last 30 days. Biggest risers in the top 60: ${d.up.map(r => `${r.team} up ${r.d}`).join(', ')}.${d.down.length ? ` Biggest fallers: ${d.down.map(r => `${r.team} down ${-r.d}`).join(', ')}.` : ''}`];
+    return {title:`${G} top ten`, slides:[s1, s2], x, alts,
       caption:`${G} national-team rankings, ${d.asOf}.\n\n${d.top.map(r => `${r.rank}. ${r.team} ${r.rating}`).join('\n')}\n\n${d.up.length ? `Biggest riser this month: ${d.up[0].team} (+${d.up[0].d}).` : ''}${d.down.length ? ` Biggest faller: ${d.down[0].team} (−${-d.down[0].d}).` : ''}\n\nWhere's your team? Every team is ranked on Formline (link in bio).\n\n${hashtags(d.g, d.top.slice(0, 3).map(r => r.team), null)} #FootballRankings`,
       xText:`${G} top 10, ${d.asOf}\n\n${d.top.slice(0, 10).map(r => `${r.rank}. ${r.team}`).join('\n')}\n\n${BASE}`};
   }
@@ -276,7 +290,11 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     await shoot(post.x, 1200, 675, 'x.png', false);
     fs.writeFileSync(path.join(dir, 'caption.txt'), post.caption + '\n');
     fs.writeFileSync(path.join(dir, 'x.txt'), post.xText + '\n');
-    const meta = {date, type:data.type, id:data.id, g:data.g, title:post.title, slides:files, x:'x.png', caption:post.caption, xText:post.xText};
+    /* "1 wins" → "1 win" everywhere the counts are filled in. */
+    const one = t => String(t).replace(/(^|[^\d.,])1 (win|draw|defeat|meeting|goal)s\b/g, '$11 $2');
+    post.caption = one(post.caption); post.xText = one(post.xText);
+    const alts = (post.alts || []).map(a => one(a).replace(/\s+/g, ' ').trim().slice(0, 1000));
+    const meta = {date, type:data.type, id:data.id, g:data.g, title:post.title, slides:files, alts, x:'x.png', caption:post.caption, xText:post.xText};
     fs.writeFileSync(path.join(dir, 'post.json'), JSON.stringify(meta, null, 1) + '\n');
     return meta;
   } finally {

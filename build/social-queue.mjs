@@ -25,7 +25,7 @@ const body = `**Today's post goes out on Bluesky and Instagram at about 6 pm Tor
 
 ${meta.slides.map(f => `<img src="${raw(f)}" width="260">`).join(' ')}
 
-**Instagram caption**
+${(meta.alts || []).length ? `<details><summary>Alt text for each image (added automatically on Bluesky and Instagram)</summary>\n\n${meta.alts.map((a, i) => `${i + 1}. ${a}`).join('\n\n')}\n</details>\n\n` : ''}**Instagram caption**
 \`\`\`text
 ${meta.caption}
 \`\`\`

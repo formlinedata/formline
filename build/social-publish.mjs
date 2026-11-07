@@ -119,18 +119,25 @@ async function postInstagram(meta){
     }
     throw new Error(`container ${id} never finished`);
   }
+  /* Each image carries its own alt text. If this API version doesn't know alt_text, the post goes out without it. */
+  let useAlt = true;
+  const media = async (params, i) => {
+    const alt = useAlt && meta.alts && meta.alts[i];
+    try { return (await ig(`/${IG_USER_ID}/media`, alt ? {...params, alt_text:alt} : params)).id; }
+    catch(e){ if (alt && /alt_text/i.test(e.message)){ useAlt = false; return (await ig(`/${IG_USER_ID}/media`, params)).id; } throw e; }
+  };
   let creation;
   if (meta.slides.length === 1){
-    creation = (await ig(`/${IG_USER_ID}/media`, {image_url:base + meta.slides[0], caption:meta.caption})).id;
+    creation = await media({image_url:base + meta.slides[0], caption:meta.caption}, 0);
   } else {
     const kids = [];
-    for (const f of meta.slides) kids.push((await ig(`/${IG_USER_ID}/media`, {image_url:base + f, is_carousel_item:'true'})).id);
+    for (const [i, f] of meta.slides.entries()) kids.push(await media({image_url:base + f, is_carousel_item:'true'}, i));
     for (const k of kids) await ready(k);
     creation = (await ig(`/${IG_USER_ID}/media`, {media_type:'CAROUSEL', children:kids.join(','), caption:meta.caption})).id;
   }
   await ready(creation);
-  const media = await ig(`/${IG_USER_ID}/media_publish`, {creation_id:creation});
-  try { return (await ig(`/${media.id}`, {fields:'permalink'}, 'GET')).permalink || ''; } catch(e){ return ''; }
+  const pub = await ig(`/${IG_USER_ID}/media_publish`, {creation_id:creation});
+  try { return (await ig(`/${pub.id}`, {fields:'permalink'}, 'GET')).permalink || ''; } catch(e){ return ''; }
 }
 
 async function postBluesky(meta){
@@ -145,11 +152,11 @@ async function postBluesky(meta){
   const session = await call('com.atproto.server.createSession', {identifier:BSKY_HANDLE, password:BSKY_APP_PASSWORD});
   const alt = meta.caption.split('\n\n').slice(0, 2).join(' ').slice(0, 900);
   const images = [];
-  for (const f of meta.slides.slice(0, 4)){
+  for (const [i, f] of meta.slides.slice(0, 4).entries()){
     const bytes = Buffer.from(await (await fetch(base + f)).arrayBuffer());
     if (bytes.length > 976000) throw new Error(`${f} is larger than Bluesky's 976 KB image limit`);
     const up = await call('com.atproto.repo.uploadBlob', bytes, session.accessJwt, 'image/jpeg');
-    images.push({image:up.blob, alt:`${meta.title}. ${alt}`.slice(0, 1000), aspectRatio:{width:1080, height:1350}});
+    images.push({image:up.blob, alt:((meta.alts && meta.alts[i]) || `${meta.title}. ${alt}`).slice(0, 1000), aspectRatio:{width:1080, height:1350}});
   }
   const {text, facets} = bskyText(meta.xText);
   const rec = await call('com.atproto.repo.createRecord', {repo:session.did, collection:'app.bsky.feed.post',
