@@ -17,12 +17,13 @@
 <meta property="og:image:height" content="630">
 <link rel="me" href="https://x.com/FormlineData">
 <link rel="me" href="https://www.instagram.com/formline.data/">
+<link rel="me" href="https://bsky.app/profile/formlinedata.bsky.social">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://formlinedata.github.io/formline/#org","name":"Formline","url":"https://formlinedata.github.io/formline/",
   "logo":"https://formlinedata.github.io/formline/apple-touch-icon.png","email":"formline.info@gmail.com",
   "description":"Independent ratings and predictions for every men's and women's national football team, updated every night.",
-  "sameAs":["https://x.com/FormlineData","https://www.instagram.com/formline.data/","https://ko-fi.com/formline","https://github.com/formlinedata/formline"]},
+  "sameAs":["https://x.com/FormlineData","https://www.instagram.com/formline.data/","https://bsky.app/profile/formlinedata.bsky.social","https://ko-fi.com/formline","https://github.com/formlinedata/formline"]},
  {"@type":"WebSite","@id":"https://formlinedata.github.io/formline/#site","name":"Formline","alternateName":"Formline – national-team football ratings",
   "url":"https://formlinedata.github.io/formline/","inLanguage":"en","publisher":{"@id":"https://formlinedata.github.io/formline/#org"}}
 ]}
@@ -1051,7 +1052,7 @@
     <div>
       <div class="fbrand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="var(--amber-band)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="var(--amber)"/></svg>Formline</div>
       <div class="flinks"><a href="#/method">How it works</a><a href="#/about">About</a><a href="#/flags">Flags &amp; names</a><a href="#/sources">Sources &amp; thanks</a><a href="#/record">Forecast record</a><a href="#/changes">What's new</a><a href="#/support">Support Formline</a><a href="#/contact">Contact</a></div>
-      <div class="flinks fsocial"><span>Follow</span><a href="https://x.com/FormlineData" target="_blank" rel="noopener">X</a><a href="https://www.instagram.com/formline.data/" target="_blank" rel="noopener">Instagram</a></div>
+      <div class="flinks fsocial"><span>Follow</span><a href="https://x.com/FormlineData" target="_blank" rel="noopener">X</a><a href="https://www.instagram.com/formline.data/" target="_blank" rel="noopener">Instagram</a><a href="https://bsky.app/profile/formlinedata.bsky.social" target="_blank" rel="noopener">Bluesky</a></div>
     </div>
     <div>
       <p>Ratings are computed in your browser from open match data maintained by Mart J&uuml;risoo
@@ -7986,7 +7987,7 @@ function viewFlags(){
 const SITE = {
   mail: ['formline.info', 'gmail.com'],
   donate: [{name:'Support on Ko-fi', url:'https://ko-fi.com/formline'}],
-  social: [{name:'X', url:'https://x.com/FormlineData'}, {name:'Instagram', url:'https://www.instagram.com/formline.data/'}],   // also in the footer, near the top of the file
+  social: [{name:'X', url:'https://x.com/FormlineData'}, {name:'Instagram', url:'https://www.instagram.com/formline.data/'}, {name:'Bluesky', url:'https://bsky.app/profile/formlinedata.bsky.social'}],   // also in the footer, near the top of the file
   analytics: 'd4326ea5c7414a82b393b885e0cfb960'   // Cloudflare Web Analytics site token (public). Empty = no visit counting. build/pages.mjs reads it for the static pages too.
 };
 /* Cookie-free visit counting (Cloudflare Web Analytics), only when a token is set. */
@@ -8117,7 +8118,8 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
-  ['7 Nov 2026', ['New plain pages that search engines can read: one for every upcoming match, with Formline\'s prediction and the head-to-head record, '+
+  ['7 Nov 2026', ['Formline is on Bluesky: @formlinedata.bsky.social. The daily post goes there too.',
+    'New plain pages that search engines can read: one for every upcoming match, with Formline\'s prediction and the head-to-head record, '+
       'and one for every pair of teams that have met at least five times, with every result between them. Team pages link to their next matches and most-played opponents.',
     'Simulator: the Asian Cup has moved to 23 December 2027 to 21 January 2028, still called the 2027 Asian Cup. The new dates still need FIFA\'s approval.']],
   ['6 Nov 2026', ['The men\'s SAFF Cup is now shown under its official name, SAFF Championship, and the 2026 edition in Dhaka is on the Simulator, with the two results already played fixed.',

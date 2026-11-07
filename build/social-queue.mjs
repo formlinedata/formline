@@ -21,7 +21,7 @@ for (const d of fs.readdirSync(Q)) if (/^\d{4}-\d{2}-\d{2}$/.test(d) && d < cuto
 
 const raw = f => `https://raw.githubusercontent.com/${repo}/social-queue/${date}/${f}`;
 const owner = repo.split('/')[0];
-const body = `**Today's Instagram post goes out at about 6 pm Toronto time.** To stop it, close this issue. To change it, ask Claude.
+const body = `**Today's post goes out on Bluesky and Instagram at about 6 pm Toronto time** (on each one that's connected). To stop it, close this issue. To change it, ask Claude.
 
 ${meta.slides.map(f => `<img src="${raw(f)}" width="260">`).join(' ')}
 

@@ -1,7 +1,7 @@
 name: Daily social post
 # Morning: make today's post (build/social.mjs), keep it on the social-queue branch, and open a review issue with the
-# Instagram slides, the caption and an X version to post by hand. Evening: post it to Instagram unless the issue was
-# closed (build/social-publish.mjs). Times are UTC: 13:23 is 8:23 am in Toronto in winter, 23:07 is 6:07 pm.
+# Instagram slides, the caption and an X version to post by hand. Evening: post it to Bluesky and Instagram unless the
+# issue was closed (build/social-publish.mjs). Times are UTC: 13:23 is 8:23 am in Toronto in winter, 23:07 is 6:07 pm.
 on:
   schedule:
     - cron: '23 13 * * *'
@@ -76,6 +76,8 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       IG_USER_ID: ${{ secrets.IG_USER_ID }}
       IG_TOKEN: ${{ secrets.IG_TOKEN }}
+      BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+      BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
       HAS_ADMIN: ${{ secrets.FORMLINE_ADMIN_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v5
@@ -84,7 +86,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - name: Post to Instagram
+      - name: Post to Bluesky and Instagram
         run: |
           export SOCIAL_DATE=$(TZ=America/Toronto date +%F)
           node build/social-publish.mjs
