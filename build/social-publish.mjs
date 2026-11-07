@@ -23,7 +23,16 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const note = (m, kind = 'notice') => console.log(process.env.GITHUB_ACTIONS ? `::${kind} title=${/^Bluesky/.test(m) ? 'Bluesky' : /^Instagram/.test(m) ? 'Instagram' : 'Social post'}::${m}` : m);
 
 /* Bluesky text: at most 300 characters, links made clickable with byte-offset facets, as the AT Protocol requires. */
-export function bskyText(t){
+export function bskyText(t, tags = []){
+  /* Hashtags go on their own line before the link, as many as fit in 300 characters. */
+  const urlAt = t.search(/https?:\/\/\S+$/);
+  if (tags.length){
+    const head = urlAt >= 0 ? t.slice(0, urlAt).trimEnd() : t.trimEnd(), url = urlAt >= 0 ? t.slice(urlAt) : '';
+    let line = '';
+    for (const tg of tags){ const next = (line ? line + ' ' : '') + '#' + tg;
+      if ([...new Intl.Segmenter('en', {granularity:'grapheme'}).segment(head + '\n\n' + next + (url ? '\n\n' + url : ''))].length <= 300) line = next; }
+    if (line) t = head + '\n\n' + line + (url ? '\n\n' + url : '');
+  }
   const seg = [...new Intl.Segmenter('en', {granularity:'grapheme'}).segment(t)];
   if (seg.length > 300){
     const urlAt = t.search(/https?:\/\/\S+$/);
@@ -32,6 +41,10 @@ export function bskyText(t){
     t = [...new Intl.Segmenter('en', {granularity:'grapheme'}).segment(head)].slice(0, keep).map(x => x.segment).join('').trimEnd() + '…' + (url ? '\n\n' + url : '');
   }
   const enc = new TextEncoder(), facets = [];
+  for (const m of t.matchAll(/(^|\s)#([A-Za-z][A-Za-z0-9_]*)/g)){
+    const at = m.index + m[1].length, byteStart = enc.encode(t.slice(0, at)).length, byteEnd = byteStart + enc.encode('#' + m[2]).length;
+    facets.push({index:{byteStart, byteEnd}, features:[{$type:'app.bsky.richtext.facet#tag', tag:m[2]}]});
+  }
   for (const m of t.matchAll(/https?:\/\/[^\s]+/g)){
     const byteStart = enc.encode(t.slice(0, m.index)).length, byteEnd = byteStart + enc.encode(m[0]).length;
     facets.push({index:{byteStart, byteEnd}, features:[{$type:'app.bsky.richtext.facet#link', uri:m[0]}]});
@@ -158,7 +171,7 @@ async function postBluesky(meta){
     const up = await call('com.atproto.repo.uploadBlob', bytes, session.accessJwt, 'image/jpeg');
     images.push({image:up.blob, alt:((meta.alts && meta.alts[i]) || `${meta.title}. ${alt}`).slice(0, 1000), aspectRatio:{width:1080, height:1350}});
   }
-  const {text, facets} = bskyText(meta.xText);
+  const {text, facets} = bskyText(meta.xText, meta.bskyTags || []);
   const rec = await call('com.atproto.repo.createRecord', {repo:session.did, collection:'app.bsky.feed.post',
     record:{$type:'app.bsky.feed.post', text, facets, createdAt:new Date().toISOString(), langs:['en'],
       embed:{$type:'app.bsky.embed.images', images}}}, session.accessJwt);

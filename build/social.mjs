@@ -38,6 +38,26 @@ const COMP_TAG = {'FIFA World Cup':'WorldCup', 'FIFA World Cup qualification':'W
   'CONCACAF Nations League':'ConcacafNationsLeague', 'SAFF Championship':'SAFFChampionship', "FIFA Women's World Cup":'FIFAWWC',
   "UEFA Women's Euro":'WEURO', "UEFA Women's Nations League":'UWNL', 'Friendly':'InternationalFriendly'};
 const tag = s => '#' + String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/&/g, 'And').replace(/[^A-Za-z0-9]+/g, '');
+/* Bluesky: 2–3 hashtags that its topic feeds pick up. The fans' own tag for a team where there is a well-known one, then
+   the competition, then #WoSo for women's posts, then #football. */
+const FAN_TAG = {
+  men:{Canada:'CanMNT', USA:'USMNT', Mexico:'ElTri', Jamaica:'ReggaeBoyz', England:'ThreeLions', Scotland:'SCO', Wales:'TogetherStronger',
+    'Republic of Ireland':'COYBIG', Australia:'Socceroos', 'New Zealand':'AllWhites', Japan:'SamuraiBlue', Brazil:'Selecao', Argentina:'Albiceleste',
+    Netherlands:'Oranje', Nigeria:'SuperEagles', Ghana:'BlackStars', 'South Africa':'BafanaBafana', India:'BlueTigers', Italy:'Azzurri',
+    Germany:'DieMannschaft', Spain:'LaRoja', Portugal:'Portugal', France:'EquipeDeFrance', Belgium:'RedDevils', 'Korea Republic':'KoreaRepublic', 'Ivory Coast':'LesElephants', Uruguay:'LaCeleste'},
+  women:{Canada:'CanWNT', USA:'USWNT', England:'Lionesses', Australia:'Matildas', 'New Zealand':'FootballFerns', Japan:'Nadeshiko', Jamaica:'ReggaeGirlz',
+    Nigeria:'SuperFalcons', 'South Africa':'BanyanaBanyana', Scotland:'SWNT', Spain:'LaRoja', Netherlands:'OranjeLeeuwinnen', Brazil:'Selecao'}};
+const BSKY_COMP = {...COMP_TAG, 'FIFA World Cup qualification':'WCQ', 'Friendly':''};
+function bskyTags(g, teams, comp){
+  const t = [];
+  for (const x of teams) if (x && FAN_TAG[g][x]) t.push(FAN_TAG[g][x]);
+  const ct = comp ? (BSKY_COMP[comp] ?? COMP_TAG[comp] ?? '') : '';
+  if (ct) t.push(ct);
+  t.push(g === 'women' ? 'WoSo' : 'football');
+  if (g === 'women' && t.length < 3) t.push('football');
+  if (t.length < 2) t.push('soccer');   // "football" alone also catches American football on Bluesky
+  return [...new Set(t)].slice(0, 3);
+}
 function hashtags(g, teams, comp){
   const t = [...teams.map(tag)];
   if (comp && COMP_TAG[comp]) t.push('#' + COMP_TAG[comp]);
@@ -294,7 +314,13 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     const one = t => String(t).replace(/(^|[^\d.,])1 (win|draw|defeat|meeting|goal)s\b/g, '$11 $2');
     post.caption = one(post.caption); post.xText = one(post.xText);
     const alts = (post.alts || []).map(a => one(a).replace(/\s+/g, ' ').trim().slice(0, 1000));
-    const meta = {date, type:data.type, id:data.id, g:data.g, title:post.title, slides:files, alts, x:'x.png', caption:post.caption, xText:post.xText};
+    const who = {match:[data.home && data.home.team, data.away && data.away.team], spotlight:[data.team && data.team.team],
+      onthisday:[data.home && data.home.modern, data.away && data.away.modern], rivalry:[data.a && data.a.team, data.b && data.b.team],
+      tournament:(data.rows || []).slice(0, 2).map(r => r.team), past:[data.champ && data.champ.name], rankings:[]}[data.type] || [];
+    const comp = {match:data.comp, spotlight:data.next && data.next.comp, onthisday:data.comp, rivalry:data.next && data.next.comp,
+      tournament:(data.name || '').replace(/ \d{4}.*$/, ''), past:data.tournament, rankings:null}[data.type];
+    const meta = {date, type:data.type, id:data.id, g:data.g, title:post.title, slides:files, alts, x:'x.png', caption:post.caption, xText:post.xText,
+      bskyTags:bskyTags(data.g, who, comp)};
     fs.writeFileSync(path.join(dir, 'post.json'), JSON.stringify(meta, null, 1) + '\n');
     return meta;
   } finally {
