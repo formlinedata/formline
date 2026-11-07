@@ -1,0 +1,17 @@
+
+:root{--bg:#0e2117;--panel:#14291d;--line:#2a4a37;--chalk:#f1f4ec;--body:#d9e2da;--dim:#a7bba9;--amber:#f6b638;--win:#5fcf8a;--loss:#f08a7a}
+@media (prefers-color-scheme: light){:root{--bg:#eef3ec;--panel:#fff;--line:#d3ddd2;--chalk:#112619;--body:#26392c;--dim:#4c6253;--amber:#935c00;--win:#1f7a45;--loss:#b3402f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--body);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 18px 60px}a{color:var(--amber)}h1{color:var(--chalk);font-size:34px;line-height:1.15;margin:6px 0 4px}
+.brand{font-weight:800;color:var(--chalk);text-decoration:none}.big{font-size:44px;font-weight:800;color:var(--amber)}.pm{color:var(--dim);font-size:18px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:18px 0}
+table{width:100%;border-collapse:collapse}td{padding:7px 4px;border-top:1px solid var(--line);font-size:15px}td.n{text-align:right;white-space:nowrap}
+.W{color:var(--win);font-weight:700}.L{color:var(--loss);font-weight:700}.D{color:var(--dim);font-weight:700}.muted{color:var(--dim)}
+.btn{display:inline-block;background:var(--amber);color:var(--bg);font-weight:700;padding:10px 16px;border-radius:6px;text-decoration:none}
+ul.cols{columns:3 180px;padding-left:18px}
+.probs{display:flex;gap:10px;margin:10px 0 6px}.probs div{flex:1;text-align:center;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 4px}
+.probs b{display:block;font-size:30px;color:var(--chalk);line-height:1.1}.probs span{font-size:13px;color:var(--dim)}.probs .fav{border-color:var(--amber)}.probs .fav b{color:var(--amber)}
+.bar{display:flex;height:10px;border-radius:5px;overflow:hidden;margin:8px 0}.bar .a{background:var(--win)}.bar .d{background:var(--dim)}.bar .b{background:var(--loss)}
+.rec{display:flex;justify-content:space-between;text-align:center}.rec b{display:block;font-size:30px;color:var(--chalk)}.rec span{font-size:13px;color:var(--dim)}
+h2{color:var(--chalk);font-size:22px;margin:28px 0 8px}td.yr{color:var(--amber);font-weight:700;border-top:0;padding-top:16px}
+.src{font-size:13px;color:var(--dim);border-top:1px solid var(--line);margin-top:30px;padding-top:12px}
