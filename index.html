@@ -759,6 +759,8 @@
   .contact-grid p{margin:0 0 8px;font-size:14.5px;line-height:1.55;}
   .contact-grid ul{margin:0 0 8px;padding-left:18px;font-size:14.5px;line-height:1.55;}
   .fsocial{margin-top:10px;} .fsocial span{color:var(--dim);}
+  .src-table{table-layout:fixed;width:100%;} .src-table th:first-child{width:28%;} .src-table th:last-child{width:22%;} .src-table td:last-child{color:var(--dim);} .src-table td{line-height:1.5;}
+  @media(max-width:640px){ .src-table thead{display:none;} .src-table tr{display:block;padding:10px 0;border-top:1px solid var(--line);} .src-table td{display:block;width:auto !important;padding:2px 0 !important;border:0 !important;} .src-table td:first-child{font-weight:650;color:var(--chalk);} }
   .about-tabs{margin:0 0 14px;} .about-tabs .chip{text-decoration:none;}
   .cmp-table th{white-space:normal;text-align:left;color:var(--chalk);font-weight:600;min-width:120px;} .cmp-table td{vertical-align:top;font-size:13.5px;text-align:left;}
   .cmp-table thead th{color:var(--dim);} .kv-table.cmp-table td, .kv-table.cmp-table td:last-child{color:var(--body);text-align:left;font-weight:400;}
@@ -1036,7 +1038,7 @@
   <div class="footer-inner">
     <div>
       <div class="fbrand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="var(--amber-band)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="var(--amber)"/></svg>Formline</div>
-      <div class="flinks"><a href="#/method">How it works</a><a href="#/about">About</a><a href="#/flags">Flags &amp; names</a><a href="#/record">Forecast record</a><a href="#/changes">What's new</a><a href="#/support">Support Formline</a><a href="#/contact">Contact</a></div>
+      <div class="flinks"><a href="#/method">How it works</a><a href="#/about">About</a><a href="#/flags">Flags &amp; names</a><a href="#/sources">Sources &amp; thanks</a><a href="#/record">Forecast record</a><a href="#/changes">What's new</a><a href="#/support">Support Formline</a><a href="#/contact">Contact</a></div>
       <div class="flinks fsocial"><span>Follow</span><a href="https://x.com/FormlineData" target="_blank" rel="noopener">X</a><a href="https://www.instagram.com/formline.data/" target="_blank" rel="noopener">Instagram</a></div>
     </div>
     <div>
@@ -1050,7 +1052,7 @@
       <p>Current flags from <a href="https://flagpedia.net" target="_blank" rel="noopener">Flagpedia.net</a>, past flags from
       <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, each shown as it was on the date in view;
       <a href="#/flags">Flags &amp; names</a> has the details and credits. Association and confederation badges, mostly from <a href="https://logos.fandom.com" target="_blank" rel="noopener">Logopedia</a>, are the trademarks of their owners, shown for identification; where none is bundled with the site, Wikipedia's image is used.
-      Formline is an independent project, not affiliated with eloratings.net, FIFA or any confederation.</p>
+      Formline is an independent project, not affiliated with eloratings.net, FIFA or any confederation. Every source is listed on <a href="#/sources">Sources &amp; thanks</a>.</p>
     </div>
   </div>
 </footer>
@@ -2683,7 +2685,8 @@ const pmSpan = band => '<span class="pm">&plusmn;'+Math.round(band)+'</span>';
 const COMP_NAMES = {
   men:{'African Cup of Nations':'Africa Cup of Nations', 'African Cup of Nations qualification':'Africa Cup of Nations qualification',
     'Gold Cup':'CONCACAF Gold Cup', 'Gold Cup qualification':'CONCACAF Gold Cup qualification', 'Confederations Cup':'FIFA Confederations Cup',
-    'Oceania Nations Cup':'OFC Nations Cup', 'Oceania Nations Cup qualification':'OFC Nations Cup qualification'},
+    'Oceania Nations Cup':'OFC Nations Cup', 'Oceania Nations Cup qualification':'OFC Nations Cup qualification',
+    'SAFF Cup':'SAFF Championship'},
   women:{'FIFA World Cup':"FIFA Women's World Cup", 'FIFA World Cup qualification':"FIFA Women's World Cup qualification",
     'UEFA Euro':"UEFA Women's Euro", 'UEFA Euro qualification':"UEFA Women's Euro qualification",
     'AFC Championship':"AFC Women's Championship", 'AFC Asian Cup':"AFC Women's Asian Cup", 'AFC Asian Cup qualification':"AFC Women's Asian Cup qualification",
@@ -3071,7 +3074,7 @@ async function render(){
   }
   const views = {home:viewHome, rankings:viewRankings, team:viewTeam, competitions:viewCompetitions,
     competition:viewEdition, confederations:viewConfeds, h2h:viewH2H, predict:viewPredict, fixtures:viewFixtures,
-    simulate:viewSimulate, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, support:viewSupport, changes:viewChanges, embed:viewEmbed, contact:viewContact};
+    simulate:viewSimulate, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, sources:viewSources, support:viewSupport, changes:viewChanges, embed:viewEmbed, contact:viewContact};
   FLAG_AT = null;
   document.body.classList.toggle('embed-mode', p.route === 'embed');
   (views[p.route]||viewNotFound)();
@@ -3392,6 +3395,62 @@ function viewRecords(){
   document.getElementById('recYear').addEventListener('change', e => go({y:e.target.value || undefined, sp:sp || undefined}));
   document.querySelectorAll('#recSp [data-sp]').forEach(b => b.addEventListener('click', () => go({sp:+b.dataset.sp || undefined})));
 }
+/* Sources & thanks: every source the site draws on, in one place, credited whether or not its licence asks for it. */
+function aboutTabs(on){
+  const T = [['about', 'About Formline'], ['compare', 'Formline, Elo and FIFA'], ['flags', 'Flags &amp; names'], ['sources', 'Sources &amp; thanks'],
+    ['changes', 'What\'s new'], ['method', 'How it works'], ['contact', 'Contact']];
+  return '<div class="chips about-tabs">'+T.map(([r, l]) => '<a class="chip'+(r === on ? ' on' : '')+'" href="#/'+r+'">'+l+'</a>').join('')+'</div>';
+}
+function viewSources(){
+  const a = (href, text) => '<a href="'+href+'" target="_blank" rel="noopener">'+text+'</a>';
+  const group = (title, rows) => '<h2>'+title+'</h2><table class="kv-table words credits src-table"><thead><tr><th>What</th><th>Source</th><th>Terms</th></tr></thead><tbody>'+
+    rows.map(r => '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>').join('')+'</tbody></table>';
+  document.getElementById('app').innerHTML =
+  '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+aboutTabs('sources')+
+    '<h1 class="page-title">Sources &amp; thanks</h1>'+
+    '<p class="page-sub">Formline is built on other people\'s work, much of it done by volunteers. Every source is credited here, '+
+      'whether or not its licence asks for it, and on the pages where its data appears.</p>'+
+    group('Match data', [
+      ['Every men\'s and women\'s international result in the archives, from 1872', 'Mart J&uuml;risoo\'s open results archives on GitHub: '+
+        a('https://github.com/martj42/international_results', 'men')+' and '+a('https://github.com/martj42/womens-international-results', 'women')+
+        '. They are compiled from Wikipedia, RSSSF and football association sources.', 'CC0 (public domain)'],
+      ['Results newer than the archives, and upcoming fixtures', a('https://www.api-football.com', 'API-Football'), 'Used under the site\'s paid plan'],
+      ['Venues and kick-off times API-Football does not have yet', a('https://en.wikipedia.org', 'Wikipedia')+'\'s results and competition articles', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
+      ['Historical results and tables', a('https://www.rsssf.org', 'RSSSF')+' (the Rec.Sport.Soccer Statistics Foundation), through the archives above. '+
+        'It will be the main source for Formline\'s club history, with credit to the author of each page used, by kind permission of Karel Stokkermans.', 'Used with permission'],
+    ])+
+    group('Checking the model', [
+      ['The Elo formula Formline is compared with', 'The World Football Elo Ratings, '+a('https://www.eloratings.net', 'eloratings.net')+'. The formula is worked out here from the same results; Formline is not affiliated with eloratings.net.', 'Formula only, no data copied'],
+      ['The FIFA method and FIFA\'s own releases', 'FIFA\'s '+a('https://inside.fifa.com/fifa-world-ranking', 'world ranking')+' method, and the top 20 of its latest releases, used to check the calculation.', 'Formula and a few published figures'],
+    ])+
+    group('Flags and badges', [
+      ['Current flags', a('https://flagpedia.net', 'Flagpedia.net'), 'Free to use'],
+      ['Past flags', 'Contributors to '+a('https://commons.wikimedia.org', 'Wikimedia Commons')+', each named on <a href="#/flags">Flags &amp; names</a>, with dates checked against '+
+        a('https://www.fotw.info', 'Flags of the World'), 'Public domain, CC0 or CC BY-SA, as listed'],
+      ['Association and confederation badges', a('https://logos.fandom.com', 'Logopedia')+' and Wikipedia. The badges are the trademarks of their owners, shown only to identify the teams; '+
+        '<a href="#/support">Support Formline</a> explains how to ask for one to be removed.', 'Trademarks of their owners'],
+    ])+
+    group('Software and type', [
+      ['Charts', a('https://www.chartjs.org', 'Chart.js')+', by the Chart.js contributors', 'MIT licence'],
+      ['Reading the results files', a('https://www.papaparse.com', 'Papa Parse')+', by Matt Holt and contributors', 'MIT licence'],
+      ['The typeface', a('https://fonts.google.com/specimen/Archivo', 'Archivo')+', by Omnibus-Type', a('https://openfontlicense.org', 'SIL Open Font Licence 1.1')],
+    ])+
+    '<h2>Thank you</h2>'+
+    '<p>To Mart J&uuml;risoo, who keeps the results archives up to date and acted on Formline\'s error reports within a day; to Karel Stokkermans '+
+      'and the RSSSF\'s contributors, who have spent decades recording football\'s results; and to everyone who edits Wikipedia\'s football '+
+      'articles and Wikimedia Commons\' flags.</p>'+
+    '<p>Spotted a mistake? <a href="#/contact">Tell us</a>. Corrections to the underlying data go back to the people who maintain it, so '+
+      'everyone who uses it benefits.</p>'+
+  '</div>'+
+  '<aside class="doc-aside"><div class="aside-box"><h3>On this page</h3>'+
+    '<a href="#/sources" data-src-jump="0">Match data</a><br><a href="#/sources" data-src-jump="1">Checking the model</a><br>'+
+    '<a href="#/sources" data-src-jump="2">Flags and badges</a><br><a href="#/sources" data-src-jump="3">Software and type</a><br>'+
+    '<a href="#/sources" data-src-jump="4">Thank you</a></div>'+
+    '<div class="aside-box"><h3>See also</h3><a href="#/flags">Flag credits, one by one</a><br><a href="#/method">How it works</a><br><a href="#/contact">Contact</a></div>'+
+  '</aside></div></div>';
+  document.querySelectorAll('[data-src-jump]').forEach(l => l.addEventListener('click', e => { e.preventDefault();
+    const h = document.querySelectorAll('#app .prose h2')[+l.dataset.srcJump]; if (h) h.scrollIntoView({behavior:'smooth', block:'start'}); }));
+}
 function viewAbout(){
   const facts = ['men','women'].filter(g => state.matches[g]).map(g => ({g, n:state.matches[g].length,
     from:new Date(state.bounds[g].min).getUTCFullYear(), to:fmtDay(state.bounds[g].max)}));
@@ -3399,7 +3458,7 @@ function viewAbout(){
     .sort((x, y) => x[1].localeCompare(y[1]));
   document.getElementById('app').innerHTML =
   '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
-    '<div class="chips about-tabs"><a class="chip on" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
+    aboutTabs('about')+
     '<h1 class="page-title">About Formline</h1>'+
     '<p class="page-sub">Formline rates every men\'s and women\'s national football team on recent results, and says how sure '+
       'it is about each one.</p>'+
@@ -3437,7 +3496,7 @@ function viewAbout(){
         'as the numbers said. The forecast record tracks every prediction made since the site went live.</dd>'+
       '<dt>Where do the results come from?</dt>'+
       '<dd>Two open archives maintained by volunteers, one for men and one for women, plus a nightly update that fills in recent '+
-        'results and fixtures before the archives catch up. The footer has the details.</dd>'+
+        'results and fixtures before the archives catch up. <a href="#/sources">Sources &amp; thanks</a> lists every source.</dd>'+
       '<dt>How is this different from the FIFA ranking, or other Elo ratings?</dt>'+
       '<dd>FIFA\'s ranking is built for seeding and draws: it ignores home advantage and, for the men, the margin of victory, and a '+
         'defeat in a tournament knockout costs nothing. Classic Elo ratings carry a team\'s whole history and give one confident number. '+
@@ -5163,6 +5222,16 @@ const TOURNAMENTS = [
      {name:'Final', col:'Final', matches:[[0,1]]}],
    note:'Six groups of four; the top two and the four best third-placed teams reach the last 16, which third-placed teams '+
      'meet which group winners following the AFC\'s table. Saudi Arabia have home advantage; every other match is neutral.'},
+  {id:'saff-2026', name:'SAFF Championship 2026', short:'SAFF Championship 2026', gender:'men', status:'in progress', start:'2026-11-05', end:'2026-11-17',
+   where:'Dhaka, Bangladesh, 5 to 17 November 2026', hosts:['Bangladesh'], rounds:1, tiebreak:'h2h', tournament:'SAFF Cup',
+   groups:{A:['Bangladesh','Sri Lanka','Bhutan'], B:['India','Maldives','Pakistan']},
+   knockout:[
+     {name:'Semi-finals', col:'Semis', matches:[['1A','2B'],['1B','2A']]},
+     {name:'Final', col:'Final', matches:[[0,1]]}],
+   note:'South Asia\'s championship, with six teams this time in two groups of three. Results already played are taken from the '+
+     'data and fixed; the rest is simulated. The top two in each group reach the semi-finals on 14 November, group winners '+
+     'against the other group\'s runners-up, and the final is on 17 November. All matches are in Dhaka, so Bangladesh have '+
+     'home advantage and every other match is neutral.'},
   {id:'nations-league-a-2026', name:'UEFA Nations League 2026–27, League A', short:'Nations League A', gender:'men', status:'in progress',
    start:'2026-09-23', end:'2026-11-18', tournament:'UEFA Nations League', rounds:2, tiebreak:'h2h',
    groups:{'1':['France','Italy','Belgium','Turkey'], '2':['Germany','Netherlands','Serbia','Greece'],
@@ -7807,7 +7876,7 @@ function viewFlags(){
   const cur = team => flagHtml(team, Infinity);
   document.getElementById('app').innerHTML =
   '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
-    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip on" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
+    aboutTabs('flags')+
     '<h1 class="page-title">Flags &amp; names</h1>'+
     '<p class="page-sub">Formline covers more than 150 years of international football. Over that time countries have changed '+
       'their names, borders and flags, some teams have ceased to exist, and some played before their country was independent. '+
@@ -7915,7 +7984,7 @@ function viewContact(){
   const mail = subj => 'mailto:'+contactEmail()+'?subject='+encodeURIComponent(subj);
   document.getElementById('app').innerHTML =
   '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
-    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip on" href="#/contact">Contact</a></div>'+
+    aboutTabs('contact')+
     '<h1 class="page-title">Contact</h1>'+
     '<p class="page-sub">Formline is an independent project run by one person. Email is the best way to get in touch.</p>'+
     '<div class="contact-card">'+contactLink('Formline', 'addr')+
@@ -7995,7 +8064,7 @@ function viewSupport(){
     '<p>Association, confederation and tournament badges are the trademarks of their owners. They are shown only to identify teams '+
       'and competitions, and Formline is not affiliated with FIFA, any confederation or any association. If you own a mark and want it '+
       'removed, '+(mail ? '<a href="mailto:'+E(mail)+'">email</a>' : 'get in touch')+' and it will come down. Flags and their sources and licences are '+
-      'listed on <a href="#/flags">Flags &amp; names</a>; match data credits are in the footer.</p>'+
+      'listed on <a href="#/flags">Flags &amp; names</a>, and every source Formline uses is on <a href="#/sources">Sources &amp; thanks</a>.</p>'+
   '</div>'+
   '<aside class="doc-aside"><div class="aside-box"><h3>On this page</h3>'+
     [['donate','Chip in'],['contact','Spotted a mistake?'],['embed','Put the rankings on your site'],['data','Download the data'],['privacy','Privacy'],['trademarks','Badges, flags and credits']]
@@ -8021,6 +8090,8 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['6 Nov 2026', ['The men\'s SAFF Cup is now shown under its official name, SAFF Championship, and the 2026 edition in Dhaka is on the Simulator, with the two results already played fixed.',
+    'New page: Sources &amp; thanks, under About. It lists every source Formline uses, with its licence: the results archives, API-Football, Wikipedia, RSSSF, the formulas it is compared with, flags and badges, and the chart library, file reader and typeface. Sources are credited whether or not their licence asks for it.']],
   ['3 Nov 2026', ['Fixtures: matches are grouped by day and, within each day, by competition (or by competition and then day), with filters for the day, the competition, the region and a team. The choices stay in the link, so a filtered list can be shared. A compact list shows one line per match, with its group or round from the Simulator, and opens the full prediction in place; full cards are one click away and the choice is remembered.',
     'Head to head: each meeting names its winner (penalty shoot-outs included), tags the side at home and gives the competition, the round and the venue under the score, grouped by year. A bar sums up the wins and draws, with the goals, and the list can be narrowed to competitive matches or friendlies. An All-time meetings switch shows every meeting since the first while the ratings keep your window; it is remembered, and older matches show the ratings and chances published at the time.',
     'Match lists on team pages and head to head now show each match as the site published it at the time, taken from the window that ended the day before, so they agree with the rating charts. They used to come from one run through today\'s window, where every team starts level, so the first years showed ratings still settling: France went into its first match of the current window at 1140 in the list while the chart had it at 1998, and England\'s 5&ndash;0 against San Marino showed +446. The faded rows and their note are gone, and Net in Record by opponent adds up the published changes.']],
@@ -8100,7 +8171,7 @@ function viewChanges(){
   const want = state.params.cl ? (state.params.cl === 'none' ? [] : state.params.cl.split(',')) : null;
   document.getElementById('app').innerHTML =
   '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
-    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip on" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
+    aboutTabs('changes')+
     '<h1 class="page-title">What\'s new</h1>'+
     '<p class="page-sub">Changes to the site and the model, newest first. When a change moves ratings, it says so here.</p>'+
     '<p class="cl-all"><button type="button" class="linkish" data-clall="1">Open all</button> &middot; <button type="button" class="linkish" data-clall="0">Close all</button></p>'+
@@ -8469,7 +8540,7 @@ function viewCompare(){
     (g === 'women' && state.asOf < Date.parse('2003-07-01T00:00:00Z') ? ' FIFA\'s women\'s ranking began in 2003, worked out back to 1971 as here; '+
       'for earlier dates this is the same reverse calculation.' : '');
   app.innerHTML = '<div class="wrap">'+
-    '<div class="chips about-tabs"><a class="chip" href="#/about">About Formline</a><a class="chip on" href="#/compare">Formline, Elo and FIFA</a><a class="chip" href="#/flags">Flags &amp; names</a><a class="chip" href="#/changes">What\'s new</a><a class="chip" href="#/method">How it works</a><a class="chip" href="#/contact">Contact</a></div>'+
+    aboutTabs('compare')+
     '<h1 class="page-title">Formline, World Elo and the FIFA method</h1>'+
     '<p class="page-sub">Three ways of ordering the same teams. They mostly agree at the top and drift apart further down, '+
       'for reasons in the table below.</p>'+
@@ -8507,7 +8578,7 @@ function viewCompare(){
    ============================================================ */
 /* Navigation groups, menus and theme. */
 const NAV_GROUP = {rankings:'ratings', team:'ratings', confederations:'ratings', competitions:'ratings', competition:'ratings',
-  fixtures:'matches', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', support:'about', changes:'about', contact:'about', records:'ratings'};
+  fixtures:'matches', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', sources:'about', support:'about', changes:'about', contact:'about', records:'ratings'};
 function closeMenus(){
   document.querySelectorAll('.nav-group.open').forEach(g => { g.classList.remove('open'); g.querySelector('.nav-top').setAttribute('aria-expanded', 'false'); });
   document.body.classList.remove('menu-open');
