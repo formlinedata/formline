@@ -8,11 +8,22 @@
 //                                     fixture coming up; h2h/index.html lists the most-played. Pairs with fewer than INDEX_MIN
 //                                     meetings are kept out of the sitemap and marked noindex (too thin for search engines),
 //                                     but every team page links to all its opponents.
+//   sim/<tournament id>.html          one page per tournament on the Simulator: every team's chances from 10,000 runs.
+//                                     The Simulator's Share button links here (?open=1&...), so a shared scenario gets a
+//                                     proper link preview; with ?open=1 the page goes straight on to that scenario.
+//   records/<g>/<record>.html         all-time records for search: biggest upsets, biggest wins, longest runs, every
+//                                     country's best-ever team, and the FIFA method next to Formline; records/index.html
+//   records/recaps/<month-year>.html  how Formline's live predictions did in each international window (from
+//                                     data/forecasts.json), once a window has RECAP_MIN scored predictions
 //   sitemap.xml and robots.txt        when the site's address is known
+// Team and match pages point their link preview (og:image) at their own picture in previews/ once build/previews.mjs has
+// drawn it, and at og.png until then. What each picture should show goes to PREVIEW_SPECS for previews.mjs to draw.
 // The match and head-to-head pages carry no "updated on" date, so a page's file only changes when its content does.
 // Each page links to the full interactive team page.   node build/pages.mjs
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {loadModel} from './lib/model.mjs';
 import {siteBase} from './site-url.mjs';
@@ -48,6 +59,14 @@ const H2H_MIN = 1;                               // meetings needed for a head-t
 const INDEX_MIN = 3;                             // meetings needed for a head-to-head page to be offered to search engines
 const MATCH_KEEP_DAYS = 120;                     // scored forecasts keep their page this long, then drop out of the sitemap
 const pct = x => Math.round(x * 100);
+/* Link-preview pictures. A picture is redrawn only when what it shows changes; bump PREVIEW_VERSION when the design
+   changes, so every picture is redrawn once. */
+export const PREVIEW_VERSION = 1;
+export const PREVIEW_SPECS = process.env.PREVIEW_SPECS || path.join(os.tmpdir(), 'formline-preview-specs.json');
+export const previewHash = data => crypto.createHash('sha1').update(JSON.stringify([PREVIEW_VERSION, data])).digest('hex').slice(0, 10);
+const ogImage = o => !o.base ? '' : `<meta property="og:type" content="website">${o.url ? `<meta property="og:url" content="${o.url}">` : ''}
+<meta property="og:image" content="${o.base}${o.image || 'og.png'}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">${o.imageAlt ? `<meta property="og:image:alt" content="${esc(o.imageAlt)}">` : ''}
+<meta name="twitter:card" content="summary_large_image">`;
 const dayName = d => new Date(d + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
 const shortDay = d => new Date(d + 'T12:00:00Z').toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric', timeZone:'UTC'});
 const beacon = tok => tok ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${esc(tok)}"}'></script>` : '';
@@ -60,7 +79,7 @@ function head(o){
 <meta name="description" content="${esc(o.desc)}">
 ${o.base ? `<link rel="canonical" href="${o.base}${o.path}">` : ''}${o.noindex ? '\n<meta name="robots" content="noindex">' : ''}
 <meta property="og:title" content="${esc(o.ogTitle || o.title)}"><meta property="og:description" content="${esc(o.desc)}">
-${o.base ? `<meta property="og:image" content="${o.base}og.png">` : ''}
+${ogImage({base:o.base, url:o.base ? o.base + o.path : '', image:o.image, imageAlt:o.imageAlt})}
 ${STYLE}${beacon(o.analytics)}</head><body><main>
 <a class="brand" href="../../index.html">Formline</a>`;
 }
@@ -75,7 +94,7 @@ function teamPage(g, r, meta, href, extra){
 <meta name="description" content="${esc(desc)}">
 ${meta.base ? `<link rel="canonical" href="${meta.base}teams/${g}/${slugify(r.team)}.html">` : ''}
 <meta property="og:title" content="${esc(r.team)} – ${GAME[g]} rating ${r.rating}"><meta property="og:description" content="${esc(desc)}">
-${meta.base ? `<meta property="og:image" content="${meta.base}og.png">` : ''}
+${ogImage({base:meta.base, url:meta.base ? `${meta.base}teams/${g}/${slugify(r.team)}.html` : '', image:meta.image, imageAlt:meta.imageAlt})}
 ${STYLE}${beacon(meta.analytics)}</head><body><main>
 <a class="brand" href="../../index.html">Formline</a>
 <p class="muted" style="margin:18px 0 0">${GAME[g][0].toUpperCase() + GAME[g].slice(1)} national team${r.confName ? ' · ' + esc(r.confName) : ''}</p>
@@ -98,7 +117,8 @@ ${extra.all && extra.all.length > extra.rivals.length ? `<h2>Every opponent (${e
 `;
 }
 
-const venueTxt = x => x.city ? esc(x.city) + (x.country && x.country !== x.city ? ', ' + esc(x.country) : '') : (x.country && x.venue !== 'assumed' ? esc(x.country) : '');
+const venuePlain = x => x.city ? x.city + (x.country && x.country !== x.city ? ', ' + x.country : '') : (x.country && x.venue !== 'assumed' ? x.country : '');
+const venueTxt = x => esc(venuePlain(x));
 const h2hHref = (g, a, b) => `../../index.html#/h2h/${encodeURIComponent(a)}/${encodeURIComponent(b)}?ha=1${g === 'women' ? '&g=women' : ''}`;
 const recordBox = (a, b, w, d, l, ga, gb, n) => `<div class="rec"><div><b>${w}</b><span>${esc(a)} win${w === 1 ? '' : 's'}</span></div>
 <div><b>${d}</b><span>draw${d === 1 ? '' : 's'}</span></div><div><b>${l}</b><span>${esc(b)} win${l === 1 ? '' : 's'}</span></div></div>
@@ -166,7 +186,7 @@ function matchPage(g, x, meta){
   const verdict = played ? (() => { const o = x.result[0] > x.result[1] ? 0 : x.result[0] < x.result[1] ? 2 : 1, top = x.p.indexOf(Math.max(...x.p));
     return o === top ? `The result matched Formline's most likely outcome.` : `Formline had ${['a ' + x.home + ' win', 'a draw', 'a ' + x.away + ' win'][top]} as the most likely outcome, so this one went against the prediction.`; })() : '';
   const recent = P ? P.meets.slice(-5).reverse().map(m => `<tr><td class="muted">${shortDay(m.date)}</td><td>${scoreLine(m)}<br><span class="muted">${esc(m.tournament)}</span></td></tr>`).join('') : '';
-  return head({title, desc, base:meta.base, path:`matches/${g}/${meta.slug}.html`, analytics:meta.analytics,
+  return head({title, desc, base:meta.base, path:`matches/${g}/${meta.slug}.html`, analytics:meta.analytics, image:meta.image, imageAlt:meta.imageAlt,
       ogTitle:played ? res : `${x.home} v ${x.away}: ${ph}% · ${pd}% · ${pa}%`}) + `
 <p class="muted" style="margin:18px 0 0">${esc(x.comp)} · ${GAME[g][0].toUpperCase() + GAME[g].slice(1)} national teams</p>
 <h1>${esc(x.home)} v ${esc(x.away)}</h1>
@@ -187,12 +207,194 @@ ${SOURCES}
 `;
 }
 
+/* ---------- records and window recaps ---------- */
+const RECAP_MIN = 8;                              // scored predictions a window needs for its recap page
+const RECAP_GAP_DAYS = 10;                        // a gap this long between matches starts a new window
+const RECORDS = [
+  ['biggest-upsets', 'Biggest upsets', g => `The biggest upsets in ${GAME[g]} international football history`],
+  ['biggest-wins', 'Biggest wins', g => `The biggest wins in ${GAME[g]} international football history`],
+  ['longest-runs', 'Longest winning and unbeaten runs', g => `The longest winning and unbeaten runs in ${GAME[g]} international football`],
+  ['best-ever-teams', "Every country's best-ever team", g => `Every country's best-ever ${GAME[g]} national team`],
+  ['fifa-ranking-vs-formline', 'FIFA ranking vs Formline', g => `FIFA ranking vs Formline vs World Elo: the ${GAME[g]} tables side by side`]];
+const longDay = d => new Date(d + 'T12:00:00Z').toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
+const recPct = p => p < 0.01 ? '<1%' : Math.round(p * 100) + '%';
+function plainHead(o){   // a page two folders down, with og tags and the shared stylesheet
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(o.title)}</title>
+<meta name="description" content="${esc(o.desc)}">
+${o.base ? `<link rel="canonical" href="${o.base}${o.path}">` : ''}
+<meta property="og:title" content="${esc(o.ogTitle || o.title)}"><meta property="og:description" content="${esc(o.desc)}">
+${ogImage({base:o.base, url:o.base ? o.base + o.path : ''})}
+${STYLE}${beacon(o.analytics)}</head><body><main>
+<a class="brand" href="../../index.html">Formline</a>`;
+}
+const recNav = (g, here) => `<p class="muted">${RECORDS.filter(([id]) => id !== here).map(([id, label]) => `<a href="${id}.html">${esc(label)}</a>`).join(' · ')}
+· <a href="../../records/${g === 'men' ? 'women' : 'men'}/${here}.html">${g === 'men' ? "Women's" : "Men's"} ${esc((RECORDS.find(r => r[0] === here) || [, 'records'])[1].toLowerCase())}</a> · <a href="../index.html">All records</a></p>`;
+const recFoot = `<p class="src">Ratings and chances are Formline's, worked out from every international result in the open archives maintained by
+Mart J&uuml;risoo (CC0), with recent results from API-Football. In the runs, a match settled on penalties counts as a draw. Every source is listed on
+<a href="../../index.html#/sources">Sources &amp; thanks</a>.</p>
+</main></body></html>
+`;
+function recordPage(g, id, R, meta){
+  const [, label, h] = RECORDS.find(r => r[0] === id), G = GAME[g][0].toUpperCase() + GAME[g].slice(1);
+  const tl = k => meta.slugOf.get(k) ? `../../teams/${g}/${meta.slugOf.get(k)}.html` : null;
+  const team = (name, k) => { const u = tl(k); return u ? `<a href="${u}">${esc(name)}</a>` : esc(name); };
+  const span = `${R.matches.toLocaleString('en')} ${GAME[g]} internationals from ${longDay(R.first)} to ${longDay(R.asOf)}`;
+  let title, desc, body;
+  if (id === 'biggest-upsets'){
+    const u = R.upsets;
+    title = `Biggest upsets in ${GAME[g]} international football history | Formline`;
+    desc = `The ${u.length} biggest shocks in ${GAME[g]} international football, ranked by the winner's chance before kick-off: ${u.slice(0, 3).map(x => `${x.w} ${x.s} ${x.l} (${x.date.slice(0, 4)}, ${recPct(x.p)})`).join('; ')}.`;
+    body = `<p>Every one of the ${span}, ranked by how unlikely the result looked beforehand: the winner's chance of winning, from Formline's
+ratings on the day. Both teams had to have played enough recent matches for the model to know them well, so sides with little history are left out.</p>
+<div class="box"><table>${u.map((x, i) => `<tr><td class="muted">${i + 1}</td><td>${team(x.w, x.wk)} ${esc(x.s)} ${team(x.l, x.lk)}<br><span class="muted">${esc(x.comp)} · ${longDay(x.date)}</span></td><td class="n"><b>${recPct(x.p)}</b></td></tr>`).join('')}</table></div>
+<p class="muted">The percentage is the winner's chance before kick-off.</p>`;
+  } else if (id === 'biggest-wins'){
+    const w = R.wins;
+    title = `Biggest wins in ${GAME[g]} international football history | Formline`;
+    desc = `The ${w.length} biggest winning margins in ${GAME[g]} international football: ${w.slice(0, 3).map(x => `${x.w} ${x.s} ${x.l} (${x.date.slice(0, 4)})`).join('; ')}.`;
+    body = `<p>The widest winning margins in the ${span}.</p>
+<div class="box"><table>${w.map((x, i) => `<tr><td class="muted">${i + 1}</td><td>${team(x.w, x.wk)} ${esc(x.s)} ${team(x.l, x.lk)}<br><span class="muted">${esc(x.comp)} · ${longDay(x.date)}</span></td></tr>`).join('')}</table></div>`;
+  } else if (id === 'longest-runs'){
+    const row = (x, i) => `<tr><td class="muted">${i + 1}</td><td>${team(x.team, x.k)}<br><span class="muted">${longDay(x.from)} to ${x.going ? 'now, still going' : longDay(x.to)}</span></td><td class="n"><b>${x.n}</b></td></tr>`;
+    title = `Longest winning and unbeaten runs in ${GAME[g]} international football | Formline`;
+    desc = `The longest runs in ${GAME[g]} international football: ${R.winRuns[0] ? `${R.winRuns[0].team} won ${R.winRuns[0].n} in a row` : ''}${R.unbeaten[0] ? `, and ${R.unbeaten[0].team} went ${R.unbeaten[0].n} matches unbeaten` : ''}.`;
+    body = `<p>Matches in a row won, and matches in a row without defeat, across the ${span}. A penalty shoot-out counts as a draw.</p>
+<h2>Longest winning runs</h2><div class="box"><table>${R.winRuns.map(row).join('')}</table></div>
+<h2>Longest unbeaten runs</h2><div class="box"><table>${R.unbeaten.map(row).join('')}</table></div>`;
+  } else if (id === 'best-ever-teams'){
+    title = `Every country's best-ever ${GAME[g]} national team | Formline`;
+    desc = `The strongest side each country has ever had, by Formline's rating at its peak: ${R.peaks.slice(0, 4).map(x => `${x.team} ${x.year}`).join(', ')} and ${R.peaks.length - 4} more.`;
+    body = `<p>Each country once, at its highest Formline rating ever: the model's best estimate of how strong the side was at that moment, from the ${span}.
+Each rating measures a side against the teams of its own time, and the early decades had far fewer teams to measure against.</p>
+<div class="box"><table><tr><td class="muted">#</td><td class="muted">Team, and when it peaked</td><td class="n muted">Rating</td></tr>
+${R.peaks.map((x, i) => `<tr><td class="muted">${i + 1}</td><td>${team(x.team, x.k)}<br><span class="muted">${longDay(x.date)}</span></td><td class="n"><b>${x.r}</b></td></tr>`).join('')}</table></div>`;
+  } else {
+    const C = R.compare, withF = C.filter(x => x.fifa);
+    const up = withF.slice().sort((a, b) => (b.fifa - b.rank) - (a.fifa - a.rank)).slice(0, 10), down = withF.slice().sort((a, b) => (a.fifa - a.rank) - (b.fifa - b.rank)).slice(0, 10);
+    const same10 = C.slice(0, 10).filter(x => x.fifa && x.fifa <= 10).length;
+    const vsHead = `<tr><td class="muted">Team</td><td class="n muted">Formline</td><td class="n muted">FIFA method</td></tr>`;
+    const vsRow = x => `<tr><td>${team(x.team, x.k)}</td><td class="n"><b>${ord(x.rank)}</b></td><td class="n">${ord(x.fifa)}</td></tr>`;
+    title = `FIFA ranking vs Formline vs World Elo: ${GAME[g]} national teams | Formline`;
+    desc = `Formline's ${GAME[g]} table next to FIFA's ranking formula and the World Football Elo formula, all three worked out from the same results. ${same10} of Formline's top 10 are also in the FIFA method's top 10.`;
+    body = `<p>Three ways of ranking the same ${GAME[g]} national teams, all worked out here from the same results, as of ${longDay(R.asOf)}:</p>
+<ul><li><b>Formline</b>: its own ratings, built on the last 12 years of results and how strong each opponent was.</li>
+<li><b>FIFA method</b>: FIFA's own ranking formula, calculated by Formline${g === 'men' ? ' from FIFA\'s June 2018 ranking onwards, as FIFA did' : ' from every match since 1971'}. It is our calculation, not FIFA's published ranking.</li>
+<li><b>World Elo</b>: the World Football Elo Ratings formula, best known from eloratings.net, calculated by Formline. It is not eloratings.net's published table.</li></ul>
+<p>All three count places among the same ${C.length} teams, the ones Formline ranks. ${same10} of Formline's top 10 are also in the FIFA method's top 10. Where they disagree, it is mostly down to how each formula weighs friendlies and opponents, and how far back it looks.</p>
+<h2>Formline rates higher than FIFA's formula</h2><div class="box"><table>${vsHead}${up.map(vsRow).join('')}</table></div>
+<h2>FIFA's formula rates higher than Formline</h2><div class="box"><table>${vsHead}${down.map(vsRow).join('')}</table></div>
+<h2>All ranked teams</h2><div class="box"><table><tr><td class="muted">Team</td><td class="n muted">Formline</td><td class="n muted">FIFA method</td><td class="n muted">World Elo</td></tr>
+${C.map(x => `<tr><td>${team(x.team, x.k)}</td><td class="n"><b>${x.rank}</b></td><td class="n">${x.fifa || '–'}</td><td class="n">${x.elo || '–'}</td></tr>`).join('')}</table></div>
+<p><a class="btn" href="../../index.html#/compare${g === 'women' ? '?g=women' : ''}">Compare them on any date</a></p>`;
+  }
+  return plainHead({title, desc, base:meta.base, path:`records/${g}/${id}.html`, analytics:meta.analytics, ogTitle:h(g)}) + `
+<p class="muted" style="margin:18px 0 0">Records · ${G} national teams</p>
+<h1>${esc(h(g))}</h1>
+${body}
+${recNav(g, id)}
+<p><a class="btn" href="../../index.html#/records${g === 'women' ? '?g=women' : ''}">Explore the records by year</a></p>
+${recFoot}`;
+}
+
+/* International windows from the scored forecasts: matches less than RECAP_GAP_DAYS apart belong together. */
+export function recapWindows(entries, fixtures){
+  const scored = entries.filter(e => e.result && e.p).sort((a, b) => a.date.localeCompare(b.date)), out = [];
+  for (const e of scored){
+    const w = out[out.length - 1];
+    if (w && (Date.parse(e.date) - Date.parse(w.to)) / 864e5 < RECAP_GAP_DAYS){ w.list.push(e); w.to = e.date; }
+    else out.push({from:e.date, to:e.date, list:[e]});
+  }
+  const ahead = ['men', 'women'].flatMap(g => (fixtures[g] || []).map(x => x.date)).sort();
+  const used = new Set();
+  return out.filter(w => w.list.length >= RECAP_MIN).map(w => {
+    const d = new Date(w.from + 'T12:00:00Z'); let slug = d.toLocaleDateString('en-GB', {month:'long', timeZone:'UTC'}).toLowerCase() + '-' + d.getUTCFullYear();
+    if (used.has(slug)) slug += '-' + w.from.slice(8); used.add(slug);
+    const open = ahead.some(x => x >= w.from && (Date.parse(x) - Date.parse(w.to)) / 864e5 < RECAP_GAP_DAYS);
+    return {...w, slug, open, label:d.toLocaleDateString('en-GB', {month:'long', year:'numeric', timeZone:'UTC'})};
+  });
+}
+export function recapPage(w, meta){
+  const L = w.list, n = L.length, hits = L.filter(e => e.hit).length, draws = L.filter(e => e.outcome === 1).length;
+  const brier = L.reduce((a, e) => a + e.brier, 0) / n, byG = g => L.filter(e => e.g === g).length;
+  const out = e => e.p[e.outcome], name = (e, i) => [e.home, 'Draw', e.away][i];
+  const surprises = L.slice().sort((a, b) => out(a) - out(b)).slice(0, 5);
+  const fav = e => e.p.indexOf(Math.max(...e.p));
+  const range = w.from === w.to ? longDay(w.from) : `${longDay(w.from)} to ${longDay(w.to)}`;
+  const title = `How Formline's predictions did: ${w.label} internationals${w.open ? ' (so far)' : ''} | Formline`;
+  const desc = `${w.label} international window${w.open ? ', so far' : ''}: Formline predicted ${n} matches before kick-off and its favourite won ${hits} (${Math.round(100 * hits / n)}%).`;
+  const row = e => { const f = fav(e); return `<tr><td>${esc(e.home)} ${e.result[0]}–${e.result[1]} ${esc(e.away)}<br><span class="muted">${esc(e.tournament)} · ${shortDay(e.date)}${e.g === 'women' ? " · women's" : ''}</span></td>
+<td class="n">${esc(f === 1 ? 'Draw' : name(e, f))} ${Math.round(e.p[f] * 100)}%<br><span class="${e.hit ? 'W' : 'L'}">${e.hit ? 'Right' : 'Wrong'}</span></td></tr>`; };
+  return plainHead({title, desc, base:meta.base, path:`records/recaps/${w.slug}.html`, analytics:meta.analytics,
+    ogTitle:`${w.label} internationals: Formline's favourite won ${hits} of ${n}`}) + `
+<p class="muted" style="margin:18px 0 0">Forecast record · international window</p>
+<h1>How the predictions did: ${esc(w.label)}${w.open ? ', so far' : ''}</h1>
+<p>${range}. Formline published a prediction for each of these ${n} matches${byG('women') && byG('men') ? ` (${byG('men')} men's, ${byG('women')} women's)` : ''} before kick-off, and they are scored here exactly as they were made.${w.open ? ' The window is still going, so this page updates each night.' : ''}</p>
+<div class="probs"><div class="fav"><b>${hits} of ${n}</b><span>favourite won</span></div><div><b>${Math.round(100 * hits / n)}%</b><span>right</span></div><div><b>${brier.toFixed(2)}</b><span>Brier score</span></div></div>
+<p class="muted">The Brier score measures how close the chances were to what happened: 0 is perfect, and giving every outcome a third each time would score 0.67. ${draws} of the ${n} ended level.</p>
+<h2>Biggest surprises</h2><div class="box"><table>${surprises.map(e => `<tr><td>${esc(e.home)} ${e.result[0]}–${e.result[1]} ${esc(e.away)}<br><span class="muted">${esc(e.tournament)} · ${shortDay(e.date)}</span></td><td class="n">${e.outcome === 1 ? 'Draw' : esc(name(e, e.outcome)) + ' win'}: ${Math.round(out(e) * 100)}%</td></tr>`).join('')}</table></div>
+<p class="muted">The percentage is the chance Formline gave the result that happened.</p>
+<h2>Every prediction</h2><div class="box"><table>${L.slice().sort((a, b) => a.date.localeCompare(b.date) || a.home.localeCompare(b.home)).map(row).join('')}</table></div>
+<p><a class="btn" href="../../index.html#/record">Formline's full forecast record</a></p>
+<p class="muted"><a href="../index.html">All records and recaps</a> · <a href="../../matches/index.html">Upcoming match predictions</a></p>
+${recFoot}`;
+}
+
+/* A tournament's page: the chances from the Simulator, a button to play it, and a hand-off for shared scenarios. */
+const SIM_PHRASE = {Winner:'chances of winning it', Champion:'chances of winning it', Promoted:'chances of going up', Qualified:'chances of qualifying', 'Group winner':'chances of winning the group'};
+const simPct = p => p >= 0.9995 ? '100%' : p >= 0.995 ? '>99%' : p < 0.0005 ? '0%' : p < 0.005 ? '<1%' : Math.round(p * 100) + '%';
+function simPage(g, S, meta){
+  const app = `../index.html#/simulate?t=${encodeURIComponent(S.id)}${g === 'women' ? '&g=women' : ''}`;
+  const rewind = S.status === 'rewind', phrase = SIM_PHRASE[S.col] || 'chances';
+  const lead = S.rows.filter(r => !S.hosts.includes(r.team)).slice(0, 3);
+  const title = rewind ? `${S.name}: who the model backed going in | Formline` : `${S.name} predictions: ${phrase} | Formline`;
+  const desc = `Formline played the ${S.name} ${S.runs.toLocaleString('en')} times${rewind ? ', with the ratings from the day before kick-off' : ''}: ` +
+    lead.map(r => `${r.team} ${simPct(r.p)}`).join(', ') + `. Every team's ${phrase}${rewind ? '' : ', updated every night'}.`;
+  const st = {upcoming:'not started yet', 'in progress':'in progress', rewind:'already played'}[S.status] || S.status;
+  const teamLink = r => r.key && meta.slugOf.get(r.key) ? `<a href="../teams/${g}/${meta.slugOf.get(r.key)}.html">${esc(r.team)}</a>` : esc(r.team);
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<script>if (/[?&]open=1/.test(location.search)){ const q = new URLSearchParams(location.search); q.delete('open'); q.delete('t');
+  location.replace(${JSON.stringify(app)} + (q.toString() ? '&' + q.toString() : '')); }</script>
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(desc)}">
+${canonical(meta)}
+<meta property="og:title" content="${esc(rewind ? `${S.name}: the chances going in` : `${S.name}: ${phrase}`)}"><meta property="og:description" content="${esc(desc)}">
+${ogImage({base:meta.base, url:meta.base ? `${meta.base}sim/${S.id}.html` : '', image:meta.image, imageAlt:meta.imageAlt})}
+${STYLE_UP}${beacon(meta.analytics)}</head><body><main>
+<a class="brand" href="../index.html">Formline</a>
+<p class="muted" style="margin:18px 0 0">Tournament simulator · ${GAME[g][0].toUpperCase() + GAME[g].slice(1)} national teams</p>
+<h1>${esc(S.name)}</h1>
+<p>${S.where ? esc(S.where) + ' · ' : ''}${st}</p>
+<p>Formline played the whole ${esc(S.short || S.name)} ${S.runs.toLocaleString('en')} times, using its ratings${rewind ? ' from the day before kick-off' : ''} and the results already in.
+${lead.length ? `${esc(lead[0].team)} ${S.col === 'Winner' || S.col === 'Champion' ? 'won it' : S.col === 'Promoted' ? 'went up' : S.col === 'Qualified' ? 'qualified' : 'came out on top'} in ${simPct(lead[0].p)} of them.` : ''}</p>
+${S.hosts.length ? `<p class="muted">${esc(S.hosts.join(', ').replace(/, ([^,]*)$/, ' and $1'))} qualify as hosts.</p>` : ''}
+<p><a class="btn" href="${app}">Play it yourself in the Simulator</a></p>
+<div class="box"><b>${esc(phrase[0].toUpperCase() + phrase.slice(1))}</b><table>
+${S.firstKo ? `<tr><td class="muted">Team</td><td class="n muted">${esc(S.firstKo)}</td><td class="n muted">${esc(S.col)}</td></tr>` : ''}
+${S.rows.map(r => `<tr><td>${teamLink(r)}</td>${S.firstKo ? `<td class="n muted">${simPct(r.first)}</td>` : ''}<td class="n">${simPct(r.p)}</td></tr>`).join('')}
+</table></div>
+<p class="muted">${esc(S.note)}</p>
+<p class="muted"><a href="../teams/index.html">All teams</a> · <a href="../matches/index.html">Match predictions</a> · <a href="../h2h/index.html">Head to head</a></p>
+<p class="src">Results from the open archives maintained by Mart J&uuml;risoo (CC0), with recent results and fixtures from API-Football.
+Every source is listed on <a href="../index.html#/sources">Sources &amp; thanks</a>.</p>
+</main></body></html>
+`;
+}
+const canonical = m => m.base ? `<link rel="canonical" href="${m.base}${m.path}">` : '';
+
 export function buildPages(root, base){
   const model = loadModel(path.join(root, 'index.html'));
   const analytics = model.analytics();
-  const out = {men:[], women:[]}, extraUrls = [], hub = {matches:{men:[], women:[]}, h2h:{men:[], women:[]}};
+  const out = {men:[], women:[]}, extraUrls = [], hub = {matches:{men:[], women:[]}, h2h:{men:[], women:[]}, sim:[]};
   const readJson = f => { try { return JSON.parse(fs.readFileSync(path.join(root, 'data', f), 'utf8')); } catch(e){ return null; } };
   const fixtures = readJson('fixtures.json') || {}, forecasts = (readJson('forecasts.json') || {}).entries || [];
+  /* Pictures already drawn (previews/index.json: file → hash of what it shows). A page uses its picture whenever one
+     exists, even if it is a few hours behind, and og.png otherwise. */
+  let drawn = {}; try { drawn = JSON.parse(fs.readFileSync(path.join(root, 'previews', 'index.json'), 'utf8')); } catch(e){}
+  const specs = [];
+  const preview = (file, alt, data) => { const hash = previewHash(data); specs.push({file, hash, alt, data});
+    const have = drawn[file] && fs.existsSync(path.join(root, file)) ? drawn[file] : null;
+    return have ? {image:`${file}?v=${have}`, imageAlt:alt} : {}; };
   const today = new Date().toISOString().slice(0, 10), keepFrom = new Date(Date.now() - MATCH_KEEP_DAYS * 864e5).toISOString().slice(0, 10);
   for (const g of ['men', 'women']){
     const f = path.join(root, 'data', g + '.json');
@@ -229,6 +431,7 @@ export function buildPages(root, base){
       const P = findPair(x.kh, x.ka); if (P && !nextFor.has(P)) nextFor.set(P, x); });
 
     for (const dir of ['teams', 'matches', 'h2h']){ fs.rmSync(path.join(root, dir, g), {recursive:true, force:true}); fs.mkdirSync(path.join(root, dir, g), {recursive:true}); }
+    if (g === 'men'){ fs.rmSync(path.join(root, 'sim'), {recursive:true, force:true}); fs.mkdirSync(path.join(root, 'sim'), {recursive:true}); }
     for (const P of pairs){
       const slug = h2hSlug(P), a = nameOf(P.k1), b = nameOf(P.k2);
       fs.writeFileSync(path.join(root, 'h2h', g, slug + '.html'), h2hPage(g, P, a, b,
@@ -237,10 +440,16 @@ export function buildPages(root, base){
       hub.h2h[g].push({a, b, slug, n:P.n});
     }
     for (const x of matches){
-      const P = findPair(x.kh, x.ka);
+      const P = findPair(x.kh, x.ka), rh = byKey.get(x.kh), ra = byKey.get(x.ka), [ph, pd, pa] = x.p.map(pct);
+      const pic = preview(`previews/matches/${g}/${x.slug}.png`,
+        x.result ? `${x.home} ${x.result[0]}–${x.result[1]} ${x.away}, with Formline's prediction before kick-off` : `${x.home} v ${x.away}: Formline gives ${x.home} ${ph}%, a draw ${pd}% and ${x.away} ${pa}%`,
+        {kind:'match', g, comp:x.comp, day:x.day, ko:x.kickoff ? new Date(x.kickoff).toISOString().slice(11, 16) : '', venue:venuePlain(x),
+         home:{name:rh ? rh.team : x.home, flag:model.flag(x.home), rank:rh ? rh.rank : null, tier:rh ? rh.tier : null},
+         away:{name:ra ? ra.team : x.away, flag:model.flag(x.away), rank:ra ? ra.rank : null, tier:ra ? ra.tier : null},
+         p:[ph, pd, pa], likely:String(x.likely || ''), result:x.result || null});
       fs.writeFileSync(path.join(root, 'matches', g, x.slug + '.html'), matchPage(g, x,
-        {base, analytics, slug:x.slug, pair:P, keyH:x.kh, h2hSlug:P ? h2hSlug(P) : null,
-         rh:byKey.get(x.kh), ra:byKey.get(x.ka), slugH:slugOf.get(x.kh), slugA:slugOf.get(x.ka)}));
+        {base, analytics, slug:x.slug, pair:P, keyH:x.kh, h2hSlug:P ? h2hSlug(P) : null, ...pic,
+         rh, ra, slugH:slugOf.get(x.kh), slugA:slugOf.get(x.ka)}));
       if (base) extraUrls.push(`${base}matches/${g}/${x.slug}.html`);
       hub.matches[g].push(x);
     }
@@ -256,16 +465,61 @@ export function buildPages(root, base){
         const one = P.k1 === r.key; return {opp:nameOf(one ? P.k2 : P.k1), n:P.n, w:one ? P.w1 : P.w2, d:P.d, l:one ? P.w2 : P.w1, slug:h2hSlug(P)}; });
       extra.rivals = opps.slice().sort((a, b) => b.n - a.n || a.opp.localeCompare(b.opp)).slice(0, 8);
       extra.all = opps.sort((a, b) => a.opp.localeCompare(b.opp));
-      fs.writeFileSync(path.join(root, 'teams', g, slug + '.html'), teamPage(g, r, {asOf:t.asOf, teams:t.teams, base, analytics}, href, extra));
+      const nx = extra.matches[0], res = x => x.gf > x.ga ? 'W' : x.gf < x.ga ? 'L' : 'D';
+      const pic = preview(`previews/teams/${g}/${slug}.png`,
+        `${r.team} ${GAME[g]} national team: ${r.rank ? `ranked ${ord(r.rank)} of ${t.teams}, tier ${r.tier}, rated ${r.rating}` : 'not ranked yet'}`,
+        {kind:'team', g, team:r.team, conf:r.conf, flag:model.flag(r.team), rank:r.rank || null, of:t.teams, tier:r.tier, rating:r.rating,
+         last:r.last.map(res), next:nx ? {opp:nameOf(nx.kh === r.key ? nx.ka : nx.kh), day:nx.day || nx.date, comp:nx.comp} : null});
+      fs.writeFileSync(path.join(root, 'teams', g, slug + '.html'), teamPage(g, r, {asOf:t.asOf, teams:t.teams, base, analytics, ...pic}, href, extra));
       out[g].push({team:r.team, slug, rank:r.rank});
     }
+
+    /* Tournament pages from the Simulator. */
+    for (const S of model.simulations(g)){
+      if (!S.rows.length) continue;
+      const shown = S.rows.filter(r => !S.hosts.includes(r.team)).slice(0, 8).map(r => ({team:r.team, flag:r.flag, p:Math.round(r.p * 1000) / 10}));
+      const pic = preview(`previews/sim/${S.id}.png`, `${S.name}: ${SIM_PHRASE[S.col] || 'chances'} from ${S.runs.toLocaleString('en')} simulations, led by ` +
+        shown.slice(0, 3).map(r => `${r.team} ${r.p}%`).join(', '),
+        {kind:'sim', g, name:S.name, where:S.where, status:S.status, col:S.col, runs:S.runs, rows:shown, hosts:S.hosts});
+      fs.writeFileSync(path.join(root, 'sim', S.id + '.html'), simPage(g, S, {base, path:`sim/${S.id}.html`, analytics, slugOf, ...pic}));
+      if (base) extraUrls.push(`${base}sim/${S.id}.html`);
+      hub.sim.push({g, id:S.id, name:S.name, status:S.status});
+    }
+
+    /* All-time records. */
+    fs.rmSync(path.join(root, 'records', g), {recursive:true, force:true}); fs.mkdirSync(path.join(root, 'records', g), {recursive:true});
+    const R = model.records(g, 30);
+    for (const [id] of RECORDS){
+      fs.writeFileSync(path.join(root, 'records', g, id + '.html'), recordPage(g, id, R, {base, analytics, slugOf}));
+      if (base) extraUrls.push(`${base}records/${g}/${id}.html`);
+    }
   }
+  /* Window recaps, from the predictions recorded before kick-off. */
+  fs.rmSync(path.join(root, 'records', 'recaps'), {recursive:true, force:true}); fs.mkdirSync(path.join(root, 'records', 'recaps'), {recursive:true});
+  const recaps = recapWindows(forecasts.map(e => ({...e, tournament:model.compName(e.tournament)})), fixtures);
+  for (const w of recaps){
+    fs.writeFileSync(path.join(root, 'records', 'recaps', w.slug + '.html'), recapPage(w, {base, analytics}));
+    if (base) extraUrls.push(`${base}records/recaps/${w.slug}.html`);
+  }
+  fs.writeFileSync(path.join(root, 'records', 'index.html'), `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>International football records and forecast recaps – Formline</title>
+<meta name="description" content="All-time records for men's and women's international football (biggest upsets, biggest wins, longest runs, every country's best-ever team) and how Formline's predictions did in each window.">
+${base ? `<link rel="canonical" href="${base}records/index.html">` : ''}${STYLE_UP}${beacon(analytics)}</head><body><main>
+<a class="brand" href="../index.html">Formline</a><h1>Records</h1>
+<p class="muted"><a href="../teams/index.html">All teams</a> · <a href="../matches/index.html">Match predictions</a> · <a href="../h2h/index.html">Head to head</a></p>
+${['men', 'women'].map(g => `<h2>${GAME[g][0].toUpperCase() + GAME[g].slice(1)} internationals</h2><ul>${RECORDS.map(([id, label]) => `<li><a href="${g}/${id}.html">${esc(label)}</a></li>`).join('')}</ul>`).join('')}
+<h2>How the predictions did</h2>${recaps.length ? `<ul>${recaps.slice().reverse().map(w => `<li><a href="recaps/${w.slug}.html">${esc(w.label)} internationals</a>${w.open ? ' <span class="muted">(so far)</span>' : ''}</li>`).join('')}</ul>` :
+  `<p class="muted">The first window recap appears once ${RECAP_MIN} predictions made before kick-off have been scored. Meanwhile, see the <a href="../index.html#/record">forecast record</a>.</p>`}
+</main></body></html>
+`);
+  hub.recaps = recaps.length;
   fs.writeFileSync(path.join(root, 'pages.css'), CSS);
+  fs.writeFileSync(PREVIEW_SPECS, JSON.stringify(specs));
   const hubHead = (title, desc, rel) => `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">${STYLE_UP}${beacon(analytics)}</head><body><main>
 <a class="brand" href="${rel}index.html">Formline</a><h1>${esc(title.replace(/ – Formline$/, ''))}</h1>
-<p class="muted"><a href="${rel}teams/index.html">All teams</a> · <a href="${rel}matches/index.html">Match predictions</a> · <a href="${rel}h2h/index.html">Head to head</a></p>`;
+<p class="muted"><a href="${rel}teams/index.html">All teams</a> · <a href="${rel}matches/index.html">Match predictions</a> · <a href="${rel}h2h/index.html">Head to head</a> · <a href="${rel}records/index.html">Records</a></p>`;
   const list = g => out[g].slice().sort((a, b) => a.team.localeCompare(b.team))
     .map(x => `<li><a href="${g}/${x.slug}.html">${esc(x.team)}</a>${x.rank ? ` <span class="muted">#${x.rank}</span>` : ''}</li>`).join('');
   fs.writeFileSync(path.join(root, 'teams', 'index.html'), hubHead('All national teams – Formline', "Ratings for every men's and women's national football team.", '../') +
@@ -289,18 +543,18 @@ export function buildPages(root, base){
 `<p>The most-played pairs. Every team page lists all its opponents, each with its own head-to-head page.</p><h2>Men</h2>${hList('men', 200)}<h2>Women</h2>${hList('women', 100)}</main></body></html>
 `);
   if (base){
-    const urls = [base, base + 'teams/index.html', base + 'matches/index.html', base + 'h2h/index.html',
+    const urls = [base, base + 'teams/index.html', base + 'matches/index.html', base + 'h2h/index.html', base + 'records/index.html',
       ...['men', 'women'].flatMap(g => out[g].map(x => `${base}teams/${g}/${x.slug}.html`)), ...extraUrls];
     fs.writeFileSync(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
       urls.map(u => `  <url><loc>${esc(u)}</loc></url>`).join('\n') + `\n</urlset>\n`);
     fs.writeFileSync(path.join(root, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${base}sitemap.xml\n`);
   }
   return {men:out.men.length, women:out.women.length, matches:hub.matches.men.length + hub.matches.women.length,
-    h2h:hub.h2h.men.length + hub.h2h.women.length};
+    h2h:hub.h2h.men.length + hub.h2h.women.length, sim:hub.sim.length, recaps:hub.recaps || 0, previews:specs.length};
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)){
   const base = siteBase(ROOT, process.env.GITHUB_REPOSITORY);
   const n = buildPages(ROOT, base);
-  console.log(`Static pages: ${n.men} men's and ${n.women} women's teams, ${n.matches} matches, ${n.h2h} head-to-heads` + (base ? `, sitemap for ${base}` : ' (address unknown: no sitemap)'));
+  console.log(`Static pages: ${n.men} men's and ${n.women} women's teams, ${n.matches} matches, ${n.h2h} head-to-heads, ${n.sim} tournaments` + (base ? `, sitemap for ${base}` : ' (address unknown: no sitemap)'));
 }

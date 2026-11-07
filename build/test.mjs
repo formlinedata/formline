@@ -376,6 +376,29 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
     'head-to-head pages are named a-vs-b and titled with the meeting count');
   { const tok = (/analytics: '([^']*)'/.exec(fs.readFileSync(path.join(root, 'index.html'), 'utf8')) || [])[1] || '';
     ok(tok ? html.includes(`"token":"${tok}"`) : !html.includes('cloudflareinsights'), 'static pages carry the visit counter exactly when SITE.analytics has a token'); }
+  // link-preview pictures
+  const {PREVIEW_SPECS} = await import('./pages.mjs');
+  const specs = JSON.parse(fs.readFileSync(PREVIEW_SPECS, 'utf8')), teamSpec = specs.find(x => x.file === 'previews/teams/men/' + any.replace('.html', '.png'));
+  ok(teamSpec && teamSpec.data.kind === 'team' && /^[0-9a-f]{10}$/.test(teamSpec.hash) && html.includes('content="https://example.github.io/formline/og.png"') && html.includes('summary_large_image'),
+    'each team page asks for a preview picture and uses the site card until it is drawn');
+  fs.mkdirSync(path.join(root, path.dirname(teamSpec.file)), {recursive:true}); fs.writeFileSync(path.join(root, teamSpec.file), 'png');
+  fs.writeFileSync(path.join(root, 'previews', 'index.json'), JSON.stringify({[teamSpec.file]:teamSpec.hash}));
+  buildPages(root, 'https://example.github.io/formline/');
+  ok(fs.readFileSync(path.join(root, 'teams', 'men', any), 'utf8').includes(`content="https://example.github.io/formline/${teamSpec.file}?v=${teamSpec.hash}"`), 'a drawn picture becomes the page preview, with its hash in the address');
+  const sims = fs.existsSync(path.join(root, 'sim')) ? fs.readdirSync(path.join(root, 'sim')) : [];
+  ok(sims.length === n.sim && sims.every(f => { const h = fs.readFileSync(path.join(root, 'sim', f), 'utf8');
+    return /<title>.+(predictions: chances of|who the model backed going in)/.test(h) && h.includes('open=1') && h.includes('#/simulate?t=' + f.replace('.html', '')); }),
+    'each Simulator tournament has a page that hands shared scenarios on to the Simulator');
+  ok(['men', 'women'].every(g => ['biggest-upsets', 'biggest-wins', 'longest-runs', 'best-ever-teams', 'fifa-ranking-vs-formline'].every(f => fs.existsSync(path.join(root, 'records', g, f + '.html'))))
+    && fs.existsSync(path.join(root, 'records', 'index.html')), 'record pages written for men and women, with an index');
+  { const {recapWindows} = await import('./pages.mjs');
+    const e = (d, hit) => ({g:'men', date:d, home:'A', away:'B', tournament:'Friendly', p:[0.5, 0.3, 0.2], result:hit ? [1, 0] : [0, 1], outcome:hit ? 0 : 2, hit, brier:0.3});
+    const list = [...['2026-11-12', '2026-11-13', '2026-11-14', '2026-11-15', '2026-11-16', '2026-11-17', '2026-11-18', '2026-11-18'].map((d, i) => e(d, i % 3 > 0)), e('2026-12-20', true)];
+    const W = recapWindows(list, {men:[]}), W2 = recapWindows(list, {men:[{date:'2026-11-20'}]});
+    ok(W.length === 1 && W[0].slug === 'november-2026' && W[0].list.length === 8 && !W[0].open && W2[0].open, 'window recaps group matches less than 10 days apart, need 8 scored, and say "so far" while the window is on'); }
+  const {tierColours} = await import('./previews.mjs');
+  ok(Object.keys(tierColours(fs.readFileSync(path.join(root, 'index.html'), 'utf8'))).length >= 15, 'preview pictures read the 15 tier colours from the site');
+  fs.rmSync(path.join(root, 'previews'), {recursive:true, force:true});
 }
 // --- IndexNow: tell Bing which pages changed
 {

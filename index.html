@@ -646,9 +646,12 @@
   .upset-row td{vertical-align:middle;}
 
   /* Tier colours and the tier-mix bar */
-  :root{--tier-1:#f6b638;--tier-2:#4fb3a9;--tier-3:#9b8fd6;}
-  :root[data-theme="light"]{--tier-1:#c98a12;--tier-2:#2f8f86;--tier-3:#7466c2;}
-  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--tier-1:#c98a12;--tier-2:#2f8f86;--tier-3:#7466c2;}}
+  /* One colour per tier: gold, silver and bronze for the top three, then cool colours from green through blue to
+     purple, alternating light and dark so neighbouring tiers always differ, also for colour-blind readers (checked
+     with a colour-vision simulator). Fifteen are defined; the most seen at any setting is fifteen. */
+  :root{--tier-1:#f6b638;--tier-2:#c9d2d9;--tier-3:#d0874a;--tier-4:#8ce6a0;--tier-5:#14a174;--tier-6:#58e9ce;--tier-7:#00a19e;--tier-8:#46e5f8;--tier-9:#009abf;--tier-10:#6ddbff;--tier-11:#418ed4;--tier-12:#a0cdff;--tier-13:#7680d7;--tier-14:#cebeff;--tier-15:#9c73c8;}
+  :root[data-theme="light"]{--tier-1:#c98a12;--tier-2:#8d99a3;--tier-3:#9a5520;--tier-4:#43a65f;--tier-5:#006c3f;--tier-6:#00aa8f;--tier-7:#006b6a;--tier-8:#00a6b9;--tier-9:#00648a;--tier-10:#009bd7;--tier-11:#00579e;--tier-12:#608de4;--tier-13:#4449a1;--tier-14:#907edd;--tier-15:#683b92;}
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--tier-1:#c98a12;--tier-2:#8d99a3;--tier-3:#9a5520;--tier-4:#43a65f;--tier-5:#006c3f;--tier-6:#00aa8f;--tier-7:#006b6a;--tier-8:#00a6b9;--tier-9:#00648a;--tier-10:#009bd7;--tier-11:#00579e;--tier-12:#608de4;--tier-13:#4449a1;--tier-14:#907edd;--tier-15:#683b92;}}
   .tcell{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
   .tbar{display:inline-flex;width:56px;height:9px;border-radius:5px;overflow:hidden;background:var(--line);}
   .tbar i{display:block;height:100%;}
@@ -2426,8 +2429,10 @@ function ratingScaleTable(c){
         '<td class="scale-eg">'+rows.slice(0, 4).map(r => '<a href="'+href(r.team)+'">'+withFlag(r.team)+'</a>').join(' ')+'</td></tr>'; }).join('')+
     '</tbody></table></div>';
 }
-/* Tiers alternate through three colours, so neighbours always differ. */
-const tierColor = n => 'var(--tier-'+(((n - 1) % 3) + 1)+')';
+/* Each tier has its own colour: fifteen are defined. A sixteenth tier or later reuses the cool colours (4 to 15),
+   never the gold, silver and bronze. */
+const TIER_COLOURS = 15;
+const tierColor = n => 'var(--tier-'+(n <= TIER_COLOURS ? n : 4 + (n - 4) % (TIER_COLOURS - 3))+')';
 const tierChip = (n, title) => '<span class="tchip" style="--tc:'+tierColor(n)+'"'+(title ? ' title="'+esc(title)+'"' : '')+'>T'+n+'</span>';
 /* The tier mix as a small stacked bar: each tier's share of the team's likely strength, in its own colour. */
 function tierBar(r){ return tierBarOf(r.tierMix); }
@@ -3015,10 +3020,13 @@ function bindFilters(){
   const cp = document.getElementById('copyLink');
   if (cp) cp.addEventListener('click', async () => {
     const label = cp.querySelector('span'), say = t => { label.textContent = t; setTimeout(() => label.textContent = 'Share this view', 2000); };
+    /* On the Simulator, share the tournament's own page with the scenario attached (see renderSimResults). */
+    const sim = state.route === 'simulate' && state.simShare && location.protocol.startsWith('http') ? state.simShare : null;
+    const url = sim ? sim.url : location.href;
     if (navigator.share && matchMedia('(pointer: coarse)').matches){
-      try { await navigator.share({title:document.title, url:location.href}); } catch(e){}
+      try { await navigator.share(sim ? {title:document.title, text:sim.text, url} : {title:document.title, url}); } catch(e){}
       return; }
-    try { await navigator.clipboard.writeText(location.href); say('Link copied'); }
+    try { await navigator.clipboard.writeText(sim ? sim.text+' '+url : url); say(sim ? 'Copied: the result and a link' : 'Link copied'); }
     catch(e){ say('Copy the address bar to share'); }
   });
 }
@@ -5597,6 +5605,7 @@ function actualOutcome(T, c){
 }
 
 function viewSimulate(){
+  state.simShare = null;
   const p = state.params, T0 = tournamentById(p.t) || (p.t === 'custom' ? null : TOURNAMENTS[0]);
   const custom = p.t === 'custom';
   const app = document.getElementById('app');
@@ -5716,6 +5725,19 @@ function renderSimResults(T, P, R, actual, forced){
   const actualCol = actual ? '<th>Actual</th>' : '';
   const nameOf = t => P.info.get(t).name;
   const winner = order[0], fav = R.reach[winner][R.nStage-1]/R.runs;
+  /* The Share button links to the tournament's own page (sim/<id>.html, built each night), which carries a picture of
+     the chances for link previews and goes straight on to this exact scenario. Built-your-own tournaments share the
+     plain link. */
+  if (T.id !== 'custom'){
+    const col = T.league ? 'Champion' : (T.knockout.length ? 'Winner' : (T.winnerCol || 'Group winner'));
+    const verb = {Winner:'win the '+T.short, Champion:'win the '+T.short, Promoted:'go up in the '+T.short, Qualified:'qualify from the '+T.short}[col] || 'top their group in the '+T.short;
+    const nFixed = Object.keys(forced).length, w = R.reach[winner][R.nStage-1]/R.runs;
+    const q = new URLSearchParams(); Object.entries(state.params).forEach(([k, v]) => { if (k !== 't' && v !== undefined && v !== null && v !== '') q.set(k, v); });
+    q.set('open', '1');
+    state.simShare = {url:new URL('sim/'+encodeURIComponent(T.id)+'.html?'+q.toString(), location.href).href,
+      text:dn(nameOf(R.names[winner]))+' '+verb+' in '+Math.round(100*w)+'% of '+R.runs.toLocaleString()+' simulations'+
+        (nFixed ? ', with '+nFixed+' result'+(nFixed > 1 ? 's' : '')+' fixed' : '')+'. Play it yourself:'};
+  }
   state.tourShare = {kind:'sim', title:T.name, R, order, name:i => nameOf(R.names[i]), ts:null,
     sub:(T.status === 'rewind' ? 'Chances of winning going in' : 'Chances of winning')+' · '+R.runs.toLocaleString()+' simulations',
     hl:actual && actual.champion ? R.names.indexOf(actual.champion) : -1};
@@ -8120,8 +8142,12 @@ function viewSupport(){
 const CHANGELOG = [
   ['7 Nov 2026', ['Formline is on Bluesky: @formlinedata.com. The daily post goes there too.',
     'New plain pages that search engines can read: one for every upcoming match, with Formline\'s prediction and the head-to-head record, '+
-      'and one for every pair of teams that have met at least five times, with every result between them. Team pages link to their next matches and most-played opponents.',
-    'Simulator: the Asian Cup has moved to 23 December 2027 to 21 January 2028, still called the 2027 Asian Cup. The new dates still need FIFA\'s approval.']],
+      'and one for every pair of teams that have ever met, with every result between them. Team pages link to their next matches and most-played opponents.',
+    'Simulator: the Asian Cup has moved to 23 December 2027 to 21 January 2028, still called the 2027 Asian Cup. The new dates still need FIFA\'s approval.',
+    'Rankings: every tier now has its own colour, in the table, the tier bars and the tier headings: gold, silver and bronze for the top three tiers, then cool colours from green through blue to purple. They used to take turns with three colours.',
+    'Sharing a team or match page now shows a picture of that team or match in the link preview: rank, tier, rating and form for a team; the chances and the likeliest score for a match.',
+    'Simulator: Share now sends a line saying who wins in your scenario, with a link that opens exactly that scenario and previews as a picture of the chances. Each tournament also has its own plain page with every team\'s chances.',
+    'New plain record pages for men and women: the biggest upsets and biggest wins ever, the longest winning and unbeaten runs, every country\'s best-ever team, and Formline next to FIFA\'s formula and World Elo. After each international window, a page shows how the predictions did.']],
   ['6 Nov 2026', ['The men\'s SAFF Cup is now shown under its official name, SAFF Championship, and the 2026 edition in Dhaka is on the Simulator, with the two results already played fixed.',
     'New page: Sources &amp; thanks, under About. It lists every source Formline uses, with its licence: the results archives, API-Football, Wikipedia, RSSSF, the formulas it is compared with, flags and badges, and the chart library, file reader and typeface. Sources are credited whether or not their licence asks for it.']],
   ['3 Nov 2026', ['Fixtures: matches are grouped by day and, within each day, by competition (or by competition and then day), with filters for the day, the competition, the region and a team. The choices stay in the link, so a filtered list can be shared. A compact list shows one line per match, with its group or round from the Simulator, and opens the full prediction in place; full cards are one click away and the choice is remembered.',
