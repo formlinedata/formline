@@ -374,7 +374,8 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   const h2hDir = path.join(root, 'h2h', 'men'), h2hs = fs.existsSync(h2hDir) ? fs.readdirSync(h2hDir) : [];
   ok(h2hs.every(f => /^[a-z0-9-]+-vs-[a-z0-9-]+\.html$/.test(f)) && h2hs.every(f => /head to head: (the only meeting|all \d+ results) \| Formline/.test(fs.readFileSync(path.join(h2hDir, f), 'utf8'))),
     'head-to-head pages are named a-vs-b and titled with the meeting count');
-  ok(!html.includes('cloudflareinsights'), 'no visit counter on the static pages while no token is set');
+  { const tok = (/analytics: '([^']*)'/.exec(fs.readFileSync(path.join(root, 'index.html'), 'utf8')) || [])[1] || '';
+    ok(tok ? html.includes(`"token":"${tok}"`) : !html.includes('cloudflareinsights'), 'static pages carry the visit counter exactly when SITE.analytics has a token'); }
 }
 // --- IndexNow: tell Bing which pages changed
 {
