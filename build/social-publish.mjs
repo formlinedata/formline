@@ -15,9 +15,12 @@ import fs from 'node:fs';
 const API = `https://graph.instagram.com/${process.env.IG_API_VERSION || 'v23.0'}`;
 const repo = process.env.GITHUB_REPOSITORY || 'formlinedata/formline';
 const date = process.env.SOCIAL_DATE || new Date().toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
-const {IG_USER_ID, IG_TOKEN, GH_TOKEN, BSKY_HANDLE, BSKY_APP_PASSWORD} = process.env;
+const {IG_USER_ID, IG_TOKEN, GH_TOKEN} = process.env;
+/* Forgiving about how the Bluesky secrets were pasted: "@handle", a profile link, spaces or a trailing newline. */
+const BSKY_HANDLE = (process.env.BSKY_HANDLE || '').trim().replace(/^https?:\/\/bsky\.app\/profile\//, '').replace(/^@/, '').replace(/\/+$/, '');
+const BSKY_APP_PASSWORD = (process.env.BSKY_APP_PASSWORD || '').trim();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-const note = (m, kind = 'notice') => console.log(process.env.GITHUB_ACTIONS ? `::${kind} title=Instagram::${m}` : m);
+const note = (m, kind = 'notice') => console.log(process.env.GITHUB_ACTIONS ? `::${kind} title=${/^Bluesky/.test(m) ? 'Bluesky' : /^Instagram/.test(m) ? 'Instagram' : 'Social post'}::${m}` : m);
 
 /* Bluesky text: at most 300 characters, links made clickable with byte-offset facets, as the AT Protocol requires. */
 export function bskyText(t){
@@ -79,7 +82,9 @@ if (BSKY_HANDLE && BSKY_APP_PASSWORD && !done.has('bluesky')){
     lines.push(`Posted on Bluesky: ${link}`);
     done.add('bluesky');
     note(`Bluesky: posted "${meta.title}" ${link}`);
-  } catch(e){ failed = true; lines.push(`Bluesky didn't accept this post: ${e.message}.`); note('Bluesky refused the post: ' + e.message, 'warning'); }
+  } catch(e){ failed = true;
+    const hint = /identifier or password/i.test(e.message) ? ` Check the two secrets: BSKY_HANDLE should be just \`${BSKY_HANDLE.includes('.') ? BSKY_HANDLE : 'formlinedata.bsky.social'}\`, and BSKY_APP_PASSWORD an app password from Bluesky's Settings → Privacy and security → App passwords (it looks like xxxx-xxxx-xxxx-xxxx), not the account's main password.` : '';
+    lines.push(`Bluesky didn't accept this post: ${e.message}.${hint}`); note('Bluesky refused the post: ' + e.message, 'warning'); }
 }
 
 /* ---------- Instagram ---------- */
