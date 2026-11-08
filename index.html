@@ -370,6 +370,63 @@
 
   .vs-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;margin-bottom:20px;}
   @media(max-width:720px){.vs-grid{grid-template-columns:1fr;}}
+  /* This window */
+  .win-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0 0 14px;} .win-head h2{margin:0;font-size:22px;color:var(--chalk);}
+  .win-tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0 0 20px;}
+  @media(max-width:720px){.win-tiles{grid-template-columns:repeat(2,1fr);}}
+  .win-tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;}
+  .win-tile b{font-size:24px;color:var(--amber);font-variant-numeric:tabular-nums;} .win-tile span{font-size:12.5px;color:var(--dim);}
+  .win-fx-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;} @media(max-width:820px){.win-fx-grid{grid-template-columns:1fr;}}
+  .win-fx{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel-2);display:flex;flex-direction:column;gap:6px;}
+  .win-fx-h{display:flex;justify-content:space-between;font-size:12.5px;}
+  /* Confederations: cards, depth, places, meetings. */
+  .conf-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 20px;}
+  @media(max-width:900px){.conf-cards{grid-template-columns:repeat(2,1fr);}} @media(max-width:560px){.conf-cards{grid-template-columns:1fr;}}
+  .conf-card{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--line);border-top:3px solid var(--cc);border-radius:10px;
+    background:var(--panel);text-decoration:none;color:var(--body);font-size:13.5px;}
+  .conf-card:hover{border-color:var(--line-strong);border-top-color:var(--cc);}
+  .cc-head{display:flex;align-items:center;gap:8px;} .cc-head b{color:var(--chalk);font-size:15px;} .cc-head .muted{margin-left:auto;font-size:12.5px;}
+  .cc-big .rating{font-size:24px;} .cc-big small{color:var(--dim);margin-left:6px;}
+  .cc-row{display:flex;align-items:center;gap:8px;} .cc-row > .muted:first-child{width:56px;flex:none;font-size:12.5px;}
+  .conf-two{display:grid;grid-template-columns:1fr 1fr;gap:20px;} @media(max-width:980px){.conf-two{grid-template-columns:1fr;}}
+  .conf-depth{width:100%;height:auto;display:block;}
+  .conf-depth .cd-grid{stroke:var(--line);stroke-width:1;} .conf-depth .cd-axis{stroke:var(--line-strong);stroke-width:1;}
+  .conf-depth .cd-med{stroke:var(--amber);stroke-width:1.5;stroke-dasharray:5 4;}
+  .conf-depth .cd-tick{fill:var(--dim);font:12px var(--font);} .conf-depth .cd-lab{fill:var(--chalk);font:600 13px var(--font);}
+  .cp-bars{width:40%;min-width:120px;} .cp-bar{display:block;height:7px;border-radius:4px;margin:2px 0;}
+  .cp-places{background:var(--line-strong);}
+  .conf-meet td, .conf-meet th{white-space:nowrap;} .conf-meet .cm-self{background:var(--panel-2);}
+  .conf-meet .cm-cell{background:color-mix(in srgb, var(--cmc) calc(var(--cm) * 28%), transparent);}
+  .conf-meet .cm-cell b{display:block;font-size:14px;} .conf-meet .cm-cell small{color:var(--dim);font-size:11.5px;}
+  .sec-h{font-size:19px;margin:8px 0 12px;color:var(--chalk);}
+  /* Predict: mode switch, coming-up strip, the two sides, what's at stake. */
+  .pred-mode{margin:0 0 16px;}
+  .pred-quick{margin:0 0 18px;}
+  .pq-head{font-size:13px;font-weight:650;color:var(--chalk);margin-bottom:8px;} .pq-head .muted{font-weight:400;margin-left:6px;}
+  .pq-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity;}
+  .pq{flex:none;scroll-snap-align:start;display:flex;flex-direction:column;gap:4px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;
+    background:var(--panel);text-decoration:none;color:var(--body);font-size:13px;min-width:170px;}
+  .pq:hover{border-color:var(--line-strong);} .pq.on{border-color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber);}
+  .pq-d{font-size:11.5px;color:var(--dim);} .pq-t{display:flex;flex-direction:column;gap:2px;} .pq-t .muted{font-size:11px;padding-left:2px;}
+  .pred-teams{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;margin:0 0 18px;}
+  .pred-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;}
+  .pred-lab{font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--dim);}
+  .pred-flag{--mark-h:46px;min-height:46px;display:flex;align-items:center;}
+  .pred-name{font-size:20px;font-weight:750;color:var(--chalk);} .pred-name a{color:inherit;text-decoration:none;}
+  .pred-meta{font-size:12.5px;color:var(--dim);} .pred-rating .rating{font-size:18px;}
+  .pred-form{font-size:12px;display:flex;gap:6px;align-items:center;}
+  .pred-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;max-width:230px;text-align:center;}
+  .pred-v{font-size:22px;font-weight:700;color:var(--dim);} .pred-h2h{font-size:12.5px;color:var(--dim);line-height:1.5;}
+  .pred-tagrow{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13px;margin-top:8px;}
+  .pred-stakes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .ps-cell{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel-2);}
+  .ps-lab{font-size:12.5px;color:var(--dim);margin-bottom:6px;} .ps-v{display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;}
+  .dream-pick{display:grid;grid-template-columns:90px 1fr;gap:8px;} .dream-pick select{width:100%;}
+  @media(max-width:720px){
+    .pred-teams{grid-template-columns:1fr 1fr;} .pred-mid{grid-column:1 / -1;grid-row:2;max-width:none;}
+    .pred-card{padding:12px 10px;} .pred-name{font-size:17px;} .pred-flag{--mark-h:36px;min-height:36px;}
+    .pred-stakes{grid-template-columns:1fr;}
+  }
   .vs-mid{color:var(--dim);font-size:16px;text-align:center;font-weight:600;}
   .prob-bar{display:flex;height:42px;border-radius:5px;overflow:hidden;border:1px solid var(--line);margin:6px 0 10px;}
   .prob-seg{display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:650;}
@@ -1034,7 +1091,7 @@
 <header class="masthead">
   <div class="masthead-inner">
     <a class="brand" href="#/" aria-label="Formline, home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="var(--amber-band)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="var(--amber)"/></svg><span class="brand-word">Formline</span></a>
-    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The coming weeks, with predictions</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Embed the table, download the data, chip in</small></a><a href="#/contact" data-route="contact">Contact<small>Corrections, press and feedback</small></a></div></div></nav>
+    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The coming weeks, with predictions</small></a><a href="#/window" data-route="window">This window<small>What's on, the model's calls, the upsets so far</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Embed the table, download the data, chip in</small></a><a href="#/contact" data-route="contact">Contact<small>Corrections, press and feedback</small></a></div></div></nav>
     <div class="mast-search" role="search"><input type="search" id="teamSearch" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResults" role="listbox" hidden></div></div>
     <div class="mast-right">
       <div class="gender-switch" id="genderSwitch" role="group" aria-label="Men's or women's football">
@@ -3057,6 +3114,8 @@ async function render(){
   const prevGender = state.gender;
   state.route = p.route; state.arg = p.arg; state.arg2 = p.arg2; state.params = p.params; state.routePath = p.path;
   applyParams(p.params);
+  /* A tour belongs to the page it started on: leaving the page closes it (it is offered again until finished or closed). */
+  if (tourState && tourState.route && tourState.route !== p.route) endTour(false);
   if (state.gender !== prevGender){ state.asOf = null; }
 
   document.querySelectorAll('#nav a').forEach(a=>{
@@ -3094,7 +3153,7 @@ async function render(){
     state.cache.key = null;
   }
   const views = {home:viewHome, rankings:viewRankings, team:viewTeam, competitions:viewCompetitions,
-    competition:viewEdition, confederations:viewConfeds, h2h:viewH2H, predict:viewPredict, fixtures:viewFixtures,
+    competition:viewEdition, confederations:viewConfeds, h2h:viewH2H, predict:viewPredict, fixtures:viewFixtures, window:viewWindow,
     simulate:viewSimulate, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, sources:viewSources, support:viewSupport, changes:viewChanges, embed:viewEmbed, contact:viewContact};
   FLAG_AT = null;
   document.body.classList.toggle('embed-mode', p.route === 'embed');
@@ -3528,6 +3587,9 @@ function viewAbout(){
       '<dt>Why does it say Korea Republic rather than South Korea?</dt>'+
       '<dd>Teams are shown under their official FIFA names. See the list below.</dd>'+
     '</dl>'+
+    '<h2 id="built">Who built it</h2>'+
+    '<p>Built by Seb, with coding help from <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude</a> (Anthropic). '+
+      'The ratings come from Formline\'s own model, run on match results.</p>'+
     '<h2 id="names">Team names</h2>'+
     '<p>Formline shows each team under its association\'s official FIFA name. The results archives it is built on use '+
       'everyday English names instead, and so do many news sites, so the two differ for the teams below. Searches and links '+
@@ -4425,6 +4487,128 @@ function opponentTable(h){
     '<td class="num mono '+(a.net>0?'up':(a.net<0?'down':'flat'))+'">'+(a.net>0?'+':'')+a.net.toFixed(1)+'</td></tr>').join('')+'</tbody></table>';
 }
 
+/* ---------- Confederations: cards, depth, World Cup places, meetings, strength over time ---------- */
+/* World Cup 2026 places: direct, then inter-confederation play-off places (two of the six play-off sides go through).
+   CONCACAF's six include the three hosts. */
+const WC26_PLACES = {UEFA:[16, 0], CONMEBOL:[6, 1], CONCACAF:[6, 2], CAF:[9, 1], AFC:[8, 1], OFC:[1, 1]};
+const confColor = k => cssVar('--s'+(CONF_ORDER.indexOf(k) + 1)) || '#f6b638';
+function confCards(c){
+  return '<div class="conf-cards">'+CONF_ORDER.map(k => {
+    const S = c.confStats && c.confStats.get(k); if (!S) return '';
+    const rows = c.table.filter(r => r.conf === k), mv = rows.filter(r => r.change !== null && r.change !== undefined);
+    const up = mv.slice().sort((a, b) => b.change - a.change)[0], down = mv.slice().sort((a, b) => a.change - b.change)[0];
+    return '<a class="conf-card" href="#/confederations?'+filterQuery({cx:k})+'" data-cx="'+k+'" style="--cc:var(--s'+(CONF_ORDER.indexOf(k) + 1)+')">'+
+      '<div class="cc-head">'+badgeImg(CONF_WIKI[k], confLabel(k)+' logo', 'conf-badge', 'conf-'+badgeSlug(k))+'<b>'+confLabel(k)+'</b><span class="muted">'+rows.length+' ranked</span></div>'+
+      '<div class="cc-big"><span class="rating">'+fmtR(S.top10)+'</span><small>top-10 average</small></div>'+
+      '<div class="cc-row"><span class="muted">Best</span>'+(S.best ? withFlag(S.best.team)+' <span class="muted">#'+S.best.rank+'</span>' : '&ndash;')+'</div>'+
+      (up && up.change > 0 ? '<div class="cc-row"><span class="muted">Rising</span>'+withFlag(up.team)+' <span class="up">+'+Math.round(up.change)+'</span></div>' : '')+
+      (down && down.change < 0 ? '<div class="cc-row"><span class="muted">Falling</span>'+withFlag(down.team)+' <span class="down">&minus;'+Math.abs(Math.round(down.change))+'</span></div>' : '')+
+    '</a>'; }).join('')+'</div>';
+}
+/* Every ranked team as a dot on one rating line per confederation, so depth shows at a glance. */
+function confDepth(c){
+  const rows = c.table.filter(r => CONF_ORDER.includes(r.conf)); if (!rows.length) return '';
+  const lo = Math.floor(Math.min(...rows.map(r => r.rating))/100)*100, hi = Math.ceil(Math.max(...rows.map(r => r.rating))/100)*100;
+  const W = 1000, L = 100, R = 16, rowH = 30, H = CONF_ORDER.length*rowH + 28, X = v => L + (v - lo)/(hi - lo)*(W - L - R);
+  const ticks = []; for (let v = lo; v <= hi; v += (hi - lo) > 1200 ? 200 : 100) ticks.push(v);
+  const svg = '<svg class="conf-depth" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Every ranked team\'s rating, one line per confederation">'+
+    ticks.map(v => '<line x1="'+X(v)+'" x2="'+X(v)+'" y1="4" y2="'+(H - 22)+'" class="cd-grid"/><text x="'+X(v)+'" y="'+(H - 6)+'" class="cd-tick" text-anchor="middle">'+v+'</text>').join('')+
+    '<line x1="'+X(c.median)+'" x2="'+X(c.median)+'" y1="4" y2="'+(H - 22)+'" class="cd-med"/>'+
+    CONF_ORDER.map((k, i) => { const y = 16 + i*rowH, rs = rows.filter(r => r.conf === k);
+      return '<text x="0" y="'+(y + 5)+'" class="cd-lab">'+esc(CONF[k] && CONF[k].short || k)+'</text>'+
+        '<line x1="'+L+'" x2="'+(W - R)+'" y1="'+y+'" y2="'+y+'" class="cd-axis"/>'+
+        rs.map(r => '<circle cx="'+X(r.rating).toFixed(1)+'" cy="'+y+'" r="5.5" fill="'+confColor(k)+'" fill-opacity=".72"><title>'+esc(dn(r.team))+': '+fmtR(r.rating)+', #'+r.rank+'</title></circle>').join(''); }).join('')+
+    '</svg>';
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Depth<span class="aside">every ranked team, by rating</span></div>'+
+    '<div class="panel-body">'+svg+'<p class="chart-note" style="margin:6px 0 0;">Each dot is a ranked team; the dashed line is the world\'s average ranked team. '+
+    'A tight cluster to the right means strength in depth; a long tail to the left means a few strong sides and many small ones.</p></div></div>';
+}
+/* World Cup places against strength: how many teams each confederation has among the world's 48 best FIFA members now. */
+function confPlaces(c){
+  if (state.gender !== 'men') return '';   // the women's allocation for 2027 differs; added once confirmed
+  const fifa = c.table.filter(r => r.status !== 'assoc' && !r.defunct).slice(0, 48), n = {};
+  CONF_ORDER.forEach(k => n[k] = 0); fifa.forEach(r => { if (n[r.conf] !== undefined) n[r.conf]++; });
+  const rows = CONF_ORDER.map(k => { const [d, po] = WC26_PLACES[k]; return {k, d, po, top:n[k], diff:n[k] - (d + po/3)}; });
+  const over = rows.slice().sort((a, b) => a.diff - b.diff)[0], under = rows.slice().sort((a, b) => b.diff - a.diff)[0];
+  const max = Math.max(...rows.map(r => Math.max(r.d + r.po, r.top)));
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">World Cup places against strength<span class="aside">2026 places &middot; world top 48 today</span></div>'+
+    '<div class="table-wrap"><table class="conf-places"><thead><tr><th>Confederation</th><th class="num">Places</th><th class="num" title="Teams among the 48 best-rated FIFA members today">In the top 48</th><th class="hide-sm"></th></tr></thead><tbody>'+
+    rows.map(r => '<tr><td><b>'+confLabel(r.k)+'</b></td><td class="num">'+r.d+(r.po ? ' <span class="muted">+'+r.po+' play-off</span>' : '')+'</td>'+
+      '<td class="num rating">'+r.top+'</td>'+
+      '<td class="hide-sm cp-bars"><span class="cp-bar cp-places" style="width:'+(100*(r.d + r.po/3)/max).toFixed(1)+'%"></span>'+
+        '<span class="cp-bar cp-top" style="width:'+(100*r.top/max).toFixed(1)+'%;background:'+confColor(r.k)+'"></span></td></tr>').join('')+
+    '</tbody></table></div>'+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">Places: World Cup 2026 places, plus inter-confederation play-off places (six sides play for two). '+
+      'CONCACAF\'s six include the three hosts. On today\'s ratings, '+confLabel(under.k)+' has the most good sides for its places and '+
+      confLabel(over.k)+' the fewest. Places are set by FIFA for many reasons besides strength.</p></div>';
+}
+/* Results between confederations: in the window shown, or at World Cups since 1930. */
+function confMeetings(c, mode){
+  const g = state.gender, ms = state.matches[g] || [], ws = mode === 'wc' ? -Infinity : (c.windowStart || -Infinity), K = CONF_ORDER;
+  const T = {}; K.forEach(a => { T[a] = {}; K.forEach(b => T[a][b] = [0, 0, 0]); });
+  for (const m of ms){
+    if (m.ts < ws) continue; if (m.ts > state.asOf) break;
+    if (mode === 'wc' ? m.cat !== 'wc' : !includeMatch(m)) continue;
+    namesFor(m); const a = m._ph, b = m._pa;
+    if (!T[a] || !T[b] || a === b) continue;
+    const r = m.hs > m.as ? 0 : m.hs < m.as ? 2 : 1;
+    T[a][b][r]++; T[b][a][2 - r]++;
+  }
+  const cell = (a, b) => { if (a === b) return '<td class="cm-self"></td>'; const [w, d, l] = T[a][b], n = w + d + l;
+    if (!n) return '<td class="num muted">&ndash;</td>';
+    const sc = (w + d/2)/n, hue = sc >= 0.5 ? 'var(--win)' : 'var(--loss)';
+    return '<td class="num cm-cell" style="--cm:'+Math.abs(sc - 0.5)*2+';--cmc:'+hue+'" title="'+esc(confLabel(a))+' against '+esc(confLabel(b))+': '+w+' won, '+d+' drawn, '+l+' lost">'+
+      '<b>'+Math.round(sc*100)+'%</b><small>'+w+'&ndash;'+d+'&ndash;'+l+'</small></td>'; };
+  return '<div class="panel" id="confMeet" style="margin-bottom:20px;"><div class="panel-head">Confederation against confederation'+
+    '<span class="aside chips"><button type="button" class="chip'+(mode === 'wc' ? '' : ' on')+'" data-cm="win">In the window</button>'+
+    '<button type="button" class="chip'+(mode === 'wc' ? ' on' : '')+'" data-cm="wc">At World Cups, all time</button></span></div>'+
+    '<div class="table-wrap"><table class="conf-meet"><thead><tr><th>Row against column</th>'+K.map(k => '<th class="num">'+esc(CONF[k] && CONF[k].short || k)+'</th>').join('')+'</tr></thead><tbody>'+
+    K.map(a => '<tr><td><b>'+confLabel(a)+'</b></td>'+K.map(b => cell(a, b)).join('')+'</tr>').join('')+'</tbody></table></div>'+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">Share of the points (a draw counts as half) each row\'s teams took against the column\'s, '+
+      'with wins, draws and losses underneath. '+(mode === 'wc' ? 'World Cup finals only, every edition.' : 'Every match in the window shown, friendlies included.')+'</p></div>';
+}
+/* Each confederation's level over time, worked out a few years at a time so the page stays quick. */
+const confHistCache = {};
+function confHistPanel(){
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Strength over time'+
+    '<span class="aside chips"><button type="button" class="chip on" data-ch="level">Regional level</button><button type="button" class="chip" data-ch="top10">Top-10 average</button></span></div>'+
+    '<div class="panel-body"><div class="chart-box" style="height:320px;"><canvas id="confHist"></canvas></div>'+
+    '<p class="chart-note" id="confHistNote" style="margin:8px 0 0;">Working it out&hellip;</p></div></div>';
+}
+function confHistStart(){
+  const g = state.gender, first = g === 'men' ? 1960 : 1991, last = new Date(state.bounds[g].max).getUTCFullYear(), key = g+'|'+last;
+  let mode = 'level';
+  const draw = () => {
+    const D = confHistCache[key]; if (!D || !document.getElementById('confHist')) return;
+    const old = state.charts.find(ch => ch.canvas && ch.canvas.id === 'confHist');
+    if (old){ old.destroy(); state.charts = state.charts.filter(ch => ch !== old); }
+    const ds = CONF_ORDER.map(k => ({label:CONF[k] && CONF[k].short || k, borderColor:confColor(k), backgroundColor:confColor(k), borderWidth:2, pointRadius:0, tension:0.25,
+      spanGaps:true, data:D.pts.map(p => ({x:p.ts, y:p.v[k] ? Math.round(p.v[k][mode]) : null}))}));
+    lineChart('confHist', ds, null, {time:true});
+    const n = document.getElementById('confHistNote');
+    if (n) n.innerHTML = (mode === 'level' ? '<b>Regional level</b>: the model\'s level for each confederation as a whole, against the average ranked team, '
+      : '<b>Top-10 average</b>: the average rating of each confederation\'s ten best teams, ')+
+      'at the end of every other year from '+first+', each from the twelve years of results before it. A confederation appears once it has ranked teams.';
+  };
+  document.querySelectorAll('[data-ch]').forEach(b => b.addEventListener('click', () => {
+    mode = b.dataset.ch; document.querySelectorAll('[data-ch]').forEach(x => x.classList.toggle('on', x === b)); draw(); }));
+  if (confHistCache[key] && confHistCache[key].done){ draw(); return; }
+  const D = confHistCache[key] = confHistCache[key] || {pts:[], done:false};
+  const years = []; for (let y = first; y < last; y += 2) years.push(y); years.push(last);
+  const gen = state.renderGen;
+  const step = i => {
+    if (gen !== state.renderGen && !document.getElementById('confHist')) return;
+    if (i >= years.length){ D.done = true; draw(); return; }
+    const y = years[i], ts = y === last ? state.bounds[g].max : Date.UTC(y, 11, 31);
+    if (!D.pts.some(p => p.y === y)){
+      const v = atDefaults(c => { const o = {}; for (const [k, s] of (c.confStats || new Map())) o[k] = {level:s.level, top10:s.top10}; return o; }, ts) || {};
+      D.pts.push({y, ts, v});
+    }
+    const n = document.getElementById('confHistNote'); if (n && !D.done) n.textContent = 'Working it out… '+y;
+    setTimeout(() => step(i + 1), 0);
+  };
+  step(0);
+}
 function viewConfeds(){
   const c = getRatings();
   const groups = {};
@@ -4488,7 +4672,12 @@ function viewConfeds(){
     '<p class="page-sub">Teams grouped by the confederation they belong to. Members that are not in FIFA are included and marked. '+
       'Open a confederation to see all its teams, with their world and confederation ranks.</p>'+
     toolRow()+
+    confCards(c)+
+    confHistPanel()+
     confStrengthTable(c)+
+    confDepth(c)+confPlaces(c)+
+    '<div id="confMeetBox">'+confMeetings(c, state.params.cm === 'wc' ? 'wc' : 'win')+'</div>'+
+    '<h2 class="sec-h" id="conf-teams">Every team, confederation by confederation</h2>'+
     '<div class="conf-list" style="margin-bottom:22px;">'+CONF_ORDER.map(card).join('')+'</div>'+
     (!unknown.length ? '' : '<div class="panel">'+
       '<div class="panel-head">Unclassified <span class="muted" style="font-weight:400;">'+unknown.length+'</span><span class="aside">no confederation on record</span></div>'+
@@ -4502,6 +4691,14 @@ function viewConfeds(){
       '</div></div>')+
   '</div>';
   loadBadges();
+  confHistStart();
+  const bindMeet = () => document.querySelectorAll('[data-cm]').forEach(b => b.addEventListener('click', () => {
+    const box = document.getElementById('confMeetBox'); if (!box) return;
+    box.innerHTML = confMeetings(getRatings(), b.dataset.cm); bindMeet(); }));
+  bindMeet();
+  document.querySelectorAll('.conf-card').forEach(a => a.addEventListener('click', e => { e.preventDefault();
+    const d = document.querySelector('details.conf-panel[data-conf="'+a.dataset.cx+'"]'); if (!d) return;
+    d.open = true; d.scrollIntoView({behavior:'smooth', block:'start'}); }));
   document.querySelectorAll('details.conf-panel').forEach(d => d.addEventListener('toggle', () => {
     const lab = d.querySelector('.conf-open'), n = d.querySelectorAll('tbody tr[data-goteam]').length;
     if (lab) lab.textContent = d.open ? 'Hide' : 'Show all '+n;
@@ -4728,16 +4925,61 @@ function longMemory(ka, kb, h){
 }
 const blendE = (e1, e2) => { const lg = e => Math.log(e/(1-e)), cl = e => Math.min(Math.max(e, 1e-9), 1-1e-9);
   return 1/(1 + Math.exp(-(LM_WEIGHT*lg(cl(e1)) + (1-LM_WEIGHT)*lg(cl(e2))))); };
+/* Every meeting between two sides since the archive began (by lineage, so West Germany counts as Germany), up to the
+   date shown: the record and the last game. */
+function allTimeMeetings(ka, kb){
+  const out = {n:0, a:0, d:0, b:0, last:null};
+  for (const m of state.matches[state.gender] || []){
+    if (m.ts > state.asOf) break;
+    namesFor(m);
+    const ab = m._h === ka && m._a === kb, ba = m._h === kb && m._a === ka;
+    if (!ab && !ba) continue;
+    const ga = ab ? m.hs : m.as, gb = ab ? m.as : m.hs;
+    out.n++; if (ga > gb) out.a++; else if (ga < gb) out.b++; else out.d++;
+    out.last = {m, ga, gb};
+  }
+  return out;
+}
+/* One side of the match: flag, name, rank, tier and form, from the ratings given. */
+function predCard(c, row, ts, label){
+  const h = c.history.get(row.key) || [], ct = confTierMap(c).get(row.key);
+  return '<div class="pred-card">'+(label ? '<div class="pred-lab">'+label+'</div>' : '')+
+    '<div class="pred-flag">'+flagTrue(row.team, ts)+'</div>'+
+    '<div class="pred-name"><a href="'+teamHref(row.team)+'">'+esc(dn(row.team))+'</a></div>'+
+    '<div class="pred-meta">'+(row.rank ? '#'+row.rank+' in the world' : 'not ranked yet')+
+      (row.rank ? ' &middot; '+tierChip(row.tier, 'World tier') : '')+(ct ? ' '+tierChip(ct, 'Tier inside '+confLabel(row.conf)) : '')+
+      ' &middot; '+esc(confLabel(row.conf))+'</div>'+
+    '<div class="pred-rating"><span class="rating">'+fmtR(row.rating)+'</span> '+pmSpan(row.band)+'</div>'+
+    (h.length ? '<div class="pred-form"><span class="muted">Last five</span> '+formChips(h)+'</div>' : '')+
+  '</div>';
+}
+const PRED_TYPES = [['friendly', 'Friendly'], ['wcq', 'Qualifier'], ['nl', 'Nations League'], ['cont', 'Continental finals'], ['wc', 'World Cup']];
+/* Dream matches: each side as it stood at the end of a chosen year, rated at the site's default settings. */
+const dreamCache = new Map();
+function dreamTeams(year){
+  const k = state.gender+'|'+year;
+  if (dreamCache.has(k)) return dreamCache.get(k);
+  const ts = Math.min(Date.UTC(year, 11, 31), state.bounds[state.gender].max);
+  const rows = atDefaults(c => c.all.filter(r => r.mp > 0).map(r => ({team:r.team, key:r.key, rating:r.rating, rd:r.rd, rdOwn:r.rdOwn, band:r.band,
+    pool:r.pool, conf:r.conf, rank:r.rank, tier:r.tier, ts:c.asOf || ts, form:(c.history.get(r.key) || []).slice(-5)})), ts) || [];
+  rows.forEach(r => { r.ts = ts; });
+  const out = {ts, rows, byKey:new Map(rows.map(r => [r.key, r]))};
+  dreamCache.set(k, out);
+  return out;
+}
 function viewPredict(){
-  const c = getRatings(), all = c.all;
+  const c = getRatings(), all = c.all, g = state.gender;
   if (all.length < 2){ document.getElementById('app').innerHTML =
     '<div class="wrap">'+filterBar()+'<div class="status">Not enough teams.</div></div>'; return; }
+  if (state.params.dm === '1') return viewDream();
+  if (state.fixtures === undefined) loadFixtures().then(() => { if (state.route === 'predict') render(); });
   const top2 = c.table.length >= 2 ? c.table : all;
   const pickKey = (v, dflt) => { const k = v && c.resolve(v); return k && c.byKey.has(k) ? k : dflt; };
   /* teams from ?a=&b=, or from the path: #/h2h/England/Germany */
   const ka = pickKey(state.params.a || state.arg, top2[0].key), kb = pickKey(state.params.b || state.arg2, top2[1].key);
   const rowA = c.byKey.get(ka), rowB = c.byKey.get(kb), a = rowA.team, b = rowB.team;
   const venue = state.params.v || 'home', neutral = venue==='neutral';
+  const mt = PRED_TYPES.some(x => x[0] === state.params.mt) ? state.params.mt : 'friendly';
   const opts = sel => all.slice().sort((x,y)=>x.team.localeCompare(y.team)).map(r=>
     '<option value="'+esc(r.team)+'"'+(r.key===sel?' selected':'')+'>'+
     esc(r.team)+' &middot; '+fmtR(r.rating)+' &plusmn;'+Math.round(r.band)+'</option>').join('');
@@ -4754,21 +4996,52 @@ function viewPredict(){
   const seg = (v,cls,txt)=>'<div class="prob-seg '+cls+'" style="width:'+(v*100)+'%">'+(v>0.08?txt:'')+'</div>';
   const prov = [rowA,rowB].filter(r=>r.provisional);
   const sl = scorelines(eUnc);
+  const latest = state.asOf >= state.bounds[g].max, fts = latest ? Infinity : state.asOf;
+  /* The coming fixtures, one tap each: the side at home goes first. */
+  const up = latest ? (upcomingFor(g) || []).slice(0, 10) : [];
+  const quick = up.map(fx => { const f = fixturePrediction(c, fx); if (!f.rh || !f.ra) return '';
+    const home = f.side < 0 ? f.ra : f.rh, away = f.side < 0 ? f.rh : f.ra;
+    const on = home.key === ka && away.key === kb;
+    return '<a class="pq'+(on ? ' on' : '')+'" href="#/predict?'+filterQuery({a:home.team, b:away.team, v:f.side ? 'home' : 'neutral',
+      mt:/qualif/i.test(fx.tournament) ? (/world cup/i.test(fx.tournament) ? 'wcq' : 'wcq') : /nations league/i.test(fx.tournament) ? 'nl' : /friendly/i.test(fx.tournament) ? 'friendly' : undefined})+'">'+
+      '<span class="pq-d">'+esc(fmtDay(Date.parse(fx.date+'T00:00:00Z')).replace(/ \d{4}$/, ''))+'</span>'+
+      '<span class="pq-t">'+withFlag(home.team)+'<span class="muted">v</span>'+withFlag(away.team)+'</span></a>'; }).join('');
+  const met = allTimeMeetings(ka, kb);
+  const lastTxt = met.last ? 'Last met '+fmtDay(met.last.m.ts)+': '+esc(dn(a))+' '+met.last.ga+'&ndash;'+met.last.gb+' '+esc(dn(b))+
+    ' ('+esc(shortComp(met.last.m.tournament))+')' : 'They have never met';
+  const recTxt = met.n ? esc(dn(a))+' '+met.a+' win'+(met.a === 1 ? '' : 's')+', '+met.d+' draw'+(met.d === 1 ? '' : 's')+', '+esc(dn(b))+' '+met.b+' win'+(met.b === 1 ? '' : 's')+
+    ' in '+met.n+' meeting'+(met.n === 1 ? '' : 's') : '';
+  /* What the match would do to both ratings, for the chosen kind of match. */
+  const K = mt === 'friendly' ? friendlyK(g, state.asOf) : COMPS[mt].k;
+  const stake = ratingStakes(c, rowA.key, rowB.key, neutral, K);
+  const sg = x => Math.abs(x) < 0.05 ? '0.0' : (x > 0 ? '+' : '&minus;')+Math.abs(x).toFixed(1);
+  const cl = v => Math.abs(v) < 0.05 ? 'muted' : v > 0 ? 'up' : 'down';
+  const stakePanel = stake ? '<div class="pred-stakes">'+[[1, esc(dn(a))+' win 1&ndash;0'], [2, 'Draw 1&ndash;1'], [3, esc(dn(b))+' win 1&ndash;0']].map(([i, lab]) =>
+      '<div class="ps-cell"><div class="ps-lab">'+lab+'</div><div class="ps-v"><span class="'+cl(stake[i].da)+'">'+esc(dn(a))+' '+sg(stake[i].da)+'</span>'+
+      '<span class="'+cl(stake[i].db)+'">'+esc(dn(b))+' '+sg(stake[i].db)+'</span></div></div>').join('')+'</div>' : '';
+  state.predShare = {a, b, tsA:fts, tsB:fts, p, sl, venue:neutral ? 'Neutral venue' : dn(a)+' at home', when:fmtDay(state.asOf), dream:false};
 
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<h1 class="page-title">Match predictor</h1>'+
     '<p class="page-sub">How likely each result is, from the two teams\' ratings. Checked against tens of thousands of past '+
       'matches. It knows nothing about injuries, squads or motivation.</p>'+
+    '<div class="chips pred-mode"><a class="chip on" href="#/predict?'+filterQuery({a, b})+'">Any two teams today</a>'+
+      '<a class="chip" href="#/predict?'+filterQuery({dm:'1'})+'">Dream match: any two eras</a></div>'+
+    (quick ? '<div class="pred-quick"><div class="pq-head">Coming up <span class="muted">tap a match to predict it</span></div><div class="pq-row">'+quick+'</div></div>' : '')+
     '<div class="vs-grid">'+
       '<div class="ctl"><label for="pA">Home</label><select id="pA" style="width:100%;">'+opts(ka)+'</select></div>'+
       '<div class="vs-mid">vs</div>'+
       '<div class="ctl"><label for="pB">Away</label><select id="pB" style="width:100%;">'+opts(kb)+'</select></div>'+
     '</div>'+
-    '<div class="chips" style="margin-bottom:20px;">'+
+    '<div class="pred-teams">'+predCard(c, rowA, fts, neutral ? '' : 'At home')+
+      '<div class="pred-mid"><div class="pred-v">v</div><div class="pred-h2h">'+lastTxt+(recTxt ? '<br>'+recTxt : '')+
+        '<br><a href="#/h2h?'+filterQuery({a, b})+'">Head to head &rarr;</a></div></div>'+
+      predCard(c, rowB, fts, '')+'</div>'+
+    '<div class="chips" style="margin-bottom:12px;">'+
       '<button class="chip'+(venue==='home'?' on':'')+'" id="vHome">Home advantage</button>'+
       '<button class="chip'+(venue==='neutral'?' on':'')+'" id="vNeutral">Neutral venue</button></div>'+
-    (state.windowYears > 0 ? '<div class="chips lm-chips" style="margin:-8px 0 20px;align-items:center;">'+
+    (state.windowYears > 0 ? '<div class="chips lm-chips" style="margin:0 0 20px;align-items:center;">'+
       '<span class="muted" style="font-size:13px;margin-right:4px;">Predict from</span>'+
       '<button class="chip'+(lmOn?'':' on')+'" id="lmOff">The ratings shown</button>'+
       '<button class="chip'+(lmOn?' on':'')+'" id="lmOn" title="Averages this prediction with one from every match since '+
@@ -4784,18 +5057,84 @@ function viewPredict(){
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-body">'+
       '<div class="prob-bar" role="img" aria-label="'+esc(dn(a))+' win '+pc(p.home)+', draw '+pc(p.draw)+', '+esc(dn(b))+' win '+pc(p.away)+'">'+
         seg(p.home,'seg-h',pc(p.home))+seg(p.draw,'seg-d',pc(p.draw))+seg(p.away,'seg-a',pc(p.away))+'</div>'+
-      '<div class="prob-legend"><span>'+esc(dn(a))+' win</span><span>Draw</span><span>'+esc(dn(b))+' win</span></div></div></div>'+
+      '<div class="prob-legend"><span>'+esc(dn(a))+' win</span><span>Draw</span><span>'+esc(dn(b))+' win</span></div>'+
+      '<div class="pred-tagrow">'+matchupTag(p, dn(a), dn(b))+'<span class="muted">Likeliest: '+sl.top.slice(0, 3).map(t =>
+        (t[0] > t[1] ? esc(dn(a))+' '+t[0]+'&ndash;'+t[1] : t[0] < t[1] ? esc(dn(b))+' '+t[1]+'&ndash;'+t[0] : 'draw '+t[0]+'&ndash;'+t[1])+' '+Math.round(t[2]*100)+'%').join(' &middot; ')+'</span></div>'+
+      '<div class="team-actions chips" style="margin:12px 0 0;"><button class="chip" type="button" data-shareimg="predict">Share image</button></div>'+
+    '</div></div>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">What\'s at stake<span class="aside">rating points, if it were played today</span></div><div class="panel-body">'+
+      '<div class="chips" style="margin-bottom:12px;">'+PRED_TYPES.map(([k, l]) => '<button class="chip'+(k === mt ? ' on' : '')+'" data-mt="'+k+'">'+l+'</button>').join('')+'</div>'+
+      stakePanel+
+      '<p class="chart-note" style="margin:10px 0 0;">The kind of match changes how far ratings move afterwards, not the chances above: a '+
+        PRED_TYPES.find(x => x[0] === mt)[1].toLowerCase()+' counts with weight '+K+'. Bigger wins move ratings further; see the table under the hood.</p>'+
+    '</div></div>'+
     scorelinePanel(sl, a, b)+
     underTheHood({c, rowA, rowB, a, b, h, neutral, eCertain, eWin, eUnc, eCal, p, full, sl})+'</div>';
 
-  const pick = v => go({a:document.getElementById('pA').value, b:document.getElementById('pB').value, v:v||venue, lm:lmOn ? undefined : '0'});
+  const cur = () => ({a:document.getElementById('pA').value, b:document.getElementById('pB').value, v:venue, lm:lmOn ? undefined : '0', mt:mt === 'friendly' ? undefined : mt});
+  const pick = v => go({...cur(), v:v||venue});
   document.getElementById('pA').addEventListener('change',()=>pick());
   document.getElementById('pB').addEventListener('change',()=>pick());
   document.getElementById('vHome').addEventListener('click',()=>pick('home'));
   document.getElementById('vNeutral').addEventListener('click',()=>pick('neutral'));
-  const lmB = (id, v) => { const el = document.getElementById(id); if (el) el.addEventListener('click', () =>
-    go({a:document.getElementById('pA').value, b:document.getElementById('pB').value, v:venue, lm:v})); };
+  const lmB = (id, v) => { const el = document.getElementById(id); if (el) el.addEventListener('click', () => go({...cur(), lm:v})); };
   lmB('lmOn', undefined); lmB('lmOff', '0');
+  document.querySelectorAll('[data-mt]').forEach(el => el.addEventListener('click', () => go({...cur(), mt:el.dataset.mt === 'friendly' ? undefined : el.dataset.mt})));
+}
+/* A dream match: two sides from any two years, each as it stood at the end of that year, on neutral ground. */
+function viewDream(){
+  const g = state.gender, first = new Date(state.bounds[g].min).getUTCFullYear(), last = new Date(state.bounds[g].max).getUTCFullYear();
+  const yr = (v, d) => { const y = parseInt(v, 10); return y >= first && y <= last ? y : d; };
+  const ya = yr(state.params.ya, g === 'men' ? 1970 : 1999), yb = yr(state.params.yb, last);
+  const DA = dreamTeams(ya), DB = dreamTeams(yb);
+  if (!DA.rows.length || !DB.rows.length){ document.getElementById('app').innerHTML = '<div class="wrap"><div class="status">No ratings for that year.</div></div>'; return; }
+  const best = D => D.rows.slice().sort((x, y) => y.rating - x.rating)[0];
+  const find = (D, v, dflt) => { const k = v && keyOfName(v); return (k && D.byKey.get(k)) || D.rows.find(r => r.team === v) || dflt; };
+  const rowA = find(DA, state.params.a, best(DA)), rowB = find(DB, state.params.b, best(DB));
+  const E = predictE({r:rowA.rating, rd:rowA.rd}, {r:rowB.rating, rd:rowB.rd}, 0);
+  const p = probsFromE(E), sl = scorelines(E), pc = x => (x*100).toFixed(1)+'%';
+  const seg = (v,cls,txt)=>'<div class="prob-seg '+cls+'" style="width:'+(v*100)+'%">'+(v>0.08?txt:'')+'</div>';
+  const years = [...Array(last - first + 1).keys()].map(i => last - i);
+  const yOpts = sel => years.map(y => '<option value="'+y+'"'+(y === sel ? ' selected' : '')+'>'+y+'</option>').join('');
+  const tOpts = (D, sel) => D.rows.slice().sort((x, y) => y.rating - x.rating).slice(0, 120).map(r =>
+    '<option value="'+esc(r.team)+'"'+(r.key === sel ? ' selected' : '')+'>'+esc(dn(r.team))+' &middot; '+fmtR(r.rating)+'</option>').join('');
+  const nameA = dn(rowA.team)+' '+ya, nameB = dn(rowB.team)+' '+yb;
+  const card = (r, y) => '<div class="pred-card"><div class="pred-lab">'+y+'</div><div class="pred-flag">'+flagTrue(r.team, r.ts)+'</div>'+
+    '<div class="pred-name">'+esc(dn(r.team))+'</div>'+
+    '<div class="pred-meta">'+(r.rank ? '#'+r.rank+' in the world at the end of '+y : 'not ranked at the end of '+y)+(r.rank ? ' &middot; '+tierChip(r.tier, 'World tier then') : '')+'</div>'+
+    '<div class="pred-rating"><span class="rating">'+fmtR(r.rating)+'</span> '+pmSpan(r.band)+'</div>'+
+    (r.form.length ? '<div class="pred-form"><span class="muted">Last five then</span> '+formChips(r.form)+'</div>' : '')+'</div>';
+  state.predShare = {a:rowA.team, b:rowB.team, la:nameA, lb:nameB, tsA:rowA.ts, tsB:rowB.ts, p, sl, venue:'Dream match, neutral venue', when:ya+' v '+yb, dream:true};
+  document.getElementById('app').innerHTML =
+  '<div class="wrap">'+
+    '<h1 class="page-title">Dream match</h1>'+
+    '<p class="page-sub">Any side from any year against any other, each as it stood at the end of its year, on neutral ground.</p>'+
+    '<div class="chips pred-mode"><a class="chip" href="#/predict">Any two teams today</a><a class="chip on" href="#/predict?'+filterQuery({dm:'1'})+'">Dream match: any two eras</a></div>'+
+    '<div class="vs-grid dream-grid">'+
+      '<div class="ctl"><label for="dYA">First side</label><div class="dream-pick"><select id="dYA">'+yOpts(ya)+'</select><select id="dA">'+tOpts(DA, rowA.key)+'</select></div></div>'+
+      '<div class="vs-mid">vs</div>'+
+      '<div class="ctl"><label for="dYB">Second side</label><div class="dream-pick"><select id="dYB">'+yOpts(yb)+'</select><select id="dB">'+tOpts(DB, rowB.key)+'</select></div></div>'+
+    '</div>'+
+    '<div class="pred-teams">'+card(rowA, ya)+'<div class="pred-mid"><div class="pred-v">v</div></div>'+card(rowB, yb)+'</div>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-body">'+
+      '<div class="prob-bar" role="img" aria-label="'+esc(nameA)+' win '+pc(p.home)+', draw '+pc(p.draw)+', '+esc(nameB)+' win '+pc(p.away)+'">'+
+        seg(p.home,'seg-h',pc(p.home))+seg(p.draw,'seg-d',pc(p.draw))+seg(p.away,'seg-a',pc(p.away))+'</div>'+
+      '<div class="prob-legend"><span>'+esc(nameA)+' win</span><span>Draw</span><span>'+esc(nameB)+' win</span></div>'+
+      '<div class="pred-tagrow">'+matchupTag(p, nameA, nameB)+'<span class="muted">Likeliest: '+sl.top.slice(0, 3).map(t =>
+        (t[0] > t[1] ? esc(nameA)+' '+t[0]+'&ndash;'+t[1] : t[0] < t[1] ? esc(nameB)+' '+t[1]+'&ndash;'+t[0] : 'draw '+t[0]+'&ndash;'+t[1])+' '+Math.round(t[2]*100)+'%').join(' &middot; ')+'</span></div>'+
+      '<div class="team-actions chips" style="margin:12px 0 0;"><button class="chip" type="button" data-shareimg="predict">Share image</button></div>'+
+    '</div></div>'+
+    '<div class="notice"><b>A bit of fun, not a measurement.</b> Each rating says how a side compared with the teams of its own time. '+
+      'Two sides from different eras never played each other or anyone in common, so this only asks: if each was as far above its own '+
+      'field as its rating says, how would they match up? The game itself has changed a lot in between.</div>'+
+    scorelinePanel(sl, nameA, nameB)+
+  '</div>';
+  const set = q => go({dm:'1', ya:document.getElementById('dYA').value, a:document.getElementById('dA').value,
+    yb:document.getElementById('dYB').value, b:document.getElementById('dB').value, ...q});
+  document.getElementById('dYA').addEventListener('change', () => set({a:undefined}));
+  document.getElementById('dYB').addEventListener('change', () => set({b:undefined}));
+  document.getElementById('dA').addEventListener('change', () => set({}));
+  document.getElementById('dB').addEventListener('change', () => set({}));
 }
 
 
@@ -5121,6 +5460,87 @@ function fxFacetsHtml(){
     '<div class="fx-count">'+(any ? 'Showing '+shown+' of '+all.length+' matches &middot; <button type="button" class="linkish" data-fx-clear="1">Clear filters</button>'
       : all.length+' matches')+'</div>';
 }
+/* ============================================================
+   THIS WINDOW
+   ============================================================ */
+/* The international window under way (or the last one, or the next): what's on, the model's calls, how they have done
+   and the upsets so far. Windows are found the way the recap pages find them: a gap of ten days starts a new one. */
+const WINDOW_GAP_DAYS = 10;
+function currentWindow(g){
+  const rec = ((state.record && state.record.entries) || []).filter(e => e.g === g);
+  const fx = (upcomingFor(g) || []).map(x => ({fx:x, date:x.date}));
+  const items = rec.map(e => ({e, date:e.date})).concat(fx).sort((a, b) => a.date.localeCompare(b.date));
+  if (!items.length) return null;
+  const W = [];
+  for (const it of items){ const w = W[W.length - 1];
+    if (w && (Date.parse(it.date) - Date.parse(w.to))/864e5 < WINDOW_GAP_DAYS){ w.items.push(it); w.to = it.date; }
+    else W.push({from:it.date, to:it.date, items:[it]}); }
+  const today = new Date().toISOString().slice(0, 10), dd = (a, b) => (Date.parse(a) - Date.parse(b))/864e5;
+  let w = W.find(x => x.from <= today && dd(today, x.to) <= 1);
+  let status = 'on';
+  if (!w){ const prev = W.filter(x => x.to < today).pop(), next = W.find(x => x.from > today);
+    if (prev && dd(today, prev.to) <= 14){ w = prev; status = 'done'; } else if (next){ w = next; status = 'soon'; } else if (prev){ w = prev; status = 'done'; } }
+  if (!w) return null;
+  const scored = w.items.filter(x => x.e && x.e.result && x.e.p).map(x => x.e);
+  const keyOf = (d, h, a) => d+'|'+h+'|'+a;
+  const done = new Set(w.items.filter(x => x.e).map(x => keyOf(x.e.date, x.e.home, x.e.away)));
+  const coming = w.items.filter(x => (x.fx && !done.has(keyOf(x.fx.date, x.fx.home, x.fx.away))) || (x.e && !x.e.result)).map(x => x.fx || x.e);
+  const d = new Date(w.from+'T12:00:00Z');
+  return {from:w.from, to:w.to, status, scored, coming,
+    label:d.toLocaleDateString('en-GB', {month:'long', year:'numeric', timeZone:'UTC'}),
+    slug:d.toLocaleDateString('en-GB', {month:'long', timeZone:'UTC'}).toLowerCase()+'-'+d.getUTCFullYear()};
+}
+function viewWindow(){
+  const g = state.gender, app = document.getElementById('app'), c = getRatings();
+  const W = currentWindow(g);
+  const head = '<h1 class="page-title">This window</h1>'+
+    '<p class="page-sub">The international window: what\'s on, what the model expects, and how its calls are going. Every prediction here was '+
+      'published before kick-off and never changed afterwards.</p>';
+  if (!W){ app.innerHTML = '<div class="wrap">'+head+'<div class="status">No international window in the data yet. The <a href="#/fixtures">fixtures</a> list what\'s coming.</div></div>'; return; }
+  const n = W.scored.length, hits = W.scored.filter(e => e.hit).length, draws = W.scored.filter(e => e.outcome === 1).length;
+  const brier = n ? W.scored.reduce((a, e) => a + e.brier, 0)/n : null;
+  const nm = t => esc(dn(t)), outP = e => e.p[e.outcome];
+  const upsets = W.scored.filter(e => e.outcome !== e.p.indexOf(Math.max(...e.p))).sort((a, b) => outP(a) - outP(b)).slice(0, 6);
+  const range = W.from === W.to ? fmtDay(Date.parse(W.from+'T00:00:00Z')) : fmtDay(Date.parse(W.from+'T00:00:00Z')).replace(/ \d{4}$/, '')+' to '+fmtDay(Date.parse(W.to+'T00:00:00Z'));
+  const statusTxt = W.status === 'on' ? 'under way' : W.status === 'done' ? 'finished' : 'starts '+fmtDay(Date.parse(W.from+'T00:00:00Z'));
+  const tile = (big, lab) => '<div class="win-tile"><b>'+big+'</b><span>'+lab+'</span></div>';
+  const callOf = e => { const f = e.p.indexOf(Math.max(...e.p)); return f === 1 ? 'Draw' : nm(f === 0 ? e.home : e.away); };
+  const resRow = e => '<tr><td class="muted date">'+fmtDay(Date.parse(e.date+'T00:00:00Z')).replace(/ \d{4}$/, '')+'</td>'+
+    '<td class="ml-cell">'+matchLine(e.home, e.away, e.result[0]+'&ndash;'+e.result[1], teamHref, {win:e.outcome === 0 ? 1 : e.outcome === 2 ? -1 : 0})+
+      '<div class="muted" style="font-size:12.5px;text-align:center;">'+esc(shortComp(e.tournament))+'</div></td>'+
+    '<td class="num"><span class="muted">'+callOf(e)+' '+Math.round(Math.max(...e.p)*100)+'%</span><br><span class="'+(e.hit ? 'up' : 'down')+'">'+(e.hit ? 'Right' : 'Wrong')+'</span></td></tr>';
+  const comingRows = W.coming.slice(0, 16).map(x => { const f = fixturePrediction(c, x); if (!f.p) return '';
+    const hn = dn(f.rh.team), an = dn(f.ra.team);
+    return '<div class="win-fx"><div class="win-fx-h"><span class="muted">'+fmtDay(Date.parse(x.date+'T00:00:00Z')).replace(/ \d{4}$/, '')+' &middot; '+esc(shortComp(x.tournament))+'</span>'+
+      '<a href="#/predict?'+filterQuery({a:f.side < 0 ? f.ra.team : f.rh.team, b:f.side < 0 ? f.rh.team : f.ra.team, v:f.side ? 'home' : 'neutral'})+'">Predict &rarr;</a></div>'+
+      matchLine(f.rh.team, f.ra.team, '<span class="muted" style="font-weight:500;">v</span>', teamHref)+
+      '<div class="prob-bar mini">'+[['seg-h', f.p.home], ['seg-d', f.p.draw], ['seg-a', f.p.away]].map(([cl, v]) =>
+        '<div class="prob-seg '+cl+'" style="width:'+(v*100)+'%">'+(v > 0.12 ? Math.round(v*100)+'%' : '')+'</div>').join('')+'</div>'+
+      '<div>'+matchupTag(f.p, hn, an)+'</div></div>'; }).join('');
+  app.innerHTML = '<div class="wrap">'+head+
+    '<div class="win-head"><h2>'+esc(W.label)+' internationals</h2><span class="muted">'+range+' &middot; '+statusTxt+' &middot; '+(g === 'men' ? "men's" : "women's")+' football</span></div>'+
+    '<div class="win-tiles">'+
+      tile(n ? hits+' of '+n : '&ndash;', 'favourite won')+
+      tile(n ? Math.round(100*hits/n)+'%' : '&ndash;', 'calls right')+
+      tile(draws, 'draws')+
+      tile(W.coming.length, 'still to come')+
+      tile(brier !== null ? brier.toFixed(2) : '&ndash;', 'Brier score (lower is better)')+
+    '</div>'+
+    (upsets.length ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Upsets so far<span class="aside">the chance the model gave what happened</span></div>'+
+      '<table><tbody>'+upsets.map(e => '<tr class="upset-row"><td class="muted date hide-sm">'+fmtDay(Date.parse(e.date+'T00:00:00Z'))+'</td>'+
+        '<td class="ml-cell">'+matchLine(e.home, e.away, e.result[0]+'&ndash;'+e.result[1], teamHref, {win:e.outcome === 0 ? 1 : e.outcome === 2 ? -1 : 0})+
+          '<div class="muted" style="font-size:12.5px;margin-top:2px;text-align:center;">'+esc(shortComp(e.tournament))+'</div></td>'+
+        '<td class="num"><span class="rating">'+Math.max(1, Math.round(outP(e)*100))+'%</span></td></tr>').join('')+'</tbody></table></div>' : '')+
+    (comingRows ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Still to come<span class="aside"><a href="#/fixtures">All fixtures &rarr;</a></span></div>'+
+      '<div class="panel-body"><div class="win-fx-grid">'+comingRows+'</div>'+
+      (W.coming.length > 16 ? '<p class="chart-note" style="margin:10px 0 0;">And '+(W.coming.length - 16)+' more on the <a href="#/fixtures">Fixtures</a> page.</p>' : '')+'</div></div>' : '')+
+    (n ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Results and the model\'s calls<span class="aside">newest first</span></div>'+
+      '<div class="table-wrap"><table><tbody>'+W.scored.slice().reverse().map(resRow).join('')+'</tbody></table></div></div>' : '')+
+    '<p class="chart-note">Every call is the prediction published before kick-off. '+
+      (n >= 8 ? '<a href="records/recaps/'+W.slug+'.html">The window\'s recap page</a> &middot; ' : '')+'<a href="#/record">The full forecast record</a></p>'+
+  '</div>';
+}
+
 function viewFixtures(){
   const c = getRatings(), g = state.gender, list = upcomingFor(g);
   const latest = state.asOf >= state.bounds[g].max;
@@ -5216,6 +5636,14 @@ function upcomingTournaments(g){
    ============================================================ */
 const AC27_THIRDS = {ABCD:'CDAB', ABCE:'CABE', ABCF:'CABF', ABDE:'DABE', ABDF:'DABF', ABEF:'EABF', ACDE:'CDAE', ACDF:'CDAF',
   ACEF:'CAFE', ADEF:'DAFE', BCDE:'CDBE', BCDF:'CDBF', BCEF:'ECBF', BDEF:'EDBF', CDEF:'CDFE'};
+/* The 2026 World Cup's round of 32 (matches 73 to 88), in bracket order: each pair of neighbours meets in the round of 16
+   (89 to 96), then 97: 89 v 90, 98: 93 v 94, 99: 91 v 92, 100: 95 v 96. The eight best thirds meet these group winners,
+   each only from the groups FIFA's bracket allows. */
+const WC48_R32 = [['1E','3@1E'],['1I','3@1I'],['2A','2B'],['1F','2C'],['1C','2F'],['2E','2I'],['1A','3@1A'],['1L','3@1L'],
+  ['2K','2L'],['1H','2J'],['1D','3@1D'],['1G','3@1G'],['1J','2H'],['2D','2G'],['1B','3@1B'],['1K','3@1K']];
+const WC48_THIRDS = {count:8, against:['1E','1I','1A','1L','1D','1G','1B','1K'],
+  allowed:{'1E':'ABCDF', '1I':'CDFGH', '1A':'CEFHI', '1L':'EHIJK', '1D':'BEFIJ', '1G':'AEHIJ', '1B':'EFGIJ', '1K':'DEIJL'}};
+const EURO24_THIRDS = {count:4, against:['1B','1C','1E','1F'], allowed:{'1B':'ADEF', '1C':'DEF', '1E':'ABCD', '1F':'ACD'}};
 const TOURNAMENTS = [
   {id:'afcon-2027-qualifiers', name:'Africa Cup of Nations 2027 qualifiers', short:'AFCON 2027 qualifiers', gender:'men', status:'in progress',
    start:'2026-09-21', end:'2027-03-31', tournament:'African Cup of Nations qualification', rounds:2, tiebreak:'h2h', knockout:[], winnerCol:'Qualified',
@@ -5309,6 +5737,50 @@ const TOURNAMENTS = [
    note:'Four groups of four, each team playing the others twice at central venues, so every match is treated as neutral. '+
      'Played results are fixed and the November matchdays simulated. Group winners go up to League A and into the 2027 '+
      'Gold Cup; fourth place goes down to League C.'},
+  {id:'world-cup-2026', name:'World Cup 2026 — rewind', short:'Rewind: World Cup 2026', gender:'men', status:'rewind', start:'2026-06-11',
+   where:'Canada, Mexico and the United States, 11 June to 19 July 2026', hosts:['Mexico','Canada','United States'], rounds:1, tiebreak:'h2h',
+   thirdPlace:true, tournament:'FIFA World Cup',
+   groups:{A:['Mexico','South Africa','South Korea','Czech Republic'], B:['Canada','Bosnia and Herzegovina','Qatar','Switzerland'],
+           C:['Brazil','Morocco','Haiti','Scotland'], D:['United States','Paraguay','Australia','Turkey'],
+           E:['Germany','Curaçao','Ivory Coast','Ecuador'], F:['Netherlands','Japan','Sweden','Tunisia'],
+           G:['Belgium','Egypt','Iran','New Zealand'], H:['Spain','Cape Verde','Saudi Arabia','Uruguay'],
+           I:['France','Senegal','Iraq','Norway'], J:['Argentina','Algeria','Austria','Jordan'],
+           K:['Portugal','DR Congo','Uzbekistan','Colombia'], L:['England','Croatia','Ghana','Panama']},
+   thirds:WC48_THIRDS,
+   knockout:[
+     {name:'Round of 32', col:'Last 32', matches:WC48_R32},
+     {name:'Round of 16', col:'Last 16', matches:[[0,1],[2,3],[4,5],[6,7],[8,9],[10,11],[12,13],[14,15]]},
+     {name:'Quarter-finals', col:'Quarters', matches:[[0,1],[4,5],[2,3],[6,7]]},
+     {name:'Semi-finals', col:'Semis', matches:[[0,1],[2,3]]},
+     {name:'Final', col:'Final', matches:[[0,1]]}],
+   note:'The first 48-team World Cup: twelve groups of four, with the top two and the eight best third-placed teams going on to '+
+     'a round of 32. Simulated with the ratings as they stood the day before the tournament, then compared with what happened. '+
+     'The three hosts have home advantage in every match. Which group winner meets which third-placed team follows FIFA\'s rules, '+
+     'though not always its exact table.'},
+  {id:'euro-2024', name:'Euro 2024 — rewind', short:'Rewind: Euro 2024', gender:'men', status:'rewind', start:'2024-06-14',
+   where:'Germany, 14 June to 14 July 2024', hosts:['Germany'], rounds:1, tiebreak:'h2h', tournament:'UEFA Euro',
+   groups:{A:['Germany','Scotland','Hungary','Switzerland'], B:['Spain','Croatia','Italy','Albania'], C:['Slovenia','Denmark','Serbia','England'],
+           D:['Poland','Netherlands','Austria','France'], E:['Belgium','Slovakia','Romania','Ukraine'], F:['Turkey','Georgia','Portugal','Czech Republic']},
+   thirds:EURO24_THIRDS,
+   knockout:[
+     {name:'Round of 16', col:'Last 16', matches:[['1B','3@1B'],['1A','2C'],['1F','3@1F'],['2D','2E'],['1C','3@1C'],['2A','2B'],['1E','3@1E'],['1D','2F']]},
+     {name:'Quarter-finals', col:'Quarters', matches:[[0,1],[2,3],[4,5],[6,7]]},
+     {name:'Semi-finals', col:'Semis', matches:[[0,1],[2,3]]},
+     {name:'Final', col:'Final', matches:[[0,1]]}],
+   note:'Six groups of four; the top two and the four best third-placed teams reach the last 16. Simulated with the ratings as '+
+     'they stood the day before the tournament, then compared with what happened. Germany have home advantage; every other '+
+     'match is neutral. Which group winner meets which third-placed team follows UEFA\'s rules, though not always its exact table.'},
+  {id:'copa-america-2024', name:'Copa América 2024 — rewind', short:'Rewind: Copa América 2024', gender:'men', status:'rewind', start:'2024-06-20',
+   where:'United States, 20 June to 14 July 2024', hosts:['United States'], rounds:1, tiebreak:'overall', thirdPlace:true, tournament:'Copa América',
+   groups:{A:['Argentina','Peru','Chile','Canada'], B:['Mexico','Ecuador','Venezuela','Jamaica'],
+           C:['United States','Uruguay','Panama','Bolivia'], D:['Brazil','Colombia','Paraguay','Costa Rica']},
+   knockout:[
+     {name:'Quarter-finals', col:'Quarters', matches:[['1A','2B'],['1B','2A'],['1C','2D'],['1D','2C']]},
+     {name:'Semi-finals', col:'Semis', matches:[[0,1],[2,3]]},
+     {name:'Final', col:'Final', matches:[[0,1]]}],
+   note:'The ten CONMEBOL sides and six from CONCACAF, in four groups of four; the top two reach the quarter-finals. Simulated '+
+     'with the ratings as they stood the day before the tournament, then compared with what happened. The United States have '+
+     'home advantage; every other match is neutral.'},
   {id:'world-cup-2022', name:'World Cup 2022 — rewind', short:'Rewind: World Cup 2022', gender:'men', status:'rewind', start:'2022-11-20',
    where:'Qatar, 20 November to 18 December 2022', hosts:['Qatar'], rounds:1, tiebreak:'overall', thirdPlace:true, tournament:'FIFA World Cup',
    groups:{A:['Qatar','Ecuador','Senegal','Netherlands'], B:['England','Iran','United States','Wales'], C:['Argentina','Saudi Arabia','Mexico','Poland'],
@@ -5346,51 +5818,120 @@ const WWC_2027_TEMPLATE = {id:'womens-world-cup-2027', name:'Women\'s World Cup 
   note:'Eight groups of four; the top two in each reach the round of 16. Brazil have home advantage; every other match is neutral.'};
 const tournamentById = id => TOURNAMENTS.find(t => t.id === id);
 
-/* A custom tournament from the page's own controls: teams, format and host. Groups are filled from pots by
-   rating in a fixed pattern, so the same teams always give the same draw. */
+/* A custom tournament from the page's own controls: teams, format, hosts and the draw. Groups are filled from pots by
+   rating: in a fixed pattern by default, so the same teams always give the same draw, or by a random draw from the pots
+   that keeps teams from the same confederation apart where it can (two European teams per group allowed), as the
+   World Cup does. Hosts head the first groups, as at real tournaments. */
+const KO_NAMES = {32:['Round of 32','Last 32'], 16:['Round of 16','Last 16'], 8:['Quarter-finals','Quarters'], 4:['Semi-finals','Semis'], 2:['Final','Final']};
+function koRounds(r1, later){
+  const out = [], first = KO_NAMES[r1.length*2];
+  out.push({name:first[0], col:first[1], matches:r1});
+  for (let m = r1.length/2, k = 0; m >= 1; m /= 2, k++){ const nm = KO_NAMES[m*2];
+    out.push({name:nm[0], col:nm[1], matches:(later && later[k]) || [...Array(m).keys()].map(i => [2*i, 2*i+1])}); }
+  return out;
+}
 const CUSTOM_FORMATS = {
-  g4x2:{label:'4 groups of 4, top two to the quarters', groups:4},
-  g8x2:{label:'8 groups of 4, top two to the last 16', groups:8},
-  ko8:{label:'8-team knockout', ko:8}, ko16:{label:'16-team knockout', ko:16},
+  g3:{label:'12 teams: 3 groups of 4, top two and two best thirds to the quarters', groups:3,
+    r1:[['1A','3@1A'],['2A','2C'],['1B','3@1B'],['1C','2B']],
+    thirds:{count:2, against:['1A','1B'], allowed:{'1A':'BC', '1B':'AC'}}},
+  g4x2:{label:'16 teams: 4 groups of 4, top two to the quarters', groups:4, r1:[['1A','2B'],['1C','2D'],['1B','2A'],['1D','2C']]},
+  /* The Euro 2024 bracket; the Asian Cup and AFCON use the same shape. */
+  g6:{label:'24 teams: 6 groups of 4, top two and four best thirds to the last 16 (Euro, AFCON, Asian Cup)', groups:6,
+    r1:[['1B','3@1B'],['1A','2C'],['1F','3@1F'],['2D','2E'],['1C','3@1C'],['2A','2B'],['1E','3@1E'],['1D','2F']],
+    thirds:{count:4, against:['1B','1C','1E','1F'], allowed:{'1B':'ADEF', '1C':'DEF', '1E':'ABCD', '1F':'ACD'}}},
+  g8x2:{label:'32 teams: 8 groups of 4, top two to the last 16', groups:8,
+    r1:[['1A','2B'],['1C','2D'],['1E','2F'],['1G','2H'],['1B','2A'],['1D','2C'],['1F','2E'],['1H','2G']]},
+  /* The 2026 World Cup bracket, matches 73 to 104. */
+  g12:{label:'48 teams: 12 groups of 4, top two and eight best thirds to the last 32 (World Cup)', groups:12,
+    r1:WC48_R32, later:[null, [[0,1],[4,5],[2,3],[6,7]]], thirds:WC48_THIRDS},
+  ko8:{label:'8-team knockout', ko:8}, ko16:{label:'16-team knockout', ko:16}, ko32:{label:'32-team knockout', ko:32},
   league1:{label:'League, everyone plays everyone once', league:1}, league2:{label:'League, home and away', league:2}
 };
-function buildCustom(teams, fmt, host, c){
-  const F = CUSTOM_FORMATS[fmt] || CUSTOM_FORMATS.g4x2;
-  const rated = teams.map(t => ({t, r:(c.byKey.get(c.resolve(t)) || {rating:BASELINE}).rating})).sort((a, b) => b.r - a.r).map(x => x.t);
+const CUSTOM_DEFAULT = 'g4x2';
+const GROUP_LETTERS = 'ABCDEFGHIJKL';
+/* Which third-placed team meets which group winner, for every set of groups the best thirds can come from. FIFA and
+   UEFA publish fixed tables; this builds one that keeps the same rules (no team meets its own group's winner, and each
+   winner only meets thirds from the groups the real bracket allows), so it can differ from the official choice. */
+const thirdsCache = new Map();
+function thirdsTable(spec, nGroups){
+  const key = nGroups+'|'+spec.against.join(',');
+  if (thirdsCache.has(key)) return thirdsCache.get(key);
+  const letters = GROUP_LETTERS.slice(0, nGroups).split(''), table = {};
+  const combos = (arr, k, start, cur, out) => { if (cur.length === k){ out.push(cur.join('')); return out; }
+    for (let i = start; i < arr.length; i++) combos(arr, k, i + 1, cur.concat([arr[i]]), out); return out; };
+  for (const combo of combos(letters, spec.count, 0, [], [])){
+    const opts = spec.against.map(w => combo.split('').filter(l => l !== w.slice(1) && (!spec.allowed || spec.allowed[w].includes(l))));
+    const order = spec.against.map((w, k) => k).sort((a, b) => opts[a].length - opts[b].length);
+    const pick = new Array(spec.against.length), used = new Set();
+    const go = d => { if (d === order.length) return true; const k = order[d];
+      for (const l of opts[k]) if (!used.has(l)){ used.add(l); pick[k] = l; if (go(d + 1)) return true; used.delete(l); }
+      return false; };
+    if (!go(0)){ const rest = combo.split(''); spec.against.forEach((w, k) => { pick[k] = rest[k]; }); }   // never needed with these rules
+    table[combo] = pick.join('');
+  }
+  thirdsCache.set(key, table);
+  return table;
+}
+function buildCustom(teams, fmt, hostStr, c, drawNo){
+  const F = CUSTOM_FORMATS[fmt] || CUSTOM_FORMATS[CUSTOM_DEFAULT];
+  const rating = t => (c.byKey.get(c.resolve(t)) || {rating:BASELINE}).rating;
+  const hosts = String(hostStr || '').split('|').filter(h => h && teams.includes(h)).slice(0, 3);
+  const rated = teams.slice().sort((a, b) => rating(b) - rating(a));
   const T = {id:'custom', name:'Custom tournament', short:'Custom', gender:state.gender, status:'custom', rounds:1, tiebreak:'overall',
-    hosts:host ? [host] : [], groups:{}, knockout:[], custom:{teams, fmt, host}};
-  const L = 'ABCDEFGH';
+    hosts, groups:{}, knockout:[], custom:{teams, fmt, host:hosts.join('|'), draw:drawNo || ''}};
+  const hostNote = hosts.length ? ' '+hosts.map(dn).join(' and ')+(hosts.length > 1 ? ' have' : ' has')+' home advantage'+
+    (F.groups ? ' and head'+(hosts.length > 1 ? ' the first groups' : 's Group A') : '')+'; every other match is neutral.' : '';
   if (F.groups){
-    const n = F.groups, need = n*4;
+    const n = F.groups, need = n*4, L = GROUP_LETTERS;
     if (rated.length < need) return {error:'This format needs '+need+' teams; '+rated.length+' chosen.'};
+    const field = rated.slice(0, need), H = hosts.filter(h => field.includes(h));
+    const order = H.concat(field.filter(t => !H.includes(t)));   // hosts go in pot 1
     for (let i = 0; i < n; i++) T.groups[L[i]] = [];
-    rated.slice(0, need).forEach((t, k) => { const pot = Math.floor(k/n), i = k % n; T.groups[L[pot % 2 ? n-1-i : i]].push(t); });
-    const pairs = []; for (let i = 0; i < n; i += 2) pairs.push([L[i], L[i+1]]);
-    const first = pairs.map(([x, y]) => ['1'+x, '2'+y]), second = pairs.map(([x, y]) => ['1'+y, '2'+x]);
-    const r1 = n === 4 ? [first[0], first[1], second[0], second[1]] : first.concat(second);
-    const names = n === 4 ? ['Quarter-finals','Semi-finals','Final'] : ['Round of 16','Quarter-finals','Semi-finals','Final'];
-    const cols = n === 4 ? ['Quarters','Semis','Final'] : ['Last 16','Quarters','Semis','Final'];
-    T.knockout.push({name:names[0], col:cols[0], matches:r1});
-    for (let k = 1, m = r1.length/2; m >= 1; k++, m /= 2)
-      T.knockout.push({name:names[k], col:cols[k], matches:[...Array(m).keys()].map(i => [2*i, 2*i+1])});
-    T.note = 'Groups are filled from pots by rating; the top two in each group go through.';
+    if (!drawNo){
+      order.forEach((t, k) => { const pot = Math.floor(k/n), i = k % n; T.groups[L[pot % 2 ? n-1-i : i]].push(t); });
+    } else {
+      const rand = rng('draw|'+drawNo+'|'+order.join('|')), conf = t => infoFor(t).conf || 'UNKNOWN';
+      const counts = new Map(); order.forEach(t => counts.set(conf(t), (counts.get(conf(t)) || 0) + 1));
+      /* At most one per group from each confederation, two from Europe, or more when a confederation has more teams than that allows. */
+      const cap = k => Math.max(k === 'UEFA' ? 2 : 1, Math.ceil((counts.get(k) || 0)/n));
+      const spread = counts.size > 1;
+      const tryDraw = strict => {
+        const G = [...Array(n)].map(() => []);
+        H.forEach((h, i) => G[i].push(h));
+        for (let pot = 0; pot < 4; pot++){
+          const potTeams = order.slice(pot*n, pot*n + n).filter(t => !H.includes(t)).sort(() => rand() - 0.5);
+          for (const t of potTeams){
+            const open = [...Array(n).keys()].filter(i => G[i].length === pot &&
+              (!strict || G[i].filter(u => conf(u) === conf(t)).length < cap(conf(t))));
+            if (!open.length) return null;
+            G[open[Math.floor(rand()*open.length)]].push(t);
+          }
+        }
+        return G;
+      };
+      let G = null;
+      for (let k = 0; spread && k < 400 && !G; k++) G = tryDraw(true);
+      while (!G) G = tryDraw(false);
+      G.forEach((g, i) => { T.groups[L[i]] = g; });
+    }
+    T.knockout = koRounds(F.r1, F.later);
+    if (F.thirds) T.thirds = {count:F.thirds.count, against:F.thirds.against, allowed:F.thirds.allowed, table:thirdsTable(F.thirds, n)};
+    T.note = (drawNo ? 'Drawn at random from pots by rating, keeping teams from the same confederation apart where possible. '
+      : 'Groups are filled from pots by rating. ')+
+      'The top two in each group go through'+(F.thirds ? ', with the '+['','','two','','four','','','','eight'][F.thirds.count]+' best third-placed teams' : '')+'.'+hostNote;
   } else if (F.ko){
     if (rated.length < F.ko) return {error:'This format needs '+F.ko+' teams; '+rated.length+' chosen.'};
     const seeds = rated.slice(0, F.ko);
     let order = [1, 2];   // standard seeding: 1 v N, and the top two seeds can only meet in the final
-    while (order.length < F.ko){ const n = order.length*2; order = order.flatMap(s => [s, n+1-s]); }
-    T.seeded = seeds;
-    const names = {16:['Round of 16','Quarter-finals','Semi-finals','Final'], 8:['Quarter-finals','Semi-finals','Final']}[F.ko];
-    const cols = {16:['Last 16','Quarters','Semis','Final'], 8:['Quarters','Semis','Final']}[F.ko];
+    while (order.length < F.ko){ const m = order.length*2; order = order.flatMap(s => [s, m+1-s]); }
+    T.seeded = seeds; T.hosts = hosts.filter(h => seeds.includes(h));
     const r1 = []; for (let i = 0; i < order.length; i += 2) r1.push(['S'+order[i], 'S'+order[i+1]]);
-    T.knockout.push({name:names[0], col:cols[0], matches:r1});
-    for (let k = 1, m = r1.length/2; m >= 1; k++, m /= 2)
-      T.knockout.push({name:names[k], col:cols[k], matches:[...Array(m).keys()].map(i => [2*i, 2*i+1])});
-    T.note = 'Seeded by rating: the top seed meets the lowest, and the top two can only meet in the final.';
+    T.knockout = koRounds(r1);
+    T.note = 'Seeded by rating: the top seed meets the lowest, and the top two can only meet in the final.'+hostNote;
   } else {
     if (rated.length < 3) return {error:'A league needs at least three teams.'};
     T.groups = {'':rated}; T.rounds = F.league; T.league = true;
-    T.note = 'Three points for a win; ties broken on goal difference, then goals scored.';
+    T.note = 'Three points for a win; ties broken on goal difference, then goals scored.'+(F.league === 1 ? hostNote : '');
   }
   return T;
 }
@@ -5554,7 +6095,7 @@ function simulate(P, runs, seedStr, onDone, onProgress){
       if (T.thirds){
         const thirds = groupNames.map(gn => ({gn, row:placed['_rows'+gn][2]}))
           .sort((u, v) => v.row.p - u.row.p || v.row.gd - u.row.gd || v.row.gf - u.row.gf || v.row.r - u.row.r).slice(0, T.thirds.count);
-        const keyS = thirds.map(x => x.gn).sort().join(''), opp = T.thirds.table[keyS];
+        const keyS = thirds.map(x => x.gn).sort().join(''), opp = (T.thirds.table || (T.thirds.table = thirdsTable(T.thirds, groupNames.length)))[keyS];
         T.thirds.against.forEach((w, k) => { placed['3@'+w] = placed['3'+opp[k]]; });
       }
       // knockout
@@ -5619,7 +6160,7 @@ function viewSimulate(){
   const restore = () => { if (savedAsOf !== null){ state.asOf = savedAsOf; savedAsOf = null; } };
   let T = T0, err = null;
   if (custom){
-    const teams = (p.ct || '').split('|').filter(Boolean), r = buildCustom(teams, p.cf || 'g4x2', p.ch || '', c);
+    const teams = (p.ct || '').split('|').filter(Boolean), r = buildCustom(teams, p.cf || CUSTOM_DEFAULT, p.ch || '', c, p.cd || '');
     if (r.error){ err = r.error; T = null; } else T = r;
   }
   if (T && !custom && T.gender !== state.gender){   // the gender switch picks that game's first tournament
@@ -5805,7 +6346,8 @@ function knockoutPredictions(T, P, R){
   const nameOf = i => P.info.get(R.names[i]).name;
   const pc = (n, d) => { const v = 100*n/d; return v >= 99.5 ? '&gt;99%' : v < 0.5 ? '&lt;1%' : Math.round(v)+'%'; };
   const slotLabel = x => { if (x[0] === 'S'){ const t = (T.seeded || [])[+x.slice(1) - 1]; return t ? esc(dn(t)) : 'Seed '+x.slice(1); }
-    if (x.startsWith('3@')) return 'a third-placed team';
+    if (x.startsWith('3@')){ const al = T.thirds && T.thirds.allowed && T.thirds.allowed[x.slice(2)];
+      return al ? 'Third in Group '+al.split('').join('/') : 'a third-placed team'; }
     const pos = x[0], g = x.slice(1); return (pos === '1' ? 'Winner' : pos === '2' ? 'Runner-up' : pos+'th')+' Group '+esc(g); };
   const rounds = KO.map((round, ri) => {
     const cards = (R.slots[ri] || []).map((S, j) => {
@@ -5829,33 +6371,50 @@ function knockoutPredictions(T, P, R){
     'went through, extra time and penalties included.</p></div></div>';
 }
 function customControls(c, p){
-  const teams = (p.ct || '').split('|').filter(Boolean);
+  const teams = (p.ct || '').split('|').filter(Boolean), hosts = (p.ch || '').split('|').filter(h => h && teams.includes(h));
   const list = c.all.slice().sort((a, b) => a.team.localeCompare(b.team));
+  const F = CUSTOM_FORMATS[p.cf] || CUSTOM_FORMATS[CUSTOM_DEFAULT];
+  const need = F.groups ? F.groups*4 : F.ko || 0;
+  const sizes = [...new Set([8, 12, 16, 24, 32, 48].concat(need ? [need] : []))].sort((a, b) => a - b);
   return '<div class="panel" style="margin-bottom:18px;"><div class="panel-head">Build your own</div><div class="panel-body custom-form">'+
     '<div class="ctl"><label for="cFmt">Format</label><select id="cFmt">'+Object.entries(CUSTOM_FORMATS).map(([k, f]) =>
-      '<option value="'+k+'"'+((p.cf || 'g4x2') === k ? ' selected' : '')+'>'+f.label+'</option>').join('')+'</select></div>'+
+      '<option value="'+k+'"'+((p.cf || CUSTOM_DEFAULT) === k ? ' selected' : '')+'>'+f.label+'</option>').join('')+'</select></div>'+
     '<div class="ctl"><label for="cAdd">Add a team</label><input id="cAdd" list="cTeams" placeholder="Start typing&hellip;">'+
       '<datalist id="cTeams">'+list.map(r => '<option value="'+esc(r.team)+'">').join('')+'</datalist></div>'+
-    '<div class="ctl"><label for="cHost">Host</label><select id="cHost"><option value="">None (all neutral)</option>'+
-      teams.map(t => '<option value="'+esc(t)+'"'+(p.ch === t ? ' selected' : '')+'>'+esc(dn(t))+'</option>').join('')+'</select></div>'+
-    '<div class="chips" style="margin-top:10px;">'+[8, 16, 32].map(n => '<button class="chip" data-fill="'+n+'">Top '+n+' ranked</button>').join('')+
+    '<div class="ctl"><label for="cHost">Hosts <span class="muted">(up to three)</span></label><select id="cHost">'+
+      '<option value="">'+(hosts.length ? 'Add a co-host&hellip;' : 'None (all neutral)')+'</option>'+
+      teams.filter(t => !hosts.includes(t)).map(t => '<option value="'+esc(t)+'">'+esc(dn(t))+'</option>').join('')+'</select></div>'+
+    (hosts.length ? '<div class="chips" style="margin-top:8px;"><span class="muted" style="font-size:12.5px;margin-right:4px;">Hosting</span>'+
+      hosts.map(h => '<button class="chip on" data-unhost="'+esc(h)+'" title="No longer a host">'+esc(dn(h))+' &times;</button>').join('')+'</div>' : '')+
+    (F.groups ? '<div class="chips" style="margin-top:10px;align-items:center;"><span class="muted" style="font-size:12.5px;margin-right:4px;">Draw</span>'+
+      '<button class="chip'+(p.cd ? '' : ' on')+'" data-draw="0" title="The same teams always give the same groups">Pots in order</button>'+
+      '<button class="chip'+(p.cd ? ' on' : '')+'" data-draw="new" title="A random draw from the pots, keeping teams from the same confederation apart where it can">'+
+        (p.cd ? 'Draw again' : 'Random draw from pots')+'</button></div>' : '')+
+    '<div class="chips" style="margin-top:10px;align-items:center;"><span class="muted" style="font-size:12.5px;margin-right:4px;">Fill with the top</span>'+
+      sizes.map(n => '<button class="chip'+(n === need ? ' on' : '')+'" data-fill="'+n+'">'+n+'</button>').join('')+
       '<button class="chip" data-fill="0">Clear</button></div>'+
+    '<p class="muted" style="font-size:12.5px;margin:8px 0 0;">'+teams.length+' chosen'+(need ? ' &middot; this format needs '+need : '')+'</p>'+
     '<div class="chips custom-teams" style="margin-top:10px;">'+(teams.length ? teams.map(t =>
       '<button class="chip on" data-remove="'+esc(t)+'" title="Remove">'+esc(dn(t))+' &times;</button>').join('') : '<span class="muted">No teams yet.</span>')+'</div>'+
   '</div></div>';
 }
 function bindCustom(){
-  const p = state.params, teams = (p.ct || '').split('|').filter(Boolean);
-  const set = (q) => { const n = {...p, t:'custom', ...q}; delete n.x; if (!n.ct) delete n.ct; go(n); };
+  const p = state.params, teams = (p.ct || '').split('|').filter(Boolean), hosts = (p.ch || '').split('|').filter(h => h && teams.includes(h));
+  const set = (q) => { const n = {...p, t:'custom', ...q}; delete n.x; ['ct', 'ch', 'cd'].forEach(k => { if (!n[k]) delete n[k]; }); go(n); };
   const fmt = document.getElementById('cFmt'); if (fmt) fmt.addEventListener('change', () => set({cf:fmt.value}));
-  const host = document.getElementById('cHost'); if (host) host.addEventListener('change', () => set({ch:host.value}));
+  const host = document.getElementById('cHost');
+  if (host) host.addEventListener('change', () => { if (host.value) set({ch:hosts.concat([host.value]).slice(-3).join('|')}); });
+  document.querySelectorAll('[data-unhost]').forEach(b => b.addEventListener('click', () => set({ch:hosts.filter(h => h !== b.dataset.unhost).join('|')})));
+  document.querySelectorAll('[data-draw]').forEach(b => b.addEventListener('click', () =>
+    set({cd:b.dataset.draw === '0' ? '' : String(1 + Math.floor(Math.random()*99999))})));
   const add = document.getElementById('cAdd');
   if (add) add.addEventListener('change', () => { const c = getRatings(), k = c.resolve(add.value.trim()), r = c.byKey.get(k);
     if (r && !teams.includes(r.team)) set({ct:teams.concat([r.team]).join('|')}); });
   document.querySelectorAll('[data-remove]').forEach(b => b.addEventListener('click', () =>
-    set({ct:teams.filter(t => t !== b.dataset.remove).join('|'), ch:p.ch === b.dataset.remove ? '' : p.ch})));
+    set({ct:teams.filter(t => t !== b.dataset.remove).join('|'), ch:hosts.filter(h => h !== b.dataset.remove).join('|')})));
   document.querySelectorAll('[data-fill]').forEach(b => b.addEventListener('click', () => {
-    const n = +b.dataset.fill; set({ct:n ? getRatings().table.slice(0, n).map(r => r.team).join('|') : '', ch:''}); }));
+    const n = +b.dataset.fill, top = n ? getRatings().table.slice(0, n).map(r => r.team) : [];
+    set({ct:top.join('|'), ch:hosts.filter(h => top.includes(h)).join('|')}); }));
 }
 
 /* ============================================================
@@ -8140,6 +8699,14 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['8 Nov 2026', ['New page, This window: the international window under way, with what\'s still to come, the model\'s calls on every result so far, how many it got right and the biggest upsets. It is under Matches.',
+    'Predict: pick any coming match in one tap; each side now shows its flag, rank, tiers and form, with the last meeting and the all-time record between them; a What\'s at stake panel shows what a win, draw or defeat would do to both ratings in a friendly, a qualifier, the Nations League, continental finals or a World Cup; and the prediction can be shared as an image.',
+    'Predict: dream matches. Pick any side from any year against any other, each as it stood at the end of its year, on neutral ground. A bit of fun rather than a measurement, and the page says why.',
+    'Simulator: build your own now has 12, 24 and 48-team formats with the best third-placed teams going through (the 24-team one follows Euro 2024\'s bracket and the 48-team one the 2026 World Cup\'s), and a 32-team knockout. Up to three co-hosts, who head the first groups, and a random draw from pots that keeps teams from the same confederation apart where it can.',
+    'Simulator: three new rewinds: World Cup 2026, Euro 2024 and Copa América 2024, each played from the ratings the day before kick-off and compared with what happened.',
+    'Confederations: a card for each confederation (best team, biggest riser and faller), each one\'s strength over time since 1960 (1991 for women), every ranked team on one rating line per confederation, World Cup places against how many teams each has in the world\'s top 48, and every confederation\'s record against each other, in the window or at World Cups.',
+    'About: a line on who built Formline.',
+    'The welcome tour now closes when you leave the page it started on.']],
   ['7 Nov 2026', ['Formline has its own email address: hello@formlinedata.com.',
     'Formline is on Bluesky: @formlinedata.com. The daily post goes there too.',
     'New plain pages that search engines can read: one for every upcoming match, with Formline\'s prediction and the head-to-head record, '+
@@ -8470,6 +9037,35 @@ async function siDraw(kind, size, opts = {}){
       siText(g, x.kind ? x.k+' · all time' : x.k, xx, y + fs*0.75, '600 '+Math.round(fs*0.62)+'px Archivo, system-ui, sans-serif', SI.dim, 'left', colW);
       const vw = siText(g, x.v, xx, y + fs*1.9, '800 '+fs+'px Archivo, system-ui, sans-serif', SI.amber, 'left', colW*0.45);
       siText(g, x.s, xx + vw + 18, y + fs*1.9, '400 '+Math.round(fs*0.62)+'px Archivo, system-ui, sans-serif', SI.body, 'left', colW - vw - 18); });
+  } else if (kind === 'predict'){
+    const S = state.predShare; if (!S) return null;
+    const la = S.la || dn(S.a), lb = S.lb || dn(S.b);
+    const [fa, fb] = await Promise.all([siLoad(siFlagSrc(S.a, S.tsA)), siLoad(siFlagSrc(S.b, S.tsB))]);
+    const pad = siFrame(g, W, H, S.dream ? 'Dream match' : 'Match prediction', (S.dream ? '' : game+' football · ')+S.venue+' · '+S.when);
+    const wide = size === 'wide', top = pad*0.9 + 200 + (H > 1200 ? 70 : 0), fh = wide ? 96 : 130, colW = (W - 2*pad)/2;
+    [[fa, la, pad], [fb, lb, pad + colW]].forEach(([im, nm, x], i) => {
+      const cx = x + colW/2;
+      if (im){ const w = fh*im.naturalWidth/im.naturalHeight; siFlag(g, im, cx - w/2, top, fh); }
+      let fs = wide ? 40 : 46; g.font = '800 '+fs+'px Archivo, system-ui, sans-serif';
+      while (fs > 28 && g.measureText(nm).width > colW - 30){ fs -= 2; g.font = '800 '+fs+'px Archivo, system-ui, sans-serif'; }
+      siText(g, nm, cx, top + fh + 62, '800 '+fs+'px Archivo, system-ui, sans-serif', SI.chalk, 'center', colW - 30);
+    });
+    siText(g, 'v', W/2, top + fh/2 + 18, '700 44px Archivo, system-ui, sans-serif', SI.dim, 'center');
+    const by = top + fh + (wide ? 110 : 140), bh = wide ? 70 : 92, bw = W - 2*pad, P = S.p;
+    const parts = [[P.home, SI.amber, '#14301f'], [P.draw, '#5c6b62', '#fff'], [P.away, SI.win, '#0e2117']];
+    let x = pad;
+    parts.forEach(([v, col, ink]) => { const w = bw*v; g.fillStyle = col; g.fillRect(x, by, w, bh);
+      if (v > 0.09) siText(g, Math.round(v*100)+'%', x + w/2, by + bh/2 + (wide ? 13 : 17), '800 '+(wide ? 36 : 46)+'px Archivo, system-ui, sans-serif', ink, 'center');
+      x += w; });
+    siText(g, la+' win', pad, by + bh + 40, '600 26px Archivo, system-ui, sans-serif', SI.body, 'left', bw/3);
+    siText(g, 'Draw', W/2, by + bh + 40, '600 26px Archivo, system-ui, sans-serif', SI.body, 'center');
+    siText(g, lb+' win', W - pad, by + bh + 40, '600 26px Archivo, system-ui, sans-serif', SI.body, 'right', bw/3);
+    if (!wide){
+      const t = S.sl.top.slice(0, 3).map(s => (s[0] > s[1] ? la+' '+s[0]+'–'+s[1] : s[0] < s[1] ? lb+' '+s[1]+'–'+s[0] : 'Draw '+s[0]+'–'+s[1])+' ('+Math.round(s[2]*100)+'%)');
+      siText(g, 'Likeliest scores', pad, by + bh + 120, '600 26px Archivo, system-ui, sans-serif', SI.dim);
+      t.forEach((line, i) => siText(g, line, pad, by + bh + 172 + i*50, '700 34px Archivo, system-ui, sans-serif', i ? SI.body : SI.amber, 'left', bw));
+      siText(g, 'Expected goals '+S.sl.xg[0].toFixed(1)+' – '+S.sl.xg[1].toFixed(1), pad, by + bh + 340, '400 28px Archivo, system-ui, sans-serif', SI.body, 'left', bw);
+    }
   } else if (kind === 'team'){
     const key = c.resolve(state.arg) || state.arg, row = c.byKey.get(key); if (!row) return null;
     const h = c.history.get(key) || [], last5 = h.slice(-5), latest = state.asOf >= state.bounds[state.gender].max;
@@ -8637,7 +9233,7 @@ function viewCompare(){
    ============================================================ */
 /* Navigation groups, menus and theme. */
 const NAV_GROUP = {rankings:'ratings', team:'ratings', confederations:'ratings', competitions:'ratings', competition:'ratings',
-  fixtures:'matches', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', sources:'about', support:'about', changes:'about', contact:'about', records:'ratings'};
+  fixtures:'matches', window:'matches', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', sources:'about', support:'about', changes:'about', contact:'about', records:'ratings'};
 function closeMenus(){
   document.querySelectorAll('.nav-group.open').forEach(g => { g.classList.remove('open'); g.querySelector('.nav-top').setAttribute('aria-expanded', 'false'); });
   document.body.classList.remove('menu-open');
@@ -8894,7 +9490,7 @@ function startTour(firstVisit, page){
   endTour(false);
   const steps = page ? page.steps : tourSteps().filter((st, i) => i === 0 ? firstVisit : hasTarget(st));
   if (!firstVisit && steps.length && steps[0].start) steps.shift();
-  tourState = {steps, i:0, prevFocus:document.activeElement, label:page ? page.label : null};
+  tourState = {steps, i:0, prevFocus:document.activeElement, label:page ? page.label : null, route:state.route};
   const spot = document.createElement('div'); spot.className = 'tour-spot'; spot.id = 'tourSpot';
   const card = document.createElement('div'); card.className = 'tour-card'; card.id = 'tourCard';
   card.setAttribute('role', 'dialog'); card.setAttribute('aria-modal', 'true'); card.setAttribute('aria-labelledby', 'tourTitle');

@@ -1,6 +1,6 @@
 # Formline
 
-National-team football ratings for men and women: a rolling window, an uncertainty band on every rating, historical teams, confederation offsets, and predictions for the fixtures coming up.
+National-team football ratings for men and women: a rolling window, historical teams, confederation offsets, and predictions for the fixtures coming up.
 
 The whole site is `index.html`. Everything is computed in the visitor's browser. A nightly job keeps the data current and publishes it next to the page.
 
