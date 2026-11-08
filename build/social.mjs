@@ -367,8 +367,9 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     await page.goto(host + 'index.html#/about');
     await page.waitForFunction(() => typeof ensureData === 'function' && typeof TOURNAMENTS !== 'undefined', null, {timeout:60000});
     await page.addScriptTag({path:path.join(ROOT, 'build', 'social', 'collect.js')});
-    /* Collectors pick matches relative to the time the post goes out: 18:00 in Toronto that day. */
-    const now = Date.parse(date + 'T23:00:00Z');
+    /* Collectors pick matches relative to the time the post goes out: 14:00 UTC that day (9 am in Toronto in winter, 10 am
+       in summer), so a match preview covers a match kicking off 8 to 56 hours after the post. */
+    const now = Date.parse(date + 'T14:00:00Z');
     const run = t => page.evaluate(([t, now, used]) => window.FL_SOCIAL[t]({now, used}), [t, now, used]);
     const dow = new Date(date + 'T12:00:00Z').getUTCDay();
     let order = type ? [type] : [WEEK[dow]];

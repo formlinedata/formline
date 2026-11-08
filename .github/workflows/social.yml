@@ -1,11 +1,12 @@
 name: Daily social post
 # Morning: make today's post (build/social.mjs), keep it on the social-queue branch, and open a review issue with the
-# Instagram slides, the caption and an X version to post by hand. Evening: post it to Bluesky and Instagram unless the
-# issue was closed (build/social-publish.mjs). Times are UTC: 13:23 is 8:23 am in Toronto in winter, 23:07 is 6:07 pm.
+# Instagram slides, the caption and an X version to post by hand. Later: post it to Bluesky and Instagram unless the
+# issue was closed (build/social-publish.mjs). Times are UTC: 10:27 is 5:27 am in Toronto in winter, 14:07 is 9:07 am
+# (an hour later in summer).
 on:
   schedule:
-    - cron: '23 13 * * *'
-    - cron: '7 23 * * *'
+    - cron: '27 10 * * *'
+    - cron: '7 14 * * *'
   workflow_dispatch:
     inputs:
       step:
@@ -24,7 +25,7 @@ concurrency: social
 
 jobs:
   prepare:
-    if: (github.event_name == 'schedule' && github.event.schedule == '23 13 * * *') || (github.event_name == 'workflow_dispatch' && inputs.step == 'prepare')
+    if: (github.event_name == 'schedule' && github.event.schedule == '27 10 * * *') || (github.event_name == 'workflow_dispatch' && inputs.step == 'prepare')
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
@@ -70,7 +71,7 @@ jobs:
           gh issue create --title "Post for $SOCIAL_DATE: $TITLE" --label social-post --body-file "$RUNNER_TEMP/q/issue.md"
 
   publish:
-    if: (github.event_name == 'schedule' && github.event.schedule == '7 23 * * *') || (github.event_name == 'workflow_dispatch' && inputs.step == 'publish')
+    if: (github.event_name == 'schedule' && github.event.schedule == '7 14 * * *') || (github.event_name == 'workflow_dispatch' && inputs.step == 'publish')
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
@@ -87,15 +88,3 @@ jobs:
         with:
           node-version: 22
       - name: Post to Bluesky and Instagram
-        run: |
-          export SOCIAL_DATE=$(TZ=America/Toronto date +%F)
-          node build/social-publish.mjs
-      - name: Keep the Instagram token fresh (Sundays)
-        if: env.HAS_ADMIN == 'true' && env.IG_TOKEN != ''
-        env:
-          ADMIN: ${{ secrets.FORMLINE_ADMIN_TOKEN }}
-        run: |
-          [ "$(TZ=America/Toronto date +%u)" = 7 ] || { echo "Not Sunday."; exit 0; }
-          TOKEN_OUT="$RUNNER_TEMP/t" node build/social-publish.mjs --refresh
-          GH_TOKEN="$ADMIN" gh secret set IG_TOKEN --repo "$GITHUB_REPOSITORY" < "$RUNNER_TEMP/t"
-          rm -f "$RUNNER_TEMP/t"
