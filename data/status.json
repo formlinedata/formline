@@ -1,11 +1,11 @@
 {
- "built": "2026-11-08T13:37:12.670Z",
+ "built": "2026-11-08T14:26:30.120Z",
  "today": "2026-11-08",
  "mode": "light",
  "api": {
   "keyPresent": true,
   "used": 3,
-  "remaining": 7396,
+  "remaining": 7393,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 100,
+   "usedTodayBeforeRun": 103,
    "perMinute": 300
   },
   "paid": true,
@@ -27,7 +27,8 @@
  "skipped": {
   "domestic": 2754,
   "not counted": 11,
-  "youth": 18
+  "youth": 18,
+  "status 1H": 1
  },
  "seen": {
   "men": {
@@ -40,7 +41,7 @@
   }
  },
  "men": {
-  "built": "2026-11-08T13:37:12.670Z",
+  "built": "2026-11-08T14:26:30.120Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
@@ -50,10 +51,10 @@
    "from": "2026-11-05",
    "to": "2026-11-08"
   },
-  "fixtures": 173
+  "fixtures": 172
  },
  "women": {
-  "built": "2026-11-08T13:37:12.670Z",
+  "built": "2026-11-08T14:26:30.120Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -66,7 +67,7 @@
   "fixtures": 54
  },
  "venues": {
-  "city": 116,
+  "city": 115,
   "assumed": 109,
   "wiki": 2
  },
@@ -74,7 +75,7 @@
   "total": 227,
   "scored": 3,
   "newThisRun": 0,
-  "updatedThisRun": 224,
+  "updatedThisRun": 223,
   "scoredThisRun": 0,
   "droppedThisRun": 0
  }
