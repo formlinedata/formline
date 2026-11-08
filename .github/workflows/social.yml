@@ -88,3 +88,15 @@ jobs:
         with:
           node-version: 22
       - name: Post to Bluesky and Instagram
+        run: |
+          export SOCIAL_DATE=$(TZ=America/Toronto date +%F)
+          node build/social-publish.mjs
+      - name: Keep the Instagram token fresh (Sundays)
+        if: env.HAS_ADMIN == 'true' && env.IG_TOKEN != ''
+        env:
+          ADMIN: ${{ secrets.FORMLINE_ADMIN_TOKEN }}
+        run: |
+          [ "$(TZ=America/Toronto date +%u)" = 7 ] || { echo "Not Sunday."; exit 0; }
+          TOKEN_OUT="$RUNNER_TEMP/t" node build/social-publish.mjs --refresh
+          GH_TOKEN="$ADMIN" gh secret set IG_TOKEN --repo "$GITHUB_REPOSITORY" < "$RUNNER_TEMP/t"
+          rm -f "$RUNNER_TEMP/t"
