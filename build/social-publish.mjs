@@ -2,8 +2,10 @@
 // which is labelled per channel (bluesky, posted = Instagram) so a re-run never posts twice.
 //   Bluesky (AT Protocol, bsky.social): logs in with an app password, uploads up to 4 slides with alt text, and posts the
 //     X-style text (300 characters at most) with its link made clickable.
-//   Instagram (Instagram API with Instagram Login, graph.instagram.com): each slide becomes a media container made from
-//     its public image address, the slides become one carousel (or a single image), and the container is published.
+//   Instagram: each slide becomes a media container made from its public image address, the slides become one carousel
+//     (or a single image), and the container is published. Two kinds of token work, told apart by how they start:
+//     an Instagram Login token (IG…, graph.instagram.com, 60 days, refreshable) or, for apps made since Meta's switch to
+//     "API setup with Unified login", a system-user token (EAA…, graph.facebook.com, never expires, no refresh).
 //
 //   BSKY_HANDLE, BSKY_APP_PASSWORD   Bluesky handle (e.g. formline.bsky.social) and app password (GitHub secrets)
 //   IG_USER_ID, IG_TOKEN      Instagram account id and long-lived access token (GitHub secrets)
@@ -12,10 +14,14 @@
 //   TOKEN_OUT=file node build/social-publish.mjs --refresh   swap IG_TOKEN for a fresh 60-day token, written to file
 import fs from 'node:fs';
 
-const API = `https://graph.instagram.com/${process.env.IG_API_VERSION || 'v23.0'}`;
 const repo = process.env.GITHUB_REPOSITORY || 'formlinedata/formline';
 const date = process.env.SOCIAL_DATE || new Date().toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
-const {IG_USER_ID, IG_TOKEN, GH_TOKEN} = process.env;
+const {GH_TOKEN} = process.env;
+/* Forgiving about how the Instagram secrets were pasted too: spaces or a trailing newline. */
+const IG_USER_ID = (process.env.IG_USER_ID || '').trim(), IG_TOKEN = (process.env.IG_TOKEN || '').trim();
+/* A system-user token (EAA…) from Unified login talks to graph.facebook.com; an Instagram Login token to graph.instagram.com. */
+export const igHost = token => /^EAA/.test(token || '') ? 'graph.facebook.com' : 'graph.instagram.com';
+const API = `https://${igHost(IG_TOKEN)}/${process.env.IG_API_VERSION || 'v23.0'}`;
 /* Forgiving about how the Bluesky secrets were pasted: "@handle", a profile link, spaces or a trailing newline. */
 const BSKY_HANDLE = (process.env.BSKY_HANDLE || '').trim().replace(/^https?:\/\/bsky\.app\/profile\//, '').replace(/^@/, '').replace(/\/+$/, '');
 const BSKY_APP_PASSWORD = (process.env.BSKY_APP_PASSWORD || '').trim();
@@ -68,6 +74,13 @@ async function gh(pathq, opts = {}){
 const comment = (n, text) => gh(`/issues/${n}/comments`, {method:'POST', body:JSON.stringify({body:text})});
 
 if (process.argv.includes('--refresh')){
+  /* A system-user token never expires: hand the same token back, so the workflow's secret update is a no-op. */
+  if (igHost(IG_TOKEN) === 'graph.facebook.com'){
+    if (process.env.GITHUB_ACTIONS) console.log(`::add-mask::${IG_TOKEN}`);
+    fs.writeFileSync(process.env.TOKEN_OUT, IG_TOKEN);
+    note('Instagram token is a system-user token, which does not expire; nothing to refresh.');
+    process.exit(0);
+  }
   const r = await fetch(`https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${encodeURIComponent(IG_TOKEN)}`);
   const j = await r.json().catch(() => ({}));
   if (!r.ok || !j.access_token){ note('Could not refresh the Instagram token: ' + ((j.error && j.error.message) || r.status), 'warning'); process.exit(1); }
