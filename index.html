@@ -1001,7 +1001,40 @@
   .tb-code{font-size:.42em;font-weight:700;letter-spacing:.06em;color:var(--dim);border:1px solid var(--line-strong);border-radius:5px;padding:2px 6px;vertical-align:middle;}
   .code-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:4px 16px;margin:10px 0 14px;font-size:14px;}
   .code-grid b{display:inline-block;width:36px;font-variant-numeric:tabular-nums;color:var(--amber);}
-  .vs-roll{margin:0;font-size:13.5px;padding:8px 12px;border-radius:6px;background:var(--panel-2);} .vs-roll.warn{background:var(--notice-bg);color:var(--notice-ink);border:1px solid var(--notice-line);}
+  .fr-hero{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 20px;}
+  @media (max-width:760px){.fr-hero{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  .fr-tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0;}
+  .fr-tile .k{font-size:13px;color:var(--dim);}
+  .fr-tile .v{font-size:32px;font-weight:800;font-stretch:108%;color:var(--amber);line-height:1.1;margin-top:4px;white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .fr-tile .v small{font-size:15px;color:var(--dim);font-weight:600;margin-left:2px;}
+  .fr-tile .s{font-size:12.5px;color:var(--dim);margin-top:5px;line-height:1.4;}
+  .fr-h{font-size:15px;color:var(--chalk);margin:16px 0 8px;font-weight:700;} .fr-h:first-child{margin-top:4px;} .fr-h .muted{font-weight:400;font-size:13px;margin-left:6px;}
+  .fr-h2{font-size:19px;color:var(--chalk);margin:26px 0 4px;}
+  .fr-q{font-size:14px;color:var(--body);margin:10px 0 4px;}
+  .fr-bars .row, .fr-cal .row{display:grid;grid-template-columns:120px minmax(0,1fr) 70px;align-items:center;gap:12px;padding:4px 0;}
+  .fr-cal .row{grid-template-columns:150px minmax(0,1fr) 80px;}
+  .fr-bars .lab, .fr-cal .lab{font-size:14px;color:var(--body);} .fr-bars .lab.me{color:var(--chalk);font-weight:700;}
+  .fr-bars .track, .fr-cal .track{position:relative;display:block;height:12px;border-radius:6px;background:var(--sk);overflow:hidden;}
+  .fr-bars .fill, .fr-cal .fill{display:block;height:100%;border-radius:6px;}
+  .fr-cal .fill{background:var(--amber);} .fr-cal .tick{position:absolute;top:-2px;bottom:-2px;width:3px;margin-left:-1px;background:var(--chalk);border-radius:2px;}
+  .fr-bars .val, .fr-cal .val{text-align:right;font-weight:700;color:var(--chalk);font-variant-numeric:tabular-nums;font-size:14px;}
+  .fr-split{display:flex;height:16px;border-radius:8px;overflow:hidden;gap:2px;margin:8px 0 6px;}
+  .fr-split i{display:block;height:100%;}
+  .fr-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--dim);margin-bottom:10px;} .fr-legend b{color:var(--chalk);}
+  .fr-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;}
+  table.fr-t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px;}
+  .fr-t th{font-size:12.5px;color:var(--dim);font-weight:600;text-align:right;padding:8px 12px;border-bottom:1px solid var(--line);}
+  .fr-t td{padding:8px 12px;text-align:right;color:var(--body);border-bottom:1px solid var(--line);}
+  .fr-t th:first-child, .fr-t td:first-child{text-align:left;}
+  .fr-t td.best{color:var(--amber);font-weight:700;} .fr-t td.me{color:var(--chalk);font-weight:700;}
+  .vs-years{margin:12px 0 0;} .vs-years summary{cursor:pointer;padding:8px 0;font-size:14px;color:var(--dim);} .vs-years p{font-size:14px;margin:0 0 8px;}
+  .fr-nerd{margin:4px 0 20px;}
+  .fr-links{font-size:14px;margin:0 0 16px;}
+  .fr-ticks{list-style:none;margin:6px 0 10px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px;font-size:14px;}
+  @media (max-width:560px){.fr-ticks{grid-template-columns:1fr;}}
+  .fr-ticks li{padding-left:24px;position:relative;line-height:1.4;} .fr-ticks li::before{content:'\2713';position:absolute;left:2px;color:var(--amber);font-weight:800;}
+  .fr-ticks .muted{display:block;font-size:13px;}
+  .vs-roll{margin:0 0 6px;font-size:13.5px;padding:8px 12px;border-radius:6px;background:var(--panel-2);} .vs-roll.warn{background:var(--notice-bg);color:var(--notice-ink);border:1px solid var(--notice-line);}
   .rec-note{margin:0;padding:8px 15px 4px;font-size:12.5px;color:var(--dim);}
   .conf-block{padding:4px 15px 2px;} .conf-block + .conf-block{border-top:1px solid var(--line);}
   .conf-block .cb-h{font-size:15.5px;margin:10px 0 4px;color:var(--chalk);} .conf-block .cb-h .muted{font-weight:400;font-size:13px;}
@@ -1750,9 +1783,13 @@ function goalMeans(calibratedE, g){
   const p = GOALS[g || state.gender], e = Math.min(Math.max(calibratedE, 1e-6), 1-1e-6), x = Math.log(e/(1-e)), q = x*x;
   return [Math.exp(p.a + p.b*x + p.c*q + p.d), Math.exp(p.a - p.b*x + p.c*q - p.d)];
 }
-function scorelines(rawE, g, max){
+function scorelines(rawE, g, max, tot){
   max = max || 15;
-  const pr = probsFromE(rawE, g), [lh, la] = goalMeans(calE(rawE, g), g);
+  const pr = probsFromE(rawE, g);
+  let [lh, la] = goalMeans(calE(rawE, g), g);
+  /* tot: the expected total goals, when the goals model has a view on how open the match will be. The split between
+     the sides stays the rating curve's. */
+  if (tot){ const f = tot/(lh + la); lh *= f; la *= f; }
   const G = [], ph = [], pa = [];
   for (let i = 0; i <= max; i++){ ph[i] = poisson(i, lh); pa[i] = poisson(i, la); }
   let w = 0, d = 0, l = 0;
@@ -4892,7 +4929,7 @@ function scorelinePanel(sl, a, b){
       sl.top.slice(0, 5).map(([i, j, v]) => '<tr><td>'+esc(i > j ? a : (i < j ? b : 'Draw'))+' '+(i < j ? j+'&ndash;'+i : i+'&ndash;'+j)+
         '</td><td>'+(v*100).toFixed(1)+'%</td></tr>').join('')+'</tbody></table>'+
       '<p class="chart-note">Even the likeliest single score happens less than one time in five. '+
-        'The model fits goals on the gap between the two ratings; it knows nothing of styles or line-ups.</p></div>'+
+        'Goals come from the gap between the two ratings and from how much each side usually scores and lets in; the model knows nothing of line-ups.</p></div>'+
   '</div></div>';
 }
 /* Long memory: ratings from every match in the archive up to the as-of date, computed once per date and kept. Every
@@ -4925,6 +4962,74 @@ function longMemory(ka, kb, h){
 }
 const blendE = (e1, e2) => { const lg = e => Math.log(e/(1-e)), cl = e => Math.min(Math.max(e, 1e-9), 1-1e-9);
   return 1/(1 + Math.exp(-(LM_WEIGHT*lg(cl(e1)) + (1-LM_WEIGHT)*lg(cl(e2))))); };
+/* ---------- Goals model ----------
+   A second opinion built from goals alone, after Ley, Van de Wiele & Van Eetvelde. Each team has an attack and a defence
+   number; a side's expected goals are exp(mu + its attack - the other side's defence, +/- home). After every match each
+   number moves a small step towards what happened (goals capped at 8, so a thrashing of a minnow cannot run away with it).
+   A new team starts a little below the established teams of its confederation and learns faster over its first matches.
+   Forecasts mix its expected result with Formline's on the log-odds scale (GM_WEIGHT), and set the expected total goals
+   halfway between the two (GM_TIGHT): the ratings know who is better, the goals model also knows whether a match is
+   likely to be tight or open. Tested out of sample in November 2026, fitted on one half of the years and scored on the
+   other, both ways round, for both games: sharper forecasts in all four tests, and better scorelines and goal totals.
+   Rankings and ratings never use it; only forecasts, scorelines and the Simulator. */
+const GM = {men:  {gam:0.03, eta:0.2, cap:8, useK:false, oa:-0.5, od:-0.5, c:5},
+            women:{gam:0.03, eta:0.1, cap:8, useK:true,  oa:-0.5, od:-0.5, c:5}};
+const GM_WEIGHT = 0.425, GM_TIGHT = 0.5, GM_MAXG = 15;
+let gmCache = {};
+function goalsModel(g, ts){
+  g = g || state.gender; if (ts === undefined || ts === null) ts = state.asOf;
+  const ms = state.matches[g]; if (!ms) return null;
+  const key = g+'|'+ts+'|'+state.historicalNames;
+  if (gmCache[key]) return gmCache[key];
+  if (Object.keys(gmCache).length > 60) gmCache = {};
+  const P = GM[g], att = new Map(), def = new Map(), nm = new Map(), conf = new Map();
+  let mu = 0.15;
+  const init = t => { if (att.has(t)) return;
+    const c = infoFor(t).conf; let sa = 0, sd = 0, n = 0;
+    for (const [k, v] of att) if (conf.get(k) === c && nm.get(k) >= 10){ sa += v; sd += def.get(k); n++; }
+    conf.set(t, c); att.set(t, (n ? sa/n : 0) + P.oa); def.set(t, (n ? sd/n : 0) + P.od); nm.set(t, 0); };
+  for (const m of ms){
+    if (m.ts > ts) break;
+    if (m.hs == null || m.as == null) continue;
+    namesFor(m);
+    const h = m._h, a = m._a, s = venueSide(m); init(h); init(a);
+    const w = P.useK ? m.k/30 : 1, gh = Math.min(m.hs, P.cap), ga = Math.min(m.as, P.cap);
+    const lh = Math.exp(mu + att.get(h) - def.get(a) + P.eta*s), la = Math.exp(mu + att.get(a) - def.get(h) - P.eta*s);
+    const fh = 1 + P.c/(1 + nm.get(h)/5), fa = 1 + P.c/(1 + nm.get(a)/5);
+    const eh = P.gam*w*(gh - lh), ea = P.gam*w*(ga - la);
+    att.set(h, att.get(h) + eh*fh); def.set(a, def.get(a) - eh*fa);
+    att.set(a, att.get(a) + ea*fa); def.set(h, def.get(h) - ea*fh);
+    nm.set(h, nm.get(h) + 1); nm.set(a, nm.get(a) + 1); mu += 0.002*(eh + ea);
+  }
+  return gmCache[key] = {g, P, att, def, nm, mu};
+}
+/* Expected goals for a meeting (side: 1 the first team at home, -1 the second, 0 neutral); null if either team is unknown. */
+function gmGoals(G, kh, ka, side){
+  if (!G || !G.att.has(kh) || !G.att.has(ka)) return null;
+  return [Math.exp(G.mu + G.att.get(kh) - G.def.get(ka) + G.P.eta*side), Math.exp(G.mu + G.att.get(ka) - G.def.get(kh) - G.P.eta*side)];
+}
+/* The goals model's expected result for the first team (a win 1, a draw a half). */
+function gmExpected(lh, la){
+  const ph = [], pa = []; for (let i = 0; i <= GM_MAXG; i++){ ph[i] = poisson(i, lh); pa[i] = poisson(i, la); }
+  let w = 0, d = 0;
+  for (let i = 0; i <= GM_MAXG; i++) for (let j = 0; j <= GM_MAXG; j++){ const v = ph[i]*pa[j]; if (i > j) w += v; else if (i === j) d += v; }
+  return w + d/2;
+}
+const lgt = e => { e = Math.min(Math.max(e, 1e-9), 1-1e-9); return Math.log(e/(1-e)); };
+/* The raw expectation that calibrates to e: the inverse of calE. */
+const rawOfCal = (e, g) => 1/(1 + Math.exp(-lgt(e)/CAL[g || state.gender].slope));
+/* Formline's calibrated expectation mixed with the goals model's. */
+const gmMixE = (eCal, eg) => 1/(1 + Math.exp(-((1 - GM_WEIGHT)*lgt(eCal) + GM_WEIGHT*lgt(eg))));
+/* A forecast with the goals model folded in. rawE: Formline's raw expected score for the first team. Returns the raw
+   expectation to hand to probsFromE / scorelines, the expected total goals for scorelines, and the goals model's own view. */
+function gmMix(rawE, kh, ka, side, G, g){
+  g = g || state.gender;
+  const gl = gmGoals(G, kh, ka, side);
+  if (!gl) return {raw:rawE, e:calE(rawE, g), tot:null, gm:null};
+  const eg = gmExpected(gl[0], gl[1]), e = gmMixE(calE(rawE, g), eg);
+  const [lh, la] = goalMeans(e, g), tot = Math.pow(lh + la, 1 - GM_TIGHT)*Math.pow(gl[0] + gl[1], GM_TIGHT);
+  return {raw:rawOfCal(e, g), e, tot, gm:{lh:gl[0], la:gl[1], e:eg}};
+}
 /* Every meeting between two sides since the archive began (by lineage, so West Germany counts as Germany), up to the
    date shown: the record and the last game. */
 function allTimeMeetings(ka, kb){
@@ -4990,12 +5095,13 @@ function viewPredict(){
   const lmOn = state.params.lm !== '0' && state.windowYears > 0;
   const full = lmOn ? longMemory(rowA.key, rowB.key, h) : null;
   const eUnc = full ? blendE(eWin, full.E) : eWin;
+  const GMx = lmOn ? gmMix(eUnc, rowA.key, rowB.key, neutral ? 0 : 1, goalsModel()) : {raw:eUnc, e:calE(eUnc), tot:null, gm:null};
   const eCal = calE(eUnc);
-  const p = probsFromE(eUnc);
+  const p = probsFromE(GMx.raw);
   const pc = x => (x*100).toFixed(1)+'%';
   const seg = (v,cls,txt)=>'<div class="prob-seg '+cls+'" style="width:'+(v*100)+'%">'+(v>0.08?txt:'')+'</div>';
   const prov = [rowA,rowB].filter(r=>r.provisional);
-  const sl = scorelines(eUnc);
+  const sl = scorelines(GMx.raw, undefined, undefined, GMx.tot);
   const latest = state.asOf >= state.bounds[g].max, fts = latest ? Infinity : state.asOf;
   /* The coming fixtures, one tap each: the side at home goes first. */
   const up = latest ? (upcomingFor(g) || []).slice(0, 10) : [];
@@ -5047,9 +5153,9 @@ function viewPredict(){
       '<button class="chip'+(lmOn?' on':'')+'" id="lmOn" title="Averages this prediction with one from every match since '+
         new Date(state.bounds[state.gender].min).getUTCFullYear()+'">Long memory</button></div>'+
       '<p class="chart-note" style="margin:-12px 0 20px;">'+(lmOn ? 'Like every forecast on the site, these chances mix the '+state.windowYears+'-year ratings '+
-        'with ratings from every match since '+new Date(state.bounds[state.gender].min).getUTCFullYear()+', which predicted past results better. '+
+        'with ratings from every match since '+new Date(state.bounds[state.gender].min).getUTCFullYear()+' and a second opinion from goals, which together predicted past results better. '+
         'Pick "The ratings shown" to predict from the two ratings above alone.'
-        : 'Predicting from the two ratings above alone. Every other forecast on the site uses long memory, which predicted past results better.')+'</p>' : '')+
+        : 'Predicting from the two ratings above alone. Every other forecast on the site adds long memory and the goals model, which predicted past results better.')+'</p>' : '')+
     (prov.length ? '<div class="notice"><b>Wide uncertainty.</b> '+
       prov.map(r=>esc(r.team)+' (&plusmn;'+Math.round(r.band)+')').join(' and ')+
       ' '+(prov.length>1?'are':'is')+' too uncertain to rank, so the prediction below is pulled well toward an even contest.</div>' : '')+
@@ -5069,7 +5175,7 @@ function viewPredict(){
         PRED_TYPES.find(x => x[0] === mt)[1].toLowerCase()+' counts with weight '+K+'. Bigger wins move ratings further; see the table under the hood.</p>'+
     '</div></div>'+
     scorelinePanel(sl, a, b)+
-    underTheHood({c, rowA, rowB, a, b, h, neutral, eCertain, eWin, eUnc, eCal, p, full, sl})+'</div>';
+    underTheHood({c, rowA, rowB, a, b, h, neutral, eCertain, eWin, eUnc, eCal, p, full, sl, GMx})+'</div>';
 
   const cur = () => ({a:document.getElementById('pA').value, b:document.getElementById('pB').value, v:venue, lm:lmOn ? undefined : '0', mt:mt === 'friendly' ? undefined : mt});
   const pick = v => go({...cur(), v:v||venue});
@@ -5150,7 +5256,7 @@ function ratingStakes(c, ka, kb, neutral, k){
   return out;
 }
 function underTheHood(o){
-  const {c, rowA, rowB, a, b, h, neutral, eCertain, eWin, eUnc, eCal, p, full, sl} = o;
+  const {c, rowA, rowB, a, b, h, neutral, eCertain, eWin, eUnc, eCal, p, full, sl, GMx} = o;
   const A = esc(dn(a)), B = esc(dn(b)), pc = x => (x*100).toFixed(1)+'%', r1 = x => x.toFixed(1);
   const same = rowA.pool === rowB.pool;
   const bandA = BAND_Z*matchRd(rowA, rowB), bandB = BAND_Z*matchRd(rowB, rowA);
@@ -5189,10 +5295,14 @@ function underTheHood(o){
     (full ? step('5b', 'Long memory', '<p>Averaged with a prediction from every match since '+new Date(state.bounds[state.gender].min).getUTCFullYear()+': '+
       A+' '+Math.round(full.a.r)+', '+B+' '+Math.round(full.b.r)+' on those ratings, '+full.E.toFixed(3)+' on its own.</p>', eUnc.toFixed(3)) : '')+
     step(6, 'Checked against real results', '<p>Tested on tens of thousands of past matches, raw gaps proved a little too confident, so they are shrunk by a fixed '+
-      'factor ('+CAL[state.gender].slope+'). This is the number everything above uses.</p>', eCal.toFixed(3))+
+      'factor ('+CAL[state.gender].slope+').</p>', eCal.toFixed(3))+
+    (GMx && GMx.gm ? step('6b', 'A second opinion from goals', '<p>A separate model rates every team on the goals it scores and lets in. It expects '+
+      A+' to score '+GMx.gm.lh.toFixed(2)+' and '+B+' '+GMx.gm.la.toFixed(2)+', an expected score of '+GMx.gm.e.toFixed(3)+' on its own. '+
+      'The two are mixed, about three parts ratings to two parts goals: tested on past matches, the mix beat either one alone. This is the number everything below uses.</p>', GMx.e.toFixed(3)) : '')+
     step(7, 'Win, draw and loss', '<p>An even contest ends level '+Math.round(CAL[state.gender].draw*100)+'% of the time in this game, less often the more lopsided it is. '+
       'The rest of the expected score is split into wins: '+A+' '+pc(p.home)+', draw '+pc(p.draw)+', '+B+' '+pc(p.away)+'.</p>')+
-    step(8, 'Goals', '<p>Each side\'s goals follow a curve fitted to past scores at this kind of gap, then tuned so the scorelines add up to the chances above: '+
+    step(8, 'Goals', '<p>Each side\'s goals follow a curve fitted to past scores at this kind of gap'+(GMx && GMx.gm ? ', with the total set halfway between that and the goals model\'s '+
+      (GMx.gm.lh + GMx.gm.la).toFixed(2)+' (two tight defences mean fewer goals, two leaky ones more)' : '')+', then tuned so the scorelines add up to the chances above: '+
       A+' '+sl.xg[0].toFixed(2)+' expected goals, '+B+' '+sl.xg[1].toFixed(2)+'. Likeliest score: '+
       (sl.top[0][0] > sl.top[0][1] ? A+' '+sl.top[0][0]+'&ndash;'+sl.top[0][1] : sl.top[0][0] < sl.top[0][1] ? B+' '+sl.top[0][1]+'&ndash;'+sl.top[0][0] : sl.top[0][0]+'&ndash;'+sl.top[0][1])+
       ', '+pc(sl.top[0][2])+'.</p>')+
@@ -5213,10 +5323,11 @@ function fixturePrediction(c, fx){
   const side = own(fx.home) ? 1 : (own(fx.away) ? -1 : (fx.neutral ? 0 : 1));
   if (!rh || !ra) return {rh, ra, side, p:null};
   const host = side > 0 ? fx.home : fx.away, visitor = side > 0 ? fx.away : fx.home;
-  const E = predictE({r:fcRating(rh), rd:matchRd(rh, ra)}, {r:fcRating(ra), rd:matchRd(ra, rh)},
+  const E0 = predictE({r:fcRating(rh), rd:matchRd(rh, ra)}, {r:fcRating(ra), rd:matchRd(ra, rh)},
     side ? side*homeBonus(state.gender, ts, host, visitor, fx.city || undefined) : 0);
-  const sl = scorelines(E);
-  return {rh, ra, side, p:sl.probs, sl, E};
+  const M = gmMix(E0, kh, ka, side, goalsModel(state.gender, state.asOf));
+  const sl = scorelines(M.raw, undefined, undefined, M.tot);
+  return {rh, ra, side, p:sl.probs, sl, E:M.raw, gm:M.gm};
 }
 function upcomingFor(g){
   const f = (state.fixtures && state.fixtures[g]) || (state.scheduled[g] && state.scheduled[g].length ? state.scheduled[g] : null);
@@ -5498,7 +5609,8 @@ function viewWindow(){
       'published before kick-off and never changed afterwards.</p>';
   if (!W){ app.innerHTML = '<div class="wrap">'+head+'<div class="status">No international window in the data yet. The <a href="#/fixtures">fixtures</a> list what\'s coming.</div></div>'; return; }
   const n = W.scored.length, hits = W.scored.filter(e => e.hit).length, draws = W.scored.filter(e => e.outcome === 1).length;
-  const brier = n ? W.scored.reduce((a, e) => a + e.brier, 0)/n : null;
+  /* Sharpness on the same 0 (coin toss) to 100 (perfect) scale as the Forecast record. */
+  const sharpW = n ? Math.round(sharp(W.scored.reduce((a, e) => a + binLL(e), 0)/n)) : null;
   const nm = t => esc(dn(t)), outP = e => e.p[e.outcome];
   const upsets = W.scored.filter(e => e.outcome !== e.p.indexOf(Math.max(...e.p))).sort((a, b) => outP(a) - outP(b)).slice(0, 6);
   const range = W.from === W.to ? fmtDay(Date.parse(W.from+'T00:00:00Z')) : fmtDay(Date.parse(W.from+'T00:00:00Z')).replace(/ \d{4}$/, '')+' to '+fmtDay(Date.parse(W.to+'T00:00:00Z'));
@@ -5524,7 +5636,7 @@ function viewWindow(){
       tile(n ? Math.round(100*hits/n)+'%' : '&ndash;', 'calls right')+
       tile(draws, 'draws')+
       tile(W.coming.length, 'still to come')+
-      tile(brier !== null ? brier.toFixed(2) : '&ndash;', 'Brier score (lower is better)')+
+      tile(sharpW !== null ? sharpW+'<small>/100</small>' : '&ndash;', 'sharpness (0 = coin toss)')+
     '</div>'+
     (upsets.length ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Upsets so far<span class="aside">the chance the model gave what happened</span></div>'+
       '<table><tbody>'+upsets.map(e => '<tr class="upset-row"><td class="muted date hide-sm">'+fmtDay(Date.parse(e.date+'T00:00:00Z'))+'</td>'+
@@ -6012,11 +6124,19 @@ function simulate(P, runs, seedStr, onDone, onProgress){
   const homeBonusOf = (h, v) => homeBase * hostF[h] * (atAlt[h] && !fromAlt[v] ? ALT_FACTOR : 1);
   // venue: 1 if the first team is at home, -1 if the second, 0 neutral
   const venueOf = (a, b, groupHome) => groupHome ? 1 : (hostSet.has(a) ? 1 : (hostSet.has(b) ? -1 : 0));
+  /* The goals model's view of each pairing and venue, worked out once: its expected result and total goals. */
+  const G = goalsModel(g, state.asOf), gKey = names.map(t => { const r = info.get(t).row; return r ? r.key : null; }), gmMemo = new Map();
+  const gmFor = (a, b, side) => { const k = (a*N + b)*3 + side + 1; if (gmMemo.has(k)) return gmMemo.get(k);
+    const gl = gKey[a] && gKey[b] ? gmGoals(G, gKey[a], gKey[b], side) : null, v = gl ? {e:gmExpected(gl[0], gl[1]), sum:gl[0] + gl[1]} : null;
+    gmMemo.set(k, v); return v; };
   function play(a, b, side, ko){
-    const e0 = eloE(strength[a] - strength[b] + (side > 0 ? homeBonusOf(a, b) : side < 0 ? -homeBonusOf(b, a) : 0)), e = calE(e0, g);
+    const e0 = eloE(strength[a] - strength[b] + (side > 0 ? homeBonusOf(a, b) : side < 0 ? -homeBonusOf(b, a) : 0)), gx = gmFor(a, b, side);
+    const e = gx ? gmMixE(calE(e0, g), gx.e) : calE(e0, g);
     let d = cal.draw*4*e*(1-e), w = e - d/2, l = 1 - e - d/2;
     if (w < 0){ d += w; w = 0; } if (l < 0){ d += l; l = 0; }
-    const [lh, la] = goalMeans(e, g), u = rand(), cls = u < w ? 1 : (u < w + d ? 0 : -1);
+    let [lh, la] = goalMeans(e, g);
+    if (gx){ const f = Math.pow(lh + la, -GM_TIGHT)*Math.pow(gx.sum, GM_TIGHT); lh *= f; la *= f; }
+    const u = rand(), cls = u < w ? 1 : (u < w + d ? 0 : -1);
     let x = 0, y = 0;
     for (let k = 0; k < 400; k++){ x = poissonDraw(lh, rand); y = poissonDraw(la, rand); if (Math.sign(x - y) === cls) break; }
     if (Math.sign(x - y) !== cls){ if (cls === 0) y = x; else if (cls === 1) x = y + 1; else y = x + 1; }
@@ -6422,7 +6542,9 @@ function bindCustom(){
    ============================================================ */
 /* Backtest reference: calibrated three-way log-loss of the forecasts as the site makes them (default settings, long
    memory), on the Method page's test. */
-const BACKTEST_3WAY = {men:0.876, women:0.730};
+/* November 2026: the goals model's measured gain (0.25% men, 0.67% women on three-way log-loss, month-start forecasts since
+   1995 and 2005) applied to the October figures, men 0.876 and women 0.730. */
+const BACKTEST_3WAY = {men:0.874, women:0.725};
 function recordSummary(list){
   const n = list.length; if (!n) return null;
   const sum = k => list.reduce((s, e) => s + e[k], 0);
@@ -6438,12 +6560,13 @@ function vsYear(g, y){
   const F = fifaMethod(g, ts0 - 1), E = plainElo(g, ts0 - 1);
   if (!F) return null;
   return atDefaults(c => {
+    const G = goalsModel(g, ts0 - 1);
     const acc = {y, n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0], dis:[null, [0, 0, 0, 0], [0, 0, 0, 0]], list:[]};
     for (let i = firstIndexAt(ms, ts0); i < ms.length && ms[i].ts < ts1; i++){
       const m = ms[i]; namesFor(m);
       const fh = F.byKey.get(m._h), fa = F.byKey.get(m._a), rh = c.byKey.get(m._h), ra = c.byKey.get(m._a);
       if (!fh || !fa || !fh.rank || !fa.rank || !rh || !ra || !E.has(m._h) || !E.has(m._a)) continue;
-      const es = [calE(predictE({r:fcRating(rh), rd:matchRd(rh, ra)}, {r:fcRating(ra), rd:matchRd(ra, rh)}, homeOf(m)), g),
+      const es = [gmMix(predictE({r:fcRating(rh), rd:matchRd(rh, ra)}, {r:fcRating(ra), rd:matchRd(ra, rh)}, homeOf(m)), m._h, m._a, venueSide(m), G, g).e,
         eloE(E.get(m._h) - E.get(m._a) + venueSide(m)*ELO_HOME), fifaExpect(g, fh, fa, m)];
       const s = m.hs > m.as ? 1 : m.hs < m.as ? 0 : 0.5;
       const one = [m.ts, 0, 0];
@@ -6458,52 +6581,70 @@ function vsYear(g, y){
     return acc;
   }, ts0 - 1);
 }
-function vsPanel(g){
-  const R = vsCache[g];
-  const head = '<div class="panel" id="vsPanel" style="margin-bottom:20px;"><div class="panel-head">Against World Elo and the FIFA method'+
-    '<span class="aside">every year since 2019, the same matches</span></div>';
-  if (!R) return head+'<div class="panel-body"><p class="muted" style="margin:0;">Working it out&hellip;</p></div></div>';
-  const ys = R.filter(Boolean), tot = {n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0], dis:[null, [0, 0, 0, 0], [0, 0, 0, 0]]};
+/* ---------- Forecast record page ----------
+   Plain-English scores. "Picked the winner": how often the side a method favoured won (matches with a winner).
+   "Sharpness": how far a method's forecasts get from a coin toss towards a perfect forecast, counting how sure each
+   one was: 100 × (1 − log-loss / ln 2) on the expected result (a draw counts as half a win). 0 is calling every match
+   50/50, 100 is always certain and always right. Log-loss and the Brier score are kept for the stats-minded. */
+const FR_COL = ['var(--amber)', 'var(--blue)', 'var(--faint)'];
+const sharp = ll => 100*(1 - ll/Math.LN2);
+function vsTotals(g){
+  const R = vsCache[g]; if (!R) return null;
+  const ys = R.filter(Boolean), tot = {n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0], dis:[null, [0, 0, 0, 0], [0, 0, 0, 0]], ys};
   ys.forEach(a => { tot.n += a.n; tot.dec += a.dec; [0, 1, 2].forEach(j => { tot.ll[j] += a.ll[j]; tot.hit[j] += a.hit[j]; });
     [1, 2].forEach(j => a.dis[j].forEach((v, k) => tot.dis[j][k] += v)); });
-  if (!tot.n) return head+'<div class="panel-body"><p class="muted" style="margin:0;">No matches to test yet.</p></div></div>';
-  const names = ['Formline', 'World Elo', 'FIFA method'], best = Math.min(...tot.ll);
-  const pc = x => (x*100).toFixed(1)+'%';
-  /* How much of the gap between guessing 50/50 (log-loss ln 2) and a perfect forecast each method closes, compared with
-     Formline. */
-  const skill = j => Math.LN2 - tot.ll[j]/tot.n, more = j => Math.round(100*(skill(0)/skill(j) - 1));
+  return tot.n ? tot : null;
+}
+const frTile = (k, v, s) => '<div class="fr-tile"><div class="k">'+k+'</div><div class="v">'+v+'</div><div class="s">'+s+'</div></div>';
+const frBars = (rows, fmt) => '<div class="fr-bars">'+rows.map((r, j) => '<div class="row"><span class="lab'+(j ? '' : ' me')+'">'+r[0]+'</span>'+
+  '<span class="track"><span class="fill" style="width:'+Math.max(0, Math.min(100, r[1])).toFixed(1)+'%;background:'+FR_COL[j]+'"></span></span>'+
+  '<span class="val">'+fmt(r[1])+'</span></div>').join('')+'</div>';
+function vsPanel(g){
+  const T = vsTotals(g), G = g === 'men' ? "men's" : "women's";
+  if (!T) return '<div id="vsPanel"><div class="fr-hero">'+['Picked the winner', 'Sharpness', 'Years ahead of World Elo', 'Years ahead of the FIFA method']
+    .map(k => frTile(k, '&hellip;', 'working it out')).join('')+'</div></div>';
+  const names = ['Formline', 'World Elo', 'FIFA method'], ys = T.ys, hit = j => 100*T.hit[j]/T.dec, sh = j => sharp(T.ll[j]/T.n);
+  const ahead = j => ys.filter(a => a.ll[0] < a.ll[j]).length;
+  const hero = '<div class="fr-hero">'+
+    frTile('Picked the winner', hit(0).toFixed(1)+'%', 'of '+T.dec.toLocaleString()+' '+G+' matches with a winner since 2019')+
+    frTile('Sharpness', Math.round(sh(0))+'<small>/100</small>', 'how far beyond a coin toss, counting how sure each forecast was')+
+    frTile('Years ahead of World Elo', ahead(1)+'<small> of '+ys.length+'</small>', 'years Formline\'s forecasts were sharper')+
+    frTile('Years ahead of the FIFA method', ahead(2)+'<small> of '+ys.length+'</small>', 'years Formline\'s forecasts were sharper')+'</div>';
   const nm = j => j === 2 ? 'the FIFA method' : names[j];
-  const dis = j => { const D = tot.dis[j]; return D[0] ? 'In the '+D[0].toLocaleString()+' matches where Formline and '+nm(j)+' favoured different sides, '+
-    'Formline was right '+D[1].toLocaleString()+' times and '+nm(j)+' '+D[2].toLocaleString()+' times; '+D[3].toLocaleString()+' were draws.' : ''; };
-  const why = skill(1) > 0 && skill(0) > skill(1) ?
-    '<div class="panel-body" style="padding-top:4px;"><h3 style="font-size:15.5px;margin:4px 0 6px;color:var(--chalk);">Why a small gap is a big one</h3>'+
-    '<p style="margin:0 0 8px;font-size:14px;">Forecasting football has a hard ceiling: even a perfect judge of strength cannot see a deflected shot or a red card coming, '+
-      'so every serious method lands close to the others. The useful comparison is how much each improves on knowing nothing. Calling every match 50/50 '+
-      'scores a log-loss of '+Math.LN2.toFixed(3)+'. Formline improves on that by '+skill(0).toFixed(3)+', World Elo by '+skill(1).toFixed(3)+
-      ': Formline gets about '+more(1)+'% more out of the same results'+(skill(2) > 0 ? ', and about '+more(2)+'% more than the FIFA method' : '')+'.</p>'+
-    '<p style="margin:0 0 4px;font-size:14px;">"Picked the winner" barely moves because the methods agree on the favourite in most matches; it can only differ '+
-      'where they disagree. '+dis(1)+' '+dis(2)+' Year by year, Formline had a lower log-loss than World Elo in '+
-      ys.filter(a => a.ll[0] < a.ll[1]).length+' of the '+ys.length+' years.</p></div>' : '';
+  const split = j => { const D = T.dis[j]; if (!D[0]) return '';
+    const w = v => (100*v/D[0]).toFixed(1)+'%';
+    return '<div class="fr-split-block"><p class="fr-q">Formline and '+nm(j)+' backed <b>different winners</b> in '+D[0].toLocaleString()+' matches. Who was right?</p>'+
+      '<div class="fr-split"><i style="width:'+w(D[1])+';background:var(--amber)"></i><i style="width:'+w(D[2])+';background:'+FR_COL[j]+'"></i><i style="width:'+w(D[3])+';background:var(--line-strong)"></i></div>'+
+      '<div class="fr-legend"><span><i style="background:var(--amber)"></i>Formline <b>'+D[1].toLocaleString()+'</b></span><span><i style="background:'+FR_COL[j]+'"></i>'+names[j]+' <b>'+D[2].toLocaleString()+'</b></span>'+
+      '<span><i style="background:var(--line-strong)"></i>Draw <b>'+D[3].toLocaleString()+'</b></span></div></div>'; };
   /* An early warning: the last 12 months on their own, each match still predicted with its year's 1 January ratings. */
   const end = state.bounds[g].max, last = ys.flatMap(a => a.list || []).filter(x => x[0] > end - 365*DAY);
   const lF = last.reduce((t, x) => t + x[1], 0)/Math.max(1, last.length), lE = last.reduce((t, x) => t + x[2], 0)/Math.max(1, last.length);
-  const roll = last.length >= 100 ? '<div class="panel-body" style="padding:6px 15px 2px;"><p class="vs-roll'+(lE < lF ? ' warn' : '')+'">'+
-    (lE < lF ? '<b>World Elo has been more accurate over the last 12 months</b> ' : '<b>Last 12 months:</b> ')+'Formline '+lF.toFixed(3)+', World Elo '+lE.toFixed(3)+
-    ' (log-loss over '+last.length.toLocaleString()+' matches to '+fmtDay(end)+'). '+(lE < lF ? 'Formline still leads over the longer run; this note appears whenever a rolling year goes the other way, as an early warning.'
-      : 'Checked here after every update, so a year in which World Elo does better would show straight away.')+'</p></div>' : '';
-  return head+roll+'<div class="table-wrap"><table class="kv-table"><thead><tr><th>Method</th><th>Picked the winner</th><th>Log-loss</th></tr></thead><tbody>'+
-      names.map((nm, j) => '<tr><td>'+(tot.ll[j] === best ? '<b>'+nm+'</b>' : nm)+'</td><td class="n">'+pc(tot.hit[j]/tot.dec)+'</td><td>'+(tot.ll[j]/tot.n).toFixed(3)+'</td></tr>').join('')+
-    '</tbody></table></div>'+
-    '<details class="vs-years" style="padding:0 15px;"><summary class="muted" style="cursor:pointer;padding:8px 0;font-size:13.5px;">Year by year</summary>'+
-      '<div class="table-wrap"><table class="kv-table"><thead><tr><th>Year</th><th>Matches</th>'+names.map(nm => '<th>'+nm+'</th>').join('')+'</tr></thead><tbody>'+
-      ys.map(a => '<tr><td>'+a.y+'</td><td class="n">'+a.n.toLocaleString()+'</td>'+a.ll.map(v => '<td class="n">'+(v/a.n).toFixed(3)+'</td>').join('')+'</tr>').join('')+
-      '</tbody></table></div><p class="chart-note" style="margin:6px 0 10px;">Log-loss by year; lower is better.</p></details>'+why+
-    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">'+tot.n.toLocaleString()+' '+(g === 'men' ? "men's" : "women's")+' matches between teams '+
-      'the FIFA method ranks, each predicted with ratings frozen on 1 January of its year, as in the test on the <a href="#/method">How it works</a> page. '+
-      '<b>Picked the winner</b>: how often the side a method favoured won, among the '+tot.dec.toLocaleString()+' matches that had a winner. '+
-      '<b>Log-loss</b> scores how confident each method was in what happened, a draw counting as half a win; lower is better. '+
-      'World Elo is the World Football Elo Ratings formula (eloratings.net) and the FIFA method is FIFA\'s formula, both worked out here (see <a href="#/compare">Formline, Elo and FIFA</a>). '+
-      'FIFA\'s ranking is built for seeding draws, not for predicting, but its formula still says what result it expects, and that is what is scored.</p></div>';
+  const roll = last.length >= 100 ? '<p class="vs-roll'+(lE < lF ? ' warn' : '')+'">'+(lE < lF ? '<b>World Elo has been sharper over the last 12 months</b>: ' : '<b>Last 12 months:</b> ')+
+    'sharpness '+Math.round(sharp(lF))+' for Formline, '+Math.round(sharp(lE))+' for World Elo, over '+last.length.toLocaleString()+' matches to '+fmtDay(end)+'. '+
+    (lE < lF ? 'Formline still leads over the longer run; this note appears whenever a rolling year goes the other way.' : 'Checked after every update, so a year that went the other way would show here straight away.')+'</p>' : '';
+  const years = '<details class="vs-years"><summary>Year by year</summary><div class="table-wrap"><table class="fr-t"><thead><tr><th>Year</th><th>Matches</th>'+
+      names.map(n => '<th>'+n+'</th>').join('')+'<th>Sharpest</th></tr></thead><tbody>'+
+    ys.map(a => { const h = a.hit.map(v => Math.round(1000*v/a.dec)/10), top = Math.max(...h), b = a.ll.indexOf(Math.min(...a.ll));
+      return '<tr><td>'+a.y+'</td><td>'+a.n.toLocaleString()+'</td>'+h.map(v => '<td'+(v === top ? ' class="best"' : '')+'>'+v.toFixed(1)+'%</td>').join('')+
+        '<td class="'+(b === 0 ? 'me' : '')+'">'+names[b]+'</td></tr>'; }).join('')+
+    '</tbody></table></div><p class="chart-note">How often each method picked the winner, year by year; the highest each year is in gold. '+
+      '<b>Sharpest</b> also counts how sure each forecast was, which is why a method can pick a few more winners in a year and still be less accurate.</p></details>';
+  const why = sh(1) > 0 && sh(0) > sh(1) ? '<details class="vs-years"><summary>Why a small gap is a big one</summary>'+
+    '<p>Nobody can predict football perfectly: no method sees a deflection or a red card coming, so every serious one ends up close to the others. '+
+      'What matters is how far each gets beyond a coin toss. Formline\'s forecasts score '+Math.round(sh(0))+', World Elo\'s '+Math.round(sh(1))+' and the FIFA method\'s '+Math.round(sh(2))+
+      ': Formline gets about '+Math.round(100*(sh(0)/sh(1) - 1))+'% more out of the same results than World Elo, and about '+Math.round(100*(sh(0)/sh(2) - 1))+'% more than the FIFA method.</p>'+
+    '<p>"Picked the winner" barely moves, because the methods back the same side in most matches. The interesting matches are the ones where they disagree, shown above.</p></details>' : '';
+  return '<div id="vsPanel">'+hero+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Formline against World Elo and the FIFA method<span class="aside">'+T.n.toLocaleString()+' '+G+' matches since 2019, the same games for all three</span></div>'+
+    '<div class="panel-body">'+roll+
+      '<h3 class="fr-h">Picked the winner</h3>'+frBars(names.map((n, j) => [n, hit(j)]), v => v.toFixed(1)+'%')+
+      '<h3 class="fr-h">Sharpness <span class="muted">0 = coin toss, 100 = perfect</span></h3>'+frBars(names.map((n, j) => [n, sh(j)]), v => Math.round(v))+
+      '<h3 class="fr-h">When they disagreed</h3>'+split(1)+split(2)+years+why+
+      '<p class="chart-note">Each method\'s ratings are frozen on 1 January and used to predict that year\'s matches, between teams all three rank. '+
+        'World Elo is the World Football Elo Ratings formula (eloratings.net) and the FIFA method is FIFA\'s ranking formula, both worked out here '+
+        '(see <a href="#/compare">Formline, Elo and FIFA</a>). FIFA\'s ranking is built for seeding draws rather than predicting, but its formula still says what result it expects, '+
+        'and that is what is scored. Updated with every new result.</p></div></div></div>';
 }
 /* The same test through every era, measured on the archives in October 2026 (ratings frozen on 1 January, the
    year's matches between teams all three methods had ranked). Rows: period, matches, picked the winner (Formline,
@@ -6511,30 +6652,35 @@ function vsPanel(g){
    years, and what the FIFA column is: 'back' a reverse calculation of FIFA's current method (men run from 1872,
    women from 1971), 'pub' FIFA's ranking as published at the time (1993-2018 used other methods with no win formula,
    so its rank gaps and home advantage were turned into chances with a formula fitted on the other half of those
-   years), 'calc' FIFA's current method worked out here. */
+   years), 'calc' FIFA's current method worked out here. The 2019-onwards row is replaced by the live figures. */
 const VS_ERAS = {
-  men:[['1920–59', 3612, 72.2, 70.1, 66.0, 0.601, 0.613, 0.644, 28, 34, 40, 'back'], ['1960–92', 12872, 75.0, 73.2, 68.3, 0.582, 0.600, 0.637, 33, 33, 33, 'back'],
-       ['1993–18', 21736, 77.1, 76.3, 73.8, 0.556, 0.571, 0.604, 26, 26, 26, 'pub'], ['2019–26', 7314, 79.2, 79.0, 76.0, 0.534, 0.545, 0.574, 8, 8, 8, 'calc']],
-  women:[['1991–03', 1318, 83.8, 82.8, 79.2, 0.455, 0.472, 0.516, 10, 13, 13, 'back'], ['2004–18', 4294, 82.5, 81.1, 78.5, 0.465, 0.486, 0.514, 14, 15, 15, 'calc'],
-       ['2019–26', 4235, 81.3, 78.6, 76.4, 0.478, 0.511, 0.535, 8, 8, 8, 'calc']]
+  men:[['1920–59', 3612, 71.6, 70.2, 66.0, 0.601, 0.613, 0.645, 29, 33, 40, 'back'], ['1960–92', 12872, 75.0, 73.2, 68.3, 0.582, 0.600, 0.637, 33, 32, 33, 'back'],
+       ['1993–18', 21736, 77.3, 76.3, 73.8, 0.554, 0.571, 0.604, 26, 26, 26, 'pub'], ['2019–26', 7317, 79.1, 79.0, 76.0, 0.532, 0.545, 0.574, 8, 8, 8, 'calc']],
+  women:[['1991–03', 1318, 83.8, 82.8, 79.2, 0.447, 0.472, 0.516, 13, 13, 13, 'back'], ['2004–18', 4294, 82.7, 81.1, 78.5, 0.456, 0.486, 0.514, 15, 15, 15, 'calc'],
+       ['2019–26', 4235, 81.3, 78.6, 76.5, 0.473, 0.511, 0.535, 8, 8, 8, 'calc']]
 };
 function vsEras(g){
-  const R = VS_ERAS[g]; if (!R) return '';
+  const R = (VS_ERAS[g] || []).slice(); if (!R.length) return '';
+  const T = vsTotals(g);
+  if (T){ const ys = T.ys, y1 = ys[ys.length - 1].y;
+    R[R.length - 1] = ['2019–'+String(y1).slice(2), T.n, ...[0, 1, 2].map(j => 100*T.hit[j]/T.dec), ...[0, 1, 2].map(j => T.ll[j]/T.n),
+      ys.filter(a => a.ll[0] < a.ll[1]).length, ys.filter(a => a.ll[0] < a.ll[2]).length, ys.length, 'calc']; }
   const mark = k => k === 'back' ? ' <span class="muted" title="Reverse calculation: FIFA\'s current method run back">&dagger;</span>' : k === 'pub' ? ' <span class="muted" title="FIFA\'s ranking as published at the time">&Dagger;</span>' : '';
   const yrs = R.reduce((t, r) => t + r[10], 0), vsE = R.reduce((t, r) => t + r[8], 0), vsF = R.reduce((t, r) => t + r[9], 0);
   return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Every era<span class="aside">'+(g === 'men' ? 'since 1920' : 'since 1991')+', how often each picked the winner</span></div>'+
-    '<div class="table-wrap"><table class="kv-table"><thead><tr><th>Years</th><th class="hide-sm">Matches</th><th>Formline</th><th>World Elo</th><th>FIFA</th><th class="hide-sm">Years Formline ahead (vs Elo / vs FIFA)</th></tr></thead><tbody>'+
-    R.map(r => '<tr><td class="nowrap">'+r[0]+'</td><td class="n hide-sm">'+r[1].toLocaleString()+'</td><td class="n"><b>'+r[2].toFixed(1)+'%</b></td><td class="n">'+r[3].toFixed(1)+'%</td>'+
-      '<td class="n nowrap">'+r[4].toFixed(1)+'%'+mark(r[11])+'</td><td class="hide-sm" title="Years with a lower log-loss than World Elo / than FIFA">'+r[8]+' / '+r[9]+' of '+r[10]+'</td></tr>').join('')+
+    '<div class="panel-body"><p class="fr-q" style="margin-top:0;">Over <b>'+yrs+' years</b>, Formline was sharper than World Elo in <b>'+vsE+'</b> and sharper than the FIFA method in <b>'+vsF+'</b>.</p></div>'+
+    '<div class="table-wrap"><table class="fr-t"><thead><tr><th>Years</th><th class="hide-sm">Matches</th><th>Formline</th><th>World Elo</th><th>FIFA</th><th class="hide-sm">Years sharper (vs Elo / vs FIFA)</th></tr></thead><tbody>'+
+    R.map(r => { const rd = v => Math.round(10*v)/10, top = Math.max(rd(r[2]), rd(r[3]), rd(r[4])), c = v => '<td'+(rd(v) === top ? ' class="best"' : '')+'>'+v.toFixed(1)+'%';
+      return '<tr><td class="nowrap">'+r[0]+'</td><td class="hide-sm">'+r[1].toLocaleString()+'</td>'+c(r[2])+'</td>'+c(r[3])+'</td>'+c(r[4])+mark(r[11])+'</td>'+
+        '<td class="hide-sm">'+r[8]+' / '+r[9]+' of '+r[10]+'</td></tr>'; }).join('')+
     '</tbody></table></div>'+
-    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">The same test as above, back through history: ratings frozen on 1 January, used to predict that '+
-      'year\'s matches between teams all three methods had ranked. <b>Formline ahead</b>: in how many years Formline\'s forecasts scored better (lower log-loss) '+
-      'than World Elo\'s and than FIFA\'s; over all '+yrs+' years, '+vsE+' against World Elo and '+vsF+' against FIFA. '+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">The same test back through history: ratings frozen on 1 January, used to predict that '+
+      'year\'s matches between teams all three methods had ranked. The highest "picked the winner" in each era is in gold. '+
       '&dagger; <b>Reverse calculation:</b> '+(g === 'men' ? 'FIFA had no ranking before 1993, so this is FIFA\'s current method run back from the first international in 1872.'
         : 'FIFA\'s women\'s ranking began in 2003, so this is its method run back to 1971, as FIFA itself did when it launched.')+
       (g === 'men' ? ' &Dagger; <b>FIFA\'s ranking as published at the time.</b> Its methods then had no formula for a match\'s chances, so its rank gaps and home '+
         'advantage were turned into chances with a formula fitted on the other half of those years, the fairest chance it could be given.' : '')+
-      ' Measured on the archives in October 2026; the table above updates with every new result.</p></div>';
+      ' The earlier eras were measured on the archives in November 2026, with the goals model; the latest row updates with every new result.</p></div>';
 }
 function kickVs(g){
   if (vsCache[g] || vsCache[g+'busy']) return;
@@ -6543,56 +6689,111 @@ function kickVs(g){
   let y = 2019;
   const step = () => {
     if (y > y1){ vsCache[g] = out; vsCache[g+'busy'] = false;
-      const el = document.getElementById('vsPanel'); if (el && state.route === 'record' && state.gender === g) el.outerHTML = vsPanel(g); return; }
+      if (state.route === 'record' && state.gender === g) viewRecord(); return; }
     try { out.push(vsYear(g, y)); } catch(e){ out.push(null); }
     y++; setTimeout(step, 0);
   };
   setTimeout(step, 50);
 }
+/* Binary scoring of a published three-way forecast on its expected result, so the live record uses the same sharpness
+   scale as the test above. */
+const expOf = p => p[0] + 0.5*p[1], resOf = o => o === 0 ? 1 : o === 2 ? 0 : 0.5;
+const binLL = e => { const q = Math.min(Math.max(expOf(e.p), 1e-6), 1 - 1e-6), s = resOf(e.outcome); return -(s*Math.log(q) + (1 - s)*Math.log(1 - q)); };
+/* Published research, scored on the same matches (checked November 2026). Fixed numbers, not recomputed nightly. */
+const RESEARCH = {
+  wc26:{n:72, rows:[['Formline', 62.5], ['Paper: SIR', 56.9], ['Paper: SAVE', 54.2]], err:[0.155, 0.184, 0.184]},
+  ko:{n:128, rows:[['Formline', 71.9], ['World Elo', 70.3], ['FIFA method', 66.4]]}
+};
+const RESEARCH_LINKS = {
+  rezaei:'<a href="https://arxiv.org/abs/2606.24171" target="_blank" rel="noopener">Rezaei &amp; Samadi (2026)</a>',
+  singh:'<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6882459" target="_blank" rel="noopener">Singh (2026)</a>',
+  lasek:'<a href="https://doi.org/10.1504/IJAPR.2013.052339" target="_blank" rel="noopener">Lasek, Szl&aacute;vik &amp; Bhulai (2013)</a>'
+};
+function researchPanel(g){
+  const L = RESEARCH_LINKS, R = RESEARCH, pct = v => v.toFixed(1)+'%';
+  const check = '<h3 class="fr-h">What makes a good rating?</h3>'+
+    '<p class="fr-q" style="margin-top:0;">'+L.lasek+' compared ways of ranking national teams: a version of Elo came out best, and the FIFA ranking behind several others. What made the best methods work, Formline does too:</p>'+
+    '<ul class="fr-ticks">'+[['Sensible starting ratings', 'a new team starts near teams like it, not at zero'],
+      ['Goal margin', 'a 5&ndash;0 tells you more than a 1&ndash;0'],
+      ['Home advantage', 'playing at home is worth real points'],
+      ['Blending', 'recent form mixed with the long view']].map(r => '<li><b>'+r[0]+'</b> <span class="muted">'+r[1]+'</span></li>').join('')+'</ul>';
+  const men = g !== 'men' ? '<p class="fr-q">The head-to-head tests against published research use men&rsquo;s World Cups; switch to men&rsquo;s to see them.</p>' :
+    '<h3 class="fr-h">2026 World Cup group stage <span class="muted">'+R.wc26.n+' matches</span></h3>'+
+    '<p class="fr-q" style="margin-top:0;">'+L.rezaei+' published forecasts for every group match, from two versions of a new model built on Elo histories. '+
+      'Here they are next to Formline&rsquo;s, made with only the results before the tournament began. How often each called the result (win, draw or loss):</p>'+
+    frBars(R.wc26.rows, pct)+
+    '<p class="fr-q">Formline&rsquo;s forecasts were also closer overall: an average error of <b>'+R.wc26.err[0].toFixed(3)+'</b> against <b>'+R.wc26.err[1].toFixed(3)+'</b> for both versions '+
+      '(ranked probability score; lower is better).</p>'+
+    '<h3 class="fr-h">World Cup knockouts, 1994&ndash;2022 <span class="muted">'+R.ko.n+' matches</span></h3>'+
+    '<p class="fr-q" style="margin-top:0;">'+L.singh+' asked whether Elo or the FIFA ranking better picks who goes through in World Cup knockouts. '+
+      'Here is the same question for all three methods, with a shoot-out win counted as going through:</p>'+
+    frBars(R.ko.rows, pct)+
+    '<p class="chart-note">The paper found Elo 73.9% and the FIFA ranking 68.7%, on 115 of these matches and treating every match as on neutral ground, so its figures '+
+      'differ a little from ours. Formline counts home advantage for host nations.</p>';
+  return '<h2 class="fr-h2">How Formline compares with published research</h2>'+
+    '<p class="fr-q" style="margin-top:0;">Formline&rsquo;s design draws on academic work on ranking football teams. Where a paper tested its own method, we scored Formline on the same matches.</p>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-body">'+men+check+
+    (g !== 'men' ? '' : '<p class="chart-note" style="margin-bottom:0;">Small samples: '+R.wc26.n+' and '+R.ko.n+' matches. Formline&rsquo;s settings were chosen on past results that include the 1994&ndash;2022 knockouts, '+
+      'which gives it a slight edge there. The 2026 test is the fairest: the paper&rsquo;s forecasts were published and fixed. Checked November 2026.</p>')+'</div></div>';
+}
 function viewRecord(){
-  const g = state.gender, rec = state.record, app = document.getElementById('app');
+  const g = state.gender, rec = state.record, app = document.getElementById('app'), G = g === 'men' ? "men's" : "women's";
   const intro = '<h1 class="page-title">Forecast record</h1>'+
-    '<p class="page-sub">Every match the site lists gets a forecast, which is updated until kick-off, then frozen and scored once '+
-      'the result is in. Each one is saved publicly before its match, and none are removed: postponed matches are marked void.</p>';
-  if (!rec){ app.innerHTML = '<div class="wrap">'+intro+'<div class="status">The record starts with the site\'s nightly update, '+
-    'which this copy of the site does not have. The online site has it.</div>'+vsPanel(g)+vsEras(g)+'</div>'; kickVs(g); return; }
-  const mine = rec.entries.filter(e => e.g === g), scored = mine.filter(e => e.result), pending = mine.filter(e => !e.result && !e.void);
-  const S = recordSummary(scored), pc = x => Math.round(x*100)+'%';
-  const card = (k, v, s) => '<div class="stat"><div class="k">'+k+'</div><div class="v plain">'+v+'</div><div class="s">'+s+'</div></div>';
-  let calib = '';
-  if (scored.length >= 30){
-    const B = [[0.33, 0.5], [0.5, 0.65], [0.65, 0.8], [0.8, 1.01]];
-    calib = '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Calibration<span class="aside">how often the favourite won, by the chance it was given</span></div>'+
-      '<table class="kv-table"><thead><tr><th>Favourite\'s chance</th><th>Matches</th><th>Predicted</th><th>Favourite won</th></tr></thead><tbody>'+
-      B.map(([lo, hi]) => { const r = scored.filter(e => { const m = Math.max(...e.p); return m >= lo && m < hi; });
-        if (!r.length) return '';
-        const pred = r.reduce((s, e) => s + Math.max(...e.p), 0)/r.length, act = r.filter(e => e.hit).length/r.length;
-        return '<tr><td>'+pc(lo)+'&ndash;'+pc(Math.min(hi, 1))+'</td><td class="n">'+r.length+'</td><td class="n">'+pc(pred)+'</td><td>'+pc(act)+'</td></tr>'; }).join('')+
-      '</tbody></table></div>';
+    '<p class="page-sub">How good are Formline\'s predictions? Here is the honest answer: tested against World Elo and the FIFA method on every '+G+' match since 2019, '+
+      'and every forecast the site publishes is saved before kick-off and checked after the final whistle. None are ever removed.</p>';
+  const T = vsTotals(g);
+  let live = '';
+  if (!rec) live = '<div class="status">The live record comes with the site\'s nightly update, which this copy of the site does not have. The online site has it.</div>';
+  else {
+    const mine = rec.entries.filter(e => e.g === g), scored = mine.filter(e => e.result), pending = mine.filter(e => !e.result && !e.void);
+    const S = recordSummary(scored), pc = x => Math.round(x*100)+'%';
+    if (!S) live = '<div class="status">No '+G+' forecasts have been scored yet. '+(pending.length ? pending.length+' are waiting for their matches.' : '')+'</div>';
+    else {
+      const given = scored.reduce((t, e) => t + e.p[e.outcome], 0)/S.n, shLive = sharp(scored.reduce((t, e) => t + binLL(e), 0)/S.n);
+      const tiles = '<div class="fr-hero">'+
+        frTile('Forecasts checked', S.n.toLocaleString(), pending.length+' more waiting for kick-off')+
+        frTile('Favourite won', pc(S.hit), 'how often the likeliest result happened')+
+        frTile('Chance given to what happened', pc(given), 'on average; guessing a third each way gives 33%')+
+        frTile('Sharpness', Math.round(shLive)+'<small>/100</small>', T ? 'the long test above scores '+Math.round(sharp(T.ll[0]/T.n)) : 'same scale as the long test')+'</div>';
+      let calib = '';
+      if (scored.length >= 30){
+        const B = [[0.33, 0.5], [0.5, 0.65], [0.65, 0.8], [0.8, 1.01]];
+        calib = '<h3 class="fr-h">Does a 70% favourite win 70% of the time?</h3><div class="fr-cal">'+B.map(([lo, hi]) => {
+          const r = scored.filter(e => { const m = Math.max(...e.p); return m >= lo && m < hi; }); if (!r.length) return '';
+          const pred = r.reduce((s, e) => s + Math.max(...e.p), 0)/r.length, act = r.filter(e => e.hit).length/r.length;
+          return '<div class="row"><span class="lab">Given '+pc(lo)+'&ndash;'+pc(Math.min(hi, 1))+'<span class="muted"> &middot; '+r.length+'</span></span>'+
+            '<span class="track"><span class="fill" style="width:'+(100*act).toFixed(1)+'%"></span><span class="tick" style="left:'+(100*pred).toFixed(1)+'%" title="Expected '+pc(pred)+'"></span></span>'+
+            '<span class="val">won '+pc(act)+'</span></div>'; }).join('')+'</div>'+
+          '<p class="chart-note">Bars show how often the favourite actually won; the line marks how often it was expected to. The closer they sit, the more the percentages can be trusted.</p>';
+      }
+      const bar = p => '<div class="prob-bar mini" role="img" aria-label="Home win '+pc(p[0])+', draw '+pc(p[1])+', away win '+pc(p[2])+'" title="'+pc(p[0])+' / '+pc(p[1])+' / '+pc(p[2])+'">'+
+        ['seg-h','seg-d','seg-a'].map((c, i) => '<div class="prob-seg '+c+'" style="width:'+(p[i]*100)+'%">'+(p[i] > 0.14 ? pc(p[i]) : '')+'</div>').join('')+'</div>';
+      const rows = scored.slice().reverse().slice(0, 60).map(e =>
+        '<tr><td class="muted date">'+e.date+'</td><td class="ml-cell">'+matchLine(e.home, e.away, e.result[0]+'&ndash;'+e.result[1], teamHref, {ts:Date.parse(e.date+'T00:00:00Z')})+
+          '<div class="muted" style="font-size:12px;text-align:center;">'+esc(shortComp(e.tournament))+' &middot; likeliest '+e.likely.replace('-', '&ndash;')+'</div></td>'+
+        '<td class="hide-sm" style="min-width:170px;">'+bar(e.p)+'</td>'+
+        '<td class="num '+(e.hit ? 'up' : 'muted')+'">'+(e.hit ? '&#10003; ' : '')+pc(e.p[e.outcome])+'</td></tr>').join('');
+      live = tiles+(scored.length < 100 ? '<div class="notice"><b>Early days.</b> With '+scored.length+' forecasts checked, these numbers can still move a long way. '+
+          'The test above covers thousands of matches.</div>' : '')+
+        (calib ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-body">'+calib+'</div></div>' : '')+
+        '<p class="fr-links"><a href="#/window">This international window</a> &middot; <a href="records/index.html">Window recaps</a></p>'+
+        (rows ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Every forecast, checked<span class="aside">newest first</span></div><div class="table-wrap lock"><table>'+
+          '<thead><tr><th>Date</th><th style="text-align:center;">Match and result</th><th class="hide-sm">Forecast</th>'+
+          '<th class="num" title="The chance the forecast gave to what happened">Chance given</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>' : '')+
+        (mine.some(e => e.void) ? '<p class="chart-note">'+mine.filter(e => e.void).length+' forecast(s) void: no result was found within three weeks.</p>' : '');
+    }
+    var nerd = S ? [['Live record: log-loss (three-way)', S.ll.toFixed(3)+' (a third each way scores 1.099; the long test '+BACKTEST_3WAY[g].toFixed(3)+')'],
+      ['Live record: Brier score', S.brier.toFixed(3)+' (a third each way scores 0.667)']] : [];
   }
-  const bar = p => '<div class="prob-bar mini" role="img" aria-label="Home win '+pc(p[0])+', draw '+pc(p[1])+', away win '+pc(p[2])+'" title="'+pc(p[0])+' / '+pc(p[1])+' / '+pc(p[2])+'">'+
-    ['seg-h','seg-d','seg-a'].map((c, i) => '<div class="prob-seg '+c+'" style="width:'+(p[i]*100)+'%">'+(p[i] > 0.14 ? pc(p[i]) : '')+'</div>').join('')+'</div>';
-  const rows = scored.slice().reverse().slice(0, 60).map(e =>
-    '<tr><td class="muted date">'+e.date+'</td><td class="ml-cell">'+matchLine(e.home, e.away, e.result[0]+'&ndash;'+e.result[1], teamHref, {ts:Date.parse(e.date+'T00:00:00Z')})+
-      '<div class="muted" style="font-size:12px;text-align:center;">'+esc(shortComp(e.tournament))+' &middot; likeliest '+e.likely.replace('-', '&ndash;')+'</div></td>'+
-    '<td class="hide-sm" style="min-width:170px;">'+bar(e.p)+'</td>'+
-    '<td class="num '+(e.hit ? 'up' : 'muted')+'">'+pc(e.p[e.outcome])+'</td></tr>').join('');
-  app.innerHTML = '<div class="wrap">'+intro+
-    (S ? '<div class="stat-row" style="margin-bottom:22px;">'+
-      card('Scored', S.n, pending.length+' more waiting for their match')+
-      card('Log-loss', S.ll.toFixed(3), 'lower is better; knowing nothing scores 1.099, the backtest '+BACKTEST_3WAY[g].toFixed(3))+
-      card('Brier score', S.brier.toFixed(3), 'lower is better; knowing nothing scores 0.667')+
-      card('Favourite won', pc(S.hit), 'how often the likeliest outcome happened')+
-      '</div>'+(scored.length < 100 ? '<div class="notice"><b>Early days.</b> With '+scored.length+' scored matches the averages above can still '+
-        'move a long way; the backtest on the Method page covers tens of thousands.</div>' : '')
-      : '<div class="status">No '+(g==='men'?"men's":"women's")+' forecasts have been scored yet. '+
-        (pending.length ? pending.length+' are waiting for their matches.' : '')+'</div>')+
-    calib+vsPanel(g)+vsEras(g)+
-    (rows ? '<div class="panel"><div class="panel-head">Scored forecasts<span class="aside">newest first</span></div><div class="table-wrap lock"><table>'+
-      '<thead><tr><th>Date</th><th style="text-align:center;">Match and result</th><th class="hide-sm">Forecast</th>'+
-      '<th class="num" title="The chance the forecast gave to what happened">Chance given</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>' : '')+
-    (mine.some(e => e.void) ? '<p class="chart-note">'+mine.filter(e => e.void).length+' forecast(s) void: no result was found within three weeks.</p>' : '')+
-  '</div>';
+  const N = (typeof nerd !== 'undefined' ? nerd : []).concat(T ? ['Formline', 'World Elo', 'FIFA method'].map((n, j) => ['Test since 2019: '+n+' log-loss', (T.ll[j]/T.n).toFixed(3)]) : []);
+  const stats = '<details class="vs-years fr-nerd"><summary>For the stats-minded</summary>'+
+    '<p><b>Sharpness</b> is 100 &times; (1 &minus; log-loss / ln 2), with log-loss scored on each match\'s expected result (a draw counts as half a win). '+
+      'Log-loss punishes confident forecasts that go wrong much harder than cautious ones, so it rewards being sure only when it is right. '+
+      'Calling every match 50/50 scores ln 2 = 0.693, which is sharpness 0. The <b>Brier score</b> is the average squared gap between the forecast and what happened.</p>'+
+    (N.length ? '<table class="fr-t"><tbody>'+N.map(r => '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+'</tbody></table>' : '')+'</details>';
+  app.innerHTML = '<div class="wrap">'+intro+vsPanel(g)+
+    '<h2 class="fr-h2">The live record</h2><p class="fr-q" style="margin-top:0;">Every forecast the site has published since it started keeping score.</p>'+live+
+    vsEras(g)+researchPanel(g)+stats+'</div>';
   kickVs(g);
 }
 
@@ -6989,9 +7190,15 @@ function simEdition(e, run, fmt, runs, opts){
   const KO = fmt.rounds || [], nStage = (fmt.type === 'league' ? 0 : fmt.stages.length) + 1, off = fmt.phases ? Math.max(0, fmt.phases.length - 1) : 0;
   const reach = names.map(() => new Float64Array(nStage)), str = new Float64Array(N);
   const gauss = () => { let u = 0; while (u === 0) u = rand(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*rand()); };
+  const G = goalsModel(g, run.preTs), gmMemo = new Map();
+  const gmFor = (a, b, side) => { const k = (a*N + b)*3 + side + 1; if (gmMemo.has(k)) return gmMemo.get(k);
+    const gl = gmGoals(G, names[a], names[b], side), v = gl ? [gl[0], gl[1], gmExpected(gl[0], gl[1])] : null; gmMemo.set(k, v); return v; };
   const play = (a, b, side) => {
     const bonus = side > 0 ? hb(names[a], names[b]) : side < 0 ? -hb(names[b], names[a]) : 0;
-    const e0 = calE(eloE(str[a] - str[b] + bonus), g), [lh, la] = goalMeans(e0, g);
+    const gl = gmFor(a, b, side);
+    const e0 = gl ? gmMixE(calE(eloE(str[a] - str[b] + bonus), g), gl[2]) : calE(eloE(str[a] - str[b] + bonus), g);
+    let [lh, la] = goalMeans(e0, g);
+    if (gl){ const f = Math.pow(lh + la, -GM_TIGHT)*Math.pow(gl[0] + gl[1], GM_TIGHT); lh *= f; la *= f; }
     return [poissonDraw(lh, rand), poissonDraw(la, rand), lh, la]; };
   const ko = (a, b) => { const side = hosts.has(names[a]) ? 1 : hosts.has(names[b]) ? -1 : 0;
     let [x, y, lh, la] = play(a, b, side); if (x !== y) return x > y ? a : b;
@@ -7790,6 +7997,14 @@ function viewMethod(){
         'the men and 0.6% for the women. So the fixtures, the simulator, past tournaments\' chances going in and the '+
         'forecast record all use it, while the rankings stay on the window. The Predict page can switch it off, to show '+
         'chances that follow from the two ratings alone.</p>'+
+      '<p id="m-goals">Forecasts also take a <b>second opinion from goals</b>. A separate model gives every team an attack and a defence number: '+
+        'how many goals it tends to score and to let in, against an average side. Before a match it expects each side to score its attack '+
+        'against the other\'s defence, and after it moves both numbers a small step towards what happened (a thrashing counts as 8&ndash;0 at most). '+
+        'New teams start a little below the established teams of their confederation and learn quickly. Its expected result is mixed with '+
+        'the ratings\' about two parts to three, and the expected number of goals is set halfway between the two, because the goals model '+
+        'also knows whether a match is likely to be tight or open. Tested on the years it was not tuned on, men and women, both ways round, '+
+        'the mix predicted results, scores and goal totals better every time. It follows the idea in Ley, Van de Wiele and Van Eetvelde\'s '+
+        'comparison of team-strength models. The rankings never use it.</p>'+
       '<h3 id="m-labels">What the matchup labels mean</h3>'+
       '<p>Each fixture carries a label set only by the favourite\'s chance of winning, with home advantage already in it, so it can '+
         'differ from how far apart the two teams\' tiers are.</p>'+
@@ -8699,7 +8914,10 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
-  ['8 Nov 2026', ['New page, This window: the international window under way, with what\'s still to come, the model\'s calls on every result so far, how many it got right and the biggest upsets. It is under Matches.',
+  ['8 Nov 2026', ['Forecasts take a second opinion from goals: a model that rates every team on the goals it scores and lets in. Its view is mixed with the ratings\' for every forecast, scoreline and simulation, and it sets how many goals to expect, so a meeting of two tight defences now expects fewer. Tested on years it was not tuned on, it made forecasts sharper for men and women. Rankings and ratings are unchanged.',
+    'Forecast record: a new section, How Formline compares with published research. On the 2026 World Cup group stage, Formline called 62.5% of results against 56.9% and 54.2% for a new model published that June. On World Cup knockouts since 1994, it picked who went through 72.7% of the time (World Elo 70.3%, the FIFA method 66.4%).',
+    'Forecast record, rebuilt in plain English: how often Formline picked the winner, a sharpness score from 0 (a coin toss) to 100 (perfect), and the matches where Formline and World Elo or the FIFA method backed different winners, with who was right. The 2019-onwards figures now update with every result everywhere on the page. Log-loss and the Brier score are still there, under For the stats-minded.',
+    'New page, This window: the international window under way, with what\'s still to come, the model\'s calls on every result so far, how many it got right and the biggest upsets. It is under Matches.',
     'Predict: pick any coming match in one tap; each side now shows its flag, rank, tiers and form, with the last meeting and the all-time record between them; a What\'s at stake panel shows what a win, draw or defeat would do to both ratings in a friendly, a qualifier, the Nations League, continental finals or a World Cup; and the prediction can be shared as an image.',
     'Predict: dream matches. Pick any side from any year against any other, each as it stood at the end of its year, on neutral ground. A bit of fun rather than a measurement, and the page says why.',
     'Simulator: build your own now has 12, 24 and 48-team formats with the best third-placed teams going through (the 24-team one follows Euro 2024\'s bracket and the 48-team one the 2026 World Cup\'s), and a 32-team knockout. Up to three co-hosts, who head the first groups, and a random draw from pots that keeps teams from the same confederation apart where it can.',
@@ -9445,11 +9663,11 @@ function pageTour(route){
       {panel:'Knockout predictions', title:'Knockout rounds', text:'The likeliest pairings for each knockout match, and who most often went through.'},
       {sel:'[data-shareimg="tour"]', title:'Share it', text:'A picture of the likeliest winners, ready for social media.'}]],
     record:['Forecast record', [
-      {sel:'#app .stat-row', title:'The scores', text:'How the published forecasts have done. Log-loss and the Brier score reward confident '+
-        'forecasts that come true and punish confident ones that do not: lower is better.'},
-      {panel:'Calibration', title:'Calibration', text:'When the favourite was given about 70%, did it win about 70% of the time? This checks.'},
-      {sel:'#vsPanel', title:'Against Elo and FIFA', text:'Formline, World Elo and the FIFA method, tested on the same matches every year since 2019.'},
-      {panel:'Scored forecasts', title:'Every forecast', text:'Each forecast as it stood at kick-off, and the chance it gave to what happened.'}]],
+      {sel:'#vsPanel .fr-hero', title:'The headline numbers', text:'How often Formline picked the winner, and its sharpness: how far beyond a coin toss it gets once '+
+        'you count how sure each forecast was (0 = coin toss, 100 = perfect).'},
+      {panel:'Formline against World Elo', title:'Against Elo and FIFA', text:'The same matches every year since 2019. The best bit: the matches where they backed different winners, and who was right.'},
+      {sel:'.fr-h2', title:'The live record', text:'Every forecast the site has published, saved before kick-off and checked after the final whistle.'},
+      {panel:'Every forecast, checked', title:'Every forecast', text:'Each forecast as it stood at kick-off, and the chance it gave to what happened.'}]],
     compare:['Formline, Elo and FIFA', [
       {panel:'How they differ', title:'Three methods', text:'Formline, the World Football Elo formula and FIFA\'s own method: which results each one counts, and how.'},
       {panel:'Side by side', title:'Three tables', text:'Each team\'s place in all three. Click a column heading to sort by it; the last columns '+
