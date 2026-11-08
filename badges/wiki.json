@@ -3462,5 +3462,21 @@
  "Oceania Football Confederation": {
   "file": "oceania-football-confederation.png",
   "checked": "2026-10-24"
+ },
+ "2014 Copa América Femenina": {
+  "file": "2014-copa-america-femenina.jpg",
+  "checked": "2026-11-08"
+ },
+ "2014 Copa América": {
+  "file": "",
+  "checked": "2026-11-08"
+ },
+ "2024 CONCACAF W Gold Cup": {
+  "file": "2024-concacaf-w-gold-cup.png",
+  "checked": "2026-11-08"
+ },
+ "2024 CONCACAF Gold Cup": {
+  "file": "",
+  "checked": "2026-11-08"
  }
 }
