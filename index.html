@@ -1891,7 +1891,18 @@ const CORRECTIONS = {
     {date:'2026-06-07', home:'Saudi Arabia', away:'Sri Lanka', set:{neutral:true}, note:'played in Bangkok, Thailand'},
     {date:'2026-06-08', home:'Equatorial Guinea', away:'Haiti', set:{neutral:true}, note:'played in Antequera, Spain'},
     {date:'2026-06-09', home:'New Zealand', away:'Morocco', set:{neutral:true}, note:'played in Antequera, Spain'},
-    {date:'2026-06-08', home:'Nigeria', away:'Senegal', set:{country:'Nigeria'}, note:'Ikenne is in Nigeria, not Senegal'}
+    {date:'2026-06-08', home:'Nigeria', away:'Senegal', set:{country:'Nigeria'}, note:'Ikenne is in Nigeria, not Senegal'},
+    /* Checked against Wikipedia's tournament articles, November 2026. Each applies only while the archive still has the
+       wrong score or date, so a fix upstream simply takes over. */
+    {date:'1991-05-05', home:'Brazil', away:'Venezuela', score:'6-11', set:{as:0}, note:'Brazil won 6-0; the archive has 6-11 (Wikipedia)'},
+    {date:'2006-11-10', home:'Cameroon', away:'South Africa', score:'2-24', set:{as:2}, note:'2-2, South Africa through 5-4 on penalties; the archive has 2-24 (Wikipedia)'},
+    {date:'2008-03-08', home:'Ghana', away:'Ivory Coast', score:'10-1', set:{hs:3, as:0}, note:'Ghana won 3-0 (three scorers listed); the archive has 10-1 (Wikipedia)'},
+    {date:'1998-12-09', home:'New Zealand', away:'Samoa', score:'21-0', set:{ts:Date.UTC(1998, 9, 9)}, note:'played 9 October 1998; the archive has 9 December (Wikipedia)'},
+    {date:'1998-12-09', home:'Australia', away:'American Samoa', score:'21-0', set:{ts:Date.UTC(1998, 9, 9)}, note:'played 9 October 1998; the archive has 9 December (Wikipedia)'},
+    {date:'1998-12-11', home:'New Zealand', away:'Fiji', score:'14-0', set:{ts:Date.UTC(1998, 9, 11)}, note:'played 11 October 1998; the archive has 11 December (Wikipedia)'},
+    {date:'1998-12-11', home:'Australia', away:'Papua New Guinea', score:'8-0', set:{ts:Date.UTC(1998, 9, 11)}, note:'played 11 October 1998; the archive has 11 December (Wikipedia)'},
+    {date:'2002-12-12', home:'Cameroon', away:'South Africa', score:'3-0', set:{ts:Date.UTC(2002, 11, 20)}, note:'third-place match, played 20 December 2002; the archive has 12 December (Wikipedia)'},
+    {date:'2002-12-12', home:'Nigeria', away:'Ghana', score:'2-0', set:{ts:Date.UTC(2002, 11, 20)}, note:'final, played 20 December 2002; the archive has 12 December (Wikipedia)'}
   ]
 };
 /* One team or tournament filed under two spellings, merged to the more common one. */
@@ -2041,7 +2052,7 @@ function decodeCompact(d){
   const S = d.s; let day = 0;
   const rows = d.m.map(x => { day += x[0];
     return {date:iso10(day), home_team:S[x[1]], away_team:S[x[2]], home_score:x[3], away_score:x[4], tournament:S[x[5]],
-      neutral:x[6] ? 'TRUE' : 'FALSE', city:S[x[7]], country:S[x[8]], src:x[9] ? 'gapfill' : undefined}; });
+      neutral:x[6] ? 'TRUE' : 'FALSE', city:S[x[7]], country:S[x[8]], src:x[9] === 3 ? 'wiki' : x[9] === 2 ? 'manual' : x[9] ? 'gapfill' : undefined}; });
   const shootouts = (d.so || []).map(x => ({date:iso10(x[0]), home_team:S[x[1]], away_team:S[x[2]], winner:S[x[3]]}));
   const former = (d.former || []).map(x => ({current:x[0], former:x[1], start_date:x[2], end_date:x[3]}));
   return {rows, shootouts, former, meta:{built:d.built, archive:d.archive, gapfill:d.gapfill}, source:'build'};
@@ -3533,6 +3544,8 @@ function viewSources(){
         '. They are compiled from Wikipedia, RSSSF and football association sources.', 'CC0 (public domain)'],
       ['Results newer than the archives, and upcoming fixtures', a('https://www.api-football.com', 'API-Football'), 'Used under the site\'s paid plan'],
       ['Venues and kick-off times API-Football does not have yet', a('https://en.wikipedia.org', 'Wikipedia')+'\'s results and competition articles', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
+      ['Women\'s results missing from the archives and API-Football, added by hand (242 matches: four 2026 tournaments, the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, missing qualifiers and recent friendlies); and a few scores and dates corrected', a('https://en.wikipedia.org', 'Wikipedia')+'\'s tournament and national-team articles. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
+      ['Women\'s results neither the archives nor API-Football have, found each night', a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team articles, kept when two pages agree or the result stays up for two days. Marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Historical results and tables', a('https://www.rsssf.org', 'RSSSF')+' (the Rec.Sport.Soccer Statistics Foundation), through the archives above. '+
         'It will be the main source for Formline\'s club history, with credit to the author of each page used, by kind permission of Karel Stokkermans.', 'Used with permission'],
     ])+
@@ -3737,7 +3750,11 @@ function viewRankings(){
   const visAll = visibleTable(c.provisional);
   const visProv = visAll.filter(r => !r.island);
   const tierView = state.params.tv === '1';
-  const tMonths = state.params.tp === '24' ? 24 : 12, TR = trendData(c, tMonths), sortBy = state.params.so === 'tu' || state.params.so === 'td' ? state.params.so : null;
+  const tMonths = state.params.tp === '24' ? 24 : 12, TR = trendData(c, tMonths);
+  /* Attack and defence from the goals model (an option; the order stays the ratings'): goals a side would expect to score
+     and to let in against the average ranked team on neutral ground. */
+  const goalsOn = state.params.gl === '1', gRef = GOAL_REFS.some(r => r[0] === state.params.gr) ? state.params.gr : 'med', GS = goalsOn ? goalsStats(c, gRef) : null;
+  const sortBy = ['tu', 'td'].includes(state.params.so) || (goalsOn && ['ga', 'gd'].includes(state.params.so)) ? state.params.so : null;
   /* Cut-off groups, one line each: the teams that played only among themselves. */
   const islands = [];
   { const seen = new Set();
@@ -3760,6 +3777,9 @@ function viewRankings(){
       '<div class="ctl"><label>Show</label><div class="chips" id="viewChips">'+
         '<button class="chip'+(tierView?'':' on')+'" data-view="list">Ranked list</button>'+
         '<button class="chip'+(tierView?' on':'')+'" data-view="tiers">Tiers</button></div></div>'+
+      '<div class="ctl"><label>Attack &amp; defence</label><div class="chips" id="goalsChips">'+
+        '<button class="chip'+(goalsOn?'':' on')+'" data-gl="0">Hide</button>'+
+        '<button class="chip'+(goalsOn?' on':'')+'" data-gl="1">Show</button></div></div>'+
       '<div class="ctl"><label>Trend over</label><div class="chips" id="trendChips">'+
         '<button class="chip'+(tMonths === 12 ? ' on' : '')+'" data-tp="12">12 months</button>'+
         '<button class="chip'+(tMonths === 24 ? ' on' : '')+'" data-tp="24">24 months</button></div></div>'+
@@ -3768,6 +3788,17 @@ function viewRankings(){
     '</div>'+
     (tierView ? '<p class="tier-note">Teams in the same tier are too close to call. '+c.tiers.length+' tiers in this table; each tier\'s heading gives the points between it and the tier above.'+
       (sortBy ? ' Sorted by trend, so the tiers are not grouped.' : '')+'</p>' : '')+
+    (goalsOn ? '<div class="ctl gl-ref" style="margin:0 0 14px;"><label>Compare with</label><div class="chips" id="glRefChips">'+
+        GOAL_REFS.map(([k, lab]) => '<button class="chip'+(gRef === k ? ' on' : '')+'" data-gr="'+k+'">'+lab+'</button>').join('')+'</div></div>'+
+      '<details class="tip" open><summary>What Scores and Concedes mean</summary>'+
+      'From Formline\'s <a href="#/method" data-goto-method="m-goals">goals model</a>, the second opinion every forecast uses: the goals a team would expect to '+
+      '<b>score</b> and to <b>let in</b> on neutral ground against '+
+      (gRef === 'med' ? 'the average ranked team (the middle team of the table)' :
+       gRef === 'conf' ? 'the average ranked team of its own confederation (the middle team of that confederation), so each team is measured against its own region' :
+       gRef === 'cont' ? 'a typical side at its own confederation\'s latest continental finals'+(GS && GS.notes.length ? ': '+GS.notes.join(', ') : '') :
+       'a typical side at the latest World Cup'+(GS && GS.notes.length ? ': '+GS.notes.join('') : ''))+'. '+
+      'It looks at goals alone, over every match the team has played, with recent ones counting most. Click either heading to sort; the # stays the ranking. '+
+      'The rankings themselves never use it.</details>' : '')+
     '<details class="tip"><summary>What the Tier column means</summary>'+
       (tierView ? 'Each tier is led by its highest-rated team; a team joins it unless the model is at least 90% sure the leader is better. ' : '')+
       'The <b>Tier</b> bar shows how likely each team is to belong in each tier, in that tier\'s colour, so it shades into '+
@@ -3777,8 +3808,12 @@ function viewRankings(){
       '<thead><tr><th>#</th><th>Team</th><th class="num">Rating</th>'+
       '<th title="Coloured by how likely the team is to belong in each tier; a second number marks another tier with at least a one-in-three chance">Tier</th>'+
       rankRangeHead()+
-      '<th class="num hide-sm" title="Points above or below the average (middle ranked) team">vs average</th>'+
-      '<th class="num hide-sm">Matches</th><th class="hide-sm">Form</th>'+
+      (goalsOn ? '' : '<th class="num hide-sm" title="Points above or below the average (middle ranked) team">vs average</th>'+
+      '<th class="num hide-sm">Matches</th>')+'<th class="hide-sm">Form</th>'+
+      (goalsOn ? '<th class="num"><button type="button" class="th-sort'+(sortBy === 'ga' ? ' on' : '')+'" id="gaSort" title="Goals a team would expect to score on neutral ground against the side chosen in Compare with. Click to sort.">Scores'+
+          (sortBy === 'ga' ? ' ▼' : ' <span class="muted">⇅</span>')+'</button></th>'+
+        '<th class="num"><button type="button" class="th-sort'+(sortBy === 'gd' ? ' on' : '')+'" id="gdSort" title="Goals a team would expect to let in on neutral ground against the side chosen in Compare with. Click to sort, fewest first.">Concedes'+
+          (sortBy === 'gd' ? ' ▲' : ' <span class="muted">⇅</span>')+'</button></th>' : '')+
       '<th class="num trend-h"><button type="button" class="th-sort'+(sortBy ? ' on' : '')+'" id="trendSort" title="How the rating moved over the last '+tMonths+' months, against the field: '+
         '▲ from +35, ▲▲ from +70, ▲▲▲ from +105, ▼ the same downwards, ● steady. A description of the past, not a prediction. Click to sort.">Trend'+
         (sortBy === 'tu' ? ' ▼' : sortBy === 'td' ? ' ▲' : ' <span class="muted">⇅</span>')+'</button></th></tr></thead>'+
@@ -3811,9 +3846,9 @@ function viewRankings(){
 
   const draw = q => {
     let rows = q ? vis.filter(r=>(r.team+' '+r.key).toLowerCase().includes(q.toLowerCase())) : vis;
-    const td = r => (TR.map.get(r.key) || {}).d;
+    const td = r => sortBy === 'ga' ? (GS.map.get(r.key) || {}).s : sortBy === 'gd' ? (GS.map.get(r.key) || {}).c : (TR.map.get(r.key) || {}).d;
     if (sortBy) rows = rows.slice().sort((a, b) => { const x = td(a), y = td(b); if (x === null || x === undefined) return 1; if (y === null || y === undefined) return -1;
-      return sortBy === 'tu' ? y - x : x - y; });
+      return sortBy === 'tu' || sortBy === 'ga' ? y - x : x - y; });
     else if (tierView) rows = rows.slice().sort((a, b) => a.tier - b.tier || b.rating - a.rating);
     let lastTier = null;
     const tierHead = r => { if (!tierView || sortBy || r.tier === lastTier) return ''; lastTier = r.tier;
@@ -3828,16 +3863,22 @@ function viewRankings(){
         '<td class="num rating">'+fmtR(r.rating)+' '+pmSpan(r.band)+'</td>'+
         '<td>'+tierCell(r)+(c.tiers[r.tier-1] && c.tiers[r.tier-1].wide.has(r) ? wideMark() : '')+'</td>'+
         '<td class="num muted range" title="Likely '+plainRange(ranges.get(r.key).mid)+'; plausibly '+plainRange(ranges.get(r.key).wide)+'">'+fmtRange(rankRangeOf(ranges.get(r.key)))+'</td>'+
-        '<td class="num mono hide-sm">'+signed(r.vsMedian)+'</td>'+
-        '<td class="num muted hide-sm">'+r.mp+'</td>'+
+        (goalsOn ? '' : '<td class="num mono hide-sm">'+signed(r.vsMedian)+'</td>'+
+        '<td class="num muted hide-sm">'+r.mp+'</td>')+
         '<td class="hide-sm">'+formChips(c.history.get(r.key))+'</td>'+
+        (goalsOn ? goalsCells(GS.map.get(r.key)) : '')+
         '<td class="num">'+trendCell(TR.map.get(r.key), TR, true)+'</td></tr>').join('')
       : '<tr><td colspan="9" class="muted" style="padding:24px;text-align:center;">Nothing matches.</td></tr>';
     bindRows();
   };
   draw('');
   document.getElementById('rankSearch').addEventListener('input', e => draw(e.target.value));
-  const keep = () => ({tv:tierView ? '1' : undefined, tp:tMonths === 24 ? '24' : undefined, so:sortBy || undefined});
+  const keep = () => ({tv:tierView ? '1' : undefined, tp:tMonths === 24 ? '24' : undefined, so:sortBy || undefined, gl:goalsOn ? '1' : undefined, gr:goalsOn && gRef !== 'med' ? gRef : undefined});
+  document.querySelectorAll('#glRefChips [data-gr]').forEach(b => b.addEventListener('click', () => go(Object.assign(keep(), {gr:b.dataset.gr === 'med' ? undefined : b.dataset.gr}))));
+  document.querySelectorAll('#goalsChips [data-gl]').forEach(b => b.addEventListener('click', () =>
+    go(Object.assign(keep(), {gl:b.dataset.gl === '1' ? '1' : undefined, gr:b.dataset.gl === '1' ? keep().gr : undefined, so:b.dataset.gl === '1' || !['ga', 'gd'].includes(sortBy) ? sortBy || undefined : undefined}))));
+  [['gaSort', 'ga'], ['gdSort', 'gd']].forEach(([id, v]) => { const el = document.getElementById(id);
+    if (el) el.addEventListener('click', () => go(Object.assign(keep(), {so:sortBy === v ? undefined : v}))); });
   document.querySelectorAll('#viewChips [data-view]').forEach(b => b.addEventListener('click', () =>
     go(Object.assign(keep(), {tv:b.dataset.view === 'tiers' ? '1' : undefined, so:undefined}))));
   document.querySelectorAll('#trendChips [data-tp]').forEach(b => b.addEventListener('click', () => go(Object.assign(keep(), {tp:b.dataset.tp === '24' ? '24' : undefined}))));
@@ -3880,6 +3921,63 @@ function trendData(c, months){
 const trendTitle = (t, T) => t.lvl === null ? (t.d === null ? 'No rating '+T.months+' months ago' : 'Only '+t.n+' match'+(t.n === 1 ? '' : 'es')+' in '+T.months+' months, too few to call a trend')
   : TREND_WORDS[t.lvl]+': '+(t.d >= 0 ? '+' : '−')+Math.abs(Math.round(t.d))+' against the field over '+T.months+' months ('+(t.raw >= 0 ? '+' : '−')+Math.abs(Math.round(t.raw))+
     ' in all, the typical team '+(T.field >= 0 ? '+' : '−')+Math.abs(Math.round(T.field))+'), '+t.n+' matches. Describes the past, not a prediction.';
+/* Attack and defence for the ranking list, from the goals model at the date being viewed: the goals each team would
+   expect to score and to let in on neutral ground against a reference side. ref: 'med' the median ranked team; 'conf'
+   the median ranked team of its own confederation; 'cont' the average side at its confederation's latest continental
+   finals; 'wc' the average side at the latest World Cup. Medians and averages are taken of attack and defence
+   separately. Where a reference has no teams (no finals yet at that date), the world median stands in. */
+const GOAL_REFS = [['med', 'Average ranked team'], ['conf', 'Average in its confederation'], ['cont', 'Typical continental-finals side'], ['wc', 'Typical World Cup side']];
+function latestEdition(ms, cats, upTo, pick){
+  /* Most recent finals tournament up to upTo among cats whose teams mostly pass pick; its edition is every match of it
+     in the 75 days up to its last one. */
+  const T = new Map();
+  for (const m of ms){ if (m.ts > upTo) break; if (!cats.includes(m.cat)) continue; namesFor(m);
+    let t = T.get(m.tournament); if (!t){ t = {last:0, yes:0, n:0}; T.set(m.tournament, t); }
+    t.last = m.ts; t.n += 2; t.yes += (pick(m._h) ? 1 : 0) + (pick(m._a) ? 1 : 0); }
+  let best = null; for (const [name, t] of T) if (t.yes > t.n/2 && (!best || t.last > best.last)) best = {name, last:t.last};
+  if (!best) return null;
+  const teams = new Set(); let first = best.last;
+  for (const m of ms){ if (m.ts > best.last) break; if (m.tournament !== best.name || m.ts < best.last - 75*DAY) continue;
+    teams.add(m._h); teams.add(m._a); first = Math.min(first, m.ts); }
+  const y0 = new Date(first).getUTCFullYear(), y1 = new Date(best.last).getUTCFullYear();
+  return {name:best.name, label:compName(best.name)+' '+(y0 === y1 ? y1 : y0+'&ndash;'+String(y1).slice(2)), teams:[...teams]};
+}
+function goalsStats(c, ref){
+  ref = GOAL_REFS.some(r => r[0] === ref) ? ref : 'med';
+  c._goals = c._goals || {};
+  if (c._goals[ref]) return c._goals[ref];
+  const g = state.gender, G = goalsModel(g, state.asOf), map = new Map();
+  if (!G) return c._goals[ref] = {map, ref, notes:[]};
+  const med = a => { const s = a.slice().sort((x, y) => x - y); return s.length ? s[s.length >> 1] : 0; };
+  const avg = a => a.length ? a.reduce((t, x) => t + x, 0)/a.length : 0;
+  const pt = (ks, f) => { const k = ks.filter(x => G.att.has(x)); return k.length ? {a:f(k.map(x => G.att.get(x))), d:f(k.map(x => G.def.get(x))), n:k.length} : null; };
+  const world = pt(c.table.map(r => r.key), med), confOf = k => infoFor(k).conf, notes = [];
+  let refFor;
+  if (ref === 'med') refFor = () => world;
+  else if (ref === 'conf'){
+    const by = new Map(); c.table.forEach(r => { const cf = confOf(r.key); if (!by.has(cf)) by.set(cf, []); by.get(cf).push(r.key); });
+    const P = new Map([...by].map(([cf, ks]) => [cf, pt(ks, med)]));
+    refFor = k => P.get(confOf(k)) || world;
+  } else if (ref === 'cont'){
+    const ms = state.matches[g], P = new Map();
+    for (const cf of [...new Set(c.table.map(r => confOf(r.key)))]){
+      const ed = latestEdition(ms, ['cont'], state.asOf, k => confOf(k) === cf);
+      if (ed){ const p = pt(ed.teams, avg); if (p){ P.set(cf, p); notes.push(ed.label+' ('+p.n+' teams)'); } }
+    }
+    refFor = k => P.get(confOf(k)) || world;
+  } else {
+    const ed = latestEdition(state.matches[g], ['wc'], state.asOf, () => true), p = ed ? pt(ed.teams, avg) : null;
+    if (p) notes.push(ed.label+' ('+p.n+' teams)');
+    refFor = () => p || world;
+  }
+  c.all.forEach(r => { const R = refFor(r.key); if (R && G.att.has(r.key))
+    map.set(r.key, {s:Math.exp(G.mu + G.att.get(r.key) - R.d), c:Math.exp(G.mu + R.a - G.def.get(r.key))}); });
+  const R0 = refFor(c.table.length ? c.table[0].key : null);
+  return c._goals[ref] = {map, ref, notes, avg:R0 ? Math.exp(G.mu + R0.a - R0.d) : 0};
+}
+const goalsCells = x => x ? '<td class="num gl-s" title="Expected to score '+x.s.toFixed(2)+' against the side chosen in Compare with">'+x.s.toFixed(2)+'</td>'+
+    '<td class="num gl-c" title="Expected to let in '+x.c.toFixed(2)+' against the side chosen in Compare with">'+x.c.toFixed(2)+'</td>'
+  : '<td class="num muted">&ndash;</td><td class="num muted">&ndash;</td>';
 function trendCell(t, T, withNum){
   if (!t || t.lvl === null) return '<span class="flat" title="'+esc(trendTitle(t || {lvl:null, d:null}, T))+'">&ndash;</span>';
   const cls = t.lvl > 0 ? 'up' : t.lvl < 0 ? 'down' : 'flat';
@@ -4315,7 +4413,9 @@ function viewTeam(){
         h.slice().reverse().map(x=>{
           const ed = x.m && x.m._ed, pen = x.m ? shootoutWinner(x.m) : null;
           return '<tr><td class="muted date">'+fmtDay(x.ts)+
-            (x.m && x.m.src === 'gapfill' ? '<span class="gf" title="Not yet in the archive: result from API-Football, collected by the nightly update">&dagger;</span>' : '')+'</td>'+
+            (x.m && x.m.src === 'gapfill' ? '<span class="gf" title="Not yet in the archive: result from API-Football, collected by the nightly update">&dagger;</span>' :
+             x.m && x.m.src === 'manual' ? '<span class="gf" title="Missing from the archive: result added by hand, checked against Wikipedia">&Dagger;</span>' :
+             x.m && x.m.src === 'wiki' ? '<span class="gf" title="Missing from the archive and API-Football: result from Wikipedia, found by the nightly update">&Dagger;</span>' : '')+'</td>'+
           '<td><a href="'+teamHref(x.oppName)+'">'+withFlag(x.oppName, x.ts)+'</a>'+
             (x.neutral?' <span class="muted">(N)</span>':(x.home?'':' <span class="muted">(A)</span>'))+'</td>'+
           '<td class="comp hide-sm" title="'+esc(x.tournament)+'">'+(ed ? '<a href="'+editionHref(ed)+'">'+esc(shortComp(x.tournament))+'</a>'
@@ -8914,7 +9014,10 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
-  ['8 Nov 2026', ['Forecasts take a second opinion from goals: a model that rates every team on the goals it scores and lets in. Its view is mixed with the ratings\' for every forecast, scoreline and simulation, and it sets how many goals to expect, so a meeting of two tight defences now expects fewer. Tested on years it was not tuned on, it made forecasts sharper for men and women. Rankings and ratings are unchanged.',
+  ['8 Nov 2026', ['Women: each night the update now reads the women\'s national teams\' Wikipedia pages for results that neither the open archive nor API-Football has, as happened with the Libreville friendlies, and adds them, marked &Dagger;. A result counts once two pages agree on it or it has stayed up for two days, and only if any scorers listed add up to the score.',
+    'Women: 242 matches missing from the open results archive are now counted, added by hand from Wikipedia and marked &Dagger; in match lists: four 2026 tournaments (the Asian Games, the SAFF Championship, the COSAFA Championship and the AFF Women\'s Cup), the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, the first two rounds of 2024 WAFCON qualifying, three rounds of African Olympic qualifying (2003&ndash;11), the 2014 Caribbean qualifiers, Ecuador v Trinidad and Tobago (the 2015 World Cup play-off) and a few more. Four women\'s friendlies in Libreville (4 and 7 November) that API-Football did not list are in too, among them Gabon 3&ndash;6 Congo. A check of every women\'s World Cup, Olympic and continental finals against Wikipedia also fixed three wrong scores (Brazil 6&ndash;0 Venezuela in 1991, Cameroon 2&ndash;2 South Africa in 2006, Ghana 3&ndash;0 Ivory Coast in 2008) and six wrong dates.',
+    'Rankings: a new Attack &amp; defence option shows, from the goals model, how many goals each team would expect to score and let in, compared with the average ranked team, the average in its confederation, a typical continental-finals side or a typical World Cup side. Click either heading to sort. The order and the # stay the ratings\'.',
+    'Forecasts take a second opinion from goals: a model that rates every team on the goals it scores and lets in. Its view is mixed with the ratings\' for every forecast, scoreline and simulation, and it sets how many goals to expect, so a meeting of two tight defences now expects fewer. Tested on years it was not tuned on, it made forecasts sharper for men and women. Rankings and ratings are unchanged.',
     'Forecast record: a new section, How Formline compares with published research. On the 2026 World Cup group stage, Formline called 62.5% of results against 56.9% and 54.2% for a new model published that June. On World Cup knockouts since 1994, it picked who went through 72.7% of the time (World Elo 70.3%, the FIFA method 66.4%).',
     'Forecast record, rebuilt in plain English: how often Formline picked the winner, a sharpness score from 0 (a coin toss) to 100 (perfect), and the matches where Formline and World Elo or the FIFA method backed different winners, with who was right. The 2019-onwards figures now update with every result everywhere on the page. Log-loss and the Brier score are still there, under For the stats-minded.',
     'New page, This window: the international window under way, with what\'s still to come, the model\'s calls on every result so far, how many it got right and the biggest upsets. It is under Matches.',

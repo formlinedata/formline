@@ -106,6 +106,41 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   ok(W.baseName("United States men's national soccer team") === 'United States' && W.baseName("Japan women's national football team") === 'Japan', 'Wikipedia: team name from an article title');
 }
 
+// --- unit: women's results from Wikipedia (lib/wikiresults.mjs)
+{
+  const R = await import('./lib/wikiresults.mjs');
+  const box = (d, t1, sc, t2, g1 = '', g2 = '', loc = '[[Libreville]], Gabon', round = 'Friendly') =>
+    '{{Football box collapsible|round=' + round + '|date={{Start date|' + d.replace(/-/g, '|') + '}}|team1={{fbw-rt|' + t1 + '}}|score=' + sc + '|team2={{fbw|' + t2 + '}}|goals1=' + g1 + '|goals2=' + g2 + '|location=' + loc + '}}';
+  const gab = box('2026-11-07', 'GAB', '3–6', 'CGO', '{{goal|10|20|30}}', '{{goal|5|15|25|35|45|55}}') + box('2026-11-10', 'GAB', 'v', 'CHA');
+  const cgo = box('2026-11-07', 'GAB', '3–6', 'CGO') + box('2026-11-04', 'CGO', '4–1', 'STP') + box('2026-10-26', 'CGO', '0–0', 'TUN', '', '{{goal|14}} [[A]]');
+  const cta = box('2026-11-07', 'CTA', '9–0', 'STP');
+  ok(R.pageResults(gab, '2026-09-01', '2026-11-08').length === 1 && R.pageResults(gab, '2026-09-01', '2026-11-08')[0].hs === 3, 'Wikipedia results: a played match read, a fixture ("v") left out');
+  ok(R.pageResults(cgo, '2026-09-01', '2026-11-08').length === 2, 'Wikipedia results: a score its own scorer list contradicts (0–0 with a goal listed) left out');
+  ok(R.boxScore('{{score link|Gabon v Congo|3–6}}').join() === '3,6' && R.boxScore('0–0 (awd.)') === null && R.boxScore('w/o') === null, 'Wikipedia results: scores in templates read; awarded matches and walkovers not');
+  ok(R.goalsAgree('{{goal|14}} [[A]]<br>{{goal|16}} [[B]]', '', 2, 0) && !R.goalsAgree('', '{{goal|14}} [[A]]', 0, 0) && R.goalsAgree('', '', 3, 1)
+    && R.goalsAgree('{{goal|16}}{{goal|42}}', '', 0, 2), 'Wikipedia results: scorer lists checked against the score (both sides together)');
+  ok(R.tournamentFor('Football at the 2026 Asian Games Group F', 'women', null, new Set(['Asian Games'])) === 'Asian Games'
+    && R.tournamentFor('2026 Friendly', 'women') === 'Friendly' && R.tournamentFor('2026 AFC U-20 Women\'s Asian Cup', 'women') === null,
+    'Wikipedia results: competitions filed under the archive\'s names; youth ones skipped');
+  const pages = {"Gabon women's national football team":gab, "Congo women's national football team":cgo, "Central African Republic women's national football team":cta};
+  let asked = 0;
+  const fake = async url => { asked++; const q = new URL(url).searchParams;
+    return {ok:true, json:async () => ({parse:{wikitext:pages[q.get('page')] || ''}})}; };
+  const teamsW = new Set(['Gabon', 'Congo', 'Central African Republic', 'São Tomé and Príncipe', 'Chad', 'Tunisia']);
+  const cache = {titles:{}};
+  for (const t of ['Gabon', 'Congo', 'Central African Republic']) cache.titles['women|' + t] = {title:'', name:t, main:t + " women's national football team", checked:'2026-11-08'};
+  const known = [{date:'2025-06-01', home_team:'Gabon', away_team:'Congo'}, {date:'2025-06-01', home_team:'Central African Republic', away_team:'Chad'},
+    {date:'2026-11-04', home_team:'Congo', away_team:'São Tomé and Príncipe'}];
+  const r1 = await R.wikiResults({g:'women', known, teams:teamsW, cache, fetchImpl:fake, today:'2026-11-08', toArchive:x => x});
+  ok(r1.rows.length === 1 && r1.rows[0].home_team === 'Gabon' && r1.rows[0].away_score === 6 && r1.rows[0].tournament === 'Friendly' && r1.rows[0].country === 'Gabon' && r1.rows[0].neutral === 'FALSE',
+    'Wikipedia results: a match on two teams\' pages added (Gabon 3–6 Congo); one already held left out');
+  ok(r1.stats.unconfirmed === 1, 'Wikipedia results: a match on one page only waits');
+  const r2 = await R.wikiResults({g:'women', known:known.concat(r1.rows), teams:teamsW, cache, fetchImpl:fake, today:'2026-11-10', toArchive:x => x});
+  ok(r2.rows.length === 1 && r2.rows[0].home_team === 'Central African Republic' && r2.rows[0].neutral === 'TRUE', 'Wikipedia results: a one-page match added once it has stayed up two days');
+  const r3 = await R.wikiResults({g:'women', known, teams:teamsW, cache:{}, fetchImpl: async () => { throw new Error('offline'); }, today:'2026-11-08', toArchive:x => x});
+  ok(r3.rows.length === 0 && r3.stats.errors > 0, 'Wikipedia results: offline means nothing added, not a failure');
+}
+
 // --- unit: names
 const teams = {men:new Set(['United States', 'South Korea', 'DR Congo', 'Ivory Coast', 'Curaçao', 'Republic of Ireland', 'Saint Kitts and Nevis', 'Spain']),
                women:new Set(['Spain', 'United States', 'Turks and Caicos Islands'])};
@@ -183,8 +218,24 @@ globalThis.fetch = async url => {
 };
 Object.assign(process.env, {SITE_HTML:path.join(HERE, '..', 'index.html'), FORMLINE_ROOT:root, ARCHIVE_DIR:path.join(HERE, 'test-data', 'archive'), TODAY:'2026-09-26',
   APIFOOTBALL_KEY:'test', API_GAP_MS:'0', API_BUDGET:'200'});
+fs.writeFileSync(path.join(root, 'build', 'store', 'manual-women.csv'), 'date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,shootout_winner,source\n'+
+  '2024-03-06,Canada,United States,2,2,CONCACAF Gold Cup,San Diego,United States,FALSE,United States,wiki\n'+
+  '2026-08-31,England,Spain,1,2,Friendly,Madrid,Spain,FALSE,,wiki\n');
+fs.writeFileSync(path.join(root, 'build', 'store', 'wikifill-women.csv'), 'date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,shootout_winner,source,found\n'+
+  '2026-08-20,Spain,Portugal,4,0,Friendly,Madrid,Spain,FALSE,,https://en.wikipedia.org/wiki/x,2026-08-22\n'+
+  '2026-08-29,England,Spain,2,1,Friendly,London,England,FALSE,,https://en.wikipedia.org/wiki/x,2026-08-31\n');
 const {run, prune, planDates} = await import('./update.mjs');
 const st = await run();
+{
+  const W = JSON.parse(fs.readFileSync(path.join(root, 'data/women.json'), 'utf8'));
+  const man = W.m.filter(x => x[9] === 2);
+  ok(man.length === 1 && W.s[man[0][1]] === 'Canada' && W.manual && W.manual.rows === 1, 'hand-added result in the compact file, flagged; one already in the archive skipped');
+  ok(W.so.some(x => W.s[x[3]] === 'United States' && W.s[x[1]] === 'Canada'), 'hand-added shoot-out carried into the compact file');
+  const wk = W.m.filter(x => x[9] === 3);
+  ok(wk.length === 1 && W.s[wk[0][2]] === 'Portugal' && W.wiki && W.wiki.rows === 1, 'Wikipedia-found result in the compact file, flagged; one the archive now has dropped');
+  const wf = parseCSV(fs.readFileSync(path.join(root, 'build/store/wikifill-women.csv'), 'utf8'));
+  ok(wf.length === 1 && wf[0].away_team === 'Portugal' && wf[0].source, 'Wikipedia-found results kept in the store with their source');
+}
 const gapM = parseCSV(fs.readFileSync(path.join(root, 'build/store/gapfill-men.csv'), 'utf8'));
 const gapW = parseCSV(fs.readFileSync(path.join(root, 'build/store/gapfill-women.csv'), 'utf8'));
 const gs = gapM.find(r => r.home_team === 'Gambia');

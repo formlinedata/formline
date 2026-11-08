@@ -1,0 +1,243 @@
+date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,shootout_winner,source
+2024-02-20,Mexico,Argentina,0,0,CONCACAF Gold Cup,Carson,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-20,United States,Dominican Republic,5,0,CONCACAF Gold Cup,Carson,United States,FALSE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-21,Panama,Colombia,0,6,CONCACAF Gold Cup,San Diego,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-21,Brazil,Puerto Rico,1,0,CONCACAF Gold Cup,San Diego,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-22,Costa Rica,Paraguay,0,1,CONCACAF Gold Cup,Houston,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-22,Canada,El Salvador,6,0,CONCACAF Gold Cup,Houston,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-23,Dominican Republic,Mexico,0,8,CONCACAF Gold Cup,Carson,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-23,Argentina,United States,0,4,CONCACAF Gold Cup,Carson,United States,FALSE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-24,Puerto Rico,Panama,2,1,CONCACAF Gold Cup,San Diego,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-24,Colombia,Brazil,0,1,CONCACAF Gold Cup,San Diego,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-25,Paraguay,Canada,0,4,CONCACAF Gold Cup,Houston,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-25,El Salvador,Costa Rica,0,2,CONCACAF Gold Cup,Houston,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-26,Argentina,Dominican Republic,3,0,CONCACAF Gold Cup,Carson,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-26,United States,Mexico,0,2,CONCACAF Gold Cup,Carson,United States,FALSE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-27,Colombia,Puerto Rico,2,0,CONCACAF Gold Cup,San Diego,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-27,Brazil,Panama,5,0,CONCACAF Gold Cup,San Diego,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-28,Canada,Costa Rica,3,0,CONCACAF Gold Cup,Houston,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-02-28,Paraguay,El Salvador,3,2,CONCACAF Gold Cup,Houston,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-03-02,Canada,Costa Rica,1,0,CONCACAF Gold Cup,Los Angeles,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-03-02,Brazil,Argentina,5,1,CONCACAF Gold Cup,Los Angeles,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-03-03,Mexico,Paraguay,3,2,CONCACAF Gold Cup,Los Angeles,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-03-03,United States,Colombia,3,0,CONCACAF Gold Cup,Los Angeles,United States,FALSE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-03-06,Brazil,Mexico,3,0,CONCACAF Gold Cup,San Diego,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-03-06,Canada,United States,2,2,CONCACAF Gold Cup,San Diego,United States,FALSE,United States,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2024-03-10,United States,Brazil,1,0,CONCACAF Gold Cup,San Diego,United States,FALSE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
+2014-09-11,Ecuador,Peru,1,0,Copa América,Riobamba,Ecuador,FALSE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-11,Uruguay,Venezuela,1,3,Copa América,Riobamba,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-12,Argentina,Chile,0,1,Copa América,Loja,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-12,Brazil,Bolivia,6,0,Copa América,Loja,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-13,Colombia,Uruguay,4,0,Copa América,Ambato,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-13,Ecuador,Venezuela,1,0,Copa América,Ambato,Ecuador,FALSE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-14,Bolivia,Argentina,0,6,Copa América,Ambato,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-14,Paraguay,Brazil,1,4,Copa América,Ambato,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-15,Colombia,Venezuela,4,1,Copa América,Riobamba,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-15,Uruguay,Peru,2,1,Copa América,Riobamba,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-16,Argentina,Paraguay,1,0,Copa América,Cuenca,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-16,Chile,Bolivia,3,0,Copa América,Cuenca,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-17,Ecuador,Colombia,0,1,Copa América,Ambato,Ecuador,FALSE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-17,Venezuela,Peru,0,0,Copa América,Ambato,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-18,Bolivia,Paraguay,2,10,Copa América,Cuenca,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-18,Chile,Brazil,0,2,Copa América,Cuenca,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-19,Colombia,Peru,1,0,Copa América,Latacunga,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-19,Ecuador,Uruguay,1,2,Copa América,Latacunga,Ecuador,FALSE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-20,Brazil,Argentina,0,2,Copa América,Azogues,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-20,Paraguay,Chile,3,2,Copa América,Azogues,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-24,Brazil,Ecuador,4,0,Copa América,Quito,Ecuador,FALSE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-24,Colombia,Argentina,0,0,Copa América,Quito,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-26,Brazil,Argentina,6,0,Copa América,Sangolquí,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-26,Colombia,Ecuador,2,1,Copa América,Sangolquí,Ecuador,FALSE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-28,Argentina,Ecuador,2,3,Copa América,Quito,Ecuador,FALSE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2014-09-28,Colombia,Brazil,0,0,Copa América,Quito,Ecuador,TRUE,,https://en.wikipedia.org/wiki/2014_Copa_Am%C3%A9rica_Femenina
+2026-11-04,Congo,São Tomé and Príncipe,4,1,Friendly,Libreville,Gabon,TRUE,,https://en.wikipedia.org/wiki/Congo_women%27s_national_football_team
+2026-11-04,Chad,Central African Republic,1,1,Friendly,Libreville,Gabon,TRUE,,https://en.wikipedia.org/wiki/Chad_women%27s_national_football_team
+2026-11-07,Gabon,Congo,3,6,Friendly,Libreville,Gabon,FALSE,,https://en.wikipedia.org/wiki/Congo_women%27s_national_football_team
+2026-11-07,Central African Republic,São Tomé and Príncipe,9,0,Friendly,Libreville,Gabon,TRUE,,https://en.wikipedia.org/wiki/Central_African_Republic_women%27s_national_football_team
+2005-06-20,Uzbekistan,Myanmar,1,2,AFC Asian Cup qualification,Hanoi,Vietnam,TRUE,,https://en.wikipedia.org/wiki/2006_AFC_Women%27s_Asian_Cup_qualification
+2005-06-20,Thailand,India,3,2,AFC Asian Cup qualification,Hanoi,Vietnam,TRUE,,https://en.wikipedia.org/wiki/2006_AFC_Women%27s_Asian_Cup_qualification
+1983-10-08,Belgium,Denmark,2,2,UEFA Euro qualification,Brussels,Belgium,FALSE,,https://en.wikipedia.org/wiki/1984_European_Competition_for_Women%27s_Football_qualifying
+2014-11-08,Ecuador,Trinidad and Tobago,0,0,FIFA World Cup qualification,Quito,Ecuador,FALSE,,https://en.wikipedia.org/wiki/2015_FIFA_Women%27s_World_Cup_qualification_(CONMEBOL%E2%80%93CONCACAF_play-off)
+2014-12-02,Trinidad and Tobago,Ecuador,0,1,FIFA World Cup qualification,Port of Spain,Trinidad and Tobago,FALSE,,https://en.wikipedia.org/wiki/2015_FIFA_Women%27s_World_Cup_qualification_(CONMEBOL%E2%80%93CONCACAF_play-off)
+2014-08-19,Jamaica,Puerto Rico,4,1,CONCACAF Championship qualification,Couva,Trinidad and Tobago,TRUE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-19,Haiti,Bermuda,5,1,CONCACAF Championship qualification,Couva,Trinidad and Tobago,TRUE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-21,Bermuda,Jamaica,1,9,CONCACAF Championship qualification,Couva,Trinidad and Tobago,TRUE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-21,Puerto Rico,Haiti,0,4,CONCACAF Championship qualification,Couva,Trinidad and Tobago,TRUE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-23,Bermuda,Puerto Rico,1,5,CONCACAF Championship qualification,Couva,Trinidad and Tobago,TRUE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-23,Haiti,Jamaica,0,2,CONCACAF Championship qualification,Couva,Trinidad and Tobago,TRUE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-20,Antigua and Barbuda,Martinique,0,2,CONCACAF Championship qualification,Port of Spain,Trinidad and Tobago,TRUE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-20,Trinidad and Tobago,Saint Kitts and Nevis,10,0,CONCACAF Championship qualification,Port of Spain,Trinidad and Tobago,FALSE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-22,Saint Kitts and Nevis,Martinique,0,1,CONCACAF Championship qualification,Port of Spain,Trinidad and Tobago,TRUE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-22,Trinidad and Tobago,Antigua and Barbuda,3,0,CONCACAF Championship qualification,Port of Spain,Trinidad and Tobago,FALSE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-24,Antigua and Barbuda,Saint Kitts and Nevis,1,2,CONCACAF Championship qualification,Port of Spain,Trinidad and Tobago,TRUE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2014-08-24,Trinidad and Tobago,Martinique,7,0,CONCACAF Championship qualification,Port of Spain,Trinidad and Tobago,FALSE,,https://en.wikipedia.org/wiki/2014_CONCACAF_Women%27s_Championship_qualification
+2003-10-25,South Africa,Namibia,13,0,CAF Olympic Qualifying Tournament,,South Africa,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2003-11-08,Namibia,South Africa,1,13,CAF Olympic Qualifying Tournament,,Namibia,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2003-10-26,Zimbabwe,Angola,0,0,CAF Olympic Qualifying Tournament,,Zimbabwe,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2003-11-08,Angola,Zimbabwe,1,0,CAF Olympic Qualifying Tournament,,Angola,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2003-10-25,Ghana,DR Congo,2,0,CAF Olympic Qualifying Tournament,,Ghana,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2003-11-09,DR Congo,Ghana,1,2,CAF Olympic Qualifying Tournament,,DR Congo,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2004-02-01,South Africa,Angola,6,2,CAF Olympic Qualifying Tournament,,South Africa,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2004-02-14,Angola,South Africa,3,2,CAF Olympic Qualifying Tournament,,Angola,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2004-01-31,Nigeria,Ghana,1,1,CAF Olympic Qualifying Tournament,,Nigeria,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2004-02-14,Ghana,Nigeria,1,1,CAF Olympic Qualifying Tournament,,Ghana,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2004-03-12,South Africa,Nigeria,2,2,CAF Olympic Qualifying Tournament,Pretoria,South Africa,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2004-03-30,Nigeria,South Africa,1,0,CAF Olympic Qualifying Tournament,Abuja,Nigeria,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2004_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2007-07-28,Nigeria,South Africa,5,0,CAF Olympic Qualifying Tournament,Abuja,Nigeria,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2008_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2007-08-12,Ghana,Nigeria,1,0,CAF Olympic Qualifying Tournament,Accra,Ghana,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2008_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2007-08-26,South Africa,Ghana,0,1,CAF Olympic Qualifying Tournament,Pretoria,South Africa,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2008_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2007-12-09,Ghana,South Africa,2,1,CAF Olympic Qualifying Tournament,Accra,Ghana,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2008_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2008-02-16,South Africa,Nigeria,0,1,CAF Olympic Qualifying Tournament,Pretoria,South Africa,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2008_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2008-03-15,Nigeria,Ghana,2,0,CAF Olympic Qualifying Tournament,Abuja,Nigeria,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2008_Summer_Olympics_%E2%80%93_Women%27s_Asian_Qualifiers
+2010-10-02,Botswana,Zambia,1,4,CAF Olympic Qualifying Tournament,Lobatse,Botswana,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2010-10-23,Zambia,Botswana,2,1,CAF Olympic Qualifying Tournament,Lusaka,Zambia,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-01-15,Morocco,Tunisia,0,3,CAF Olympic Qualifying Tournament,El Jadida,Morocco,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-01-29,Tunisia,Morocco,0,1,CAF Olympic Qualifying Tournament,,Tunisia,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-04-02,Cameroon,Equatorial Guinea,0,0,CAF Olympic Qualifying Tournament,,Cameroon,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-04-17,Equatorial Guinea,Cameroon,2,0,CAF Olympic Qualifying Tournament,,Equatorial Guinea,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-04-02,South Africa,Tunisia,1,0,CAF Olympic Qualifying Tournament,,South Africa,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-04-17,Tunisia,South Africa,1,0,CAF Olympic Qualifying Tournament,,Tunisia,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-08-27,Nigeria,Cameroon,2,1,CAF Olympic Qualifying Tournament,Abuja,Nigeria,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-10-22,Cameroon,Nigeria,2,1,CAF Olympic Qualifying Tournament,Yaoundé,Cameroon,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-08-27,South Africa,Ethiopia,3,0,CAF Olympic Qualifying Tournament,Soweto,South Africa,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2011-09-11,Ethiopia,South Africa,1,1,CAF Olympic Qualifying Tournament,Addis Ababa,Ethiopia,FALSE,,https://en.wikipedia.org/wiki/2012_CAF_Women%27s_Olympic_qualifying_tournament
+2010-03-20,Morocco,Senegal,0,1,African Championship qualification,Salé,Morocco,FALSE,,https://en.wikipedia.org/wiki/2010_African_Women%27s_Championship_qualification
+2010-03-20,Sierra Leone,Guinea,1,1,African Championship qualification,Freetown,Sierra Leone,FALSE,,https://en.wikipedia.org/wiki/2010_African_Women%27s_Championship_qualification
+2010-03-20,Tanzania,Ethiopia,1,1,African Championship qualification,Dar es Salaam,Tanzania,FALSE,,https://en.wikipedia.org/wiki/2010_African_Women%27s_Championship_qualification
+2004-06-12,Eritrea,Tanzania,1,1,African Championship qualification,Asmara,Eritrea,FALSE,,https://en.wikipedia.org/wiki/2004_African_Women%27s_Championship_qualification
+2018-04-07,Burkina Faso,Gambia,2,1,Africa Cup of Nations qualification,Ouagadougou,Burkina Faso,FALSE,,https://en.wikipedia.org/wiki/2018_Women%27s_Africa_Cup_of_Nations_qualification
+2018-06-09,Equatorial Guinea,Kenya,2,0,Africa Cup of Nations qualification,Malabo,Equatorial Guinea,FALSE,,https://en.wikipedia.org/wiki/2018_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,Senegal,Mozambique,1,1,Africa Cup of Nations qualification,Thiès,Senegal,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-25,Mozambique,Senegal,1,2,Africa Cup of Nations qualification,Thiès,Senegal,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-20,Egypt,South Sudan,4,0,Africa Cup of Nations qualification,Cairo,Egypt,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-24,South Sudan,Egypt,0,4,Africa Cup of Nations qualification,Cairo,Egypt,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,Central African Republic,Mali,1,7,Africa Cup of Nations qualification,Douala,Cameroon,TRUE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Mali,Central African Republic,3,0,Africa Cup of Nations qualification,Bamako,Mali,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-21,Guinea,Mauritius,8,0,Africa Cup of Nations qualification,Conakry,Guinea,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Mauritius,Guinea,0,3,Africa Cup of Nations qualification,Quatre Bornes,Mauritius,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,Cape Verde,Liberia,3,0,Africa Cup of Nations qualification,Praia,Cape Verde,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Liberia,Cape Verde,2,3,Africa Cup of Nations qualification,Monrovia,Liberia,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-20,Uganda,Algeria,1,2,Africa Cup of Nations qualification,Njeru,Uganda,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Algeria,Uganda,1,1,Africa Cup of Nations qualification,Oran,Algeria,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,Burundi,Ethiopia,1,1,Africa Cup of Nations qualification,Addis Ababa,Ethiopia,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Ethiopia,Burundi,1,1,Africa Cup of Nations qualification,Addis Ababa,Ethiopia,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,DR Congo,Benin,2,1,Africa Cup of Nations qualification,Kinshasa,DR Congo,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Benin,DR Congo,1,2,Africa Cup of Nations qualification,Cotonou,Benin,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,Ivory Coast,Tanzania,2,0,Africa Cup of Nations qualification,Yamoussoukro,Ivory Coast,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Tanzania,Ivory Coast,2,0,Africa Cup of Nations qualification,Dar es Salaam,Tanzania,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,Djibouti,Togo,0,7,Africa Cup of Nations qualification,Lomé,Togo,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Togo,Djibouti,6,0,Africa Cup of Nations qualification,Lomé,Togo,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-20,Rwanda,Ghana,0,7,Africa Cup of Nations qualification,Kigali,Rwanda,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Ghana,Rwanda,5,0,Africa Cup of Nations qualification,Accra,Ghana,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-21,Gambia,Namibia,2,3,Africa Cup of Nations qualification,El Jadida,Morocco,TRUE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-24,Namibia,Gambia,2,0,Africa Cup of Nations qualification,Rabat,Morocco,TRUE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,Cameroon,Kenya,1,0,Africa Cup of Nations qualification,Douala,Cameroon,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Kenya,Cameroon,1,0,Africa Cup of Nations qualification,Nairobi,Kenya,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,Gabon,Botswana,1,4,Africa Cup of Nations qualification,Franceville,Gabon,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Botswana,Gabon,6,0,Africa Cup of Nations qualification,Lobatse,Botswana,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-22,Tunisia,Niger,7,0,Africa Cup of Nations qualification,Soliman,Tunisia,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Niger,Tunisia,1,5,Africa Cup of Nations qualification,Soliman,Tunisia,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-21,Guinea-Bissau,Congo,0,1,Africa Cup of Nations qualification,Bissau,Guinea-Bissau,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Congo,Guinea-Bissau,2,0,Africa Cup of Nations qualification,Brazzaville,Congo,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-20,Eswatini,Burkina Faso,2,3,Africa Cup of Nations qualification,Lobamba,Eswatini,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-09-26,Burkina Faso,Eswatini,3,0,Africa Cup of Nations qualification,Bouaké,Ivory Coast,TRUE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-11-30,Senegal,Egypt,4,0,Africa Cup of Nations qualification,Thiès,Senegal,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-05,Egypt,Senegal,0,0,Africa Cup of Nations qualification,Cairo,Egypt,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-11-30,Mali,Guinea,7,2,Africa Cup of Nations qualification,Bamako,Mali,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-05,Guinea,Mali,0,3,Africa Cup of Nations qualification,Thiès,Senegal,TRUE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-11-30,Nigeria,Cape Verde,5,0,Africa Cup of Nations qualification,Lagos,Nigeria,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-05,Cape Verde,Nigeria,1,2,Africa Cup of Nations qualification,Praia,Cape Verde,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-11-30,Algeria,Burundi,5,1,Africa Cup of Nations qualification,Algiers,Algeria,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-04,Burundi,Algeria,0,1,Africa Cup of Nations qualification,Algiers,Algeria,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-01,Equatorial Guinea,DR Congo,1,1,Africa Cup of Nations qualification,Malabo,Equatorial Guinea,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-05,DR Congo,Equatorial Guinea,2,1,Africa Cup of Nations qualification,Kinshasa,DR Congo,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-11-30,Tanzania,Togo,3,0,Africa Cup of Nations qualification,Dar es Salaam,Tanzania,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-05,Togo,Tanzania,2,0,Africa Cup of Nations qualification,Lomé,Togo,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-01,Ghana,Namibia,3,1,Africa Cup of Nations qualification,Accra,Ghana,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-05,Namibia,Ghana,1,0,Africa Cup of Nations qualification,Pretoria,South Africa,TRUE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-11-29,Kenya,Botswana,1,1,Africa Cup of Nations qualification,Nairobi,Kenya,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-05,Botswana,Kenya,1,0,Africa Cup of Nations qualification,Gaborone,Botswana,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-11-30,Tunisia,Congo,5,2,Africa Cup of Nations qualification,Soliman,Tunisia,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-05,Congo,Tunisia,1,1,Africa Cup of Nations qualification,Brazzaville,Congo,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-11-29,Angola,Zambia,0,6,Africa Cup of Nations qualification,Luanda,Angola,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-05,Zambia,Angola,6,0,Africa Cup of Nations qualification,,Zambia,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-11-30,Burkina Faso,South Africa,1,1,Africa Cup of Nations qualification,Yamoussoukro,Ivory Coast,TRUE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2023-12-04,South Africa,Burkina Faso,2,0,Africa Cup of Nations qualification,Pretoria,South Africa,FALSE,,https://en.wikipedia.org/wiki/2024_Women%27s_Africa_Cup_of_Nations_qualification
+2015-02-22,Madagascar,Botswana,1,3,African Games qualification,Antananarivo,Madagascar,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-03-06,Botswana,Madagascar,0,1,African Games qualification,Gaborone,Botswana,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-03-21,Mali,Nigeria,1,1,African Games qualification,Bamako,Mali,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-04-10,Nigeria,Mali,8,0,African Games qualification,Abuja,Nigeria,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-03-21,Botswana,South Africa,0,1,African Games qualification,Molepolole,Botswana,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-04-11,South Africa,Botswana,5,0,African Games qualification,Johannesburg,South Africa,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-03-21,Ghana,Zimbabwe,2,1,African Games qualification,Accra,Ghana,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-04-12,Zimbabwe,Ghana,2,2,African Games qualification,Harare,Zimbabwe,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-03-22,Zambia,Tanzania,2,4,African Games qualification,Lusaka,Zambia,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-04-10,Tanzania,Zambia,2,3,African Games qualification,Dar es Salaam,Tanzania,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-03-21,Ethiopia,Cameroon,1,2,African Games qualification,Addis Ababa,Ethiopia,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-04-11,Cameroon,Ethiopia,2,1,African Games qualification,Yaoundé,Cameroon,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-03-21,Egypt,Senegal,0,0,African Games qualification,Cairo,Egypt,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2015-04-11,Senegal,Egypt,1,2,African Games qualification,M'Bour,Senegal,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2015_African_Games_%E2%80%93_Women%27s_qualification
+2026-09-14,Taiwan,Vietnam,2,1,Asian Games,Fukuroi,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-14,Japan,Thailand,8,0,Asian Games,Fukuroi,Japan,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-17,Thailand,Taiwan,0,1,Asian Games,Fukuroi,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-17,Vietnam,Japan,0,8,Asian Games,Fukuroi,Japan,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-21,Japan,Taiwan,4,0,Asian Games,Fukuroi,Japan,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-21,Vietnam,Thailand,0,0,Asian Games,Osaka,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-14,North Korea,Bangladesh,10,0,Asian Games,Osaka,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-14,South Korea,Myanmar,5,0,Asian Games,Osaka,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-17,Bangladesh,South Korea,0,6,Asian Games,Osaka,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-17,Myanmar,North Korea,0,8,Asian Games,Osaka,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-21,South Korea,North Korea,1,1,Asian Games,Fukuroi,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-21,Bangladesh,Myanmar,0,0,Asian Games,Osaka,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-14,Philippines,Uzbekistan,1,1,Asian Games,Gifu,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-14,China,Hong Kong,5,1,Asian Games,Gifu,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-17,Uzbekistan,China,1,1,Asian Games,Gifu,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-17,Hong Kong,Philippines,0,2,Asian Games,Gifu,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-21,China,Philippines,5,1,Asian Games,Gifu,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-21,Uzbekistan,Hong Kong,2,1,Asian Games,Kariya,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-25,North Korea,Taiwan,5,1,Asian Games,Fukuroi,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-25,Japan,Philippines,4,0,Asian Games,Fukuroi,Japan,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-25,China,Vietnam,1,0,Asian Games,Osaka,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-25,South Korea,Uzbekistan,6,3,Asian Games,Osaka,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-29,North Korea,China,2,0,Asian Games,Fukuroi,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-09-29,Japan,South Korea,2,0,Asian Games,Fukuroi,Japan,FALSE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-10-02,China,South Korea,0,1,Asian Games,Fukuroi,Japan,TRUE,,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-10-02,North Korea,Japan,2,2,Asian Games,Fukuroi,Japan,FALSE,Japan,https://en.wikipedia.org/wiki/Football_at_the_2026_Asian_Games_%E2%80%93_Women%27s_tournament
+2026-05-25,Bhutan,Nepal,0,1,SAFF Championship,Margao,India,TRUE,,https://en.wikipedia.org/wiki/2026_SAFF_Women%27s_Championship
+2026-05-28,Sri Lanka,Bhutan,0,4,SAFF Championship,Margao,India,TRUE,,https://en.wikipedia.org/wiki/2026_SAFF_Women%27s_Championship
+2026-05-31,Nepal,Sri Lanka,2,0,SAFF Championship,Margao,India,TRUE,,https://en.wikipedia.org/wiki/2026_SAFF_Women%27s_Championship
+2026-05-25,Maldives,India,0,11,SAFF Championship,Margao,India,FALSE,,https://en.wikipedia.org/wiki/2026_SAFF_Women%27s_Championship
+2026-05-28,Bangladesh,Maldives,4,2,SAFF Championship,Margao,India,TRUE,,https://en.wikipedia.org/wiki/2026_SAFF_Women%27s_Championship
+2026-05-31,India,Bangladesh,3,0,SAFF Championship,Margao,India,FALSE,,https://en.wikipedia.org/wiki/2026_SAFF_Women%27s_Championship
+2026-06-03,Nepal,Bangladesh,1,2,SAFF Championship,Margao,India,TRUE,,https://en.wikipedia.org/wiki/2026_SAFF_Women%27s_Championship
+2026-06-03,India,Bhutan,1,0,SAFF Championship,Margao,India,FALSE,,https://en.wikipedia.org/wiki/2026_SAFF_Women%27s_Championship
+2026-06-06,Bangladesh,India,1,3,SAFF Championship,Margao,India,FALSE,,https://en.wikipedia.org/wiki/2026_SAFF_Women%27s_Championship
+2026-02-18,Lesotho,Angola,1,3,COSAFA Championship,Polokwane,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-18,South Africa,Malawi,2,0,COSAFA Championship,Polokwane,South Africa,FALSE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-21,South Africa,Angola,2,0,COSAFA Championship,Seshego,South Africa,FALSE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-21,Malawi,Lesotho,8,1,COSAFA Championship,Seshego,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-24,Angola,Malawi,0,1,COSAFA Championship,Polokwane,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-24,South Africa,Lesotho,1,1,COSAFA Championship,Seshego,South Africa,FALSE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-19,Eswatini,Zimbabwe,0,2,COSAFA Championship,Polokwane,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-19,Zambia,Botswana,3,0,COSAFA Championship,Polokwane,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-22,Botswana,Eswatini,1,1,COSAFA Championship,Seshego,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-22,Zambia,Zimbabwe,0,0,COSAFA Championship,Seshego,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-24,Zimbabwe,Botswana,1,0,COSAFA Championship,Seshego,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-24,Zambia,Eswatini,2,1,COSAFA Championship,Polokwane,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-20,Mozambique,Namibia,0,2,COSAFA Championship,Polokwane,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-23,Namibia,Madagascar,0,1,COSAFA Championship,Seshego,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-25,Mozambique,Madagascar,2,0,COSAFA Championship,Polokwane,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-27,Zambia,Namibia,0,1,COSAFA Championship,Polokwane,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-02-27,South Africa,Zimbabwe,1,1,COSAFA Championship,Polokwane,South Africa,FALSE,South Africa,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-03-01,Zambia,Zimbabwe,3,1,COSAFA Championship,Polokwane,South Africa,TRUE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-03-01,Namibia,South Africa,2,1,COSAFA Championship,Polokwane,South Africa,FALSE,,https://en.wikipedia.org/wiki/2026_COSAFA_Women%27s_Championship
+2026-07-10,Laos,Malaysia,1,1,AFF Women's Cup,Kuala Lumpur,Malaysia,FALSE,,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup
+2026-07-13,Singapore,Laos,1,1,AFF Women's Cup,Kuala Lumpur,Malaysia,TRUE,,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup
+2026-07-16,Malaysia,Singapore,1,3,AFF Women's Cup,Kuala Lumpur,Malaysia,FALSE,,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup
+2026-07-10,Timor-Leste,Indonesia,0,2,AFF Women's Cup,Kuala Lumpur,Malaysia,TRUE,,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup
+2026-07-13,Cambodia,Timor-Leste,3,1,AFF Women's Cup,Kuala Lumpur,Malaysia,TRUE,,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup
+2026-07-16,Indonesia,Cambodia,1,1,AFF Women's Cup,Kuala Lumpur,Malaysia,TRUE,,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup
+2026-07-19,Cambodia,Laos,0,1,AFF Women's Cup,Kuala Lumpur,Malaysia,TRUE,,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup
+2026-07-19,Singapore,Indonesia,0,2,AFF Women's Cup,Kuala Lumpur,Malaysia,TRUE,,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup
+2026-07-22,Cambodia,Singapore,1,1,AFF Women's Cup,Kuala Lumpur,Malaysia,TRUE,Singapore,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup
+2026-07-22,Laos,Indonesia,0,5,AFF Women's Cup,Kuala Lumpur,Malaysia,TRUE,,https://en.wikipedia.org/wiki/2026_AFF_Women%27s_Cup

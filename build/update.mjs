@@ -26,6 +26,7 @@ import {fileURLToPath} from 'node:url';
 import {parseCSV, toCSV} from './lib/csv.mjs';
 import {makeTeamMatcher, makeTournamentMapper, archiveCountry} from './lib/names.mjs';
 import {wikiVenues} from './lib/wikivenues.mjs';
+import {wikiResults} from './lib/wikiresults.mjs';
 import {makeClient, mapFixture, planStatus, isFreePlan} from './lib/apifootball.mjs';
 import {loadModel} from './lib/model.mjs';
 import {survey as clubSurvey} from './lib/clubsurvey.mjs';
@@ -59,6 +60,22 @@ async function readArchive(g, file){
 
 /* Archive pair key: the same two teams, either way round. */
 const pairKey = (a, b) => [a, b].sort().join('|');
+
+/* Results added by hand (build/store/manual-<g>.csv), for matches neither the archive nor API-Football has, such as the
+   2024 CONCACAF W Gold Cup, missing from the women's archive. Columns as the archive's, plus shootout_winner and source
+   (where the result was checked). A row the archive or the gap-filler already holds (the same two teams within two
+   days) is skipped, so a match the archive adds later never counts twice. */
+export function manualRows(manual, rows){
+  const seen = new Map();
+  for (const r of rows){ const k = pairKey(r.home_team, r.away_team); if (!seen.has(k)) seen.set(k, []); seen.get(k).push(dayNum(r.date)); }
+  return manual.filter(r => { const ds = seen.get(pairKey(r.home_team, r.away_team)), d = dayNum(r.date);
+    return !(ds && ds.some(x => Math.abs(x - d) <= 2)); });
+}
+/* Women's results found on Wikipedia by the nightly run (see lib/wikiresults.mjs): kept in build/store/wikifill-women.csv,
+   with the page each came from and the day it was found. Like hand-added rows, a row the archive, the gap-filler or the
+   hand-added file holds (the same two teams within two days) drops out. */
+export const WIKI_COLS = ['date','home_team','away_team','home_score','away_score','tournament','city','country','neutral','shootout_winner','source','found'];
+const readStoreCSV = f => fs.existsSync(f) ? parseCSV(fs.readFileSync(f, 'utf8')) : [];
 
 /* Gap-filler rows that the archive now covers are dropped: the same two teams within two days, or anything a
    week or more before the archive's last match (by then the archive is the record). */
@@ -143,10 +160,10 @@ export function compact(g, rows, shootouts, former, meta){
   rows = rows.slice().sort((x, y) => x.date < y.date ? -1 : x.date > y.date ? 1 : 0);
   let prev = 0;
   const m = rows.map(r => { const d = dayNum(r.date), gap = d - prev; prev = d; return [gap, sid(r.home_team), sid(r.away_team), +r.home_score, +r.away_score, sid(r.tournament),
-    String(r.neutral).toUpperCase() === 'TRUE' ? 1 : 0, sid(r.city), sid(r.country), r.src === 'gapfill' ? 1 : 0]; });
+    String(r.neutral).toUpperCase() === 'TRUE' ? 1 : 0, sid(r.city), sid(r.country), r.src === 'gapfill' ? 1 : r.src === 'manual' ? 2 : r.src === 'wiki' ? 3 : 0]; });
   const so = shootouts.map(r => [dayNum(r.date), sid(r.home_team), sid(r.away_team), sid(r.winner)]);
   const fm = (former || []).map(r => [r.current, r.former, r.start_date, r.end_date]);
-  return {v:1, gender:g, built:meta.built, archive:meta.archive, gapfill:meta.gapfill, s:S, m, so, former:fm};
+  return {v:1, gender:g, built:meta.built, archive:meta.archive, gapfill:meta.gapfill, ...(meta.manual ? {manual:meta.manual} : {}), ...(meta.wiki ? {wiki:meta.wiki} : {}), s:S, m, so, former:fm};
 }
 
 /* Requests allowed this run and the pause between them, from the plan. */
@@ -285,12 +302,12 @@ export async function run(){
   }
 
   // 2b. Wikipedia, for fixtures in the next 30 days that still have no venue (full runs only; never fatal)
+  const wcache = readJSON(path.join(STORE, 'wiki-venues.json'), {});
   if (mode === 'full' && process.env.WIKI_VENUES !== '0'){
     const horizon = iso(dayNum(today) * DAY + 30 * DAY);
     const apiFx = Object.values(fixturesStore).filter(r => !r.wikiOnly);
     const open = apiFx.filter(r => r.date >= today && r.date <= horizon && !r.tbd &&
       ['assumed', 'event', 'wiki'].includes(placeRow({...r, wiki:null}, venues, cities).venue_src));
-    const wcache = readJSON(path.join(STORE, 'wiki-venues.json'), {});
     const archTeams = {men:new Set(), women:new Set()};
     for (const g of ['men', 'women']) for (const r of A[g]) if (r.date >= '2018-01-01'){ archTeams[g].add(r.home_team); archTeams[g].add(r.away_team); }
     try {
@@ -307,8 +324,25 @@ export async function run(){
       }
       status.wiki = {open:open.length, ...W.stats};
     } catch(e){ status.wiki = {error:e.message}; }
-    writeJSON(path.join(STORE, 'wiki-venues.json'), wcache, true);
   }
+
+  // 2c. Wikipedia, for women's results that neither the archive nor API-Football has (full runs only; never fatal).
+  // Small teams' friendlies (Libreville, November 2026) are on their Wikipedia pages within a day.
+  const wikiFill = {women:readStoreCSV(path.join(STORE, 'wikifill-women.csv'))};
+  const manualOf = g => readStoreCSV(path.join(STORE, 'manual-' + g + '.csv'));
+  if (mode === 'full' && process.env.WIKI_RESULTS !== '0'){
+    try {
+      const tours = new Set(A.women.map(r => r.tournament)), mapT = makeTournamentMapper({men:new Set(), women:tours});
+      const known = A.women.concat(gap.women, manualOf('women'), wikiFill.women);
+      const R = await wikiResults({g:'women', known, teams:new Set(A.women.flatMap(r => [r.home_team, r.away_team])), cache:wcache, today,
+        cities, cityKey, toArchive:archiveCountry, mapTournament:mapT, tournaments:tours, pauseMs:+(process.env.WIKI_PAUSE_MS || 400), log: m => console.log(m),
+        fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_RESULTS_LIMIT || 90)});
+      wikiFill.women = wikiFill.women.concat(R.rows.map(r => ({...r, found:today})));
+      status.wikiResults = R.stats;
+      if (R.rows.length) console.log('Wikipedia results: added ' + R.rows.map(r => r.date + ' ' + r.home_team + ' ' + r.home_score + '-' + r.away_score + ' ' + r.away_team).join('; '));
+    } catch(e){ status.wikiResults = {error:e.message}; }
+  }
+  writeJSON(path.join(STORE, 'wiki-venues.json'), wcache, true);
 
   // 3. Merge, write
   const fixtures = {built, men:[], women:[]};
@@ -335,10 +369,15 @@ export async function run(){
     gap[g] = prune(gap[g].map(r => placeRow(r, venues, cities)), A[g]).sort((a, b) => a.date < b.date ? -1 : 1);
     fs.mkdirSync(STORE, {recursive:true});
     fs.writeFileSync(path.join(STORE, 'gapfill-' + g + '.csv'), toCSV(gap[g], GAP_COLS));
-    const rows = A[g].map(r => ({...r, src:'archive'})).concat(gap[g].map(r => ({...r, src:'gapfill'})));
-    const so = SO[g].concat(gap[g].filter(r => r.shootout_winner).map(r => ({date:r.date, home_team:r.home_team, away_team:r.away_team, winner:r.shootout_winner})));
+    const manual = manualRows(manualOf(g), A[g].concat(gap[g]));
+    const wiki = wikiFill[g] ? manualRows(wikiFill[g], A[g].concat(gap[g], manual)) : [];
+    if (wikiFill[g]) fs.writeFileSync(path.join(STORE, 'wikifill-' + g + '.csv'), toCSV(wiki, WIKI_COLS));
+    const rows = A[g].map(r => ({...r, src:'archive'})).concat(gap[g].map(r => ({...r, src:'gapfill'})), manual.map(r => ({...r, src:'manual'})),
+      wiki.map(r => ({...r, src:'wiki'})));
+    const so = SO[g].concat(gap[g].concat(manual, wiki).filter(r => r.shootout_winner).map(r => ({date:r.date, home_team:r.home_team, away_team:r.away_team, winner:r.shootout_winner})));
     const meta = {built, archive:{end:ends[g], rows:A[g].length},
-      gapfill:{rows:gap[g].length, from:gap[g].length ? gap[g][0].date : null, to:gap[g].length ? gap[g][gap[g].length - 1].date : null}};
+      gapfill:{rows:gap[g].length, from:gap[g].length ? gap[g][0].date : null, to:gap[g].length ? gap[g][gap[g].length - 1].date : null},
+      manual:{rows:manual.length}, ...(wikiFill[g] ? {wiki:{rows:wiki.length, latest:wiki.length ? wiki[wiki.length - 1].date : null}} : {})};
     writeIfChanged(path.join(DATA, g + '.json'), compact(g, rows, so, former, meta));
     status[g] = {...meta, fixtures:fixtures[g].length};
   }

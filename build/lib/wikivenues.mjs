@@ -134,7 +134,7 @@ const WIKI_TEAM = {
 export const baseName = title => title.replace(/ (men's |women's )?national (football|soccer) team$/i, '').trim();
 /* Which of these titles exist, after normalising and redirects: Map requested title -> the article's title. 50 titles
    per request, as Wikipedia allows. */
-async function existing(fetchImpl, titles, stats){
+export async function existing(fetchImpl, titles, stats){
   const out = new Map();
   for (let i = 0; i < titles.length; i += 50){
     const chunk = titles.slice(i, i + 50); stats.asked++;
@@ -148,8 +148,10 @@ async function existing(fetchImpl, titles, stats){
 /* The results article for each team not looked up recently, without a search where possible: Wikipedia's name comes
    from the team's main article (redirects followed: Taiwan -> Chinese Taipei), then the usual results titles are
    tried in order, 2020–present first. A search is the fallback, for at most ten teams a run. */
-async function resolveTitles(fetchImpl, keys, cache, today, stats, limit){
-  const need = keys.filter(k => { const T = cache.titles[k]; return !T || dayDiff(T.checked, today) > (T.title ? 90 : 30); });
+export async function resolveTitles(fetchImpl, keys, cache, today, stats, limit){
+  /* main: the team's main article, where smaller teams list their recent results (see wikiresults.mjs). Entries from
+     before it was kept are looked up again once. */
+  const need = keys.filter(k => { const T = cache.titles[k]; return !T || T.main === undefined || dayDiff(T.checked, today) > (T.title ? 90 : 30); });
   if (!need.length) return;
   const mains = new Map(need.map(k => { const [g, team] = k.split('|'), w = g === 'women';
     return [k, [WIKI_TEAM[g][team], team + (w ? " women's" : '') + ' national football team', team + (w ? " women's" : " men's") + ' national soccer team'].filter(Boolean)]; }));
@@ -172,7 +174,7 @@ async function resolveTitles(fetchImpl, keys, cache, today, stats, limit){
       const end = t => { const m = t.match(/(\d{4})\)$/) || t.match(/–(\d{2})\)$/); return m ? +m[1] : 0; };
       title = hits.find(t => /present/i.test(t)) || hits.find(t => !/\(/.test(t)) || hits.sort((a, b) => end(b) - end(a))[0] || '';
     }
-    cache.titles[k] = {title, name:names.get(k), checked:today};
+    cache.titles[k] = {title, name:names.get(k), main:mains.get(k).map(t => M.get(t)).find(Boolean) || '', checked:today};
   }
 }
 /* The competition key for a fixture: gender, tournament, year. */
@@ -194,7 +196,7 @@ export function compTitles(titles, tour, year, women){
   return titles.filter(t => seasons.some(s => t.startsWith(s + ' ')) && has(t) && /women/i.test(t) === !!women)
     .filter(t => (!/qualification/i.test(t) || qual) && (!YOUTH.test(t) || YOUTH.test(tour))).slice(0, 6);
 }
-async function api(fetchImpl, q){
+export async function api(fetchImpl, q){
   const res = await fetchImpl(API + '?' + new URLSearchParams({format:'json', formatversion:'2', ...q}), {headers:{'User-Agent':UA}});
   if (!res.ok) throw new Error('Wikipedia HTTP ' + res.status);
   return res.json();
