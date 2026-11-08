@@ -4,11 +4,35 @@
 (() => {
 const S = {};
 const pct = x => Math.round(x * 100);
+/* The flag as an emoji, for post text. Always the flag of the country the side belongs to today (Iran in 1976 gets
+   today's Iranian flag; Zaïre gets DR Congo's), since emoji only exist for today's flags. A country that no longer
+   exists (the Soviet Union, Yugoslavia, East Germany…) gets a blank white flag. Names the site files as defunct but
+   which are the same country under an older name, or the colony it grew from, keep the country's flag. */
+const RENAMED = new Set(['West Germany', 'Zaïre', 'Zaire', 'Congo DR', 'Congo-Kinshasa', 'Congo-Léopoldville', 'Belgian Congo', 'Upper Volta',
+  'Dahomey', 'Swaziland', 'Northern Rhodesia', 'Nyasaland', 'Tanganyika', 'Gold Coast', 'French Somaliland', 'Bechuanaland', 'Basutoland',
+  'Portuguese Guinea', 'Burma', 'Ceylon', 'Malaya', 'Dutch East Indies', 'Formosa', 'Kampuchea', 'Brunei Darussalam', 'Western Samoa',
+  'New Hebrides', 'British Honduras', 'Dutch Guiana', 'Dutch Guyana', 'British Guiana', 'Irish Free State', 'Éire', 'Eire']);
+const BLANK_FLAG = '\u{1F3F3}\u{FE0F}';
+const TAGFLAG = {'gb-eng':'gbeng', 'gb-sct':'gbsct', 'gb-wls':'gbwls'};
+const flagEmoji = team => {
+  try {
+    const name = archiveName(team);
+    if (!RENAMED.has(name) && !RENAMED.has(team) && (infoFor(name).defunct || infoFor(team).defunct)) return BLANK_FLAG;
+    const key = keyOfName(name);
+    if (key && key !== name && !RENAMED.has(name) && infoFor(key).defunct) return BLANK_FLAG;
+    const f = flagOf(key ? dn(key) : team, Date.UTC(2100, 0, 1));
+    const code = f && f.file ? String(f.file).toLowerCase() : '';
+    if (/^[a-z]{2}$/.test(code) && code !== 'xk') return [...code.toUpperCase()].map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join('');
+    if (TAGFLAG[code]) return '\u{1F3F4}' + [...TAGFLAG[code]].map(c => String.fromCodePoint(0xE0000 + c.charCodeAt(0))).join('') + '\u{E007F}';
+  } catch(e){}
+  return '';
+};
 const flagSrc = (team, ts) => {
   const h = flagTrue(team, ts == null ? null : ts) || '';
   const m = /src="([^"]+)"/.exec(h), ar = /--ar:([\d.]+)/.exec(h);
-  return m ? {src:new URL(m[1].replace(/&amp;/g, '&'), location.href).href, ar:ar ? +ar[1] : 1.5} : null;
+  return m ? {src:new URL(m[1].replace(/&amp;/g, '&'), location.href).href, ar:ar ? +ar[1] : 1.5, emo:flagEmoji(team)} : {src:null, emo:flagEmoji(team)};
 };
+const emo = team => flagEmoji(team);
 async function useG(g){
   state.gender = g; state.cache = {key:null};
   state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.confs = new Set();
@@ -70,7 +94,12 @@ S.match = async ({now}) => {
   if (!out.length) return null;
   out.sort((a, b) => a.score - b.score);
   const t = out[0]; await useG(t.g);
-  const rec = pairRecord(t.g, t.kh, t.ka);
+  const rec = pairRecord(t.g, t.kh, t.ka), c = getRatings();
+  const form = key => (c.history.get(key) || []).slice(-5).reverse().map(x => ({date:fmtDate(x.ts), year:new Date(x.ts).getUTCFullYear(),
+    opp:x.oppName, oppFlag:flagSrc(x.opp, x.ts), gf:x.gf, ga:x.ga, r:res(x.gf, x.ga), comp:compName(x.tournament)}));
+  const yearAgo = state.asOf - 365 * 864e5, chg = key => { const h = c.history.get(key) || [], b = h.filter(x => x.ts <= yearAgo).pop(), r = c.byKey.get(key);
+    return b && r ? Math.round(r.rating - b.rating) : null; };
+  t.A.form = form(t.kh); t.B.form = form(t.ka); t.A.change = chg(t.kh); t.B.change = chg(t.ka);
   return {type:'match', g:t.g, id:'match|' + t.g + '|' + t.fx.date + '|' + t.fx.home + '|' + t.fx.away,
     home:t.A, away:t.B, comp:compName(t.fx.tournament), date:t.fx.date, kickoff:t.fx.kickoff, city:t.fx.city, country:t.fx.country,
     neutral:t.fx.neutral, day:dayTxt(Date.parse(t.fx.kickoff || t.fx.date + 'T12:00:00Z')), pr:t.pr,
@@ -102,7 +131,16 @@ S.spotlight = async ({now, used}) => {
   const rival = rivalKey ? Object.assign({opp:dn(rivalKey[0]), oppFlag:flagSrc(rivalKey[0])}, (({n, w, d, l}) => ({n, w, d, l}))(pairRecord(pick.g, pick.key, rivalKey[0]))) : null;
   const nf = nextFixtures(pick.g).find(x => keyOfName(x.home) === pick.key || keyOfName(x.away) === pick.key);
   const next = nf ? {home:dn(nf.home), away:dn(nf.away), comp:compName(nf.tournament), day:dayTxt(Date.parse(nf.kickoff || nf.date + 'T12:00:00Z')), date:nf.date, pr:predictFx(c, nf)} : null;
-  return {type:'spotlight', g:pick.g, id:'spotlight|' + pick.g + '|' + pick.key, team:info,
+  /* Rating over time, one point a month (the last rating in each month), for the chart slide. It starts five years into
+     the rating window: every team starts the window level, so the first years are still settling (the top twenty's
+     average only steadies about five years in). */
+  const from = Math.max(state.asOf - 10 * 365.25 * 864e5, windowStartTs() + 5 * 365.25 * 864e5), pts = [];
+  let lastM = '';
+  for (const x of hist){ if (x.ts < from) continue; const mk = fmtDate(x.ts).slice(0, 7);
+    if (mk === lastM) pts[pts.length - 1] = {ts:x.ts, r:Math.round(x.rating)}; else { pts.push({ts:x.ts, r:Math.round(x.rating)}); lastM = mk; } }
+  const peak = pts.length ? pts.reduce((a, b) => b.r > a.r ? b : a) : null, low = pts.length ? pts.reduce((a, b) => b.r < a.r ? b : a) : null;
+  const chart = pts.length >= 6 ? {pts, from, to:state.asOf, peak:{...peak, date:fmtDate(peak.ts)}, low:{...low, date:fmtDate(low.ts)}} : null;
+  return {type:'spotlight', g:pick.g, id:'spotlight|' + pick.g + '|' + pick.key, team:info, chart,
     change:before ? Math.round(info.rating - before.rating) : null, played:hist.filter(x => x.ts > yearAgo).length, last5, rival, next};
 };
 
@@ -175,9 +213,20 @@ S.rivalry = async ({now, used}) => {
   } else await useG(pick.g);
   const c = getRatings(), r = pick.rec;
   const big = side => { let b = null; r.meets.forEach(x => { const mg = side * (x.s1 - x.s2); if (mg > 0 && (!b || mg > b.mg)) b = Object.assign({mg}, x); }); return b; };
+  /* Decade by decade, and their meetings at the big tournaments (finals only, not qualifiers). */
+  const dec = new Map();
+  r.meets.forEach(x => { const k = Math.floor(x.year / 10) * 10; if (!dec.has(k)) dec.set(k, {dec:k, n:0, w:0, d:0, l:0}); const D = dec.get(k);
+    D.n++; if (x.r > 0) D.w++; else if (x.r < 0) D.l++; else D.d++; });
+  getEditions(pick.g);
+  const BIGT = MAJOR.concat(['Olympic Games', 'Confederations Cup']);
+  const finals = [];
+  for (const m of state.matches[pick.g]){ if (!includeMatch(m)) continue; namesFor(m);
+    if (!((m._h === pick.kh && m._a === pick.ka) || (m._h === pick.ka && m._a === pick.kh)) || !BIGT.includes(m.tournament)) continue;
+    const ed = m._ed, st = ed ? (matchStages(ed).get(m) || '') : '', pen = shootoutWinner(m);
+    finals.push({year:new Date(m.ts).getUTCFullYear(), comp:compName(m.tournament), stage:st, home:m._hn, away:m._an, hs:m.hs, as:m.as, pen:pen ? dn(pen) : null}); }
   return {type:'rivalry', g:pick.g, id:pick.id, a:teamInfo(c, pick.kh, pick.g) || {team:dn(pick.kh), flag:flagSrc(pick.kh)},
     b:teamInfo(c, pick.ka, pick.g) || {team:dn(pick.ka), flag:flagSrc(pick.ka)},
-    n:r.n, w:r.w, d:r.d, l:r.l, gf:r.gf, ga:r.ga, first:r.meets[0], last:r.meets[r.n - 1], bigA:big(1), bigB:big(-1),
+    n:r.n, w:r.w, d:r.d, l:r.l, gf:r.gf, ga:r.ga, decades:[...dec.values()].sort((a, b) => a.dec - b.dec), finals, first:r.meets[0], last:r.meets[r.n - 1], bigA:big(1), bigB:big(-1),
     next:pick.fx ? {home:dn(pick.fx.home), away:dn(pick.fx.away), day:dayTxt(Date.parse(pick.fx.kickoff || pick.fx.date + 'T12:00:00Z')),
       comp:compName(pick.fx.tournament), date:pick.fx.date, pr:predictFx(c, pick.fx)} : null};
 };
@@ -219,21 +268,51 @@ S.pastTournament = async ({now, used}) => {
   const e = t.e, fin = t.fin; namesFor(fin);
   const pen = shootoutWinner(fin), champ = fin.hs > fin.as ? fin.home : fin.hs < fin.as ? fin.away : pen;
   const ckey = keyOfName(champ);
-  let w = 0, dd = 0, l = 0, gf = 0, ga = 0, upset = null;
+  let w = 0, dd = 0, l = 0, gf = 0, ga = 0;
+  const st = matchStages(e), road = [], ups = [];
   for (const m of e.matches){
     namesFor(m);
-    const x = pubDay(m.ts).get(m), p = x ? probsFromE(x.expHome) : null;
+    const x = pubDay(m.ts).get(m), p = x ? probsFromE(x.expHome) : null, mpen = shootoutWinner(m);
     if (m._h === ckey || m._a === ckey){ const h = m._h === ckey, s1 = h ? m.hs : m.as, s2 = h ? m.as : m.hs;
-      if (s1 > s2) w++; else if (s1 < s2) l++; else dd++; gf += s1; ga += s2; }
-    if (p && m.hs !== m.as){ const wp = m.hs > m.as ? p.home : p.away;
-      if (!upset || wp < upset.wp) upset = {wp, home:m._hn, away:m._an, hs:m.hs, as:m.as, winner:m.hs > m.as ? m._hn : m._an, stage:matchStages(e).get(m) || ''}; }
+      if (s1 > s2) w++; else if (s1 < s2) l++; else dd++; gf += s1; ga += s2;
+      const opp = h ? m.away : m.home, wp = p ? (h ? p.home : p.away) : null;
+      road.push({stage:st.get(m) || '', date:fmtDate(m.ts), opp:h ? m._an : m._hn, oppFlag:flagSrc(opp, m.ts), oppEmo:emo(opp, m.ts), gf:s1, ga:s2,
+        r:s1 > s2 ? 'W' : s1 < s2 ? 'L' : mpen ? (keyOfName(mpen) === ckey ? 'W' : 'L') : 'D', pen:!!mpen, wp:wp == null ? null : pct(wp)}); }
+    /* Upsets: a winner given under 35% before kick-off (a shoot-out doesn't count). */
+    if (p && m.hs !== m.as){ const wp = m.hs > m.as ? p.home : p.away, win = m.hs > m.as ? m.home : m.away, lose = m.hs > m.as ? m.away : m.home;
+      if (wp < 0.35) ups.push({wp, home:m._hn, away:m._an, hs:m.hs, as:m.as, winner:m.hs > m.as ? m._hn : m._an, loser:m.hs > m.as ? m._an : m._hn,
+        winFlag:flagSrc(win, m.ts), loseFlag:flagSrc(lose, m.ts), winEmo:emo(win, m.ts), stage:st.get(m) || '', date:fmtDate(m.ts)}); }
   }
+  ups.sort((a, b) => a.wp - b.wp);
+  const upset = ups[0] || null;
+  /* Who took part: the groups of the first group phase, in final order, else every team by confederation. */
+  const fmt = editionFormat(e), nameAt = new Map();
+  e.matches.forEach(m => { if (!nameAt.has(m._h)) nameAt.set(m._h, m.home); if (!nameAt.has(m._a)) nameAt.set(m._a, m.away); });
+  const tm = k => ({name:dn(nameAt.get(k) || k), flag:flagSrc(nameAt.get(k) || k, e.start), champ:k === ckey});
+  let groups = null;
+  if (fmt.ok && fmt.phases && fmt.phases.length){
+    const ph = fmt.phases[0];
+    groups = ph.groups.map((gp, gi) => { const T = new Map(gp.map(k => [k, {k, p:0, gd:0, gf:0}]));
+      for (const m of ph.matches[gi]){ const A = T.get(m._h), B = T.get(m._a); if (!A || !B) continue;
+        A.gf += m.hs; B.gf += m.as; A.gd += m.hs - m.as; B.gd += m.as - m.hs;
+        if (m.hs > m.as) A.p += 3; else if (m.hs < m.as) B.p += 3; else { A.p++; B.p++; } }
+      return [...T.values()].sort((a, b) => b.p - a.p || b.gd - a.gd || b.gf - a.gf).map(r => tm(r.k)); });
+    if (groups.some(gp => gp.length < 2)) groups = null;
+  }
+  /* Sides that skipped the group stage (holders or hosts given a bye) are listed apart. */
+  const inGroups = new Set(groups ? groups.flat().map(t => t.name) : []);
+  const byes = groups ? [...nameAt.keys()].map(tm).filter(t => !inGroups.has(t.name)) : [];
+  let byConf = null;
+  if (!groups){ const C = new Map();
+    for (const k of new Set([...nameAt.keys()])){ const i0 = infoFor(k), cf = confName(i0.conf === 'UNKNOWN' ? '' : poolOf(k, e.start)) || 'Other'; if (!C.has(cf)) C.set(cf, []); C.get(cf).push(tm(k)); }
+    byConf = [...C.entries()].sort((a, b) => b[1].length - a[1].length).map(([conf, teams]) => ({conf, teams:teams.sort((a, b) => a.name.localeCompare(b.name))})); }
   const hostCount = {}; e.matches.forEach(m => { if (m.country) hostCount[m.country] = (hostCount[m.country] || 0) + 1; });
   const host = Object.keys(hostCount).sort((a, b) => hostCount[b] - hostCount[a])[0] || '';
   return {type:'past', g:t.g, id:t.id, tournament:compName(e.tournament), label:e.label, host, teams:e.teams.size,
     champ:{name:dn(champ), flag:flagSrc(champ, fin.ts)}, final:{home:fin._hn, away:fin._an, hs:fin.hs, as:fin.as, pen:pen ? dn(pen) : null,
       city:fin.city, date:fmtDate(fin.ts), homeFlag:flagSrc(fin.home, fin.ts), awayFlag:flagSrc(fin.away, fin.ts)},
-    record:{w, d:dd, l, gf, ga}, upset:upset ? Object.assign(upset, {wp:pct(upset.wp)}) : null};
+    champEmo:emo(champ, fin.ts), record:{w, d:dd, l, gf, ga}, upset:upset ? Object.assign({}, upset, {wp:pct(upset.wp)}) : null,
+    upsets:ups.slice(0, 4).map(u => Object.assign({}, u, {wp:pct(u.wp)})), road, groups, byes, byConf};
 };
 
 /* 7. Rankings: the top ten (men and women in alternate weeks) and the month's biggest movers in the top 60. */
@@ -245,6 +324,7 @@ S.rankings = async ({now}) => {
   moves.sort((a, b) => b.d - a.d);
   return {type:'rankings', g, id:'rankings|' + g + '|' + fmtDate(state.asOf), asOf:fmtDay(state.asOf),
     top:c.table.slice(0, 10).map(r => ({team:r.team, flag:flagSrc(r.team), rating:Math.round(r.rating), rank:r.rank})),
+    next:c.table.slice(10, 20).map(r => ({team:r.team, flag:flagSrc(r.team), rating:Math.round(r.rating), rank:r.rank})),
     up:moves.slice(0, 3), down:moves.slice(-3).reverse().filter(x => x.d < 0)};
 };
 
