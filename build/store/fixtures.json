@@ -4851,5 +4851,23 @@
    "kickoff": "2026-11-18T03:00:00+00:00"
   },
   "venue_src": "city"
+ },
+ "1649561": {
+  "date": "2026-11-10",
+  "kickoff": "2026-11-10T10:00:00+00:00",
+  "home_team": "Gabon",
+  "away_team": "Chad",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Gabon",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1649561,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "venue_src": "assumed"
  }
 }
