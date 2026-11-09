@@ -1,11 +1,11 @@
 {
- "built": "2026-11-09T09:44:46.847Z",
+ "built": "2026-11-09T10:43:46.996Z",
  "today": "2026-11-09",
  "mode": "light",
  "api": {
   "keyPresent": true,
   "used": 3,
-  "remaining": 7414,
+  "remaining": 7411,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 82,
+   "usedTodayBeforeRun": 85,
    "perMinute": 300
   },
   "paid": true,
@@ -28,7 +28,7 @@
   "domestic": 1416,
   "youth": 18,
   "not counted": 8,
-  "clubs": 8
+  "clubs": 1
  },
  "seen": {
   "men": {
@@ -41,7 +41,7 @@
   }
  },
  "men": {
-  "built": "2026-11-09T09:44:46.847Z",
+  "built": "2026-11-09T10:43:46.996Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
@@ -57,7 +57,7 @@
   "fixtures": 173
  },
  "women": {
-  "built": "2026-11-09T09:44:46.847Z",
+  "built": "2026-11-09T10:43:46.996Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
