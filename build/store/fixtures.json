@@ -4483,24 +4483,6 @@
   },
   "venue_src": "city"
  },
- "1648994": {
-  "date": "2026-11-10",
-  "kickoff": "2026-11-10T12:15:00+00:00",
-  "home_team": "Congo",
-  "away_team": "Central African Republic",
-  "tournament": "Friendly",
-  "city": "",
-  "country": "Congo",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1648994,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "venue_src": "assumed"
- },
  "1648995": {
   "date": "2026-11-27",
   "kickoff": "2026-11-27T16:00:00+00:00",
@@ -4969,24 +4951,6 @@
   "tbc": "",
   "gender": "men",
   "wiki": null,
-  "venue_src": "assumed"
- },
- "1649561": {
-  "date": "2026-11-10",
-  "kickoff": "2026-11-10T14:30:00+00:00",
-  "home_team": "Gabon",
-  "away_team": "Chad",
-  "tournament": "Friendly",
-  "city": "",
-  "country": "Gabon",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1649561,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
   "venue_src": "assumed"
  }
 }
