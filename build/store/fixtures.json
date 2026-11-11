@@ -3917,24 +3917,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1647357": {
-  "date": "2026-11-11",
-  "kickoff": "2026-11-11T12:00:00+00:00",
-  "home_team": "Vietnam",
-  "away_team": "Taiwan",
-  "tournament": "Friendly",
-  "city": "",
-  "country": "Vietnam",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647357,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "assumed"
- },
  "1647358": {
   "date": "2026-11-12",
   "kickoff": "2026-11-12T15:00:00+00:00",
