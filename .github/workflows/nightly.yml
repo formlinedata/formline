@@ -33,6 +33,12 @@ jobs:
           APIFOOTBALL_KEY: ${{ secrets.APIFOOTBALL_KEY }}
           API_BUDGET: ${{ vars.API_BUDGET || '80' }}
         run: node build/update.mjs
+      - name: Upset alerts on Bluesky
+        continue-on-error: true
+        env:
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
+        run: node build/upset-alerts.mjs
       - name: Share image with today's top five
         if: env.RUN_MODE == 'full'
         continue-on-error: true

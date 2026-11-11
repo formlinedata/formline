@@ -1,22 +1,22 @@
 name: Daily social post
 # Morning: make today's post (build/social.mjs), keep it on the social-queue branch, and open a review issue with the
-# Instagram slides, the caption and an X version to post by hand. On international-window days a second, afternoon post
-# is made at the same time (SOCIAL_SLOT=b) with its own review issue. Later: post each one to Bluesky and Instagram
-# unless its issue was closed (build/social-publish.mjs). Late on window days, a results roundup goes straight to
-# Bluesky (no review issue). Times are UTC: 10:27 is 5:27 am in Toronto in winter, 14:07 is 9:07 am, 20:07 is 3:07 pm
-# and 04:07 is 11:07 pm the evening before (an hour later in summer).
+# Instagram slides, the caption and an X version to post by hand. On international-window days two more posts are made
+# at the same time, each with its own review issue: the results roundup of the day before (SOCIAL_SLOT=c) and a second
+# post, usually another match preview (SOCIAL_SLOT=b). Later: post each one to Bluesky and Instagram unless its issue
+# was closed (build/social-publish.mjs). Times are UTC: 10:27 is 5:27 am in Toronto in winter, 14:07 is 9:07 am (the
+# day's post), 20:07 is 3:07 pm (results) and 23:07 is 6:07 pm (evening post); an hour later in summer.
 on:
   schedule:
     - cron: '27 10 * * *'
     - cron: '7 14 * * *'
     - cron: '7 20 * * *'
-    - cron: '7 4 * * *'
+    - cron: '7 23 * * *'
   workflow_dispatch:
     inputs:
       step:
-        description: 'prepare = make the post(s) and open the issue(s); publish = post the morning one now; publish-evening = post the afternoon one now; late-roundup = post today''s results roundup to Bluesky now'
+        description: 'prepare = make the post(s) and open the issue(s); publish = post the morning one now; publish-results = post the results roundup now; publish-evening = post the evening one now'
         type: choice
-        options: [prepare, publish, publish-evening, late-roundup]
+        options: [prepare, publish, publish-results, publish-evening]
         default: prepare
       type:
         description: 'Kind of morning post (blank = the usual for the day): match, spotlight, onThisDay, rivalry, tournament, pastTournament, rankings'
@@ -58,14 +58,27 @@ jobs:
         env:
           SOCIAL_OUT: ${{ runner.temp }}/q
         run: node build/social-queue.mjs
-      - name: Make the afternoon post (international windows only)
+      - name: Make the results roundup (international windows only)
+        id: post3
+        env:
+          SOCIAL_OUT: ${{ runner.temp }}/q
+          SOCIAL_USED: ${{ runner.temp }}/q/used.json
+          SOCIAL_SLOT: c
+        run: node build/social.mjs
+      - name: Add the results roundup to the queue
+        if: steps.post3.outputs.title != ''
+        env:
+          SOCIAL_OUT: ${{ runner.temp }}/q
+          SOCIAL_SLOT: c
+        run: node build/social-queue.mjs
+      - name: Make the evening post (international windows only)
         id: post2
         env:
           SOCIAL_OUT: ${{ runner.temp }}/q
           SOCIAL_USED: ${{ runner.temp }}/q/used.json
           SOCIAL_SLOT: b
         run: node build/social.mjs
-      - name: Add the afternoon post to the queue
+      - name: Add the evening post to the queue
         if: steps.post2.outputs.title != ''
         env:
           SOCIAL_OUT: ${{ runner.temp }}/q
@@ -82,16 +95,18 @@ jobs:
         env:
           TITLE: ${{ steps.post.outputs.title }}
           TITLE2: ${{ steps.post2.outputs.title }}
+          TITLE3: ${{ steps.post3.outputs.title }}
         run: |
           gh label create social-post --color F6B638 --description "Daily social post" 2>/dev/null || true
           gh label create posted --color 5FCF8A --description "Posted to Instagram" 2>/dev/null || true
           # a re-run for the same day replaces that day's issues
           for n in $(gh issue list --label social-post --state open --json number,title -q ".[] | select(.title | startswith(\"Post for $SOCIAL_DATE\")) | .number"); do gh issue close "$n" -c "Replaced by a new version."; done
           gh issue create --title "Post for $SOCIAL_DATE: $TITLE" --label social-post --body-file "$RUNNER_TEMP/q/issue.md"
-          if [ -n "$TITLE2" ]; then gh issue create --title "Post for $SOCIAL_DATE (afternoon): $TITLE2" --label social-post --body-file "$RUNNER_TEMP/q/issue-b.md"; fi
+          if [ -n "$TITLE3" ]; then gh issue create --title "Post for $SOCIAL_DATE (results): $TITLE3" --label social-post --body-file "$RUNNER_TEMP/q/issue-c.md"; fi
+          if [ -n "$TITLE2" ]; then gh issue create --title "Post for $SOCIAL_DATE (evening): $TITLE2" --label social-post --body-file "$RUNNER_TEMP/q/issue-b.md"; fi
 
   publish:
-    if: (github.event_name == 'schedule' && (github.event.schedule == '7 14 * * *' || github.event.schedule == '7 20 * * *')) || (github.event_name == 'workflow_dispatch' && (inputs.step == 'publish' || inputs.step == 'publish-evening'))
+    if: (github.event_name == 'schedule' && (github.event.schedule == '7 14 * * *' || github.event.schedule == '7 20 * * *' || github.event.schedule == '7 23 * * *')) || (github.event_name == 'workflow_dispatch' && (inputs.step == 'publish' || inputs.step == 'publish-results' || inputs.step == 'publish-evening'))
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
@@ -100,7 +115,7 @@ jobs:
       BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
       BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
       HAS_ADMIN: ${{ secrets.FORMLINE_ADMIN_TOKEN != '' }}
-      SOCIAL_SLOT: ${{ (github.event.schedule == '7 20 * * *' || inputs.step == 'publish-evening') && 'b' || '' }}
+      SOCIAL_SLOT: ${{ (github.event.schedule == '7 20 * * *' || inputs.step == 'publish-results') && 'c' || (github.event.schedule == '7 23 * * *' || inputs.step == 'publish-evening') && 'b' || '' }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -122,23 +137,3 @@ jobs:
           GH_TOKEN="$ADMIN" gh secret set IG_TOKEN --repo "$GITHUB_REPOSITORY" < "$RUNNER_TEMP/t"
           rm -f "$RUNNER_TEMP/t"
 
-  late:
-    if: (github.event_name == 'schedule' && github.event.schedule == '7 4 * * *') || (github.event_name == 'workflow_dispatch' && inputs.step == 'late-roundup')
-    runs-on: ubuntu-latest
-    env:
-      BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
-      BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-      - name: Install Playwright
-        run: |
-          npm install --no-save --no-package-lock playwright@1.56.0
-          npx playwright install --with-deps chromium
-      - name: Make and post the late results roundup (international windows only)
-        run: |
-          export SOCIAL_DATE=$(TZ=America/Toronto date +%F)
-          SOCIAL_OUT="$RUNNER_TEMP/late" SOCIAL_SLOT=c node build/social.mjs
-          if [ -f "$RUNNER_TEMP/late/$SOCIAL_DATE-c/post.json" ]; then SOCIAL_LOCAL="$RUNNER_TEMP/late/$SOCIAL_DATE-c" node build/social-publish.mjs; fi
