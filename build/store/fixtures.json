@@ -4481,30 +4481,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1648706": {
-  "date": "2026-11-11",
-  "kickoff": "2026-11-11T09:30:00+00:00",
-  "home_team": "India",
-  "away_team": "Maldives",
-  "tournament": "SAFF Cup",
-  "city": "Dhaka",
-  "country": "Bangladesh",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1648706,
-  "league": "SAFF Championship",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Dhaka",
-   "country": "Bangladesh",
-   "stadium": "National Stadium",
-   "boxDate": "2026-11-11"
-  },
-  "venue_src": "city"
- },
  "1648707": {
   "date": "2026-11-11",
   "kickoff": "2026-11-11T14:00:00+00:00",
