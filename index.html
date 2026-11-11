@@ -290,6 +290,23 @@
   .pens{font-size:11px;color:var(--dim);margin-left:4px;vertical-align:1px;}
   .crumbs{font-size:13.5px;color:var(--dim);margin-bottom:6px;}
   .comp-row{padding:11px 0;border-top:1px solid var(--line);}
+  details.comp-row > summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  details.comp-row > summary::-webkit-details-marker{display:none;} details.comp-row > summary .comp-name{margin:0;}
+  details.comp-row > summary .comp-name::before{content:'\25B8';display:inline-block;width:14px;color:var(--dim);transition:transform .15s;}
+  details.comp-row[open] > summary .comp-name::before{transform:rotate(90deg);} details.comp-row[open] > .ed-chips{margin-top:8px;}
+  .comp-latest{flex:none;font-size:12.5px;text-decoration:none;} details.comp-cat > summary{cursor:pointer;list-style:none;} details.comp-cat > summary::-webkit-details-marker{display:none;}
+  .ed-div{flex-basis:100%;font-size:12.5px;font-weight:600;color:var(--dim);margin:6px 0 2px;padding-top:6px;border-top:1px dashed var(--line);} .ed-div:first-child{border-top:0;margin-top:0;padding-top:0;}
+  .comp-tools{margin:0 0 12px;} .cp-pick{font:inherit;font-size:12.5px;margin-left:8px;padding:2px 6px;border:1px solid var(--line-strong);border-radius:6px;background:var(--panel);color:var(--chalk);}
+  table.sd-t{width:100%;font-size:13.5px;} table.sd-t th{text-align:left;font-size:12.5px;color:var(--dim);padding:6px 8px;white-space:nowrap;vertical-align:top;} table.sd-t td{padding:6px 8px;border-top:1px solid var(--line);vertical-align:top;}
+  span.sd-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} span.sd-diff{font-weight:600;}
+  @media (max-width:560px){ table.sd-t{table-layout:fixed;font-size:13px;} table.sd-t th{padding:6px 4px;white-space:normal;} table.sd-t tr:first-child > :first-child{width:44px;} table.sd-t td{padding:6px 4px;overflow-wrap:anywhere;} span.sd-t{white-space:normal;margin-right:4px;} }
+  .q-cycles{margin:0 0 12px;} .q-older{font:inherit;font-size:13px;padding:4px 8px;border:1px solid var(--line-strong);border-radius:999px;background:var(--panel);color:var(--chalk);}
+  .q-round{margin:22px 0 10px;} .q-round h2{font-size:20px;margin:0 0 10px;} .q-round h2 .muted{font-size:14px;font-weight:400;}
+  .q-groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+  .q-group{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:8px 10px;min-width:0;} .q-gh{font-weight:700;font-size:13.5px;margin:0 0 4px;}
+  .q-gt{width:100%;font-size:13px;font-variant-numeric:tabular-nums;} .q-gt th{font-size:11.5px;color:var(--dim);font-weight:600;padding:3px;text-align:left;} .q-gt td{padding:3px;border-top:1px solid var(--line);}
+  .q-gt .num{text-align:right;} .q-gt tr.q-on td:first-child{font-weight:600;} .q-go{color:var(--amber);font-size:10px;}
+  .q-ties{width:100%;} .q-ties td{padding:6px 8px;border-top:1px solid var(--line);} .q-lab{font-size:12.5px;margin:0 2px 0 10px;align-self:center;} .q-link{border-style:dashed;}
   .comp-row:first-child{border-top:none;padding-top:0;}
   .comp-name{margin-bottom:8px;font-size:14.5px;}
   a.chip{text-decoration:none;}
@@ -373,6 +390,19 @@
   /* This window */
   .win-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0 0 14px;} .win-head h2{margin:0;font-size:22px;color:var(--chalk);}
   .cc-next{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .eq-title{font-size:26px;margin:4px 0 6px;} .sim-tabs{margin:0 0 10px;} .sim-items{margin:0 0 18px;} .sim-select{display:none;width:100%;margin:0 0 18px;padding:8px 10px;font:inherit;font-size:15px;border:1px solid var(--line-strong);border-radius:8px;background:var(--panel);color:var(--chalk);}
+  @media(max-width:640px){.sim-items{display:none;} .sim-select{display:block;}}
+  .redraw{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 4px;} .redraw-note{font-size:13px;margin:6px 0 0;}
+  .eq-actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;}
+  .eq-pots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;} .eq-pot{padding:10px 12px;border-left:1px solid var(--line);min-width:0;} .eq-pot:first-child{border-left:0;}
+  .eq-pot h3{font-size:13px;color:var(--dim);margin:0 0 6px;text-transform:uppercase;letter-spacing:.05em;} .eq-ball{font-size:13.5px;padding:3px 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .eq-ph{font-size:13px;} .eq-busy{font-size:10.5px;border:1px solid var(--line-strong);border-radius:4px;padding:0 4px;color:var(--dim);}
+  .eq-groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin:0 0 20px;}
+  .eq-group{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:10px 12px;min-width:0;} .eq-gh{display:flex;justify-content:space-between;margin-bottom:4px;}
+  .eq-gt{width:100%;font-size:13.5px;} .eq-gt th{font-size:12px;color:var(--dim);font-weight:600;padding:4px 4px;text-align:left;} .eq-gt td{padding:4px;border-top:1px solid var(--line);} .eq-gt .num{text-align:right;}
+  .eq-opps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;} .eq-opps h3{font-size:13px;color:var(--dim);margin:0 0 6px;} .eq-opp{display:flex;justify-content:space-between;gap:8px;font-size:13.5px;padding:2px 0;}
+  .eq-rules li{margin:0 0 6px;font-size:14px;}
+  @media(max-width:760px){.eq-pots{grid-template-columns:repeat(2,minmax(0,1fr));} .eq-pot{border-left:0;border-top:1px solid var(--line);} .eq-opps{grid-template-columns:repeat(2,minmax(0,1fr));}}
   .wq-left h3{margin:18px 0 4px;font-size:16px;} .wq-left h3:first-child{margin-top:0;} .wq-left p{margin:0 0 8px;font-size:14px;}
   .wq-teams{display:flex;flex-wrap:wrap;gap:6px 18px;} .wq-chip{font-size:12px;border:1px solid var(--line-strong);border-radius:5px;padding:1px 7px;color:var(--dim);white-space:nowrap;}
   .wq-chip.wq-in{background:var(--amber);border-color:var(--amber);color:#0e2117;font-weight:700;} .wq-chip.wq-out{opacity:.6;}
@@ -3256,7 +3286,7 @@ async function render(){
     state.cache.key = null;
   }
   const views = {home:viewHome, rankings:viewRankings, team:viewTeam, competitions:viewCompetitions,
-    competition:viewEdition, confederations:viewConfeds, h2h:viewH2H, predict:viewPredict, fixtures:viewFixtures, window:viewWindow, matchday:viewMatchday, wwc2027:viewWWC2027,
+    competition:viewEdition, confederations:viewConfeds, h2h:viewH2H, predict:viewPredict, fixtures:viewFixtures, window:viewWindow, matchday:viewMatchday, qualifying:viewQualifying, wwc2027:viewWWC2027,
     simulate:viewSimulate, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, sources:viewSources, support:viewSupport, changes:viewChanges, embed:viewEmbed, contact:viewContact};
   FLAG_AT = null;
   document.body.classList.toggle('embed-mode', p.route === 'embed');
@@ -4767,23 +4797,49 @@ function confDepth(c){
     'A tight cluster to the right means strength in depth; a long tail to the left means a few strong sides and many small ones.</p></div></div>';
 }
 /* World Cup places against strength: how many teams each confederation has among the world's 48 best FIFA members now. */
+/* World Cup places against strength. The next World Cup: its allocation (direct and play-off places) against each
+   confederation's teams in today's world top N. Any past World Cup (pick one): the teams each confederation actually had
+   at the finals against its teams in the world's top N on the eve of that tournament, N being the size of the field.
+   Confederations as they stood then (Australia in OFC until 2006, Israel in AFC until 1974, Kazakhstan in AFC until
+   2002); teams from before their confederation existed count where they would belong. */
 function confPlaces(c){
   const men = state.gender === 'men', P = men ? WC26_PLACES : WWC27_PLACES, N = men ? 48 : 32, share = men ? 1/3 : 3/10;
-  const fifa = c.table.filter(r => r.status !== 'assoc' && !r.defunct).slice(0, N), n = {};
-  CONF_ORDER.forEach(k => n[k] = 0); fifa.forEach(r => { if (n[r.conf] !== undefined) n[r.conf]++; });
-  const rows = CONF_ORDER.map(k => { const [d, po] = P[k]; return {k, d, po, top:n[k], diff:n[k] - (d + po*share)}; });
+  const wcs = getEditions().list.filter(e => e.tournament === 'FIFA World Cup' && !e.qualLike).sort((a, b) => b.start - a.start);
+  const next = men ? '2026' : '2027', pick = wcs.find(e => e.label === state.params.wcp && e.label !== '2026') || null;
+  const picker = '<select class="cp-pick" aria-label="World Cup" onchange="go({...state.params, wcp:this.value || undefined})"><option value="">'+(men ? '2026 places' : '2027 places')+'</option>'+
+    wcs.filter(e => e.label !== '2026').map(e => '<option value="'+e.label+'"'+(pick === e ? ' selected' : '')+'>'+e.label+'</option>').join('')+'</select>';
+  let rows, Nn = N, title, note;
+  if (pick){
+    /* Israel, between leaving the AFC (1974) and joining UEFA (1994), played its World Cup qualifying in Europe for 1978,
+       1982 and 1994 and in Oceania for 1986 and 1990. */
+    const poolOf2 = (k, t) => k === 'Israel' && t >= Date.UTC(1985, 0, 1) && t < Date.UTC(1991, 0, 1) ? 'OFC' : poolOf(k, t);
+    const ts = pick.start - DAY, field = [...pick.teams]; Nn = field.length;
+    const got = {}; CONF_ORDER.forEach(k => got[k] = 0); field.forEach(k => { const pl = poolOf2(k, ts); if (got[pl] !== undefined) got[pl]++; });
+    const top = atDefaults(c2 => { const n = {}; CONF_ORDER.forEach(k => n[k] = 0);
+      c2.table.filter(r => r.status !== 'assoc').slice(0, Nn).forEach(r => { const pl = poolOf2(r.key, ts); if (n[pl] !== undefined) n[pl]++; }); return n; }, ts) || {};
+    rows = CONF_ORDER.map(k => ({k, d:got[k], po:0, top:top[k] || 0, diff:(top[k] || 0) - got[k]}));
+    title = pick.label+' finals &middot; world top '+Nn+' on the eve';
+    note = 'Teams at the '+pick.label+' finals by confederation, against each confederation\'s teams among the world\'s '+Nn+' best-rated sides the day before it began. '+
+      'Confederations as they stood then: Australia in OFC until 2006, Kazakhstan in AFC until 2002, Israel in AFC until 1974, then in the European qualifying for 1978, 1982 and 1994 and the Oceanian for 1986 and 1990; sides from before their confederation existed count where they would belong. ';
+  } else {
+    const fifa = c.table.filter(r => r.status !== 'assoc' && !r.defunct).slice(0, N), n = {};
+    CONF_ORDER.forEach(k => n[k] = 0); fifa.forEach(r => { if (n[r.conf] !== undefined) n[r.conf]++; });
+    rows = CONF_ORDER.map(k => { const [d, po] = P[k]; return {k, d, po, top:n[k], diff:n[k] - (d + po*share)}; });
+    title = next+' places &middot; world top '+N+' today';
+    note = (men ? 'Places: World Cup 2026 places, plus inter-confederation play-off places (six sides play for two). CONCACAF\'s six include the three hosts. '
+      : 'Places: Women\'s World Cup 2027 places, plus inter-confederation play-off places (ten sides play for three). CONMEBOL\'s three include hosts Brazil. <a href="#/wwc2027">The 2027 hub</a> shows who has qualified. ');
+  }
+  const sh = pick ? 0 : share;
   const over = rows.slice().sort((a, b) => a.diff - b.diff)[0], under = rows.slice().sort((a, b) => b.diff - a.diff)[0];
-  const max = Math.max(...rows.map(r => Math.max(r.d + r.po, r.top)));
-  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">World Cup places against strength<span class="aside">'+(men ? '2026' : '2027')+' places &middot; world top '+N+' today</span></div>'+
-    '<div class="table-wrap"><table class="conf-places"><thead><tr><th>Confederation</th><th class="num">Places</th><th class="num" title="Teams among the '+N+' best-rated FIFA members today">In the top '+N+'</th><th class="hide-sm"></th></tr></thead><tbody>'+
+  const max = Math.max(1, ...rows.map(r => Math.max(r.d + r.po, r.top)));
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">World Cup places against strength<span class="aside">'+title+' '+picker+'</span></div>'+
+    '<div class="table-wrap"><table class="conf-places"><thead><tr><th>Confederation</th><th class="num">'+(pick ? 'At the finals' : 'Places')+'</th><th class="num" title="Teams among the '+Nn+' best-rated sides">In the top '+Nn+'</th><th class="hide-sm"></th></tr></thead><tbody>'+
     rows.map(r => '<tr><td><b>'+confLabel(r.k)+'</b></td><td class="num">'+r.d+(r.po ? ' <span class="muted">+'+r.po+' play-off</span>' : '')+'</td>'+
       '<td class="num rating">'+r.top+'</td>'+
-      '<td class="hide-sm cp-bars"><span class="cp-bar cp-places" style="width:'+(100*(r.d + r.po*share)/max).toFixed(1)+'%"></span>'+
+      '<td class="hide-sm cp-bars"><span class="cp-bar cp-places" style="width:'+(100*(r.d + r.po*sh)/max).toFixed(1)+'%"></span>'+
         '<span class="cp-bar cp-top" style="width:'+(100*r.top/max).toFixed(1)+'%;background:'+confColor(r.k)+'"></span></td></tr>').join('')+
     '</tbody></table></div>'+
-    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">'+(men ? 'Places: World Cup 2026 places, plus inter-confederation play-off places (six sides play for two). '+
-      'CONCACAF\'s six include the three hosts. ' : 'Places: Women\'s World Cup 2027 places, plus inter-confederation play-off places (ten sides play for three). '+
-      'CONMEBOL\'s three include hosts Brazil. <a href="#/wwc2027">The 2027 hub</a> shows who has qualified. ')+'On today\'s ratings, '+confLabel(under.k)+' has the most good sides for its places and '+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">'+note+'On '+(pick ? 'the ratings of the day' : 'today\'s ratings')+', '+confLabel(under.k)+' had the most good sides for its places and '+
       confLabel(over.k)+' the fewest. Places are set by FIFA for many reasons besides strength.</p></div>';
 }
 /* Results between confederations: in the window shown, or at World Cups since 1930. */
@@ -6669,20 +6725,347 @@ function actualOutcome(T, c){
   return {out, champ, final:[final.home, final.away].map(keyOfName)};
 }
 
+/* ============================================================
+   EURO 2028 QUALIFYING DRAW (Belfast, 6 December 2026). 54 teams, 12 groups: A–F of four, G–L of five. Pots from the
+   interim 2026–27 Nations League ranking (League A 1–16, B 17–32, C 33–48, D 49–54): 12, 12, 12, 12 and 6 teams.
+   Draw conditions as UEFA set them for the last European Qualifiers draw (World Cup 2026) and Football Meets Data
+   summarises them for this one; replace with UEFA's own list when it is published:
+   - the hosts (England, Scotland, Wales, Republic of Ireland) and Northern Ireland in different groups;
+   - the Nations League quarter-finals (March 2027) clash with matchdays 1–2, which only five-team groups play: each tie
+     goes in as a winner and a loser placeholder, the four winners into different groups of four; a group of five takes
+     at most one team busy in March (a quarter-final loser, or an A/B or B/C promotion play-off team);
+   - prohibited pairs, at most two winter venues per group (and not Faroe Islands with Iceland), at most one
+     excessive-travel pair per group.
+   Each ball goes to the first group, in alphabetical order, where the rest of the draw can still be completed.
+   ============================================================ */
+const NL27 = {
+  from:'2026-09-20', to:'2026-11-19', drawDay:'6 December 2026',
+  leagues:{
+    A:[['France', 'Italy', 'Belgium', 'Turkey'], ['Germany', 'Netherlands', 'Serbia', 'Greece'], ['Spain', 'Croatia', 'England', 'Czech Republic'], ['Portugal', 'Denmark', 'Norway', 'Wales']],
+    B:[['Scotland', 'Switzerland', 'Slovenia', 'North Macedonia'], ['Hungary', 'Ukraine', 'Georgia', 'Northern Ireland'], ['Israel', 'Austria', 'Republic of Ireland', 'Kosovo'], ['Poland', 'Bosnia and Herzegovina', 'Romania', 'Sweden']],
+    C:[['Albania', 'Finland', 'Belarus', 'San Marino'], ['Montenegro', 'Armenia', 'Cyprus', 'Latvia'], ['Kazakhstan', 'Slovakia', 'Faroe Islands', 'Moldova'], ['Iceland', 'Bulgaria', 'Estonia', 'Luxembourg']],
+    D:[['Gibraltar', 'Malta', 'Andorra'], ['Lithuania', 'Azerbaijan', 'Liechtenstein']]},
+  /* The quarter-final ties once UEFA draws them: [[group winner, runner-up], …]. Until then: winners of groups 1–4 against
+     the runners-up of groups 2, 1, 4 and 3. */
+  qf:null
+};
+const EQ_HOSTS = new Set(['England', 'Scotland', 'Wales', 'Republic of Ireland', 'Northern Ireland']);
+const EQ_BANNED = [['Armenia', 'Azerbaijan'], ['Kosovo', 'Serbia'], ['Kosovo', 'Bosnia and Herzegovina'], ['Ukraine', 'Belarus'], ['Gibraltar', 'Spain']];
+const EQ_WINTER = new Set(['Estonia', 'Faroe Islands', 'Finland', 'Iceland', 'Latvia', 'Lithuania', 'Norway']);
+const EQ_TRAVEL = [['Azerbaijan', ['Gibraltar', 'Iceland', 'Portugal']], ['Iceland', ['Armenia', 'Cyprus']],
+  ['Kazakhstan', ['Andorra', 'England', 'France', 'Gibraltar', 'Iceland', 'Malta', 'Northern Ireland', 'Portugal', 'Republic of Ireland', 'Scotland', 'Spain', 'Wales']]]
+  .flatMap(([a, bs]) => bs.map(b => [a, b]));
+const EQ_GROUPS = 'ABCDEFGHIJKL'.split(''), EQ_FOUR = new Set('ABCDEF'.split(''));
+
+/* Nations League 2026–27 standings from the match data, and the interim overall ranking. */
+function nl27Standings(c){
+  const ms = (state.matches.men || []).filter(m => m.tournament === 'UEFA Nations League' && m.ts >= Date.parse(NL27.from) && m.ts < Date.parse(NL27.to));
+  const rating = t => { const r = c.byKey.get(c.resolve(t)); return r ? r.rating : 0; };
+  const out = {};
+  for (const [L, groups] of Object.entries(NL27.leagues)){
+    out[L] = groups.map((teams, gi) => {
+      const keys = new Map(teams.map(t => [c.resolve(t), t]));
+      const res = ms.filter(m => (namesFor(m), keys.has(m._h) && keys.has(m._a))).map(m => ({h:keys.get(m._h), a:keys.get(m._a), hs:m.hs, as:m.as}));
+      const row = t => { const r = {team:t, pl:0, w:0, d:0, l:0, gf:0, ga:0, pts:0, agf:0, aw:0};
+        res.forEach(x => { if (x.h !== t && x.a !== t) return; const home = x.h === t, f = home ? x.hs : x.as, a = home ? x.as : x.hs;
+          r.pl++; r.gf += f; r.ga += a; if (!home){ r.agf += f; } if (f > a){ r.w++; r.pts += 3; if (!home) r.aw++; } else if (f === a){ r.d++; r.pts++; } else r.l++; });
+        r.gd = r.gf - r.ga; return r; };
+      const rows = teams.map(row);
+      /* Group order: points; then, among the teams level, their games against each other; then goal difference, goals,
+         wins; the current rating stands in for the later tie-breakers (fair play, coefficient). */
+      const h2h = (t, set) => { let p = 0, gd = 0, gf = 0; res.forEach(x => { if (!set.has(x.h) || !set.has(x.a)) return;
+        if (x.h === t){ gf += x.hs; gd += x.hs - x.as; p += x.hs > x.as ? 3 : x.hs === x.as ? 1 : 0; }
+        if (x.a === t){ gf += x.as; gd += x.as - x.hs; p += x.as > x.hs ? 3 : x.hs === x.as ? 1 : 0; } }); return [p, gd, gf]; };
+      rows.sort((a, b) => b.pts - a.pts);
+      const sorted = [];
+      for (let i = 0; i < rows.length;){ let j = i; while (j < rows.length && rows[j].pts === rows[i].pts) j++;
+        const tied = rows.slice(i, j), set = new Set(tied.map(r => r.team));
+        tied.forEach(r => r.h = h2h(r.team, set));
+        tied.sort((a, b) => b.h[0] - a.h[0] || b.h[1] - a.h[1] || b.h[2] - a.h[2] || b.gd - a.gd || b.gf - a.gf || b.w - a.w || rating(b.team) - rating(a.team));
+        sorted.push(...tied); i = j; }
+      sorted.forEach((r, k) => { r.pos = k + 1; r.league = L; r.group = gi + 1; });
+      return {league:L, n:gi + 1, rows:sorted, played:res.length, total:teams.length*(teams.length - 1)};
+    });
+  }
+  /* Interim overall ranking: League A first; within a league by group position, then points, goal difference, goals,
+     away goals, wins, away wins. */
+  const rank = [];
+  for (const L of ['A', 'B', 'C', 'D']){
+    const all = out[L].flatMap(g => g.rows);
+    all.sort((a, b) => a.pos - b.pos || b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || b.agf - a.agf || b.w - a.w || b.aw - a.aw || rating(b.team) - rating(a.team));
+    rank.push(...all);
+  }
+  rank.forEach((r, i) => r.rank = i + 1);
+  const played = Object.values(out).flat().reduce((t, g) => t + g.played, 0), total = Object.values(out).flat().reduce((t, g) => t + g.total, 0);
+  return {groups:out, rank, played, total, final:played >= total};
+}
+/* The balls: the eight quarter-finalists as four winner and four loser placeholders; everyone else as themselves. */
+function eqBalls(S){
+  const A = S.groups.A, at = (g, p) => A[g].rows[p - 1].team;
+  const ties = NL27.qf || [[at(0, 1), at(1, 2)], [at(1, 1), at(0, 2)], [at(2, 1), at(3, 2)], [at(3, 1), at(2, 2)]];
+  const busy = r => (r.league === 'A' && r.pos === 3) || (r.league === 'B' && (r.pos === 2 || r.pos === 3)) || (r.league === 'C' && r.pos === 2);
+  const qfTeams = new Set(ties.flat()), balls = [];
+  ties.forEach((t, i) => {
+    balls.push({id:'W'+(i + 1), label:'Winner QF'+(i + 1), teams:t, pot:1, busy:false, qfw:true, tie:i});
+    balls.push({id:'L'+(i + 1), label:'Loser QF'+(i + 1), teams:t, pot:1, busy:true, qfl:true, tie:i}); });
+  S.rank.forEach(r => { if (qfTeams.has(r.team)) return;
+    const pot = r.rank <= 12 ? 1 : r.rank <= 24 ? 2 : r.rank <= 36 ? 3 : r.rank <= 48 ? 4 : 5;
+    balls.push({id:r.team, label:r.team, teams:[r.team], pot, busy:busy(r), po:busy(r) ? (r.league === 'A' || (r.league === 'B' && r.pos === 2) ? 'A/B' : 'B/C') : '', rank:r.rank}); });
+  return {balls, ties};
+}
+/* Formline's own pots: the same 54 teams by rating, quarter-finalists as themselves; only the team-to-team conditions. */
+function eqBallsFormline(S, c){
+  const r = t => { const x = c.byKey.get(c.resolve(t)); return x ? x.rating : 0; };
+  const list = S.rank.map(x => x.team).sort((a, b) => r(b) - r(a));
+  return {balls:list.map((t, i) => ({id:t, label:t, teams:[t], pot:i < 12 ? 1 : i < 24 ? 2 : i < 36 ? 3 : i < 48 ? 4 : 5, busy:false})), ties:[]};
+}
+/* Each ball's conditions worked out once: host, winter venue, and which other balls it can't share a group with. */
+function eqPrep(balls){
+  const N = balls.length;
+  balls.forEach((b, i) => { b.i = i; b.host = b.teams.some(t => EQ_HOSTS.has(t)); b.win = b.teams.some(t => EQ_WINTER.has(t)); });
+  const ban = new Uint8Array(N*N), trav = new Uint8Array(N*N);
+  for (const x of balls) for (const y of balls){ if (x === y) continue; const k = x.i*N + y.i;
+    if (x.host && y.host) ban[k] = 1;
+    for (const [p, q] of EQ_BANNED.concat([['Faroe Islands', 'Iceland']])) if ((x.teams.includes(p) && y.teams.includes(q)) || (x.teams.includes(q) && y.teams.includes(p))) ban[k] = 1;
+    for (const [p, q] of EQ_TRAVEL) if ((x.teams.includes(p) && y.teams.includes(q)) || (x.teams.includes(q) && y.teams.includes(p))) trav[k]++; }
+  return {N, ban, trav};
+}
+const eqGroups = () => EQ_GROUPS.map(id => ({id, four:EQ_FOUR.has(id), balls:[], pots:0, busy:0, win:0, trav:0}));
+function eqFits(g, b, P){
+  if (g.pots & (1 << b.pot)) return false;
+  if (g.four ? b.pot === 5 : b.qfw) return false;
+  if (b.busy && !g.four && g.busy) return false;
+  if (b.win && g.win >= 2) return false;
+  let t = g.trav;
+  for (const x of g.balls){ const k = b.i*P.N + x.i; if (P.ban[k]) return false; t += P.trav[k]; }
+  return t <= 1;
+}
+const eqAdd = (g, b, P) => { for (const x of g.balls) g.trav += P.trav[b.i*P.N + x.i]; g.balls.push(b); g.pots |= 1 << b.pot; if (b.busy) g.busy++; if (b.win) g.win++; };
+const eqRemove = (g, b, P) => { g.balls.pop(); for (const x of g.balls) g.trav -= P.trav[b.i*P.N + x.i]; g.pots &= ~(1 << b.pot); if (b.busy) g.busy--; if (b.win) g.win--; };
+/* Is there any way to place the rest? The lowest pot first, its most constrained ball first. */
+function eqFeasible(groups, rest, P, budget){
+  if (!rest.length) return true;
+  if (budget.n-- <= 0) return true;   // a give-up guard: never hit in practice, keeps a page from hanging
+  const pot = Math.min(...rest.map(b => b.pot));
+  let best = -1, opts = null;
+  for (let i = 0; i < rest.length; i++){ if (rest[i].pot !== pot) continue; const o = groups.filter(g => eqFits(g, rest[i], P));
+    if (!o.length) return false; if (!opts || o.length < opts.length){ best = i; opts = o; if (o.length === 1) break; } }
+  const b = rest[best], others = rest.slice(0, best).concat(rest.slice(best + 1));
+  for (const g of opts){ eqAdd(g, b, P); const ok = eqFeasible(groups, others, P, budget); eqRemove(g, b, P); if (ok) return true; }
+  return false;
+}
+/* One draw, pot by pot; each ball to the first group where the draw can still be completed. */
+function eqDraw(balls, rand, P){
+  P = P || eqPrep(balls);
+  const groups = eqGroups(), steps = [];
+  for (const pot of [1, 2, 3, 4, 5]){
+    const order = balls.filter(b => b.pot === pot);
+    for (let i = order.length - 1; i > 0; i--){ const j = Math.floor(rand()*(i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+    for (let k = 0; k < order.length; k++){
+      const b = order[k], rest = order.slice(k + 1).concat(balls.filter(x => x.pot > pot));
+      const g = groups.find(g => { if (!eqFits(g, b, P)) return false; eqAdd(g, b, P);
+        const ok = eqFeasible(groups, rest, P, {n:5000}); eqRemove(g, b, P); return ok; });
+      if (!g) return null;
+      eqAdd(g, b, P); steps.push([b.id, g.id]);
+    }
+  }
+  return {groups, steps};
+}
+/* ---------- The page: Simulator → Euro 2028 qualifying draw ---------- */
+const EQ = {cache:{}};
+function viewEuroDraw(){
+  const app = document.getElementById('app'), p = state.params;
+  if (state.gender !== 'men') return go({t:(TOURNAMENTS.find(t => t.gender === state.gender) || TOURNAMENTS[0]).id}, 'simulate');
+  const c = getRatings(), S = nl27Standings(c), mode = p.dm === 'fl' ? 'fl' : 'nl';
+  const B = mode === 'fl' ? eqBallsFormline(S, c) : eqBalls(S), P = eqPrep(B.balls);
+  const rate = t => { const r = c.byKey.get(c.resolve(t)); return r ? r.rating : 0; };
+  const ballName = b => b.qfw || b.qfl ? (b.qfw ? 'Winner' : 'Loser')+' QF'+(b.tie + 1) : b.label;
+  const ballHtml = (b, small) => b.qfw || b.qfl
+    ? '<span class="eq-ph"><b>'+ballName(b)+'</b> <span class="muted">'+b.teams.map(t => flagHtml(t)+esc(dn(t))).join(' / ')+'</span></span>'
+    : '<a href="'+teamHref(dn(b.teams[0]))+'">'+withFlag(dn(b.teams[0]))+'</a>'+(b.busy && !small ? ' <span class="eq-busy" title="Busy in March 2027: '+(b.qfl ? 'Nations League quarter-final' : (b.po || '')+' promotion play-off')+'">'+(b.po || 'QF')+'</span>' : '');
+  const seed = /^[a-z0-9]{1,12}$/.test(p.ds || '') ? p.ds : '';
+  const D = seed ? eqDraw(B.balls, rng('eq|'+mode+'|'+seed), P) : null;
+  const pots = [1, 2, 3, 4, 5].map(k => '<div class="eq-pot"><h3>Pot '+k+'</h3>'+B.balls.filter(b => b.pot === k)
+    .map(b => '<div class="eq-ball">'+ballHtml(b)+'</div>').join('')+'</div>').join('');
+  /* Many draws: how often each ball lands in a group of four, and with whom. */
+  const many = EQ.cache[mode];
+  const focus = B.balls.find(b => b.id === p.dt) || B.balls.find(b => b.teams.includes('Scotland')) || B.balls[0];
+  let manyHtml = '';
+  if (many){
+    const M = many.with.get(focus.id), n = many.n, four = many.four.get(focus.id) || 0;
+    const opp = [...M.entries()].map(([id, k]) => ({b:B.balls.find(x => x.id === id), k})).sort((a, b) => a.b.pot - b.b.pot || b.k - a.k);
+    manyHtml = '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">'+n.toLocaleString()+' draws<span class="aside">who each team is likely to get</span></div><div class="panel-body">'+
+      '<div class="ctl"><label for="eqTeam">Team</label><select id="eqTeam">'+B.balls.slice().sort((a, b) => ballName(a).localeCompare(ballName(b)))
+        .map(b => '<option value="'+esc(b.id)+'"'+(b === focus ? ' selected' : '')+'>'+esc(b.qfw || b.qfl ? ballName(b)+' ('+b.teams.join(' / ')+')' : b.label)+'</option>').join('')+'</select></div>'+
+      '<p class="fr-q"><b>'+esc(ballName(focus))+'</b>: a group of four in <b>'+Math.round(100*four/n)+'%</b> of draws, a group of five in <b>'+Math.round(100*(1 - four/n))+'%</b>. '+
+        'In <b>'+Math.round(100*(many.top2.get(focus.id) || 0)/n)+'%</b> of draws its group leaves it among the two strongest sides on today\'s ratings.</p>'+
+      '<div class="eq-opps">'+[1, 2, 3, 4, 5].filter(k => k !== focus.pot && opp.some(o => o.b.pot === k)).map(k => '<div><h3>From pot '+k+'</h3>'+opp.filter(o => o.b.pot === k).slice(0, 12)
+        .map(o => '<div class="eq-opp">'+ballHtml(o.b, true)+'<span class="num">'+Math.round(100*o.k/n)+'%</span></div>').join('')+'</div>').join('')+'</div>'+
+      '<p class="chart-note">"Among the two strongest" compares expected points over the group on today\'s ratings; a quarter-final placeholder counts as the stronger side of its tie. '+
+      'Make a single draw to see each group played out properly.</p></div></div>';
+  }
+  const groupsHtml = D ? '<div class="eq-groups">'+D.groups.map(g => '<div class="eq-group" data-g="'+g.id+'"><div class="eq-gh"><b>Group '+g.id+'</b><span class="muted">'+g.balls.length+' teams</span></div>'+
+      '<table class="eq-gt"><thead><tr><th>Team</th><th class="num">Rating</th><th class="num" title="Chance of winning the group">1st</th><th class="num" title="Chance of finishing first or second">Top 2</th></tr></thead><tbody>'+
+      g.balls.slice().sort((a, b) => a.pot - b.pot).map(b => '<tr data-ball="'+esc(b.id)+'"><td>'+ballHtml(b, true)+'</td><td class="num muted">'+
+        (b.qfw || b.qfl ? '' : fmtR(rate(b.teams[0])))+'</td><td class="num eq-p1">&hellip;</td><td class="num eq-p2">&hellip;</td></tr>').join('')+'</tbody></table></div>').join('')+'</div>' : '';
+  app.innerHTML = '<div class="wrap">'+
+    '<h1 class="page-title">Tournament simulator</h1>'+simChips('euro-2028-draw')+
+    '<h2 class="eq-title">Euro 2028 qualifying draw</h2>'+
+    '<p class="page-sub">The real draw is in Belfast on '+NL27.drawDay+'. Make it yourself under UEFA\'s rules, see every group\'s chances on Formline\'s ratings, '+
+      'or run it '+(2000).toLocaleString()+' times to see who each team is likely to get.</p>'+
+    (S.final ? '' : '<div class="notice"><b>Provisional pots.</b> They follow the Nations League as it stands ('+S.played+' of '+S.total+' league-phase matches played) '+
+      'and become final after the last round on 17 November. The quarter-final pairings are provisional too, until UEFA draws them.</div>')+
+    '<div class="chips" style="margin:0 0 12px;"><button class="chip'+(mode === 'nl' ? ' on' : '')+'" data-dm="nl">UEFA pots (Nations League ranking)</button>'+
+      '<button class="chip'+(mode === 'fl' ? ' on' : '')+'" data-dm="fl">Formline pots (by rating)</button></div>'+
+    '<div class="eq-actions"><button class="btn primary" id="eqDraw">'+(D ? 'Draw again' : 'Make the draw')+'</button>'+
+      '<button class="btn" id="eqMany">'+(many ? 'Run '+(2000).toLocaleString()+' more' : 'Draw it '+(2000).toLocaleString()+' times')+'</button>'+
+      (D ? '<button class="btn" data-share-url="1">Share this draw</button>' : '')+'</div>'+
+    (mode === 'fl' ? '<p class="muted" style="font-size:13.5px;">Formline pots: the same 54 teams, potted by rating instead of the Nations League. The host, political, winter and travel conditions still apply; '+
+      'the March clashes don\'t, so the quarter-finalists go in as themselves.</p>' : '')+
+    groupsHtml+manyHtml+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">The pots<span class="aside">'+(mode === 'fl' ? 'by Formline rating' : 'interim Nations League ranking')+'</span></div><div class="eq-pots">'+pots+'</div></div>'+
+    '<details class="tip"><summary>The draw conditions</summary><ul class="eq-rules">'+
+      '<li>12 groups: A&ndash;F of four teams (one from each of pots 1&ndash;4), G&ndash;L of five (one from each pot). Group winners and the 8 best runners-up qualify; two places are kept for hosts; the rest go to the play-offs.</li>'+
+      '<li>The hosts (England, Scotland, Wales, Republic of Ireland) and Northern Ireland are drawn into different groups.</li>'+
+      '<li>The Nations League quarter-finals (March 2027) clash with matchdays 1 and 2, which only groups of five play: each tie goes in as a winner and a loser, and the four winners go into different groups of four. '+
+        'A group of five takes at most one team busy in March: a quarter-final loser or a team in the A/B or B/C promotion play-offs (marked).</li>'+
+      '<li>Kept apart: '+EQ_BANNED.map(x => x.join(' and ')).join('; ')+'.</li>'+
+      '<li>Winter venues: at most two of Estonia, Faroe Islands, Finland, Iceland, Latvia, Lithuania and Norway per group, and not Faroe Islands with Iceland.</li>'+
+      '<li>Long journeys: at most one of these pairs per group: '+EQ_TRAVEL.map(x => x.join('&ndash;')).join(', ')+'.</li>'+
+      '<li>Each ball goes to the first group, in alphabetical order, where the rest of the draw can still be completed.</li></ul>'+
+      '<p class="muted">These are the conditions UEFA used for the last European Qualifiers draw (World Cup 2026), as <a href="https://football-md.com/draw-simulator/euro-2028" target="_blank" rel="noopener">Football Meets Data</a> '+
+      'applies them to this one; they will be replaced with UEFA\'s own list when it is published. Nations League groups from the competition\'s Wikipedia article.</p></details></div>';
+  app.querySelectorAll('[data-dm]').forEach(b => b.addEventListener('click', () => go({t:'euro-2028-draw', dm:b.dataset.dm === 'fl' ? 'fl' : undefined, ds:seed || undefined})));
+  document.getElementById('eqDraw').addEventListener('click', () => go({t:'euro-2028-draw', dm:mode === 'fl' ? 'fl' : undefined, ds:Math.random().toString(36).slice(2, 9)}));
+  document.getElementById('eqMany').addEventListener('click', () => { const btn = document.getElementById('eqMany'); btn.disabled = true; btn.textContent = 'Drawing…';
+    setTimeout(() => { eqMany(B, P, c, mode, 2000); viewEuroDraw(); }, 30); });
+  const sel = document.getElementById('eqTeam'); if (sel) sel.addEventListener('change', () => go({t:'euro-2028-draw', dm:mode === 'fl' ? 'fl' : undefined, ds:seed || undefined, dt:sel.value}));
+  const sh = app.querySelector('[data-share-url]'); if (sh) sh.addEventListener('click', async () => { try { await navigator.clipboard.writeText(location.href); sh.textContent = 'Link copied'; } catch(e){ sh.textContent = location.href; } });
+  if (D) eqSimGroups(D, c, rate);
+}
+/* The drawn groups played out: each group's chances of first and top two, double round robin on today's ratings. */
+function eqSimGroups(D, c, rate){
+  const fav = b => b.qfw || b.qfl ? b.teams.slice().sort((x, y) => rate(y) - rate(x))[b.qfw ? 0 : 1] : b.teams[0];
+  const groups = {}; D.groups.forEach(g => groups[g.id] = g.balls.map(fav));
+  const T = {id:'eq-draw', gender:'men', status:'upcoming', start:'2027-03-26', rounds:2, tiebreak:'h2h', groups, knockout:[]};
+  const Pt = prepareTournament(T, c, {});
+  simulate(Pt, 3000, 'eqsim', R => {
+    D.groups.forEach(g => g.balls.forEach(b => { const i = R.names.indexOf(fav(b)); if (i < 0) return;
+      const row = document.querySelector('.eq-group[data-g="'+g.id+'"] tr[data-ball="'+CSS.escape(b.id)+'"]'); if (!row) return;
+      row.querySelector('.eq-p1').textContent = Math.round(100*R.pos[i][0]/R.runs)+'%';
+      row.querySelector('.eq-p2').textContent = Math.round(100*(R.pos[i][0] + R.pos[i][1])/R.runs)+'%'; })); });
+}
+/* Draw it n times: group size, opponents, and a quick top-two chance per draw (expected points on today's ratings). */
+function eqMany(B, P, c, mode, n){
+  const prev = EQ.cache[mode] || {n:0, four:new Map(), with:new Map(B.balls.map(b => [b.id, new Map()])), top2:new Map()};
+  const rate = t => { const r = c.byKey.get(c.resolve(t)); return r ? r.rating : 0; };
+  const str = b => b.qfw || b.qfl ? Math.max(...b.teams.map(rate)) - (b.qfl ? 60 : 0) : rate(b.teams[0]);
+  const rand = rng('eqmany|'+mode+'|'+prev.n);
+  for (let k = 0; k < n; k++){
+    const D = eqDraw(B.balls, rand, P); if (!D) continue; prev.n++;
+    for (const g of D.groups){
+      /* Expected points for each side over the double round robin, from the rating gaps; the top two by that. */
+      const ep = g.balls.map(b => g.balls.reduce((t, o) => o === b ? t : t + 2*3*calE(eloE(str(b) - str(o)), 'men'), 0));
+      const order = ep.map((v, i) => [v, i]).sort((a, b) => b[0] - a[0]);
+      g.balls.forEach((b, i) => {
+        if (g.four) prev.four.set(b.id, (prev.four.get(b.id) || 0) + 1);
+        const W = prev.with.get(b.id); g.balls.forEach(o => { if (o !== b) W.set(o.id, (W.get(o.id) || 0) + 1); });
+        const rk = order.findIndex(x => x[1] === i);
+        prev.top2.set(b.id, (prev.top2.get(b.id) || 0) + (rk < 2 ? 1 : 0)); });
+    }
+  }
+  EQ.cache[mode] = prev;
+}
+
+/* The Simulator's tabs: Upcoming (draw simulators and tournaments not started), Current (under way), Rewind (past
+   tournaments replayed from the eve of kick-off) and Build your own. Each tab lists its tournaments: buttons on wide
+   screens, a drop-down on phones. */
+const SIM_DRAWS = [{id:'euro-2028-draw', short:'Euro 2028 qualifying draw', gender:'men'}];
+function simTabOf(id){
+  if (id === 'custom') return 'custom';
+  if (SIM_DRAWS.some(d => d.id === id)) return 'upcoming';
+  const T = tournamentById(id); if (!T) return 'upcoming';
+  if (T.status === 'rewind') return 'rewind';
+  return T.status === 'in progress' || (T.start && Date.parse(T.start+'T00:00:00Z') <= Date.now()) ? 'current' : 'upcoming';
+}
+function simChips(on){
+  const tab = simTabOf(on);
+  const list = k => k === 'custom' ? [] : SIM_DRAWS.concat(TOURNAMENTS).filter(t => simTabOf(t.id) === k);
+  const href = t => '#/simulate?'+filterQuery({t:t.id, g:t.gender});
+  const TABS = [['upcoming', 'Upcoming'], ['current', 'Under way'], ['rewind', 'Rewind'], ['custom', 'Build your own']];
+  const items = list(tab);
+  return '<div class="chips about-tabs sim-tabs">'+TABS.map(([k, l]) => { const first = k === 'custom' ? {id:'custom', gender:state.gender} : list(k)[0];
+      return first ? '<a class="chip'+(k === tab ? ' on' : '')+'" href="'+href(first)+'">'+l+'</a>' : ''; }).join('')+'</div>'+
+    (items.length ? '<div class="chips sim-items">'+items.map(t => '<a class="chip'+(on === t.id ? ' on' : '')+'" href="'+href(t)+'">'+esc(t.short.replace(/^Rewind: /, ''))+
+        (t.gender === 'women' && !/women/i.test(t.short) ? ' (women)' : '')+'</a>').join('')+'</div>'+
+      '<select class="sim-select" aria-label="Tournament" onchange="location.hash=this.value">'+items.map(t => '<option value="'+href(t)+'"'+(on === t.id ? ' selected' : '')+'>'+
+        esc(t.short.replace(/^Rewind: /, ''))+'</option>').join('')+'</select>' : '');
+}
+/* ---------- Rewind redraws: the same tournament drawn again, under the draw rules of the time ----------
+   'real': the organiser's own pots, drawn again at random. 'fl': pots by Formline's ratings on the eve of the draw
+   period (the day before kick-off), hosts kept in pot 1 and in their places. Confederation limits as FIFA set them.
+   Each team goes to the first group, in order, where the rest of the draw can still be completed. */
+const REDRAW = {
+  'world-cup-2022':{fixed:{Qatar:'A'}, conf:{max:1, UEFA:[0, 2]}, basis:'FIFA ranking of 31 March 2022',
+    pots:[['Qatar', 'Brazil', 'Belgium', 'France', 'Argentina', 'England', 'Spain', 'Portugal'], ['Mexico', 'Netherlands', 'Denmark', 'Germany', 'Uruguay', 'Switzerland', 'United States', 'Croatia'],
+      ['Senegal', 'Iran', 'Japan', 'Morocco', 'Serbia', 'Poland', 'South Korea', 'Tunisia'], ['Cameroon', 'Canada', 'Ecuador', 'Saudi Arabia', 'Ghana', 'Wales', 'Costa Rica', 'Australia']]},
+  /* 2026: pot 1 sat in position 1; pots 2–4 in positions set by group (A, D, G, J: 3-2-4; B, E, H, K: 4-3-2; C, F, I, L: 2-4-3). */
+  'world-cup-2026':{fixed:{Mexico:'A', Canada:'B', 'United States':'D'}, conf:{max:1, UEFA:[1, 2]}, basis:'FIFA ranking of 19 November 2025', posPots:true,
+    note:'FIFA also kept Spain and Argentina, and France and England, in opposite halves of the knockout bracket; that rule is not applied here.'},
+  'womens-world-cup-2023':{fixed:{'New Zealand':'A', Australia:'B'}, conf:{max:1, UEFA:[0, 2]}},
+  'euro-2024':{fixed:{Germany:'A'}, conf:null}
+};
+function redrawPots(T){
+  const R = REDRAW[T.id]; if (!R) return null;
+  if (R.pots) return R.pots;
+  if (R.posPots){ const P = [[], [], [], []], pat = {A:[3, 2, 4], D:[3, 2, 4], G:[3, 2, 4], J:[3, 2, 4], B:[4, 3, 2], E:[4, 3, 2], H:[4, 3, 2], K:[4, 3, 2]};
+    for (const [g, ts] of Object.entries(T.groups)){ const q = pat[g] || [2, 4, 3]; P[0].push(ts[0]); ts.slice(1).forEach((t, i) => P[q[i] - 1].push(t)); }
+    return P; }
+  return null;
+}
+function redrawGroups(T, c, mode, seed){
+  const R = REDRAW[T.id], letters = Object.keys(T.groups), size = T.groups[letters[0]].length, teams = Object.values(T.groups).flat();
+  const conf = t => infoFor(c.resolve(t)).conf, rate = t => { const r = c.byKey.get(c.resolve(t)); return r ? r.rating : 0; };
+  let pots = mode === 'real' ? redrawPots(T) : null;
+  if (!pots){ const hosts = Object.keys(R.fixed), rest = teams.filter(t => !hosts.includes(t)).sort((a, b) => rate(b) - rate(a)), n = letters.length;
+    const order = hosts.concat(rest); pots = []; for (let k = 0; k < size; k++) pots.push(order.slice(k*n, (k + 1)*n)); }
+  const rand = rng('redraw|'+T.id+'|'+mode+'|'+seed), G = letters.map(id => ({id, ts:[]}));
+  const lim = R.conf, fits = (g, t) => { if (!lim) return true; const cf = conf(t), k = g.ts.filter(x => conf(x) === cf).length;
+    return cf === 'UEFA' ? k < lim.UEFA[1] : k < lim.max; };
+  /* Enough UEFA teams left for every group still short of its minimum? */
+  const uefaOk = rest => { if (!lim || !lim.UEFA[0]) return true; const short = G.filter(g => g.ts.filter(x => conf(x) === 'UEFA').length < lim.UEFA[0]).length;
+    return rest.filter(t => conf(t) === 'UEFA').length >= short; };
+  const can = (rest, pot, budget) => { if (budget.n-- < 0) return true; if (!rest.length) return uefaOk([]);
+    const t = rest[0], k = pots.findIndex(p => p.includes(t));
+    for (const g of G){ if (g.ts.length !== k || !fits(g, t)) continue; g.ts.push(t); const ok = uefaOk(rest.slice(1)) && can(rest.slice(1), pot, budget); g.ts.pop(); if (ok) return true; }
+    return false; };
+  Object.entries(R.fixed).forEach(([t, gid]) => G.find(g => g.id === gid).ts.push(t));
+  for (let k = 0; k < pots.length; k++){
+    const ball = pots[k].filter(t => !R.fixed[t]);
+    for (let i = ball.length - 1; i > 0; i--){ const j = Math.floor(rand()*(i + 1)); [ball[i], ball[j]] = [ball[j], ball[i]]; }
+    for (let i = 0; i < ball.length; i++){ const t = ball[i], later = ball.slice(i + 1).concat(pots.slice(k + 1).flat().filter(x => !R.fixed[x]));
+      const g = G.find(g => { if (g.ts.length !== k || !fits(g, t)) return false; g.ts.push(t); const ok = can(later, k, {n:20000}); g.ts.pop(); return ok; });
+      if (!g) return null; g.ts.push(t); }
+  }
+  const out = {}; G.forEach(g => out[g.id] = g.ts); return out;
+}
 function viewSimulate(){
   state.simShare = null;
+  if (state.params.t === 'euro-2028-draw') return viewEuroDraw();
   const p = state.params, T0 = tournamentById(p.t) || (p.t === 'custom' ? null : TOURNAMENTS[0]);
   const custom = p.t === 'custom';
   const app = document.getElementById('app');
-  const chips = '<div class="chips" style="margin-bottom:16px;">'+TOURNAMENTS.map(t =>
-      '<a class="chip'+(T0 && T0.id === t.id ? ' on' : '')+'" href="#/simulate?'+filterQuery({t:t.id, g:t.gender})+'">'+esc(t.short)+'</a>').join('')+
-    '<a class="chip'+(custom ? ' on' : '')+'" href="#/simulate?'+filterQuery({t:'custom'})+'">Build your own</a></div>';
+  const chips = simChips(custom ? 'custom' : T0 && T0.id);
   // rewinds use the ratings from the eve of the tournament
   let savedAsOf = null;
   if (T0 && T0.status === 'rewind'){ savedAsOf = state.asOf; state.asOf = Date.parse(T0.start+'T00:00:00Z') - DAY; }
   const c = getRatings();
   const restore = () => { if (savedAsOf !== null){ state.asOf = savedAsOf; savedAsOf = null; } };
   let T = T0, err = null;
+  /* A rewind drawn again: the organiser's pots or Formline's, under the rules of the time. */
+  const rd = T0 && REDRAW[T0.id] && (p.rd === 'real' || p.rd === 'fl') && (p.rd === 'fl' || redrawPots(T0)) ? p.rd : '';
+  const rs = /^[a-z0-9]{1,12}$/.test(p.rs || '') ? p.rs : 'a';
+  if (rd){ const ng = redrawGroups(T0, c, rd, rs); if (ng) T = {...T0, groups:ng, redrawn:rd}; }
   if (custom){
     const teams = (p.ct || '').split('|').filter(Boolean), r = buildCustom(teams, p.cf || CUSTOM_DEFAULT, p.ch || '', c, p.cd || '');
     if (r.error){ err = r.error; T = null; } else T = r;
@@ -6703,12 +7086,12 @@ function viewSimulate(){
   }
   const P = prepareTournament(T, c, forced);
   const asOfTxt = T.status === 'rewind' ? 'ratings as of '+fmtDay(state.asOf)+', the day before kick-off' : 'ratings as of '+fmtDay(state.asOf);
-  const actual = T.status === 'rewind' ? actualOutcome(T, c) : null;
+  const actual = T.status === 'rewind' && !T.redrawn ? actualOutcome(T, c) : null;
   restore();
   app.innerHTML = '<div class="wrap">'+head+
     (!custom ? '<div class="sim-head"><h2>'+esc(T.name)+'</h2><p class="muted">'+(T.where ? esc(T.where)+' &middot; ' : '')+
       {upcoming:'not yet started', 'in progress':'in progress', rewind:'already played'}[T.status]+' &middot; '+asOfTxt+'</p>'+
-      '<p>'+esc(T.note)+'</p></div>' : '')+
+      '<p>'+esc(T.note)+'</p>'+redrawBar(T0, T, rd, rs)+'</div>' : '')+
     filterBar()+customForm+
     (P.missing.length ? '<div class="notice"><b>No rating for '+P.missing.map(esc).join(', ')+'</b> under these filters, so '+
       (P.missing.length > 1 ? 'they are' : 'it is')+' treated as unknown: placed at 1500 with the widest band.</div>' : '')+
@@ -6720,14 +7103,28 @@ function viewSimulate(){
     '<div id="simOut"><div class="status">Playing the tournament '+runs.toLocaleString()+' times&hellip; <span id="simPct"></span></div></div>'+
   '</div>';
   bindCustom();
+  document.querySelectorAll('[data-rd]').forEach(b => b.addEventListener('click', () => { const q = {...state.params}; delete q.x;
+    if (b.dataset.rd){ q.rd = b.dataset.rd; q.rs = b.dataset.again ? Math.random().toString(36).slice(2, 8) : (q.rs || Math.random().toString(36).slice(2, 8)); } else { delete q.rd; delete q.rs; }
+    go(q); }));
   document.querySelectorAll('[data-runs]').forEach(b => b.addEventListener('click', () => go({...state.params, n:b.dataset.runs})));
   const cf = document.getElementById('clearForced'); if (cf) cf.addEventListener('click', () => { const q = {...state.params}; delete q.x; go(q); });
   const gen = state.renderGen;
-  const seed = T.id+'|'+JSON.stringify(forced)+'|'+fmtDate(state.asOf)+'|'+state.windowYears+'|'+[...state.comps].sort().join(',');
+  const seed = T.id+'|'+(T.redrawn ? JSON.stringify(T.groups) : '')+'|'+JSON.stringify(forced)+'|'+fmtDate(state.asOf)+'|'+state.windowYears+'|'+[...state.comps].sort().join(',');
   simulate(P, runs, seed, R => { if (gen === state.renderGen) renderSimResults(T, P, R, actual, forced); },
     f => { const el = document.getElementById('simPct'); if (el) el.textContent = Math.round(f*100)+'%'; });
 }
 
+function redrawBar(T0, T, rd, rs){
+  const R = T0 && REDRAW[T0.id]; if (!R || T0.status !== 'rewind') return '';
+  const hasReal = !!redrawPots(T0);
+  return '<div class="redraw"><span class="muted">The draw:</span>'+
+    '<button class="chip'+(rd ? '' : ' on')+'" data-rd="">As it happened</button>'+
+    (hasReal ? '<button class="chip'+(rd === 'real' ? ' on' : '')+'" data-rd="real"'+(rd === 'real' ? ' data-again="1"' : '')+'>'+(rd === 'real' ? 'Redraw again' : 'Redraw: same pots')+'</button>' : '')+
+    '<button class="chip'+(rd === 'fl' ? ' on' : '')+'" data-rd="fl"'+(rd === 'fl' ? ' data-again="1"' : '')+'>'+(rd === 'fl' ? 'Redraw again' : 'Redraw: Formline\'s pots')+'</button></div>'+
+    (rd ? '<p class="muted redraw-note">'+(rd === 'real' ? 'Drawn again from the organiser\'s own pots'+(R.basis ? ' (seeded on the '+esc(R.basis)+')' : '') : 'Drawn again with pots set by Formline\'s ratings the day before kick-off')+
+      ', hosts in their places'+(R.conf ? ', no more than one team per confederation in a group ('+(R.conf.UEFA[0] ? 'one or ' : 'up to ')+'two from UEFA)' : '')+'. '+
+      (R.note ? esc(R.note)+' ' : '')+'Groups: '+Object.entries(T.groups).map(([g, ts]) => '<b>'+g+'</b> '+ts.map(t => esc(dn(t))).join(', ')).join('; ')+'.</p>' : '');
+}
 /* The field in five groups, from the simulated chances: favourites, contenders, dark horses, teams expected through the
    group, outsiders. For a groups-only league, by the chance of winning the group. */
 function fieldShape(T, P, R, actual, modes, intro){
@@ -7354,24 +7751,50 @@ function viewCompetitions(){
   const byCat = {}; groups.forEach(c => byCat[c] = []);
   /* A tournament whose weight changed over time (the men's Olympics, the British Home Championship) is listed under each
      of its categories with just the editions that count that way. */
-  E.tournaments.forEach(t => {
-    if (q && !t.name.toLowerCase().includes(q) && !compName(t.name).toLowerCase().includes(q)) return;
+  /* One lineage, one line: a competition that changed its name is listed once, its editions split by the name they were
+     played under. */
+  const LIN = COMP_LINEAGE[state.gender] || {}, merged = new Map();
+  const tours = [];
+  E.tournaments.forEach(t => { const L = Object.entries(LIN).find(([, ns]) => ns.includes(t.name));
+    if (!L){ tours.push(t); return; }
+    if (!merged.has(L[0])){ const m = {name:L[0], lineage:L[1], editions:[]}; merged.set(L[0], m); tours.push(m); }
+    merged.get(L[0]).editions.push(...t.editions); });
+  merged.forEach(m => m.editions.sort((a, b) => a.start - b.start));
+  tours.forEach(t => {
+    if (q && !t.name.toLowerCase().includes(q) && !compName(t.name).toLowerCase().includes(q) && !(t.lineage || []).some(n => n.toLowerCase().includes(q) || compName(n).toLowerCase().includes(q))) return;
     const parts = new Map();
     t.editions.forEach(e => { if (!parts.has(e.cat)) parts.set(e.cat, []); parts.get(e.cat).push(e); });
-    for (const [cat, eds] of parts) if (byCat[cat]) byCat[cat].push({name:t.name, editions:eds, first:eds[0].start, last:eds[eds.length-1].end,
+    for (const [cat, eds] of parts) if (byCat[cat]) byCat[cat].push({name:t.name, lineage:t.lineage, editions:eds, first:eds[0].start, last:eds[eds.length-1].end,
       matches:eds.reduce((n, e) => n + e.matches.length, 0)});
   });
   const LIMIT = 16;
+  /* Each tournament is a heading that opens to its editions (open while searching); the newest edition is one tap away. */
   const tRow = t => {
     const eds = t.editions.slice().reverse();
     const y0 = new Date(t.first).getUTCFullYear(), y1 = new Date(t.last).getUTCFullYear();
-    return '<div class="comp-row"><div class="comp-name"><b>'+esc(compName(t.name))+'</b>'+
+    const chip = (e, k) => '<a class="chip'+(k >= LIMIT ? ' extra' : '')+'" href="'+editionHref(e)+'">'+e.label+'</a>';
+    /* A lineage: a divider each time the name changes, saying which name those editions were played under. */
+    let body = '', k = 0;
+    if (t.lineage){ let cur = null;
+      eds.forEach(e => { if (e.tournament !== cur){ cur = e.tournament; const ys = eds.filter(x => x.tournament === cur);
+        body += '<span class="ed-div">'+esc(compName(cur))+' <span class="muted">'+ys[ys.length - 1].label+(ys.length > 1 ? '&ndash;'+ys[0].label : '')+'</span></span>'; }
+        body += chip(e, k++); }); }
+    else body = eds.map(chip).join('');
+    const title = t.lineage ? t.lineage.slice().reverse().map(compName).join(' / ') : compName(t.name);
+    /* Qualifying competitions: one chip per cycle, named after the finals it led to. */
+    if (/ qualification$/.test(t.name)){ const cys = qualCycles(t.name);
+      if (cys.some(x => x.finals)){ const cyHref = x => '#/qualifying?'+filterQuery({q:t.name, y:cycleLabel(x)}), cyLab = x => x.finals ? 'for '+x.finals.label : 'next';
+        return '<details class="comp-row"'+(q ? ' open' : '')+'><summary><span class="comp-name"><b>'+esc(title)+'</b>'+
+          '<span class="muted"> &middot; '+(y0===y1?y0:y0+'&ndash;'+y1)+' &middot; '+cys.length+' cycle'+(cys.length === 1 ? '' : 's')+' &middot; '+t.matches.toLocaleString()+' matches</span></span>'+
+          '<a class="chip comp-latest" href="'+cyHref(cys[0])+'">'+cyLab(cys[0])+' &rarr;</a></summary>'+
+          '<div class="chips ed-chips">'+cys.map(x => '<a class="chip" href="'+cyHref(x)+'">'+cyLab(x)+'</a>').join('')+'</div></details>'; } }
+    return '<details class="comp-row"'+(q ? ' open' : '')+'><summary><span class="comp-name"><b>'+esc(title)+'</b>'+
       '<span class="muted"> &middot; '+(y0===y1?y0:y0+'&ndash;'+y1)+' &middot; '+t.editions.length+' edition'+(t.editions.length===1?'':'s')+
-      ' &middot; '+t.matches.toLocaleString()+(t.matches === 1 ? ' match' : ' matches')+'</span></div>'+
-      '<div class="chips ed-chips'+(eds.length > LIMIT ? ' clipped' : '')+'">'+
-        eds.map((e,k) => '<a class="chip'+(k >= LIMIT ? ' extra' : '')+'" href="'+editionHref(e)+'">'+e.label+'</a>').join('')+
-        (eds.length > LIMIT ? '<button class="chip more" data-more="1">+'+(eds.length-LIMIT)+' more</button>' : '')+
-      '</div></div>';
+      ' &middot; '+t.matches.toLocaleString()+(t.matches === 1 ? ' match' : ' matches')+'</span></span>'+
+      '<a class="chip comp-latest" href="'+editionHref(eds[0])+'">'+eds[0].label+' &rarr;</a></summary>'+
+      '<div class="chips ed-chips'+(eds.length > LIMIT && !t.lineage ? ' clipped' : '')+'">'+body+
+        (eds.length > LIMIT && !t.lineage ? '<button class="chip more" data-more="1">+'+(eds.length-LIMIT)+' more</button>' : '')+
+      '</div></details>';
   };
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
@@ -7380,10 +7803,11 @@ function viewCompetitions(){
     '<p class="fr-livebar"><b>Women\'s World Cup 2027, Brazil:</b> who has qualified, the play-offs still to come, and the strongest teams now. <a href="#/wwc2027">Open the hub &rarr;</a></p>'+
     '<div class="ctl" style="margin-bottom:20px;"><label for="compSearch">Search</label>'+
       '<input type="text" id="compSearch" placeholder="World Cup, Copa, Gulf&hellip;" style="width:300px;" value="'+esc(state.params.q||'')+'"></div>'+
-    groups.map(c => byCat[c].length ? '<div class="panel" style="margin-bottom:18px;"><div class="panel-head">'+COMPS[c].label+
-      ' <span style="text-transform:none;letter-spacing:0;font-weight:400;">&middot; match weight '+kText(c)+
-      (COMP_GROUP_NOTE[c] ? ' &middot; '+COMP_GROUP_NOTE[c] : '')+'</span></div>'+
-      '<div class="panel-body comp-list">'+byCat[c].sort((a,b) => a.name.localeCompare(b.name)).map(tRow).join('')+'</div></div>' : '').join('')+
+    '<div class="chips comp-tools"><button class="chip" data-open="1">Open all</button><button class="chip" data-open="0">Close all</button></div>'+
+    groups.map(c => byCat[c].length ? '<details class="panel comp-cat" open style="margin-bottom:18px;"><summary class="panel-head">'+COMPS[c].label+
+      ' <span style="text-transform:none;letter-spacing:0;font-weight:400;">&middot; match weight '+kText(c)+' &middot; '+byCat[c].length+' competition'+(byCat[c].length === 1 ? '' : 's')+
+      (COMP_GROUP_NOTE[c] ? ' &middot; '+COMP_GROUP_NOTE[c] : '')+'</span></summary>'+
+      '<div class="panel-body comp-list">'+byCat[c].sort((a,b) => compName(a.name).localeCompare(compName(b.name))).map(tRow).join('')+'</div></details>' : '').join('')+
     (groups.every(c => !byCat[c].length) ? '<div class="status">No competition matches that search.</div>' : '')+
   '</div>';
   const inp = document.getElementById('compSearch');
@@ -7393,7 +7817,271 @@ function viewCompetitions(){
   if (state.params.q){ inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
   document.querySelectorAll('[data-more]').forEach(b => b.addEventListener('click', () => {
     b.parentElement.classList.remove('clipped'); b.remove(); }));
+  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('details.comp-row, details.comp-cat').forEach(d => { d.open = b.dataset.open === '1' || d.classList.contains('comp-cat'); }); }));
+  document.querySelectorAll('.comp-latest').forEach(a => a.addEventListener('click', e => e.stopPropagation()));
 }
+/* Between a tournament and its qualifying: from the finals, the qualifying years since the previous finals; from a
+   qualifying year, the finals it led to. */
+const qualBase = n => n.replace(/ qualification$/, '');
+function qualLinks(e){
+  const L = getEditions().list, lin = Object.values(COMP_LINEAGE[state.gender] || {}).find(ns => ns.includes(e.tournament)) || [e.tournament];
+  if (/ qualification$/.test(e.tournament)){
+    const names = lin.map(qualBase), fin = L.filter(x => names.includes(x.tournament) && !x.qualLike && x.start > e.start).sort((a, b) => a.start - b.start)[0];
+    return fin && fin.start - e.start < 5*365*DAY ? '<a class="chip q-link" href="#/qualifying?'+filterQuery({q:e.tournament, y:fin.label})+'">Qualifying for '+esc(compName(fin.tournament))+' '+fin.label+': every round &rarr;</a>'+
+      '<a class="chip q-link" href="'+editionHref(fin)+'">'+esc(compName(fin.tournament))+' '+fin.label+' &rarr;</a>' : '';
+  }
+  const qn = lin.map(n => n+' qualification'), prev = L.filter(x => lin.includes(x.tournament) && !x.qualLike && x.start < e.start).sort((a, b) => b.start - a.start)[0];
+  const qs = L.filter(x => qn.includes(x.tournament) && x.start < e.start && (!prev || x.start > prev.start)).sort((a, b) => a.start - b.start);
+  return qs.length ? '<a class="chip q-link" href="#/qualifying?'+filterQuery({q:qs[qs.length - 1].tournament, y:e.label})+'">Qualifying for '+e.label+' &rarr;</a>' : '';
+}
+/* ============================================================
+   QUALIFYING, BY THE TOURNAMENT IT LEADS TO. A cycle is every qualifying match between the previous finals and these
+   ones. The archive does not record stages, so they are worked out from the results: a group is a set of three or more
+   teams who all played each other within one stretch; a tie is a pair who met once (a single match) or twice within a
+   few weeks (two legs) outside any group. Groups and ties whose dates overlap form one round, numbered in order. Stage
+   names are therefore Formline's (Round 1, Round 2…), not the organiser's.
+   ============================================================ */
+const QUAL_FINALS = n => qualBase(n);
+/* Cycles of one qualifying competition: [{finals edition or null, from, to, matches}] newest first. */
+function qualCycles(qname){
+  const L = getEditions().list, lin = Object.values(COMP_LINEAGE[state.gender] || {}).find(ns => ns.includes(qname)) || [qname];
+  const fnames = lin.map(QUAL_FINALS), fin = L.filter(e => fnames.includes(e.tournament) && !e.qualLike).sort((a, b) => a.start - b.start);
+  const all = L.filter(e => lin.includes(e.tournament)).flatMap(e => e.matches).sort((a, b) => a.ts - b.ts);
+  const out = [];
+  for (let i = 0; i <= fin.length; i++){
+    const from = i ? fin[i - 1].start : -Infinity, to = i < fin.length ? fin[i].start : Infinity;
+    const ms = all.filter(m => m.ts > from && m.ts < to);
+    if (ms.length) out.push({finals:fin[i] || null, from, to, matches:ms, qname:lin[lin.length - 1]});
+  }
+  return out.reverse();
+}
+const cycleLabel = cy => cy.finals ? cy.finals.label : 'next';
+/* Groups and ties from a set of matches. */
+function qualStages(ms){
+  ms.forEach(namesFor);
+  const pair = new Map(), key = (a, b) => a < b ? a+'|'+b : b+'|'+a;
+  ms.forEach(m => { const k = key(m._h, m._a); if (!pair.has(k)) pair.set(k, []); pair.get(k).push(m); });
+  /* Groups: maximal cliques (Bron–Kerbosch with pivoting) of three or more teams in the graph of pairs that met, largest
+     first; then again on the matches left over, so a small group hidden inside a larger set of sides that met in other
+     rounds is still found. */
+  const groups = [], used = new Set();
+  for (let pass = 0; pass < 4; pass++){
+    const adj = new Map(); const add = (a, b) => { if (!adj.has(a)) adj.set(a, new Set()); adj.get(a).add(b); };
+    for (const [k, list] of pair){ if (!list.some(m => !used.has(m))) continue; const [a, b] = k.split('|'); add(a, b); add(b, a); }
+    const cliques = [];
+    const bk = (R, P, X) => { if (!P.size && !X.size){ if (R.length >= 3) cliques.push(R); return; }
+      const u = [...P, ...X].reduce((b, v) => (adj.get(v) || new Set()).size > (adj.get(b) || new Set()).size ? v : b, [...P, ...X][0]);
+      for (const v of [...P].filter(v => !(adj.get(u) || new Set()).has(v))){ const N = adj.get(v) || new Set();
+        bk(R.concat([v]), new Set([...P].filter(x => N.has(x))), new Set([...X].filter(x => N.has(x)))); P.delete(v); X.add(v); } };
+    bk([], new Set(adj.keys()), new Set());
+    const before = groups.length;
+    cliques.sort((a, b) => b.length - a.length).forEach(C => {
+      /* Two sides who met in two different rounds have more meetings than the group needs: keep those closest in time to
+         the group's own matches (the pairs that met only in it). Matches already in a larger group are left out. */
+      const P = []; for (let i = 0; i < C.length; i++) for (let j = i + 1; j < C.length; j++) P.push(pair.get(key(C[i], C[j])).filter(m => !used.has(m)));
+      if (P.some(x => !x.length)) return;
+      const base = P.filter(x => x.length <= 2).flat().map(m => m.ts).sort((a, b) => a - b), all = P.flat().map(m => m.ts).sort((a, b) => a - b);
+      const mid = (base.length ? base : all)[Math.floor((base.length ? base : all).length/2)];
+      const cnt = P.filter(x => x.length <= 2).map(x => x.length), k = cnt.filter(n => n === 2).length >= cnt.filter(n => n === 1).length ? 2 : 1;
+      const run = P.flatMap(x => x.length <= k ? x : x.slice().sort((a, b) => Math.abs(a.ts - mid) - Math.abs(b.ts - mid)).slice(0, k)).sort((a, b) => a.ts - b.ts);
+      if (run[run.length - 1].ts - run[0].ts > 3*365*DAY) return;   // too spread out to be one group
+      /* A three-team "group" of single matches spread over months is more likely three separate ties. */
+      if (C.length === 3 && k === 1 && run[run.length - 1].ts - run[0].ts > 30*DAY) return;
+      run.forEach(m => used.add(m));
+      groups.push({kind:'group', teams:C, matches:run, start:run[0].ts, end:run[run.length - 1].ts});
+    });
+    if (groups.length === before) break;
+  }
+  /* Groups still being played (or with a match missing): sides who have each met at least two others of the same set
+     within a year and a half, with nobody outside it. A knockout run doesn't qualify: its beaten sides met only one. */
+  { const left = ms.filter(m => !used.has(m)), nb = new Map();
+    left.forEach(m => { [[m._h, m._a], [m._a, m._h]].forEach(([a, b]) => { if (!nb.has(a)) nb.set(a, new Set()); nb.get(a).add(b); }); });
+    const seen = new Set();
+    for (const t0 of nb.keys()){ if (seen.has(t0)) continue;
+      const comp = [], stack = [t0]; seen.add(t0);
+      while (stack.length){ const t = stack.pop(); comp.push(t); nb.get(t).forEach(u => { if (!seen.has(u)){ seen.add(u); stack.push(u); } }); }
+      if (comp.length < 3 || comp.length > 8 || comp.some(t => nb.get(t).size < 2)) continue;
+      const set = new Set(comp), run = left.filter(m => set.has(m._h)).sort((a, b) => a.ts - b.ts);
+      if (run[run.length - 1].ts - run[0].ts > 550*DAY) continue;
+      run.forEach(m => used.add(m));
+      groups.push({kind:'group', teams:comp, matches:run, start:run[0].ts, end:run[run.length - 1].ts, partial:true}); } }
+  /* Everything else: ties of one or two matches between a pair (two legs within six weeks), or loose matches. */
+  const ties = [];
+  for (const [k, list] of pair){ const rest = list.filter(m => !used.has(m)).sort((a, b) => a.ts - b.ts); let i = 0;
+    while (i < rest.length){ const a = rest[i], b = rest[i + 1];
+      if (b && b.ts - a.ts < 42*DAY){ ties.push({kind:'tie', teams:k.split('|'), matches:[a, b], start:a.ts, end:b.ts}); i += 2; }
+      else { ties.push({kind:'tie', teams:k.split('|'), matches:[a], start:a.ts, end:a.ts}); i += 1; } } }
+  /* Rounds: groups overlapping in time form one round; ties within three weeks of each other form one round. */
+  const items = groups.concat(ties).sort((a, b) => a.start - b.start), rounds = [];
+  /* A tie joins a round only if neither side is already in it: play-off semi-finals and finals a few days apart stay two rounds. */
+  items.forEach(it => { const r = rounds.find(r => r.kind === it.kind && (it.kind === 'group' ? it.start <= r.end + 30*DAY && it.end >= r.start - 30*DAY
+      : Math.abs(it.start - r.start) < 21*DAY && !r.items.some(x => x.teams.some(t => it.teams.includes(t)))));
+    if (r){ r.items.push(it); r.start = Math.min(r.start, it.start); r.end = Math.max(r.end, it.end); } else rounds.push({kind:it.kind, items:[it], start:it.start, end:it.end}); });
+  rounds.sort((a, b) => a.start - b.start);
+  return rounds;
+}
+/* Standings of one group: points, then goal difference, then goals (head-to-head differences are not applied). */
+function groupTable(it){
+  const rows = new Map(it.teams.map(t => [t, {t, pl:0, w:0, d:0, l:0, gf:0, ga:0, pts:0}]));
+  it.matches.forEach(m => { const H = rows.get(m._h), A = rows.get(m._a); if (!H || !A) return;
+    H.pl++; A.pl++; H.gf += m.hs; H.ga += m.as; A.gf += m.as; A.ga += m.hs;
+    if (m.hs > m.as){ H.w++; A.l++; H.pts += 3; } else if (m.hs < m.as){ A.w++; H.l++; A.pts += 3; } else { H.d++; A.d++; H.pts++; A.pts++; } });
+  return [...rows.values()].sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga) || b.gf - a.gf);
+}
+function tieResult(it){
+  const [a, b] = it.teams; let ga = 0, gb = 0;
+  it.matches.forEach(m => { if (m._h === a){ ga += m.hs; gb += m.as; } else { ga += m.as; gb += m.hs; } });
+  let w = ga > gb ? a : gb > ga ? b : null;
+  if (!w){ const last = it.matches[it.matches.length - 1], so = shootoutWinner(last); if (so) w = keyOfName(so); }
+  return {a, b, ga, gb, w};
+}
+function viewQualifying(){
+  const app = document.getElementById('app'), p = state.params;
+  const qname = p.q || (state.gender === 'men' ? 'FIFA World Cup qualification' : 'FIFA World Cup qualification');
+  const cycles = qualCycles(qname);
+  if (!cycles.length){ app.innerHTML = '<div class="wrap"><h1 class="page-title">Qualifying</h1><div class="status">No qualifying matches found for '+esc(compName(qname))+'.</div></div>'; return; }
+  const cy = cycles.find(x => cycleLabel(x) === p.y) || cycles[0];
+  const fname = compName(QUAL_FINALS(cy.qname));
+  const title = cy.finals ? 'Qualifying for '+fname+' '+cy.finals.label : fname+': the next qualifying cycle';
+  /* Confederation of each match, at the time: both sides' pools; a match across two is an inter-confederation play-off. */
+  const byConf = new Map();
+  cy.matches.forEach(m => { namesFor(m); const k = m._ph === m._pa ? m._ph : 'inter'; if (!byConf.has(k)) byConf.set(k, []); byConf.get(k).push(m); });
+  const confs = [...byConf.keys()].sort((a, b) => a === 'inter' ? 1 : b === 'inter' ? -1 : CONF_ORDER.indexOf(a) - CONF_ORDER.indexOf(b));
+  const cf = confs.includes(p.cf) ? p.cf : confs[0];
+  const confName = k => k === 'inter' ? 'Inter-confederation play-offs' : confLabel(k);
+  const rounds = qualStages(byConf.get(cf));
+  /* Who went on: anyone who appears in a later round, or in the finals. */
+  const finTeams = cy.finals ? new Set([...cy.finals.teams]) : new Set();
+  const later = rounds.map((r, i) => new Set(rounds.slice(i + 1).flatMap(x => x.items.flatMap(it => it.teams))));
+  const nm = k => esc(dn(k)), fmtM = ts => new Date(ts).toLocaleDateString('en-GB', {month:'short', year:'numeric', timeZone:'UTC'});
+  const roundHtml = (r, i) => {
+    const went = t => later[i].has(t) || finTeams.has(t);
+    const groupsN = r.items.length, sizes = [...new Set(r.items.map(it => it.teams.length))].sort();
+    const desc = r.kind === 'group' ? groupsN+' group'+(groupsN === 1 ? '' : 's')+' of '+sizes.join(' or ')
+      : groupsN+' '+(r.items.every(it => it.matches.length === 2) ? (groupsN === 1 ? 'two-legged tie' : 'two-legged ties') : r.items.every(it => it.matches.length === 1) ? (groupsN === 1 ? 'single match' : 'single matches') : (groupsN === 1 ? 'tie' : 'ties'));
+    const body = r.kind === 'group'
+      ? '<div class="q-groups">'+r.items.map((it, gi) => { const T = groupTable(it);
+          return '<div class="q-group"><div class="q-gh">'+(groupsN > 1 ? 'Group '+(gi + 1) : 'Group')+(it.partial ? ' <span class="muted">&middot; not complete in the data yet</span>' : '')+'</div><table class="q-gt"><thead><tr><th>Team</th><th class="num">P</th><th class="num">W</th><th class="num">D</th><th class="num">L</th><th class="num">GD</th><th class="num">Pts</th></tr></thead><tbody>'+
+            T.map(x => '<tr class="'+(went(x.t) ? 'q-on' : '')+'"><td><a href="'+teamHref(dn(x.t))+'">'+withFlag(dn(x.t), it.start)+'</a>'+(went(x.t) ? ' <span class="q-go" title="Went on to the next round or the finals">&#9654;</span>' : '')+'</td>'+
+              '<td class="num">'+x.pl+'</td><td class="num">'+x.w+'</td><td class="num">'+x.d+'</td><td class="num">'+x.l+'</td><td class="num">'+(x.gf - x.ga > 0 ? '+' : '')+(x.gf - x.ga)+'</td><td class="num"><b>'+x.pts+'</b></td></tr>').join('')+
+            '</tbody></table></div>'; }).join('')+'</div>'
+      : '<table class="q-ties"><tbody>'+r.items.sort((a, b) => a.start - b.start).map(it => { const R = tieResult(it);
+          return '<tr><td class="muted date">'+fmtDay(it.start)+'</td><td class="ml-cell">'+matchLine(dn(R.a), dn(R.b), R.ga+'&ndash;'+R.gb, teamHref, {ts:it.start, win:R.w === R.a ? 1 : R.w === R.b ? -1 : 0})+
+            '<div class="muted" style="font-size:12px;text-align:center;">'+(it.matches.length === 2 ? 'on aggregate' : 'single match')+(R.w && R.ga === R.gb ? ', on penalties' : '')+'</div></td></tr>'; }).join('')+'</tbody></table>';
+    return '<section class="q-round"><h2>Round '+(i + 1)+' <span class="muted">&middot; '+desc+' &middot; '+fmtM(r.start)+(fmtM(r.end) !== fmtM(r.start) ? ' to '+fmtM(r.end) : '')+'</span></h2>'+body+'</section>';
+  };
+  app.innerHTML = '<div class="wrap"><h1 class="page-title">'+esc(title)+'</h1>'+
+    '<p class="page-sub">'+cy.matches.length.toLocaleString()+' matches'+(cy.finals ? ', leading to <a href="'+editionHref(cy.finals)+'">'+esc(fname)+' '+cy.finals.label+'</a>' : ' so far')+
+      '. Organised by confederation, then round by round.</p>'+
+    '<div class="chips q-cycles">'+cycles.slice(0, 14).map(x => '<a class="chip'+(x === cy ? ' on' : '')+'" href="#/qualifying?'+filterQuery({q:qname, y:cycleLabel(x)})+'">'+(x.finals ? 'for '+x.finals.label : 'next')+'</a>').join('')+
+      (cycles.length > 14 ? '<select class="q-older" aria-label="Older cycles" onchange="location.hash=this.value"><option value="">Older&hellip;</option>'+cycles.slice(14).map(x => '<option value="#/qualifying?'+filterQuery({q:qname, y:cycleLabel(x)})+'">for '+(x.finals ? x.finals.label : 'next')+'</option>').join('')+'</select>' : '')+'</div>'+
+    (confs.length > 1 ? '<div class="chips about-tabs">'+confs.map(k => '<a class="chip'+(k === cf ? ' on' : '')+'" href="#/qualifying?'+filterQuery({q:qname, y:cycleLabel(cy), cf:k})+'">'+esc(confName(k))+' <span class="muted">'+byConf.get(k).length+'</span></a>').join('')+'</div>' : '')+
+    (cy.finals ? '' : '<div class="notice">This cycle is still being played. Groups appear here once their teams have met enough times to be recognised; '+
+      'the <a href="#/simulate">Simulator</a> has the draws of competitions under way.</div>')+
+    rounds.map(roundHtml).join('')+
+    (y => y.length ? '<p class="fr-q">Every match by calendar year: '+y.map(e => '<a href="'+editionHref(e)+'">'+e.label+'</a>').join(' &middot; ')+'</p>' : '')(
+      getEditions().list.filter(e => e.tournament === cy.qname && e.start > cy.from - 400*DAY && e.start < cy.to).sort((a, b) => a.start - b.start))+
+    '<p class="chart-note">Rounds are worked out from the results: a group is a set of teams who all played each other; a tie is a pair who met once, or twice within six weeks. '+
+      'The round names are Formline\'s, not the organiser\'s, and group tables are ordered by points, goal difference and goals scored (head-to-head rules are not applied). '+
+      '&#9654; marks a team that played on in a later round or in the finals. Matches between confederations are under Inter-confederation play-offs.</p></div>';
+}
+
+/* ---------- Seeding: how Formline's ratings would have potted a tournament, next to the organiser's real pots ----------
+   Formline's pots: the teams by rating on the day of the draw (when known; otherwise five months before kick-off), hosts
+   in pot 1 as organisers usually place them, as many pots as teams in a group. The organiser's pots are entered by hand,
+   edition by edition, with what they were based on. */
+/* The organiser's own pots, entered by hand from each tournament's Wikipedia article (draw section), newest first.
+   An entry belongs to the edition of that competition that started within 600 days after its draw date (Euro 2020 was played in 2021). Earlier
+   editions are still to be added. regional: pots set by region rather than strength, so no pot-by-pot comparison. */
+const SEED_POTS = [
+  {g:'men', t:'FIFA World Cup', draw:'2025-12-05', basis:'FIFA ranking of 19 November 2025; hosts Mexico, Canada and the United States in pot 1', from:'world-cup-2026'},
+  {g:'men', t:'FIFA World Cup', draw:'2022-04-01', basis:'FIFA ranking of 31 March 2022; hosts Qatar in pot 1', from:'world-cup-2022'},
+  {g:'men', t:'FIFA World Cup', draw:'2017-12-01', basis:'FIFA ranking of 16 October 2017; hosts Russia in pot 1 (ranked 65th)', pots:[['Russia', 'Germany', 'Brazil', 'Portugal', 'Argentina', 'Belgium', 'Poland', 'France'], ['Spain', 'Peru', 'Switzerland', 'England', 'Colombia', 'Mexico', 'Uruguay', 'Croatia'], ['Denmark', 'Iceland', 'Costa Rica', 'Sweden', 'Tunisia', 'Egypt', 'Senegal', 'Iran'], ['Serbia', 'Nigeria', 'Australia', 'Japan', 'Morocco', 'Panama', 'South Korea', 'Saudi Arabia']]},
+  {g:'men', t:'FIFA World Cup', draw:'2013-12-06', basis:'FIFA ranking of October 2013 for the seeds, hosts Brazil among them; the other pots by region (Africa and South America, Asia and CONCACAF, Europe), with Italy drawn from the European pot into pot 2', pots:[['Brazil', 'Argentina', 'Colombia', 'Uruguay', 'Belgium', 'Germany', 'Spain', 'Switzerland'], ['Algeria', 'Cameroon', 'Ghana', 'Ivory Coast', 'Nigeria', 'Chile', 'Ecuador', 'Italy'], ['Australia', 'Iran', 'Japan', 'South Korea', 'Costa Rica', 'Honduras', 'Mexico', 'United States'], ['Bosnia and Herzegovina', 'Croatia', 'England', 'France', 'Greece', 'Netherlands', 'Portugal', 'Russia']]},
+  {g:'men', t:'FIFA World Cup', draw:'2009-12-04', basis:'FIFA ranking of October 2009 for the seeds, hosts South Africa among them; the other pots by region (Asia, CONCACAF and Oceania; Africa and South America; Europe)', pots:[['South Africa', 'Argentina', 'Brazil', 'England', 'Germany', 'Italy', 'Netherlands', 'Spain'], ['Australia', 'Japan', 'North Korea', 'South Korea', 'Honduras', 'Mexico', 'United States', 'New Zealand'], ['Algeria', 'Cameroon', 'Ghana', 'Ivory Coast', 'Nigeria', 'Chile', 'Paraguay', 'Uruguay'], ['Denmark', 'France', 'Greece', 'Portugal', 'Serbia', 'Slovakia', 'Slovenia', 'Switzerland']]},
+  {g:'men', t:'UEFA Euro', draw:'2023-12-02', basis:'European Qualifiers overall ranking; hosts Germany in pot 1; the three play-off places in pot 4 (won by Poland, Ukraine and Georgia)', pots:[['Germany', 'Portugal', 'France', 'Spain', 'Belgium', 'England'], ['Hungary', 'Turkey', 'Romania', 'Denmark', 'Albania', 'Austria'], ['Netherlands', 'Scotland', 'Croatia', 'Slovenia', 'Slovakia', 'Czech Republic'], ['Italy', 'Serbia', 'Switzerland', 'Poland', 'Ukraine', 'Georgia']]},
+  {g:'men', t:'UEFA Euro', draw:'2019-11-30', basis:'European Qualifiers overall ranking; the four play-off places in pot 4 (won by Hungary, Slovakia, Scotland and North Macedonia)', pots:[['Belgium', 'Italy', 'England', 'Germany', 'Spain', 'Ukraine'], ['France', 'Poland', 'Switzerland', 'Croatia', 'Netherlands', 'Russia'], ['Portugal', 'Turkey', 'Denmark', 'Austria', 'Sweden', 'Czech Republic'], ['Wales', 'Finland', 'Hungary', 'Slovakia', 'Scotland', 'North Macedonia']]},
+  {g:'men', t:'UEFA Euro', draw:'2015-12-12', basis:'UEFA national-team coefficients after qualifying; hosts France and holders Spain in pot 1', pots:[['France', 'Spain', 'Germany', 'England', 'Portugal', 'Belgium'], ['Italy', 'Russia', 'Switzerland', 'Austria', 'Croatia', 'Ukraine'], ['Czech Republic', 'Sweden', 'Poland', 'Romania', 'Slovakia', 'Hungary'], ['Turkey', 'Republic of Ireland', 'Iceland', 'Wales', 'Albania', 'Northern Ireland']]},
+  {g:'men', t:'UEFA Euro', draw:'2011-12-02', basis:'UEFA national-team coefficients after qualifying; hosts Poland and Ukraine and holders Spain in pot 1', pots:[['Poland', 'Ukraine', 'Spain', 'Netherlands'], ['Germany', 'Italy', 'England', 'Russia'], ['Croatia', 'Greece', 'Portugal', 'Sweden'], ['Denmark', 'France', 'Czech Republic', 'Republic of Ireland']]},
+  {g:'men', t:'UEFA Euro', draw:'2007-12-02', basis:'UEFA national-team coefficients of 2007; hosts Austria and Switzerland and holders Greece in pot 1', pots:[['Switzerland', 'Austria', 'Greece', 'Netherlands'], ['Croatia', 'Italy', 'Czech Republic', 'Sweden'], ['Romania', 'Germany', 'Portugal', 'Spain'], ['Poland', 'France', 'Turkey', 'Russia']]},
+  {g:'men', t:'UEFA Euro', draw:'2003-11-30', basis:'UEFA national-team coefficients of 2003; hosts Portugal in pot 1', pots:[['Portugal', 'France', 'Sweden', 'Czech Republic'], ['Italy', 'Spain', 'England', 'Germany'], ['Netherlands', 'Croatia', 'Russia', 'Denmark'], ['Bulgaria', 'Switzerland', 'Greece', 'Latvia']]},
+  {g:'men', t:'UEFA Euro', draw:'1999-12-12', basis:'UEFA national-team coefficients at the end of 1999; hosts Belgium and Netherlands and holders Germany in pot 1', pots:[['Germany', 'Belgium', 'Netherlands', 'Spain'], ['Romania', 'Norway', 'Sweden', 'Czech Republic'], ['Serbia', 'Portugal', 'France', 'Italy'], ['England', 'Turkey', 'Denmark', 'Slovenia']]},
+  {g:'men', t:'African Cup of Nations', draw:'2025-01-27', basis:'FIFA ranking of 19 December 2024; hosts Morocco in pot 1', pots:[['Morocco', 'Senegal', 'Egypt', 'Algeria', 'Nigeria', 'Ivory Coast'], ['Cameroon', 'Mali', 'Tunisia', 'South Africa', 'DR Congo', 'Burkina Faso'], ['Gabon', 'Angola', 'Zambia', 'Uganda', 'Equatorial Guinea', 'Benin'], ['Mozambique', 'Comoros', 'Tanzania', 'Sudan', 'Zimbabwe', 'Botswana']]},
+  {g:'men', t:'African Cup of Nations', draw:'2023-10-12', basis:'FIFA ranking of September 2023; hosts Ivory Coast in pot 1', pots:[['Ivory Coast', 'Morocco', 'Senegal', 'Tunisia', 'Algeria', 'Egypt'], ['Nigeria', 'Cameroon', 'Mali', 'Burkina Faso', 'Ghana', 'DR Congo'], ['South Africa', 'Cape Verde', 'Guinea', 'Zambia', 'Equatorial Guinea', 'Mauritania'], ['Guinea-Bissau', 'Mozambique', 'Namibia', 'Angola', 'Gambia', 'Tanzania']]},
+  {g:'men', t:'African Cup of Nations', draw:'2021-08-17', basis:'FIFA ranking of August 2021; hosts Cameroon and holders Algeria in pot 1', pots:[['Cameroon', 'Algeria', 'Senegal', 'Tunisia', 'Morocco', 'Nigeria'], ['Egypt', 'Ghana', 'Ivory Coast', 'Mali', 'Burkina Faso', 'Guinea'], ['Cape Verde', 'Gabon', 'Mauritania', 'Sierra Leone', 'Zimbabwe', 'Guinea-Bissau'], ['Malawi', 'Sudan', 'Equatorial Guinea', 'Comoros', 'Ethiopia', 'Gambia']]},
+  {g:'men', t:'African Cup of Nations', draw:'2019-04-12', basis:'FIFA ranking of April 2019; hosts Egypt and holders Cameroon in pot 1', pots:[['Egypt', 'Cameroon', 'Senegal', 'Tunisia', 'Nigeria', 'Morocco'], ['DR Congo', 'Ghana', 'Mali', 'Ivory Coast', 'Guinea', 'Algeria'], ['South Africa', 'Uganda', 'Benin', 'Mauritania', 'Madagascar', 'Kenya'], ['Zimbabwe', 'Namibia', 'Guinea-Bissau', 'Angola', 'Tanzania', 'Burundi']]},
+  {g:'men', t:'AFC Asian Cup', draw:'2023-05-11', basis:'FIFA ranking of April 2023; hosts Qatar in pot 1', pots:[['Qatar', 'Japan', 'Iran', 'South Korea', 'Australia', 'Saudi Arabia'], ['Iraq', 'United Arab Emirates', 'Oman', 'Uzbekistan', 'China', 'Jordan'], ['Bahrain', 'Syria', 'Palestine', 'Vietnam', 'Kyrgyzstan', 'Lebanon'], ['India', 'Tajikistan', 'Thailand', 'Malaysia', 'Hong Kong', 'Indonesia']]},
+  {g:'men', t:'AFC Asian Cup', draw:'2018-05-04', basis:'FIFA ranking of April 2018; hosts United Arab Emirates in pot 1', pots:[['United Arab Emirates', 'Iran', 'Australia', 'Japan', 'South Korea', 'Saudi Arabia'], ['China', 'Syria', 'Uzbekistan', 'Iraq', 'Qatar', 'Thailand'], ['Kyrgyzstan', 'Lebanon', 'Palestine', 'Oman', 'India', 'Vietnam'], ['North Korea', 'Philippines', 'Bahrain', 'Jordan', 'Yemen', 'Turkmenistan']]},
+  {g:'men', t:'AFC Asian Cup', draw:'2014-03-26', basis:'FIFA ranking of March 2014; hosts Australia in pot 1; the Challenge Cup winners (Palestine) in pot 4', pots:[['Australia', 'Iran', 'Japan', 'Uzbekistan'], ['South Korea', 'United Arab Emirates', 'Jordan', 'Saudi Arabia'], ['Oman', 'China', 'Qatar', 'Iraq'], ['Bahrain', 'Kuwait', 'North Korea', 'Palestine']]},
+  {g:'men', t:'Copa América', draw:'2023-12-07', basis:'Pot 1: holders Argentina, Gold Cup holders Mexico, hosts the United States and Brazil; the rest by the FIFA ranking of October 2023, the CONCACAF play-off places (won by Canada and Costa Rica) in pot 4', pots:[['Argentina', 'Mexico', 'United States', 'Brazil'], ['Uruguay', 'Colombia', 'Ecuador', 'Peru'], ['Chile', 'Panama', 'Venezuela', 'Paraguay'], ['Jamaica', 'Bolivia', 'Canada', 'Costa Rica']]},
+  {g:'men', t:'Copa América', draw:'2019-01-24', basis:'FIFA ranking of December 2018; hosts Brazil in pot 1; guests Japan and Qatar in pots 3 and 4', pots:[['Brazil', 'Uruguay', 'Argentina'], ['Colombia', 'Chile', 'Peru'], ['Venezuela', 'Paraguay', 'Japan'], ['Ecuador', 'Bolivia', 'Qatar']]},
+  {g:'men', t:'Gold Cup', draw:'2025-04-10', basis:'CONCACAF ranking of 26 March 2025; holders Mexico in pot 1; guests Saudi Arabia in pot 4', pots:[['Mexico', 'Canada', 'Panama', 'United States'], ['Costa Rica', 'Jamaica', 'Honduras', 'Haiti'], ['Guatemala', 'Trinidad and Tobago', 'El Salvador', 'Suriname'], ['Guadeloupe', 'Curaçao', 'Dominican Republic', 'Saudi Arabia']]},
+  {g:'men', t:'Gold Cup', draw:'2023-04-14', basis:'CONCACAF ranking of March 2023; three pot-4 places for the preliminary-round winners (Martinique, Guadeloupe, Saint Kitts and Nevis); guests Qatar', pots:[['Mexico', 'United States', 'Costa Rica', 'Canada'], ['Panama', 'Haiti', 'Jamaica', 'Guatemala'], ['Honduras', 'El Salvador', 'Cuba', 'Trinidad and Tobago'], ['Martinique', 'Guadeloupe', 'Saint Kitts and Nevis', 'Qatar']]},
+  {g:'men', t:'Gold Cup', draw:'2020-09-28', basis:'CONCACAF ranking of August 2020; three pot-4 places for the preliminary-round winners (Haiti, Guadeloupe, Trinidad and Tobago); guests Qatar; Curaçao, drawn from pot 3, withdrew and was replaced by Guatemala', pots:[['Mexico', 'United States', 'Costa Rica', 'Honduras'], ['Jamaica', 'Canada', 'Panama', 'El Salvador'], ['Martinique', 'Guatemala', 'Suriname', 'Grenada'], ['Haiti', 'Guadeloupe', 'Trinidad and Tobago', 'Qatar']]},
+  {g:'women', t:'FIFA World Cup', draw:'2022-10-22', basis:'FIFA Women\'s World Ranking of 13 October 2022; co-hosts New Zealand and Australia in pot 1; three play-off places in pot 4 (won by Portugal, Haiti and Panama)', pots:[['New Zealand', 'Australia', 'United States', 'Sweden', 'Germany', 'England', 'France', 'Spain'], ['Canada', 'Netherlands', 'Brazil', 'Japan', 'Norway', 'Italy', 'China', 'South Korea'], ['Denmark', 'Switzerland', 'Republic of Ireland', 'Colombia', 'Argentina', 'Vietnam', 'Costa Rica', 'Jamaica'], ['Nigeria', 'Philippines', 'South Africa', 'Morocco', 'Zambia', 'Portugal', 'Haiti', 'Panama']]},
+  {g:'women', t:'FIFA World Cup', draw:'2018-12-08', basis:'FIFA Women\'s World Ranking of 7 December 2018; hosts France in pot 1', pots:[['France', 'United States', 'Germany', 'England', 'Canada', 'Australia'], ['Netherlands', 'Japan', 'Sweden', 'Brazil', 'Spain', 'Norway'], ['South Korea', 'China', 'Italy', 'New Zealand', 'Scotland', 'Thailand'], ['Argentina', 'Chile', 'Nigeria', 'Cameroon', 'South Africa', 'Jamaica']]},
+  {g:'women', t:'FIFA World Cup', draw:'2014-12-06', basis:'Seeds (hosts Canada among them), then pots by confederation, one team per confederation in a group where possible', pots:[['Canada', 'Brazil', 'France', 'Germany', 'Japan', 'United States'], ['Cameroon', 'Ivory Coast', 'Nigeria', 'Costa Rica', 'Mexico', 'New Zealand'], ['Australia', 'China', 'South Korea', 'Thailand', 'Colombia', 'Ecuador'], ['England', 'Netherlands', 'Norway', 'Spain', 'Sweden', 'Switzerland']]},
+  {g:'women', t:'UEFA Euro', draw:'2024-12-16', basis:'UEFA Women\'s Euro qualifying ranking; hosts Switzerland in pot 1', pots:[['Switzerland', 'Spain', 'Germany', 'France'], ['Italy', 'Iceland', 'Denmark', 'England'], ['Netherlands', 'Sweden', 'Norway', 'Belgium'], ['Finland', 'Poland', 'Portugal', 'Wales']]},
+  {g:'women', t:'UEFA Euro', draw:'2021-10-28', basis:'UEFA coefficient ranking; hosts England in pot 1; Russia, drawn from pot 4, was later replaced by Portugal', pots:[['England', 'Netherlands', 'Germany', 'France'], ['Sweden', 'Spain', 'Norway', 'Italy'], ['Denmark', 'Belgium', 'Switzerland', 'Austria'], ['Iceland', 'Portugal', 'Finland', 'Northern Ireland']]},
+  {g:'women', t:'UEFA Euro', draw:'2016-11-08', basis:'UEFA coefficient ranking after the qualifying group stage; hosts Netherlands in pot 1', pots:[['Netherlands', 'Germany', 'France', 'England'], ['Norway', 'Sweden', 'Spain', 'Switzerland'], ['Italy', 'Iceland', 'Scotland', 'Denmark'], ['Austria', 'Belgium', 'Russia', 'Portugal']]},
+  {g:'men', t:'FIFA World Cup', draw:'2005-12-09', basis:'seeds from the FIFA ranking over three years and the last two World Cups, hosts Germany among them; the other pots by region; Serbia and Montenegro, alone in a fifth pot (shown in pot 4), drawn into the group of Brazil, Argentina or Mexico so no group had three European sides', regional:true, pots:[['Germany', 'Brazil', 'England', 'Spain', 'Mexico', 'France', 'Italy', 'Argentina'], ['Paraguay', 'Tunisia', 'Ecuador', 'Ivory Coast', 'Australia', 'Ghana', 'Angola', 'Togo'], ['Netherlands', 'Sweden', 'Croatia', 'Czech Republic', 'Portugal', 'Poland', 'Switzerland', 'Ukraine'], ['United States', 'South Korea', 'Japan', 'Costa Rica', 'Saudi Arabia', 'Iran', 'Trinidad and Tobago', 'Serbia and Montenegro']]},
+  {g:'men', t:'FIFA World Cup', draw:'2001-12-01', basis:'seeds from 1990–98 World Cup results and FIFA rankings, hosts South Korea and Japan and holders France among them; the other pots by region (Europe; Asia and South America; Africa and CONCACAF)', regional:true, pots:[['France', 'South Korea', 'Japan', 'Brazil', 'Argentina', 'Italy', 'Germany', 'Spain'], ['Belgium', 'Croatia', 'Denmark', 'England', 'Poland', 'Portugal', 'Republic of Ireland', 'Russia', 'Slovenia', 'Sweden', 'Turkey'], ['China', 'Ecuador', 'Paraguay', 'Saudi Arabia', 'Uruguay'], ['Cameroon', 'Costa Rica', 'Mexico', 'Nigeria', 'Senegal', 'South Africa', 'Tunisia', 'United States']]},
+  {g:'men', t:'FIFA World Cup', draw:'1997-12-04', basis:'eight seeds (World Cup results 60%, FIFA ranking 40%), hosts France and holders Brazil among them; the other pots by region, one of the nine unseeded European sides drawn into the group of Brazil or Argentina; no group with three European sides', regional:true, pots:[['Brazil', 'France', 'Germany', 'Italy', 'Spain', 'Argentina', 'Romania', 'Netherlands'], ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Denmark', 'England', 'Scotland', 'FR Yugoslavia', 'Norway'], ['Chile', 'Colombia', 'Iran', 'Japan', 'Paraguay', 'Saudi Arabia', 'South Korea'], ['Cameroon', 'Jamaica', 'Mexico', 'Morocco', 'Nigeria', 'South Africa', 'Tunisia', 'United States']]},
+  {g:'men', t:'FIFA World Cup', draw:'1993-12-19', basis:'six seeds (hosts the United States, holders Germany, Argentina, Italy, Brazil, Belgium); the other pots by region', regional:true, pots:[['United States', 'Germany', 'Argentina', 'Italy', 'Brazil', 'Belgium'], ['Mexico', 'Cameroon', 'Morocco', 'Colombia', 'Nigeria', 'Bolivia'], ['Spain', 'Russia', 'Republic of Ireland', 'Romania', 'Netherlands', 'Bulgaria'], ['South Korea', 'Sweden', 'Greece', 'Norway', 'Switzerland', 'Saudi Arabia']]},
+  {g:'men', t:'FIFA World Cup', draw:'1989-12-09', basis:'six seeds (hosts Italy, holders Argentina, Brazil, West Germany, Belgium, England); the other pots by region', regional:true, pots:[['Italy', 'Argentina', 'Brazil', 'West Germany', 'Belgium', 'England'], ['Cameroon', 'Costa Rica', 'Egypt', 'South Korea', 'United Arab Emirates', 'United States'], ['Colombia', 'Czechoslovakia', 'Republic of Ireland', 'Romania', 'Sweden', 'Uruguay'], ['Austria', 'Netherlands', 'Scotland', 'Spain', 'Soviet Union', 'Yugoslavia']]},
+  {g:'men', t:'FIFA World Cup', draw:'1985-12-15', basis:'hosts Mexico and the top five of 1982 seeded; the other pots by region', regional:true, pots:[['Mexico', 'Italy', 'West Germany', 'Poland', 'France', 'Brazil'], ['England', 'Soviet Union', 'Spain', 'Argentina', 'Paraguay', 'Uruguay'], ['Canada', 'Denmark', 'Algeria', 'Morocco', 'Iraq', 'South Korea'], ['Belgium', 'Bulgaria', 'Hungary', 'Northern Ireland', 'Portugal', 'Scotland']]},
+  {g:'men', t:'FIFA World Cup', draw:'1982-01-16', basis:'six seeds (hosts Spain, holders Argentina, Brazil, England, Italy, West Germany); the other pots by region; no group with two South American sides', regional:true, pots:[['Spain', 'Argentina', 'Brazil', 'England', 'Italy', 'West Germany'], ['Austria', 'Czechoslovakia', 'Hungary', 'Poland', 'Soviet Union', 'Yugoslavia'], ['Belgium', 'France', 'Northern Ireland', 'Scotland', 'Chile', 'Peru'], ['Algeria', 'Cameroon', 'Kuwait', 'El Salvador', 'Honduras', 'New Zealand']]},
+  {g:'men', t:'FIFA World Cup', draw:'1978-01-14', basis:'four seeds (hosts Argentina, holders West Germany, the Netherlands, Brazil); the other pots set by FIFA', regional:true, pots:[['Argentina', 'West Germany', 'Netherlands', 'Brazil'], ['Italy', 'Sweden', 'Mexico', 'Peru'], ['Hungary', 'Poland', 'Scotland', 'Spain'], ['Austria', 'France', 'Iran', 'Tunisia']]},
+  {g:'men', t:'FIFA World Cup', draw:'1970-01-10', basis:'no seeding: four pots by region, set by FIFA\'s organising committee (Israel and Morocco together in pot 4 so they could not meet)', regional:true, pots:[['England', 'Italy', 'Soviet Union', 'West Germany'], ['Mexico', 'Brazil', 'Peru', 'Uruguay'], ['Belgium', 'Bulgaria', 'Czechoslovakia', 'Sweden'], ['El Salvador', 'Israel', 'Morocco', 'Romania']]},
+  {g:'men', t:'FIFA World Cup', draw:'1966-01-06', basis:'four pots by region; England, West Germany, Brazil and Italy seeded', regional:true, pots:[['Brazil', 'Argentina', 'Chile', 'Uruguay'], ['England', 'Hungary', 'Soviet Union', 'West Germany'], ['France', 'Portugal', 'Spain', 'Italy'], ['Bulgaria', 'North Korea', 'Mexico', 'Switzerland']]},
+  {g:'men', t:'African Cup of Nations', draw:'2016-10-19', basis:'CAF points from recent finals and qualifying and the 2014 World Cup; hosts Gabon in pot 1', pots:[['Gabon', 'Ivory Coast', 'Ghana', 'Algeria'], ['Tunisia', 'Mali', 'Burkina Faso', 'DR Congo'], ['Cameroon', 'Senegal', 'Morocco', 'Egypt'], ['Togo', 'Uganda', 'Zimbabwe', 'Guinea-Bissau']]},
+  {g:'men', t:'African Cup of Nations', draw:'2014-12-03', basis:'CAF points from qualifying and earlier finals; hosts Equatorial Guinea in pot 1', pots:[['Equatorial Guinea', 'Ghana', 'Ivory Coast', 'Zambia'], ['Burkina Faso', 'Mali', 'Tunisia', 'Algeria'], ['Cape Verde', 'South Africa', 'Cameroon', 'Gabon'], ['Guinea', 'Senegal', 'DR Congo', 'Congo']]},
+  {g:'men', t:'African Cup of Nations', draw:'2012-10-24', basis:'points from the 2008, 2010 and 2012 finals (weighted 1, 2, 3); hosts South Africa and holders Zambia in pot 1', pots:[['South Africa', 'Zambia', 'Ghana', 'Ivory Coast'], ['Mali', 'Tunisia', 'Angola', 'Nigeria'], ['Algeria', 'Burkina Faso', 'Morocco', 'Niger'], ['Togo', 'Cape Verde', 'DR Congo', 'Ethiopia']]},
+  {g:'men', t:'African Cup of Nations', draw:'2011-10-29', basis:'points from the previous three finals; co-hosts Equatorial Guinea and Gabon in pot 1', pots:[['Equatorial Guinea', 'Gabon', 'Ghana', 'Ivory Coast'], ['Angola', 'Tunisia', 'Zambia', 'Guinea'], ['Mali', 'Senegal', 'Morocco', 'Burkina Faso'], ['Sudan', 'Libya', 'Botswana', 'Niger']]},
+  {g:'men', t:'AFC Asian Cup', draw:'2010-04-23', basis:'results at previous Asian Cups (the AFC chose not to use the FIFA ranking); hosts Qatar in pot 1', pots:[['Qatar', 'Iraq', 'Saudi Arabia', 'South Korea'], ['Japan', 'Australia', 'Iran', 'Uzbekistan'], ['China', 'United Arab Emirates', 'Bahrain', 'Jordan'], ['Syria', 'Kuwait', 'India', 'North Korea']]},
+  {g:'men', t:'Copa América', draw:'2016-02-21', basis:'pot 1: hosts the United States with Argentina, Brazil and Mexico, the most successful sides; the other CONMEBOL sides by the FIFA ranking of December 2015 (pots 2 and 4); the other CONCACAF sides in pot 3', pots:[['Argentina', 'Brazil', 'Mexico', 'United States'], ['Chile', 'Colombia', 'Uruguay', 'Ecuador'], ['Costa Rica', 'Jamaica', 'Panama', 'Haiti'], ['Paraguay', 'Peru', 'Bolivia', 'Venezuela']]},
+  {g:'men', t:'Copa América', draw:'2014-11-24', basis:'FIFA ranking of 23 October 2014; hosts Chile in pot 1', pots:[['Chile', 'Argentina', 'Brazil'], ['Colombia', 'Uruguay', 'Mexico'], ['Ecuador', 'Peru', 'Paraguay'], ['Venezuela', 'Bolivia', 'Jamaica']]},
+  {g:'women', t:'FIFA World Cup', draw:'2010-11-29', basis:'seeds by the FIFA Women\'s World Ranking, hosts Germany among them; the other pots by region', regional:true, pots:[['Germany', 'Japan', 'United States', 'Brazil'], ['Australia', 'North Korea', 'Canada', 'Mexico'], ['Nigeria', 'Equatorial Guinea', 'New Zealand', 'Colombia'], ['England', 'France', 'Sweden', 'Norway']]}
+];
+const seedFor = e => SEED_POTS.find(x => x.g === state.gender && x.t === e.tournament && Date.parse(x.draw+'T12:00:00Z') < e.start && e.start - Date.parse(x.draw+'T12:00:00Z') < 600*DAY);
+function seedingHtml(e, fmt){
+  if (!fmt || !fmt.ok || !fmt.groups || fmt.groups.length < 2 || !['wc', 'cont'].includes(e.cat) || e.qualLike) return '';
+  const nG = fmt.groups.length, size = Math.max(...fmt.groups.map(g => g.length));
+  if (fmt.groups.some(g => g.length !== size)) return '';
+  const S = seedFor(e);
+  const drawTs = S && S.draw ? Date.parse(S.draw+'T12:00:00Z') : e.start - 150*DAY;
+  const teams = fmt.groups.flat();
+  const hostCountries = new Set(e.matches.map(m => m.country).filter(Boolean));
+  const out = atDefaults(c => {
+    const r = k => { const x = c.byKey.get(k); return x ? x.rating : -Infinity; };
+    const hosts = teams.filter(k => hostCountries.has(dn(k)) || hostCountries.has(k)).slice(0, nG);
+    const order = hosts.concat(teams.filter(k => !hosts.includes(k)).sort((a, b) => r(b) - r(a)));
+    const fl = []; for (let i = 0; i < size; i++) fl.push(order.slice(i*nG, (i + 1)*nG));
+    return {fl, rate:new Map(teams.map(k => [k, r(k)])), hosts};
+  }, drawTs);
+  if (!out) return '';
+  let real = S && S.pots ? S.pots : S && S.from && tournamentById(S.from) ? redrawPots(tournamentById(S.from)) : null;
+  const kOf = t => teams.includes(t) ? t : keyOfName(t);   /* era names (Czechoslovakia, Yugoslavia) stay as the edition files them */
+  const realOf = new Map(); if (real && !(S && S.regional)) real.forEach((p, i) => p.forEach(t => realOf.set(kOf(t), i)));
+  const flOf = new Map(); if (!(S && S.regional)) out.fl.forEach((p, i) => p.forEach(k => flOf.set(k, i)));
+  const rawOf = new Map(); e.matches.forEach(m => { rawOf.set(keyOfName(m.home), m.home); rawOf.set(keyOfName(m.away), m.away); });
+  const cell = (k, mine, other) => { const d = other.has(k) ? other.get(k) - mine : null;
+    return '<span class="sd-t'+(d ? ' sd-diff' : '')+'" title="'+(d ? (d > 0 ? 'A pot higher than' : 'A pot lower than')+' the other seeding' : '')+'">'+withFlag(dn(state.historicalNames ? resolveName(rawOf.get(k) || k, e.start) : k), e.start)+
+      (d ? ' <small class="'+(d > 0 ? 'up' : 'down')+'">'+(d > 0 ? '&uarr;' : '&darr;')+Math.abs(d)+'</small>' : '')+'</span>'; };
+  const nRows = Math.max(out.fl.length, real ? real.length : 0);
+  const rows = Array.from({length:nRows}, (_, i) => '<tr><th>Pot '+(i + 1)+'</th><td>'+(out.fl[i] || []).map(k => cell(k, i, realOf)).join('')+'</td>'+
+    (real ? '<td>'+(real[i] || []).map(t => cell(kOf(t), i, flOf)).join('')+'</td>' : '')+'</tr>').join('');
+  const moved = real && !S.regional ? teams.filter(k => realOf.has(k) && realOf.get(k) !== flOf.get(k)).length : 0;
+  return '<div class="panel-body"><p class="fr-q" style="margin-top:0;">How Formline\'s ratings would have potted the '+teams.length+' teams'+(S && S.draw ? ' on the day of the draw, '+fmtDay(drawTs) : ', about five months before kick-off')+
+      (out.hosts.length ? ', with the host'+(out.hosts.length > 1 ? 's' : '')+' in pot 1' : '')+(real ? ', next to the pots the organiser used' : '')+'.'+
+      (real && !S.regional ? ' <b>'+moved+'</b> of the '+teams.length+' teams would have been in a different pot.' : real ? ' The organiser\'s pots were set by region rather than strength, so they don\'t line up pot by pot.' : '')+'</p>'+
+    '<div class="table-wrap"><table class="sd-t"><thead><tr><th></th><th>Formline\'s pots</th>'+(real ? '<th>The organiser\'s pots</th>' : '')+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    '<p class="chart-note">'+(real ? 'The organiser\'s pots: '+esc(S.basis)+'.'+(S.regional ? '' : ' Arrows mark a team in a different pot under the other seeding: &uarr; a pot higher, &darr; lower.')
+      : 'The organiser\'s own pots for this edition haven\'t been added yet.')+'</p></div>';
+}
+/* Competitions that changed name, as one lineage: the newest name first in the key. */
+const COMP_LINEAGE = {men:{'Gold Cup':['CONCACAF Championship', 'Gold Cup'], 'Gold Cup qualification':['CONCACAF Championship qualification', 'Gold Cup qualification']}};
 
 /* ============================================================
    PAST TOURNAMENTS: FORMAT, FINISH AND CHANCES GOING IN
@@ -8022,6 +8710,7 @@ function viewEdition(){
     sec('sec-numbers', 'The tournament in numbers', '<div id="edReview">'+unpanel(editionReview(e, run, tHref, null)).body+'</div>', {open:true, short:'In numbers'})+
     (fmt.ok ? sec('sec-chances', 'Chances going in', '<div id="edChances"><div class="panel-body muted">Simulating the tournament '+ED_RUNS.toLocaleString()+
       ' times&hellip; <span id="edProg"></span></div></div>', {open:true, aside:'<span class="aside">'+ED_RUNS.toLocaleString()+' simulated tournaments</span>'}) : '')+
+    (sd => sd ? sec('sec-seeding', 'Seeding', sd, {aside:'<span class="aside">Formline\'s pots and the organiser\'s</span>'}) : '')(seedingHtml(e, fmt))+
     sec('sec-matches', 'Matches', '<div class="table-wrap lock"><table class="ed-matches"><thead><tr>'+
       (anyStage ? '<th class="hide-sm">Stage</th>' : '')+'<th style="text-align:center;">Match</th><th class="num hide-sm" title="The model\'s chances before kick-off: first team wins, draw, second team wins">Chances <span class="muted">W&middot;D&middot;L</span></th>'+
       '<th class="num hide-sm">First team: before &rarr; after</th><th class="num hide-sm">Second team: before &rarr; after</th></tr></thead>'+
@@ -8069,7 +8758,7 @@ function viewEdition(){
         (e.qualLike ? ' &middot; matches played in '+e.year : '')+'</p>'+
       '<div class="chips" style="margin-bottom:6px;">'+
         (prevE ? '<a class="chip" href="'+editionHref(prevE)+'">&larr; '+prevE.label+'</a>' : '')+
-        (nextE ? '<a class="chip" href="'+editionHref(nextE)+'">'+nextE.label+' &rarr;</a>' : '')+'</div></div>'+
+        (nextE ? '<a class="chip" href="'+editionHref(nextE)+'">'+nextE.label+' &rarr;</a>' : '')+qualLinks(e)+'</div></div>'+
       '<div class="ed-logo">'+badgeImg(editionWikiTitles(e).join('|'), esc(compName(e.tournament))+' '+e.label+' logo', 'badge ed-logo-img', editionLogoSlugs(e).join('|'))+'</div>'+
     '</div>'+
     (!run.counted ? '<div class="notice"><b>Not counted.</b> This competition is switched off in your filters, so its matches '+
@@ -9359,7 +10048,13 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
-  ['11 Nov 2026', ['New page, Matchday (under Matches): one day\'s matches with the call published before kick-off, the result, right or wrong, and the upsets. Make your own picks and see how you do against the model; picks stay in your browser.',
+  ['11 Nov 2026', ['Qualifying, rebuilt: each qualifying competition is now organised by the tournament it led to (for 2026, for 2022…), then by confederation, then round by round, with group tables and ties. The rounds are worked out from the results, since the archives don\'t record them. Open them from Competitions or from any finals page.',
+    'Seeding on every finals page with groups: how Formline\'s ratings would have potted the teams at the draw, next to the organiser\'s real pots for 48 editions so far (men\'s World Cups since 1966 except 1974, Euros since 2000, AFCONs since 2012, Asian Cups since 2011, Copas since 2015, recent Gold Cups, women\'s World Cups since 2011 and Women\'s Euros since 2017; older World Cup pots were set by region, and the page says so), with what the organiser based them on.',
+    'Confederations: World Cup places against strength can now be shown for any past World Cup: the teams each confederation had at the finals against its teams in the world\'s best on the eve, with confederations as they stood then.',
+    'New: a Euro 2028 qualifying draw simulator (Tools → Simulator → Upcoming), live before the real draw in Belfast on 6 December. Make the draw under UEFA\'s conditions, see every group played out on Formline\'s ratings, run it 2,000 times to see who each team is likely to get, or pot the teams by Formline\'s ratings instead of the Nations League.',
+    'Simulator: tournaments are now in tabs (Upcoming, Under way, Rewind, Build your own), with a drop-down on phones. Rewinds can be drawn again, from the organiser\'s own pots or from Formline\'s, under the draw rules of the time.',
+    'Competitions: each tournament opens and closes, grouped by weight; the CONCACAF Championship and the Gold Cup are one line, split by the name each edition was played under; tournaments and their qualifying link to each other.',
+'New page, Matchday (under Matches): one day\'s matches with the call published before kick-off, the result, right or wrong, and the upsets. Make your own picks and see how you do against the model; picks stay in your browser.',
     'New: a Women\'s World Cup 2027 hub, with who has qualified, the UEFA play-offs and CONCACAF W Championship still to come, and where the strongest teams stand. It\'s linked from Competitions.',
     'Confederations: each card shows the next competitive matches and, where they are in the fixture list, the next continental finals. World Cup places against strength now covers the women\'s 2027 allocation too.',
     'Team pages: an Attack &amp; defence figure (goals for and against the average ranked team, with the team\'s place for each), and under Coming up, what the next match would do to the rating for a win, draw or defeat.',
@@ -9909,7 +10604,7 @@ function viewCompare(){
    ============================================================ */
 /* Navigation groups, menus and theme. */
 const NAV_GROUP = {rankings:'ratings', team:'ratings', confederations:'ratings', competitions:'ratings', competition:'ratings',
-  fixtures:'matches', window:'matches', matchday:'matches', wwc2027:'ratings', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', sources:'about', support:'about', changes:'about', contact:'about', records:'ratings'};
+  fixtures:'matches', window:'matches', matchday:'matches', wwc2027:'ratings', qualifying:'ratings', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', sources:'about', support:'about', changes:'about', contact:'about', records:'ratings'};
 function closeMenus(){
   document.querySelectorAll('.nav-group.open').forEach(g => { g.classList.remove('open'); g.querySelector('.nav-top').setAttribute('aria-expanded', 'false'); });
   document.body.classList.remove('menu-open');
