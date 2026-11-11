@@ -164,12 +164,12 @@ async function postInstagram(meta){
   };
   let creation;
   /* The closing slide (igSlides) goes to Instagram only. */
-  const ig = meta.igSlides && meta.igSlides.length ? meta.igSlides.slice(0, 10) : meta.slides;
-  if (ig.length === 1){
-    creation = await media({image_url:base + ig[0], caption:meta.caption}, 0);
+  const igFiles = meta.igSlides && meta.igSlides.length ? meta.igSlides.slice(0, 10) : meta.slides;
+  if (igFiles.length === 1){
+    creation = await media({image_url:base + igFiles[0], caption:meta.caption}, 0);
   } else {
     const kids = [];
-    for (const [i, f] of ig.entries()) kids.push(await media({image_url:base + f, is_carousel_item:'true'}, i));
+    for (const [i, f] of igFiles.entries()) kids.push(await media({image_url:base + f, is_carousel_item:'true'}, i));
     for (const k of kids) await ready(k);
     creation = (await ig(`/${IG_USER_ID}/media`, {media_type:'CAROUSEL', children:kids.join(','), caption:meta.caption})).id;
   }
