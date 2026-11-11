@@ -1,11 +1,11 @@
 {
- "built": "2026-11-08T19:28:23.909Z",
- "today": "2026-11-08",
+ "built": "2026-11-11T19:46:29.845Z",
+ "today": "2026-11-11",
  "mode": "light",
  "api": {
   "keyPresent": true,
   "used": 3,
-  "remaining": 7320,
+  "remaining": 7372,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 176,
+   "usedTodayBeforeRun": 124,
    "perMinute": 300
   },
   "paid": true,
@@ -25,66 +25,69 @@
  "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 2750,
+  "domestic": 276,
+  "youth": 84,
   "not counted": 11,
-  "youth": 18
+  "clubs": 9
  },
  "seen": {
   "men": {
-   "results": 2,
-   "latest": "2026-11-08"
+   "results": 4,
+   "latest": "2026-11-11"
   },
   "women": {
-   "results": 0,
-   "latest": null
+   "results": 2,
+   "latest": "2026-11-10"
   }
  },
  "men": {
-  "built": "2026-11-08T19:28:23.909Z",
+  "built": "2026-11-11T19:46:29.845Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
   },
   "gapfill": {
-   "rows": 4,
+   "rows": 8,
    "from": "2026-11-05",
-   "to": "2026-11-08"
+   "to": "2026-11-11"
   },
   "manual": {
    "rows": 0
   },
-  "fixtures": 172
+  "fixtures": 178
  },
  "women": {
-  "built": "2026-11-08T19:28:23.909Z",
+  "built": "2026-11-11T19:46:29.845Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
   },
   "gapfill": {
-   "rows": 0,
-   "from": null,
-   "to": null
+   "rows": 4,
+   "from": "2026-11-07",
+   "to": "2026-11-10"
   },
   "manual": {
-   "rows": 242
+   "rows": 240
   },
   "wiki": {
    "rows": 0,
    "latest": null
   },
-  "fixtures": 54
+  "fixtures": 53
  },
  "venues": {
-  "city": 115,
-  "assumed": 109,
-  "wiki": 2
+  "wiki": 3,
+  "city": 135,
+  "assumed": 78,
+  "api": 14,
+  "event": 1
  },
  "forecasts": {
-  "total": 227,
-  "scored": 4,
+  "total": 238,
+  "scored": 10,
   "newThisRun": 0,
-  "updatedThisRun": 223,
+  "updatedThisRun": 227,
   "scoredThisRun": 0,
   "droppedThisRun": 0
  }

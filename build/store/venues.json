@@ -1,7 +1,77 @@
 {
+ "121": {
+  "name": "Vazgen Sargsyan anvan Hanrapetakan Marzadasht",
+  "city": "Yerevan",
+  "country": "Armenia"
+ },
+ "566": {
+  "name": "The City Ground",
+  "city": "Nottingham, Nottinghamshire",
+  "country": "England"
+ },
  "608": {
   "name": "Addis Ababa Stadium",
   "city": "Addis Abeba",
   "country": "Ethiopia"
+ },
+ "907": {
+  "name": "Stadio Giuseppe Meazza",
+  "city": "Milano",
+  "country": "Italy"
+ },
+ "1117": {
+  "name": "Johan Cruijff Arena",
+  "city": "Amsterdam",
+  "country": "Netherlands"
+ },
+ "1406": {
+  "name": "Stadion Rajko Mitić",
+  "city": "Beograd",
+  "country": "Serbia"
+ },
+ "1441": {
+  "name": "Ljudski vrt",
+  "city": "Maribor",
+  "country": "Slovenia"
+ },
+ "1545": {
+  "name": "Rheinpark Stadion",
+  "city": "Vaduz",
+  "country": "Liechtenstein"
+ },
+ "2615": {
+  "name": "Stadionul Zimbru",
+  "city": "Chişinău",
+  "country": "Moldova"
+ },
+ "2617": {
+  "name": "Hampden Park",
+  "city": "Glasgow",
+  "country": "Scotland"
+ },
+ "2618": {
+  "name": "Estadi Nacional",
+  "city": "Andorra la Vella",
+  "country": "Andorra"
+ },
+ "18644": {
+  "name": "Košická futbalová aréna",
+  "city": "Košice",
+  "country": "Slovakia"
+ },
+ "19513": {
+  "name": "epet ARENA",
+  "city": "Praha",
+  "country": "Czech-Republic"
+ },
+ "19922": {
+  "name": "Stadion Hristo Botev",
+  "city": "Plovdiv",
+  "country": "Bulgaria"
+ },
+ "22441": {
+  "name": "Atatürk Olympic Stadium",
+  "city": "Istanbul",
+  "country": "Turkey"
  }
 }
