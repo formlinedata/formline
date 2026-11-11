@@ -277,7 +277,11 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
       const m = findMatch(P.matches, fx); if (!m) continue;
       const country = boxCountry(m, cities, cityKey, toArchive, known);
       if (!country && !m.moved) continue;
-      const hit = {city:m.city, country, stadium:m.stadium, boxDate:m.date, ...(m.moved ? {date:m.date} : {}), ...(m.kickoff ? {kickoff:m.kickoff} : {})};
+      /* A box with no stadium and no kick-off time ("TBD") is a placeholder: its date is often a guess (Morocco v Niger,
+         November 2026: Wikipedia had 11 Nov and no venue, the API the real 13 Nov), so it never moves a fixture. */
+      const placeholder = !m.kickoff && /^(|tbd|tba|tbc|to be (determined|announced|confirmed))$/i.test(String(m.stadium || '').trim());
+      if (m.moved && placeholder && !country) continue;
+      const hit = {city:m.city, country, stadium:m.stadium, boxDate:m.date, ...(m.moved && !placeholder ? {date:m.date} : {}), ...(m.kickoff ? {kickoff:m.kickoff} : {})};
       if (!best || (!best.country && country) || (!best.kickoff && hit.kickoff && !!best.country === !!country)) best = hit;
       if (best.country && best.kickoff) break;
     }

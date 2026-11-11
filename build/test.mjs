@@ -54,6 +54,18 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   ok(cache.titles['men|Japan'].title === 'Japan national football team results (2020–present)', 'Wikipedia: the article running to the present is chosen');
   const n = calls.length; await W.wikiVenues(fx, cache, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
   ok(calls.length === n + 2 || calls.length === n, 'Wikipedia: cached titles not searched again');
+  { /* A placeholder box (no stadium, no time) never moves a fixture's date; one with a stadium does. */
+    const box = st => "{{Football box collapsible|date={{Start date|2026|11|11}}|team1={{fb-rt|JPN}}|score=|team2={{fb|BRA}}|stadium=" + st + "|location=TBD, [[Japan]]}}";
+    const fxT = {date:'2026-11-13', home_team:'Japan', away_team:'Brazil'};
+    const mT = W.findMatch(W.pageMatches(box('TBD')), fxT);
+    ok(mT && mT.moved && mT.stadium === 'TBD' && !mT.kickoff, 'Wikipedia: a TBD box is still matched to the fixture');
+    const cacheOf = st => ({titlesV:2, titles:{'men|Japan':{title:'J', checked:'2026-11-01'}, 'men|Brazil':{title:'', checked:'2026-11-01'}},
+      pages:{J:{fetched:'2026-11-01', matches:W.pageMatches(box(st))}}, comps:{}});
+    const run = async st => (await W.wikiVenues([{api_id:3, gender:'men', ...fxT}], cacheOf(st), {fetchImpl:null, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x})).found.get('3');
+    const t3 = await run('TBD'), t4 = await run('[[Saitama Stadium 2002]]');
+    ok(!t3 || !t3.date, 'Wikipedia: a box with no stadium and no time does not move the date');
+    ok(t4 && t4.date === '2026-11-11', 'Wikipedia: a box with a stadium still moves the date');
+  }
   const fxm = [{api_id:2, gender:'men', date:'2026-11-09', home_team:'Japan', away_team:'Brazil'}];
   const Rm = await W.wikiVenues(fxm, cache, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
   ok(Rm.found.get('2') && Rm.found.get('2').date === '2026-11-14' && Rm.found.get('2').country === 'Singapore' && Rm.stats.moved === 1, 'Wikipedia: the real date passed on for a fixture the API lists on the wrong day');
