@@ -2,6 +2,8 @@
 
 National-team football ratings for men and women: a rolling window, historical teams, confederation offsets, and predictions for the fixtures coming up.
 
+The code is public so anyone can see how every number is made. It is shown for transparency, not for reuse: see [LICENSE](LICENSE). The match data and other third-party material keep their own licences.
+
 The whole site is `index.html`. Everything is computed in the visitor's browser. A nightly job keeps the data current and publishes it next to the page.
 
 ## What's here

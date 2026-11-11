@@ -77,8 +77,8 @@ function predictFx(c, fx){
 const fxSlugDate = x => x.date;
 
 /* 1. Upcoming match: the biggest match kicking off between 8 and 56 hours from now. */
-S.match = async ({now}) => {
-  const out = [];
+S.match = async ({now, used = []}) => {
+  const out = [], done = new Set(used);   // a match already previewed (say, this morning) isn't picked again
   for (const g of ['men', 'women']){
     const c = await useG(g);
     for (const x of nextFixtures(g)){
@@ -86,6 +86,7 @@ S.match = async ({now}) => {
       if (h < 8 || h > 56) continue;
       const kh = keyOfName(x.home), ka = keyOfName(x.away), A = teamInfo(c, kh, g), B = teamInfo(c, ka, g);
       if (!A || !B || !A.rank || !B.rank) continue;
+      if (done.has('match|' + g + '|' + x.date + '|' + x.home + '|' + x.away)) continue;
       const pr = predictFx(c, x); if (!pr) continue;
       const score = (A.rank + B.rank) * (g === 'women' ? 1.6 : 1) * (x.tournament === 'Friendly' ? 1.5 : 1);
       out.push({score, g, fx:x, A, B, pr, kh, ka});
@@ -178,8 +179,106 @@ S.onThisDay = async ({now, used}) => {
     home:{name:m._hn, flag:flagSrc(m.home, m.ts), modern:dn(kh)}, away:{name:m._an, flag:flagSrc(m.away, m.ts), modern:dn(ka)},
     hs:m.hs, as:m.as, pen:pen ? dn(pen) : null, comp:compName(m.tournament), edition:ed ? ed.label : String(yr), stage:t.stage,
     city:m.city, country:m.country, p:p ? [p.home, p.draw, p.away].map(pct) : null,
-    h2h:{n:later.n, w:later.w, d:later.d, l:later.l}};
+    h2h:{n:later.n, w:later.w, d:later.d, l:later.l}, ctx:pastContext(t.g, m)};
 };
+
+/* 3b. Tie-in (international windows): a match coming up in the next three days, told through the most memorable earlier
+   meeting of the same two sides: a big-tournament knockout, a shock, a rout. Drawn in the on-this-day style. */
+S.tieIn = async ({now, used}) => {
+  const recent = new Set(used), cands = [];
+  for (const g of ['men', 'women']){
+    const c = await useG(g); getEditions(g);
+    for (const fx of nextFixtures(g)){
+      const ko = Date.parse(fx.kickoff || (fx.date + 'T12:00:00Z')), hrs = (ko - now) / 36e5;
+      if (hrs < 6 || hrs > 80) continue;
+      const kh = keyOfName(fx.home), ka = keyOfName(fx.away), A = c.byKey.get(kh), B = c.byKey.get(ka);
+      if (!A || !B || !A.rank || !B.rank) continue;
+      const fame = Math.max(0, 70 - (A.rank + B.rank) / 2) * (g === 'women' ? 0.7 : 1);
+      for (const m of state.matches[g]){
+        if (!includeMatch(m)) continue; namesFor(m);
+        if (!((m._h === kh && m._a === ka) || (m._h === ka && m._a === kh))) continue;
+        const id = 'tiein|' + g + '|' + fmtDate(m.ts) + '|' + m.home + '|' + m.away; if (recent.has(id)) continue;
+        const big = BIG.find(([t]) => m.tournament === t), ed = m._ed, stage = ed ? (matchStages(ed).get(m) || '') : '';
+        const sw = {'Final':60, 'Third place':5, 'Semi-finals':35, 'Quarter-finals':20, 'Round of 16':8}[stage] || 0;
+        let up = 0;
+        if (m.hs !== m.as){ const x = pubDay(m.ts).get(m), p = x ? probsFromE(x.expHome) : null;
+          if (p){ const wp = m.hs > m.as ? p.home : p.away; if (wp < 0.3) up = (0.3 - wp) * 200; } }
+        const friendly = m.tournament === 'Friendly' ? -25 : 0, recency = Math.max(0, 15 - (now - m.ts) / (365.25 * 864e5) / 3);
+        cands.push({g, m, fx, id, stage, score:(big ? big[1] : 15) + sw + fame + up + friendly + recency + Math.min(Math.abs(m.hs - m.as), 5) * 3});
+      }
+    }
+  }
+  cands.sort((a, b) => b.score - a.score);
+  if (!cands.length || cands[0].score < 45) return null;
+  const t = cands[0]; await useG(t.g);
+  const m = t.m, x = pubDay(m.ts).get(m), p = x ? probsFromE(x.expHome) : null, pen = shootoutWinner(m);
+  const kh = keyOfName(m.home), ka = keyOfName(m.away), later = pairRecord(t.g, kh, ka), yr = new Date(m.ts).getUTCFullYear(), ed = m._ed;
+  const c = getRatings(), nf = t.fx;
+  return {type:'onthisday', mode:'tiein', g:t.g, id:t.id, year:yr, yearsAgo:new Date(now).getUTCFullYear() - yr, date:fmtDate(m.ts),
+    home:{name:m._hn, flag:flagSrc(m.home, m.ts), modern:dn(kh)}, away:{name:m._an, flag:flagSrc(m.away, m.ts), modern:dn(ka)},
+    hs:m.hs, as:m.as, pen:pen ? dn(pen) : null, comp:compName(m.tournament), edition:ed ? ed.label : String(yr), stage:t.stage,
+    city:m.city, country:m.country, p:p ? [p.home, p.draw, p.away].map(pct) : null,
+    h2h:{n:later.n, w:later.w, d:later.d, l:later.l}, ctx:pastContext(t.g, m),
+    next:{home:dn(nf.home), away:dn(nf.away), homeFlag:flagSrc(nf.home), awayFlag:flagSrc(nf.away), comp:compName(nf.tournament),
+      day:dayTxt(Date.parse(nf.kickoff || nf.date + 'T12:00:00Z')), date:nf.date, pr:predictFx(c, nf)}};
+};
+
+/* Is an international window on? Many national-team fixtures in the next few days, or results in the last two. */
+S.windowOn = async ({now}) => {
+  let n = 0;
+  for (const g of ['men', 'women']){
+    await useG(g);
+    n += ((state.fixtures && state.fixtures[g]) || []).filter(x => { const t = Date.parse(x.kickoff || (x.date + 'T12:00:00Z')); return t > now - 2 * 864e5 && t < now + 4 * 864e5; }).length;
+    n += state.matches[g].filter(m => m.ts > now - 2 * 864e5 && m.ts <= now).length;
+  }
+  return {on:n >= 25, n};
+};
+
+
+/* Context for a past match (on-this-day and tie-in posts): how its tournament ended, both sides then v now, that
+   tournament's biggest upset, and every meeting since. Call with the game already loaded (useG). */
+function pastContext(g, m){
+  namesFor(m);
+  const kh = keyOfName(m.home), ka = keyOfName(m.away), ed = m._ed, out = {};
+  const label = k => { const f = (fmtE && fmtE.ok) ? fmtE.finish.get(k) : null; return f ? finishOf(f)[1] : null; };
+  let fmtE = null;
+  if (ed && !ed.qualLike && ed.matches.length > 2){
+    fmtE = editionFormat(ed);
+    let champ = null;
+    if (fmtE.ok){ for (const [k, f] of fmtE.finish) if (f === 'Winner' || f === '1st') champ = k; }
+    const last = finalOf(ed);
+    if (!champ && last) champ = winnerOf(last);
+    if (champ && ed.end <= state.asOf){
+      const fin = last || null; if (fin) namesFor(fin);
+      const say = k => { const l = label(k); return l === 'Champions' ? 'won it' : l === 'Runners-up' ? 'reached the final'
+        : l ? (/place$|Third|Fourth/.test(l) ? 'finished ' + l.toLowerCase() : 'went out in the ' + l.toLowerCase()) : null; };
+      out.ended = {champ:dn(champ), champFlag:flagSrc(dn(champ), ed.end), edition:ed.label,
+        final:fin ? {home:fin._hn, away:fin._an, hs:fin.hs, as:fin.as, pen:shootoutWinner(fin) ? dn(shootoutWinner(fin)) : null} : null,
+        home:say(kh), away:say(ka)};
+    }
+    /* that tournament's biggest upset, other than this match */
+    let best = null;
+    for (const x of ed.matches){ if (x === m || x.hs === x.as) continue; namesFor(x);
+      const d = pubDay(x.ts).get(x), p = d ? probsFromE(d.expHome) : null; if (!p) continue;
+      const wp = x.hs > x.as ? p.home : p.away;
+      if (wp < 0.3 && (!best || wp < best.wp)) best = {wp, home:x._hn, away:x._an, hs:x.hs, as:x.as, winner:x.hs > x.as ? x._hn : x._an,
+        winFlag:flagSrc(x.hs > x.as ? x.home : x.away, x.ts), stage:matchStages(ed).get(x) || '', date:fmtDate(x.ts)}; }
+    if (best) out.upset = Object.assign(best, {wp:pct(best.wp)});
+  }
+  /* then v now: the published table on the day of the match, against today's */
+  const keep = state.asOf;
+  state.asOf = m.ts; state.cache = {key:null};
+  const cThen = getRatings(), then = k => { const r = cThen.byKey.get(k); return r ? {rating:Math.round(r.rating), rank:r.rank || null, of:cThen.table.length} : null; };
+  out.then = {home:then(kh), away:then(ka)};
+  state.asOf = keep; state.cache = {key:null};
+  const cNow = getRatings(), now = k => { const r = cNow.byKey.get(k); return r ? {rating:Math.round(r.rating), rank:r.rank || null, of:cNow.table.length} : null; };
+  out.now = {home:now(kh), away:now(ka), date:fmtDate(state.asOf)};
+  /* every meeting since */
+  const rec = pairRecord(g, kh, ka), since = rec.meets.filter(x => x.ts > m.ts);
+  out.since = {n:since.length, w:since.filter(x => x.r > 0).length, d:since.filter(x => x.r === 0).length, l:since.filter(x => x.r < 0).length,
+    last:since.slice(-3).reverse()};
+  return out;
+}
 
 /* 4. Rivalry: a pair meeting soon, else the next of the most-played pairs. */
 S.rivalry = async ({now, used}) => {

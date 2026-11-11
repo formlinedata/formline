@@ -57,12 +57,20 @@ export function bskyText(t, tags = []){
   }
   return {text:t, facets};
 }
+/* Meta's error, with the details its support and the app dashboard ask for: code, subcode and trace id. Never the token. */
+export function igError(e, status){
+  if (!e) return `HTTP ${status}`;
+  const msg = e.error_user_msg || e.message || `HTTP ${status}`;
+  const bits = [e.type, e.code !== undefined && 'code ' + e.code, e.error_subcode !== undefined && 'subcode ' + e.error_subcode,
+    e.fbtrace_id && 'trace ' + e.fbtrace_id].filter(Boolean);
+  return msg + (e.error_user_title && e.error_user_title !== msg ? ' (' + e.error_user_title + ')' : '') + (bits.length ? ' [' + bits.join(', ') + ']' : '');
+}
 async function ig(pathq, params = {}, method = 'POST'){
   const u = new URL(API + pathq);
   const body = new URLSearchParams({...params, access_token:IG_TOKEN});
   const r = method === 'GET' ? await fetch(u + (u.search ? '&' : '?') + body) : await fetch(u, {method, body});
   const j = await r.json().catch(() => ({}));
-  if (!r.ok || j.error) throw new Error((j.error && j.error.message) || `HTTP ${r.status}`);
+  if (!r.ok || j.error) throw new Error(igError(j.error, r.status));
   return j;
 }
 async function gh(pathq, opts = {}){
@@ -91,12 +99,14 @@ if (process.argv.includes('--refresh')){
 }
 
 /* The review issue for today. */
-const issues = await gh(`/issues?labels=social-post&state=all&per_page=20&sort=created&direction=desc`);
-const issue = issues.find(i => i.title.startsWith(`Post for ${date}`));
-if (!issue){ note(`No post was prepared for ${date}.`, 'warning'); process.exit(0); }
+/* SOCIAL_SLOT=b: the evening post, made only on international-window days. */
+const slot = (process.env.SOCIAL_SLOT || '').trim(), key = date + (slot ? '-' + slot : ''), label = `Post for ${date}${slot ? ' (evening)' : ''}:`;
+const issues = await gh(`/issues?labels=social-post&state=all&per_page=30&sort=created&direction=desc`);
+const issue = issues.find(i => i.title.startsWith(label));
+if (!issue){ note(slot ? `No evening post for ${date} (only made in international windows).` : `No post was prepared for ${date}.`, slot ? 'notice' : 'warning'); process.exit(0); }
 if (issue.state === 'closed' || issue.labels.some(l => l.name === 'skip')){
-  note(`Skipped: the review issue for ${date} is closed.`); process.exit(0); }
-const base = `https://raw.githubusercontent.com/${repo}/social-queue/${date}/`;
+  note(`Skipped: the review issue for ${key} is closed.`); process.exit(0); }
+const base = `https://raw.githubusercontent.com/${repo}/social-queue/${key}/`;
 const meta = await (await fetch(base + 'post.json')).json();
 const done = new Set(issue.labels.map(l => l.name)), lines = [];
 let failed = false;
@@ -153,11 +163,13 @@ async function postInstagram(meta){
     catch(e){ if (alt && /alt_text/i.test(e.message)){ useAlt = false; return (await ig(`/${IG_USER_ID}/media`, params)).id; } throw e; }
   };
   let creation;
-  if (meta.slides.length === 1){
-    creation = await media({image_url:base + meta.slides[0], caption:meta.caption}, 0);
+  /* The closing slide (igSlides) goes to Instagram only. */
+  const ig = meta.igSlides && meta.igSlides.length ? meta.igSlides.slice(0, 10) : meta.slides;
+  if (ig.length === 1){
+    creation = await media({image_url:base + ig[0], caption:meta.caption}, 0);
   } else {
     const kids = [];
-    for (const [i, f] of meta.slides.entries()) kids.push(await media({image_url:base + f, is_carousel_item:'true'}, i));
+    for (const [i, f] of ig.entries()) kids.push(await media({image_url:base + f, is_carousel_item:'true'}, i));
     for (const k of kids) await ready(k);
     creation = (await ig(`/${IG_USER_ID}/media`, {media_type:'CAROUSEL', children:kids.join(','), caption:meta.caption})).id;
   }

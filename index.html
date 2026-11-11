@@ -592,6 +592,8 @@
   .nf .big{font-size:84px;font-weight:800;font-stretch:120%;color:var(--amber);line-height:1;margin:0 0 10px;}
 
   footer{border-top:1px solid var(--line);}
+  /* The page is drawn by script after load; reserving a screen's height stops the footer jumping down when it arrives. */
+  main#app{display:block;min-height:100vh;} body.embed-mode main#app{min-height:0;}
   .footer-inner{max-width:1240px;margin:0 auto;padding:22px 20px 30px;color:var(--dim);font-size:13px;line-height:1.6;
     display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.4fr);gap:28px;}
   .footer-inner .fbrand{display:flex;align-items:center;gap:9px;color:var(--chalk);font-weight:800;font-stretch:118%;font-size:17px;}
@@ -832,7 +834,8 @@
   .contact-grid p{margin:0 0 8px;font-size:14.5px;line-height:1.55;}
   .contact-grid ul{margin:0 0 8px;padding-left:18px;font-size:14.5px;line-height:1.55;}
   .fsocial{margin-top:10px;} .fsocial span{color:var(--dim);}
-  .src-table{table-layout:fixed;width:100%;} .src-table th:first-child{width:28%;} .src-table th:last-child{width:22%;} .src-table td:last-child{color:var(--dim);} .src-table td{line-height:1.5;}
+  .rank-table.simple .pm, .rank-table.simple tr > :nth-child(4), .rank-table.simple tr > :nth-child(5){display:none;}
+  .src-table{table-layout:fixed;width:100%;} .src-table th:first-child{width:28%;} .src-table th:last-child{width:22%;} .src-table td:last-child{color:var(--dim);} .src-table td{line-height:1.5;white-space:normal;overflow-wrap:break-word;} .kv-table.words.src-table td:first-child{white-space:normal;}
   @media(max-width:640px){ .src-table thead{display:none;} .src-table tr{display:block;padding:10px 0;border-top:1px solid var(--line);} .src-table td{display:block;width:auto !important;padding:2px 0 !important;border:0 !important;} .src-table td:first-child{font-weight:650;color:var(--chalk);} }
   .about-tabs{margin:0 0 14px;} .about-tabs .chip{text-decoration:none;}
   .cmp-table th{white-space:normal;text-align:left;color:var(--chalk);font-weight:600;min-width:120px;} .cmp-table td{vertical-align:top;font-size:13.5px;text-align:left;}
@@ -1027,6 +1030,10 @@
   .fr-t td{padding:8px 12px;text-align:right;color:var(--body);border-bottom:1px solid var(--line);}
   .fr-t th:first-child, .fr-t td:first-child{text-align:left;}
   .fr-t td.best{color:var(--amber);font-weight:700;} .fr-t td.me{color:var(--chalk);font-weight:700;}
+  .fr-tabs{margin:0 0 18px;flex-wrap:wrap;} .fr-sub{font-size:13.5px;color:var(--dim);margin:8px 0 0;line-height:1.5;}
+  .fr-livebar{font-size:14px;margin:0 0 20px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel);}
+  .fr-years th.grp{text-align:center;border-bottom:1px solid var(--line);color:var(--chalk);} .fr-years thead tr:first-child th[rowspan]{vertical-align:bottom;}
+  .fr-years tbody td:nth-child(5){border-right:1px solid var(--line);} .fr-years thead tr:last-child th:first-child{text-align:right;} .fr-years thead tr:last-child th:nth-child(3){border-right:1px solid var(--line);}
   .vs-years{margin:12px 0 0;} .vs-years summary{cursor:pointer;padding:8px 0;font-size:14px;color:var(--dim);} .vs-years p{font-size:14px;margin:0 0 8px;}
   .fr-nerd{margin:4px 0 20px;}
   .fr-links{font-size:14px;margin:0 0 16px;}
@@ -1159,6 +1166,7 @@
       <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, each shown as it was on the date in view;
       <a href="#/flags">Flags &amp; names</a> has the details and credits. Association and confederation badges, mostly from <a href="https://logos.fandom.com" target="_blank" rel="noopener">Logopedia</a>, are the trademarks of their owners, shown for identification; where none is bundled with the site, Wikipedia's image is used.
       Formline is an independent project, not affiliated with eloratings.net, FIFA or any confederation. Every source is listed on <a href="#/sources">Sources &amp; thanks</a>.</p>
+      <p class="fcopy">&copy; 2026 Formline. Source shown for transparency, not for reuse; see the <a href="https://github.com/formlinedata/formline/blob/main/LICENSE" target="_blank" rel="noopener">licence</a>.</p>
     </div>
   </div>
 </footer>
@@ -2674,6 +2682,40 @@ function stateAt(hist, ts){
   for (const h of hist){ if (h.ts <= ts) e = h; else break; }
   return e ? inflate({r:e.rating, rd:e.rd, last:e.ts}, ts) : null;
 }
+/* A team's rank just after one of its matches, among every team as published that day: in window mode the day's own
+   window (the same run that gives the published ratings in the Matches table), ranked the way the table ranks (teams
+   whose band is wider than the cut-off aren't counted). byConf ranks it within the confederation it belonged to then.
+   Islands aren't re-checked for past dates. */
+function rankAfter(c, key, ts, byConf){
+  const memo = c._rankAfter || (c._rankAfter = new Map()), mk = key + '|' + ts + '|' + (byConf ? 1 : 0);
+  if (memo.has(mk)) return memo.get(mk);
+  const conf = byConf ? poolOf(key, ts) : null, sk = (r, rd) => state.rankBy === 'lower' ? r - BAND_Z*rd : r;
+  let mine = null; const vals = [];
+  const st = state.windowYears > 0 ? pubDay(ts).st : null;
+  if (st){
+    const ref = poolRef(st, ts);
+    for (const k of st.keys()){
+      if (byConf && poolOf(k, ts) !== conf) continue;
+      const p = pub(st, k, ts); if (!p) continue;
+      const rd = rankRd(p, ref), v = sk(p.r, rd);
+      if (k === key){ mine = v; continue; }
+      if (state.maxBand > 0 && BAND_Z*rd > state.maxBand) continue;
+      vals.push(v);
+    }
+  } else {
+    for (const [k, h] of c.history){
+      if (byConf && poolOf(k, ts) !== conf) continue;
+      const s0 = stateAt(h, ts); if (!s0) continue;
+      if (k === key){ mine = sk(s0.r, s0.rd); continue; }
+      if (state.maxBand > 0 && BAND_Z*s0.rd > state.maxBand) continue;
+      vals.push(sk(s0.r, s0.rd));
+    }
+  }
+  let out = null;
+  if (mine !== null){ let above = 0; for (const v of vals) if (v > mine) above++; out = {rank:above + 1, of:vals.length + 1}; }
+  memo.set(mk, out);
+  return out;
+}
 /* Pool-aware uncertainty for predicting a match between two rated rows: the offsets cancel inside a
    confederation and add their uncertainty between two. */
 const matchRd = (r, other) => {
@@ -3165,6 +3207,7 @@ async function render(){
   /* A tour belongs to the page it started on: leaving the page closes it (it is offered again until finished or closed). */
   if (tourState && tourState.route && tourState.route !== p.route) endTour(false);
   if (state.gender !== prevGender){ state.asOf = null; }
+  { const ld = document.getElementById('faq-ld'); if (ld) ld.remove(); }
 
   document.querySelectorAll('#nav a').forEach(a=>{
     const on = a.dataset.route===p.route || (a.dataset.route==='competitions' && p.route==='competition');
@@ -3632,6 +3675,25 @@ function viewAbout(){
         'defeat in a tournament knockout costs nothing. Classic Elo ratings carry a team\'s whole history and give one confident number. '+
         'Formline counts recent years, says how sure it is, and corrects for confederations that rarely meet. '+
         '<a href="#/compare">See all three side by side</a>.</dd>'+
+      '<dt>What kind of model is it?</dt>'+
+      '<dd>A rating system in the Elo family. Like Mark Glickman\'s Glicko system it keeps a measure of doubt for every team, '+
+        'shown as the band, and like the World Football Elo Ratings it is adapted to football: home advantage, the margin of '+
+        'victory and the importance of each match all count. <a href="#/method">How it works</a> explains each part.</dd>'+
+      '<dt>Do friendlies count?</dt>'+
+      '<dd>Yes, but for less. A World Cup match moves a rating 1.7 times as much as a friendly, and qualifiers and continental '+
+        'tournaments sit in between. <a href="#/method" data-goto-method="m-weights">Which matches count most</a> has the full list.</dd>'+
+      '<dt>Does it know about injuries, squads or managers?</dt>'+
+      '<dd>No. It works from results alone: who played whom, where, the score and what the match was. That keeps it simple to '+
+        'check, and it means a team\'s rating changes only when results say it should.</dd>'+
+      '<dt>Is this a table of the best teams of all time?</dt>'+
+      '<dd>Not by default. The rankings show strength now, from the last twelve years of results. The filters can widen that to a '+
+        'team\'s whole history or move the date back to any day since 1872, and the <a href="#/records">Records</a> pages keep the '+
+        'all-time peaks, streaks and upsets.</dd>'+
+      '<dt>Can I see the code, or use it?</dt>'+
+      '<dd>The site\'s code is public on <a href="https://github.com/formlinedata/formline" target="_blank" rel="noopener">GitHub</a>, '+
+        'written in JavaScript, so anyone can check how every number is made. It is shown for transparency, not for reuse: '+
+        'copying it or the ratings into another site or product needs written permission. The match data it is built on has '+
+        'its own, open licences, listed on <a href="#/sources">Sources &amp; thanks</a>.</dd>'+
       '<dt>Will clubs be covered?</dt>'+
       '<dd>That\'s the plan. The same model, with its windows and bands, works for club football too.</dd>'+
       '<dt>Why does it say Korea Republic rather than South Korea?</dt>'+
@@ -3664,6 +3726,12 @@ function viewAbout(){
   if (dl && dl.children && dl.children.length){ const kids = [...dl.children]; dl.innerHTML = '';
     for (let i = 0; i < kids.length; i += 2){ const card = document.createElement('div'); card.className = 'faq-card';
       card.appendChild(kids[i]); if (kids[i+1]) card.appendChild(kids[i+1]); dl.appendChild(card); } }
+  /* The same questions for search engines (schema.org FAQPage), taken from the page as shown. Removed again on other pages. */
+  if (dl){ const qa = [...dl.querySelectorAll('dt')].map(dt => ({'@type':'Question', name:dt.textContent.trim(),
+      acceptedAnswer:{'@type':'Answer', text:(dt.nextElementSibling ? dt.nextElementSibling.textContent : '').replace(/\s+/g, ' ').trim()}}));
+    const ld = document.createElement('script'); ld.type = 'application/ld+json'; ld.id = 'faq-ld';
+    ld.textContent = JSON.stringify({'@context':'https://schema.org', '@type':'FAQPage', mainEntity:qa});
+    document.head.appendChild(ld); }
   const tl = document.querySelector('[data-tour-link]');
   if (tl) tl.addEventListener('click', e => { e.preventDefault(); state.pendingTour = true; location.hash = '#/'; });
 }
@@ -3749,7 +3817,9 @@ function viewRankings(){
   const vis = visibleTable(c.table);
   const visAll = visibleTable(c.provisional);
   const visProv = visAll.filter(r => !r.island);
-  const tierView = state.params.tv === '1';
+  /* Simple view: rank, team, rating, form and trend only; no bands, tiers or rank ranges. */
+  const simple = state.params.sv === '1';
+  const tierView = state.params.tv === '1' && !simple;
   const tMonths = state.params.tp === '24' ? 24 : 12, TR = trendData(c, tMonths);
   /* Attack and defence from the goals model (an option; the order stays the ratings'): goals a side would expect to score
      and to let in against the average ranked team on neutral ground. */
@@ -3774,9 +3844,12 @@ function viewRankings(){
     '<div class="rank-tools">'+
       '<div class="ctl"><label for="rankSearch">Search</label>'+
         '<input type="text" id="rankSearch" placeholder="Filter by name&hellip;" style="width:260px;"></div>'+
-      '<div class="ctl"><label>Show</label><div class="chips" id="viewChips">'+
+      '<div class="ctl"><label>Detail</label><div class="chips" id="simpleChips">'+
+        '<button class="chip'+(simple?'':' on')+'" data-sv="0" title="Ratings with their bands, tiers and likely rank ranges">Full</button>'+
+        '<button class="chip'+(simple?' on':'')+'" data-sv="1" title="Just the ranking, rating, form and trend">Simple</button></div></div>'+
+      (simple ? '' : '<div class="ctl"><label>Show</label><div class="chips" id="viewChips">'+
         '<button class="chip'+(tierView?'':' on')+'" data-view="list">Ranked list</button>'+
-        '<button class="chip'+(tierView?' on':'')+'" data-view="tiers">Tiers</button></div></div>'+
+        '<button class="chip'+(tierView?' on':'')+'" data-view="tiers">Tiers</button></div></div>')+
       '<div class="ctl"><label>Attack &amp; defence</label><div class="chips" id="goalsChips">'+
         '<button class="chip'+(goalsOn?'':' on')+'" data-gl="0">Hide</button>'+
         '<button class="chip'+(goalsOn?' on':'')+'" data-gl="1">Show</button></div></div>'+
@@ -3799,12 +3872,12 @@ function viewRankings(){
        'a typical side at the latest World Cup'+(GS && GS.notes.length ? ': '+GS.notes.join('') : ''))+'. '+
       'It looks at goals alone, over every match the team has played, with recent ones counting most. Click either heading to sort; the # stays the ranking. '+
       'The rankings themselves never use it.</details>' : '')+
-    '<details class="tip"><summary>What the Tier column means</summary>'+
+    (simple ? '' : '<details class="tip"><summary>What the Tier column means</summary>'+
       (tierView ? 'Each tier is led by its highest-rated team; a team joins it unless the model is at least 90% sure the leader is better. ' : '')+
       'The <b>Tier</b> bar shows how likely each team is to belong in each tier, in that tier\'s colour, so it shades into '+
       'the next tier as the team\'s band overlaps it. <span class="talso" style="margin:0">/1</span> beside a team marks another '+
-      'tier it has at least a one-in-three chance of belonging to. <a href="#/method" data-goto-method="m-tiers">How tiers work</a></details>'+
-    '<div class="panel" style="margin-bottom:20px;"><div class="scroll table-wrap"><table class="rank-table">'+
+      'tier it has at least a one-in-three chance of belonging to. <a href="#/method" data-goto-method="m-tiers">How tiers work</a></details>')+
+    '<div class="panel" style="margin-bottom:20px;"><div class="scroll table-wrap"><table class="rank-table'+(simple ? ' simple' : '')+'">'+
       '<thead><tr><th>#</th><th>Team</th><th class="num">Rating</th>'+
       '<th title="Coloured by how likely the team is to belong in each tier; a second number marks another tier with at least a one-in-three chance">Tier</th>'+
       rankRangeHead()+
@@ -3873,7 +3946,7 @@ function viewRankings(){
   };
   draw('');
   document.getElementById('rankSearch').addEventListener('input', e => draw(e.target.value));
-  const keep = () => ({tv:tierView ? '1' : undefined, tp:tMonths === 24 ? '24' : undefined, so:sortBy || undefined, gl:goalsOn ? '1' : undefined, gr:goalsOn && gRef !== 'med' ? gRef : undefined});
+  const keep = () => ({sv:simple ? '1' : undefined, tv:tierView ? '1' : undefined, tp:tMonths === 24 ? '24' : undefined, so:sortBy || undefined, gl:goalsOn ? '1' : undefined, gr:goalsOn && gRef !== 'med' ? gRef : undefined});
   document.querySelectorAll('#glRefChips [data-gr]').forEach(b => b.addEventListener('click', () => go(Object.assign(keep(), {gr:b.dataset.gr === 'med' ? undefined : b.dataset.gr}))));
   document.querySelectorAll('#goalsChips [data-gl]').forEach(b => b.addEventListener('click', () =>
     go(Object.assign(keep(), {gl:b.dataset.gl === '1' ? '1' : undefined, gr:b.dataset.gl === '1' ? keep().gr : undefined, so:b.dataset.gl === '1' || !['ga', 'gd'].includes(sortBy) ? sortBy || undefined : undefined}))));
@@ -3881,6 +3954,8 @@ function viewRankings(){
     if (el) el.addEventListener('click', () => go(Object.assign(keep(), {so:sortBy === v ? undefined : v}))); });
   document.querySelectorAll('#viewChips [data-view]').forEach(b => b.addEventListener('click', () =>
     go(Object.assign(keep(), {tv:b.dataset.view === 'tiers' ? '1' : undefined, so:undefined}))));
+  document.querySelectorAll('#simpleChips [data-sv]').forEach(b => b.addEventListener('click', () =>
+    go(Object.assign(keep(), {sv:b.dataset.sv === '1' ? '1' : undefined, tv:b.dataset.sv === '1' ? undefined : keep().tv}))));
   document.querySelectorAll('#trendChips [data-tp]').forEach(b => b.addEventListener('click', () => go(Object.assign(keep(), {tp:b.dataset.tp === '24' ? '24' : undefined}))));
   const ts = document.getElementById('trendSort');
   if (ts) ts.addEventListener('click', () => go(Object.assign(keep(), {so:sortBy === 'tu' ? 'td' : sortBy === 'td' ? undefined : 'tu'})));
@@ -4010,6 +4085,7 @@ function pubDay(ts){
     const m = ms[i]; if (!includeMatch(m)) continue;
     d.set(m, applyMatch(st, m, true));
   }
+  d.st = st;   // every team's state at the end of that day, as published then (ranks after a match)
   pubCache.day.set(ts, d);
   return d;
 }
@@ -4340,6 +4416,7 @@ function viewTeam(){
     return;
   }
   const row = c.byKey.get(key), team = row.team, h = publishedHistory(key);
+  const rkConf = state.params.rk === 'conf';
   const w = h.filter(x=>x.gf>x.ga).length, d = h.filter(x=>x.gf===x.ga).length, l = h.filter(x=>x.gf<x.ga).length;
   const gf = h.reduce((s,x)=>s+x.gf,0), ga = h.reduce((s,x)=>s+x.ga,0);
   const i = {...infoFor(key), conf:row.conf};
@@ -4403,19 +4480,21 @@ function viewTeam(){
         'Each dot is the published rating after one of its matches in the last two years; before that the line takes a point every four months.</p>'+
       '</div></div>'+
     historySection(key)+
-    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Matches <span class="muted" style="font-weight:400;">'+h.length+'</span><span class="aside">ratings as published at the time of each one</span></div>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Matches <span class="muted" style="font-weight:400;">'+h.length+'</span><span class="aside">ratings as published at the time of each one'+
+      ' <span class="chips hv-chips" id="rkChips" title="Rank just after each match">Rank: <button class="chip'+(rkConf ? '' : ' on')+'" data-rk="world">World</button>'+
+      '<button class="chip'+(rkConf ? ' on' : '')+'" data-rk="conf">Confederation</button></span></span></div>'+
       '<div class="table-wrap lock">'+
         '<table><thead><tr><th>Date</th><th>Opponent</th><th class="hide-sm">Competition</th><th class="num">Score</th>'+
         '<th class="num hide-sm" title="The opponent\'s rating going into the match">Opp.</th>'+
         '<th class="num hide-sm" title="The model\'s chances before kick-off: this team wins, draw, opponent wins (%)">Chances <span class="muted">W&middot;D&middot;L</span></th>'+
         '<th class="num hide-sm">Before</th><th class="num">After</th>'+
-        '<th class="num">&Delta;</th></tr></thead><tbody>'+
+        '<th class="num">&Delta;</th><th class="num" title="'+(rkConf ? 'Rank in its confederation' : 'World rank')+' just after the match">Rank</th></tr></thead><tbody>'+
         h.slice().reverse().map(x=>{
           const ed = x.m && x.m._ed, pen = x.m ? shootoutWinner(x.m) : null;
           return '<tr><td class="muted date">'+fmtDay(x.ts)+
-            (x.m && x.m.src === 'gapfill' ? '<span class="gf" title="Not yet in the archive: result from API-Football, collected by the nightly update">&dagger;</span>' :
-             x.m && x.m.src === 'manual' ? '<span class="gf" title="Missing from the archive: result added by hand, checked against Wikipedia">&Dagger;</span>' :
-             x.m && x.m.src === 'wiki' ? '<span class="gf" title="Missing from the archive and API-Football: result from Wikipedia, found by the nightly update">&Dagger;</span>' : '')+'</td>'+
+            (x.m && x.m.src === 'gapfill' ? '<span class="gf" title="Not yet in the main results archive (Mart Jürisoo\'s, on Kaggle and GitHub): result from API-Football, collected by the nightly update">&dagger;</span>' :
+             x.m && x.m.src === 'manual' ? '<span class="gf" title="Missing from the main results archive (Mart Jürisoo\'s): result added by hand, checked against Wikipedia">&Dagger;</span>' :
+             x.m && x.m.src === 'wiki' ? '<span class="gf" title="Missing from the main results archive (Mart Jürisoo\'s) and from API-Football: result from Wikipedia, found by the nightly update">&Dagger;</span>' : '')+'</td>'+
           '<td><a href="'+teamHref(x.oppName)+'">'+withFlag(x.oppName, x.ts)+'</a>'+
             (x.neutral?' <span class="muted">(N)</span>':(x.home?'':' <span class="muted">(A)</span>'))+'</td>'+
           '<td class="comp hide-sm" title="'+esc(x.tournament)+'">'+(ed ? '<a href="'+editionHref(ed)+'">'+esc(shortComp(x.tournament))+'</a>'
@@ -4427,16 +4506,21 @@ function viewTeam(){
           '<td class="num muted hide-sm">'+fmtR(x.pre)+'</td>'+
           '<td class="num rating">'+fmtR(x.rating)+'</td>'+
           '<td class="num mono '+(x.delta>0?'up':(x.delta<0?'down':'flat'))+'">'+
-            (x.delta>0?'+':'')+x.delta.toFixed(1)+'</td></tr>'; }).join('')+
+            (x.delta>0?'+':'')+x.delta.toFixed(1)+'</td>'+
+          (rk => '<td class="num mono" title="'+(rk ? (rkConf ? confLabel(poolOf(key, x.ts))+' rank ' : 'World rank ')+rk.rank+' of '+rk.of+' just after this match' : 'Not ranked just after this match')+'">'+
+            (rk ? rk.rank : '<span class="muted">&ndash;</span>')+'</td>')(rankAfter(c, key, x.ts, rkConf))+'</tr>'; }).join('')+
         '</tbody></table></div>'+
         (h.some(x => x.m && x.m.src === 'gapfill') ? '<p class="chart-note" style="padding:10px 15px 0;margin:0;border-top:1px solid var(--line);">'+
-          '&dagger; Not yet in the archive. Collected from API-Football by the nightly update, and replaced by the archive\'s own record once it catches up.</p>' : '')+
+          '&dagger; Not yet in the main results archive (Mart J&uuml;risoo\'s, the site\'s main source; not RSSSF). Collected from API-Football by the nightly update, and replaced by the archive\'s own record once it catches up.</p>' : '')+
+        (h.some(x => x.m && (x.m.src === 'manual' || x.m.src === 'wiki')) ? '<p class="chart-note" style="padding:10px 15px 0;margin:0;'+(h.some(x => x.m && x.m.src === 'gapfill') ? '' : 'border-top:1px solid var(--line);')+'">'+
+          '&Dagger; Missing from the main results archive and from API-Football: added by hand (checked against Wikipedia) or found on Wikipedia by the nightly update. Credited on <a href="#/sources">Sources &amp; thanks</a>.</p>' : '')+
       '</div>'+
       '<div class="panel"><div class="panel-head">Record by opponent</div><div class="scroll table-wrap">'+opponentTable(h)+'</div></div>'+
     '</div>';
 
   bindCombo('teamPick', pickRows, key);
-  document.querySelectorAll('#hvChips [data-hv]').forEach(b => b.addEventListener('click', () => go({hv:b.dataset.hv === 'all' ? 'all' : undefined})));
+  document.querySelectorAll('#hvChips [data-hv]').forEach(b => b.addEventListener('click', () => go({hv:b.dataset.hv === 'all' ? 'all' : undefined, rk:state.params.rk})));
+  document.querySelectorAll('#rkChips [data-rk]').forEach(b => b.addEventListener('click', () => go({rk:b.dataset.rk === 'conf' ? 'conf' : undefined, hv:state.params.hv})));
   fillHistory(key);
   document.querySelectorAll('.tm-list').forEach(l => { const m = l.querySelector('.me'); if (m) l.scrollTop = Math.max(0, m.offsetTop - l.offsetTop - l.clientHeight/2 + m.offsetHeight/2); });
   teamChartLater(key, team);
@@ -5709,7 +5793,7 @@ function viewWindow(){
       'published before kick-off and never changed afterwards.</p>';
   if (!W){ app.innerHTML = '<div class="wrap">'+head+'<div class="status">No international window in the data yet. The <a href="#/fixtures">fixtures</a> list what\'s coming.</div></div>'; return; }
   const n = W.scored.length, hits = W.scored.filter(e => e.hit).length, draws = W.scored.filter(e => e.outcome === 1).length;
-  /* Sharpness on the same 0 (coin toss) to 100 (perfect) scale as the Forecast record. */
+  /* The forecast score, on the same 0 (coin toss) to 100 (perfect) scale as the Forecast record. */
   const sharpW = n ? Math.round(sharp(W.scored.reduce((a, e) => a + binLL(e), 0)/n)) : null;
   const nm = t => esc(dn(t)), outP = e => e.p[e.outcome];
   const upsets = W.scored.filter(e => e.outcome !== e.p.indexOf(Math.max(...e.p))).sort((a, b) => outP(a) - outP(b)).slice(0, 6);
@@ -5736,7 +5820,7 @@ function viewWindow(){
       tile(n ? Math.round(100*hits/n)+'%' : '&ndash;', 'calls right')+
       tile(draws, 'draws')+
       tile(W.coming.length, 'still to come')+
-      tile(sharpW !== null ? sharpW+'<small>/100</small>' : '&ndash;', 'sharpness (0 = coin toss)')+
+      tile(sharpW !== null ? sharpW+'<small> out of 100</small>' : '&ndash;', 'forecast score (0 = coin toss)')+
     '</div>'+
     (upsets.length ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Upsets so far<span class="aside">the chance the model gave what happened</span></div>'+
       '<table><tbody>'+upsets.map(e => '<tr class="upset-row"><td class="muted date hide-sm">'+fmtDay(Date.parse(e.date+'T00:00:00Z'))+'</td>'+
@@ -6661,7 +6745,7 @@ function vsYear(g, y){
   if (!F) return null;
   return atDefaults(c => {
     const G = goalsModel(g, ts0 - 1);
-    const acc = {y, n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0], dis:[null, [0, 0, 0, 0], [0, 0, 0, 0]], list:[]};
+    const acc = {y, n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0], dis:[null, [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], list:[]};
     for (let i = firstIndexAt(ms, ts0); i < ms.length && ms[i].ts < ts1; i++){
       const m = ms[i]; namesFor(m);
       const fh = F.byKey.get(m._h), fa = F.byKey.get(m._a), rh = c.byKey.get(m._h), ra = c.byKey.get(m._a);
@@ -6673,9 +6757,11 @@ function vsYear(g, y){
       es.forEach((e, j) => { const q = Math.min(Math.max(e, 1e-6), 1 - 1e-6), l = -(s*Math.log(q) + (1 - s)*Math.log(1 - q));
         acc.ll[j] += l; if (j < 2) one[j + 1] = l;
         if (s !== 0.5) acc.hit[j] += e === 0.5 ? 0.5 : (e > 0.5) === (s === 1) ? 1 : 0; });
-      /* Matches where Formline and another method favoured different sides: [count, Formline right, the other right, draws]. */
+      /* Matches where Formline and another method favoured different sides: [count, Formline right, the other right, draws],
+         then the same four for the clearer calls, where at least one of the two gave its pick 55% or more. */
       [1, 2].forEach(j => { if ((es[0] > 0.5) === (es[j] > 0.5) || es[0] === 0.5 || es[j] === 0.5) return;
-        const D = acc.dis[j]; D[0]++; if (s === 0.5) D[3]++; else if ((es[0] > 0.5) === (s === 1)) D[1]++; else D[2]++; });
+        const D = acc.dis[j], o = Math.max(Math.abs(es[0] - 0.5), Math.abs(es[j] - 0.5)) >= 0.05 ? [0, 4] : [0];
+        o.forEach(b => { D[b]++; if (s === 0.5) D[b+3]++; else if ((es[0] > 0.5) === (s === 1)) D[b+1]++; else D[b+2]++; }); });
       acc.n++; if (s !== 0.5) acc.dec++; acc.list.push(one);
     }
     return acc;
@@ -6690,7 +6776,7 @@ const FR_COL = ['var(--amber)', 'var(--blue)', 'var(--faint)'];
 const sharp = ll => 100*(1 - ll/Math.LN2);
 function vsTotals(g){
   const R = vsCache[g]; if (!R) return null;
-  const ys = R.filter(Boolean), tot = {n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0], dis:[null, [0, 0, 0, 0], [0, 0, 0, 0]], ys};
+  const ys = R.filter(Boolean), tot = {n:0, dec:0, ll:[0, 0, 0], hit:[0, 0, 0], dis:[null, [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]], ys};
   ys.forEach(a => { tot.n += a.n; tot.dec += a.dec; [0, 1, 2].forEach(j => { tot.ll[j] += a.ll[j]; tot.hit[j] += a.hit[j]; });
     [1, 2].forEach(j => a.dis[j].forEach((v, k) => tot.dis[j][k] += v)); });
   return tot.n ? tot : null;
@@ -6699,52 +6785,74 @@ const frTile = (k, v, s) => '<div class="fr-tile"><div class="k">'+k+'</div><div
 const frBars = (rows, fmt) => '<div class="fr-bars">'+rows.map((r, j) => '<div class="row"><span class="lab'+(j ? '' : ' me')+'">'+r[0]+'</span>'+
   '<span class="track"><span class="fill" style="width:'+Math.max(0, Math.min(100, r[1])).toFixed(1)+'%;background:'+FR_COL[j]+'"></span></span>'+
   '<span class="val">'+fmt(r[1])+'</span></div>').join('')+'</div>';
+/* "Forecast score": the plain name for sharpness, always shown as so many out of 100. */
+const fscore = v => Math.round(v)+'<small> out of 100</small>';
 function vsPanel(g){
   const T = vsTotals(g), G = g === 'men' ? "men's" : "women's";
-  if (!T) return '<div id="vsPanel"><div class="fr-hero">'+['Picked the winner', 'Sharpness', 'Years ahead of World Elo', 'Years ahead of the FIFA method']
+  if (!T) return '<div id="vsPanel"><div class="fr-hero">'+['Picked the winner', 'Forecast score', 'Years better than World Elo', 'Years better than the FIFA method']
     .map(k => frTile(k, '&hellip;', 'working it out')).join('')+'</div></div>';
   const names = ['Formline', 'World Elo', 'FIFA method'], ys = T.ys, hit = j => 100*T.hit[j]/T.dec, sh = j => sharp(T.ll[j]/T.n);
   const ahead = j => ys.filter(a => a.ll[0] < a.ll[j]).length;
+  const y0 = ys[0].y, yrsTxt = j => ahead(j) === ys.length ? 'better forecasts every year since '+y0 : 'years Formline\'s forecasts scored higher';
   const hero = '<div class="fr-hero">'+
-    frTile('Picked the winner', hit(0).toFixed(1)+'%', 'of '+T.dec.toLocaleString()+' '+G+' matches with a winner since 2019')+
-    frTile('Sharpness', Math.round(sh(0))+'<small>/100</small>', 'how far beyond a coin toss, counting how sure each forecast was')+
-    frTile('Years ahead of World Elo', ahead(1)+'<small> of '+ys.length+'</small>', 'years Formline\'s forecasts were sharper')+
-    frTile('Years ahead of the FIFA method', ahead(2)+'<small> of '+ys.length+'</small>', 'years Formline\'s forecasts were sharper')+'</div>';
+    frTile('Picked the winner', hit(0).toFixed(1)+'%', 'of '+T.dec.toLocaleString()+' '+G+' matches with a winner since '+y0)+
+    frTile('Forecast score', fscore(sh(0)), '0 is a coin toss, 100 is knowing every result')+
+    frTile('Years better than World Elo', ahead(1)+'<small> of '+ys.length+'</small>', yrsTxt(1))+
+    frTile('Years better than the FIFA method', ahead(2)+'<small> of '+ys.length+'</small>', yrsTxt(2))+'</div>';
   const nm = j => j === 2 ? 'the FIFA method' : names[j];
   const split = j => { const D = T.dis[j]; if (!D[0]) return '';
-    const w = v => (100*v/D[0]).toFixed(1)+'%';
+    const w = v => (100*v/D[0]).toFixed(1)+'%', close = [D[0] - D[4], D[1] - D[5], D[2] - D[6], D[3] - D[7]];
     return '<div class="fr-split-block"><p class="fr-q">Formline and '+nm(j)+' backed <b>different winners</b> in '+D[0].toLocaleString()+' matches. Who was right?</p>'+
       '<div class="fr-split"><i style="width:'+w(D[1])+';background:var(--amber)"></i><i style="width:'+w(D[2])+';background:'+FR_COL[j]+'"></i><i style="width:'+w(D[3])+';background:var(--line-strong)"></i></div>'+
       '<div class="fr-legend"><span><i style="background:var(--amber)"></i>Formline <b>'+D[1].toLocaleString()+'</b></span><span><i style="background:'+FR_COL[j]+'"></i>'+names[j]+' <b>'+D[2].toLocaleString()+'</b></span>'+
-      '<span><i style="background:var(--line-strong)"></i>Draw <b>'+D[3].toLocaleString()+'</b></span></div></div>'; };
+      '<span><i style="background:var(--line-strong)"></i>Draw <b>'+D[3].toLocaleString()+'</b></span></div>'+
+      (D[4] && close[0] ? '<p class="fr-sub">Clearer calls, where either one gave its pick 55% or more: Formline right <b>'+D[5]+'</b>, '+names[j]+' <b>'+D[6]+'</b>, draws '+D[7]+'. '+
+        'Close calls, both under 55%: Formline <b>'+close[1]+'</b>, '+names[j]+' <b>'+close[2]+'</b>, draws '+close[3]+'.</p>' : '')+'</div>'; };
   /* An early warning: the last 12 months on their own, each match still predicted with its year's 1 January ratings. */
   const end = state.bounds[g].max, last = ys.flatMap(a => a.list || []).filter(x => x[0] > end - 365*DAY);
   const lF = last.reduce((t, x) => t + x[1], 0)/Math.max(1, last.length), lE = last.reduce((t, x) => t + x[2], 0)/Math.max(1, last.length);
-  const roll = last.length >= 100 ? '<p class="vs-roll'+(lE < lF ? ' warn' : '')+'">'+(lE < lF ? '<b>World Elo has been sharper over the last 12 months</b>: ' : '<b>Last 12 months:</b> ')+
-    'sharpness '+Math.round(sharp(lF))+' for Formline, '+Math.round(sharp(lE))+' for World Elo, over '+last.length.toLocaleString()+' matches to '+fmtDay(end)+'. '+
+  const roll = last.length >= 100 ? '<p class="vs-roll'+(lE < lF ? ' warn' : '')+'">'+(lE < lF ? '<b>World Elo\'s forecasts have scored higher over the last 12 months</b>: ' : '<b>Last 12 months:</b> ')+
+    'a forecast score of '+Math.round(sharp(lF))+' out of 100 for Formline and '+Math.round(sharp(lE))+' for World Elo, over '+last.length.toLocaleString()+' matches to '+fmtDay(end)+'. '+
     (lE < lF ? 'Formline still leads over the longer run; this note appears whenever a rolling year goes the other way.' : 'Checked after every update, so a year that went the other way would show here straight away.')+'</p>' : '';
-  const years = '<details class="vs-years"><summary>Year by year</summary><div class="table-wrap"><table class="fr-t"><thead><tr><th>Year</th><th>Matches</th>'+
-      names.map(n => '<th>'+n+'</th>').join('')+'<th>Sharpest</th></tr></thead><tbody>'+
-    ys.map(a => { const h = a.hit.map(v => Math.round(1000*v/a.dec)/10), top = Math.max(...h), b = a.ll.indexOf(Math.min(...a.ll));
-      return '<tr><td>'+a.y+'</td><td>'+a.n.toLocaleString()+'</td>'+h.map(v => '<td'+(v === top ? ' class="best"' : '')+'>'+v.toFixed(1)+'%</td>').join('')+
-        '<td class="'+(b === 0 ? 'me' : '')+'">'+names[b]+'</td></tr>'; }).join('')+
-    '</tbody></table></div><p class="chart-note">How often each method picked the winner, year by year; the highest each year is in gold. '+
-      '<b>Sharpest</b> also counts how sure each forecast was, which is why a method can pick a few more winners in a year and still be less accurate.</p></details>';
   const why = sh(1) > 0 && sh(0) > sh(1) ? '<details class="vs-years"><summary>Why a small gap is a big one</summary>'+
     '<p>Nobody can predict football perfectly: no method sees a deflection or a red card coming, so every serious one ends up close to the others. '+
-      'What matters is how far each gets beyond a coin toss. Formline\'s forecasts score '+Math.round(sh(0))+', World Elo\'s '+Math.round(sh(1))+' and the FIFA method\'s '+Math.round(sh(2))+
+      'What matters is how far each gets beyond a coin toss. Formline\'s forecasts score '+Math.round(sh(0))+' out of 100, World Elo\'s '+Math.round(sh(1))+' and the FIFA method\'s '+Math.round(sh(2))+
       ': Formline gets about '+Math.round(100*(sh(0)/sh(1) - 1))+'% more out of the same results than World Elo, and about '+Math.round(100*(sh(0)/sh(2) - 1))+'% more than the FIFA method.</p>'+
     '<p>"Picked the winner" barely moves, because the methods back the same side in most matches. The interesting matches are the ones where they disagree, shown above.</p></details>' : '';
   return '<div id="vsPanel">'+hero+
-    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Formline against World Elo and the FIFA method<span class="aside">'+T.n.toLocaleString()+' '+G+' matches since 2019, the same games for all three</span></div>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Formline against World Elo and the FIFA method<span class="aside">'+T.n.toLocaleString()+' '+G+' matches since '+y0+', the same games for all three</span></div>'+
     '<div class="panel-body">'+roll+
       '<h3 class="fr-h">Picked the winner</h3>'+frBars(names.map((n, j) => [n, hit(j)]), v => v.toFixed(1)+'%')+
-      '<h3 class="fr-h">Sharpness <span class="muted">0 = coin toss, 100 = perfect</span></h3>'+frBars(names.map((n, j) => [n, sh(j)]), v => Math.round(v))+
-      '<h3 class="fr-h">When they disagreed</h3>'+split(1)+split(2)+years+why+
+      '<h3 class="fr-h">Forecast score <span class="muted">out of 100: 0 is a coin toss, 100 is knowing every result</span></h3>'+frBars(names.map((n, j) => [n, sh(j)]), v => Math.round(v))+
+      '<p class="fr-sub">Picking the winner only asks who was favourite. The forecast score also asks how sure each forecast was: being 80% sure and right scores more than being 51% sure and right, '+
+        'and being 80% sure and wrong costs more.</p>'+
+      '<h3 class="fr-h">When they disagreed</h3>'+split(1)+split(2)+why+
       '<p class="chart-note">Each method\'s ratings are frozen on 1 January and used to predict that year\'s matches, between teams all three rank. '+
         'World Elo is the World Football Elo Ratings formula (eloratings.net) and the FIFA method is FIFA\'s ranking formula, both worked out here '+
         '(see <a href="#/compare">Formline, Elo and FIFA</a>). FIFA\'s ranking is built for seeding draws rather than predicting, but its formula still says what result it expects, '+
-        'and that is what is scored. Updated with every new result.</p></div></div></div>';
+        'and that is what is scored. Every Formline forecast here includes the goals model, as the site\'s forecasts do. Updated with every new result.</p></div></div></div>';
+}
+/* Year by year since 2019: the forecast score (what the "years better" count uses) and how often each picked the winner. */
+function vsYearsPanel(g){
+  const T = vsTotals(g); if (!T) return '<div class="status">Working out the year-by-year figures&hellip;</div>';
+  const names = ['Formline', 'World Elo', 'FIFA method'], ys = T.ys;
+  const cells = (vals, fmt) => { const r = vals.map(v => Math.round(10*v)/10), top = Math.max(...r);
+    return r.map(v => '<td'+(v === top ? ' class="best"' : '')+'>'+fmt(v)+'</td>').join(''); };
+  /* Years where another method picked more winners, with how many more, for the note under the table. */
+  const lean = ys.map(a => { const more = [1, 2].filter(j => a.hit[j] > a.hit[0]).map(j => [j, Math.round(a.hit[j] - a.hit[0])]);
+    return more.length ? {y:a.y, dec:a.dec, more} : null; }).filter(Boolean);
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Year by year<span class="aside">the same test, one year at a time</span></div>'+
+    '<div class="table-wrap"><table class="fr-t fr-years"><thead>'+
+      '<tr><th rowspan="2">Year</th><th rowspan="2" class="hide-sm">Matches</th><th colspan="3" class="grp">Forecast score, out of 100</th><th colspan="3" class="grp">Picked the winner</th></tr>'+
+      '<tr>'+names.concat(names).map(n => '<th>'+n.replace(' method', '')+'</th>').join('')+'</tr></thead><tbody>'+
+    ys.map(a => '<tr><td>'+a.y+'</td><td class="hide-sm">'+a.n.toLocaleString()+'</td>'+
+      cells(a.ll.map(l => sharp(l/a.n)), v => String(Math.round(v)))+cells(a.hit.map(v => 100*v/a.dec), v => v.toFixed(1)+'%')+'</tr>').join('')+
+    '</tbody></table></div>'+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">The best each year is in gold. The forecast score decides the "years better" count at the top of the page. '+
+      (lean.length ? 'Picking the winner can go the other way in a year because it comes down to a handful of close calls: '+
+        lean.map(l => 'in '+l.y+' '+l.more.map(([j, d]) => names[j].replace('FIFA method', 'the FIFA method')+' picked '+(d > 0 ? d : 'a fraction')+' more').join(' and ')+
+          ', out of '+l.dec.toLocaleString()+' matches with a winner').join('; ')+
+        '. Most of the matches the methods disagree on are near coin tosses, so a few results either way decide it.' : '')+'</p></div>';
 }
 /* The same test through every era, measured on the archives in October 2026 (ratings frozen on 1 January, the
    year's matches between teams all three methods had ranked). Rows: period, matches, picked the winner (Formline,
@@ -6767,15 +6875,19 @@ function vsEras(g){
       ys.filter(a => a.ll[0] < a.ll[1]).length, ys.filter(a => a.ll[0] < a.ll[2]).length, ys.length, 'calc']; }
   const mark = k => k === 'back' ? ' <span class="muted" title="Reverse calculation: FIFA\'s current method run back">&dagger;</span>' : k === 'pub' ? ' <span class="muted" title="FIFA\'s ranking as published at the time">&Dagger;</span>' : '';
   const yrs = R.reduce((t, r) => t + r[10], 0), vsE = R.reduce((t, r) => t + r[8], 0), vsF = R.reduce((t, r) => t + r[9], 0);
-  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Every era<span class="aside">'+(g === 'men' ? 'since 1920' : 'since 1991')+', how often each picked the winner</span></div>'+
-    '<div class="panel-body"><p class="fr-q" style="margin-top:0;">Over <b>'+yrs+' years</b>, Formline was sharper than World Elo in <b>'+vsE+'</b> and sharper than the FIFA method in <b>'+vsF+'</b>.</p></div>'+
-    '<div class="table-wrap"><table class="fr-t"><thead><tr><th>Years</th><th class="hide-sm">Matches</th><th>Formline</th><th>World Elo</th><th>FIFA</th><th class="hide-sm">Years sharper (vs Elo / vs FIFA)</th></tr></thead><tbody>'+
-    R.map(r => { const rd = v => Math.round(10*v)/10, top = Math.max(rd(r[2]), rd(r[3]), rd(r[4])), c = v => '<td'+(rd(v) === top ? ' class="best"' : '')+'>'+v.toFixed(1)+'%';
-      return '<tr><td class="nowrap">'+r[0]+'</td><td class="hide-sm">'+r[1].toLocaleString()+'</td>'+c(r[2])+'</td>'+c(r[3])+'</td>'+c(r[4])+mark(r[11])+'</td>'+
-        '<td class="hide-sm">'+r[8]+' / '+r[9]+' of '+r[10]+'</td></tr>'; }).join('')+
+  const cells = (vals, fmt, tail) => { const r = vals.map(v => Math.round(10*v)/10), top = Math.max(...r);
+    return r.map((v, j) => '<td'+(v === top ? ' class="best"' : '')+'>'+fmt(v)+(tail && j === 2 ? tail : '')+'</td>').join(''); };
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Every era<span class="aside">'+(g === 'men' ? 'since 1920' : 'since 1991')+'</span></div>'+
+    '<div class="panel-body"><p class="fr-q" style="margin-top:0;">Over <b>'+yrs+' years</b>, Formline\'s forecasts scored higher than World Elo\'s in <b>'+vsE+'</b> and higher than the FIFA method\'s in <b>'+vsF+'</b>.</p></div>'+
+    '<div class="table-wrap"><table class="fr-t fr-years"><thead>'+
+      '<tr><th rowspan="2">Years</th><th rowspan="2" class="hide-sm">Matches</th><th colspan="3" class="grp">Forecast score, out of 100</th><th colspan="3" class="grp">Picked the winner</th><th rowspan="2" class="hide-sm">Years better<br>(vs Elo / FIFA)</th></tr>'+
+      '<tr><th>Formline</th><th>World Elo</th><th>FIFA</th><th>Formline</th><th>World Elo</th><th>FIFA</th></tr></thead><tbody>'+
+    R.map(r => '<tr><td class="nowrap">'+r[0]+'</td><td class="hide-sm">'+r[1].toLocaleString()+'</td>'+
+      cells([r[5], r[6], r[7]].map(l => sharp(l)), v => String(Math.round(v)), mark(r[11]))+cells([r[2], r[3], r[4]], v => v.toFixed(1)+'%', mark(r[11]))+
+      '<td class="hide-sm">'+r[8]+' / '+r[9]+' of '+r[10]+'</td></tr>').join('')+
     '</tbody></table></div>'+
     '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">The same test back through history: ratings frozen on 1 January, used to predict that '+
-      'year\'s matches between teams all three methods had ranked. The highest "picked the winner" in each era is in gold. '+
+      'year\'s matches between teams all three methods had ranked. The best in each era is in gold. '+
       '&dagger; <b>Reverse calculation:</b> '+(g === 'men' ? 'FIFA had no ranking before 1993, so this is FIFA\'s current method run back from the first international in 1872.'
         : 'FIFA\'s women\'s ranking began in 2003, so this is its method run back to 1971, as FIFA itself did when it launched.')+
       (g === 'men' ? ' &Dagger; <b>FIFA\'s ranking as published at the time.</b> Its methods then had no formula for a match\'s chances, so its rank gaps and home '+
@@ -6839,8 +6951,8 @@ function researchPanel(g){
 function viewRecord(){
   const g = state.gender, rec = state.record, app = document.getElementById('app'), G = g === 'men' ? "men's" : "women's";
   const intro = '<h1 class="page-title">Forecast record</h1>'+
-    '<p class="page-sub">How good are Formline\'s predictions? Here is the honest answer: tested against World Elo and the FIFA method on every '+G+' match since 2019, '+
-      'and every forecast the site publishes is saved before kick-off and checked after the final whistle. None are ever removed.</p>';
+    '<p class="page-sub">How good are Formline\'s predictions? Tested against World Elo and the FIFA method on every '+G+' match since 2019, '+
+      'and every forecast the site publishes is saved before kick-off and checked afterwards. None are ever removed.</p>';
   const T = vsTotals(g);
   let live = '';
   if (!rec) live = '<div class="status">The live record comes with the site\'s nightly update, which this copy of the site does not have. The online site has it.</div>';
@@ -6854,7 +6966,7 @@ function viewRecord(){
         frTile('Forecasts checked', S.n.toLocaleString(), pending.length+' more waiting for kick-off')+
         frTile('Favourite won', pc(S.hit), 'how often the likeliest result happened')+
         frTile('Chance given to what happened', pc(given), 'on average; guessing a third each way gives 33%')+
-        frTile('Sharpness', Math.round(shLive)+'<small>/100</small>', T ? 'the long test above scores '+Math.round(sharp(T.ll[0]/T.n)) : 'same scale as the long test')+'</div>';
+        frTile('Forecast score', fscore(shLive), T ? 'the long test scores '+Math.round(sharp(T.ll[0]/T.n))+' on the same scale' : 'same scale as the long test')+'</div>';
       let calib = '';
       if (scored.length >= 30){
         const B = [[0.33, 0.5], [0.5, 0.65], [0.65, 0.8], [0.8, 1.01]];
@@ -6874,7 +6986,7 @@ function viewRecord(){
         '<td class="hide-sm" style="min-width:170px;">'+bar(e.p)+'</td>'+
         '<td class="num '+(e.hit ? 'up' : 'muted')+'">'+(e.hit ? '&#10003; ' : '')+pc(e.p[e.outcome])+'</td></tr>').join('');
       live = tiles+(scored.length < 100 ? '<div class="notice"><b>Early days.</b> With '+scored.length+' forecasts checked, these numbers can still move a long way. '+
-          'The test above covers thousands of matches.</div>' : '')+
+          'The long test on the Overview covers thousands of matches.</div>' : '')+
         (calib ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-body">'+calib+'</div></div>' : '')+
         '<p class="fr-links"><a href="#/window">This international window</a> &middot; <a href="records/index.html">Window recaps</a></p>'+
         (rows ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Every forecast, checked<span class="aside">newest first</span></div><div class="table-wrap lock"><table>'+
@@ -6886,14 +6998,26 @@ function viewRecord(){
       ['Live record: Brier score', S.brier.toFixed(3)+' (a third each way scores 0.667)']] : [];
   }
   const N = (typeof nerd !== 'undefined' ? nerd : []).concat(T ? ['Formline', 'World Elo', 'FIFA method'].map((n, j) => ['Test since 2019: '+n+' log-loss', (T.ll[j]/T.n).toFixed(3)]) : []);
-  const stats = '<details class="vs-years fr-nerd"><summary>For the stats-minded</summary>'+
-    '<p><b>Sharpness</b> is 100 &times; (1 &minus; log-loss / ln 2), with log-loss scored on each match\'s expected result (a draw counts as half a win). '+
+  const stats = '<div class="panel"><div class="panel-head">For the stats-minded</div><div class="panel-body fr-nerd">'+
+    '<p>The <b>forecast score</b> is 100 &times; (1 &minus; log-loss / ln 2), with log-loss scored on each match\'s expected result (a draw counts as half a win). '+
       'Log-loss punishes confident forecasts that go wrong much harder than cautious ones, so it rewards being sure only when it is right. '+
-      'Calling every match 50/50 scores ln 2 = 0.693, which is sharpness 0. The <b>Brier score</b> is the average squared gap between the forecast and what happened.</p>'+
-    (N.length ? '<table class="fr-t"><tbody>'+N.map(r => '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+'</tbody></table>' : '')+'</details>';
-  app.innerHTML = '<div class="wrap">'+intro+vsPanel(g)+
-    '<h2 class="fr-h2">The live record</h2><p class="fr-q" style="margin-top:0;">Every forecast the site has published since it started keeping score.</p>'+live+
-    vsEras(g)+researchPanel(g)+stats+'</div>';
+      'Calling every match 50/50 scores ln 2 = 0.693, which is a forecast score of 0. The <b>Brier score</b> is the average squared gap between the forecast and what happened.</p>'+
+    (N.length ? '<table class="fr-t"><tbody>'+N.map(r => '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+'</tbody></table>' : '')+'</div></div>';
+  /* Tabs: the headline test, the same test year by year and era by era, the live record, published research, the formulas. */
+  const TABS = [['', 'Overview'], ['years', 'Year by year'], ['live', 'Live record'], ['research', 'Research'], ['stats', 'For the stats-minded']];
+  const tab = TABS.some(t => t[0] && t[0] === state.params.v) ? state.params.v : '';
+  const liveHead = rec && rec.entries ? (() => { const sc = rec.entries.filter(e => e.g === g && e.result);
+    return sc.length ? '<p class="fr-livebar">Live record: <b>'+sc.length.toLocaleString()+'</b> published forecast'+(sc.length === 1 ? '' : 's')+' checked so far, the favourite won <b>'+
+      Math.round(100*sc.filter(e => e.hit).length/sc.length)+'%</b>. <a href="#/record?v=live" data-frtab="live">See every one &rarr;</a></p>' : ''; })() : '';
+  const body = tab === 'years' ? vsYearsPanel(g)+vsEras(g)
+    : tab === 'live' ? '<p class="fr-q" style="margin-top:0;">Every forecast the site has published since it started keeping score: saved before kick-off, checked after the final whistle, never removed.</p>'+live
+    : tab === 'research' ? researchPanel(g)
+    : tab === 'stats' ? stats
+    : vsPanel(g)+liveHead;
+  app.innerHTML = '<div class="wrap">'+intro+
+    '<div class="chips fr-tabs" role="tablist">'+TABS.map(([k, l]) => '<button class="chip'+(k === tab ? ' on' : '')+'" role="tab" aria-selected="'+(k === tab)+'" data-frtab="'+k+'">'+l+'</button>').join('')+'</div>'+
+    body+'</div>';
+  app.querySelectorAll('[data-frtab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); go({v:b.dataset.frtab || undefined}); }));
   kickVs(g);
 }
 
@@ -7902,7 +8026,7 @@ function viewMethod(){
     ['m-order','Rating or bottom of the band?'],['m-tiers','Tiers'],['m-trend','Trend'],['m-match','How a match changes ratings'],['m-weights','Which matches count most'],['m-home','Home advantage'],['m-confs','How strong is each confederation?'],
     ['m-unranked','Teams that are not ranked'],['m-predict','Predictions'],['m-tested','How we know it works'],['m-tech','Technical details']];
   document.getElementById('app').innerHTML =
-  '<div class="wrap"><div class="doc-layout"><div class="prose">'+
+  '<div class="wrap"><div class="doc-layout"><div class="prose">'+aboutTabs('method')+
     '<h1 class="page-title">How it works</h1>'+
     '<p class="page-sub">Formline turns match results into a strength rating for every national team, and says how sure '+
       'it is about each one. This page explains it in plain terms; the technical account is at the bottom.</p>'+
@@ -9014,6 +9138,12 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['11 Nov 2026', ['Team pages: the match list has a new Rank column, the team\'s world ranking just after each match, as the table stood that day. Switch it to Confederation to see the rank within its own region instead.',
+    'Forecast record, reorganised into tabs: Overview, Year by year, Live record, Research and For the stats-minded. Sharpness is now called the forecast score, shown out of 100 (0 is a coin toss, 100 is knowing every result). The year-by-year and era tables now show both the forecast score, which the "years better" count uses, and how often each method picked the winner, and the matches where Formline and World Elo disagreed are split into clearer calls and close calls.',
+    'Rankings: a new Simple view shows just the ranking, rating, form and trend, without the bands, tiers or rank ranges. Full detail is one click away.',
+    'About: new common questions on what kind of model this is, how friendlies count, why injuries and squads are left out, how current strength differs from all-time records, and whether the code can be reused.',
+    'The code behind the site now carries a licence: it is public so anyone can check how every number is made, but it is not for reuse without permission. Match data and other sources keep their own licences.',
+    'Smaller fixes: How it works now has the same tabs as the other About pages, the tables on Sources &amp; thanks wrap properly on wide screens, and the footer no longer jumps while a page loads.']],
   ['8 Nov 2026', ['Women: each night the update now reads the women\'s national teams\' Wikipedia pages for results that neither the open archive nor API-Football has, as happened with the Libreville friendlies, and adds them, marked &Dagger;. A result counts once two pages agree on it or it has stayed up for two days, and only if any scorers listed add up to the score.',
     'Women: 242 matches missing from the open results archive are now counted, added by hand from Wikipedia and marked &Dagger; in match lists: four 2026 tournaments (the Asian Games, the SAFF Championship, the COSAFA Championship and the AFF Women\'s Cup), the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, the first two rounds of 2024 WAFCON qualifying, three rounds of African Olympic qualifying (2003&ndash;11), the 2014 Caribbean qualifiers, Ecuador v Trinidad and Tobago (the 2015 World Cup play-off) and a few more. Four women\'s friendlies in Libreville (4 and 7 November) that API-Football did not list are in too, among them Gabon 3&ndash;6 Congo. A check of every women\'s World Cup, Olympic and continental finals against Wikipedia also fixed three wrong scores (Brazil 6&ndash;0 Venezuela in 1991, Cameroon 2&ndash;2 South Africa in 2006, Ghana 3&ndash;0 Ivory Coast in 2008) and six wrong dates.',
     'Rankings: a new Attack &amp; defence option shows, from the goals model, how many goals each team would expect to score and let in, compared with the average ranked team, the average in its confederation, a typical continental-finals side or a typical World Cup side. Click either heading to sort. The order and the # stay the ratings\'.',
@@ -9766,11 +9896,10 @@ function pageTour(route){
       {panel:'Knockout predictions', title:'Knockout rounds', text:'The likeliest pairings for each knockout match, and who most often went through.'},
       {sel:'[data-shareimg="tour"]', title:'Share it', text:'A picture of the likeliest winners, ready for social media.'}]],
     record:['Forecast record', [
-      {sel:'#vsPanel .fr-hero', title:'The headline numbers', text:'How often Formline picked the winner, and its sharpness: how far beyond a coin toss it gets once '+
-        'you count how sure each forecast was (0 = coin toss, 100 = perfect).'},
+      {sel:'#vsPanel .fr-hero', title:'The headline numbers', text:'How often Formline picked the winner, and its forecast score: how far beyond a coin toss it gets once '+
+        'you count how sure each forecast was (0 = coin toss, 100 = knowing every result).'},
       {panel:'Formline against World Elo', title:'Against Elo and FIFA', text:'The same matches every year since 2019. The best bit: the matches where they backed different winners, and who was right.'},
-      {sel:'.fr-h2', title:'The live record', text:'Every forecast the site has published, saved before kick-off and checked after the final whistle.'},
-      {panel:'Every forecast, checked', title:'Every forecast', text:'Each forecast as it stood at kick-off, and the chance it gave to what happened.'}]],
+      {sel:'.fr-tabs', title:'More detail', text:'The same test year by year and back to 1920, the live record of every forecast the site has published, and how Formline compares with published research.'}]],
     compare:['Formline, Elo and FIFA', [
       {panel:'How they differ', title:'Three methods', text:'Formline, the World Football Elo formula and FIFA\'s own method: which results each one counts, and how.'},
       {panel:'Side by side', title:'Three tables', text:'Each team\'s place in all three. Click a column heading to sort by it; the last columns '+

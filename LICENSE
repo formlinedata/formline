@@ -1,0 +1,23 @@
+Copyright (c) 2026 Formline. All rights reserved.
+
+The source code in this repository is published so that anyone can see how
+Formline's ratings, predictions and pages are made. It is shown for
+transparency, not for reuse.
+
+You may read the code, link to it, and quote short extracts when discussing
+or reviewing it, with credit to Formline (https://formlinedata.com).
+
+You may not copy, modify, redistribute, host or sell the code, the ratings it
+produces, or the site's text and design, in whole or in substantial part,
+without written permission from Formline. To ask, write to
+hello@formlinedata.com.
+
+Third-party material keeps its own licence and is not covered by this notice.
+That includes the match data (CC0, from Mart Jürisoo's results archives),
+material from Wikipedia and Wikimedia Commons (CC BY-SA and other licences
+named on each file), flags from Flagpedia.net, association and confederation
+badges (trademarks of their owners), and the libraries and font in vendor/
+(each under the licence shipped with it). The site's Sources & thanks page
+(https://formlinedata.com/#/sources) lists every source and its terms.
+
+THE CODE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
