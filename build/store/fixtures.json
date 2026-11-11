@@ -1327,7 +1327,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545865": {
@@ -1365,7 +1364,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545867": {
@@ -1422,7 +1420,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545870": {
@@ -1460,7 +1457,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545872": {
@@ -1498,7 +1494,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1545874": {
@@ -1517,7 +1512,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545875": {
@@ -1536,7 +1530,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1545876": {
@@ -1555,7 +1548,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545877": {
@@ -1656,7 +1648,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545882": {
@@ -2441,7 +2432,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1638241": {
@@ -3929,7 +3919,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1647360": {
@@ -4720,7 +4709,7 @@
    "boxDate": "2026-11-12",
    "kickoff": "2026-11-12T19:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1649030": {
   "date": "2026-11-12",
@@ -4745,7 +4734,7 @@
    "boxDate": "2026-11-12",
    "kickoff": "2026-11-12T23:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1649031": {
   "date": "2026-11-13",
