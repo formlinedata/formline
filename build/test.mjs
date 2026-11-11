@@ -510,4 +510,17 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   const {buildIndex} = await import('./badges.mjs');
   ok(buildIndex(path.join(root, 'badges')).wiki['Spain national football team'], 'badge index lists the saved Wikipedia images');
 }
+// --- unit: upset alerts
+{
+  const {findUpsets, alertText} = await import('./upset-alerts.mjs');
+  const now = Date.parse('2026-11-28T23:00:00Z');
+  const es = [{id:'w|2026-11-28|Jamaica|Haiti', g:'women', date:'2026-11-28', home:'Jamaica', away:'Haiti', tournament:'Friendly', p:[0.62, 0.22, 0.16], result:[1, 2]},
+    {id:'m|2026-11-28|Spain|Malta', g:'men', date:'2026-11-28', home:'Spain', away:'Malta', tournament:'Friendly', p:[0.9, 0.07, 0.03], result:[3, 0]},
+    {id:'m|2026-11-28|C|D', g:'men', date:'2026-11-28', home:'C', away:'D', tournament:'Friendly', p:[0.85, 0.1, 0.05], result:[1, 1]},
+    {id:'m|2026-11-20|A|B', g:'men', date:'2026-11-20', home:'A', away:'B', tournament:'Friendly', p:[0.9, 0.07, 0.03], result:[0, 1]}];
+  const u = findUpsets(es, [], now);
+  ok(u.length === 1 && u[0].e.home === 'Jamaica', 'upset alerts: only a recent win by a side under 20% (no draws, no old matches)');
+  ok(findUpsets(es, ['w|2026-11-28|Jamaica|Haiti'], now).length === 0, 'upset alerts: an upset already posted is not posted again');
+  ok(/Haiti a 16% chance/.test(alertText(u[0]).text), 'upset alerts: the text gives the winner\'s chance');
+}
 console.log('\n' + passed + ' checks passed');

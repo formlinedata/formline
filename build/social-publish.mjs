@@ -99,16 +99,17 @@ if (process.argv.includes('--refresh')){
 }
 
 /* The review issue for today. */
-/* SOCIAL_SLOT=b: the evening post, made only on international-window days. */
-const slot = (process.env.SOCIAL_SLOT || '').trim(), key = date + (slot ? '-' + slot : ''), label = `Post for ${date}${slot ? ' (evening)' : ''}:`;
+/* On international-window days: SOCIAL_SLOT=b, the 6 pm post; SOCIAL_SLOT=c, the 3 pm results roundup. */
+const slot = (process.env.SOCIAL_SLOT || '').trim(), key = date + (slot ? '-' + slot : ''), label = `Post for ${date}${slot === 'c' ? ' (results)' : slot ? ' (evening)' : ''}:`;
 const issues = await gh(`/issues?labels=social-post&state=all&per_page=30&sort=created&direction=desc`);
 const issue = issues.find(i => i.title.startsWith(label));
-if (!issue){ note(slot ? `No evening post for ${date} (only made in international windows).` : `No post was prepared for ${date}.`, slot ? 'notice' : 'warning'); process.exit(0); }
+if (!issue){ note(slot ? `No ${slot === 'c' ? 'results roundup' : 'evening post'} for ${date} (only made in international windows).` : `No post was prepared for ${date}.`, slot ? 'notice' : 'warning'); process.exit(0); }
 if (issue.state === 'closed' || issue.labels.some(l => l.name === 'skip')){
   note(`Skipped: the review issue for ${key} is closed.`); process.exit(0); }
 const base = `https://raw.githubusercontent.com/${repo}/social-queue/${key}/`;
 const meta = await (await fetch(base + 'post.json')).json();
 const done = new Set(issue.labels.map(l => l.name)), lines = [];
+let igMediaId = null;
 let failed = false;
 
 /* ---------- Bluesky (AT Protocol): up to 4 slides with alt text, the X-style text with its link made clickable ---------- */
@@ -134,6 +135,22 @@ if (!IG_USER_ID || !IG_TOKEN){
     done.add('posted');
     note(`Instagram: posted "${meta.title}"${link ? ' ' + link : ''}`);
   } catch(e){ failed = true; lines.push(`Instagram didn't accept this post: ${e.message}. Nothing was published there, so you can post it by hand.`); note('Instagram refused the post: ' + e.message, 'warning'); }
+}
+/* The opening comment: a question under the post to start the replies (needs instagram_manage_comments on the token).
+   Pinning it stays a job for the app: the API can't pin. Never fails the run. */
+if (igMediaId && meta.question && !done.has('commented')){
+  try { await ig(`/${igMediaId}/comments`, {message:meta.question}); done.add('commented'); lines.push(`Comment added: "${meta.question}" (pin it in the app if you like).`); }
+  catch(e){ lines.push(`The question comment didn't go on: ${e.message}${/permission|scope|\(#10\)|\(#200\)/i.test(e.message) ? '. The token needs the instagram_manage_comments permission.' : ''}`); note('Instagram comment failed: ' + e.message, 'warning'); }
+}
+/* Window days: today's matches as an Instagram Story, after the feed post. A failure here never fails the run. */
+if (IG_USER_ID && IG_TOKEN && meta.story && done.has('posted') && !done.has('story')){
+  try {
+    const id = (await ig(`/${IG_USER_ID}/media`, {image_url:base + meta.story, media_type:'STORIES'})).id;
+    for (let i = 0; i < 20; i++){ const st = await ig(`/${id}`, {fields:'status_code'}, 'GET'); if (st.status_code === 'FINISHED') break;
+      if (st.status_code === 'ERROR') throw new Error('story container failed'); await new Promise(r => setTimeout(r, 3000)); }
+    await ig(`/${IG_USER_ID}/media_publish`, {creation_id:id});
+    done.add('story'); lines.push('Instagram Story posted (today\'s matches).'); note('Instagram: story posted');
+  } catch(e){ lines.push(`The Instagram Story didn't go out: ${e.message}. The image is story.jpg in today's folder if you want to post it by hand.`); note('Instagram story failed: ' + e.message, 'warning'); }
 }
 
 if (lines.length){
@@ -175,6 +192,7 @@ async function postInstagram(meta){
   }
   await ready(creation);
   const pub = await ig(`/${IG_USER_ID}/media_publish`, {creation_id:creation});
+  igMediaId = pub.id;
   try { return (await ig(`/${pub.id}`, {fields:'permalink'}, 'GET')).permalink || ''; } catch(e){ return ''; }
 }
 

@@ -32,6 +32,9 @@ import {loadModel} from './lib/model.mjs';
 import {survey as clubSurvey} from './lib/clubsurvey.mjs';
 import {updateRecord} from './lib/forecasts.mjs';
 
+/* Tournaments postponed by their organiser whose old dates API-Football still lists (checked by hand). The AFC moved the
+   2027 Asian Cup from January 2027 to 23 December 2027 to 21 January 2028 (AFC announcement). */
+export const POSTPONED = [{tournament:/^AFC Asian Cup$/, before:'2027-12-01'}];
 const ROOT = process.env.FORMLINE_ROOT || path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const STORE = path.join(ROOT, 'build', 'store'), DATA = path.join(ROOT, 'data');
 const RAW = {
@@ -347,6 +350,8 @@ export async function run(){
   // 3. Merge, write
   const fixtures = {built, men:[], women:[]};
   for (const r of Object.values(fixturesStore)){
+    /* Tournaments moved by their organiser while the API still lists the old dates: left out until the API catches up. */
+    if (POSTPONED.some(x => x.tournament.test(r.tournament || '') && r.date < x.before)) continue;
     /* A date Wikipedia gives for a match the API still lists on another day (see findMatch): the Wikipedia date wins,
        with the kick-off time shown as not announced, until the API's own date agrees again. */
     /* Wikipedia's date and kick-off win over the API's when they differ: a date the API still lists on another day (see

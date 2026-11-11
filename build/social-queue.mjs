@@ -23,11 +23,12 @@ for (const d of fs.readdirSync(Q)) if (/^\d{4}-\d{2}-\d{2}(-[a-z])?$/.test(d) &&
 
 const raw = f => `https://raw.githubusercontent.com/${repo}/social-queue/${key}/${f}`;
 const owner = repo.split('/')[0];
-const when = slot ? "This evening's post goes out on Bluesky and Instagram at about 6 pm Toronto time (7 pm in summer)" :
+const when = slot === 'c' ? "This afternoon's results roundup goes out on Bluesky and Instagram at about 3 pm Toronto time (4 pm in summer)" :
+  slot ? "This evening's post goes out on Bluesky and Instagram at about 6 pm Toronto time (7 pm in summer)" :
   "Today's post goes out on Bluesky and Instagram at about 9 am Toronto time (10 am in summer)";
 const body = `**${when}** (on each one that's connected). To stop it, close this issue. To change it, ask Claude.
 
-${(meta.igSlides || meta.slides).map(f => `<img src="${raw(f)}" width="260">`).join(' ')}${meta.igSlides && meta.igSlides.length > meta.slides.length ? '\n\n<sub>The last slide goes to Instagram only.</sub>' : ''}
+${(meta.igSlides || meta.slides).map(f => `<img src="${raw(f)}" width="260">`).join(' ')}${meta.igSlides && meta.igSlides.length > meta.slides.length ? '\n\n<sub>The last slide goes to Instagram only.</sub>' : ''}${meta.story ? `\n\n**Instagram Story** (window days; goes out after the post):\n\n<img src="${raw(meta.story)}" width="200">` : ''}
 
 ${(meta.alts || []).length ? `<details><summary>Alt text for each image (added automatically on Bluesky and Instagram)</summary>\n\n${meta.alts.map((a, i) => `${i + 1}. ${a}`).join('\n\n')}\n</details>\n\n` : ''}**Instagram caption**
 \`\`\`text

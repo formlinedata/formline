@@ -5,7 +5,8 @@
 //   caption.txt     the Instagram caption;  x.txt  the X post (under 280 characters, with a link)
 //   post.json       everything above plus the type and the id used to avoid repeats
 //   cta.jpg         a closing slide for Instagram only (follow, save, share, the site)
-// into $SOCIAL_OUT/<date>/, or <date>-b/ for the evening post made on international-window days (SOCIAL_SLOT=b).
+// into $SOCIAL_OUT/<date>/; on international-window days also <date>-b/ (SOCIAL_SLOT=b, the 6 pm post) and <date>-c/
+// (SOCIAL_SLOT=c, the 3 pm results roundup of the day before).
 // Needs Playwright (installed by the workflow).
 //
 //   SOCIAL_DATE=2026-11-08 SOCIAL_TYPE=rivalry SOCIAL_USED=used.json node build/social.mjs
@@ -50,7 +51,7 @@ const FAN_TAG = {
   women:{Canada:'CanWNT', USA:'USWNT', England:'Lionesses', Australia:'Matildas', 'New Zealand':'FootballFerns', Japan:'Nadeshiko', Jamaica:'ReggaeGirlz',
     Nigeria:'SuperFalcons', 'South Africa':'BanyanaBanyana', Scotland:'SWNT', Spain:'LaRoja', Netherlands:'OranjeLeeuwinnen', Brazil:'Selecao'}};
 const BSKY_COMP = {...COMP_TAG, 'FIFA World Cup qualification':'WCQ', 'Friendly':''};
-function bskyTags(g, teams, comp){
+export function bskyTags(g, teams, comp){
   const t = [];
   for (const x of teams) if (x && FAN_TAG[g][x]) t.push(FAN_TAG[g][x]);
   const ct = comp ? (BSKY_COMP[comp] ?? COMP_TAG[comp] ?? '') : '';
@@ -63,7 +64,7 @@ function bskyTags(g, teams, comp){
 /* Instagram: at most five, most specific first. Each team (its fans' own tag where there is a well-known one), the
    competition, #WoSo for women's posts, then one tag for what kind of post it is. */
 const TOPIC_TAG = {match:'#MatchPreview', spotlight:'#FootballStats', onthisday:'#OnThisDay', rivalry:'#HeadToHead',
-  tournament:'#FootballPredictions', past:'#FootballHistory', rankings:'#FootballRankings'};
+  tournament:'#FootballPredictions', past:'#FootballHistory', rankings:'#FootballRankings', roundup:'#FootballResults'};
 function hashtags(g, teams, comp, topic){
   const rest = [comp && COMP_TAG[comp] ? '#' + COMP_TAG[comp] : '', g === 'women' ? '#WoSo' : '', TOPIC_TAG[topic] || ''].filter(Boolean);
   const t = [...new Set(teams.filter(Boolean).map(x => FAN_TAG[g][x] ? '#' + FAN_TAG[g][x] : tag(x)))].slice(0, 5 - rest.length);
@@ -393,6 +394,43 @@ ${d.down.length ? `<div class="lab" style="margin-top:34px">Biggest fallers</div
   }
 };
 
+/* A day's results with Formline's calls: cover (the tally and the biggest matches), the rest, the upsets, the window so far. */
+BUILD.roundup = function(d){
+  const tick = x => x.hit ? '<span style="color:#5fcf8a;font-weight:800">&#10003;</span>' : '<span style="color:#f08a7a;font-weight:800">&#10007;</span>';
+  const rowR = (x, fs) => `<div class="row" style="grid-template-columns:1fr auto;padding:${fs < 28 ? 8 : 11}px 0;font-size:${fs}px"><span class="ell" style="display:flex;align-items:center;gap:12px">${flagImg(x.hf, fs + 4)}${esc(x.home)} <b>${x.hs}–${x.as}</b> ${esc(x.away)}${flagImg(x.af, fs + 4)}</span>${tick(x)}</div>`;
+  const head = d.list.slice(0, 7), rest = d.list.slice(7, 21), pc = Math.round(100 * d.hits / d.n);
+  const s1 = slide(`${hook(`Formline called <em>${d.hits} of ${d.n}</em>`)}<div class="kick">Results · ${esc(d.dayTxt)}</div>
+<div style="margin-top:16px">${head.map(x => rowR(x, 29)).join('')}</div>${rest.length ? `<p class="body dim" style="font-size:22px;margin-top:10px">${rest.length} more results inside →</p>` : ''}`);
+  const s2 = rest.length ? slide(`<div class="kick">Results · ${esc(d.dayTxt)}</div><h2>Every other result</h2><div style="margin-top:14px">${rest.map(x => rowR(x, rest.length > 10 ? 23 : 27)).join('')}</div>
+<p class="body dim" style="font-size:21px;margin-top:10px">&#10003; Formline's favourite won (or the draw it expected) · &#10007; it didn't</p>`) : null;
+  const s3 = d.ups.length ? slide(`<div class="kick">Results · ${esc(d.dayTxt)}</div><h2>The upsets</h2><p class="body dim" style="font-size:24px;margin-top:8px">The winner's chance, published before kick-off</p>
+${d.ups.map(u => `<div class="box" style="margin-top:22px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px"><div style="min-width:0"><div style="display:flex;align-items:center;gap:14px;font-size:32px;font-weight:800">${flagImg(u.o === 0 ? u.hf : u.af, 38)}<span class="ell">${esc(u.o === 0 ? u.home : u.away)} beat ${esc(u.o === 0 ? u.away : u.home)}</span></div>
+<div class="body" style="font-size:24px;margin-top:6px">${esc(u.home)} ${u.hs}–${u.as} ${esc(u.away)} · ${esc(u.comp)}</div></div><div style="text-align:right"><div class="big" style="font-size:72px">${u.p[u.o]}%</div><div class="dim" style="font-size:20px">chance going in</div></div></div>`).join('')}`) : null;
+  const s4 = d.win.n > d.n ? slide(`<div class="kick">The window so far</div><h2>How Formline's calls are going</h2>
+<div style="display:flex;gap:60px;margin-top:40px;align-items:flex-end"><div><div class="lab">Called right</div><div class="big">${d.win.hits}</div></div><div><div class="lab">Of</div><div class="big" style="color:#f1f4ec">${d.win.n}</div></div>
+<div><div class="lab">Rate</div><div class="big" style="color:#f1f4ec">${Math.round(100 * d.win.hits / d.win.n)}%</div></div></div>
+<p class="body" style="margin-top:30px">Every forecast is published before kick-off and checked after the final whistle. Make your own picks for the next matchday on formlinedata.com.</p>`) : null;
+  const x = wide(`<div class="kick" style="font-size:20px">Results · ${esc(d.dayTxt)}</div><h2 style="font-size:44px">Formline called ${d.hits} of ${d.n}</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;margin-top:12px">${d.list.slice(0, 8).map(r => rowR(r, 22)).join('')}</div>`);
+  const line = r => `${r.hit ? '✅' : '❌'} ${fe(r.hf)}${r.home} ${r.hs}–${r.as} ${r.away}${r.af && r.af.emo ? ' ' + r.af.emo : ''}`;
+  const up = d.ups[0], upTxt = up ? `😱 Upset of the day: ${up.o === 0 ? up.home : up.away} won with a ${up.p[up.o]}% chance.` : '';
+  const alts = [`Results for ${d.dayTxt}: Formline's pre-match favourite was right in ${d.hits} of ${d.n} matches. ${head.map(r => `${r.home} ${r.hs}–${r.as} ${r.away} (${r.hit ? 'right' : 'wrong'})`).join('; ')}.`];
+  if (s2) alts.push(`More results for ${d.dayTxt}: ${rest.map(r => `${r.home} ${r.hs}–${r.as} ${r.away} (${r.hit ? 'right' : 'wrong'})`).join('; ')}.`);
+  if (s3) alts.push(`The upsets of ${d.dayTxt}, with the winner's chance before kick-off: ${d.ups.map(u => `${u.home} ${u.hs}–${u.as} ${u.away}, ${u.p[u.o]}%`).join('; ')}.`);
+  if (s4) alts.push(`The window so far: Formline called ${d.win.hits} of ${d.win.n} results, ${Math.round(100 * d.win.hits / d.win.n)}%.`);
+  return {title:`Results: ${d.hits} of ${d.n}, ${d.dayTxt}`, slides:[s1, s2, s3, s4].filter(Boolean), x, alts,
+    caption:`International football results, ${d.dayTxt}: Formline called ${d.hits} of ${d.n} (${pc}%) 📋\n\n${d.list.slice(0, 10).map(line).join('\n')}${d.list.length > 10 ? `\n…and ${d.list.length - 10} more in the slides` : ''}${upTxt ? '\n\n' + upTxt : ''}${d.win.n > d.n ? `\n\n📈 The window so far: ${d.win.hits} of ${d.win.n} called right.` : ''}\n\nWhich result surprised you most? 👇 Make your own picks for the next matchday at formlinedata.com (link in bio).\n\n${hashtags(d.g, d.list.slice(0, 2).map(r => r.home), null, 'roundup')}`,
+    xText:`📋 ${d.dayTxt}: Formline called ${d.hits} of ${d.n}\n\n${d.list.slice(0, 4).map(line).join('\n')}${upTxt ? '\n\n' + upTxt : ''}\n\n${BASE}#/matchday?d=${d.day}`};
+};
+
+/* The Instagram Story (1080×1920) for window days: today's matches and Formline's calls. */
+const storyPage = d => page(1080, 1920, `<div class="kick" style="font-size:28px">Today · ${esc(d.dayTxt)}</div>
+<div class="hook" style="font-size:76px;margin-top:14px">Who wins <em>today?</em></div>
+<div style="margin-top:10px">${d.list.map(x => { const fav = x.call === 1 ? 'Draw' : (x.call === 0 ? x.home : x.away);
+  return `<div class="row" style="grid-template-columns:1fr auto;padding:16px 0;font-size:32px"><span style="min-width:0"><span class="ell" style="display:flex;align-items:center;gap:12px">${flagImg(x.hf, 34)}${esc(x.home)} <span class="dim">v</span> ${esc(x.away)}${flagImg(x.af, 34)}</span><span class="sub" style="font-size:23px">${esc(x.time ? x.time + ' Toronto time' : '')}</span></span><span style="text-align:right"><span class="v">${x.p[x.call]}%</span><span class="sub" style="font-size:21px;text-align:right">${esc(fav)}</span></span></div>`; }).join('')}</div>
+${d.n > d.list.length ? `<p class="body dim" style="margin-top:14px;font-size:26px">+ ${d.n - d.list.length} more today</p>` : ''}
+<p class="body" style="margin-top:30px;font-size:30px">Make your own picks: <b class="a">formlinedata.com</b> · Matchday</p>`, {vars:';--pt:90px;--px:80px;--fb:220px;--fbot:140px', right:'Formline\'s pick and its chance'});
+
 /* ---------- run ---------- */
 function serve(root){
   const types = {'.html':'text/html', '.js':'text/javascript', '.json':'application/json', '.css':'text/css', '.webp':'image/webp', '.png':'image/png',
@@ -421,11 +459,19 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     await page.addScriptTag({path:path.join(ROOT, 'build', 'social', 'collect.js')});
     /* Collectors pick matches relative to the time the post goes out: 14:00 UTC that day (9 am in Toronto in winter, 10 am
        in summer), so a match preview covers a match kicking off 8 to 56 hours after the post. */
-    const now = Date.parse(date + (slot ? 'T23:00:00Z' : 'T14:00:00Z'));
-    const run = t => page.evaluate(([t, now, used]) => window.FL_SOCIAL[t]({now, used}), [t, now, used]);
+    const now = Date.parse(date + (slot === 'c' ? 'T20:00:00Z' : slot ? 'T23:00:00Z' : 'T14:00:00Z'));
+    const run = (t, extra = {}) => page.evaluate(([t, now, used, extra]) => window.FL_SOCIAL[t]({now, used, ...extra}), [t, now, used, extra]);
     const dow = new Date(date + 'T12:00:00Z').getUTCDay();
     let order = type ? [type] : [WEEK[dow]];
-    if (slot && !type){
+    /* SOCIAL_SLOT=c: window days, the results roundup of the day before, out at 3 pm Toronto on Bluesky and Instagram. */
+    let data = null;
+    if (slot === 'c'){
+      const w3 = await page.evaluate(now => window.FL_SOCIAL.windowOn({now}), now);
+      if (!type && (!w3 || !w3.on)){ console.log('No results roundup: not an international window.'); return null; }
+      data = await run('roundup');
+      if (!data){ console.log('No results roundup: fewer than three results yesterday.'); return null; }
+    }
+    if (slot === 'b' && !type){
       const w2 = await page.evaluate(now => window.FL_SOCIAL.windowOn({now}), now);
       if (!w2 || !w2.on){ console.log('No evening post: not an international window.'); return null; }
       /* The evening post in a window: another match preview, else a tie-in, the tournament chances or the movers, but not
@@ -441,14 +487,17 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
       if (WEEK[dow] === 'onThisDay') order = ['tieIn', 'match', 'tournament', 'rankings'];
       console.log(`International window (${win.n} matches around today): ${order[0]} first.`);
     }
-    let data = null;
-    if (!type && !slot && dow !== 1 && !recentTypes.slice(0, 2).includes('match') && WEEK[dow] !== 'match'){
+    if (!data && !type && !slot && dow !== 1 && !recentTypes.slice(0, 2).includes('match') && WEEK[dow] !== 'match'){
       const m = await run('match');
       if (m && ((m.g === 'men' && m.home.rank <= 25 && m.away.rank <= 25) || (m.g === 'women' && m.home.rank <= 12 && m.away.rank <= 12))) data = m;
     }
     if (!type && !slot) order = order.concat(FALLBACK.filter(t => !order.includes(t) && !(win && win.on && (t === 'pastTournament' || t === 'onThisDay'))));
     for (const t of order){ if (data) break; try { data = await run(t); } catch(e){ console.log(`${t}: ${e.message.split('\n')[0]}`); } }
     if (!data) throw new Error('No post could be made today');
+    /* Gathered now, while the site page is still loaded (drawing the slides navigates away from it). */
+    let storyData = null;
+    if (!slot && !type){ try { const w = await page.evaluate(now => window.FL_SOCIAL.windowOn({now}), now);
+      if (w && w.on) storyData = await run('storyToday'); } catch(e){ console.log('story: ' + e.message.split('\n')[0]); } }
     const post = BUILD[data.type](data);
     const key = date + (slot ? '-' + slot : ''), dir = path.join(out, key); fs.rmSync(dir, {recursive:true, force:true}); fs.mkdirSync(dir, {recursive:true});
     const shoot = async (html, W, H, file, jpg) => {
@@ -469,15 +518,31 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     const alts = (post.alts || []).map(a => one(a).replace(/\s+/g, ' ').trim().slice(0, 1000));
     const who = {match:[data.home && data.home.team, data.away && data.away.team], spotlight:[data.team && data.team.team],
       onthisday:[data.home && data.home.modern, data.away && data.away.modern], rivalry:[data.a && data.a.team, data.b && data.b.team],
-      tournament:(data.rows || []).slice(0, 2).map(r => r.team), past:[data.champ && data.champ.name], rankings:[]}[data.type] || [];
+      tournament:(data.rows || []).slice(0, 2).map(r => r.team), past:[data.champ && data.champ.name], rankings:[],
+      roundup:(data.list || []).slice(0, 2).map(r => r.home)}[data.type] || [];
     const comp = {match:data.comp, spotlight:data.next && data.next.comp, onthisday:data.comp, rivalry:data.next && data.next.comp,
-      tournament:(data.name || '').replace(/ \d{4}.*$/, ''), past:data.tournament, rankings:null}[data.type];
+      tournament:(data.name || '').replace(/ \d{4}.*$/, ''), past:data.tournament, rankings:null, roundup:null}[data.type];
+    /* Window days, morning post: an Instagram Story of today's matches. */
+    let story = null;
+    if (storyData){ await shoot(storyPage(storyData), 1080, 1920, 'story.jpg', true); story = 'story.jpg'; console.log(`Story: ${storyData.n} matches today.`); }
     /* The closing slide, for Instagram only (Bluesky shows the first four slides). */
     const fans = who.filter(Boolean).slice(0, 2), igSlides = files.slice();
     while (alts.length < files.length) alts.push(post.title);
     if (files.length < 10){ await shoot(ctaSlide(fans.length ? `a ${fans.join(' or ')} fan` : 'a football fan'), 1080, 1350, 'cta.jpg', true); igSlides.push('cta.jpg');
       alts.push('Formline: every national team, rated every night. Follow @formline.data for match previews and rankings, and visit formlinedata.com.'); }
-    const meta = {date, key, slot, type:data.type, id:data.id, g:data.g, title:post.title, slides:files, igSlides, alts, x:'x.png', caption:post.caption, xText:post.xText,
+    /* The question the bot leaves as the first comment on Instagram. */
+    const fl = t => (t && t.emo) || '', vs = (a, b, fa, fb) => `${a} v ${b}${fl(fa) || fl(fb) ? ' ' + fl(fa) + fl(fb) : ''}`;
+    const question = {
+      match:() => `Who wins ${vs(data.home.team, data.away.team, data.home.flag, data.away.flag)}? Drop your score prediction 👇`,
+      spotlight:() => `How far can ${data.team.team} go this year? 👇`,
+      onthisday:() => data.mode === 'tiein' && data.next ? `Who takes ${data.next.home} v ${data.next.away} this time? 👇` : 'Were you watching this one? 👇',
+      rivalry:() => `Who wins the next ${data.a.team} v ${data.b.team}? 👇`,
+      tournament:() => `Who's your pick to win ${data.short}? 👇`,
+      past:() => `Do you remember ${data.tournament} ${data.label}? Who was your player of the tournament? 👇`,
+      rankings:() => `Who's too high, who's too low? 👇`,
+      roundup:() => 'Which result surprised you most? 👇'}[data.type];
+    const meta = {date, key, slot, type:data.type, id:data.id, g:data.g, title:post.title, slides:files, igSlides, story, alts, x:'x.png', caption:post.caption, xText:post.xText,
+      question:question ? one(question()) : '',
       bskyTags:bskyTags(data.g, who, comp)};
     fs.writeFileSync(path.join(dir, 'post.json'), JSON.stringify(meta, null, 1) + '\n');
     return meta;

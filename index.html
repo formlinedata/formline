@@ -372,6 +372,18 @@
   @media(max-width:720px){.vs-grid{grid-template-columns:1fr;}}
   /* This window */
   .win-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0 0 14px;} .win-head h2{margin:0;font-size:22px;color:var(--chalk);}
+  .cc-next{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .wq-left h3{margin:18px 0 4px;font-size:16px;} .wq-left h3:first-child{margin-top:0;} .wq-left p{margin:0 0 8px;font-size:14px;}
+  .wq-teams{display:flex;flex-wrap:wrap;gap:6px 18px;} .wq-chip{font-size:12px;border:1px solid var(--line-strong);border-radius:5px;padding:1px 7px;color:var(--dim);white-space:nowrap;}
+  .wq-chip.wq-in{background:var(--amber);border-color:var(--amber);color:#0e2117;font-weight:700;} .wq-chip.wq-out{opacity:.6;}
+  .md-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px;} .md-nav .chip[disabled]{opacity:.4;cursor:default;}
+  .md-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px;margin:0 0 16px;}
+  .md-card{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--panel);display:flex;flex-direction:column;gap:8px;min-width:0;}
+  .md-card.is-upset{border-color:var(--amber);} .md-h{display:flex;justify-content:space-between;gap:10px;font-size:13px;}
+  .md-v{font-size:13.5px;} .md-upset{display:inline-block;background:var(--amber);color:#0e2117;font-weight:700;font-size:12px;border-radius:5px;padding:1px 6px;margin-left:4px;}
+  .md-pick{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;} .md-pick .chip{padding:3px 10px;font-size:12.5px;} .md-note{font-size:12px;}
+  @media(max-width:420px){.md-grid{grid-template-columns:minmax(0,1fr);}}
+  .nm-strip{padding:10px 15px 12px;border-top:1px solid var(--line);font-size:13.5px;display:flex;flex-direction:column;gap:4px;}
   .win-tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0 0 20px;}
   @media(max-width:720px){.win-tiles{grid-template-columns:repeat(2,1fr);}}
   .win-tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;}
@@ -549,7 +561,7 @@
   .fxc-card .mx{border-top:1px dashed var(--line);background:var(--panel-2);}
   @media(max-width:640px){
     .fx-facet{grid-template-columns:1fr;gap:4px;}
-    .fx-strip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 2px;}
+    .fx-strip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -14px;padding:0 14px 2px;}
     .fx-strip::-webkit-scrollbar{display:none;}
     .fx-q{max-width:none;flex-basis:100%;}
     .fxc-row{grid-template-columns:58px minmax(0,1fr) 40px 12px;grid-template-areas:"t hn hp ch" "t an ap ch" "t mid mid ch";gap:3px 8px;padding:9px 12px;}
@@ -1131,7 +1143,7 @@
 <header class="masthead">
   <div class="masthead-inner">
     <a class="brand" href="#/" aria-label="Formline, home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="var(--amber-band)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="var(--amber)"/></svg><span class="brand-word">Formline</span></a>
-    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The coming weeks, with predictions</small></a><a href="#/window" data-route="window">This window<small>What's on, the model's calls, the upsets so far</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Embed the table, download the data, chip in</small></a><a href="#/contact" data-route="contact">Contact<small>Corrections, press and feedback</small></a></div></div></nav>
+    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The coming weeks, with predictions</small></a><a href="#/window" data-route="window">This window<small>What's on, the model's calls, the upsets so far</small></a><a href="#/matchday" data-route="matchday">Matchday<small>One day's matches, the calls, and your own picks</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Embed the table, download the data, chip in</small></a><a href="#/contact" data-route="contact">Contact<small>Corrections, press and feedback</small></a></div></div></nav>
     <div class="mast-search" role="search"><input type="search" id="teamSearch" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResults" role="listbox" hidden></div></div>
     <div class="mast-right">
       <div class="gender-switch" id="genderSwitch" role="group" aria-label="Men's or women's football">
@@ -3244,7 +3256,7 @@ async function render(){
     state.cache.key = null;
   }
   const views = {home:viewHome, rankings:viewRankings, team:viewTeam, competitions:viewCompetitions,
-    competition:viewEdition, confederations:viewConfeds, h2h:viewH2H, predict:viewPredict, fixtures:viewFixtures, window:viewWindow,
+    competition:viewEdition, confederations:viewConfeds, h2h:viewH2H, predict:viewPredict, fixtures:viewFixtures, window:viewWindow, matchday:viewMatchday, wwc2027:viewWWC2027,
     simulate:viewSimulate, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, sources:viewSources, support:viewSupport, changes:viewChanges, embed:viewEmbed, contact:viewContact};
   FLAG_AT = null;
   document.body.classList.toggle('embed-mode', p.route === 'embed');
@@ -4440,6 +4452,11 @@ function viewTeam(){
           '<div class="s" title="'+(rg ? 'Plausibly '+plainRange(rg.wide) : '')+'">'+(rg ? 'likely '+fmtRange(rg.mid) : 'not ranked')+'</div></div>'+
         '<div class="stat"><div class="k">vs an average team</div><div class="v">'+signed(row.vsMedian)+'</div>'+
           '<div class="s">would win '+pct(row.pVsMedian.home)+', draw '+pct(row.pVsMedian.draw)+'</div></div>'+
+        ((GS, gx) => { if (!gx) return ''; const T = c.table.filter(r => GS.map.has(r.key)), rk = (f, asc) => T.slice().sort((a, b) => asc ? f(a) - f(b) : f(b) - f(a)).findIndex(r => r.key === key) + 1;
+          const ra = rk(r => GS.map.get(r.key).s), rd = rk(r => GS.map.get(r.key).c, true);
+          return '<div class="stat"><div class="k">Attack &amp; defence</div><div class="v plain">'+gx.s.toFixed(1)+'<span class="muted" style="font-size:15px;"> for, </span>'+gx.c.toFixed(1)+'<span class="muted" style="font-size:15px;"> against</span></div>'+
+            '<div class="s" title="From the goals model: goals expected against the average ranked team on neutral ground">'+(ra ? ordinal(ra)+' for attack, '+ordinal(rd)+' for defence &middot; ' : '')+
+            '<a href="#/rankings?gl=1">v the average team</a></div></div>'; })(goalsStats(c, 'med'), goalsStats(c, 'med').map.get(key))+
         (c.bench && c.bench.key !== key && row.pVsBench ?
         '<div class="stat"><div class="k">vs '+esc(c.bench.team)+' (20th)</div><div class="v">'+pct(row.pVsBench.home)+' <span class="muted" style="font-size:15px;">win</span></div>'+
           '<div class="s">draw '+pct(row.pVsBench.draw)+', lose '+pct(row.pVsBench.away)+', neutral ground</div></div>' : '')+
@@ -4684,7 +4701,7 @@ function comingUp(c, key){
     .map(T => { const g = Object.entries(T.groups).find(([, ts]) => ts.some(t => keyOfName(t) === key)); return g ? {T, gn:g[0], ts:g[1]} : null; })
     .filter(Boolean);
   return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Coming up</div>'+
-    (up.length ? fixtureList(c, up) : '<p class="muted" style="margin:0;padding:12px 15px;">'+
+    (up.length ? fixtureList(c, up)+nextMatchCard(c, key) : '<p class="muted" style="margin:0;padding:12px 15px;">'+
       (upcomingFor(state.gender) ? 'No matches listed for this team yet.' : 'No fixture list is available. It is added by the nightly update once the site is online.')+'</p>')+
     drawn.map(({T, gn, ts}) => '<div class="drawn-row"><div><b>'+esc(T.name)+'</b>'+
       (Object.keys(T.groups).length > 1 || !T.league ? ' <span class="muted">&middot; Group '+esc(gn)+'</span>' : '')+
@@ -4712,6 +4729,9 @@ function opponentTable(h){
 /* World Cup 2026 places: direct, then inter-confederation play-off places (two of the six play-off sides go through).
    CONCACAF's six include the three hosts. */
 const WC26_PLACES = {UEFA:[16, 0], CONMEBOL:[6, 1], CONCACAF:[6, 2], CAF:[9, 1], AFC:[8, 1], OFC:[1, 1]};
+/* Women's World Cup 2027 (FIFA Council, 10 December 2024): direct places, then inter-confederation play-off places (ten sides
+   play for three). CONMEBOL's three include hosts Brazil. */
+const WWC27_PLACES = {UEFA:[11, 1], CONMEBOL:[3, 2], CONCACAF:[4, 2], CAF:[4, 2], AFC:[6, 2], OFC:[1, 1]};
 const confColor = k => cssVar('--s'+(CONF_ORDER.indexOf(k) + 1)) || '#f6b638';
 function confCards(c){
   return '<div class="conf-cards">'+CONF_ORDER.map(k => {
@@ -4724,6 +4744,8 @@ function confCards(c){
       '<div class="cc-row"><span class="muted">Best</span>'+(S.best ? withFlag(S.best.team)+' <span class="muted">#'+S.best.rank+'</span>' : '&ndash;')+'</div>'+
       (up && up.change > 0 ? '<div class="cc-row"><span class="muted">Rising</span>'+withFlag(up.team)+' <span class="up">+'+Math.round(up.change)+'</span></div>' : '')+
       (down && down.change < 0 ? '<div class="cc-row"><span class="muted">Falling</span>'+withFlag(down.team)+' <span class="down">&minus;'+Math.abs(Math.round(down.change))+'</span></div>' : '')+
+      (n => (n.first ? '<div class="cc-row"><span class="muted">Next</span><span class="cc-next">'+n.lab(n.first)+'</span></div>' : '')+
+        (n.fin ? '<div class="cc-row"><span class="muted">Finals</span><span class="cc-next">'+n.lab(n.fin)+'</span></div>' : ''))(confNext(c, k))+
     '</a>'; }).join('')+'</div>';
 }
 /* Every ranked team as a dot on one rating line per confederation, so depth shows at a glance. */
@@ -4746,21 +4768,22 @@ function confDepth(c){
 }
 /* World Cup places against strength: how many teams each confederation has among the world's 48 best FIFA members now. */
 function confPlaces(c){
-  if (state.gender !== 'men') return '';   // the women's allocation for 2027 differs; added once confirmed
-  const fifa = c.table.filter(r => r.status !== 'assoc' && !r.defunct).slice(0, 48), n = {};
+  const men = state.gender === 'men', P = men ? WC26_PLACES : WWC27_PLACES, N = men ? 48 : 32, share = men ? 1/3 : 3/10;
+  const fifa = c.table.filter(r => r.status !== 'assoc' && !r.defunct).slice(0, N), n = {};
   CONF_ORDER.forEach(k => n[k] = 0); fifa.forEach(r => { if (n[r.conf] !== undefined) n[r.conf]++; });
-  const rows = CONF_ORDER.map(k => { const [d, po] = WC26_PLACES[k]; return {k, d, po, top:n[k], diff:n[k] - (d + po/3)}; });
+  const rows = CONF_ORDER.map(k => { const [d, po] = P[k]; return {k, d, po, top:n[k], diff:n[k] - (d + po*share)}; });
   const over = rows.slice().sort((a, b) => a.diff - b.diff)[0], under = rows.slice().sort((a, b) => b.diff - a.diff)[0];
   const max = Math.max(...rows.map(r => Math.max(r.d + r.po, r.top)));
-  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">World Cup places against strength<span class="aside">2026 places &middot; world top 48 today</span></div>'+
-    '<div class="table-wrap"><table class="conf-places"><thead><tr><th>Confederation</th><th class="num">Places</th><th class="num" title="Teams among the 48 best-rated FIFA members today">In the top 48</th><th class="hide-sm"></th></tr></thead><tbody>'+
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">World Cup places against strength<span class="aside">'+(men ? '2026' : '2027')+' places &middot; world top '+N+' today</span></div>'+
+    '<div class="table-wrap"><table class="conf-places"><thead><tr><th>Confederation</th><th class="num">Places</th><th class="num" title="Teams among the '+N+' best-rated FIFA members today">In the top '+N+'</th><th class="hide-sm"></th></tr></thead><tbody>'+
     rows.map(r => '<tr><td><b>'+confLabel(r.k)+'</b></td><td class="num">'+r.d+(r.po ? ' <span class="muted">+'+r.po+' play-off</span>' : '')+'</td>'+
       '<td class="num rating">'+r.top+'</td>'+
-      '<td class="hide-sm cp-bars"><span class="cp-bar cp-places" style="width:'+(100*(r.d + r.po/3)/max).toFixed(1)+'%"></span>'+
+      '<td class="hide-sm cp-bars"><span class="cp-bar cp-places" style="width:'+(100*(r.d + r.po*share)/max).toFixed(1)+'%"></span>'+
         '<span class="cp-bar cp-top" style="width:'+(100*r.top/max).toFixed(1)+'%;background:'+confColor(r.k)+'"></span></td></tr>').join('')+
     '</tbody></table></div>'+
-    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">Places: World Cup 2026 places, plus inter-confederation play-off places (six sides play for two). '+
-      'CONCACAF\'s six include the three hosts. On today\'s ratings, '+confLabel(under.k)+' has the most good sides for its places and '+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">'+(men ? 'Places: World Cup 2026 places, plus inter-confederation play-off places (six sides play for two). '+
+      'CONCACAF\'s six include the three hosts. ' : 'Places: Women\'s World Cup 2027 places, plus inter-confederation play-off places (ten sides play for three). '+
+      'CONMEBOL\'s three include hosts Brazil. <a href="#/wwc2027">The 2027 hub</a> shows who has qualified. ')+'On today\'s ratings, '+confLabel(under.k)+' has the most good sides for its places and '+
       confLabel(over.k)+' the fewest. Places are set by FIFA for many reasons besides strength.</p></div>';
 }
 /* Results between confederations: in the window shown, or at World Cups since 1930. */
@@ -4830,6 +4853,14 @@ function confHistStart(){
   };
   step(0);
 }
+/* A confederation's next competitive match day and next continental finals, from the fixture list: both sides members. */
+function confNext(c, key){
+  const up = (upcomingFor(state.gender) || []).filter(fx => { const a = c.byKey.get(c.resolve(fx.home)), b = c.byKey.get(c.resolve(fx.away)); return a && b && a.conf === key && b.conf === key; })
+    .map(fx => ({fx, cat:categorize(fx.tournament, Date.parse(fx.date+'T00:00:00Z'), state.gender)})).filter(x => x.cat !== 'friendly');
+  const first = up[0], fin = up.find(x => x.cat === 'cont' || x.cat === 'wc');
+  const lab = x => esc(compName(x.fx.tournament))+' <span class="muted">'+fmtDay(Date.parse(x.fx.date+'T00:00:00Z')).replace(' '+new Date().getUTCFullYear(), '')+'</span>';
+  return {first, fin:fin && fin !== first ? fin : null, lab};
+}
 function viewConfeds(){
   const c = getRatings();
   const groups = {};
@@ -4855,7 +4886,7 @@ function viewConfeds(){
     return '<details class="panel conf-panel" data-conf="'+key+'"'+(open ? ' open' : '')+'><summary class="conf-sum">'+
       '<span class="conf-name">'+badgeImg(CONF_WIKI[key], confLabel(key)+' logo', 'conf-badge', 'conf-'+badgeSlug(key))+'<b>'+confLabel(key)+'</b>'+
         (c.confStats && c.confStats.get(key) ? ' <span class="conf-str" title="Top-10 average: the average rating of its ten best ranked teams">Top 10: '+fmtR(c.confStats.get(key).top10)+'</span>' : '')+'</span>'+
-      '<span class="conf-note">'+note+(med!==null?' &middot; average team '+signed(med - c.median)+' against the world average':'')+'</span>'+
+      '<span class="conf-note">'+note+(med!==null?' &middot; average team '+signed(med - c.median)+' against the world average':'')+(n => n.first ? ' &middot; next: '+n.lab(n.first)+(n.fin ? ' &middot; next finals: '+n.lab(n.fin) : '') : '')(confNext(c, key))+'</span>'+
       '<span class="conf-top">'+rows.slice(0, 3).map(r => flagHtml(r.team)).join('')+'</span>'+
       '<span class="conf-open">'+(open ? 'Hide' : 'Show all '+(rows.length + prov.length))+'</span></summary>'+
       (rows.length ? '<div class="conf-share chips"><button class="chip" type="button" data-shareimg="conftop" data-conf="'+key+'">Share image</button></div>'+
@@ -5318,7 +5349,7 @@ function viewPredict(){
       'matches. It knows nothing about injuries, squads or motivation.</p>'+
     '<div class="chips pred-mode"><a class="chip on" href="#/predict?'+filterQuery({a, b})+'">Any two teams today</a>'+
       '<a class="chip" href="#/predict?'+filterQuery({dm:'1'})+'">Dream match: any two eras</a></div>'+
-    (quick ? '<div class="pred-quick"><div class="pq-head">Coming up <span class="muted">tap a match to predict it</span></div><div class="pq-row">'+quick+'</div></div>' : '')+
+    (quick ? '<div class="pred-quick"><div class="pq-head">Coming up <span class="muted">tap a match to predict it &middot; <a href="#/matchday">think you know better? Make your own picks on Matchday</a></span></div><div class="pq-row">'+quick+'</div></div>' : '')+
     '<div class="vs-grid">'+
       '<div class="ctl"><label for="pA">Home</label><select id="pA" style="width:100%;">'+opts(ka)+'</select></div>'+
       '<div class="vs-mid">vs</div>'+
@@ -5835,6 +5866,195 @@ function viewWindow(){
     '<p class="chart-note">Every call is the prediction published before kick-off. '+
       (n >= 8 ? '<a href="records/recaps/'+W.slug+'.html">The window\'s recap page</a> &middot; ' : '')+'<a href="#/record">The full forecast record</a></p>'+
   '</div>';
+}
+
+/* The file names of the plain match pages (build/pages.mjs slugify). */
+const slugText = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+/* ============================================================
+   MATCHDAY: one day of international football. Every match that day, the forecast published before kick-off (or,
+   for a fixture added after the last update, the forecast as it stands), the result, right or wrong, and the
+   upsets. Visitors can make their own picks; they are kept in this browser only and scored against the model's.
+   ============================================================ */
+const PICKS_KEY = 'formline.picks';
+const readPicks = () => { try { return JSON.parse(localStorage.getItem(PICKS_KEY) || '{}') || {}; } catch(e){ return {}; } };
+const writePicks = o => { try { localStorage.setItem(PICKS_KEY, JSON.stringify(o)); } catch(e){} };
+/* Every match on the record or in the fixture list, as one list for one game (men's or women's). */
+function matchdayItems(g, c){
+  const rec = ((state.record && state.record.entries) || []).filter(e => e.g === g && e.p && !e.void);
+  const seen = new Set(rec.map(e => e.date+'|'+e.home+'|'+e.away)), out = [];
+  rec.forEach(e => out.push({id:e.id || [g, e.date, e.home, e.away].join('|'), date:e.date, kickoff:e.kickoff, home:e.home, away:e.away,
+    tournament:e.tournament, p:e.p, likely:e.likely, result:e.result || null, outcome:e.outcome, published:true}));
+  (upcomingFor(g) || []).forEach(fx => { if (seen.has(fx.date+'|'+fx.home+'|'+fx.away)) return;
+    const f = fixturePrediction(c, fx); if (!f.p) return;
+    out.push({id:[g, fx.date, fx.home, fx.away].join('|'), date:fx.date, kickoff:fx.kickoff, home:fx.home, away:fx.away, tournament:fx.tournament,
+      p:[f.p.home, f.p.draw, f.p.away], likely:f.sl.top[0][0]+'-'+f.sl.top[0][1], result:null, published:false}); });
+  return out.sort((a, b) => (a.kickoff || a.date).localeCompare(b.kickoff || b.date));
+}
+const mdOutcome = x => x.result ? (x.result[0] > x.result[1] ? 0 : x.result[0] < x.result[1] ? 2 : 1) : null;
+const mdCall = x => x.p.indexOf(Math.max(...x.p));
+function viewMatchday(){
+  const g = state.gender, c = getRatings(), app = document.getElementById('app'), G = g === 'men' ? "men's" : "women's";
+  const items = matchdayItems(g, c), days = [...new Set(items.map(x => x.date))].sort();
+  const head = '<h1 class="page-title">Matchday</h1><p class="page-sub">One day of '+G+' international football: every match, the call Formline '+
+    'published before kick-off, and how it went. Make your own picks and see how you do against the model.</p>';
+  if (!days.length){ app.innerHTML = '<div class="wrap">'+head+'<div class="status">No matches with a published forecast yet. They come with the nightly update.</div></div>'; return; }
+  const local = (() => { try { return new Date().toLocaleDateString('en-CA'); } catch(e){ return new Date().toISOString().slice(0, 10); } })();
+  let day = /^\d{4}-\d{2}-\d{2}$/.test(state.params.d || '') ? state.params.d : null;
+  if (!day || !days.includes(day)) day = days.includes(local) ? local : (days.find(d => d > local) || days[days.length - 1]);
+  const i = days.indexOf(day), list = items.filter(x => x.date === day), picks = readPicks();
+  const nm = t => esc(dn(t)), pc = v => Math.round(v*100)+'%', now = Date.now();
+  const played = list.filter(x => x.result), right = played.filter(x => mdCall(x) === mdOutcome(x)).length;
+  const upsets = played.filter(x => { const o = mdOutcome(x); return o !== 1 && x.p[o] < 0.25; });
+  /* Your picks, on this day and on every scored match you picked. */
+  const mine = (xs => { const s = xs.filter(x => x.result && picks[x.id] !== undefined);
+    return {n:s.length, you:s.filter(x => picks[x.id] === mdOutcome(x)).length, model:s.filter(x => mdCall(x) === mdOutcome(x)).length}; });
+  const dayMine = mine(list), allMine = mine(items);
+  const tile = (big, lab) => '<div class="win-tile"><b>'+big+'</b><span>'+lab+'</span></div>';
+  const dayTxt = d => new Date(d+'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short', timeZone:'UTC'});
+  const near = days.slice(Math.max(0, i - 3), i + 4);
+  const nav = '<div class="md-nav"><button class="chip" data-md="'+(days[i - 1] || '')+'"'+(i ? '' : ' disabled')+' aria-label="Previous matchday">&larr;</button>'+
+    near.map(d => '<button class="chip'+(d === day ? ' on' : '')+'" data-md="'+d+'">'+dayTxt(d)+(d === local ? ' &middot; today' : '')+'</button>').join('')+
+    '<button class="chip" data-md="'+(days[i + 1] || '')+'"'+(i < days.length - 1 ? '' : ' disabled')+' aria-label="Next matchday">&rarr;</button></div>';
+  const timeOf = x => { if (!x.kickoff) return ''; try { return new Date(x.kickoff).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); } catch(e){ return ''; } };
+  const card = x => {
+    const o = mdOutcome(x), call = mdCall(x), up = o !== null && o !== 1 && x.p[o] < 0.25, pk = picks[x.id];
+    const started = x.kickoff ? Date.parse(x.kickoff) <= now : false;
+    const labels = [nm(x.home), 'Draw', nm(x.away)];
+    const bar = '<div class="prob-bar mini">'+[['seg-h', 0], ['seg-d', 1], ['seg-a', 2]].map(([cl, j]) =>
+      '<div class="prob-seg '+cl+'" style="width:'+(x.p[j]*100)+'%">'+(x.p[j] > 0.12 ? pc(x.p[j]) : '')+'</div>').join('')+'</div>';
+    const verdict = o === null ? '<span class="muted">Formline: '+(call === 1 ? 'a draw' : labels[call])+' '+pc(x.p[call])+(x.likely ? ' &middot; likeliest '+esc(x.likely).replace('-', '&ndash;') : '')+'</span>'
+      : '<span class="'+(call === o ? 'up' : 'down')+'">Formline '+(call === o ? 'right' : 'wrong')+'</span> <span class="muted">('+(call === 1 ? 'draw' : labels[call])+' '+pc(x.p[call])+')</span>'+
+        (up ? ' <span class="md-upset">Upset: '+pc(x.p[o])+' chance</span>' : '');
+    const pickRow = o === null && !started ? '<div class="md-pick" role="group" aria-label="Your pick">'+'<span class="muted">Your pick:</span>'+
+        labels.map((l, j) => '<button class="chip'+(pk === j ? ' on' : '')+'" data-pick="'+esc(x.id)+'" data-o="'+j+'">'+l+'</button>').join('')+'</div>'
+      : pk !== undefined ? '<div class="md-pick"><span class="muted">Your pick: '+labels[pk]+'</span>'+(o === null ? ' <span class="muted">&middot; kicked off</span>'
+        : ' <span class="'+(pk === o ? 'up' : 'down')+'">'+(pk === o ? '&#10003; right' : 'wrong')+'</span>')+'</div>' : '';
+    return '<div class="md-card'+(up ? ' is-upset' : '')+'"><div class="md-h"><span class="muted">'+(timeOf(x) ? timeOf(x)+' &middot; ' : '')+esc(shortComp(x.tournament))+'</span>'+
+      (o === null ? '<a href="#/predict?'+filterQuery({a:x.home, b:x.away, v:'home'})+'">Predict &rarr;</a>' : '')+'</div>'+
+      matchLine(x.home, x.away, x.result ? x.result[0]+'&ndash;'+x.result[1] : null, teamHref, {win:o === 0 ? 1 : o === 2 ? -1 : 0})+bar+
+      '<div class="md-v">'+verdict+'</div>'+pickRow+(x.published ? '' : '<div class="muted md-note">Added after the last update: the forecast as it stands, not yet saved to the record.</div>')+'</div>';
+  };
+  app.innerHTML = '<div class="wrap">'+head+nav+
+    '<div class="win-tiles">'+tile(list.length, 'matches')+tile(played.length, 'played')+tile(played.length ? right+' of '+played.length : '&ndash;', 'Formline right')+
+      tile(upsets.length, 'upsets (under 25%)')+tile(allMine.n ? allMine.you+' of '+allMine.n : '&ndash;', allMine.n ? 'your picks right (Formline '+allMine.model+')' : 'your picks: tap a result below')+'</div>'+
+    '<div class="md-grid">'+list.map(card).join('')+'</div>'+
+    '<p class="chart-note">Picks are kept in this browser only, never sent anywhere, and lock at kick-off. '+(dayMine.n ? 'Today: you '+dayMine.you+', Formline '+dayMine.model+' of '+dayMine.n+'. ' : '')+
+      'Every published forecast is on the <a href="#/record?v=live">forecast record</a>; the whole window is on <a href="#/window">This window</a>.</p></div>';
+  app.querySelectorAll('[data-md]').forEach(b => b.addEventListener('click', () => { if (b.dataset.md) go({d:b.dataset.md}); }));
+  app.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', () => { const P = readPicks(), o = +b.dataset.o;
+    if (P[b.dataset.pick] === o) delete P[b.dataset.pick]; else P[b.dataset.pick] = o; writePicks(P); viewMatchday(); }));
+}
+/* Under the team's next fixture in Coming up: what each result would do to its rating, and links to the match's other pages. */
+function nextMatchCard(c, key){
+  if (isPast()) return '';
+  const fx = (upcomingFor(state.gender) || []).find(x => c.resolve(x.home) === key || c.resolve(x.away) === key);
+  if (!fx) return '';
+  const f = fixturePrediction(c, fx); if (!f.p) return '';
+  const ts = Date.parse(fx.date+'T00:00:00Z'), cat = categorize(fx.tournament, ts, state.gender);
+  const K = cat === 'friendly' ? friendlyK(state.gender, ts) : (COMPS[cat] && COMPS[cat].k) || 30;
+  const st = ratingStakes(c, f.rh.key, f.ra.key, !f.side, K), meH = f.rh.key === key;
+  const sg = x => Math.abs(x) < 0.05 ? '0.0' : (x > 0 ? '+' : '&minus;')+Math.abs(x).toFixed(1), cl = v => Math.abs(v) < 0.05 ? 'muted' : v > 0 ? 'up' : 'down';
+  const me = r => meH ? r.da : r.db;
+  const rows = st ? [['win 1&ndash;0', meH ? st[1] : st[3]], ['draw 1&ndash;1', st[2]], ['lose 0&ndash;1', meH ? st[3] : st[1]]] : [];
+  const preview = 'matches/'+state.gender+'/'+fx.date+'-'+slugText(f.rh.team)+'-vs-'+slugText(f.ra.team)+'.html';
+  return '<div class="nm-strip">'+(rows.length ? '<div><b>What\'s at stake</b> for '+esc(dn(meH ? f.rh.team : f.ra.team))+' against '+esc(dn(meH ? f.ra.team : f.rh.team))+' on '+fmtDay(ts).replace(/ \d{4}$/, '')+': '+
+      rows.map(([l, r]) => l+' <b class="'+cl(me(r))+'">'+sg(me(r))+'</b>').join(' &middot; ')+' <span class="muted">rating points</span></div>' : '')+
+    '<div><a href="'+preview+'">Match preview</a> &middot; <a href="#/matchday?d='+fx.date+'">Make your pick on Matchday</a></div></div>';
+}
+
+/* ============================================================
+   WOMEN'S WORLD CUP 2027 HUB (Brazil, 24 June to 25 July 2027): who has qualified, what's still to be decided, and how
+   strong everyone is on today's ratings. Qualification facts as of 11 November 2026 (sources: Wikipedia's qualification
+   articles, FIFA, Goal, Al Jazeera); results of the UEFA play-offs come from the match data itself. Update WWC27.q as
+   places are decided, and add the groups to WWC_2027_TEMPLATE after the draw on 11 December 2026.
+   ============================================================ */
+const WWC27 = {
+  start:'2027-06-24', final:'2027-07-25', draw:'2026-12-11', asOf:'11 Nov 2026',
+  q:[['Brazil', 'CONMEBOL', 'Hosts', '2024-05-17'],
+    ['Australia', 'AFC', 'Asian Cup quarter-final win', '2026-03-13'], ['China', 'AFC', 'Asian Cup quarter-final win', '2026-03-14'],
+    ['South Korea', 'AFC', 'Asian Cup quarter-final win', '2026-03-14'], ['Japan', 'AFC', 'Asian Cup quarter-final win', '2026-03-15'],
+    ['Philippines', 'AFC', 'Asian Cup play-in win', '2026-03-19'], ['North Korea', 'AFC', 'Asian Cup play-in win', '2026-03-19'],
+    ['New Zealand', 'OFC', 'OFC qualifying winners', '2026-04-15'],
+    ['Germany', 'UEFA', 'League A group winners', '2026-06-05'], ['Denmark', 'UEFA', 'League A group winners', '2026-06-09'],
+    ['France', 'UEFA', 'League A group winners', '2026-06-09'], ['Spain', 'UEFA', 'League A group winners', '2026-06-09'],
+    ['Colombia', 'CONMEBOL', 'Nations League winners', '2026-06-05'], ['Argentina', 'CONMEBOL', 'Nations League runners-up', '2026-06-05'],
+    ['Morocco', 'CAF', 'WAFCON semi-finalists', '2026-08-08'], ['Algeria', 'CAF', 'WAFCON semi-finalists', '2026-08-08'],
+    ['Cameroon', 'CAF', 'WAFCON semi-finalists', '2026-08-10'], ['Malawi', 'CAF', 'WAFCON semi-finalists', '2026-08-10']],
+  concacaf:['United States', 'Canada', 'Mexico', 'Jamaica', 'Haiti', 'Panama', 'Costa Rica', 'El Salvador'],
+  playoffR1:['Uzbekistan', 'Chinese Taipei', 'Ecuador', 'Papua New Guinea', 'Ghana', 'South Africa'], playoffBye:['Venezuela'],
+  /* UEFA play-offs: round 1 ties (October 2026), then round 2 pairs them up (26 November to 5 December 2026). */
+  uefaR1:[['Lithuania', 'Sweden'], ['Romania', 'Norway'], ['Greece', 'England'], ['Croatia', 'Iceland'], ['Kazakhstan', 'Republic of Ireland'],
+    ['Kosovo', 'Austria'], ['Hungary', 'Netherlands'], ['Belarus', 'Italy'], ['Albania', 'Wales'], ['Turkey', 'Slovenia'], ['Slovakia', 'Ukraine'],
+    ['Belgium', 'Poland'], ['Israel', 'Switzerland'], ['Czech Republic', 'Scotland'], ['Northern Ireland', 'Portugal'], ['Finland', 'Serbia']],
+  uefaR2:[[10, 2], [15, 7], [14, 3], [8, 1], [12, 5], [13, 0], [11, 4], [9, 6]]
+};
+/* A two-legged tie from the match data: the winner on aggregate (or the shoot-out), or null while it's undecided. */
+function tieWinner(c, a, b, from, to){
+  const ka = c.resolve(a), kb = c.resolve(b), ms = state.matches.women || [];
+  const legs = ms.filter(m => m.ts >= from && m.ts < to && (namesFor(m), (m._h === ka && m._a === kb) || (m._h === kb && m._a === ka)));
+  if (legs.length < 2) return null;
+  let ga = 0, gb = 0; legs.forEach(m => { if (m._h === ka){ ga += m.hs; gb += m.as; } else { ga += m.as; gb += m.hs; } });
+  if (ga !== gb) return {key:ga > gb ? ka : kb, agg:[ga, gb]};
+  const last = legs[legs.length - 1], so = state.shootouts.women && state.shootouts.women.get(fmtDate(last.ts)+'|'+last.home+'|'+last.away);
+  return so ? {key:c.resolve(so), agg:[ga, gb], pens:true} : {key:null, agg:[ga, gb]};
+}
+function viewWWC2027(){
+  const app = document.getElementById('app');
+  if (state.gender !== 'women'){ state.gender = 'women'; return go({}, 'wwc2027'); }
+  const c = getRatings(), W = WWC27, row = t => c.byKey.get(c.resolve(t)), DAYMS = 864e5;
+  const flagT = t => { const r = row(t); return r ? '<a href="'+teamHref(r.team)+'">'+withFlag(r.team)+'</a>' : esc(t); };
+  const rt = t => { const r = row(t); return r ? '<span class="rating">'+fmtR(r.rating)+'</span>'+(r.rank ? ' <span class="muted">#'+r.rank+'</span>' : '') : '<span class="muted">&ndash;</span>'; };
+  const days = Math.max(0, Math.ceil((Date.parse(W.start+'T00:00:00Z') - Date.now())/DAYMS));
+  const tile = (big, lab) => '<div class="win-tile"><b>'+big+'</b><span>'+lab+'</span></div>';
+  const qKeys = new Set(W.q.map(x => c.resolve(x[0])));
+  const qRows = W.q.slice().sort((a, b) => ((row(b[0]) || {}).rating || 0) - ((row(a[0]) || {}).rating || 0));
+  /* UEFA play-offs from the data: round 1 winners, then the round 2 ties. */
+  const R1 = W.uefaR1.map(([a, b]) => ({a, b, w:tieWinner(c, a, b, Date.UTC(2026, 9, 1), Date.UTC(2026, 9, 20))}));
+  const side = i => { const t = R1[i]; return t.w && t.w.key ? (c.byKey.get(t.w.key) || {team:t.w.key}).team : null; };
+  const r2 = W.uefaR2.map(([i, j]) => ({A:side(i), B:side(j), ti:R1[i], tj:R1[j], w:side(i) && side(j) ? tieWinner(c, side(i), side(j), Date.UTC(2026, 10, 20), Date.UTC(2026, 11, 10)) : null}));
+  const undecided = t => esc(t.a)+' or '+esc(t.b);
+  const fav = (A, B) => { const a = row(A), b = row(B); if (!a || !b) return ''; const p = fixtureLikeChance(c, a, b);
+    return '<span class="muted">Formline favours '+esc(dn((p >= 0.5 ? a : b).team))+(Math.abs(p - 0.5) < 0.05 ? ', just' : '')+'</span>'; };
+  const r2Rows = r2.map(x => '<tr><td class="ml-cell">'+(x.A ? flagT(x.A) : undecided(x.ti))+' <span class="muted">v</span> '+(x.B ? flagT(x.B) : undecided(x.tj))+'</td>'+
+    '<td>'+(x.w && x.w.key ? '<b>'+esc(dn((c.byKey.get(x.w.key) || {team:x.w.key}).team))+'</b> through, '+x.w.agg.join('&ndash;')+' on aggregate'+(x.w.pens ? ', on penalties' : '') : x.A && x.B ? fav(x.A, x.B) : '')+'</td></tr>').join('');
+  const strongest = c.table.filter(r => r.status !== 'assoc' && !r.defunct).slice(0, 24);
+  const stat = r => qKeys.has(r.key) ? '<span class="wq-chip wq-in">Qualified</span>'
+    : W.concacaf.some(t => c.resolve(t) === r.key) ? '<span class="wq-chip">W Championship, 27 Nov</span>'
+    : W.playoffR1.concat(W.playoffBye).some(t => c.resolve(t) === r.key) ? '<span class="wq-chip">Play-offs</span>'
+    : r2.some(x => [x.A, x.B].some(t => t && c.resolve(t) === r.key)) ? '<span class="wq-chip">UEFA play-off, 26 Nov</span>'
+    : '<span class="wq-chip wq-out">Out</span>';
+  app.innerHTML = '<div class="wrap"><h1 class="page-title">Women\'s World Cup 2027</h1>'+
+    '<p class="page-sub">Brazil hosts the tenth Women\'s World Cup, the first in South America: 32 teams in eight stadiums, 24 June to 25 July 2027, '+
+      'with the final at the Maracan&atilde;. Who\'s in, who\'s still fighting for a place, and how strong they all are on Formline\'s ratings.</p>'+
+    '<div class="win-tiles">'+tile(days, 'days to kick-off')+tile(W.q.length+'<small> of 32</small>', 'places decided')+tile('11 Dec', 'the draw, 2026')+
+      tile('25 Jul', 'the final, Maracan&atilde;')+tile('8', 'host cities')+'</div>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Qualified<span class="aside">strongest first, on today\'s ratings</span></div>'+
+      '<div class="table-wrap"><table class="kv-table words"><thead><tr><th>Team</th><th>Confederation</th><th class="hide-sm">How</th><th class="hide-sm">When</th><th class="num">Rating</th></tr></thead><tbody>'+
+      qRows.map(x => '<tr><td>'+flagT(x[0])+'</td><td>'+confLabel(x[1])+'</td><td class="hide-sm">'+esc(x[2])+'</td><td class="hide-sm muted">'+fmtDay(Date.parse(x[3]+'T00:00:00Z'))+'</td><td class="num">'+rt(x[0])+'</td></tr>').join('')+
+      '</tbody></table></div></div>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Still to be decided<span class="aside">14 places</span></div><div class="panel-body wq-left">'+
+      '<h3>UEFA play-offs, round 2 <span class="muted">26 November to 5 December 2026 &middot; 7 places</span></h3>'+
+      '<p class="muted">The eight winners go through; the seven with the best league-phase records qualify, the eighth goes to the inter-confederation play-offs.</p>'+
+      '<div class="table-wrap"><table class="kv-table words"><tbody>'+r2Rows+'</tbody></table></div>'+
+      '<h3>CONCACAF W Championship <span class="muted">27 November to 5 December 2026, United States &middot; 4 places</span></h3>'+
+      '<p class="muted">The four quarter-final winners qualify; two more go to the inter-confederation play-offs.</p>'+
+      '<p class="wq-teams">'+W.concacaf.slice().sort((a, b) => ((row(b) || {}).rating || 0) - ((row(a) || {}).rating || 0)).map(t => '<span class="nowrap">'+flagT(t)+' '+rt(t)+'</span>').join('')+'</p>'+
+      '<h3>Inter-confederation play-offs <span class="muted">3 places</span></h3>'+
+      '<p class="muted">Round 1 (November and December 2026): two of these six go through. Round 2 (February 2027): three ties with Venezuela, two CONCACAF sides and one UEFA side.</p>'+
+      '<p class="wq-teams">'+W.playoffR1.concat(W.playoffBye).map(t => '<span class="nowrap">'+flagT(t)+' '+rt(t)+'</span>').join('')+'</p></div></div>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">The strongest teams now<span class="aside">and where each stands</span></div>'+
+      '<div class="table-wrap"><table class="kv-table words"><tbody>'+strongest.map(r => '<tr><td class="muted">'+r.rank+'</td><td>'+flagT(r.team)+'</td><td class="num">'+fmtR(r.rating)+'</td><td>'+stat(r)+'</td></tr>').join('')+
+      '</tbody></table></div></div>'+
+    '<p class="chart-note">Places decided as of '+W.asOf+'; UEFA play-off results come from the match data and update with every result. '+
+      'The groups and title chances arrive on the <a href="#/simulate">Simulator</a> after the draw on 11 December. '+
+      'Sources: Wikipedia\'s qualification articles, FIFA and news reports. <a href="#/confederations">Places against strength, by confederation</a>.</p></div>';
+}
+/* Side a's expected share of the points over a two-legged tie against b (each side at home once): above a half, a is favoured. */
+function fixtureLikeChance(c, a, b){
+  const leg = home => { const h = home ? a : b, v = home ? b : a;
+    return predictE({r:fcRating(h), rd:matchRd(h, v)}, {r:fcRating(v), rd:matchRd(v, h)}, homeBonus('women', state.asOf, h.team, v.team)); };
+  const e = (leg(true) + (1 - leg(false)))/2;
+  return e;
 }
 
 function viewFixtures(){
@@ -7157,6 +7377,7 @@ function viewCompetitions(){
   '<div class="wrap">'+
     '<h1 class="page-title">'+(state.gender==='men'?"Men's":"Women's")+' competitions</h1>'+
     '<p class="page-sub">Every tournament in the archive, edition by edition, with each team\'s rating going in and coming out.</p>'+
+    '<p class="fr-livebar"><b>Women\'s World Cup 2027, Brazil:</b> who has qualified, the play-offs still to come, and the strongest teams now. <a href="#/wwc2027">Open the hub &rarr;</a></p>'+
     '<div class="ctl" style="margin-bottom:20px;"><label for="compSearch">Search</label>'+
       '<input type="text" id="compSearch" placeholder="World Cup, Copa, Gulf&hellip;" style="width:300px;" value="'+esc(state.params.q||'')+'"></div>'+
     groups.map(c => byCat[c].length ? '<div class="panel" style="margin-bottom:18px;"><div class="panel-head">'+COMPS[c].label+
@@ -9138,7 +9359,11 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
-  ['11 Nov 2026', ['Team pages: the match list has a new Rank column, the team\'s world ranking just after each match, as the table stood that day. Switch it to Confederation to see the rank within its own region instead.',
+  ['11 Nov 2026', ['New page, Matchday (under Matches): one day\'s matches with the call published before kick-off, the result, right or wrong, and the upsets. Make your own picks and see how you do against the model; picks stay in your browser.',
+    'New: a Women\'s World Cup 2027 hub, with who has qualified, the UEFA play-offs and CONCACAF W Championship still to come, and where the strongest teams stand. It\'s linked from Competitions.',
+    'Confederations: each card shows the next competitive matches and, where they are in the fixture list, the next continental finals. World Cup places against strength now covers the women\'s 2027 allocation too.',
+    'Team pages: an Attack &amp; defence figure (goals for and against the average ranked team, with the team\'s place for each), and under Coming up, what the next match would do to the rating for a win, draw or defeat.',
+'Team pages: the match list has a new Rank column, the team\'s world ranking just after each match, as the table stood that day. Switch it to Confederation to see the rank within its own region instead.',
     'Forecast record, reorganised into tabs: Overview, Year by year, Live record, Research and For the stats-minded. Sharpness is now called the forecast score, shown out of 100 (0 is a coin toss, 100 is knowing every result). The year-by-year and era tables now show both the forecast score, which the "years better" count uses, and how often each method picked the winner, and the matches where Formline and World Elo disagreed are split into clearer calls and close calls.',
     'Rankings: a new Simple view shows just the ranking, rating, form and trend, without the bands, tiers or rank ranges. Full detail is one click away.',
     'About: new common questions on what kind of model this is, how friendlies count, why injuries and squads are left out, how current strength differs from all-time records, and whether the code can be reused.',
@@ -9684,7 +9909,7 @@ function viewCompare(){
    ============================================================ */
 /* Navigation groups, menus and theme. */
 const NAV_GROUP = {rankings:'ratings', team:'ratings', confederations:'ratings', competitions:'ratings', competition:'ratings',
-  fixtures:'matches', window:'matches', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', sources:'about', support:'about', changes:'about', contact:'about', records:'ratings'};
+  fixtures:'matches', window:'matches', matchday:'matches', wwc2027:'ratings', predict:'matches', record:'matches', simulate:'tools', h2h:'tools', method:'about', about:'about', compare:'about', flags:'about', sources:'about', support:'about', changes:'about', contact:'about', records:'ratings'};
 function closeMenus(){
   document.querySelectorAll('.nav-group.open').forEach(g => { g.classList.remove('open'); g.querySelector('.nav-top').setAttribute('aria-expanded', 'false'); });
   document.body.classList.remove('menu-open');

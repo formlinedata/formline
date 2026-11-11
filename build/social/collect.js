@@ -235,6 +235,60 @@ S.windowOn = async ({now}) => {
 };
 
 
+/* Results roundup: one day's results (a date, Toronto's) with Formline's published calls, the upsets, and the window so far.
+   Only forecasts saved before kick-off count (data/forecasts.json). */
+S.roundup = async ({now, day}) => {
+  day = day || new Date(now - 864e5).toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
+  const all = ((state.record && state.record.entries) || []).filter(e => e.p && e.result && !e.void);
+  const local = e => e.kickoff ? new Date(e.kickoff).toLocaleDateString('en-CA', {timeZone:'America/Toronto'}) : e.date;
+  const list = all.filter(e => local(e) === day);
+  if (list.length < 3) return null;
+  const out = [];
+  for (const g of ['men', 'women']){
+    const es = list.filter(e => e.g === g); if (!es.length) continue;
+    const c = await useG(g);
+    for (const e of es){
+      const kh = c.resolve(e.home), ka = c.resolve(e.away), A = c.byKey.get(kh), B = c.byKey.get(ka), ts = Date.parse(e.date + 'T12:00:00Z');
+      const o = e.result[0] > e.result[1] ? 0 : e.result[0] < e.result[1] ? 2 : 1, call = e.p.indexOf(Math.max(...e.p));
+      out.push({g, home:dn(kh || e.home), away:dn(ka || e.away), hs:e.result[0], as:e.result[1], comp:compName(e.tournament),
+        hf:flagSrc(dn(kh || e.home), ts), af:flagSrc(dn(ka || e.away), ts), p:e.p.map(pct), call, o, hit:call === o,
+        top:(A && A.rank ? A.rank : 999) + (B && B.rank ? B.rank : 999) + (g === 'women' ? 40 : 0)});
+    }
+  }
+  out.sort((a, b) => a.top - b.top);
+  const hits = out.filter(x => x.hit).length;
+  const ups = out.filter(x => x.o !== 1 && x.p[x.o] < 35).sort((a, b) => a.p[a.o] - b.p[b.o]).slice(0, 4);
+  /* The window so far: every scored forecast in the last ten days. */
+  const since = new Date(Date.parse(day + 'T12:00:00Z') - 10 * 864e5).toISOString().slice(0, 10);
+  const win = all.filter(e => local(e) <= day && local(e) >= since);
+  const winHits = win.filter(e => e.p.indexOf(Math.max(...e.p)) === (e.result[0] > e.result[1] ? 0 : e.result[0] < e.result[1] ? 2 : 1)).length;
+  return {type:'roundup', id:'roundup|' + day, g:out.some(x => x.g === 'men') ? 'men' : 'women', day,
+    dayTxt:new Date(day + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}),
+    n:out.length, hits, list:out, ups, win:{n:win.length, hits:winHits}};
+};
+
+/* Instagram Story on window days: today's matches (Toronto's date) and Formline's published calls, biggest first. */
+S.storyToday = async ({now}) => {
+  const day = new Date(now).toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
+  const es = ((state.record && state.record.entries) || []).filter(e => e.p && !e.void &&
+    (e.kickoff ? new Date(e.kickoff).toLocaleDateString('en-CA', {timeZone:'America/Toronto'}) : e.date) === day);
+  if (es.length < 3) return null;
+  const out = [];
+  for (const g of ['men', 'women']){
+    const mine = es.filter(e => e.g === g); if (!mine.length) continue;
+    const c = await useG(g);
+    for (const e of mine){
+      const kh = c.resolve(e.home), ka = c.resolve(e.away), A = c.byKey.get(kh), B = c.byKey.get(ka), ts = Date.parse(e.date + 'T12:00:00Z');
+      const call = e.p.indexOf(Math.max(...e.p));
+      out.push({g, home:dn(kh || e.home), away:dn(ka || e.away), hf:flagSrc(dn(kh || e.home), ts), af:flagSrc(dn(ka || e.away), ts), p:e.p.map(pct), call,
+        time:e.kickoff ? new Date(e.kickoff).toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', timeZone:'America/Toronto'}) : '',
+        top:(A && A.rank ? A.rank : 999) + (B && B.rank ? B.rank : 999) + (g === 'women' ? 40 : 0)});
+    }
+  }
+  out.sort((a, b) => a.top - b.top);
+  return {day, dayTxt:new Date(day + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}), n:out.length, list:out.slice(0, 9)};
+};
+
 /* Context for a past match (on-this-day and tie-in posts): how its tournament ended, both sides then v now, that
    tournament's biggest upset, and every meeting since. Call with the game already loaded (useG). */
 function pastContext(g, m){
