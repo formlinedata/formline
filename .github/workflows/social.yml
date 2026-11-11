@@ -1,21 +1,23 @@
 name: Daily social post
 # Morning: make today's post (build/social.mjs), keep it on the social-queue branch, and open a review issue with the
-# Instagram slides, the caption and an X version to post by hand. Later: post it to Bluesky and Instagram unless the
-# issue was closed (build/social-publish.mjs). Times are UTC: 10:27 is 5:27 am in Toronto in winter, 14:07 is 9:07 am
-# (an hour later in summer).
+# Instagram slides, the caption and an X version to post by hand. On international-window days a second, evening post
+# is made at the same time (SOCIAL_SLOT=b) with its own review issue. Later: post each one to Bluesky and Instagram
+# unless its issue was closed (build/social-publish.mjs). Times are UTC: 10:27 is 5:27 am in Toronto in winter, 14:07
+# is 9:07 am and 23:07 is 6:07 pm (an hour later in summer).
 on:
   schedule:
     - cron: '27 10 * * *'
     - cron: '7 14 * * *'
+    - cron: '7 23 * * *'
   workflow_dispatch:
     inputs:
       step:
-        description: 'prepare = make the post and open the issue; publish = post it to Instagram now'
+        description: 'prepare = make the post(s) and open the issue(s); publish = post the morning one now; publish-evening = post the evening one now'
         type: choice
-        options: [prepare, publish]
+        options: [prepare, publish, publish-evening]
         default: prepare
       type:
-        description: 'Kind of post (blank = the usual for the day): match, spotlight, onThisDay, rivalry, tournament, pastTournament, rankings'
+        description: 'Kind of morning post (blank = the usual for the day): match, spotlight, onThisDay, rivalry, tournament, pastTournament, rankings'
         required: false
         default: ''
 permissions:
@@ -50,28 +52,44 @@ jobs:
           SOCIAL_USED: ${{ runner.temp }}/q/used.json
           SOCIAL_TYPE: ${{ inputs.type }}
         run: node build/social.mjs
-      - name: Save the queue
+      - name: Add it to the queue
         env:
           SOCIAL_OUT: ${{ runner.temp }}/q
+        run: node build/social-queue.mjs
+      - name: Make the evening post (international windows only)
+        id: post2
+        env:
+          SOCIAL_OUT: ${{ runner.temp }}/q
+          SOCIAL_USED: ${{ runner.temp }}/q/used.json
+          SOCIAL_SLOT: b
+        run: node build/social.mjs
+      - name: Add the evening post to the queue
+        if: steps.post2.outputs.title != ''
+        env:
+          SOCIAL_OUT: ${{ runner.temp }}/q
+          SOCIAL_SLOT: b
+        run: node build/social-queue.mjs
+      - name: Save the queue
         run: |
-          node build/social-queue.mjs
           cd "$RUNNER_TEMP/q"
           git init -q -b social-queue
           git add -A
           git -c user.name=formline-bot -c user.email=formline-bot@users.noreply.github.com commit -qm "Social posts to $SOCIAL_DATE"
           git push -qf "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" social-queue
-      - name: Open the review issue
+      - name: Open the review issues
         env:
           TITLE: ${{ steps.post.outputs.title }}
+          TITLE2: ${{ steps.post2.outputs.title }}
         run: |
           gh label create social-post --color F6B638 --description "Daily social post" 2>/dev/null || true
           gh label create posted --color 5FCF8A --description "Posted to Instagram" 2>/dev/null || true
-          # a re-run for the same day replaces that day's issue
-          for n in $(gh issue list --label social-post --state open --search "Post for $SOCIAL_DATE in:title" --json number -q '.[].number'); do gh issue close "$n" -c "Replaced by a new version."; done
+          # a re-run for the same day replaces that day's issues
+          for n in $(gh issue list --label social-post --state open --json number,title -q ".[] | select(.title | startswith(\"Post for $SOCIAL_DATE\")) | .number"); do gh issue close "$n" -c "Replaced by a new version."; done
           gh issue create --title "Post for $SOCIAL_DATE: $TITLE" --label social-post --body-file "$RUNNER_TEMP/q/issue.md"
+          if [ -n "$TITLE2" ]; then gh issue create --title "Post for $SOCIAL_DATE (evening): $TITLE2" --label social-post --body-file "$RUNNER_TEMP/q/issue-b.md"; fi
 
   publish:
-    if: (github.event_name == 'schedule' && github.event.schedule == '7 14 * * *') || (github.event_name == 'workflow_dispatch' && inputs.step == 'publish')
+    if: (github.event_name == 'schedule' && (github.event.schedule == '7 14 * * *' || github.event.schedule == '7 23 * * *')) || (github.event_name == 'workflow_dispatch' && (inputs.step == 'publish' || inputs.step == 'publish-evening'))
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
@@ -80,6 +98,7 @@ jobs:
       BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
       BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
       HAS_ADMIN: ${{ secrets.FORMLINE_ADMIN_TOKEN != '' }}
+      SOCIAL_SLOT: ${{ (github.event.schedule == '7 23 * * *' || inputs.step == 'publish-evening') && 'b' || '' }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -92,7 +111,7 @@ jobs:
           export SOCIAL_DATE=$(TZ=America/Toronto date +%F)
           node build/social-publish.mjs
       - name: Keep the Instagram token fresh (Sundays)
-        if: env.HAS_ADMIN == 'true' && env.IG_TOKEN != ''
+        if: env.HAS_ADMIN == 'true' && env.IG_TOKEN != '' && env.SOCIAL_SLOT == ''
         env:
           ADMIN: ${{ secrets.FORMLINE_ADMIN_TOKEN }}
         run: |
