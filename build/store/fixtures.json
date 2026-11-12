@@ -1345,7 +1345,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545866": {
@@ -1382,7 +1381,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545868": {
@@ -1401,7 +1399,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545869": {
@@ -1438,7 +1435,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545871": {
@@ -1475,7 +1471,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545873": {
@@ -1566,7 +1561,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545878": {
@@ -1575,7 +1569,7 @@
   "home_team": "Morocco",
   "away_team": "Niger",
   "tournament": "African Cup of Nations qualification",
-  "city": "TBD",
+  "city": "",
   "country": "Morocco",
   "neutral": "FALSE",
   "venue_id": "",
@@ -1585,14 +1579,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": {
-   "city": "TBD",
-   "country": "Morocco",
-   "stadium": "TBD",
-   "boxDate": "2026-11-11",
-   "date": "2026-11-11"
-  },
-  "venue_src": "wiki"
+  "venue_src": "assumed"
  },
  "1545879": {
   "date": "2026-11-13",
@@ -1610,7 +1597,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545880": {
@@ -1629,7 +1615,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545881": {
@@ -1666,7 +1651,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545883": {
@@ -1685,7 +1669,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1545884": {
@@ -1723,7 +1706,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545886": {
@@ -3156,7 +3138,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640084": {
@@ -3175,7 +3156,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640086": {
@@ -3420,7 +3400,7 @@
    "boxDate": "2026-11-12",
    "kickoff": "2026-11-13T00:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1644691": {
   "date": "2026-11-15",
@@ -3976,7 +3956,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1647361": {
@@ -3995,7 +3974,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1647362": {
@@ -4365,7 +4343,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647638": {
@@ -4750,7 +4727,7 @@
    "boxDate": "2026-11-13",
    "kickoff": "2026-11-13T23:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1649032": {
   "date": "2026-11-14",
@@ -4893,7 +4870,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1649550": {
