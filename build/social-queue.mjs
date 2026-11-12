@@ -23,7 +23,7 @@ for (const d of fs.readdirSync(Q)) if (/^\d{4}-\d{2}-\d{2}(-[a-z])?$/.test(d) &&
 
 const raw = f => `https://raw.githubusercontent.com/${repo}/social-queue/${key}/${f}`;
 const owner = repo.split('/')[0];
-const when = slot === 'c' ? "This morning's results roundup goes out on Bluesky and Instagram at about 7 am Toronto time (8 am in summer)" :
+const when = slot === 'c' ? "This morning's results roundup goes out on Bluesky and Instagram at about 8 am Toronto time (9 am in summer)" :
   slot ? "This evening's post goes out on Bluesky and Instagram at about 6 pm Toronto time (7 pm in summer)" :
   "Today's post goes out on Bluesky and Instagram at about 9 am Toronto time (10 am in summer)";
 const body = `**${when}** (on each one that's connected). To stop it, close this issue. To change it, ask Claude.

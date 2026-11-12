@@ -99,7 +99,7 @@ if (process.argv.includes('--refresh')){
 }
 
 /* The review issue for today. */
-/* On international-window days: SOCIAL_SLOT=b, the 6 pm post; SOCIAL_SLOT=c, the 7 am results roundup. */
+/* On international-window days: SOCIAL_SLOT=b, the 6 pm post; SOCIAL_SLOT=c, the 8 am results roundup. */
 const slot = (process.env.SOCIAL_SLOT || '').trim(), key = date + (slot ? '-' + slot : ''), label = `Post for ${date}${slot === 'c' ? ' (results)' : slot ? ' (evening)' : ''}:`;
 const issues = await gh(`/issues?labels=social-post&state=all&per_page=30&sort=created&direction=desc`);
 const issue = issues.find(i => i.title.startsWith(label));

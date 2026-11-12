@@ -782,6 +782,9 @@
   .names-cols{gap:20px;align-items:start;}
   @media(max-width:1000px){.doc-layout.wide{grid-template-columns:minmax(0,1fr);gap:0;}}
   .rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px;align-items:start;}
+  .rec-grid > .pt-tabs, .rec-grid > .pt-select{grid-column:1 / -1;margin-bottom:0;}
+  /* The "Highest ratings" choice only shows with the tab it changes. */
+  body:not(.tour-on) .wrap:has(.rec-grid > .rec-panel[data-pt="teams"].pt-hide) .ctl:has(> #recSp){display:none;}
   @media(max-width:520px){.rec-grid{grid-template-columns:minmax(0,1fr);}}
   .tmode-a .t-b{display:none;} .tmode-b .t-a{display:none;}
   .tier-switch{display:flex;align-items:center;gap:6px;} .tier-switch .chip{padding:3px 10px;font-size:12.5px;}
@@ -3660,7 +3663,13 @@ const PAGE_TABS = {
     of:e => { const h = headText(e); return e.classList.contains('conf-cards') || /^How strong/.test(h) ? 'overview' : /^Strength over time/.test(h) ? 'time' : /^Depth/.test(h) ? 'depth'
       : /^World Cup places/.test(h) ? 'places' : e.id === 'confMeetBox' ? 'meet' : e.id === 'conf-teams' || e.classList.contains('conf-list') ? 'teams' : null; }},
   method:{label:'How it works', root:'.prose', tabs:[['basics', 'The basics'], ['matches', 'Matches'], ['confs', 'Confederations'], ['predict', 'Predictions and tests']],
-    of:e => METHOD_TAB[e.id] || null}
+    of:e => METHOD_TAB[e.id] || null},
+  /* Predict: the working sits behind its own tab; the teams, the venue and the other controls stay on both. */
+  predict:{label:'Match predictor', tabs:[['main', 'The prediction'], ['hood', 'Under the hood']],
+    of:e => !e.classList.contains('panel') ? null : e.classList.contains('uh') ? 'hood' : 'main'},
+  /* Records: the panels of the grid by kind, for all time and for a single year alike. */
+  records:{label:'Records', root:'.rec-grid', tabs:[['matches', 'Upsets and big wins'], ['teams', 'Best teams'], ['runs', 'Longest runs'], ['fifa', 'FIFA method']],
+    of:e => { const h = headText(e); return /^FIFA method/.test(h) ? 'fifa' : /^Longest/.test(h) ? 'runs' : /^(Highest|Top of|Best records|Biggest risers)/.test(h) ? 'teams' : /^Biggest/.test(h) ? 'matches' : null; }}
 };
 function applyPageTabs(show){
   if (typeof document === 'undefined' || !document.querySelector) return;
@@ -8475,6 +8484,9 @@ function viewQualifying(){
    in pot 1 as organisers usually place them, as many pots as teams in a group. The organiser's pots are entered by hand,
    edition by edition, with what they were based on. */
 /* The organiser's own pots, entered by hand from each tournament's Wikipedia article (draw section), newest first.
+   Three come from news reports of the time instead: AFCON 2004 (BBC Sport, 16 Sep 2003; Wikipedia's table has Algeria and
+   Mali the wrong way round, which the groups as drawn rule out), AFCON 2002 (Reuters, 15 Aug 2001) and the draw date of
+   the 2004 Asian Cup (15 Jan 2004 in Chongqing; the pots are Wikipedia's).
    An entry belongs to the edition of that competition that started within 600 days after its draw date (Euro 2020 was played in 2021). Earlier
    editions are still to be added. regional: pots set by region rather than strength, so no pot-by-pot comparison. */
 const SEED_POTS = [
@@ -8520,7 +8532,10 @@ const SEED_POTS = [
     pots:[['Angola', 'Egypt', 'Cameroon', 'Ivory Coast'], ['Ghana', 'Nigeria', 'Tunisia', 'Mali'], ['Zambia', 'Benin', 'Algeria', 'Togo'], ['Burkina Faso', 'Mozambique', 'Gabon', 'Malawi']]},
   {g:'men', t:'African Cup of Nations', draw:'2007-10-19', basis:'performances at past Cups of Nations; hosts Ghana at the head of Group A and holders Egypt of Group C', pots:[['Ghana', 'Egypt', 'Tunisia', 'Nigeria'], ['Ivory Coast', 'Cameroon', 'Morocco', 'Senegal'], ['South Africa', 'Guinea', 'Mali', 'Zambia'], ['Angola', 'Benin', 'Namibia', 'Sudan']]},
   {g:'men', t:'African Cup of Nations', draw:'2005-10-20', basis:'records at the last three Cups of Nations; hosts Egypt at the head of Group A and holders Tunisia of Group C', pots:[['Egypt', 'Tunisia', 'Cameroon', 'Nigeria'], ['Morocco', 'South Africa', 'Senegal', 'DR Congo'], ['Ghana', 'Ivory Coast', 'Guinea', 'Togo'], ['Zambia', 'Angola', 'Zimbabwe', 'Libya']]},
+  {g:'men', t:'African Cup of Nations', draw:'2003-09-20', basis:'CAF\'s four categories, on records at past Cups of Nations; hosts Tunisia at the head of Group A and holders Cameroon of Group C, with lots drawn to put Senegal and Nigeria in B and D', pots:[['Tunisia', 'Cameroon', 'Nigeria', 'Senegal'], ['South Africa', 'Egypt', 'DR Congo', 'Mali'], ['Algeria', 'Morocco', 'Burkina Faso', 'Guinea'], ['Kenya', 'Rwanda', 'Benin', 'Zimbabwe']]},
+  {g:'men', t:'African Cup of Nations', draw:'2001-09-08', basis:'hosts Mali and holders Cameroon seeded; the other two seeds and the rest by records at the last three Cups of Nations', pots:[['Mali', 'Cameroon', 'Egypt', 'South Africa'], ['DR Congo', 'Ghana', 'Nigeria', 'Tunisia'], ['Algeria', 'Burkina Faso', 'Ivory Coast', 'Zambia'], ['Liberia', 'Morocco', 'Senegal', 'Togo']]},
   {g:'men', t:'AFC Asian Cup', draw:'2006-12-19', basis:'the four co-hosts in the first pot and the four seeds (Australia, Iran, Japan, South Korea) in another, the rest by FIFA ranking; the AFC numbered its pots the other way round, with the seeds in pot 4', pots:[['Indonesia', 'Malaysia', 'Thailand', 'Vietnam'], ['Australia', 'Iran', 'Japan', 'South Korea'], ['Qatar', 'Uzbekistan', 'Saudi Arabia', 'Oman'], ['China PR', 'Iraq', 'United Arab Emirates', 'Bahrain']]},
+  {g:'men', t:'AFC Asian Cup', draw:'2004-01-15', basis:'the AFC\'s four pots (what they were based on was not published); hosts China at the head of Group A and holders Japan of Group D', pots:[['China PR', 'Japan', 'South Korea', 'Saudi Arabia'], ['Iran', 'Iraq', 'Kuwait', 'Qatar'], ['Indonesia', 'Thailand', 'United Arab Emirates', 'Uzbekistan'], ['Bahrain', 'Jordan', 'Oman', 'Turkmenistan']]},
   {g:'men', t:'Copa América', draw:'2010-11-11', basis:'pots set by CONMEBOL\'s executive committee on 18 October 2010; hosts Argentina in pot 1, the invited sides in pot 4 (Costa Rica took Japan\'s place)', pots:[['Argentina', 'Brazil', 'Uruguay'], ['Chile', 'Colombia', 'Paraguay'], ['Bolivia', 'Peru', 'Venezuela'], ['Ecuador', 'Costa Rica', 'Mexico']]},
   {g:'men', t:'Copa América', draw:'2007-02-14', basis:'pots as CONMEBOL set them: hosts Venezuela with Argentina and Brazil in pot 1, invitees Mexico and the United States in pot 4', pots:[['Venezuela', 'Argentina', 'Brazil'], ['Ecuador', 'Paraguay', 'Uruguay'], ['Chile', 'Colombia', 'Peru'], ['Bolivia', 'Mexico', 'United States']]},
   {g:'men', t:'Copa América', draw:'2004-03-08', basis:'pots as CONMEBOL set them; the teams of pots 1 and 4 were placed in their groups by hand before the draw (hosts Peru in Group A)', pots:[['Peru', 'Argentina', 'Brazil'], ['Colombia', 'Paraguay', 'Uruguay'], ['Venezuela', 'Costa Rica', 'Mexico'], ['Bolivia', 'Ecuador', 'Chile']]},
@@ -8562,8 +8577,9 @@ function seedingHtml(e, fmt){
   const nG = fmt.groups.length, size = Math.max(...fmt.groups.map(g => g.length));
   const S = seedFor(e);
   /* Groups of different sizes (a team withdrew, or an odd field) are potted too: the last pot is simply shorter. Without
-     the organiser's pots, only when the groups differ by one team; a wider spread is a format pots don't describe. */
-  if (!S && size - Math.min(...fmt.groups.map(g => g.length)) > 1) return '';
+     the organiser's pots, only when the groups differ by one or two teams (the 1950 World Cup, after its withdrawals); a
+     wider spread is a format pots don't describe. */
+  if (!S && size - Math.min(...fmt.groups.map(g => g.length)) > 2) return '';
   const drawTs = S && S.draw ? Date.parse(S.draw+'T12:00:00Z') : e.start - 150*DAY;
   /* A team that was in the draw but did not play (S.out) is potted with the rest and marked. */
   const played = fmt.groups.flat(), gone = S && S.out ? S.out.map(t => keyOfName(t)).filter(k => !played.includes(k)) : [];
@@ -8589,12 +8605,26 @@ function seedingHtml(e, fmt){
   const rows = Array.from({length:nRows}, (_, i) => '<tr><th>Pot '+(i + 1)+'</th><td>'+(out.fl[i] || []).map(k => cell(k, i, realOf)).join('')+'</td>'+
     (real ? '<td>'+(real[i] || []).map(t => cell(kOf(t), i, flOf)).join('')+'</td>' : '')+'</tr>').join('');
   const moved = real && !S.regional && !S.uneven ? teams.filter(k => realOf.has(k) && realOf.get(k) !== flOf.get(k)).length : 0;
+  /* Where the organiser's pots aren't known, Formline's are the only ones shown, so say how the groups as played measure up
+     against them: how many had one team from each pot, and which sides from the same pot were drawn together. */
+  let fit = '';
+  if (!real){
+    const potOfK = new Map(); out.fl.forEach((p, i) => p.forEach(k => potOfK.set(k, i)));
+    const clashes = []; let even = 0;
+    fmt.groups.forEach(g => { const by = new Map(); g.forEach(k => { const p = potOfK.get(k); if (p === undefined) return; if (!by.has(p)) by.set(p, []); by.get(p).push(k); });
+      const dup = [...by.entries()].filter(x => x[1].length > 1); if (!dup.length) even++; dup.forEach(([p, ks]) => clashes.push({p, ks})); });
+    clashes.sort((a, b) => a.p - b.p);
+    const nm = k => esc(dn(state.historicalNames ? resolveName(rawOf.get(k) || k, e.start) : k));
+    const both = ks => ks.length === 2 ? nm(ks[0])+' and '+nm(ks[1]) : ks.slice(0, -1).map(nm).join(', ')+' and '+nm(ks[ks.length - 1]);
+    fit = ' Against these pots, <b>'+even+'</b> of the '+nG+' groups as played had one team from each pot.'+
+      (clashes.length ? ' Drawn together from the same pot: '+clashes.slice(0, 4).map(c => both(c.ks)+' (pot '+(c.p + 1)+')').join('; ')+(clashes.length > 4 ? '; and '+(clashes.length - 4)+' more' : '')+'.' : '');
+  }
   return '<div class="panel-body"><p class="fr-q" style="margin-top:0;">How Formline\'s ratings would have potted the '+teams.length+' teams'+(S && S.draw ? ' on the day of the draw, '+fmtDay(drawTs) : ', about five months before kick-off')+
       (out.hosts.length ? ', with the host'+(out.hosts.length > 1 ? 's' : '')+' in pot 1' : '')+(real ? ', next to the pots the organiser used' : '')+'.'+
-      (real && !S.regional && !S.uneven ? ' <b>'+moved+'</b> of the '+teams.length+' teams would have been in a different pot.' : real && S.uneven ? ' The organiser seeded only some of the teams and drew the rest from one pot, so its pots don\'t line up with Formline\'s pot by pot.' : real ? ' The organiser\'s pots were set by region rather than strength, so they don\'t line up pot by pot.' : '')+'</p>'+
+      (real && !S.regional && !S.uneven ? ' <b>'+moved+'</b> of the '+teams.length+' teams would have been in a different pot.' : real && S.uneven ? ' The organiser seeded only some of the teams and drew the rest from one pot, so its pots don\'t line up with Formline\'s pot by pot.' : real ? ' The organiser\'s pots were set by region rather than strength, so they don\'t line up pot by pot.' : fit)+'</p>'+
     '<div class="table-wrap"><table class="sd-t"><thead><tr><th></th><th>Formline\'s pots</th>'+(real ? '<th>The organiser\'s pots</th>' : '')+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
     '<p class="chart-note">'+(S && S.outNote ? esc(S.outNote)+'. ' : '')+(real ? 'The organiser\'s pots: '+esc(S.basis)+'.'+(S.regional || S.uneven ? '' : ' Arrows mark a team in a different pot under the other seeding: &uarr; a pot higher, &darr; lower.')
-      : 'The organiser\'s own pots for this edition haven\'t been added yet.')+'</p></div>';
+      : 'No organiser\'s pots are on record for this edition (some had none, and for others no list has been found), so these are the pots the ratings point to.')+'</p></div>';
 }
 /* Competitions that changed name, as one lineage: the newest name first in the key. */
 const COMP_LINEAGE = {men:{'Gold Cup':['CONCACAF Championship', 'Gold Cup'], 'Gold Cup qualification':['CONCACAF Championship qualification', 'Gold Cup qualification']}};
@@ -10573,9 +10603,11 @@ const CHANGELOG = [
     'The dream match now compares the two sides\' years side by side: rank, record, goals and biggest win, with both careers on one chart. It is in the Tools menu as Era comparer.',
     'Two new tools. Fixture difficulty ranks every team by how hard its coming matches are, allowing for who is at home. What if? changes the result of one past match and replays the ratings from there, to show who would move.',
     'Matchday: Beat the model. Your picks are now scored against Formline across the whole international window, day by day, with your best run and a picture of your record to share. Picks stay in your browser.',
-    'Long pages are split into tabs: a team\'s page (Overview, History, Matches, Opponents), Confederations and How it works. The tab is kept in the link, so a shared link opens on the same tab.',
+    'Long pages are split into tabs: a team\'s page (Overview, History, Matches, Opponents), Confederations, How it works, Records (upsets and big wins, best teams, longest runs, FIFA method) and the match predictor, where the working is behind an Under the hood tab. The tab is kept in the link, so a shared link opens on the same tab.',
     'Seeding: the organiser\'s real pots for 25 more editions, among them the 1974 World Cup, Euro 1996, the 2006 and 2008 Africa Cups of Nations, the 2007 Asian Cup, three more Copa Am&eacute;ricas, the Women\'s World Cups of 1999, 2003 and 2007, Women\'s Euro 2013 and twelve more women\'s continental finals. Editions where a team withdrew and left the groups uneven are now shown too, with that team marked.',
-    'Simulator: the Copa Am&eacute;rica 2024 rewind can be drawn again, from CONMEBOL\'s own pots or Formline\'s, with the four seeded sides in their places and no more than three CONMEBOL or two CONCACAF teams in a group.']],
+    'Simulator: the Copa Am&eacute;rica 2024 rewind can be drawn again, from CONMEBOL\'s own pots or Formline\'s, with the four seeded sides in their places and no more than three CONMEBOL or two CONCACAF teams in a group.',
+    'Seeding: the organiser\'s real pots for three more editions, the Africa Cups of Nations of 2002 and 2004 (from news reports of the time) and the 2004 Asian Cup.',
+    'Seeding, where the organiser\'s pots aren\'t on record: the page now says how the groups as played measure up against Formline\'s pots, how many had one team from each pot and which sides from the same pot were drawn together. The 1950 World Cup has its seeding section too.']],
   ['11 Nov 2026', ['Qualifying, rebuilt: each qualifying competition is now organised by the tournament it led to (for 2026, for 2022…), then by confederation, then round by round, with group tables and ties. The rounds are worked out from the results, since the archives don\'t record them. Open them from Competitions or from any finals page.',
     'Seeding on every finals page with groups: how Formline\'s ratings would have potted the teams at the draw, next to the organiser\'s real pots for 48 editions so far (men\'s World Cups since 1966 except 1974, Euros since 2000, AFCONs since 2012, Asian Cups since 2011, Copas since 2015, recent Gold Cups, women\'s World Cups since 2011 and Women\'s Euros since 2017; older World Cup pots were set by region, and the page says so), with what the organiser based them on.',
     'Confederations: World Cup places against strength can now be shown for any past World Cup: the teams each confederation had at the finals against its teams in the world\'s best on the eve, with confederations as they stood then.',

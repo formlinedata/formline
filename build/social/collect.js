@@ -131,7 +131,7 @@ S.spotlight = async ({now, used}) => {
   const rivalKey = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
   const rival = rivalKey ? Object.assign({opp:dn(rivalKey[0]), oppFlag:flagSrc(rivalKey[0])}, (({n, w, d, l}) => ({n, w, d, l}))(pairRecord(pick.g, pick.key, rivalKey[0]))) : null;
   const nf = nextFixtures(pick.g).find(x => keyOfName(x.home) === pick.key || keyOfName(x.away) === pick.key);
-  const next = nf ? {home:dn(nf.home), away:dn(nf.away), comp:compName(nf.tournament), day:dayTxt(Date.parse(nf.kickoff || nf.date + 'T12:00:00Z')), date:nf.date, pr:predictFx(c, nf)} : null;
+  const next = nf ? {home:dn(nf.home), away:dn(nf.away), comp:compName(nf.tournament), day:dayTxt(Date.parse(nf.kickoff || nf.date + 'T12:00:00Z')), date:nf.date, kickoff:nf.kickoff || '', pr:predictFx(c, nf)} : null;
   /* Rating over time, one point a month (the last rating in each month), for the chart slide. It starts five years into
      the rating window: every team starts the window level, so the first years are still settling (the top twenty's
      average only steadies about five years in). */
@@ -220,7 +220,7 @@ S.tieIn = async ({now, used}) => {
     city:m.city, country:m.country, p:p ? [p.home, p.draw, p.away].map(pct) : null,
     h2h:{n:later.n, w:later.w, d:later.d, l:later.l}, ctx:pastContext(t.g, m),
     next:{home:dn(nf.home), away:dn(nf.away), homeFlag:flagSrc(nf.home), awayFlag:flagSrc(nf.away), comp:compName(nf.tournament),
-      day:dayTxt(Date.parse(nf.kickoff || nf.date + 'T12:00:00Z')), date:nf.date, pr:predictFx(c, nf)}};
+      day:dayTxt(Date.parse(nf.kickoff || nf.date + 'T12:00:00Z')), date:nf.date, kickoff:nf.kickoff || '', pr:predictFx(c, nf)}};
 };
 
 /* Is an international window on? Many national-team fixtures in the next few days, or results in the last two. */
@@ -402,7 +402,7 @@ S.rivalry = async ({now, used}) => {
   return {type:'rivalry', g:pick.g, id:pick.id, a:teamInfo(c, pick.kh, pick.g) || {team:dn(pick.kh), flag:flagSrc(pick.kh)},
     b:teamInfo(c, pick.ka, pick.g) || {team:dn(pick.ka), flag:flagSrc(pick.ka)},
     n:r.n, w:r.w, d:r.d, l:r.l, gf:r.gf, ga:r.ga, decades:[...dec.values()].sort((a, b) => a.dec - b.dec), finals, first:r.meets[0], last:r.meets[r.n - 1], bigA:big(1), bigB:big(-1),
-    next:pick.fx ? {home:dn(pick.fx.home), away:dn(pick.fx.away), day:dayTxt(Date.parse(pick.fx.kickoff || pick.fx.date + 'T12:00:00Z')),
+    next:pick.fx ? {home:dn(pick.fx.home), away:dn(pick.fx.away), kickoff:pick.fx.kickoff || '', day:dayTxt(Date.parse(pick.fx.kickoff || pick.fx.date + 'T12:00:00Z')),
       comp:compName(pick.fx.tournament), date:pick.fx.date, pr:predictFx(c, pick.fx)} : null};
 };
 

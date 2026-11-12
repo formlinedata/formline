@@ -6,7 +6,7 @@
 //   post.json       everything above plus the type and the id used to avoid repeats
 //   cta.jpg         a closing slide for Instagram only (follow, save, share, the site)
 // into $SOCIAL_OUT/<date>/; on international-window days also <date>-b/ (SOCIAL_SLOT=b, the 6 pm post) and <date>-c/
-// (SOCIAL_SLOT=c, the 7 am results roundup of the day before).
+// (SOCIAL_SLOT=c, the 8 am results roundup of the day before).
 // Needs Playwright (installed by the workflow).
 //
 //   SOCIAL_DATE=2026-11-08 SOCIAL_TYPE=rivalry SOCIAL_USED=used.json node build/social.mjs
@@ -45,6 +45,11 @@ export function koText(iso, refDay){
   return part('America/Toronto', 'ET') + ' · ' + part('Europe/London', 'UK');
 }
 const utcDay = iso => new Date(Date.parse(iso)).toISOString().slice(0, 10);
+/* A post's "next match" (spotlight, rivalry, tie-in): its kick-off as a line under the chances on a slide, and its day with
+   the kick-off for captions and alt text ("Saturday 14 November, 2:45 PM ET / 7:45 PM UK"). */
+const nextKo = N => N && N.kickoff ? koText(N.kickoff, utcDay(N.kickoff)) : '';
+const koLine = N => nextKo(N) ? `<div class="body dim" style="font-size:22px;margin-top:14px">Kick-off ${nextKo(N)}</div>` : '';
+const whenTxt = N => N.day + (nextKo(N) ? ', ' + nextKo(N).replace(' · ', ' / ') : '');
 /* The largest type (px, between min and max) at which a row's longest line of text still fits: chars is its length, room
    the width left for text, extra what the flags cost per px of type. */
 const fitFs = (chars, max, min, room, extra = 0) => Math.max(min, Math.min(max, Math.floor(room / (0.56 * Math.max(1, chars) + extra))));
@@ -239,7 +244,7 @@ ${(T.form || []).map(m => `<div class="gt" style="font-size:26px;gap:12px;paddin
     const s2 = slide(`<div class="kick">${esc(t)} · form and rivals</div>
 <div class="lab" style="margin-top:30px">Last five results</div>${d.last5.map(m => `<div class="row"><span class="chip ${m.r}">${m.r}</span><span>v ${esc(m.opp)}<span class="sub">${esc(m.comp)}</span></span><span>${m.gf}–${m.ga}</span></div>`).join('')}
 ${d.rival ? `<div class="box"><div class="lab">Most-played opponent: ${esc(d.rival.opp)}</div><div class="body">${d.rival.n} meetings: ${esc(t)} won <b>${d.rival.w}</b>, drew ${d.rival.d}, lost ${d.rival.l}</div></div>` : ''}
-${d.next && d.next.pr ? `<div class="box" style="margin-top:20px"><div class="lab">Next: ${esc(d.next.home)} v ${esc(d.next.away)}, ${esc(d.next.day)}</div>${pickBar(d.next.pr.p, d.next.home, d.next.away)}</div>` : ''}`);
+${d.next && d.next.pr ? `<div class="box" style="margin-top:20px"><div class="lab">Next: ${esc(d.next.home)} v ${esc(d.next.away)}, ${esc(d.next.day)}</div>${pickBar(d.next.pr.p, d.next.home, d.next.away)}${koLine(d.next)}</div>` : ''}`);
     const C = d.chart, yr = s => s.slice(0, 4);
     const s3 = C ? slide(`<div class="kick">${esc(t)} · since ${new Date(C.from).getUTCFullYear()}</div><h2>Rating over time</h2>
 <div style="margin-top:30px">${ratingChart(C)}</div>
@@ -249,10 +254,10 @@ ${d.next && d.next.pr ? `<div class="box" style="margin-top:20px"><div class="la
 <div><div class="lab">Last five</div><div style="display:flex;gap:8px">${d.last5.map(m => `<span class="chip ${m.r}">${m.r}</span>`).join('')}</div></div></div>`);
     const form = d.last5.map(m => m.r).join('');
     const alts = [`Team spotlight: ${t} (${GAME[d.g].toLowerCase()}). Rating ${T.rating}${T.rank ? `, ranked ${ord(T.rank)} of ${T.ranked}` : ', not ranked yet'}${T.conf ? `, ${T.conf}` : ''}.${chg ? ' ' + chg + '.' : ''}`,
-      `${t}'s last five results: ${d.last5.map(m => `${{W:'won', D:'drew', L:'lost'}[m.r]} ${m.gf}–${m.ga} v ${m.opp} (${m.comp})`).join('; ')}.${d.rival ? ` Most-played opponent: ${d.rival.opp}, ${d.rival.n} meetings, ${d.rival.w} wins, ${d.rival.d} draws, ${d.rival.l} defeats.` : ''}${d.next && d.next.pr ? ` Next: ${d.next.home} v ${d.next.away}, ${d.next.day}; chances ${d.next.home} ${d.next.pr.p[0]}%, draw ${d.next.pr.p[1]}%, ${d.next.away} ${d.next.pr.p[2]}%.` : ''}`];
+      `${t}'s last five results: ${d.last5.map(m => `${{W:'won', D:'drew', L:'lost'}[m.r]} ${m.gf}–${m.ga} v ${m.opp} (${m.comp})`).join('; ')}.${d.rival ? ` Most-played opponent: ${d.rival.opp}, ${d.rival.n} meetings, ${d.rival.w} wins, ${d.rival.d} draws, ${d.rival.l} defeats.` : ''}${d.next && d.next.pr ? ` Next: ${d.next.home} v ${d.next.away}, ${whenTxt(d.next)}; chances ${d.next.home} ${d.next.pr.p[0]}%, draw ${d.next.pr.p[1]}%, ${d.next.away} ${d.next.pr.p[2]}%.` : ''}`];
     if (C) alts.push(`Line chart of ${t}'s Formline rating since ${new Date(C.from).getUTCFullYear()}. Peak ${C.peak.r} on ${shortDay(C.peak.date)}, low ${C.low.r} on ${shortDay(C.low.date)}, now ${T.rating}.`);
     return {title:`${t} spotlight`, slides:[s1, s2, s3].filter(Boolean), x, alts,
-      caption:`${t} ${d.g === 'women' ? "women's" : "men's"} national team: rating, ranking and form ${eT}🔦\n\n📊 Rated ${T.rating}${T.rank ? `, ${ord(T.rank)} of ${T.ranked}` : ''}${chg ? `. ${chg} ${d.change > 0 ? '📈' : d.change < 0 ? '📉' : ''}`.trimEnd() : ''}. Last five: ${form}.${C ? `\n\n⛰️ Best since ${new Date(C.from).getUTCFullYear()}: ${C.peak.r} (${yr(C.peak.date)}). Lowest: ${C.low.r} (${yr(C.low.date)}).` : ''}${d.rival ? `\n\n⚔️ Most-played opponent: ${fe(d.rival.oppFlag)}${d.rival.opp}, ${d.rival.n} meetings (${d.rival.w} wins, ${d.rival.d} draws, ${d.rival.l} defeats).` : ''}${d.next && d.next.pr ? `\n\n🗓️ Next up: ${d.next.home} v ${d.next.away}, ${d.next.day}.` : ''}\n\nEvery team has its own page on Formline (link in bio) 👆\n\n${hashtags(d.g, [t], d.next ? d.next.comp : null, 'spotlight')}`,
+      caption:`${t} ${d.g === 'women' ? "women's" : "men's"} national team: rating, ranking and form ${eT}🔦\n\n📊 Rated ${T.rating}${T.rank ? `, ${ord(T.rank)} of ${T.ranked}` : ''}${chg ? `. ${chg} ${d.change > 0 ? '📈' : d.change < 0 ? '📉' : ''}`.trimEnd() : ''}. Last five: ${form}.${C ? `\n\n⛰️ Best since ${new Date(C.from).getUTCFullYear()}: ${C.peak.r} (${yr(C.peak.date)}). Lowest: ${C.low.r} (${yr(C.low.date)}).` : ''}${d.rival ? `\n\n⚔️ Most-played opponent: ${fe(d.rival.oppFlag)}${d.rival.opp}, ${d.rival.n} meetings (${d.rival.w} wins, ${d.rival.d} draws, ${d.rival.l} defeats).` : ''}${d.next && d.next.pr ? `\n\n🗓️ Next up: ${d.next.home} v ${d.next.away}, ${whenTxt(d.next)}.` : ''}\n\nEvery team has its own page on Formline (link in bio) 👆\n\n${hashtags(d.g, [t], d.next ? d.next.comp : null, 'spotlight')}`,
       xText:`🔦 Team spotlight: ${eT}${t}\n\n📊 Rating ${T.rating}${T.rank ? ` · ${ord(T.rank)} of ${T.ranked}` : ''}\n🔥 Last five: ${form}${C ? `\n⛰️ Peak since ${new Date(C.from).getUTCFullYear()}: ${C.peak.r} (${yr(C.peak.date)})` : ''}${d.rival ? `\n⚔️ v ${d.rival.opp}: ${d.rival.w}–${d.rival.d}–${d.rival.l} in ${d.rival.n}` : ''}\n\n${url}`};
   },
   onthisday(d){
@@ -292,18 +297,18 @@ ${U ? `<div class="box" style="margin-top:22px;display:grid;grid-template-column
 ${S && S.n ? `<div class="box" style="margin-top:20px"><div class="lab">Since then: ${S.n} meeting${S.n === 1 ? '' : 's'}</div>${recBlock(d.home.modern, d.away.modern, S.w, S.d, S.l, S.n)}
 ${S.last.map(m => `<div class="body" style="font-size:23px">${m.year}: ${esc(m.home)} ${m.hs}–${m.as} ${esc(m.away)} <span class="dim">(${esc(m.comp)})</span></div>`).join('')}</div>`
   : `<p class="body" style="margin-top:22px">They haven't met since${tie ? ', until now' : ''}.</p>`}
-${tie && N && N.pr ? `<div class="box" style="margin-top:20px"><div class="lab">Next: ${esc(N.home)} v ${esc(N.away)}, ${esc(N.day)}</div>${pickBar(N.pr.p, N.home, N.away)}</div>` : ''}`) : null;
+${tie && N && N.pr ? `<div class="box" style="margin-top:20px"><div class="lab">Next: ${esc(N.home)} v ${esc(N.away)}, ${esc(N.day)}</div>${pickBar(N.pr.p, N.home, N.away)}${koLine(N)}</div>` : ''}`) : null;
     const x = wide(`<div class="kick" style="font-size:20px">${tie ? `Before they meet again · ${d.year}` : `On this day, ${d.year}`} · ${esc(what)}</div>
 <div class="match" style="margin-top:20px"><div class="side" style="font-size:34px;gap:10px">${flagImg(d.home.flag, 80)}${esc(H)}</div><div class="score" style="font-size:96px">${d.hs}–${d.as}</div><div class="side" style="font-size:34px;gap:10px">${flagImg(d.away.flag, 80)}${esc(A)}</div></div>
 ${wp != null && wp < 35 ? `<p class="body" style="text-align:center;margin-top:18px">${esc(winner)} had a ${wp}% chance going in</p>` : ''}`);
-    const alts = [`${tie ? `Before ${N.home} v ${N.away} on ${N.day}, a look back` : `On this day ${d.yearsAgo} years ago`}: ${what}, ${H} ${d.hs}–${d.as} ${A}, ${shortDay(d.date)}${venue(d) ? `, in ${venue(d)}` : ''}.${d.pen ? ` ${d.pen} won on penalties.` : ''}`,
+    const alts = [`${tie ? `Before ${N.home} v ${N.away} on ${whenTxt(N)}, a look back` : `On this day ${d.yearsAgo} years ago`}: ${what}, ${H} ${d.hs}–${d.as} ${A}, ${shortDay(d.date)}${venue(d) ? `, in ${venue(d)}` : ''}.${d.pen ? ` ${d.pen} won on penalties.` : ''}`,
       `${H} v ${A}, ${d.year}.${d.p ? ` Chances before kick-off, from the ratings at the time: ${H} ${d.p[0]}%, draw ${d.p[1]}%, ${A} ${d.p[2]}%.` : ''}${d.h2h.n > 1 ? ` All-time between them: ${d.home.modern} ${d.h2h.w} wins, ${d.h2h.d} draws, ${d.away.modern} ${d.h2h.l} wins, ${d.h2h.n} meetings.` : ''}`];
     if (s3) alts.push(`${d.comp} ${d.edition}.${E ? ` Champions: ${E.champ}${E.final ? `, final ${E.final.home} ${E.final.hs}–${E.final.as} ${E.final.away}${E.final.pen ? ` (${E.final.pen} on penalties)` : ''}` : ''}.${E.home ? ` ${d.home.modern} ${E.home}.` : ''}${E.away ? ` ${d.away.modern} ${E.away}.` : ''}` : ''}${U ? ` Biggest upset: ${U.home} ${U.hs}–${U.as} ${U.away}, ${U.winner} given ${U.wp}%.` : ''}`);
     if (s4) alts.push(`Then and now. ${d.home.modern}: ${T.home && T.home.rank ? `${ord(T.home.rank)} (${T.home.rating})` : 'not ranked'} in ${d.year}, ${W.home && W.home.rank ? `${ord(W.home.rank)} (${W.home.rating})` : 'not ranked'} today. ${d.away.modern}: ${T.away && T.away.rank ? `${ord(T.away.rank)} (${T.away.rating})` : 'not ranked'} in ${d.year}, ${W.away && W.away.rank ? `${ord(W.away.rank)} (${W.away.rating})` : 'not ranked'} today.${S && S.n ? ` Since then: ${S.n} meetings, ${d.home.modern} ${S.w} wins, ${S.d} draws, ${d.away.modern} ${S.l} wins.` : ''}`);
     const rankLine = (T.home && T.away && W.home && W.away && T.home.rank && T.away.rank && W.home.rank && W.away.rank) ? `\n\n📈 Then and now: ${d.home.modern} ${ord(T.home.rank)} → ${ord(W.home.rank)}, ${d.away.modern} ${ord(T.away.rank)} → ${ord(W.away.rank)} in Formline's world ranking.` : '';
     const endLine = E ? `\n\n🏆 ${E.champ} went on to win the ${d.comp}${E.home && E.champ !== d.home.modern ? `; ${d.home.modern} ${E.home}` : ''}${E.away && E.champ !== d.away.modern ? `; ${d.away.modern} ${E.away}` : ''}.` : '';
     const sinceLine = S && S.n ? `\n\n🤝 Since then: ${S.n} meeting${S.n === 1 ? '' : 's'}, ${d.home.modern} ${S.w} wins, ${S.d} draws, ${d.away.modern} ${S.l} wins.` : '';
-    const nextLine = tie && N ? `\n\n🗓️ They meet again ${N.day}${N.comp ? ` (${N.comp})` : ''}${N.pr ? `: ${N.home} ${N.pr.p[0]}%, draw ${N.pr.p[1]}%, ${N.away} ${N.pr.p[2]}%` : ''}.` : '';
+    const nextLine = tie && N ? `\n\n🗓️ They meet again ${whenTxt(N)}${N.comp ? ` (${N.comp})` : ''}${N.pr ? `: ${N.home} ${N.pr.p[0]}%, draw ${N.pr.p[1]}%, ${N.away} ${N.pr.p[2]}%` : ''}.` : '';
     const core = tie ? `${N.home} v ${N.away}: remember ${d.year}? ${H} ${d.hs}–${d.as} ${A}` : `On this day in ${d.year}: ${H} ${d.hs}–${d.as} ${A}`;
     const emo = tie ? `${(fe(N.homeFlag) + fe(N.awayFlag)).trim()}${fe(N.homeFlag) || fe(N.awayFlag) ? ' ' : ''}⏪` : `${(eH + eA).trim()}${eH || eA ? ' ' : ''}🗓️`;
     const head = `${core} ${emo}`;
@@ -322,7 +327,7 @@ ${wp != null && wp < 35 ? `<p class="body" style="text-align:center;margin-top:1
     const s2 = slide(`<div class="kick">${esc(A)} v ${esc(B)}</div><h2>${esc(lead)}</h2>
 <ul class="facts" style="margin-top:34px"><li><b>First meeting on record:</b> ${esc(d.first.home)} ${d.first.hs}–${d.first.as} ${esc(d.first.away)}, ${d.first.year}</li>
 ${big(d.bigA, A)}${big(d.bigB, B)}<li><b>Most recent:</b> ${esc(d.last.home)} ${d.last.hs}–${d.last.as} ${esc(d.last.away)}, ${d.last.year}</li></ul>
-${d.next && d.next.pr ? `<div class="box"><div class="lab">Next: ${esc(d.next.home)} v ${esc(d.next.away)}, ${esc(d.next.day)}</div>${pickBar(d.next.pr.p, d.next.home, d.next.away)}</div>` : ''}`);
+${d.next && d.next.pr ? `<div class="box"><div class="lab">Next: ${esc(d.next.home)} v ${esc(d.next.away)}, ${esc(d.next.day)}</div>${pickBar(d.next.pr.p, d.next.home, d.next.away)}${koLine(d.next)}</div>` : ''}`);
     /* Decade by decade, and the meetings at the big tournaments. */
     const decs = d.decades || [], many = decs.length > 9, fin = d.finals || [];
     const ko = fin.filter(f => f.stage && !/group|league/i.test(f.stage)), show = (ko.length ? ko : fin).slice(-4).reverse();
@@ -336,11 +341,11 @@ ${show.map(f => `<div class="body" style="font-size:${many ? 22 : 25}px">${f.yea
 <div class="match" style="margin-top:14px"><div class="side" style="font-size:34px;gap:10px">${flagImg(d.a.flag, 72)}${esc(A)}</div><div class="vs">v</div><div class="side" style="font-size:34px;gap:10px">${flagImg(d.b.flag, 72)}${esc(B)}</div></div>
 <div style="margin-top:14px">${recBlock(A, B, d.w, d.d, d.l, d.n).replace(/font-size:96px/g, '')}</div>`.replace('class="rec"', 'class="rec" style="--x:1"'));
     const alts = [`Rivalry, ${A} v ${B} (${GAME[d.g].toLowerCase()}), ${d.n} meetings: ${A} ${d.w} wins, ${d.d} draws, ${B} ${d.l} wins. Goals ${d.gf}–${d.ga}. Penalty shoot-outs count as wins.`,
-      `${A} v ${B}: ${lead}. First meeting on record: ${d.first.home} ${d.first.hs}–${d.first.as} ${d.first.away}, ${d.first.year}.${d.bigA ? ` ${A}'s biggest win: ${d.bigA.home} ${d.bigA.hs}–${d.bigA.as} ${d.bigA.away}, ${d.bigA.year}.` : ''}${d.bigB ? ` ${B}'s biggest win: ${d.bigB.home} ${d.bigB.hs}–${d.bigB.as} ${d.bigB.away}, ${d.bigB.year}.` : ''} Most recent: ${d.last.home} ${d.last.hs}–${d.last.as} ${d.last.away}, ${d.last.year}.${d.next && d.next.pr ? ` Next: ${d.next.home} v ${d.next.away}, ${d.next.day}; chances ${d.next.home} ${d.next.pr.p[0]}%, draw ${d.next.pr.p[1]}%, ${d.next.away} ${d.next.pr.p[2]}%.` : ''}`];
+      `${A} v ${B}: ${lead}. First meeting on record: ${d.first.home} ${d.first.hs}–${d.first.as} ${d.first.away}, ${d.first.year}.${d.bigA ? ` ${A}'s biggest win: ${d.bigA.home} ${d.bigA.hs}–${d.bigA.as} ${d.bigA.away}, ${d.bigA.year}.` : ''}${d.bigB ? ` ${B}'s biggest win: ${d.bigB.home} ${d.bigB.hs}–${d.bigB.as} ${d.bigB.away}, ${d.bigB.year}.` : ''} Most recent: ${d.last.home} ${d.last.hs}–${d.last.as} ${d.last.away}, ${d.last.year}.${d.next && d.next.pr ? ` Next: ${d.next.home} v ${d.next.away}, ${whenTxt(d.next)}; chances ${d.next.home} ${d.next.pr.p[0]}%, draw ${d.next.pr.p[1]}%, ${d.next.away} ${d.next.pr.p[2]}%.` : ''}`];
     if (s3) alts.push(`${A} v ${B} decade by decade (${A} wins, draws, ${B} wins): ${decs.map(D => `${D.dec}s ${D.w}–${D.d}–${D.l}`).join(', ')}.${fin.length ? ` ${fin.length} meetings at major tournaments. ${show.map(f => `${f.year} ${f.comp}${f.stage && !/group/i.test(f.stage) ? ` ${f.stage.toLowerCase()}` : ''}: ${f.home} ${f.hs}–${f.as} ${f.away}${f.pen ? `, ${f.pen} on penalties` : ''}`).join('; ')}.` : ''}`);
     const bestDec = decs.length >= 3 ? decs.slice().sort((p, q) => Math.abs(q.w - q.l) - Math.abs(p.w - p.l))[0] : null;
     return {title:`${A} v ${B} rivalry`, slides:[s1, s2, s3].filter(Boolean), x, alts,
-      caption:`${A} v ${B} head to head: ${d.n} meetings since ${d.first.year} ${(eA + eB).trim()}${eA || eB ? ' ' : ''}⚔️\n\n${lead}, with ${d.d} draws.\n\n📜 First meeting on record: ${d.first.home} ${d.first.hs}–${d.first.as} ${d.first.away} (${d.first.year}).${d.bigA ? ` ${A}'s biggest win: ${d.bigA.hs}–${d.bigA.as} in ${d.bigA.year}.` : ''}${d.bigB ? ` ${B}'s: ${d.bigB.hs}–${d.bigB.as} in ${d.bigB.year}.` : ''}${bestDec && bestDec.w !== bestDec.l ? `\n\n📅 Most one-sided decade: the ${bestDec.dec}s, ${bestDec.w > bestDec.l ? A : B} won ${Math.max(bestDec.w, bestDec.l)} of ${bestDec.n}.` : ''}${fin.length ? `\n\n🏆 ${fin.length} meeting${fin.length === 1 ? '' : 's'} at major tournaments.` : ''}${d.next && d.next.pr ? `\n\n🗓️ They meet again ${d.next.day}: ${d.next.home} ${d.next.pr.p[0]}%, draw ${d.next.pr.p[1]}%, ${d.next.away} ${d.next.pr.p[2]}%.` : ''}\n\nEvery result between them is on Formline (link in bio) 👆\n\n${hashtags(d.g, [A, B], d.next ? d.next.comp : null, 'rivalry')}`,
+      caption:`${A} v ${B} head to head: ${d.n} meetings since ${d.first.year} ${(eA + eB).trim()}${eA || eB ? ' ' : ''}⚔️\n\n${lead}, with ${d.d} draws.\n\n📜 First meeting on record: ${d.first.home} ${d.first.hs}–${d.first.as} ${d.first.away} (${d.first.year}).${d.bigA ? ` ${A}'s biggest win: ${d.bigA.hs}–${d.bigA.as} in ${d.bigA.year}.` : ''}${d.bigB ? ` ${B}'s: ${d.bigB.hs}–${d.bigB.as} in ${d.bigB.year}.` : ''}${bestDec && bestDec.w !== bestDec.l ? `\n\n📅 Most one-sided decade: the ${bestDec.dec}s, ${bestDec.w > bestDec.l ? A : B} won ${Math.max(bestDec.w, bestDec.l)} of ${bestDec.n}.` : ''}${fin.length ? `\n\n🏆 ${fin.length} meeting${fin.length === 1 ? '' : 's'} at major tournaments.` : ''}${d.next && d.next.pr ? `\n\n🗓️ They meet again ${whenTxt(d.next)}: ${d.next.home} ${d.next.pr.p[0]}%, draw ${d.next.pr.p[1]}%, ${d.next.away} ${d.next.pr.p[2]}%.` : ''}\n\nEvery result between them is on Formline (link in bio) 👆\n\n${hashtags(d.g, [A, B], d.next ? d.next.comp : null, 'rivalry')}`,
       xText:`⚔️ ${eA}${A} v ${B}${eB ? ' ' + eB.trim() : ''}: ${d.n} meetings since ${d.first.year}\n\n${A} ${d.w} · Draws ${d.d} · ${B} ${d.l}\n${lead}\n\nEvery result: ${url}`};
   },
   tournament(d){
@@ -546,11 +551,11 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     await page.addScriptTag({path:path.join(ROOT, 'build', 'social', 'collect.js')});
     /* Collectors pick matches relative to the time the post goes out: 14:00 UTC that day (9 am in Toronto in winter, 10 am
        in summer), so a match preview covers a match kicking off 8 to 56 hours after the post. */
-    const now = Date.parse(date + (slot === 'c' ? 'T12:00:00Z' : slot ? 'T23:00:00Z' : 'T14:00:00Z'));
+    const now = Date.parse(date + (slot === 'c' ? 'T13:00:00Z' : slot ? 'T23:00:00Z' : 'T14:00:00Z'));
     const run = (t, extra = {}) => page.evaluate(([t, now, used, extra]) => window.FL_SOCIAL[t]({now, used, ...extra}), [t, now, used, extra]);
     const dow = new Date(date + 'T12:00:00Z').getUTCDay();
     let order = type ? [type] : [WEEK[dow]];
-    /* SOCIAL_SLOT=c: window days, the results roundup of the day before, out at 7 am Toronto on Bluesky and Instagram. */
+    /* SOCIAL_SLOT=c: window days, the results roundup of the day before, out at 8 am Toronto on Bluesky and Instagram. */
     let data = null;
     if (slot === 'c'){
       const w3 = await page.evaluate(now => window.FL_SOCIAL.windowOn({now}), now);
@@ -564,9 +569,11 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
       /* The evening post in a window: another match preview, else a tie-in, the tournament chances or the movers, but not
          the same kind as this morning's unless it's a preview. */
       /* The morning's kind is the latest one that isn't the roundup (made between the two). On a Monday whose morning went to
-         today's matches, the weekly rankings move here. */
+         today's matches, the weekly rankings move here; on a Thursday the tournament chances (Thursday's usual post) open
+         the evening unless they already went out in the morning. */
       const am = recentTypes.find(t => t !== 'roundup');
-      order = (dow === 1 && am === 'today' ? ['rankings', 'match', 'tieIn', 'tournament', 'spotlight'] : ['match', 'tieIn', 'tournament', 'rankings', 'spotlight']).filter((t, i) => i === 0 || t !== am);
+      order = (dow === 1 && am === 'today' ? ['rankings', 'match', 'tieIn', 'tournament', 'spotlight'] :
+        dow === 4 && am !== 'tournament' ? ['tournament', 'match', 'tieIn', 'rankings', 'spotlight'] : ['match', 'tieIn', 'tournament', 'rankings', 'spotlight']).filter((t, i) => i === 0 || t !== am);
       console.log(`Evening post (${w2.n} matches around today): ${order.join(', ')}.`);
     }
     /* International windows: no plain history posts. Sunday's past tournament and Wednesday's on-this-day give way to
