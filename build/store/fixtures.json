@@ -3760,24 +3760,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1647359": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T17:30:00+00:00",
-  "home_team": "Malta",
-  "away_team": "Eswatini",
-  "tournament": "Friendly",
-  "city": "",
-  "country": "Malta",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647359,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "assumed"
- },
  "1647360": {
   "date": "2026-11-13",
   "kickoff": "2026-11-13T12:00:00+00:00",
