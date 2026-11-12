@@ -4679,7 +4679,7 @@
    "boxDate": "2026-11-12",
    "kickoff": "2026-11-12T19:00:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1649030": {
   "date": "2026-11-12",
@@ -4687,9 +4687,9 @@
   "home_team": "Antigua and Barbuda",
   "away_team": "Trinidad and Tobago",
   "tournament": "CONCACAF Nations League",
-  "city": "St. John's",
-  "country": "Antigua and Barbuda",
-  "neutral": "FALSE",
+  "city": "Antigua",
+  "country": "Guatemala",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1649030,
   "league": "CONCACAF Nations League",
@@ -4704,7 +4704,7 @@
    "boxDate": "2026-11-12",
    "kickoff": "2026-11-12T23:00:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1649031": {
   "date": "2026-11-13",
