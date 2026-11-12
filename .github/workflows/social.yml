@@ -3,11 +3,13 @@ name: Daily social post
 # Instagram slides, the caption and an X version to post by hand. On international-window days two more posts are made
 # at the same time, each with its own review issue: the results roundup of the day before (SOCIAL_SLOT=c) and a second
 # post, usually another match preview (SOCIAL_SLOT=b). Later: post each one to Bluesky and Instagram unless its issue
-# was closed (build/social-publish.mjs). Times are UTC: 10:27 is 5:27 am in Toronto in winter, 14:07 is 9:07 am (the
-# day's post), 20:07 is 3:07 pm (results) and 23:07 is 6:07 pm (evening post); an hour later in summer.
+# was closed (build/social-publish.mjs). Times are UTC: 10:27 is 5:27 am in Toronto in winter, 12:07 is 7:07 am
+# (results), 14:07 is 9:07 am (the day's post; today's matches on window days) and 23:07 is 6:07 pm (evening post); an
+# hour later in summer. 20:07 (3:07 pm, the results' old time) stays as a second try: it does nothing once they are out.
 on:
   schedule:
     - cron: '27 10 * * *'
+    - cron: '7 12 * * *'
     - cron: '7 14 * * *'
     - cron: '7 20 * * *'
     - cron: '7 23 * * *'
@@ -19,7 +21,7 @@ on:
         options: [prepare, publish, publish-results, publish-evening]
         default: prepare
       type:
-        description: 'Kind of morning post (blank = the usual for the day): match, spotlight, onThisDay, rivalry, tournament, pastTournament, rankings'
+        description: 'Kind of morning post (blank = the usual for the day): match, spotlight, onThisDay, rivalry, tournament, pastTournament, rankings, today'
         required: false
         default: ''
 permissions:
@@ -106,7 +108,7 @@ jobs:
           if [ -n "$TITLE2" ]; then gh issue create --title "Post for $SOCIAL_DATE (evening): $TITLE2" --label social-post --body-file "$RUNNER_TEMP/q/issue-b.md"; fi
 
   publish:
-    if: (github.event_name == 'schedule' && (github.event.schedule == '7 14 * * *' || github.event.schedule == '7 20 * * *' || github.event.schedule == '7 23 * * *')) || (github.event_name == 'workflow_dispatch' && (inputs.step == 'publish' || inputs.step == 'publish-results' || inputs.step == 'publish-evening'))
+    if: (github.event_name == 'schedule' && (github.event.schedule == '7 14 * * *' || github.event.schedule == '7 12 * * *' || github.event.schedule == '7 20 * * *' || github.event.schedule == '7 23 * * *')) || (github.event_name == 'workflow_dispatch' && (inputs.step == 'publish' || inputs.step == 'publish-results' || inputs.step == 'publish-evening'))
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
@@ -115,7 +117,7 @@ jobs:
       BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
       BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
       HAS_ADMIN: ${{ secrets.FORMLINE_ADMIN_TOKEN != '' }}
-      SOCIAL_SLOT: ${{ (github.event.schedule == '7 20 * * *' || inputs.step == 'publish-results') && 'c' || (github.event.schedule == '7 23 * * *' || inputs.step == 'publish-evening') && 'b' || '' }}
+      SOCIAL_SLOT: ${{ (github.event.schedule == '7 12 * * *' || github.event.schedule == '7 20 * * *' || inputs.step == 'publish-results') && 'c' || (github.event.schedule == '7 23 * * *' || inputs.step == 'publish-evening') && 'b' || '' }}
     steps:
       - uses: actions/checkout@v5
         with:

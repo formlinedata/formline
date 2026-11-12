@@ -236,13 +236,14 @@ S.windowOn = async ({now}) => {
 
 
 /* Results roundup: one day's results (a date, Toronto's) with Formline's published calls, the upsets, and the window so far.
-   Only forecasts saved before kick-off count (data/forecasts.json). */
+   Only forecasts saved before kick-off count (data/forecasts.json). A day with fewer than five results gets no roundup of
+   its own; its matches still count in the next roundup's "window so far". */
 S.roundup = async ({now, day}) => {
   day = day || new Date(now - 864e5).toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
   const all = ((state.record && state.record.entries) || []).filter(e => e.p && e.result && !e.void);
   const local = e => e.kickoff ? new Date(e.kickoff).toLocaleDateString('en-CA', {timeZone:'America/Toronto'}) : e.date;
   const list = all.filter(e => local(e) === day);
-  if (list.length < 3) return null;
+  if (list.length < 5) return null;
   const out = [];
   for (const g of ['men', 'women']){
     const es = list.filter(e => e.g === g); if (!es.length) continue;
@@ -251,11 +252,20 @@ S.roundup = async ({now, day}) => {
       const kh = c.resolve(e.home), ka = c.resolve(e.away), A = c.byKey.get(kh), B = c.byKey.get(ka), ts = Date.parse(e.date + 'T12:00:00Z');
       const o = e.result[0] > e.result[1] ? 0 : e.result[0] < e.result[1] ? 2 : 1, call = e.p.indexOf(Math.max(...e.p));
       out.push({g, home:dn(kh || e.home), away:dn(ka || e.away), hs:e.result[0], as:e.result[1], comp:compName(e.tournament),
-        hf:flagSrc(dn(kh || e.home), ts), af:flagSrc(dn(ka || e.away), ts), p:e.p.map(pct), call, o, hit:call === o,
+        hf:flagSrc(dn(kh || e.home), ts), af:flagSrc(dn(ka || e.away), ts), p:e.p.map(pct), call, o, hit:call === o, kh, ka, ts,
         top:(A && A.rank ? A.rank : 999) + (B && B.rank ? B.rank : 999) + (g === 'women' ? 40 : 0)});
     }
   }
   out.sort((a, b) => a.top - b.top);
+  /* The result of the day: the match between the highest-ranked sides, with what it did to both ratings (once the nightly
+     run has rated it). */
+  let big = null;
+  if (out[0] && out[0].top < 1998){
+    const b = out[0], c = await useG(b.g);
+    const side = (key, opp) => { const r = c.byKey.get(key), h = (c.history.get(key) || []).filter(x => x.opp === opp && Math.abs(x.ts - b.ts) <= 1.5 * 864e5).pop();
+      return {rank:r && r.rank ? r.rank : null, rating:h ? Math.round(h.rating) : (r ? Math.round(r.rating) : null), delta:h ? Math.round(h.rating) - Math.round(h.pre) : null}; };
+    big = {g:b.g, home:b.home, away:b.away, hs:b.hs, as:b.as, comp:b.comp, hf:b.hf, af:b.af, p:b.p, call:b.call, o:b.o, hit:b.hit, H:side(b.kh, b.ka), A:side(b.ka, b.kh)};
+  }
   const hits = out.filter(x => x.hit).length;
   const ups = out.filter(x => x.o !== 1 && x.p[x.o] < 35).sort((a, b) => a.p[a.o] - b.p[b.o]).slice(0, 4);
   /* The window so far: every scored forecast in the last ten days. */
@@ -264,15 +274,15 @@ S.roundup = async ({now, day}) => {
   const winHits = win.filter(e => e.p.indexOf(Math.max(...e.p)) === (e.result[0] > e.result[1] ? 0 : e.result[0] < e.result[1] ? 2 : 1)).length;
   return {type:'roundup', id:'roundup|' + day, g:out.some(x => x.g === 'men') ? 'men' : 'women', day,
     dayTxt:new Date(day + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}),
-    n:out.length, hits, list:out, ups, win:{n:win.length, hits:winHits}};
+    n:out.length, hits, list:out, ups, big, win:{n:win.length, hits:winHits}};
 };
 
-/* Instagram Story on window days: today's matches (Toronto's date) and Formline's published calls, biggest first. */
-S.storyToday = async ({now}) => {
+/* Today's matches (Toronto's date) with Formline's published calls, biggest first, leaving out any that kicked off before
+   the post goes out. Each row carries its kick-off; social.mjs writes it out in Toronto and UK time. */
+async function todayList(now){
   const day = new Date(now).toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
-  const es = ((state.record && state.record.entries) || []).filter(e => e.p && !e.void &&
+  const es = ((state.record && state.record.entries) || []).filter(e => e.p && !e.void && !e.result && !(e.kickoff && Date.parse(e.kickoff) <= now) &&
     (e.kickoff ? new Date(e.kickoff).toLocaleDateString('en-CA', {timeZone:'America/Toronto'}) : e.date) === day);
-  if (es.length < 3) return null;
   const out = [];
   for (const g of ['men', 'women']){
     const mine = es.filter(e => e.g === g); if (!mine.length) continue;
@@ -281,12 +291,24 @@ S.storyToday = async ({now}) => {
       const kh = c.resolve(e.home), ka = c.resolve(e.away), A = c.byKey.get(kh), B = c.byKey.get(ka), ts = Date.parse(e.date + 'T12:00:00Z');
       const call = e.p.indexOf(Math.max(...e.p));
       out.push({g, home:dn(kh || e.home), away:dn(ka || e.away), hf:flagSrc(dn(kh || e.home), ts), af:flagSrc(dn(ka || e.away), ts), p:e.p.map(pct), call,
+        kickoff:e.kickoff || '', comp:compName(e.tournament),
         time:e.kickoff ? new Date(e.kickoff).toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', timeZone:'America/Toronto'}) : '',
         top:(A && A.rank ? A.rank : 999) + (B && B.rank ? B.rank : 999) + (g === 'women' ? 40 : 0)});
     }
   }
   out.sort((a, b) => a.top - b.top);
-  return {day, dayTxt:new Date(day + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}), n:out.length, list:out.slice(0, 9)};
+  return {day, dayTxt:new Date(day + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}), n:out.length, list:out};
+}
+/* Instagram Story on window days: the nine biggest of today's matches. */
+S.storyToday = async ({now}) => {
+  const t = await todayList(now);
+  return t.n < 3 ? null : {...t, list:t.list.slice(0, 9)};
+};
+/* The morning feed post on window days: today's matches, when at least five have a published forecast. */
+S.today = async ({now}) => {
+  const t = await todayList(now);
+  if (t.n < 5) return null;
+  return {type:'today', id:'today|' + t.day, g:t.list[0].g, ...t, list:t.list.slice(0, 33)};
 };
 
 /* Context for a past match (on-this-day and tie-in posts): how its tournament ended, both sides then v now, that
@@ -396,8 +418,44 @@ S.tournament = async ({now, used}) => {
   const R = await new Promise(done => simulate(P, 10000, seed, done));
   const N = R.nStage, rows = R.names.map((t, i) => ({team:dn(t), flag:flagSrc(t), win:R.reach[i][N - 1] / R.runs, ko:R.reach[i][0] / R.runs}))
     .sort((a, b) => b.win - a.win || b.ko - a.ko);
+  /* The groups as they stand: the results already played, in the tournament's own order (points, then head to head or goal
+     difference as its rules say; level sides by their chance of going through), with each side's chance of winning the
+     group and of reaching the first knockout round. */
+  const ix = new Map(R.names.map((t, i) => [t, i])), koOf = t => 100 * R.reach[ix.get(t)][0] / R.runs, firstOf = t => 100 * R.pos[ix.get(t)][0] / R.runs;
+  const groups = Object.entries(T.groups || {}).map(([gn, teams]) => {
+    const fx = P.fixtures.filter(f => f.g === gn), done = fx.filter(f => f.played);
+    const tab = teams.map(t => ({t, pl:0, p:0, gd:0, gf:0})), by = new Map(tab.map(r => [r.t, r]));
+    for (const f of done){ const [x, y] = f.played, A = by.get(f.home), B = by.get(f.away);
+      A.pl++; B.pl++; A.gf += x; B.gf += y; A.gd += x - y; B.gd += y - x; if (x > y) A.p += 3; else if (x < y) B.p += 3; else { A.p++; B.p++; } }
+    const h2h = (r, set) => { let p = 0, gd = 0, gf = 0;
+      for (const m of done) if (set.has(m.home) && set.has(m.away)){ const [x, y] = m.played;
+        if (m.home === r.t){ gf += x; gd += x - y; p += x > y ? 3 : (x === y ? 1 : 0); }
+        if (m.away === r.t){ gf += y; gd += y - x; p += y > x ? 3 : (x === y ? 1 : 0); } }
+      return [p, gd, gf]; };
+    const last = (u, v) => koOf(v.t) - koOf(u.t) || firstOf(v.t) - firstOf(u.t) || dn(u.t).localeCompare(dn(v.t));
+    if (T.tiebreak === 'h2h'){
+      const byP = new Map(); tab.forEach(r => { if (!byP.has(r.p)) byP.set(r.p, new Set()); byP.get(r.p).add(r.t); });
+      tab.forEach(r => { const st = byP.get(r.p); r.h = st.size > 1 ? h2h(r, st) : [0, 0, 0]; });
+      tab.sort((u, v) => v.p - u.p || v.h[0] - u.h[0] || v.h[1] - u.h[1] || v.h[2] - u.h[2] || v.gd - u.gd || v.gf - u.gf || last(u, v));
+    } else tab.sort((u, v) => v.p - u.p || v.gd - u.gd || v.gf - u.gf || last(u, v));
+    return {name:gn, played:done.length, total:fx.length, rows:tab.map(r => ({team:dn(r.t), flag:flagSrc(r.t), pl:r.pl, pts:r.p, gd:r.gd, ko:koOf(r.t), first:firstOf(r.t)}))};
+  });
+  /* What is still to play in the groups: each unplayed group match that has a date in the fixture list, soonest first. */
+  const sched = ((state.fixtures && state.fixtures[T.gender]) || []).filter(x => (!T.tournament || x.tournament === T.tournament) && Date.parse(x.kickoff || (x.date + 'T12:00:00Z')) > now);
+  const taken = new Set(), left = [], open = P.fixtures.filter(f => !f.played);
+  for (const f of open){
+    const kh = c.resolve(f.home), ka = c.resolve(f.away);
+    const x = sched.find(x => !taken.has(x) && ((keyOfName(x.home) === kh && keyOfName(x.away) === ka) || (T.rounds !== 2 && keyOfName(x.home) === ka && keyOfName(x.away) === kh)));
+    if (!x) continue; taken.add(x);
+    const pr = predictFx(c, x); if (!pr) continue;
+    const xh = keyOfName(x.home), xa = keyOfName(x.away), ko = Date.parse(x.kickoff || (x.date + 'T12:00:00Z'));
+    left.push({group:f.g, home:dn(xh || x.home), away:dn(xa || x.away), hf:flagSrc(dn(xh || x.home)), af:flagSrc(dn(xa || x.away)), kickoff:x.kickoff || '', date:x.date, ko,
+      day:new Date(ko).toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short', timeZone:'UTC'}), p:pr.p, call:pr.p.indexOf(Math.max(...pr.p))});
+  }
+  left.sort((a, b) => a.ko - b.ko || a.home.localeCompare(b.home));
   return {type:'tournament', g:T.gender, id:'tournament|' + T.id, name:T.name, short:T.short, where:T.where, status:T.status, start:T.start, end:T.end,
-    firstKo:T.knockout[0].name, teams:rows.length, rows:rows.slice(0, 8).map(r => Object.assign(r, {win:r.win * 100, ko:r.ko * 100}))};
+    firstKo:T.knockout[0].name, koCol:T.knockout[0].col || T.knockout[0].name, teams:rows.length, rows:rows.slice(0, 8).map(r => Object.assign(r, {win:r.win * 100, ko:r.ko * 100})),
+    groups, groupsPlayed:groups.reduce((n, g) => n + g.played, 0), toPlay:{n:open.length, dated:left.length, list:left.slice(0, 8)}};
 };
 
 /* 6. Tournament from the past: a major final whose anniversary is this week, else the next in rotation. */

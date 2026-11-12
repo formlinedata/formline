@@ -535,4 +535,11 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   ok(findUpsets(es, ['w|2026-11-28|Jamaica|Haiti'], now).length === 0, 'upset alerts: an upset already posted is not posted again');
   ok(/Haiti a 16% chance/.test(alertText(u[0]).text), 'upset alerts: the text gives the winner\'s chance');
 }
+/* Kick-off times on social posts: Toronto and UK time, with the weekday where a zone is on another day. */
+{
+  const {koText} = await import('./social.mjs');
+  ok(koText('2026-11-12T19:45:00+00:00', '2026-11-12') === '2:45 PM ET · 7:45 PM UK', 'social posts: a kick-off is given in Toronto and UK time');
+  ok(koText('2026-11-13T00:30:00+00:00', '2026-11-12') === '7:30 PM ET · 12:30 AM UK (Fri)', 'social posts: a zone where the match is on another day says which day');
+  ok(koText('2026-06-11T19:00:00+00:00', '2026-06-11') === '3:00 PM ET · 8:00 PM UK' && koText('', '2026-06-11') === '', 'social posts: summer time in both zones, and no text without a kick-off');
+}
 console.log('\n' + passed + ' checks passed');
