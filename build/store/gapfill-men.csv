@@ -3,7 +3,8 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,k
 2026-11-05,Bhutan,Bangladesh,0,1,SAFF Cup,Dhaka,Bangladesh,FALSE,2026-11-05T14:00:00+00:00,,1648703,SAFF Championship,,,2026-11-08T18:13:55.275Z
 2026-11-08,Maldives,Pakistan,0,3,SAFF Cup,Dhaka,Bangladesh,TRUE,2026-11-08T09:30:00+00:00,,1648704,SAFF Championship,,,2026-11-11T07:22:07.368Z
 2026-11-08,Sri Lanka,Bhutan,2,2,SAFF Cup,Dhaka,Bangladesh,TRUE,2026-11-08T14:00:00+00:00,,1648705,SAFF Championship,,,2026-11-11T07:22:07.368Z
-2026-11-11,Sint Maarten,Anguilla,5,1,Friendly,,Sint Maarten,FALSE,2026-11-11T00:30:00+00:00,,1649540,Friendlies,,,2026-11-12T02:37:17.352Z
-2026-11-11,India,Maldives,1,0,SAFF Cup,Dhaka,Bangladesh,TRUE,2026-11-11T09:30:00+00:00,,1648706,SAFF Championship,,,2026-11-12T02:37:17.352Z
-2026-11-11,Vietnam,Taiwan,2,0,Friendly,Nam Dinh,Vietnam,FALSE,2026-11-11T12:00:00+00:00,,1647357,Friendlies,,,2026-11-12T02:37:17.352Z
-2026-11-11,Bangladesh,Sri Lanka,4,0,SAFF Cup,Dhaka,Bangladesh,FALSE,2026-11-11T14:00:00+00:00,,1648707,SAFF Championship,,,2026-11-12T02:37:17.352Z
+2026-11-11,Sint Maarten,Anguilla,5,1,Friendly,,Sint Maarten,FALSE,2026-11-11T00:30:00+00:00,,1649540,Friendlies,,,2026-11-12T14:02:33.618Z
+2026-11-11,India,Maldives,1,0,SAFF Cup,Dhaka,Bangladesh,TRUE,2026-11-11T09:30:00+00:00,,1648706,SAFF Championship,,,2026-11-12T14:02:33.618Z
+2026-11-11,Vietnam,Taiwan,2,0,Friendly,Nam Dinh,Vietnam,FALSE,2026-11-11T12:00:00+00:00,,1647357,Friendlies,,,2026-11-12T14:02:33.618Z
+2026-11-11,Bangladesh,Sri Lanka,4,0,SAFF Cup,Dhaka,Bangladesh,FALSE,2026-11-11T14:00:00+00:00,,1648707,SAFF Championship,,,2026-11-12T14:02:33.618Z
+2026-11-12,New Zealand,India,5,0,Friendly,Auckland,New Zealand,FALSE,2026-11-12T06:10:00+00:00,,1586134,Friendlies,,,2026-11-12T14:02:33.618Z
