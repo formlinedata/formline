@@ -420,7 +420,7 @@ ${d.ups.map(u => `<div class="box" style="margin-top:22px;display:grid;grid-temp
   if (s4) alts.push(`The window so far: Formline called ${d.win.hits} of ${d.win.n} results, ${Math.round(100 * d.win.hits / d.win.n)}%.`);
   return {title:`Results: ${d.hits} of ${d.n}, ${d.dayTxt}`, slides:[s1, s2, s3, s4].filter(Boolean), x, alts,
     caption:`International football results, ${d.dayTxt}: Formline called ${d.hits} of ${d.n} (${pc}%) 📋\n\n${d.list.slice(0, 10).map(line).join('\n')}${d.list.length > 10 ? `\n…and ${d.list.length - 10} more in the slides` : ''}${upTxt ? '\n\n' + upTxt : ''}${d.win.n > d.n ? `\n\n📈 The window so far: ${d.win.hits} of ${d.win.n} called right.` : ''}\n\nWhich result surprised you most? 👇 Make your own picks for the next matchday at formlinedata.com (link in bio).\n\n${hashtags(d.g, d.list.slice(0, 2).map(r => r.home), null, 'roundup')}`,
-    xText:`📋 ${d.dayTxt}: Formline called ${d.hits} of ${d.n}\n\n${d.list.slice(0, 4).map(line).join('\n')}${upTxt ? '\n\n' + upTxt : ''}\n\n${BASE}#/matchday?d=${d.day}`};
+    xText:`📋 ${d.dayTxt}: Formline called ${d.hits} of ${d.n}\n\n${d.list.slice(0, 4).map(line).join('\n')}${upTxt ? '\n\n' + upTxt : ''}\n\n${BASE}#/matchday?ud=${d.day}`};
 };
 
 /* The Instagram Story (1080×1920) for window days: today's matches and Formline's calls. */

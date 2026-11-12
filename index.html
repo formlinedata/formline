@@ -880,6 +880,11 @@
   .src-table{table-layout:fixed;width:100%;} .src-table th:first-child{width:28%;} .src-table th:last-child{width:22%;} .src-table td:last-child{color:var(--dim);} .src-table td{line-height:1.5;white-space:normal;overflow-wrap:break-word;} .kv-table.words.src-table td:first-child{white-space:normal;}
   @media(max-width:640px){ .src-table thead{display:none;} .src-table tr{display:block;padding:10px 0;border-top:1px solid var(--line);} .src-table td{display:block;width:auto !important;padding:2px 0 !important;border:0 !important;} .src-table td:first-child{font-weight:650;color:var(--chalk);} }
   .about-tabs{margin:0 0 14px;} .about-tabs .chip{text-decoration:none;}
+  .sec-select{display:none;width:100%;margin:0 0 14px;padding:8px 10px;font:inherit;font-size:15px;border:1px solid var(--line-strong);border-radius:8px;background:var(--panel);color:var(--chalk);}
+  @media(max-width:640px){.sec-tabs{display:none;} .sec-select{display:block;}}
+  body.embed-mode .sec-tabs, body.embed-mode .sec-select{display:none;}
+  .pt-tabs{margin:4px 0 16px;} .pt-tabs .chip{cursor:pointer;} body:not(.tour-on) .pt-hide{display:none !important;}
+  @media(max-width:640px){.pt-tabs{display:none;}} @media print{.pt-hide{display:block !important;} .pt-tabs, .pt-select, .sec-tabs, .sec-select{display:none !important;}}
   .cmp-table th{white-space:normal;text-align:left;color:var(--chalk);font-weight:600;min-width:120px;} .cmp-table td{vertical-align:top;font-size:13.5px;text-align:left;}
   .cmp-table thead th{color:var(--dim);} .kv-table.cmp-table td, .kv-table.cmp-table td:last-child{color:var(--body);text-align:left;font-weight:400;}
   .kv-table.scale-table td:last-child{color:var(--body);text-align:left;font-weight:400;} .kv-table.scale-table td:first-child{color:var(--chalk);white-space:nowrap;}
@@ -1921,27 +1926,15 @@ function parseCSV(url){
 }
 /* Corrections to the archives, found by this site's data check and reported upstream. Each names one row by
    date, home and away (and score where two rows share those). Wider problems are handled by rule instead: see
-   venueSide below. */
+   venueSide below. Entries the archives have since fixed (the 1921, 1925 and 1982 duplicates, Ivory Coast v DR Congo
+   2019, and the women's neutral-venue rows of 2013 and June 2026) were removed in November 2026. */
 const CORRECTIONS = {
   men: [
-    {date:'1925-05-20', home:'China', away:'Japan', score:'2-0', drop:'duplicate of the Far Eastern Championship Games match the same day'},
-    {date:'1921-05-30', home:'Japan', away:'Philippines', score:'0-3', drop:'duplicate of the Far Eastern Championship Games match the same day, with a different score'},
     {date:'1974-02-17', home:'Tahiti', away:'New Caledonia', score:'2-1', drop:'listed twice with opposite scores; neither can be trusted'},
     {date:'1974-02-17', home:'Tahiti', away:'New Caledonia', score:'1-2', drop:'listed twice with opposite scores; neither can be trusted'},
-    {date:'2019-10-12', home:'Ivory Coast', away:'DR Congo', set:{neutral:true}, note:'played in Amiens, France'},
-    {date:'1979-07-25', home:'Belarus', away:'Russia', set:{country:'Belarus'}, note:'Minsk; a Soviet Spartakiad match, so Belarus was at home'},
-    {date:'1982-02-16', home:'Bangladesh', away:'Nepal', drop:'duplicate of the Quaid-e-Azam International Tournament match the same day'},
-    {date:'1982-02-17', home:'Nepal', away:'Oman', drop:'duplicate of the Quaid-e-Azam International Tournament match the same day'},
-    {date:'1982-02-19', home:'Bangladesh', away:'Oman', drop:'duplicate of the Quaid-e-Azam International Tournament match the same day'}
+    {date:'1979-07-25', home:'Belarus', away:'Russia', set:{country:'Belarus'}, note:'Minsk; a Soviet Spartakiad match, so Belarus was at home'}
   ],
   women: [
-    {date:'2013-04-04', home:'Faroe Islands', away:'Montenegro', set:{neutral:true}, note:'played in Vilnius, Lithuania'},
-    {date:'2013-04-09', home:'Faroe Islands', away:'Georgia', set:{neutral:true}, note:'played in Vilnius, Lithuania'},
-    {date:'2026-06-05', home:'New Zealand', away:'Haiti', set:{neutral:true}, note:'played in Antequera, Spain'},
-    {date:'2026-06-07', home:'Saudi Arabia', away:'Sri Lanka', set:{neutral:true}, note:'played in Bangkok, Thailand'},
-    {date:'2026-06-08', home:'Equatorial Guinea', away:'Haiti', set:{neutral:true}, note:'played in Antequera, Spain'},
-    {date:'2026-06-09', home:'New Zealand', away:'Morocco', set:{neutral:true}, note:'played in Antequera, Spain'},
-    {date:'2026-06-08', home:'Nigeria', away:'Senegal', set:{country:'Nigeria'}, note:'Ikenne is in Nigeria, not Senegal'},
     /* Checked against Wikipedia's tournament articles, November 2026. Each applies only while the archive still has the
        wrong score or date, so a fix upstream simply takes over. */
     {date:'1991-05-05', home:'Brazil', away:'Venezuela', score:'6-11', set:{as:0}, note:'Brazil won 6-0; the archive has 6-11 (Wikipedia)'},
@@ -1958,12 +1951,11 @@ const CORRECTIONS = {
 /* One team or tournament filed under two spellings, merged to the more common one. */
 const TEAM_ALIASES = {
   men: {},
-  women: {'U.S. Virgin Islands':'United States Virgin Islands', 'Turks and Caicos':'Turks and Caicos Islands', 'Shetland Islands':'Shetland'}
+  women: {}
 };
 const TOURNAMENT_ALIASES = {
   men: {},
-  women: {'Africa Cup of Nations qualification':'African Cup of Nations qualification', "UEFA Women's Nations League":'UEFA Nations League',
-          "WAFF Women's Championship":'WAFF Championship', 'Olympic qualifyication':'CONCACAF Olympic Qualifying Tournament'}
+  women: {'Africa Cup of Nations qualification':'African Cup of Nations qualification'}
 };
 const teamAlias = (t, g) => (TEAM_ALIASES[g] && TEAM_ALIASES[g][t]) || t;
 function normalize(rows, g){
@@ -3032,6 +3024,8 @@ function applyParams(p){
 }
 function go(extra, routePath){
   const path = routePath !== undefined ? routePath : state.routePath;
+  /* The tab of a long page stays put while its own controls redraw it. */
+  if (routePath === undefined && state.params && state.params.pv && !(extra && 'pv' in extra)) extra = Object.assign({}, extra, {pv:state.params.pv});
   const q = filterQuery(extra);
   const next = '#/' + path + (q ? '?' + q : '');
   if (location.hash === next) render(); else location.hash = next;
@@ -3290,7 +3284,9 @@ async function render(){
     simulate:viewSimulate, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, sources:viewSources, support:viewSupport, changes:viewChanges, embed:viewEmbed, contact:viewContact};
   FLAG_AT = null;
   document.body.classList.toggle('embed-mode', p.route === 'embed');
+  state._ptGoto = p.route === 'method' ? state.pendingScroll : null;
   (views[p.route]||viewNotFound)();
+  ensureSectionTabs(); applyPageTabs();
   bindFilters(); bindRows(); bindExtras();
   if (p.route === 'home') maybeStartTour();
   const h1 = document.querySelector('#app h1');
@@ -3609,11 +3605,86 @@ function viewRecords(){
   document.querySelectorAll('#recSp [data-sp]').forEach(b => b.addEventListener('click', () => go({sp:+b.dataset.sp || undefined})));
 }
 /* Sources & thanks: every source the site draws on, in one place, credited whether or not its licence asks for it. */
+/* One row of tabs for the pages of a section: chips on wide screens, a drop-down on phones. T: [[route, label], ...]. */
+function tabRow(T, on, q, label){
+  const href = r => '#/'+r+(q ? '?'+q : '');
+  return '<div class="chips about-tabs sec-tabs">'+T.map(([r, l]) => '<a class="chip'+(r === on ? ' on' : '')+'" href="'+href(r)+'"'+(r === on ? ' aria-current="page"' : '')+'>'+l+'</a>').join('')+'</div>'+
+    '<select class="sec-select" aria-label="'+label+'" onchange="location.hash=this.value">'+(T.some(([r]) => r === on) ? '' : '<option value="" selected disabled>'+label+'&hellip;</option>')+
+      T.map(([r, l]) => '<option value="'+href(r)+'"'+(r === on ? ' selected' : '')+'>'+l+'</option>').join('')+'</select>';
+}
 function aboutTabs(on){
   const T = [['about', 'About Formline'], ['compare', 'Formline, Elo and FIFA'], ['flags', 'Flags &amp; names'], ['sources', 'Sources &amp; thanks'],
     ['changes', 'What\'s new'], ['method', 'How it works'], ['contact', 'Contact']];
-  return '<div class="chips about-tabs">'+T.map(([r, l]) => '<a class="chip'+(r === on ? ' on' : '')+'" href="#/'+r+'">'+l+'</a>').join('')+'</div>';
+  return tabRow(T, on, '', 'About pages');
 }
+/* The same row on every page of the Ratings, Matches and Tools sections, so each section's pages are one tap apart. It is
+   put at the top of the page after each draw (pages redraw themselves when a filter changes), never on embeds. */
+const SECTION_TABS = {
+  ratings:['Ratings pages', [['rankings', 'Rankings'], ['team', 'Teams'], ['confederations', 'Confederations'], ['competitions', 'Competitions'], ['records', 'Records']]],
+  matches:['Matches pages', [['fixtures', 'Fixtures'], ['window', 'This window'], ['matchday', 'Matchday'], ['predict', 'Predict'], ['record', 'Forecast record']]],
+  tools:['Tools', [['simulate', 'Simulator'], ['h2h', 'Head to head']]]
+};
+const SECTION_ON = {competition:'competitions', qualifying:'competitions', wwc2027:'competitions'};
+function ensureSectionTabs(){
+  if (typeof document === 'undefined' || !document.querySelector) return;
+  const app = document.getElementById('app'), S = SECTION_TABS[NAV_GROUP[state.route]];
+  if (!app || !app.querySelector || !S || state.route === 'embed') return;
+  const wrap = app.querySelector('.wrap');
+  if (!wrap || !wrap.insertAdjacentHTML || wrap.getAttribute('aria-busy') || wrap.querySelector('.sec-tabs')) return;
+  const q = state.gender === 'women' ? 'g=women' : '';
+  wrap.insertAdjacentHTML('afterbegin', tabRow(S[1], SECTION_ON[state.route] || state.route, q, S[0]));
+}
+if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined' && document.getElementById && document.getElementById('app') && document.getElementById('app').nodeType === 1)
+  new MutationObserver(() => { ensureSectionTabs(); applyPageTabs(); }).observe(document.getElementById('app'), {childList:true});
+/* Long pages in tabs. A page lists its tabs and says which of its top-level blocks belongs to which; blocks it does not
+   name (the heading, the filters) stay on every tab. The tab is kept in the URL (pv) and switching it redraws nothing.
+   While the page guide is open every block is shown, since its steps point at them. */
+const headText = e => { const h = e.matches && e.matches('h1,h2,h3') ? e : e.querySelector && e.querySelector('.panel-head, h2, h3'); return h ? h.textContent.trim() : ''; };
+const METHOD_TAB = {'m-short':'basics', 'm-rating':'basics', 'm-band':'basics', 'm-order':'basics', 'm-trend':'basics', 'm-tiers':'basics', 'm-match':'matches', 'm-weights':'matches', 'm-home':'matches',
+  'm-confs':'confs', 'm-unranked':'confs', 'm-predict':'predict', 'm-tested':'predict', 'm-tech':'predict'};
+const PAGE_TABS = {
+  team:{label:'Team page', tabs:[['overview', 'Overview'], ['history', 'History'], ['matches', 'Matches'], ['opponents', 'Opponents']],
+    of:e => { if (!e.classList.contains('panel')) return null; const h = headText(e);
+      return e.id === 'teamHist' ? 'history' : /^Matches/.test(h) ? 'matches' : /^Record by opponent/.test(h) ? 'opponents' : 'overview'; }},
+  confederations:{label:'Confederations', tabs:[['overview', 'Overview'], ['time', 'Over time'], ['depth', 'Depth'], ['places', 'World Cup places'], ['meet', 'Confederation v confederation'], ['teams', 'Every team']],
+    of:e => { const h = headText(e); return e.classList.contains('conf-cards') || /^How strong/.test(h) ? 'overview' : /^Strength over time/.test(h) ? 'time' : /^Depth/.test(h) ? 'depth'
+      : /^World Cup places/.test(h) ? 'places' : e.id === 'confMeetBox' ? 'meet' : e.id === 'conf-teams' || e.classList.contains('conf-list') ? 'teams' : null; }},
+  method:{label:'How it works', root:'.prose', tabs:[['basics', 'The basics'], ['matches', 'Matches'], ['confs', 'Confederations'], ['predict', 'Predictions and tests']],
+    of:e => METHOD_TAB[e.id] || null}
+};
+function applyPageTabs(show){
+  if (typeof document === 'undefined' || !document.querySelector) return;
+  const cfg = PAGE_TABS[state.route], app = document.getElementById('app');
+  if (!cfg || !app || !app.querySelector) return;
+  const wrap = app.querySelector('.wrap'); if (!wrap || !wrap.children || wrap.getAttribute('aria-busy')) return;
+  const root = cfg.root ? wrap.querySelector(cfg.root) : wrap; if (!root || !root.children) return;
+  const had = root.querySelector('.pt-tabs'); if (had && !show) return;
+  const tagged = [...root.children].filter(e => !e.classList.contains('pt-tabs') && !e.classList.contains('pt-select')).map(e => [e, cfg.of(e)]).filter(x => x[1]);
+  const have = cfg.tabs.filter(([k]) => tagged.some(x => x[1] === k));
+  if (have.length < 2) return;
+  /* A link to one section (How it works) opens the tab that holds it. */
+  const g = state._ptGoto ? document.getElementById(state._ptGoto) : null; state._ptGoto = null;
+  const gb = g && tagged.find(x => x[0].contains(g));
+  const on = show || (gb && gb[1]) || (have.some(([k]) => k === state.params.pv) ? state.params.pv : have[0][0]);
+  tagged.forEach(([e, k]) => { e.dataset.pt = k; e.classList.toggle('pt-hide', k !== on); });
+  root.querySelectorAll('.pt-tabs, .pt-select').forEach(x => x.remove());
+  tagged[0][0].insertAdjacentHTML('beforebegin', '<div class="chips about-tabs pt-tabs" role="tablist" aria-label="'+cfg.label+'">'+have.map(([k, l]) =>
+      '<button class="chip'+(k === on ? ' on' : '')+'" role="tab" aria-selected="'+(k === on)+'" data-ptab="'+k+'">'+l+'</button>').join('')+'</div>'+
+    '<select class="sec-select pt-select" aria-label="'+cfg.label+'">'+have.map(([k, l]) => '<option value="'+k+'"'+(k === on ? ' selected' : '')+'>'+l+'</option>').join('')+'</select>');
+  const pick = k => { state.params.pv = k === have[0][0] ? undefined : k;
+    try { const [path, qs] = location.hash.split('?'), q = new URLSearchParams(qs || ''); if (state.params.pv) q.set('pv', k); else q.delete('pv');
+      history.replaceState(null, '', path+(q.toString() ? '?'+q : '')); } catch(e){}
+    applyPageTabs(k); if (typeof window !== 'undefined' && window.dispatchEvent) window.dispatchEvent(new Event('resize')); };
+  root.querySelectorAll('[data-ptab]').forEach(b => b.addEventListener('click', () => pick(b.dataset.ptab)));
+  const sel = root.querySelector('.pt-select'); if (sel) sel.addEventListener('change', () => pick(sel.value));
+}
+/* A jump to a section that sits on another tab: open that tab first (the page's own handler then scrolls to it). */
+if (typeof document !== 'undefined' && document.addEventListener) document.addEventListener('click', e => {
+  const a = e.target && e.target.closest && e.target.closest('[data-goto]'); if (!a) return;
+  const el = document.getElementById(a.dataset.goto), blk = el && el.closest('.pt-hide');
+  if (blk && blk.dataset.pt) applyPageTabs(blk.dataset.pt);
+}, true);
+
 function viewSources(){
   const a = (href, text) => '<a href="'+href+'" target="_blank" rel="noopener">'+text+'</a>';
   const group = (title, rows) => '<h2>'+title+'</h2><table class="kv-table words credits src-table"><thead><tr><th>What</th><th>Source</th><th>Terms</th></tr></thead><tbody>'+
@@ -5934,6 +6005,10 @@ const slugText = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 const PICKS_KEY = 'formline.picks';
 const readPicks = () => { try { return JSON.parse(localStorage.getItem(PICKS_KEY) || '{}') || {}; } catch(e){ return {}; } };
 const writePicks = o => { try { localStorage.setItem(PICKS_KEY, JSON.stringify(o)); } catch(e){} };
+/* The day a match is listed under: the visitor's own calendar day at kick-off, so the day matches the kick-off times
+   shown (a 00:30 UTC kick-off is the evening before in the Americas). Without a kick-off time, the match's own date. */
+const ymdLocal = d => d.getFullYear()+'-'+String(d.getMonth() + 1).padStart(2, '0')+'-'+String(d.getDate()).padStart(2, '0');
+const mdDay = x => { const t = x.kickoff ? Date.parse(x.kickoff) : NaN; return isNaN(t) ? x.date : ymdLocal(new Date(t)); };
 /* Every match on the record or in the fixture list, as one list for one game (men's or women's). */
 function matchdayItems(g, c){
   const rec = ((state.record && state.record.entries) || []).filter(e => e.g === g && e.p && !e.void);
@@ -5944,20 +6019,26 @@ function matchdayItems(g, c){
     const f = fixturePrediction(c, fx); if (!f.p) return;
     out.push({id:[g, fx.date, fx.home, fx.away].join('|'), date:fx.date, kickoff:fx.kickoff, home:fx.home, away:fx.away, tournament:fx.tournament,
       p:[f.p.home, f.p.draw, f.p.away], likely:f.sl.top[0][0]+'-'+f.sl.top[0][1], result:null, published:false}); });
-  return out.sort((a, b) => (a.kickoff || a.date).localeCompare(b.kickoff || b.date));
+  out.forEach(x => { x.day = mdDay(x); });
+  const ts = x => { const t = Date.parse(x.kickoff || ''); return isNaN(t) ? Date.parse(x.date+'T12:00:00Z') : t; };
+  return out.sort((a, b) => ts(a) - ts(b) || a.home.localeCompare(b.home));
 }
 const mdOutcome = x => x.result ? (x.result[0] > x.result[1] ? 0 : x.result[0] < x.result[1] ? 2 : 1) : null;
 const mdCall = x => x.p.indexOf(Math.max(...x.p));
 function viewMatchday(){
   const g = state.gender, c = getRatings(), app = document.getElementById('app'), G = g === 'men' ? "men's" : "women's";
-  const items = matchdayItems(g, c), days = [...new Set(items.map(x => x.date))].sort();
+  const items = matchdayItems(g, c), days = [...new Set(items.map(x => x.day))].sort();
   const head = '<h1 class="page-title">Matchday</h1><p class="page-sub">One day of '+G+' international football: every match, the call Formline '+
-    'published before kick-off, and how it went. Make your own picks and see how you do against the model.</p>';
+    'published before kick-off, and how it went. Make your own picks and see how you do against the model. Days and kick-off times are in your own time zone.</p>';
   if (!days.length){ app.innerHTML = '<div class="wrap">'+head+'<div class="status">No matches with a published forecast yet. They come with the nightly update.</div></div>'; return; }
-  const local = (() => { try { return new Date().toLocaleDateString('en-CA'); } catch(e){ return new Date().toISOString().slice(0, 10); } })();
+  const local = ymdLocal(new Date());
   let day = /^\d{4}-\d{2}-\d{2}$/.test(state.params.d || '') ? state.params.d : null;
+  /* Links from posts name the match's own (UTC) date in ud: shown as the visitor's day that holds most of that date's matches. */
+  if (!day && /^\d{4}-\d{2}-\d{2}$/.test(state.params.ud || '')){ const n = new Map();
+    items.forEach(x => { if (x.date === state.params.ud) n.set(x.day, (n.get(x.day) || 0) + 1); });
+    day = [...n.entries()].sort((a, b) => b[1] - a[1]).map(e => e[0])[0] || null; }
   if (!day || !days.includes(day)) day = days.includes(local) ? local : (days.find(d => d > local) || days[days.length - 1]);
-  const i = days.indexOf(day), list = items.filter(x => x.date === day), picks = readPicks();
+  const i = days.indexOf(day), list = items.filter(x => x.day === day), picks = readPicks();
   const nm = t => esc(dn(t)), pc = v => Math.round(v*100)+'%', now = Date.now();
   const played = list.filter(x => x.result), right = played.filter(x => mdCall(x) === mdOutcome(x)).length;
   const upsets = played.filter(x => { const o = mdOutcome(x); return o !== 1 && x.p[o] < 0.25; });
@@ -5991,7 +6072,7 @@ function viewMatchday(){
       '<div class="md-v">'+verdict+'</div>'+pickRow+(x.published ? '' : '<div class="muted md-note">Added after the last update: the forecast as it stands, not yet saved to the record.</div>')+'</div>';
   };
   app.innerHTML = '<div class="wrap">'+head+nav+
-    '<div class="win-tiles">'+tile(list.length, 'matches')+tile(played.length, 'played')+tile(played.length ? right+' of '+played.length : '&ndash;', 'Formline right')+
+    '<div class="win-tiles">'+tile(list.length, list.length === 1 ? 'match' : 'matches')+tile(played.length, 'played')+tile(played.length ? right+' of '+played.length : '&ndash;', 'Formline right')+
       tile(upsets.length, 'upsets (under 25%)')+tile(allMine.n ? allMine.you+' of '+allMine.n : '&ndash;', allMine.n ? 'your picks right (Formline '+allMine.model+')' : 'your picks: tap a result below')+'</div>'+
     '<div class="md-grid">'+list.map(card).join('')+'</div>'+
     '<p class="chart-note">Picks are kept in this browser only, never sent anywhere, and lock at kick-off. '+(dayMine.n ? 'Today: you '+dayMine.you+', Formline '+dayMine.model+' of '+dayMine.n+'. ' : '')+
@@ -6015,7 +6096,7 @@ function nextMatchCard(c, key){
   const preview = 'matches/'+state.gender+'/'+fx.date+'-'+slugText(f.rh.team)+'-vs-'+slugText(f.ra.team)+'.html';
   return '<div class="nm-strip">'+(rows.length ? '<div><b>What\'s at stake</b> for '+esc(dn(meH ? f.rh.team : f.ra.team))+' against '+esc(dn(meH ? f.ra.team : f.rh.team))+' on '+fmtDay(ts).replace(/ \d{4}$/, '')+': '+
       rows.map(([l, r]) => l+' <b class="'+cl(me(r))+'">'+sg(me(r))+'</b>').join(' &middot; ')+' <span class="muted">rating points</span></div>' : '')+
-    '<div><a href="'+preview+'">Match preview</a> &middot; <a href="#/matchday?d='+fx.date+'">Make your pick on Matchday</a></div></div>';
+    '<div><a href="'+preview+'">Match preview</a> &middot; <a href="#/matchday?d='+mdDay(fx)+'">Make your pick on Matchday</a></div></div>';
 }
 
 /* ============================================================
@@ -7013,7 +7094,12 @@ const REDRAW = {
   'world-cup-2026':{fixed:{Mexico:'A', Canada:'B', 'United States':'D'}, conf:{max:1, UEFA:[1, 2]}, basis:'FIFA ranking of 19 November 2025', posPots:true,
     note:'FIFA also kept Spain and Argentina, and France and England, in opposite halves of the knockout bracket; that rule is not applied here.'},
   'womens-world-cup-2023':{fixed:{'New Zealand':'A', Australia:'B'}, conf:{max:1, UEFA:[0, 2]}},
-  'euro-2024':{fixed:{Germany:'A'}, conf:null}
+  'euro-2024':{fixed:{Germany:'A'}, conf:null},
+  /* Copa América 2024 (draw 7 December 2023): the four pot 1 sides were placed by rule (Argentina A1, Mexico B1, the
+     United States C1, Brazil D1); at most three CONMEBOL and two CONCACAF teams in a group. */
+  'copa-america-2024':{fixed:{Argentina:'A', Mexico:'B', 'United States':'C', Brazil:'D'}, conf:{by:{CONMEBOL:3, CONCACAF:2}, text:'no more than three CONMEBOL or two CONCACAF teams in a group'},
+    basis:'FIFA ranking of October 2023, with the play-off winners in pot 4', fixedText:'the four seeded sides in their places',
+    pots:[['Argentina', 'Mexico', 'United States', 'Brazil'], ['Uruguay', 'Colombia', 'Ecuador', 'Peru'], ['Chile', 'Panama', 'Venezuela', 'Paraguay'], ['Jamaica', 'Bolivia', 'Canada', 'Costa Rica']]}
 };
 function redrawPots(T){
   const R = REDRAW[T.id]; if (!R) return null;
@@ -7031,9 +7117,9 @@ function redrawGroups(T, c, mode, seed){
     const order = hosts.concat(rest); pots = []; for (let k = 0; k < size; k++) pots.push(order.slice(k*n, (k + 1)*n)); }
   const rand = rng('redraw|'+T.id+'|'+mode+'|'+seed), G = letters.map(id => ({id, ts:[]}));
   const lim = R.conf, fits = (g, t) => { if (!lim) return true; const cf = conf(t), k = g.ts.filter(x => conf(x) === cf).length;
-    return cf === 'UEFA' ? k < lim.UEFA[1] : k < lim.max; };
+    return lim.by ? k < (lim.by[cf] === undefined ? 99 : lim.by[cf]) : cf === 'UEFA' ? k < lim.UEFA[1] : k < lim.max; };
   /* Enough UEFA teams left for every group still short of its minimum? */
-  const uefaOk = rest => { if (!lim || !lim.UEFA[0]) return true; const short = G.filter(g => g.ts.filter(x => conf(x) === 'UEFA').length < lim.UEFA[0]).length;
+  const uefaOk = rest => { if (!lim || !lim.UEFA || !lim.UEFA[0]) return true; const short = G.filter(g => g.ts.filter(x => conf(x) === 'UEFA').length < lim.UEFA[0]).length;
     return rest.filter(t => conf(t) === 'UEFA').length >= short; };
   const can = (rest, pot, budget) => { if (budget.n-- < 0) return true; if (!rest.length) return uefaOk([]);
     const t = rest[0], k = pots.findIndex(p => p.includes(t));
@@ -7122,7 +7208,7 @@ function redrawBar(T0, T, rd, rs){
     (hasReal ? '<button class="chip'+(rd === 'real' ? ' on' : '')+'" data-rd="real"'+(rd === 'real' ? ' data-again="1"' : '')+'>'+(rd === 'real' ? 'Redraw again' : 'Redraw: same pots')+'</button>' : '')+
     '<button class="chip'+(rd === 'fl' ? ' on' : '')+'" data-rd="fl"'+(rd === 'fl' ? ' data-again="1"' : '')+'>'+(rd === 'fl' ? 'Redraw again' : 'Redraw: Formline\'s pots')+'</button></div>'+
     (rd ? '<p class="muted redraw-note">'+(rd === 'real' ? 'Drawn again from the organiser\'s own pots'+(R.basis ? ' (seeded on the '+esc(R.basis)+')' : '') : 'Drawn again with pots set by Formline\'s ratings the day before kick-off')+
-      ', hosts in their places'+(R.conf ? ', no more than one team per confederation in a group ('+(R.conf.UEFA[0] ? 'one or ' : 'up to ')+'two from UEFA)' : '')+'. '+
+      ', '+(R.fixedText || 'hosts in their places')+(R.conf ? ', '+(R.conf.text || 'no more than one team per confederation in a group ('+(R.conf.UEFA[0] ? 'one or ' : 'up to ')+'two from UEFA)') : '')+'. '+
       (R.note ? esc(R.note)+' ' : '')+'Groups: '+Object.entries(T.groups).map(([g, ts]) => '<b>'+g+'</b> '+ts.map(t => esc(dn(t))).join(', ')).join('; ')+'.</p>' : '');
 }
 /* The field in five groups, from the simulated chances: favourites, contenders, dark horses, teams expected through the
@@ -8029,6 +8115,35 @@ const SEED_POTS = [
   {g:'men', t:'FIFA World Cup', draw:'2001-12-01', basis:'seeds from 1990–98 World Cup results and FIFA rankings, hosts South Korea and Japan and holders France among them; the other pots by region (Europe; Asia and South America; Africa and CONCACAF)', regional:true, pots:[['France', 'South Korea', 'Japan', 'Brazil', 'Argentina', 'Italy', 'Germany', 'Spain'], ['Belgium', 'Croatia', 'Denmark', 'England', 'Poland', 'Portugal', 'Republic of Ireland', 'Russia', 'Slovenia', 'Sweden', 'Turkey'], ['China', 'Ecuador', 'Paraguay', 'Saudi Arabia', 'Uruguay'], ['Cameroon', 'Costa Rica', 'Mexico', 'Nigeria', 'Senegal', 'South Africa', 'Tunisia', 'United States']]},
   {g:'men', t:'FIFA World Cup', draw:'1997-12-04', basis:'eight seeds (World Cup results 60%, FIFA ranking 40%), hosts France and holders Brazil among them; the other pots by region, one of the nine unseeded European sides drawn into the group of Brazil or Argentina; no group with three European sides', regional:true, pots:[['Brazil', 'France', 'Germany', 'Italy', 'Spain', 'Argentina', 'Romania', 'Netherlands'], ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Denmark', 'England', 'Scotland', 'FR Yugoslavia', 'Norway'], ['Chile', 'Colombia', 'Iran', 'Japan', 'Paraguay', 'Saudi Arabia', 'South Korea'], ['Cameroon', 'Jamaica', 'Mexico', 'Morocco', 'Nigeria', 'South Africa', 'Tunisia', 'United States']]},
   {g:'men', t:'FIFA World Cup', draw:'1993-12-19', basis:'six seeds (hosts the United States, holders Germany, Argentina, Italy, Brazil, Belgium); the other pots by region', regional:true, pots:[['United States', 'Germany', 'Argentina', 'Italy', 'Brazil', 'Belgium'], ['Mexico', 'Cameroon', 'Morocco', 'Colombia', 'Nigeria', 'Bolivia'], ['Spain', 'Russia', 'Republic of Ireland', 'Romania', 'Netherlands', 'Bulgaria'], ['South Korea', 'Sweden', 'Greece', 'Norway', 'Switzerland', 'Saudi Arabia']]},
+  /* Added 11 November 2026 from each edition's Wikipedia article (draw section); each checked against the groups as played.
+     uneven: only some teams were seeded and the rest came from one pot, so there is no pot-by-pot comparison. */
+  {g:'men', t:'FIFA World Cup', draw:'1974-01-05', basis:'four seeds (hosts West Germany, holders Brazil, and the other 1970 semi-finalists Italy and Uruguay); the other pots by region (Western Europe, Eastern Europe, South America, the rest of the world)', regional:true, pots:[['West Germany', 'Brazil', 'Italy', 'Uruguay'], ['Netherlands', 'Scotland'], ['Bulgaria', 'German DR', 'Poland', 'Yugoslavia'], ['Argentina', 'Chile'], ['Australia', 'Haiti', 'Sweden', 'Zaïre']]},
+  {g:'men', t:'UEFA Euro', draw:'1995-12-17', basis:'four seeds only: hosts England, holders Denmark, and Spain and Germany as the two highest-ranked teams; the other twelve unseeded in one pot', uneven:true, pots:[['England', 'Denmark', 'Spain', 'Germany'], ['Bulgaria', 'Italy', 'Russia', 'Croatia', 'Netherlands', 'Scotland', 'Czech Republic', 'Portugal', 'Switzerland', 'France', 'Romania', 'Turkey']]},
+  {g:'men', t:'African Cup of Nations', draw:'2009-11-20', basis:'hosts Angola and holders Egypt seeded; the rest by records at the last three Cups of Nations', out:['Togo'], outNote:'Togo were drawn into Group B but withdrew before playing, after the attack on their team bus',
+    pots:[['Angola', 'Egypt', 'Cameroon', 'Ivory Coast'], ['Ghana', 'Nigeria', 'Tunisia', 'Mali'], ['Zambia', 'Benin', 'Algeria', 'Togo'], ['Burkina Faso', 'Mozambique', 'Gabon', 'Malawi']]},
+  {g:'men', t:'African Cup of Nations', draw:'2007-10-19', basis:'performances at past Cups of Nations; hosts Ghana at the head of Group A and holders Egypt of Group C', pots:[['Ghana', 'Egypt', 'Tunisia', 'Nigeria'], ['Ivory Coast', 'Cameroon', 'Morocco', 'Senegal'], ['South Africa', 'Guinea', 'Mali', 'Zambia'], ['Angola', 'Benin', 'Namibia', 'Sudan']]},
+  {g:'men', t:'African Cup of Nations', draw:'2005-10-20', basis:'records at the last three Cups of Nations; hosts Egypt at the head of Group A and holders Tunisia of Group C', pots:[['Egypt', 'Tunisia', 'Cameroon', 'Nigeria'], ['Morocco', 'South Africa', 'Senegal', 'DR Congo'], ['Ghana', 'Ivory Coast', 'Guinea', 'Togo'], ['Zambia', 'Angola', 'Zimbabwe', 'Libya']]},
+  {g:'men', t:'AFC Asian Cup', draw:'2006-12-19', basis:'the four co-hosts in the first pot and the four seeds (Australia, Iran, Japan, South Korea) in another, the rest by FIFA ranking; the AFC numbered its pots the other way round, with the seeds in pot 4', pots:[['Indonesia', 'Malaysia', 'Thailand', 'Vietnam'], ['Australia', 'Iran', 'Japan', 'South Korea'], ['Qatar', 'Uzbekistan', 'Saudi Arabia', 'Oman'], ['China PR', 'Iraq', 'United Arab Emirates', 'Bahrain']]},
+  {g:'men', t:'Copa América', draw:'2010-11-11', basis:'pots set by CONMEBOL\'s executive committee on 18 October 2010; hosts Argentina in pot 1, the invited sides in pot 4 (Costa Rica took Japan\'s place)', pots:[['Argentina', 'Brazil', 'Uruguay'], ['Chile', 'Colombia', 'Paraguay'], ['Bolivia', 'Peru', 'Venezuela'], ['Ecuador', 'Costa Rica', 'Mexico']]},
+  {g:'men', t:'Copa América', draw:'2007-02-14', basis:'pots as CONMEBOL set them: hosts Venezuela with Argentina and Brazil in pot 1, invitees Mexico and the United States in pot 4', pots:[['Venezuela', 'Argentina', 'Brazil'], ['Ecuador', 'Paraguay', 'Uruguay'], ['Chile', 'Colombia', 'Peru'], ['Bolivia', 'Mexico', 'United States']]},
+  {g:'men', t:'Copa América', draw:'2004-03-08', basis:'pots as CONMEBOL set them; the teams of pots 1 and 4 were placed in their groups by hand before the draw (hosts Peru in Group A)', pots:[['Peru', 'Argentina', 'Brazil'], ['Colombia', 'Paraguay', 'Uruguay'], ['Venezuela', 'Costa Rica', 'Mexico'], ['Bolivia', 'Ecuador', 'Chile']]},
+  {g:'women', t:'FIFA World Cup', draw:'2007-04-22', basis:'four seeds: hosts China and holders Germany, plus the United States and Norway by the FIFA Women\'s World Ranking of March 2007; the other pots by region', regional:true, pots:[['China PR', 'Germany', 'Norway', 'United States'], ['Australia', 'Japan', 'North Korea'], ['Denmark', 'England', 'Sweden'], ['Argentina', 'Ghana', 'New Zealand', 'Nigeria'], ['Brazil', 'Canada']]},
+  {g:'women', t:'FIFA World Cup', draw:'2003-07-17', basis:'four seeds by the new FIFA Women\'s World Ranking (hosts the United States, China, Germany, Norway); the other pots by region', regional:true, pots:[['United States', 'China PR', 'Germany', 'Norway'], ['Argentina', 'Brazil', 'Ghana', 'Nigeria'], ['France', 'Russia', 'Sweden', 'South Korea'], ['Australia', 'Canada', 'Japan', 'North Korea']]},
+  {g:'women', t:'FIFA World Cup', draw:'1999-02-14', basis:'the four highest-ranked teams seeded (hosts the United States, China, Germany, Norway); the other pots by region', regional:true, pots:[['United States', 'China PR', 'Germany', 'Norway'], ['Denmark', 'Italy', 'Russia', 'Sweden'], ['Australia', 'Brazil', 'Japan', 'North Korea'], ['Canada', 'Ghana', 'Mexico', 'Nigeria']]},
+  {g:'women', t:'UEFA Euro', draw:'2012-11-09', basis:'UEFA coefficient ranking: three top seeds placed in advance (hosts Sweden A1, Germany B1, France C1), three seeded teams, and six unseeded in one pot', uneven:true, pots:[['Sweden', 'Germany', 'France'], ['England', 'Norway', 'Italy'], ['Denmark', 'Iceland', 'Finland', 'Russia', 'Netherlands', 'Spain']]},
+  {g:'women', t:'Africa Cup of Nations', draw:'2022-04-29', basis:'three seeds placed in advance (hosts Morocco A1, Cameroon B1, holders Nigeria C1); the other nine drawn from one pot', uneven:true, pots:[['Morocco', 'Cameroon', 'Nigeria'], ['Togo', 'Uganda', 'Zambia', 'Burundi', 'Tunisia', 'Senegal', 'Botswana', 'Burkina Faso', 'South Africa']]},
+  {g:'women', t:'Africa Cup of Nations', draw:'2018-10-21', basis:'hosts Ghana and holders Nigeria seeded; the rest by results at the last three editions (Equatorial Guinea took Kenya\'s place after the draw)', uneven:true, pots:[['Ghana', 'Nigeria'], ['Cameroon', 'South Africa'], ['Equatorial Guinea', 'Mali', 'Algeria', 'Zambia']]},
+  {g:'women', t:'Africa Cup of Nations', draw:'2016-09-18', basis:'hosts Cameroon and holders Nigeria seeded; the rest by results at the last three editions', uneven:true, pots:[['Cameroon', 'Nigeria'], ['Ghana', 'South Africa'], ['Egypt', 'Kenya', 'Mali', 'Zimbabwe']]},
+  {g:'women', t:'Africa Cup of Nations', draw:'2024-11-22', basis:'FIFA Women\'s World Ranking of August 2024; hosts Morocco placed A1, Nigeria B1 and holders South Africa C1', pots:[['Morocco', 'Nigeria', 'South Africa'], ['Zambia', 'Ghana', 'Tunisia'], ['Mali', 'Senegal', 'Algeria'], ['DR Congo', 'Tanzania', 'Botswana']]},
+  {g:'women', t:'AFC Asian Cup', draw:'2025-07-29', basis:'FIFA Women\'s World Ranking of June 2025; hosts Australia in pot 1', pots:[['Australia', 'Japan', 'North Korea'], ['China PR', 'South Korea', 'Vietnam'], ['Philippines', 'Taiwan', 'Uzbekistan'], ['Iran', 'India', 'Bangladesh']]},
+  {g:'women', t:'AFC Asian Cup', draw:'2021-10-28', basis:'results at the 2018 Women\'s Asian Cup finals and qualifying; hosts India placed A1', out:['India'], outNote:'Hosts India withdrew during the group stage because of COVID-19 cases in the squad, and their results were struck out',
+    pots:[['India', 'Japan', 'Australia'], ['China PR', 'Thailand', 'South Korea'], ['Philippines', 'Vietnam', 'Taiwan'], ['Myanmar', 'Iran', 'Indonesia']]},
+  {g:'women', t:'AFC Asian Cup', draw:'2017-12-09', basis:'results at the 2014 Women\'s Asian Cup finals and qualifying; hosts Jordan placed A1', pots:[['Jordan', 'Japan'], ['Australia', 'China PR'], ['South Korea', 'Thailand'], ['Vietnam', 'Philippines']]},
+  {g:'women', t:'CONCACAF Championship', draw:'2022-04-19', basis:'FIFA Women\'s World Ranking; the United States placed A1 and Canada B1', pots:[['United States', 'Canada'], ['Mexico', 'Costa Rica'], ['Jamaica', 'Panama'], ['Haiti', 'Trinidad and Tobago']]},
+  {g:'women', t:'Copa América', draw:'2024-12-19', basis:'hosts Ecuador and holders Brazil seeded at the head of the two groups; the other pots as CONMEBOL set them', pots:[['Ecuador', 'Brazil'], ['Colombia', 'Argentina'], ['Paraguay', 'Chile'], ['Venezuela', 'Uruguay'], ['Bolivia', 'Peru']]},
+  {g:'women', t:'Copa América', draw:'2022-04-07', basis:'hosts Colombia and holders Brazil seeded at the head of the two groups; the other pots as CONMEBOL set them', pots:[['Colombia', 'Brazil'], ['Chile', 'Argentina'], ['Paraguay', 'Venezuela'], ['Bolivia', 'Uruguay'], ['Peru', 'Ecuador']]},
+  {g:'women', t:'CONCACAF Gold Cup', draw:'2023-12-11', basis:'pots as CONCACAF set them for the first W Gold Cup, with four invited CONMEBOL sides (Brazil, Colombia, Argentina, Paraguay)', pots:[['United States', 'Brazil', 'Canada'], ['Costa Rica', 'Mexico', 'Panama'], ['Colombia', 'Argentina', 'Paraguay'], ['Puerto Rico', 'El Salvador', 'Dominican Republic']]},
+  {g:'women', t:'CONCACAF Championship', draw:'2018-09-04', basis:'the United States and Canada seeded at the head of the two groups; pots 2 to 4 by the CONCACAF Women\'s Rankings', pots:[['United States', 'Canada'], ['Mexico', 'Costa Rica'], ['Trinidad and Tobago', 'Jamaica'], ['Panama', 'Cuba']]},
   {g:'men', t:'FIFA World Cup', draw:'1989-12-09', basis:'six seeds (hosts Italy, holders Argentina, Brazil, West Germany, Belgium, England); the other pots by region', regional:true, pots:[['Italy', 'Argentina', 'Brazil', 'West Germany', 'Belgium', 'England'], ['Cameroon', 'Costa Rica', 'Egypt', 'South Korea', 'United Arab Emirates', 'United States'], ['Colombia', 'Czechoslovakia', 'Republic of Ireland', 'Romania', 'Sweden', 'Uruguay'], ['Austria', 'Netherlands', 'Scotland', 'Spain', 'Soviet Union', 'Yugoslavia']]},
   {g:'men', t:'FIFA World Cup', draw:'1985-12-15', basis:'hosts Mexico and the top five of 1982 seeded; the other pots by region', regional:true, pots:[['Mexico', 'Italy', 'West Germany', 'Poland', 'France', 'Brazil'], ['England', 'Soviet Union', 'Spain', 'Argentina', 'Paraguay', 'Uruguay'], ['Canada', 'Denmark', 'Algeria', 'Morocco', 'Iraq', 'South Korea'], ['Belgium', 'Bulgaria', 'Hungary', 'Northern Ireland', 'Portugal', 'Scotland']]},
   {g:'men', t:'FIFA World Cup', draw:'1982-01-16', basis:'six seeds (hosts Spain, holders Argentina, Brazil, England, Italy, West Germany); the other pots by region; no group with two South American sides', regional:true, pots:[['Spain', 'Argentina', 'Brazil', 'England', 'Italy', 'West Germany'], ['Austria', 'Czechoslovakia', 'Hungary', 'Poland', 'Soviet Union', 'Yugoslavia'], ['Belgium', 'France', 'Northern Ireland', 'Scotland', 'Chile', 'Peru'], ['Algeria', 'Cameroon', 'Kuwait', 'El Salvador', 'Honduras', 'New Zealand']]},
@@ -8048,36 +8163,40 @@ const seedFor = e => SEED_POTS.find(x => x.g === state.gender && x.t === e.tourn
 function seedingHtml(e, fmt){
   if (!fmt || !fmt.ok || !fmt.groups || fmt.groups.length < 2 || !['wc', 'cont'].includes(e.cat) || e.qualLike) return '';
   const nG = fmt.groups.length, size = Math.max(...fmt.groups.map(g => g.length));
-  if (fmt.groups.some(g => g.length !== size)) return '';
   const S = seedFor(e);
+  /* Groups of different sizes (a team withdrew, or an odd field) are potted too: the last pot is simply shorter. Without
+     the organiser's pots, only when the groups differ by one team; a wider spread is a format pots don't describe. */
+  if (!S && size - Math.min(...fmt.groups.map(g => g.length)) > 1) return '';
   const drawTs = S && S.draw ? Date.parse(S.draw+'T12:00:00Z') : e.start - 150*DAY;
-  const teams = fmt.groups.flat();
+  /* A team that was in the draw but did not play (S.out) is potted with the rest and marked. */
+  const played = fmt.groups.flat(), gone = S && S.out ? S.out.map(t => keyOfName(t)).filter(k => !played.includes(k)) : [];
+  const teams = played.concat(gone), nPots = Math.ceil(teams.length/nG);
   const hostCountries = new Set(e.matches.map(m => m.country).filter(Boolean));
   const out = atDefaults(c => {
     const r = k => { const x = c.byKey.get(k); return x ? x.rating : -Infinity; };
     const hosts = teams.filter(k => hostCountries.has(dn(k)) || hostCountries.has(k)).slice(0, nG);
     const order = hosts.concat(teams.filter(k => !hosts.includes(k)).sort((a, b) => r(b) - r(a)));
-    const fl = []; for (let i = 0; i < size; i++) fl.push(order.slice(i*nG, (i + 1)*nG));
+    const fl = []; for (let i = 0; i < nPots; i++) fl.push(order.slice(i*nG, (i + 1)*nG));
     return {fl, rate:new Map(teams.map(k => [k, r(k)])), hosts};
   }, drawTs);
   if (!out) return '';
   let real = S && S.pots ? S.pots : S && S.from && tournamentById(S.from) ? redrawPots(tournamentById(S.from)) : null;
   const kOf = t => teams.includes(t) ? t : keyOfName(t);   /* era names (Czechoslovakia, Yugoslavia) stay as the edition files them */
-  const realOf = new Map(); if (real && !(S && S.regional)) real.forEach((p, i) => p.forEach(t => realOf.set(kOf(t), i)));
-  const flOf = new Map(); if (!(S && S.regional)) out.fl.forEach((p, i) => p.forEach(k => flOf.set(k, i)));
+  const realOf = new Map(); if (real && !(S && (S.regional || S.uneven))) real.forEach((p, i) => p.forEach(t => realOf.set(kOf(t), i)));
+  const flOf = new Map(); if (!(S && (S.regional || S.uneven))) out.fl.forEach((p, i) => p.forEach(k => flOf.set(k, i)));
   const rawOf = new Map(); e.matches.forEach(m => { rawOf.set(keyOfName(m.home), m.home); rawOf.set(keyOfName(m.away), m.away); });
   const cell = (k, mine, other) => { const d = other.has(k) ? other.get(k) - mine : null;
     return '<span class="sd-t'+(d ? ' sd-diff' : '')+'" title="'+(d ? (d > 0 ? 'A pot higher than' : 'A pot lower than')+' the other seeding' : '')+'">'+withFlag(dn(state.historicalNames ? resolveName(rawOf.get(k) || k, e.start) : k), e.start)+
-      (d ? ' <small class="'+(d > 0 ? 'up' : 'down')+'">'+(d > 0 ? '&uarr;' : '&darr;')+Math.abs(d)+'</small>' : '')+'</span>'; };
+      (d ? ' <small class="'+(d > 0 ? 'up' : 'down')+'">'+(d > 0 ? '&uarr;' : '&darr;')+Math.abs(d)+'</small>' : '')+(gone.includes(k) ? ' <small class="muted">withdrew</small>' : '')+'</span>'; };
   const nRows = Math.max(out.fl.length, real ? real.length : 0);
   const rows = Array.from({length:nRows}, (_, i) => '<tr><th>Pot '+(i + 1)+'</th><td>'+(out.fl[i] || []).map(k => cell(k, i, realOf)).join('')+'</td>'+
     (real ? '<td>'+(real[i] || []).map(t => cell(kOf(t), i, flOf)).join('')+'</td>' : '')+'</tr>').join('');
-  const moved = real && !S.regional ? teams.filter(k => realOf.has(k) && realOf.get(k) !== flOf.get(k)).length : 0;
+  const moved = real && !S.regional && !S.uneven ? teams.filter(k => realOf.has(k) && realOf.get(k) !== flOf.get(k)).length : 0;
   return '<div class="panel-body"><p class="fr-q" style="margin-top:0;">How Formline\'s ratings would have potted the '+teams.length+' teams'+(S && S.draw ? ' on the day of the draw, '+fmtDay(drawTs) : ', about five months before kick-off')+
       (out.hosts.length ? ', with the host'+(out.hosts.length > 1 ? 's' : '')+' in pot 1' : '')+(real ? ', next to the pots the organiser used' : '')+'.'+
-      (real && !S.regional ? ' <b>'+moved+'</b> of the '+teams.length+' teams would have been in a different pot.' : real ? ' The organiser\'s pots were set by region rather than strength, so they don\'t line up pot by pot.' : '')+'</p>'+
+      (real && !S.regional && !S.uneven ? ' <b>'+moved+'</b> of the '+teams.length+' teams would have been in a different pot.' : real && S.uneven ? ' The organiser seeded only some of the teams and drew the rest from one pot, so its pots don\'t line up with Formline\'s pot by pot.' : real ? ' The organiser\'s pots were set by region rather than strength, so they don\'t line up pot by pot.' : '')+'</p>'+
     '<div class="table-wrap"><table class="sd-t"><thead><tr><th></th><th>Formline\'s pots</th>'+(real ? '<th>The organiser\'s pots</th>' : '')+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
-    '<p class="chart-note">'+(real ? 'The organiser\'s pots: '+esc(S.basis)+'.'+(S.regional ? '' : ' Arrows mark a team in a different pot under the other seeding: &uarr; a pot higher, &darr; lower.')
+    '<p class="chart-note">'+(S && S.outNote ? esc(S.outNote)+'. ' : '')+(real ? 'The organiser\'s pots: '+esc(S.basis)+'.'+(S.regional || S.uneven ? '' : ' Arrows mark a team in a different pot under the other seeding: &uarr; a pot higher, &darr; lower.')
       : 'The organiser\'s own pots for this edition haven\'t been added yet.')+'</p></div>';
 }
 /* Competitions that changed name, as one lineage: the newest name first in the key. */
@@ -10048,6 +10167,12 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['12 Nov 2026', ['Matchday now lists each match under your own calendar day, to match the kick-off times shown (a late-evening match in the Americas no longer appears under the next day).',
+    'Fixtures: a match whose Wikipedia entry is only a placeholder (no stadium or time yet) keeps the date from the fixture feed. Morocco v Niger had been shown two days early.',
+    'Every page in Ratings, Matches and Tools now has the same row of tabs at the top as the About pages, so a section\'s pages are one tap apart. On phones the row is a drop-down, on the About pages too.',
+    'Long pages are split into tabs: a team\'s page (Overview, History, Matches, Opponents), Confederations and How it works. The tab is kept in the link, so a shared link opens on the same tab.',
+    'Seeding: the organiser\'s real pots for 25 more editions, among them the 1974 World Cup, Euro 1996, the 2006 and 2008 Africa Cups of Nations, the 2007 Asian Cup, three more Copa Am&eacute;ricas, the Women\'s World Cups of 1999, 2003 and 2007, Women\'s Euro 2013 and twelve more women\'s continental finals. Editions where a team withdrew and left the groups uneven are now shown too, with that team marked.',
+    'Simulator: the Copa Am&eacute;rica 2024 rewind can be drawn again, from CONMEBOL\'s own pots or Formline\'s, with the four seeded sides in their places and no more than three CONMEBOL or two CONCACAF teams in a group.']],
   ['11 Nov 2026', ['Qualifying, rebuilt: each qualifying competition is now organised by the tournament it led to (for 2026, for 2022…), then by confederation, then round by round, with group tables and ties. The rounds are worked out from the results, since the archives don\'t record them. Open them from Competitions or from any finals page.',
     'Seeding on every finals page with groups: how Formline\'s ratings would have potted the teams at the draw, next to the organiser\'s real pots for 48 editions so far (men\'s World Cups since 1966 except 1974, Euros since 2000, AFCONs since 2012, Asian Cups since 2011, Copas since 2015, recent Gold Cups, women\'s World Cups since 2011 and Women\'s Euros since 2017; older World Cup pots were set by region, and the page says so), with what the organiser based them on.',
     'Confederations: World Cup places against strength can now be shown for any past World Cup: the teams each confederation had at the finals against its teams in the world\'s best on the eve, with confederations as they stood then.',
@@ -10861,6 +10986,7 @@ function startTour(firstVisit, page){
   const steps = page ? page.steps : tourSteps().filter((st, i) => i === 0 ? firstVisit : hasTarget(st));
   if (!firstVisit && steps.length && steps[0].start) steps.shift();
   tourState = {steps, i:0, prevFocus:document.activeElement, label:page ? page.label : null, route:state.route};
+  document.body.classList.add('tour-on');
   const spot = document.createElement('div'); spot.className = 'tour-spot'; spot.id = 'tourSpot';
   const card = document.createElement('div'); card.className = 'tour-card'; card.id = 'tourCard';
   card.setAttribute('role', 'dialog'); card.setAttribute('aria-modal', 'true'); card.setAttribute('aria-labelledby', 'tourTitle');
@@ -10930,6 +11056,7 @@ function endTour(markSeen){
   window.removeEventListener('resize', placeTour);
   if (tourState && tourState.prevFocus && tourState.prevFocus.focus && markSeen) tourState.prevFocus.focus();
   tourState = null;
+  if (document.body && document.body.classList) document.body.classList.remove('tour-on');
 }
 document.getElementById('helpBtn').addEventListener('click', () => {
   const pg = state.route === 'home' ? null : pageTour(state.route);

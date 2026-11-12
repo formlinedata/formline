@@ -25,7 +25,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {parseCSV, toCSV} from './lib/csv.mjs';
 import {makeTeamMatcher, makeTournamentMapper, archiveCountry} from './lib/names.mjs';
-import {wikiVenues} from './lib/wikivenues.mjs';
+import {wikiVenues, isTBD} from './lib/wikivenues.mjs';
 import {wikiResults} from './lib/wikiresults.mjs';
 import {makeClient, mapFixture, planStatus, isFreePlan} from './lib/apifootball.mjs';
 import {loadModel} from './lib/model.mjs';
@@ -141,6 +141,9 @@ export function cityCountries(rows){
 export function placeRow(r, venues, cities){
   const v = r.venue_id && venues[r.venue_id];
   const set = (country, src) => { r.country = country; r.neutral = country === r.home_team || country === r.away_team ? 'FALSE' : 'TRUE'; r.venue_src = src; };
+  /* A city saved from a placeholder box ("TBD") before November 2026's fix: dropped. */
+  if (isTBD(r.city)) r.city = '';
+  if (r.wiki && isTBD(r.wiki.city)) r.wiki.city = '';
   if (v && v.country){ if (!r.city && v.city) r.city = v.city; set(archiveCountry(v.country), 'api'); return r; }
   const fromCity = r.city && cities ? cities.get(cityKey(r.city)) : null;
   if (fromCity){ set(fromCity, 'city'); return r; }

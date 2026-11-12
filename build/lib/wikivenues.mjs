@@ -82,12 +82,12 @@ export function pageMatches(wikitext){
     const P = params(b), date = boxDate(P.date);
     const t1 = boxTeam(P.team1), t2 = boxTeam(P.team2);
     if (!date || !t1 || !t2) continue;
-    let loc = plain(P.location).split(',').map(x => x.trim()).filter(Boolean), stadium = plain(P.stadium);
+    let loc = plain(P.location).split(',').map(x => x.trim()).filter(Boolean), stadium = plain(P.stadium); if (isTBD(stadium)) stadium = '';
     /* Competition articles often give "[[Stadium]], [[City]]" with no location: the city is the stadium's last part. */
     if (!loc.length && stadium.includes(',')){ const sp = stadium.split(',').map(x => x.trim()).filter(Boolean); stadium = sp[0]; loc = sp.slice(1); }
     /* "Kingstown (Saint Vincent and the Grenadines)" or a bare "(United States)": the part in brackets is the country. */
     loc = loc.flatMap(x => { const b = x.match(/^(.*?)\s*\(([^()]+)\)$/); return b ? [b[1], b[2]].map(y => y.trim()).filter(Boolean) : [x]; });
-    out.push({date, t1, t2, stadium, city:loc[0] || '', country:loc.length > 1 ? loc[loc.length - 1] : '', kickoff:boxKickoff(date, P.time)});
+    out.push({date, t1, t2, stadium, city:isTBD(loc[0]) ? '' : loc[0] || '', country:loc.length > 1 && !isTBD(loc[loc.length - 1]) ? loc[loc.length - 1] : '', kickoff:boxKickoff(date, P.time)});
   }
   return out;
 }
@@ -109,6 +109,8 @@ export function findMatch(list, fx){
 /* Wikipedia's spellings of countries the archive names differently. */
 const WIKI_COUNTRY = {'Democratic Republic of the Congo':'DR Congo', 'Republic of the Congo':'Congo', 'Timor-Leste':'East Timor',
   "People's Republic of China":'China', 'Republic of China':'Taiwan', 'State of Palestine':'Palestine', 'Federated States of Micronesia':'Micronesia'};
+/* "TBD" and the like, written where a stadium or city is not known yet: read as nothing. */
+export const isTBD = x => /^(tbd|tba|tbc|to be (determined|announced|confirmed|decided))\.?$/i.test(String(x || '').trim());
 export function boxCountry(m, cities, cityKey, toArchive, known){
   /* The last part of the location only counts when it is a country the archive knows: "Harrison, New Jersey" names a
      state, not a country, and then the city is looked up instead. */
@@ -279,7 +281,7 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
       if (!country && !m.moved) continue;
       /* A box with no stadium and no kick-off time ("TBD") is a placeholder: its date is often a guess (Morocco v Niger,
          November 2026: Wikipedia had 11 Nov and no venue, the API the real 13 Nov), so it never moves a fixture. */
-      const placeholder = !m.kickoff && /^(|tbd|tba|tbc|to be (determined|announced|confirmed))$/i.test(String(m.stadium || '').trim());
+      const placeholder = !m.kickoff && (!m.stadium || isTBD(m.stadium));
       if (m.moved && placeholder && !country) continue;
       const hit = {city:m.city, country, stadium:m.stadium, boxDate:m.date, ...(m.moved && !placeholder ? {date:m.date} : {}), ...(m.kickoff ? {kickoff:m.kickoff} : {})};
       if (!best || (!best.country && country) || (!best.kickoff && hit.kickoff && !!best.country === !!country)) best = hit;

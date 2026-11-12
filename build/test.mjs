@@ -58,7 +58,7 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
     const box = st => "{{Football box collapsible|date={{Start date|2026|11|11}}|team1={{fb-rt|JPN}}|score=|team2={{fb|BRA}}|stadium=" + st + "|location=TBD, [[Japan]]}}";
     const fxT = {date:'2026-11-13', home_team:'Japan', away_team:'Brazil'};
     const mT = W.findMatch(W.pageMatches(box('TBD')), fxT);
-    ok(mT && mT.moved && mT.stadium === 'TBD' && !mT.kickoff, 'Wikipedia: a TBD box is still matched to the fixture');
+    ok(mT && mT.moved && mT.stadium === '' && mT.city === '' && mT.country === 'Japan' && !mT.kickoff, 'Wikipedia: a TBD box is still matched to the fixture, TBD read as nothing');
     const cacheOf = st => ({titlesV:2, titles:{'men|Japan':{title:'J', checked:'2026-11-01'}, 'men|Brazil':{title:'', checked:'2026-11-01'}},
       pages:{J:{fetched:'2026-11-01', matches:W.pageMatches(box(st))}}, comps:{}});
     const run = async st => (await W.wikiVenues([{api_id:3, gender:'men', ...fxT}], cacheOf(st), {fetchImpl:null, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x})).found.get('3');

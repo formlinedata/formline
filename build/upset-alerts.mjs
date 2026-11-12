@@ -25,7 +25,7 @@ export function alertText(x){
   const {e, o} = x, win = o === 0 ? e.home : e.away, lose = o === 0 ? e.away : e.home, pc = Math.max(1, Math.round(x.chance * 100));
   const head = `😱 Upset: ${e.home} ${e.result[0]}–${e.result[1]} ${e.away}`;
   const body = `${e.tournament}${e.g === 'women' ? " (women's)" : ''}. Formline gave ${win} a ${pc}% chance before kick-off; ${lose} were ${Math.round(e.p[o === 0 ? 2 : 0] * 100)}% favourites.`;
-  const link = `${BASE}#/matchday?g=${e.g}&d=${e.date}`;
+  const link = `${BASE}#/matchday?g=${e.g}&ud=${e.date}`;
   return {text:`${head}\n\n${body}\n\nEvery call that day: ${link}`, link};
 }
 /* Bluesky needs byte offsets for links and hashtags. */
