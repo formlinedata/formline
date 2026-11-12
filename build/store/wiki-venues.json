@@ -2353,11 +2353,11 @@
  },
  "pages": {
   "Curaçao national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Jamaica national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Mexico national football team results": {
@@ -2365,7 +2365,7 @@
    "matches": []
   },
   "Algeria national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Angola national football team results (2020–present)": {
@@ -2377,7 +2377,7 @@
    "matches": []
   },
   "Benin national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Burkina Faso national football team results (2000–2019)": {
@@ -2389,11 +2389,11 @@
    "matches": []
   },
   "Cameroon national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Namibia national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Cape Verde national football team results": {
@@ -2401,11 +2401,11 @@
    "matches": []
   },
   "Liberia national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Comoros national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "DR Congo national football team results (2010–2019)": {
@@ -2433,7 +2433,7 @@
    "matches": []
   },
   "Somalia national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Eritrea national football team results": {
@@ -2441,11 +2441,11 @@
    "matches": []
   },
   "Madagascar national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Guinea-Bissau national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Mali national football team results (2020–present)": {
@@ -2453,23 +2453,14 @@
    "matches": []
   },
   "Morocco national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
-    {
-     "date": "2026-11-11",
-     "t1": "MAR",
-     "t2": "NIG",
-     "stadium": "TBD",
-     "city": "TBD",
-     "country": "Morocco",
-     "kickoff": null
-    },
     {
      "date": "2026-11-15",
      "t1": "NIG",
      "t2": "MAR",
-     "stadium": "TBD",
-     "city": "TBD",
+     "stadium": "",
+     "city": "",
      "country": "",
      "kickoff": null
     },
@@ -2477,8 +2468,8 @@
      "date": "2027-03-24",
      "t1": "GAB",
      "t2": "MAR",
-     "stadium": "TBD",
-     "city": "TBD",
+     "stadium": "",
+     "city": "",
      "country": "Gabon",
      "kickoff": null
     },
@@ -2486,15 +2477,15 @@
      "date": "2027-03-28",
      "t1": "MAR",
      "t2": "LES",
-     "stadium": "TBD",
-     "city": "TBD",
+     "stadium": "",
+     "city": "",
      "country": "Morocco",
      "kickoff": null
     }
    ]
   },
   "Niger national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Nigeria national football team results (1949–1959)": {
@@ -2502,7 +2493,7 @@
    "matches": []
   },
   "Tanzania national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Senegal national football team results (2010–2019)": {
@@ -2514,31 +2505,31 @@
    "matches": []
   },
   "Tunisia national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Libya national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Uganda national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Botswana national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Zambia national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Barbados national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Belize national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Sint Maarten national football team results": {
@@ -2546,11 +2537,11 @@
    "matches": []
   },
   "2026–27 CONCACAF Nations League": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "2026–27 CONCACAF Nations League A": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -2627,7 +2618,7 @@
    ]
   },
   "2026–27 CONCACAF Nations League B": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -2776,11 +2767,11 @@
    ]
   },
   "2026–27 CONCACAF Nations League C": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "2026–27 CONCACAF Nations League Play-in": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -2857,15 +2848,15 @@
    ]
   },
   "2027 Africa Cup of Nations qualification": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "2026–27 UEFA Nations League": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "2026–27 UEFA Nations League A": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3014,7 +3005,7 @@
    ]
   },
   "2026–27 UEFA Nations League B": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3163,7 +3154,7 @@
    ]
   },
   "2026–27 UEFA Nations League C": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3312,7 +3303,7 @@
    ]
   },
   "2026–27 UEFA Nations League D": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3353,23 +3344,23 @@
    ]
   },
   "2027 FIFA Women's World Cup qualification": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "2027 FIFA Women's World Cup qualification (inter-confederation play-offs)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "2027 FIFA Women's World Cup qualification (UEFA)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Panama national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Mexico national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-14",
@@ -3400,11 +3391,11 @@
    "matches": []
   },
   "Cape Verde national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Congo national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "DR Congo national football team results (2020–present)": {
@@ -3420,7 +3411,7 @@
    "matches": []
   },
   "Ghana national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Guinea national football team results (2020–present)": {
@@ -3428,27 +3419,27 @@
    "matches": []
   },
   "Ivory Coast national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Gambia national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Ethiopia national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Nigeria national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Senegal national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Sudan national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "South Africa national soccer team results (2020–present)": {
@@ -3456,7 +3447,7 @@
    "matches": []
   },
   "Bermuda national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Saint Lucia national football team results": {
@@ -3464,15 +3455,15 @@
    "matches": []
   },
   "Bonaire national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Cuba national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Cayman Islands national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Dominica national football team results": {
@@ -3480,7 +3471,7 @@
    "matches": []
   },
   "Saint Vincent and the Grenadines national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Saint Kitts and Nevis national football team results": {
@@ -3488,7 +3479,7 @@
    "matches": []
   },
   "Puerto Rico national football team results": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3511,15 +3502,15 @@
    ]
   },
   "Vietnam national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Chinese Taipei national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Turkey national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3542,7 +3533,7 @@
    ]
   },
   "Belgium national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3565,7 +3556,7 @@
    ]
   },
   "Armenia national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3588,15 +3579,15 @@
    ]
   },
   "Cyprus national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Italy national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "France national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3619,7 +3610,7 @@
    ]
   },
   "Czech Republic national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3642,15 +3633,15 @@
    ]
   },
   "Spain national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "England national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Croatia national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3673,11 +3664,11 @@
    ]
   },
   "Albania national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Finland national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3700,15 +3691,15 @@
    ]
   },
   "San Marino national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Montenegro national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Latvia national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -3731,11 +3722,11 @@
    ]
   },
   "Malta national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Serbia national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3758,7 +3749,7 @@
    ]
   },
   "Germany national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3781,11 +3772,11 @@
    ]
   },
   "Netherlands national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Greece national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3808,7 +3799,7 @@
    ]
   },
   "Slovakia national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3831,23 +3822,23 @@
    ]
   },
   "Faroe Islands national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Moldova national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Kazakhstan national football team results": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Bulgaria national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Iceland national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3870,7 +3861,7 @@
    ]
   },
   "Liechtenstein national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Azerbaijan national football team results (2020–present)": {
@@ -3897,11 +3888,11 @@
    ]
   },
   "Estonia national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Luxembourg national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3928,11 +3919,11 @@
    "matches": []
   },
   "Gibraltar national football team results": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Switzerland national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -3955,15 +3946,15 @@
    ]
   },
   "Scotland national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Slovenia national football team results (2020–present)": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "North Macedonia national football team results": {
-   "fetched": "2026-11-10",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Guatemala national football team results": {
@@ -3994,15 +3985,15 @@
    ]
   },
   "Kyrgyzstan national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Saudi Arabia national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "South Korea national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "United Arab Emirates national football team results (2020–present)": {
@@ -4010,7 +4001,7 @@
    "matches": []
   },
   "Honduras national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Kosovo national football team results (2020–present)": {
@@ -4291,7 +4282,7 @@
    "matches": []
   },
   "Yemen national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Bahrain national football team results (2020–present)": {
@@ -4317,7 +4308,7 @@
    ]
   },
   "Lithuania national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -4356,15 +4347,15 @@
    "matches": []
   },
   "Chile national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Colombia national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Malaysia national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "China national football team results (2020–present)": {
@@ -4376,7 +4367,7 @@
    "matches": []
   },
   "Uzbekistan national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-12",
@@ -4391,7 +4382,7 @@
      "date": "2026-11-17",
      "t1": "KSA",
      "t2": "UZB",
-     "stadium": "TBC",
+     "stadium": "",
      "city": "Doha",
      "country": "Qatar",
      "kickoff": "2026-11-17T15:30:00+00:00"
@@ -4434,75 +4425,75 @@
    "matches": []
   },
   "Kuwait national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Italy women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Republic of Ireland women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Portugal women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Scotland women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "England women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Wales women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "United States women's national soccer team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Canada women's national soccer team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "South Africa women's national soccer team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Ghana women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Uzbekistan women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Australia women's national soccer team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Colombia women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Liechtenstein women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Estonia women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Japan women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Brazil women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-29",
@@ -4525,7 +4516,7 @@
    ]
   },
   "Philippines women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Morocco women's national football team results": {
@@ -4533,11 +4524,11 @@
    "matches": []
   },
   "Palestine national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Iran national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-14",
@@ -4587,7 +4578,7 @@
    ]
   },
   "Uruguay national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -4682,11 +4673,11 @@
    "matches": []
   },
   "Aruba national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Antigua and Barbuda national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Trinidad and Tobago national football team results (1980–1999)": {
@@ -4694,11 +4685,11 @@
    "matches": []
   },
   "Saint Martin national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "El Salvador national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": [
     {
      "date": "2026-11-13",
@@ -4721,35 +4712,35 @@
    ]
   },
   "Montserrat national football team results": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Dominican Republic women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Greece women's national football team results (2020–present)": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Spain women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Argentina women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Germany women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Montenegro women's national football team results": {
-   "fetched": "2026-11-09",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Belarus national football team results (2010–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Anguilla national football team results": {
@@ -4757,7 +4748,7 @@
    "matches": []
   },
   "Syria national football team results (2020–present)": {
-   "fetched": "2026-11-11",
+   "fetched": "2026-11-12",
    "matches": []
   },
   "Iraq national football team results (2020–present)": {
@@ -4839,99 +4830,99 @@
  "titlesV": 2,
  "resultPages": {
   "Afghanistan women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Afghanistan women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Albania women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Albania women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Algeria women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Algeria women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "American Samoa women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Andorra women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Andorra women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Angola women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Anguilla women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Antigua and Barbuda women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Argentina women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Argentina women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Armenia women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Aruba women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Australia women's national soccer team results (2020–present)": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Australia women's national soccer team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Austria women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Azerbaijan women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bahamas women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bahrain women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bahrain women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bangladesh women's national football team results (2020–present)": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": [
     {
      "date": "2026-09-14",
@@ -4972,7 +4963,7 @@
    ]
   },
   "Bangladesh women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": [
     {
      "date": "2026-09-14",
@@ -5013,52 +5004,27 @@
    ]
   },
   "Barbados women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Belarus women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Belgium women's national football team": {
-   "fetched": "2026-11-08",
-   "results": [
-    {
-     "date": "2026-10-09",
-     "t1": "BEL",
-     "t2": "POL",
-     "hs": 1,
-     "as": 0,
-     "so": 0,
-     "comp": "2027 FIFA Women's World Cup qualification",
-     "stadium": "Den Dreef",
-     "city": "Leuven",
-     "country": "Belgium"
-    },
-    {
-     "date": "2026-10-13",
-     "t1": "POL",
-     "t2": "BEL",
-     "hs": 3,
-     "as": 2,
-     "so": 0,
-     "comp": "2027 FIFA Women's World Cup qualification",
-     "stadium": "Gdańsk Stadium",
-     "city": "Gdańsk",
-     "country": "Poland"
-    }
-   ]
+   "fetched": "2026-11-12",
+   "results": []
   },
   "Belize women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Benin women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Benin women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": [
     {
      "date": "2026-10-08",
@@ -5087,31 +5053,31 @@
    ]
   },
   "Bermuda women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bhutan women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bhutan women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bolivia women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bonaire women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bosnia and Herzegovina women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Botswana women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": [
     {
      "date": "2026-10-09",
@@ -5140,7 +5106,7 @@
    ]
   },
   "Botswana women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": [
     {
      "date": "2026-10-09",
@@ -5169,7 +5135,7 @@
    ]
   },
   "Brazil women's national football team results (2020–present)": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": [
     {
      "date": "2026-10-10",
@@ -5198,47 +5164,47 @@
    ]
   },
   "Brazil women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "British Virgin Islands women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bulgaria women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Bulgaria women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Burkina Faso women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Burkina Faso women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Burundi women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Burundi women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Cambodia women's national football team results": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Cambodia women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Cameroon women's national football team": {
-   "fetched": "2026-11-08",
+   "fetched": "2026-11-12",
    "results": []
   },
   "Canada women's national soccer team results": {
@@ -6593,6 +6559,187 @@
      "country": "Gabon"
     }
    ]
+  },
+  "Tahiti women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Chinese Taipei women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Tajikistan women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Tajikistan women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Tanzania women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Tanzania women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Thailand women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Thailand women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Timor-Leste women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Togo women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Togo women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Tonga women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Trinidad and Tobago women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Tunisia women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": [
+    {
+     "date": "2026-10-08",
+     "t1": "TUN",
+     "t2": "SEN",
+     "hs": 0,
+     "as": 1,
+     "so": 0,
+     "comp": "2028 Olympic Qualification Second round",
+     "stadium": "Hammadi Agrebi Stadium",
+     "city": "Radès",
+     "country": ""
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "SEN",
+     "t2": "TUN",
+     "hs": 2,
+     "as": 0,
+     "so": 0,
+     "comp": "2028 Olympic Qualification Second round",
+     "stadium": "Leopold Sédar Senghor Stadium",
+     "city": "Dakar",
+     "country": ""
+    }
+   ]
+  },
+  "Tunisia women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Turkey women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Turkey women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Turkmenistan women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Turkmenistan women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Turks and Caicos Islands women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Uganda women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Ukraine women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "United Arab Emirates women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "United Arab Emirates women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "United States women's national soccer team results (2020–present)": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "United States women's national soccer team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "United States Virgin Islands women's national soccer team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Uruguay women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Uzbekistan women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Uzbekistan women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Vanuatu women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Venezuela women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Vietnam women's national football team results (2020–present)": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Vietnam women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Wales women's national football team results (2020–present)": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Wales women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Zambia women's national football team results": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Zambia women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
+  },
+  "Zimbabwe women's national football team": {
+   "fetched": "2026-11-12",
+   "results": []
   }
  },
  "resultSeen": {}
