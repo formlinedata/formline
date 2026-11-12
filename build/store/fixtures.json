@@ -4158,31 +4158,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1649029": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T22:00:00+00:00",
-  "home_team": "Aruba",
-  "away_team": "Martinique",
-  "tournament": "CONCACAF Nations League",
-  "city": "Oranjestad",
-  "country": "Aruba",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1649029,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Oranjestad",
-   "country": "Aruba",
-   "stadium": "Trinidad Stadium",
-   "boxDate": "2026-11-12",
-   "kickoff": "2026-11-12T19:00:00+00:00"
-  },
-  "venue_src": "city"
- },
  "1649030": {
   "date": "2026-11-12",
   "kickoff": "2026-11-12T23:00:00+00:00",
