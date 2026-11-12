@@ -600,6 +600,16 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
         ok(today.bad[0] === 'the page did not use the file' && dayCheck(model, 'women', short, mid).bad[0] === 'the page did not use the file',
           'past dates: today\'s table never comes from a match-day file, and a file that does not fit the match list is refused');
       }
+      /* A team's cluster: the teams ranked inside its own likely rank range, itself included; none for an unranked team. */
+      { const cl = model.run(`(() => { const out = {n:0, bad:0, none:true};
+          for (const g of ['men', 'women']){ if (!state.matches[g]) continue; state.gender = g; state.asOf = state.bounds[g].max; state.cache = {key:null};
+            const c = getRatings(), R = rankRanges(c);
+            c.table.forEach(r => { const K = clusterOf(c, r), m = R.get(r.key).mid; out.n++;
+              if (!K || !K.rows.includes(r) || K.lo > r.rank || K.hi < r.rank || K.lo !== Math.min(m[0], r.rank) || K.hi !== Math.max(m[1], r.rank) || K.rows.length !== K.hi - K.lo + 1 || K.rows.some((x, i) => x.rank !== K.lo + i)) out.bad++; });
+            c.provisional.forEach(r => { if (clusterOf(c, r) !== null) out.none = false; }); }
+          state.gender = 'women'; state.asOf = state.bounds.women.max; state.cache = {key:null};
+          return out; })()`);
+        ok(cl.bad === 0 && cl.none, 'cluster: every ranked team\'s cluster is the run of ranks inside its likely rank, itself included (' + cl.n + ' teams); none for an unranked team'); }
       /* Today's table in full, read back from its file, equals the page's own table; a changed number is caught. */
       const {tableFile, tableCheck, recordYears, recordCheck} = await import('./precompute.mjs');
       for (const allTime of [false, true]){
@@ -671,17 +681,36 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
     ok(/behind World Elo and level with the FIFA method/.test(behind.caption) && behind.slides.length === 2 && /2 of the 8 years/.test(behind.alts[1]), 'social posts: the accuracy post says so when Formline is behind, and shows no split slide');
   }
   { /* The window recap brings in World Elo and the FIFA method only when Formline picked at least as many winners as both. */
-    const w = {type:'windowRecord', mode:'final', g:'men', from:'2026-11-12', to:'2026-11-17', n:158, hits:104, byG:{men:{n:121, hits:79}, women:{n:37, hits:25}}, strong:{n:41, hits:37}, ups:[]};
+    const w = {type:'windowRecord', mode:'final', g:'men', from:'2026-11-12', to:'2026-11-17', n:158, hits:104, tally:{n:158, dec:120, won:104, draws:38, close:12},
+      byG:{men:{n:121, hits:79, dec:92, won:79, draws:29, close:9}, women:{n:37, hits:25, dec:28, won:25, draws:9, close:3}}, strong:{n:41, hits:37}, ups:[]};
     const up = SB.windowRecord({...w, cmp:{n:118, us:96, elo:93, fifa:88}}), down = SB.windowRecord({...w, mode:'mid', cmp:{n:118, us:90, elo:93, fifa:88}}), few = SB.windowRecord({...w, cmp:{n:12, us:11, elo:9, fifa:8}});
-    ok(up.slides.length === 2 && /Formline 96, World Elo 93, FIFA method 88/.test(up.caption) && /12–17 November: 104 of 158 results called right \(66%\)\./.test(up.caption), 'social posts: the window recap gives the count and, when Formline led, the comparison');
+    ok(up.slides.length === 2 && /Formline 96, World Elo 93, FIFA method 88/.test(up.caption) && /12–17 November: Formline picked the winner in 104 of the 120 matches that had one \(87%\); 38 draws, 12 of which it had as toss-ups\./.test(up.caption) && /Men's: 79 of 92 winners picked/.test(up.caption) && /Draws it had as a toss-up<\/span><span><b>12<\/b> of 38/.test(up.slides[0]),
+      'social posts: the window recap gives the winners picked, the draws apart and, when Formline led, the comparison');
     ok(down.slides.length === 1 && !/World Elo/.test(down.caption + down.xText) && /so far/.test(down.caption) && few.slides.length === 1, 'social posts: the window recap leaves the comparison out when Formline trailed either, or on too few matches');
   }
   { /* The day's roundup adds its "good day" slide only on a good day when Formline picked at least as many winners as both. */
     const row = (i, hit) => ({g:'men', home:'Home ' + i, away:'Away ' + i, hs:hit ? 2 : 0, as:hit ? 0 : 1, comp:'Friendly', hf:null, af:null, p:[60, 25, 15], call:0, o:hit ? 0 : 2, hit, top:i});
-    const day = (hits, n, cmp) => SB.roundup({type:'roundup', g:'men', day:'2026-11-12', dayTxt:'Thursday 12 November', n, hits, list:Array.from({length:n}, (_, i) => row(i, i < hits)), ups:[], big:null, win:{n, hits}, cmp});
+    const day = (hits, n, cmp) => SB.roundup({type:'roundup', g:'men', day:'2026-11-12', dayTxt:'Thursday 12 November', n, hits, tally:{n, dec:n, won:hits, draws:0, close:0}, list:Array.from({length:n}, (_, i) => ({...row(i, i < hits), v:i < hits ? 'right' : 'wrong'})), ups:[], big:null, win:{n, hits, dec:n, won:hits, draws:0, close:0}, cmp});
     const best = day(10, 12, {n:12, us:10, elo:9, fifa:8}), poor = day(6, 12, {n:12, us:6, elo:5, fifa:4}), behind = day(10, 12, {n:12, us:10, elo:11, fifa:8}), none = day(10, 12, null);
-    ok(best.slides.length === poor.slides.length + 1 && /Formline 10, World Elo 9, FIFA method 8/.test(best.caption) && /yesterday/.test(best.slides[0]), 'social posts: a good day that beat World Elo and the FIFA method says so');
+    ok(best.slides.length === poor.slides.length + 1 && /Formline 10, World Elo 9, FIFA method 8/.test(best.caption) && /Formline picked <em>10 of 12<\/em> winners yesterday/.test(best.slides[0]), 'social posts: a good day that beat World Elo and the FIFA method says so');
     ok(!/World Elo/.test(poor.caption + behind.caption + none.caption) && behind.slides.length === poor.slides.length && none.slides.length === poor.slides.length, 'social posts: no comparison on a poor day, or when Formline trailed, or without the figures');
+  }
+  { /* Draws: the day is summed up by the winners picked; a draw in a toss-up is marked as called close, any other draw as wrong. */
+    const mk = (i, p, hs, as, v) => ({g:'men', home:'Home ' + i, away:'Away ' + i, hs, as, comp:'Friendly', hf:null, af:null, p, call:p.indexOf(Math.max(...p)), o:hs > as ? 0 : hs < as ? 2 : 1, hit:v === 'right', v, top:i});
+    const list = [mk(0, [60, 25, 15], 2, 0, 'right'), mk(1, [55, 26, 19], 1, 0, 'right'), mk(2, [70, 19, 11], 3, 1, 'right'), mk(3, [20, 27, 53], 0, 2, 'right'), mk(4, [48, 28, 24], 2, 1, 'right'),
+      mk(5, [39, 31, 30], 1, 1, 'close'), mk(6, [59, 25, 16], 1, 1, 'wrong'), mk(7, [62, 22, 16], 0, 1, 'wrong')];
+    const post = SB.roundup({type:'roundup', g:'men', day:'2026-11-12', dayTxt:'Thursday 12 November', n:8, hits:5, tally:{n:8, dec:6, won:5, draws:2, close:1}, list, ups:[], big:null, win:{n:8, hits:5, dec:6, won:5, draws:2, close:1}, cmp:null});
+    ok(/Formline picked the winner in 5 of the 6 matches that had one; 2 draws, 1 of which it had as a toss-up\./.test(post.caption) && (post.caption.match(/🟡/g) || []).length === 1 && (post.caption.match(/❌/g) || []).length === 2
+      && /Formline picked <em>5 of 6<\/em> winners/.test(post.slides[0]) && /&asymp;/.test(post.slides[0]) && /5 of 6 winners picked/.test(post.title),
+      'social posts: a day with draws counts winners picked, and marks a toss-up draw as called close');
+    const {callVerdict:cv, callCounts:cc, drawsLine:dl} = await import('./pages.mjs');
+    const page = model => model.run(`[callVerdict([0.39, 0.31, 0.30], 1), callVerdict([0.45, 0.30, 0.25], 1), callVerdict([0.45, 0.30, 0.25], 0), callVerdict([0.34, 0.31, 0.35], 0), JSON.stringify(callCounts([{p:[0.39, 0.31, 0.30], outcome:1}, {p:[0.6, 0.25, 0.15], outcome:1}, {p:[0.6, 0.25, 0.15], outcome:0}, {p:[0.6, 0.25, 0.15], outcome:2}]))]`);
+    const {loadModel:lm} = await import('./lib/model.mjs'), got = page(lm(path.join(HERE, '..', 'index.html')));
+    ok(got.slice(0, 4).join() === 'close,wrong,right,wrong' && got[4] === JSON.stringify({n:4, decided:2, won:1, draws:2, close:1})
+      && [cv([0.39, 0.31, 0.30], 1), cv([0.45, 0.30, 0.25], 1), cv([0.45, 0.30, 0.25], 0), cv([0.34, 0.31, 0.35], 0)].join() === 'close,wrong,right,wrong'
+      && JSON.stringify(cc([{p:[0.39, 0.31, 0.30], outcome:1}, {p:[0.6, 0.25, 0.15], outcome:1}, {p:[0.6, 0.25, 0.15], outcome:0}, {p:[0.6, 0.25, 0.15], outcome:2}])) === got[4]
+      && dl({draws:5, close:2}) === '5 draws, 2 of which Formline had as toss-ups' && dl({draws:1, close:1}) === '1 draw, which Formline had as a toss-up' && dl({draws:0, close:0}) === 'no draws',
+      'draws: a drawn toss-up is called close, any other draw is wrong, and the site and the static pages agree');
   }
   ok(koText('2026-11-12T19:45:00+00:00', '2026-11-12') === '2:45 PM ET · 7:45 PM UK', 'social posts: a kick-off is given in Toronto and UK time');
   ok(koText('2026-11-13T00:30:00+00:00', '2026-11-12') === '7:30 PM ET · 12:30 AM UK (Fri)', 'social posts: a zone where the match is on another day says which day');

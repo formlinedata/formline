@@ -216,7 +216,7 @@
   td.rating{font-size:16px;font-weight:700;font-stretch:105%;color:var(--amber);white-space:nowrap;}
   td.mono{font-size:14px;white-space:nowrap;}
   .pm{font-size:12.5px;font-weight:400;color:var(--dim);font-stretch:100%;}
-  .up{color:var(--win);} .down{color:var(--loss);} .flat{color:var(--dim);}
+  .up{color:var(--win);} .down{color:var(--loss);} .flat{color:var(--dim);} .near{color:var(--amber);}
   .scroll{max-height:680px;overflow-y:auto;}
   .table-wrap{overflow-x:auto;}
 
@@ -1146,6 +1146,7 @@
   .tcombo-list .none{padding:10px;color:var(--dim);font-size:13.5px;}
   .tm-pos{width:30px;flex:none;color:var(--dim);font-variant-numeric:tabular-nums;}
   .tm-r{margin-left:auto;font-weight:700;color:var(--amber);font-variant-numeric:tabular-nums;}
+  .tm-tier{margin-left:4px;flex:none;} .tm-tier + .tm-r{margin-left:auto;}
 
   /* v47: page guides */
   .tour-card .tour-more{margin:10px 0 0;font-size:13px;color:var(--dim);} .tour-card .tour-more a{color:var(--amber);}
@@ -2539,18 +2540,39 @@ const wideMark = () => '<span class="tm-q" title="'+WIDE_TIP+'" aria-label="'+WI
 const tmRow = (r, T, cls) => '<a class="tm'+(cls ? ' '+cls : '')+'" href="'+teamHref(r.team)+'"'+(cls === 'fade' ? ' title="Not in this tier"' : '')+'><span class="tm-pos">'+T.pos(r)+'</span>'+
   withFlag(r.team)+(T.wide && T.wide.has(r) ? wideMark() : '')+'<span class="tm-r">'+fmtR(r.rating)+'</span></a>';
 const tmBreak = (txt, gap) => '<div class="tm-break"><span>'+txt+(gap !== null && gap !== undefined ? ' &middot; '+gap.toFixed(1)+' points apart' : '')+'</span></div>';
+/* A team's cluster (Seb, 12 Nov 2026): the teams ranked inside its own likely rank range, the middle half of the places
+   it takes when every rating is redrawn from its band (rankRanges). Tiers are cut from the top of the table down, so a
+   team at the top of a tier is grouped only with sides below it; the cluster is centred on the team itself, so it can
+   reach into the tier above and need not take in the whole of its own. */
+function clusterOf(c, row){
+  if (!row || !row.rank) return null;
+  const rg = rankRanges(c).get(row.key); if (!rg) return null;
+  const lo = Math.min(rg.mid[0], row.rank), hi = Math.max(rg.mid[1], row.rank), rows = c.table.filter(r => r.rank >= lo && r.rank <= hi);
+  return {lo, hi, rows, above:c.table.filter(r => r.rank < lo).slice(-2), below:c.table.filter(r => r.rank > hi).slice(0, 2), wide:rg.wide,
+    tiers:[...new Set(rows.map(r => r.tier))].sort((a, b) => a - b)};
+}
+const clRow = (r, cls) => '<a class="tm'+(cls ? ' '+cls : '')+'" href="'+teamHref(r.team)+'"'+(cls === 'fade' ? ' title="Outside the cluster"' : '')+'><span class="tm-pos">'+r.rank+'</span>'+
+  withFlag(r.team)+'<span class="tchip tm-tier" style="--tc:'+tierColor(r.tier)+'" title="World tier '+r.tier+'">T'+r.tier+'</span><span class="tm-r">'+fmtR(r.rating)+'</span></a>';
 function tierSection(c, row){
   if (!row || !row.rank) return '';
+  const K = clusterOf(c, row);
+  const cluster = K ? '<div><h3>Cluster: '+(K.lo === K.hi ? ordinal(K.lo) : ordinal(K.lo)+' to '+ordinal(K.hi))+' <span class="muted">&middot; '+K.rows.length+' team'+(K.rows.length === 1 ? '' : 's')+
+      (K.tiers.length > 1 ? ' &middot; from tiers '+K.tiers.join(' and ') : '')+'</span></h3><div class="tm-list">'+
+      (K.above.length ? K.above.map(r => clRow(r, 'fade')).join('')+tmBreak('Above its likely rank', K.above[K.above.length - 1].rating - K.rows[0].rating) : '')+
+      K.rows.map(r => clRow(r, r === row ? 'me' : '')).join('')+
+      (K.below.length ? tmBreak('Below its likely rank', K.rows[K.rows.length - 1].rating - K.below[0].rating)+K.below.map(r => clRow(r, 'fade')).join('') : '')+'</div></div>' : '';
   const block = sc => { const T = tierMates(c, row, sc); if (!T) return '';
     return '<div><h3>'+(sc === 'conf' ? esc(T.label) : 'World')+': tier '+T.n+' <span class="muted">of '+T.of+' &middot; '+T.rows.length+' team'+(T.rows.length === 1 ? '' : 's')+'</span></h3>'+
       '<div class="tm-list">'+
         (T.above.length ? T.above.map(r => tmRow(r, T, 'fade')).join('')+tmBreak('Tier '+(T.n - 1)+' above', T.gapUp) : '')+
         T.rows.map(r => tmRow(r, T, r === row ? 'me' : '')).join('')+
         (T.below.length ? tmBreak('Tier '+(T.n + 1)+' below', T.gapDown)+T.below.map(r => tmRow(r, T, 'fade')).join('') : '')+'</div></div>'; };
-  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Tier<span class="aside">teams level with '+esc(dn(row.team))+'</span></div>'+
-    '<div class="panel-body"><div class="tier-mates">'+block('world')+block('conf')+'</div>'+
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Tier and cluster<span class="aside">teams level with '+esc(dn(row.team))+'</span></div>'+
+    '<div class="panel-body"><div class="tier-mates">'+block('world')+block('conf')+cluster+'</div>'+
     '<p class="chart-note">Teams in the same tier are too close to call apart. Faded teams past the dashed lines are the nearest in the tiers either side, '+
       'with the points between the two tiers. <span class="tm-q" aria-hidden="true">?</span> marks a team in the tier mainly because the model is unsure of it. '+
+      (K ? '<b>Cluster</b>: the teams ranked inside '+esc(dn(row.team))+'\'s own likely rank ('+(K.lo === K.hi ? ordinal(K.lo) : ordinal(K.lo)+' to '+ordinal(K.hi))+'), each with its world tier. '+
+        'Tiers are cut from the top of the table down; the cluster is centred on the team itself, so it can reach into the tier above and need not take in all of its own. ' : '')+
       '<a href="#/method" data-goto-method="m-tiers">How tiers work</a></p></div></div>';
 }
 /* The confederations side by side: overall strength, the model's regional level, median and best team. */
@@ -5481,6 +5503,26 @@ function scoreWord(p, likely){
   const top = p.indexOf(Math.max(...p)), s = +m[1] > +m[2] ? 0 : +m[1] === +m[2] ? 1 : 2;
   return s === top ? 'predicted score' : 'likeliest single score';
 }
+/* How a checked forecast reads (Seb, 12 Nov 2026). Right: the result Formline picked happened. Called close: the match
+   was drawn and Formline had labelled it a Toss-up before kick-off (neither side given 40%, the label it publishes for
+   "either side, or a draw, about as likely"). Wrong: anything else. A draw is almost never the likeliest single result
+   of the three (even in a toss-up about seven matches in ten have a winner), so before this every drawn match read as
+   a miss, including the ones Formline had said were too close to call. The rule uses the label as published before the
+   match, so nothing is decided after the result is known. The scores (forecast score, log-loss, Brier) do not change. */
+function callVerdict(p, outcome){
+  if (outcome === p.indexOf(Math.max(...p))) return 'right';
+  return outcome === 1 && matchupLabel({home:p[0], draw:p[1], away:p[2]}) === 'Toss-up' ? 'close' : 'wrong';
+}
+/* A list of checked forecasts ({p, outcome}) summed up: matches that had a winner and how many of those Formline picked;
+   draws and how many of those it had called close. */
+function callCounts(list){
+  const o = {n:list.length, decided:0, won:0, draws:0, close:0};
+  for (const e of list){ const v = callVerdict(e.p, e.outcome);
+    if (e.outcome === 1){ o.draws++; if (v === 'close') o.close++; } else { o.decided++; if (v === 'right') o.won++; } }
+  return o;
+}
+const VERDICT_HTML = {right:'<span class="up">Right</span>', close:'<span class="near" title="A draw in a match Formline had as a toss-up before kick-off">Called close</span>', wrong:'<span class="down">Wrong</span>'};
+const drawsLine = C => C.draws ? C.draws+' draw'+(C.draws === 1 ? '' : 's')+(C.close ? ', '+(C.close === C.draws ? (C.draws === 1 ? 'which' : C.draws === 2 ? 'both of which' : 'all of which') : C.close+' of which')+' Formline had as '+(C.close === 1 ? 'a toss-up' : 'toss-ups') : '') : 'no draws';
 /* Scoreline grid, expected goals and the likeliest results. */
 function scorelinePanel(sl, a, b){
   /* At least 0 to 5 goals a side, and more when a lopsided match puts real weight on bigger scores. */
@@ -6198,7 +6240,7 @@ function viewWindow(){
     '<p class="page-sub">The international window: what\'s on, what the model expects, and how its calls are going. Every prediction here was '+
       'published before kick-off and never changed afterwards. <a href="#/matchday">Make your own picks and try to beat the model</a>.</p>';
   if (!W){ app.innerHTML = '<div class="wrap">'+head+'<div class="status">No international window in the data yet. The <a href="#/fixtures">fixtures</a> list what\'s coming.</div></div>'; return; }
-  const n = W.scored.length, hits = W.scored.filter(e => e.hit).length, draws = W.scored.filter(e => e.outcome === 1).length;
+  const n = W.scored.length, CC = callCounts(W.scored);
   /* The forecast score, on the same 0 (coin toss) to 100 (perfect) scale as the Forecast record. */
   const sharpW = n ? Math.round(sharp(W.scored.reduce((a, e) => a + binLL(e), 0)/n)) : null;
   const nm = t => esc(dn(t)), outP = e => e.p[e.outcome];
@@ -6210,7 +6252,7 @@ function viewWindow(){
   const resRow = e => '<tr><td class="muted date">'+fmtDay(Date.parse(e.date+'T00:00:00Z')).replace(/ \d{4}$/, '')+'</td>'+
     '<td class="ml-cell">'+matchLine(e.home, e.away, e.result[0]+'&ndash;'+e.result[1], teamHref, {win:e.outcome === 0 ? 1 : e.outcome === 2 ? -1 : 0})+
       '<div class="muted" style="font-size:12.5px;text-align:center;">'+esc(shortComp(e.tournament))+'</div></td>'+
-    '<td class="num"><span class="muted">'+callOf(e)+' '+Math.round(Math.max(...e.p)*100)+'%</span><br><span class="'+(e.hit ? 'up' : 'down')+'">'+(e.hit ? 'Right' : 'Wrong')+'</span></td></tr>';
+    '<td class="num"><span class="muted">'+callOf(e)+' '+Math.round(Math.max(...e.p)*100)+'%</span><br>'+VERDICT_HTML[callVerdict(e.p, e.outcome)]+'</td></tr>';
   const comingRows = W.coming.slice(0, 16).map(x => { const f = fixturePrediction(c, x); if (!f.p) return '';
     const hn = dn(f.rh.team), an = dn(f.ra.team);
     return '<div class="win-fx"><div class="win-fx-h"><span class="muted">'+fmtDay(Date.parse(x.date+'T00:00:00Z')).replace(/ \d{4}$/, '')+' &middot; '+esc(shortComp(x.tournament))+'</span>'+
@@ -6222,9 +6264,8 @@ function viewWindow(){
   app.innerHTML = '<div class="wrap">'+head+
     '<div class="win-head"><h2>'+esc(W.label)+' internationals</h2><span class="muted">'+range+' &middot; '+statusTxt+' &middot; '+(g === 'men' ? "men's" : "women's")+' football</span></div>'+
     '<div class="win-tiles">'+
-      tile(n ? hits+' of '+n : '&ndash;', 'favourite won')+
-      tile(n ? Math.round(100*hits/n)+'%' : '&ndash;', 'calls right')+
-      tile(draws, 'draws')+
+      tile(CC.decided ? CC.won+' of '+CC.decided : '&ndash;', 'winners picked, in matches that had one')+
+      tile(CC.draws ? CC.close+' of '+CC.draws : '0', CC.draws ? 'draws it had as a toss-up' : 'draws')+
       tile(W.coming.length, 'still to come')+
       tile(sharpW !== null ? sharpW+'<small> out of 100</small>' : '&ndash;', 'forecast score (0 = coin toss)')+
     '</div>'+
@@ -6300,7 +6341,7 @@ function viewMatchday(){
   if (!day || !days.includes(day)) day = days.includes(local) ? local : (days.find(d => d > local) || days[days.length - 1]);
   const i = days.indexOf(day), list = items.filter(x => x.day === day), picks = readPicks();
   const nm = t => esc(dn(t)), pc = v => Math.round(v*100)+'%', now = Date.now();
-  const played = list.filter(x => x.result), right = played.filter(x => mdCall(x) === mdOutcome(x)).length;
+  const played = list.filter(x => x.result), right = played.filter(x => mdCall(x) === mdOutcome(x)).length, dayClose = played.filter(x => callVerdict(x.p, mdOutcome(x)) === 'close').length;
   const upsets = played.filter(x => { const o = mdOutcome(x); return o !== 1 && x.p[o] < 0.25; });
   /* Your picks, on this day and on every scored match you picked. */
   const mine = (xs => { const s = xs.filter(x => x.result && picks[x.id] !== undefined);
@@ -6322,7 +6363,8 @@ function viewMatchday(){
     const bar = '<div class="prob-bar mini">'+[['seg-h', 0], ['seg-d', 1], ['seg-a', 2]].map(([cl, j]) =>
       '<div class="prob-seg '+cl+'" style="width:'+(x.p[j]*100)+'%">'+(x.p[j] > 0.12 ? pc(x.p[j]) : '')+'</div>').join('')+'</div>';
     const verdict = o === null ? '<span class="muted">Formline: '+(call === 1 ? 'a draw' : labels[call])+' '+pc(x.p[call])+(x.likely ? ' &middot; '+scoreWord(x.p, x.likely)+' '+esc(x.likely).replace('-', '&ndash;') : '')+'</span>'
-      : '<span class="'+(call === o ? 'up' : 'down')+'">Formline '+(call === o ? 'right' : 'wrong')+'</span> <span class="muted">('+(call === 1 ? 'draw' : labels[call])+' '+pc(x.p[call])+')</span>'+
+      : (v => v === 'close' ? '<span class="near" title="A draw in a match Formline had as a toss-up before kick-off">Formline called it close</span> <span class="muted">(toss-up, draw '+pc(x.p[1])+')</span>'
+          : '<span class="'+(v === 'right' ? 'up' : 'down')+'">Formline '+v+'</span> <span class="muted">('+(call === 1 ? 'draw' : labels[call])+' '+pc(x.p[call])+')</span>')(callVerdict(x.p, o))+
         (up ? ' <span class="md-upset">Upset: '+pc(x.p[o])+' chance</span>' : '');
     const pickRow = o === null && !started ? '<div class="md-pick" role="group" aria-label="Your pick">'+'<span class="muted">Your pick:</span>'+
         labels.map((l, j) => '<button class="chip'+(pk === j ? ' on' : '')+'" data-pick="'+esc(x.id)+'" data-o="'+j+'">'+l+'</button>').join('')+'</div>'
@@ -6334,7 +6376,7 @@ function viewMatchday(){
       '<div class="md-v">'+verdict+'</div>'+pickRow+(x.published ? '' : '<div class="muted md-note">Added after the last update: the forecast as it stands, not yet saved to the record.</div>')+'</div>';
   };
   app.innerHTML = '<div class="wrap">'+head+nav+
-    '<div class="win-tiles">'+tile(list.length, list.length === 1 ? 'match' : 'matches')+tile(played.length, 'played')+tile(played.length ? right+' of '+played.length : '&ndash;', 'Formline right')+
+    '<div class="win-tiles">'+tile(list.length, list.length === 1 ? 'match' : 'matches')+tile(played.length, 'played')+tile(played.length ? right+' of '+played.length : '&ndash;', 'Formline right'+(dayClose ? ', and '+dayClose+' draw'+(dayClose === 1 ? '' : 's')+' called close' : ''))+
       tile(upsets.length, 'upsets (under 25%)')+tile(allMine.n ? allMine.you+' of '+allMine.n : '&ndash;', allMine.n ? 'your picks right (Formline '+allMine.model+')' : 'your picks: tap a result below')+'</div>'+
     (PW ? '<div class="panel md-win"><div class="panel-head">Beat the model<span class="aside">your picks in the '+esc(PW.W.label)+' window</span></div><div class="panel-body">'+
       (PW.n ? '<p class="md-win-score"><b class="'+(PW.you > PW.model ? 'up' : PW.you < PW.model ? 'down' : '')+'">You '+PW.you+'</b> <span class="muted">&middot;</span> <b>Formline '+PW.model+'</b> <span class="muted">of '+PW.n+' match'+(PW.n === 1 ? '' : 'es')+' you picked</span></p>'+
@@ -8348,13 +8390,14 @@ function viewRecord(){
   if (!rec) live = '<div class="status">The live record comes with the site\'s nightly update, which this copy of the site does not have. The online site has it.</div>';
   else {
     const mine = rec.entries.filter(e => e.g === g), scored = mine.filter(e => e.result), pending = mine.filter(e => !e.result && !e.void);
-    const S = recordSummary(scored), pc = x => Math.round(x*100)+'%';
+    const S = recordSummary(scored), pc = x => Math.round(x*100)+'%', CC = callCounts(scored);
     if (!S) live = '<div class="status">No '+G+' forecasts have been scored yet. '+(pending.length ? pending.length+' are waiting for their matches.' : '')+'</div>';
     else {
       const given = scored.reduce((t, e) => t + e.p[e.outcome], 0)/S.n, shLive = sharp(scored.reduce((t, e) => t + binLL(e), 0)/S.n);
       const tiles = '<div class="fr-hero">'+
         frTile('Forecasts checked', S.n.toLocaleString(), pending.length+' more waiting for kick-off')+
-        frTile('Favourite won', pc(S.hit), 'how often the likeliest result happened')+
+        frTile('Picked the winner', CC.decided ? CC.won+' of '+CC.decided : '&ndash;', CC.decided ? pc(CC.won/CC.decided)+' of the matches that had a winner' : 'no match with a winner yet')+
+        frTile('Draws', String(CC.draws), CC.draws ? (CC.close ? CC.close+' of them in matches Formline had as a toss-up' : 'none in a match Formline had as a toss-up') : 'none yet')+
         frTile('Chance given to what happened', pc(given), 'on average; guessing a third each way gives 33%')+
         frTile('Forecast score', fscore(shLive), T ? 'the long test scores '+Math.round(sharp(T.ll[0]/T.n))+' on the same scale' : 'same scale as the long test')+'</div>';
       let calib = '';
@@ -8374,7 +8417,7 @@ function viewRecord(){
         '<tr><td class="muted date">'+e.date+'</td><td class="ml-cell">'+matchLine(e.home, e.away, e.result[0]+'&ndash;'+e.result[1], teamHref, {ts:Date.parse(e.date+'T00:00:00Z')})+
           '<div class="muted" style="font-size:12px;text-align:center;">'+esc(shortComp(e.tournament))+' &middot; '+scoreWord(e.p, e.likely)+' '+e.likely.replace('-', '&ndash;')+'</div></td>'+
         '<td class="hide-sm" style="min-width:170px;">'+bar(e.p)+'</td>'+
-        '<td class="num '+(e.hit ? 'up' : 'muted')+'">'+(e.hit ? '&#10003; ' : '')+pc(e.p[e.outcome])+'</td></tr>').join('');
+        (v => '<td class="num '+(v === 'right' ? 'up' : v === 'close' ? 'near' : 'muted')+'"'+(v === 'close' ? ' title="A draw in a match Formline had as a toss-up before kick-off"' : '')+'>'+(v === 'right' ? '&#10003; ' : v === 'close' ? '&asymp; ' : '')+pc(e.p[e.outcome])+'</td></tr>')(callVerdict(e.p, e.outcome))).join('');
       live = tiles+(scored.length < 100 ? '<div class="notice"><b>Early days.</b> With '+scored.length+' forecasts checked, these numbers can still move a long way. '+
           'The long test on the Overview covers thousands of matches.</div>' : '')+
         (calib ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-body">'+calib+'</div></div>' : '')+
@@ -8382,6 +8425,8 @@ function viewRecord(){
         (rows ? '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Every forecast, checked<span class="aside">newest first</span></div><div class="table-wrap lock"><table>'+
           '<thead><tr><th>Date</th><th style="text-align:center;">Match and result</th><th class="hide-sm">Forecast</th>'+
           '<th class="num" title="The chance the forecast gave to what happened">Chance given</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>' : '')+
+        '<p class="chart-note">&#10003; the result Formline picked happened. &asymp; called close: a draw in a match Formline had labelled a <a href="#/method" data-goto-method="m-labels">toss-up</a> before kick-off. '+
+          'A draw is almost never the likeliest single result of the three, so "Picked the winner" counts the matches that had one, the same measure used against World Elo and the FIFA method. The forecast score counts every match, draws included.</p>'+
         (mine.some(e => e.void) ? '<p class="chart-note">'+mine.filter(e => e.void).length+' forecast(s) void: no result was found within three weeks.</p>' : '');
     }
     var nerd = S ? [['Live record: log-loss (three-way)', S.ll.toFixed(3)+' (a third each way scores 1.099; the long test '+BACKTEST_3WAY[g].toFixed(3)+')'],
@@ -8397,8 +8442,8 @@ function viewRecord(){
   const TABS = [['', 'Overview'], ['years', 'Year by year'], ['live', 'Live record'], ['research', 'Research'], ['stats', 'For the stats-minded']];
   const tab = TABS.some(t => t[0] && t[0] === state.params.v) ? state.params.v : '';
   const liveHead = rec && rec.entries ? (() => { const sc = rec.entries.filter(e => e.g === g && e.result);
-    return sc.length ? '<p class="fr-livebar">Live record: <b>'+sc.length.toLocaleString()+'</b> published forecast'+(sc.length === 1 ? '' : 's')+' checked so far, the favourite won <b>'+
-      Math.round(100*sc.filter(e => e.hit).length/sc.length)+'%</b>. <a href="#/record?v=live" data-frtab="live">See every one &rarr;</a></p>' : ''; })() : '';
+    return sc.length ? '<p class="fr-livebar">Live record: <b>'+sc.length.toLocaleString()+'</b> published forecast'+(sc.length === 1 ? '' : 's')+' checked so far. '+
+      (C => C.decided ? 'Picked the winner in <b>'+C.won+' of '+C.decided+'</b> matches that had one; '+drawsLine(C)+'. ' : '')(callCounts(sc))+'<a href="#/record?v=live" data-frtab="live">See every one &rarr;</a></p>' : ''; })() : '';
   const body = tab === 'years' ? vsYearsPanel(g)+vsEras(g)
     : tab === 'live' ? '<p class="fr-q" style="margin-top:0;">Every forecast the site has published since it started keeping score: saved before kick-off, checked after the final whistle, never removed.</p>'+live
     : tab === 'research' ? researchPanel(g)
@@ -10620,6 +10665,8 @@ const CHANGELOG = [
     'Seeding: the organiser\'s real pots for more editions: Euro 1992 (two seeds, and Yugoslavia, who were drawn and then excluded), the 2001 Copa Am&eacute;rica (with Argentina and Canada, who were drawn and then withdrew) and Women\'s Euro 2009 (from UEFA\'s own preview of the draw). And a fourth, the 1998 African Cup of Nations, from RSSSF.',
     'Fixtures: where Wikipedia\'s own pages give different days for a match, the one that agrees with the fixture feed is now used. Iceland v Luxembourg had been shown a day early, on 15 November; it is on the 16th.',
     'Predicted scores now agree with the pick. The single likeliest score is often 1&ndash;1 even when one side is the favourite, because a win is spread over many scores and a draw over few, so a 1&ndash;1 could sit next to a 44% favourite. Each match now shows the likeliest score for the result Formline expects; the likeliest scores of all are still listed beside it. Forecasts already checked keep the score they were published with.',
+    'Team pages show a team\'s cluster next to its tiers: the teams ranked inside its own likely rank. A tier is cut from the top of the table down, so a team at the top of one is grouped only with sides below it; the cluster is centred on the team, so Portugal\'s can take in a side from the tier above and only part of its own tier.',
+    'Draws are now read fairly. A draw is almost never the likeliest single result, so every drawn match used to count against Formline, even one it had called a toss-up. The record now says how often Formline picked the winner in the matches that had one, and lists the draws apart, marking as "called close" those it had labelled a toss-up before kick-off.',
     'How it works now explains the ideas behind the ratings in plain terms. The exact weights and settings are Formline\'s own and are no longer published, and the match predictor\'s step-by-step working has gone with them. Nothing about the ratings or forecasts themselves has changed.']],
   ['11 Nov 2026', ['Qualifying, rebuilt: each qualifying competition is now organised by the tournament it led to (for 2026, for 2022…), then by confederation, then round by round, with group tables and ties. The rounds are worked out from the results, since the archives don\'t record them. Open them from Competitions or from any finals page.',
     'Seeding on every finals page with groups: how Formline\'s ratings would have potted the teams at the draw, next to the organiser\'s real pots for 48 editions so far (men\'s World Cups since 1966 except 1974, Euros since 2000, AFCONs since 2012, Asian Cups since 2011, Copas since 2015, recent Gold Cups, women\'s World Cups since 2011 and Women\'s Euros since 2017; older World Cup pots were set by region, and the page says so), with what the organiser based them on.',
@@ -11445,7 +11492,7 @@ function pageTour(route){
       {sel:'.team-actions', title:'Share, download, compare', text:'A share picture of this team, its matches as a spreadsheet file, '+
         'head to head with any other team, or a prediction for any match.'},
       {panel:'Coming up', title:'Coming up', text:'Its next matches, each with its chances. At a past date this becomes Around that date: its last matches, big tournaments then, and what happened next.'},
-      {panel:'Tier', title:'Its tier', text:'The teams level with it, in the world and in its own confederation.'},
+      {panel:'Tier and cluster', title:'Its tier and cluster', text:'The teams level with it, in the world and in its own confederation, and its cluster: the teams ranked inside its own likely rank.'},
       {panel:'Rating over time', title:'Rating over time', text:'How the rating moved, with the band shaded around it. The band widens '+
         'while a team goes without playing. Each dot is one of its matches in the last two years.'},
       {panel:'History', title:'History', text:'Best rank, peak rating, biggest results, runs, upsets and best tournament finishes. '+

@@ -448,10 +448,18 @@ ${d.down.length ? `<div class="lab" style="margin-top:34px">Biggest fallers</div
 };
 
 /* A day's results with Formline's calls: cover (the tally and the biggest matches), the rest, the upsets, the window so far. */
+/* Draws, said the same way everywhere: "5 draws, 2 of which it had as toss-ups". A draw is almost never the likeliest
+   single result, so a day or a window is summed up by the winners picked in the matches that had one, with the draws
+   apart; a draw in a match Formline had labelled a toss-up before kick-off is marked as called close (Seb, 12 Nov 2026). */
+const drawsTxt = (T, who) => T.draws ? `${T.draws} draw${T.draws === 1 ? '' : 's'}${T.close ? `, ${T.close === T.draws ? (T.draws === 1 ? 'which' : T.draws === 2 ? 'both of which' : 'all of which') : T.close + ' of which'} ${who || 'Formline'} had as ${T.close === 1 ? 'a toss-up' : 'toss-ups'}` : ''}` : 'no draws';
+const MARK = {right:'<span style="color:#5fcf8a;font-weight:800">&#10003;</span>', close:'<span style="color:#f6b638;font-weight:800">&asymp;</span>', wrong:'<span style="color:#f08a7a;font-weight:800">&#10007;</span>'};
+const EMO = {right:'✅', close:'🟡', wrong:'❌'}, WORD = {right:'right', close:'a draw it had as a toss-up', wrong:'wrong'};
+const verdictOf = x => x.v || (x.hit ? 'right' : 'wrong');
 BUILD.roundup = function(d){
-  const tick = x => x.hit ? '<span style="color:#5fcf8a;font-weight:800">&#10003;</span>' : '<span style="color:#f08a7a;font-weight:800">&#10007;</span>';
+  const tick = x => MARK[verdictOf(x)];
+  const T = d.tally || {n:d.n, dec:d.n, won:d.hits, draws:0, close:0}, wonOf = T.dec ? `${T.won} of ${T.dec}` : '0', W = d.win && d.win.dec !== undefined ? d.win : {n:d.win.n, dec:d.win.n, won:d.win.hits, draws:0, close:0};
   const rowR = (x, fs) => `<div class="row" style="grid-template-columns:1fr auto;padding:${fs > 30 ? r0(fs * 0.42) : fs < 28 ? 8 : 11}px 0;font-size:${fs}px"><span class="ell" style="display:flex;align-items:center;gap:12px">${flagBox(x.hf, fs + 4)}${esc(x.home)} <b>${x.hs}–${x.as}</b> ${esc(x.away)}${flagImg(x.af, fs + 4)}</span>${tick(x)}</div>`;
-  const head = d.list.slice(0, 7), rest = d.list.slice(7, 21), pc = Math.round(100 * d.hits / d.n);
+  const head = d.list.slice(0, 7), rest = d.list.slice(7, 21), pc = T.dec ? Math.round(100 * T.won / T.dec) : 0;
   /* The cover's rows as large as the longest result allows: up to 40px for five results, 34px for seven. */
   const lineLen = x => `${x.home} ${x.hs}–${x.as} ${x.away}`.length, hfs = fitFs(Math.max(...head.map(lineLen)), head.length <= 5 ? 40 : head.length === 6 ? 37 : 34, 29, 780, 3);
   /* A good day gets said so: seven calls in ten or better opens differently, and when Formline also picked at least as many
@@ -459,43 +467,45 @@ BUILD.roundup = function(d){
   const C = d.cmp, good = pc >= 70, beat = !!C && C.n >= 10 && C.us >= C.elo && C.us >= C.fifa && (C.us > C.elo || C.us > C.fifa);
   const cmpTxt = beat ? `Picked the winner in the ${C.n} matches that had one: Formline ${C.us}, World Elo ${C.elo}, FIFA method ${C.fifa}.` : '';
   const sC = beat && good ? slide(`<div class="kick">Results · ${esc(d.dayTxt)}</div><h2>A good day for Formline</h2>
-<div style="font-size:150px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:34px">${d.hits}<span style="font-size:70px;color:#f1f4ec"> of ${d.n}</span></div>
-<p class="body" style="margin-top:10px;font-size:32px">results called right, every one published before kick-off</p>
+<div style="font-size:150px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:34px">${T.won}<span style="font-size:70px;color:#f1f4ec"> of ${T.dec}</span></div>
+<p class="body" style="margin-top:10px;font-size:32px">winners picked, every call published before kick-off${T.draws ? `. ${drawsTxt(T, 'it')[0].toUpperCase() + drawsTxt(T, 'it').slice(1)}.` : ''}</p>
 <p class="body" style="margin-top:44px;font-size:30px">Picked the winner, in the ${C.n} matches that had one:</p>
 <div style="margin-top:20px">${[['Formline', C.us, '#f6b638'], ['World Elo', C.elo, '#6fa8dc'], ['FIFA method', C.fifa, '#7d9484']].map(([n, v, col], j) => `<div style="display:grid;grid-template-columns:218px 1fr 150px;align-items:center;gap:20px;padding:14px 0;font-size:34px"><span style="font-weight:${j ? 500 : 800}">${n}</span><span style="height:21px;background:#1b3a29;border-radius:99px;overflow:hidden"><i style="display:block;height:100%;width:${(100 * v / C.n).toFixed(1)}%;background:${col};border-radius:99px"></i></span><span style="text-align:right;font-weight:800">${v} <span class="dim" style="font-weight:500;font-size:26px">${Math.round(100 * v / C.n)}%</span></span></div>`).join('')}</div>
 <p class="body dim" style="margin-top:30px;font-size:24px">World Elo and the FIFA method with their ratings as they stood that morning.</p>`) : null;
-  const s1 = slide(`${hook(good ? `Formline called <em>${d.hits} of ${d.n}</em> yesterday` : `Formline called <em>${d.hits} of ${d.n}</em>`)}<div class="kick">Results · ${esc(d.dayTxt)}</div>
+  const s1 = slide(`${hook(!T.dec ? `Every match <em>ended level</em>` : good ? `Formline picked <em>${wonOf}</em> winners yesterday` : `Formline picked <em>${wonOf}</em> winners`)}<div class="kick">Results · ${esc(d.dayTxt)}${T.draws ? ` · ${drawsTxt(T, 'it')}` : ''}</div>
 <div style="margin-top:16px">${head.map(x => rowR(x, hfs)).join('')}</div>${rest.length ? `<p class="body dim" style="font-size:22px;margin-top:10px">${rest.length} more results inside →</p>` : ''}`);
   /* The result of the day: the match between the highest-ranked sides, Formline's chances for it, and what it did to both ratings. */
   const B = d.big, chg = T => `<span style="color:${T.delta > 0 ? '#5fcf8a' : T.delta < 0 ? '#f08a7a' : '#a7bba9'}">${T.delta > 0 ? '+' : T.delta < 0 ? '−' : '±'}${Math.abs(T.delta)}</span>`;
-  const bigWho = B ? (B.o === 1 ? 'A draw' : `${B.o === 0 ? B.home : B.away} won`) : '', bigCall = B ? (B.hit ? `Formline's pick, at ${B.p[B.o]}%` : `Formline had that at ${B.p[B.o]}%`) : '';
+  const bigWho = B ? (B.o === 1 ? 'A draw' : `${B.o === 0 ? B.home : B.away} won`) : '', bigCall = B ? (B.hit ? `Formline's pick, at ${B.p[B.o]}%` : verdictOf(B) === 'close' ? `a toss-up for Formline, the draw at ${B.p[1]}%` : `Formline had that at ${B.p[B.o]}%`) : '';
   const bigRated = B && B.H.delta != null && B.A.delta != null;
   const sB = B ? slide(`<div class="kick">Result of the day · ${esc(B.comp)}</div>
 <div class="match"><div class="side">${flagImg(B.hf, 120)}${esc(B.home)}<small>${B.H.rank ? 'Ranked ' + ord(B.H.rank) : ''}</small></div><div class="score">${B.hs}–${B.as}</div><div class="side">${flagImg(B.af, 120)}${esc(B.away)}<small>${B.A.rank ? 'Ranked ' + ord(B.A.rank) : ''}</small></div></div>
 <div class="box"><div class="lab">Formline's chances before kick-off</div>${pickBar(B.p, B.home, B.away)}<div class="body" style="margin-top:18px">${esc(bigWho)}: <b>${esc(bigCall)}</b></div></div>
 ${bigRated ? `<div class="box" style="margin-top:22px"><div class="lab">What it did to the ratings</div><div class="cols" style="font-size:32px;font-weight:700"><div class="ell">${esc(B.home)} <b class="a">${B.H.rating}</b> ${chg(B.H)}</div><div class="ell">${esc(B.away)} <b class="b">${B.A.rating}</b> ${chg(B.A)}</div></div></div>` : ''}`) : null;
   const s2 = rest.length ? slide(`<div class="kick">Results · ${esc(d.dayTxt)}</div><h2>Every other result</h2><div style="margin-top:14px">${rest.map(x => rowR(x, rest.length > 10 ? 23 : 27)).join('')}</div>
-<p class="body dim" style="font-size:21px;margin-top:10px">&#10003; Formline's favourite won (or the draw it expected) · &#10007; it didn't</p>`) : null;
+<p class="body dim" style="font-size:21px;margin-top:10px">&#10003; Formline's pick won · &asymp; a draw it had as a toss-up · &#10007; it didn't</p>`) : null;
   const s3 = d.ups.length ? slide(`<div class="kick">Results · ${esc(d.dayTxt)}</div><h2>The upsets</h2><p class="body dim" style="font-size:24px;margin-top:8px">The winner's chance, published before kick-off</p>
 ${d.ups.map(u => `<div class="box" style="margin-top:22px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px"><div style="min-width:0"><div style="display:flex;align-items:center;gap:14px;font-size:32px;font-weight:800">${flagBox(u.o === 0 ? u.hf : u.af, 38)}<span class="ell">${esc(u.o === 0 ? u.home : u.away)} beat ${esc(u.o === 0 ? u.away : u.home)}</span></div>
 <div class="body" style="font-size:24px;margin-top:6px">${esc(u.home)} ${u.hs}–${u.as} ${esc(u.away)} · ${esc(u.comp)}</div></div><div style="text-align:right"><div class="big" style="font-size:72px">${u.p[u.o]}%</div><div class="dim" style="font-size:20px">chance going in</div></div></div>`).join('')}`) : null;
   const s4 = d.win.n > d.n ? slide(`<div class="kick">The window so far</div><h2>How Formline's calls are going</h2>
-<div style="display:flex;gap:60px;margin-top:40px;align-items:flex-end"><div><div class="lab">Called right</div><div class="big">${d.win.hits}</div></div><div><div class="lab">Of</div><div class="big" style="color:#f1f4ec">${d.win.n}</div></div>
-<div><div class="lab">Rate</div><div class="big" style="color:#f1f4ec">${Math.round(100 * d.win.hits / d.win.n)}%</div></div></div>
-<p class="body" style="margin-top:30px">Every forecast is published before kick-off and checked after the final whistle. Make your own picks for the next matchday on formlinedata.com.</p>`) : null;
-  const x = wide(`<div class="kick" style="font-size:20px">Results · ${esc(d.dayTxt)}</div><h2 style="font-size:44px">Formline called ${d.hits} of ${d.n}</h2>
+<div style="font-size:150px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:36px">${W.won}<span style="font-size:70px;color:#f1f4ec"> of ${W.dec}</span></div>
+<p class="body" style="margin-top:10px;font-size:32px">winners picked, in the matches that had one: ${W.dec ? Math.round(100 * W.won / W.dec) : 0}%</p>
+<p class="body" style="margin-top:24px">${W.draws ? drawsTxt(W, 'Formline')[0].toUpperCase() + drawsTxt(W, 'Formline').slice(1) + '.' : 'No draws so far.'}</p>
+<p class="body" style="margin-top:16px">Every forecast is published before kick-off and checked after the final whistle. Make your own picks for the next matchday on formlinedata.com.</p>`) : null;
+  const x = wide(`<div class="kick" style="font-size:20px">Results · ${esc(d.dayTxt)}</div><h2 style="font-size:44px">Formline picked ${wonOf} winners</h2>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;margin-top:12px">${d.list.slice(0, 8).map(r => rowR(r, 22)).join('')}</div>`);
-  const line = r => `${r.hit ? '✅' : '❌'} ${fe(r.hf)}${r.home} ${r.hs}–${r.as} ${r.away}${r.af && r.af.emo ? ' ' + r.af.emo : ''}`;
+  const sumTxt = T.dec ? `Formline picked the winner in ${T.won} of the ${T.dec} matches that had one; ${drawsTxt(T, 'it')}` : `Every one of the ${T.n} matches ended level; ${drawsTxt(T, 'Formline')}`;
+  const line = r => `${EMO[verdictOf(r)]} ${fe(r.hf)}${r.home} ${r.hs}–${r.as} ${r.away}${r.af && r.af.emo ? ' ' + r.af.emo : ''}`;
   const up = d.ups[0], upTxt = up ? `😱 Upset of the day: ${up.o === 0 ? up.home : up.away} won with a ${up.p[up.o]}% chance.` : '';
-  const alts = [`Results for ${d.dayTxt}: Formline's pre-match favourite was right in ${d.hits} of ${d.n} matches. ${head.map(r => `${r.home} ${r.hs}–${r.as} ${r.away} (${r.hit ? 'right' : 'wrong'})`).join('; ')}.`];
+  const alts = [`Results for ${d.dayTxt}: ${sumTxt}. ${head.map(r => `${r.home} ${r.hs}–${r.as} ${r.away} (${WORD[verdictOf(r)]})`).join('; ')}.`];
   if (sB) alts.push(`Result of the day, ${B.comp}: ${B.home} ${B.hs}–${B.as} ${B.away}. Formline's chances before kick-off: ${B.home} ${B.p[0]}%, draw ${B.p[1]}%, ${B.away} ${B.p[2]}%.${bigRated ? ` Ratings after it: ${B.home} ${B.H.rating} (${B.H.delta >= 0 ? 'up' : 'down'} ${Math.abs(B.H.delta)}), ${B.away} ${B.A.rating} (${B.A.delta >= 0 ? 'up' : 'down'} ${Math.abs(B.A.delta)}).` : ''}`);
-  if (s2) alts.push(`More results for ${d.dayTxt}: ${rest.map(r => `${r.home} ${r.hs}–${r.as} ${r.away} (${r.hit ? 'right' : 'wrong'})`).join('; ')}.`);
+  if (s2) alts.push(`More results for ${d.dayTxt}: ${rest.map(r => `${r.home} ${r.hs}–${r.as} ${r.away} (${WORD[verdictOf(r)]})`).join('; ')}.`);
   if (s3) alts.push(`The upsets of ${d.dayTxt}, with the winner's chance before kick-off: ${d.ups.map(u => `${u.home} ${u.hs}–${u.as} ${u.away}, ${u.p[u.o]}%`).join('; ')}.`);
-  if (s4) alts.push(`The window so far: Formline called ${d.win.hits} of ${d.win.n} results, ${Math.round(100 * d.win.hits / d.win.n)}%.`);
-  if (sC) alts.splice(1, 0, `A good day for Formline: ${d.hits} of ${d.n} results called right. ${cmpTxt} World Elo and the FIFA method with their ratings as they stood that morning.`);
-  return {title:`Results: ${d.hits} of ${d.n}, ${d.dayTxt}`, slides:[s1, sC, sB, s2, s3, s4].filter(Boolean), x, alts,
-    caption:`International football results, ${d.dayTxt}: Formline called ${d.hits} of ${d.n} (${pc}%) 📋\n\n${d.list.slice(0, 10).map(line).join('\n')}${d.list.length > 10 ? `\n…and ${d.list.length - 10} more in the slides` : ''}${upTxt ? '\n\n' + upTxt : ''}${sC ? '\n\n📊 ' + cmpTxt : ''}${d.win.n > d.n ? `\n\n📈 The window so far: ${d.win.hits} of ${d.win.n} called right.` : ''}\n\nWhich result surprised you most? 👇 Make your own picks for the next matchday at formlinedata.com (link in bio).\n\n${hashtags(d.g, d.list.slice(0, 2).map(r => r.home), null, 'roundup')}`,
-    xText:`📋 ${d.dayTxt}: Formline called ${d.hits} of ${d.n}\n\n${d.list.slice(0, 4).map(line).join('\n')}${upTxt ? '\n\n' + upTxt : ''}\n\n${BASE}#/matchday?ud=${d.day}`};
+  if (s4) alts.push(`The window so far: Formline picked the winner in ${W.won} of the ${W.dec} matches that had one; ${drawsTxt(W, 'it')}.`);
+  if (sC) alts.splice(1, 0, `A good day for Formline: ${wonOf} winners picked; ${drawsTxt(T, 'it')}. ${cmpTxt} World Elo and the FIFA method with their ratings as they stood that morning.`);
+  return {title:`Results: ${wonOf} winners picked, ${d.dayTxt}`, slides:[s1, sC, sB, s2, s3, s4].filter(Boolean), x, alts,
+    caption:`International football results, ${d.dayTxt} 📋\n\n${sumTxt}.\n\n${d.list.slice(0, 10).map(line).join('\n')}${d.list.length > 10 ? `\n…and ${d.list.length - 10} more in the slides` : ''}${upTxt ? '\n\n' + upTxt : ''}${sC ? '\n\n📊 ' + cmpTxt : ''}${d.win.n > d.n ? `\n\n📈 The window so far: ${W.won} of ${W.dec} winners picked; ${drawsTxt(W, 'it')}.` : ''}\n\nWhich result surprised you most? 👇 Make your own picks for the next matchday at formlinedata.com (link in bio).\n\n${hashtags(d.g, d.list.slice(0, 2).map(r => r.home), null, 'roundup')}`,
+    xText:`📋 ${d.dayTxt}: Formline picked ${wonOf} winners${T.draws ? ` (${drawsTxt(T, 'it')})` : ''}\n\n${d.list.slice(0, 4).map(line).join('\n')}${upTxt ? '\n\n' + upTxt : ''}\n\n${BASE}#/matchday?ud=${d.day}`};
 };
 
 /* Window days, the morning post: today's matches with Formline's pick, its chance and the kick-off in Toronto and UK time.
@@ -587,12 +597,13 @@ BUILD.windowRecord = function(d){
   const A = dt(d.from), B = dt(d.to), range = d.from === d.to ? `${dd(A)} ${mon(A)}` : mon(A) === mon(B) ? `${dd(A)}–${dd(B)} ${mon(B)}` : `${dd(A)} ${mon(A)} – ${dd(B)} ${mon(B)}`;
   const kick = `International window · ${range}${fin ? '' : ' · so far'}`;
   const C = d.cmp, show = !!C && C.n >= 15 && C.us >= C.elo && C.us >= C.fifa && (C.us > C.elo || C.us > C.fifa);
-  const gLine = g => d.byG[g] ? `<div class="row" style="grid-template-columns:1fr auto;padding:16px 0;font-size:34px"><span>${GAME[g]} matches</span><span><b>${d.byG[g].hits}</b> of ${d.byG[g].n}</span></div>` : '';
+  const T = d.tally || {n:d.n, dec:d.n, won:d.hits, draws:0, close:0}, wonOf = `${T.won} of ${T.dec}`, gOf = g => d.byG[g].dec !== undefined ? [d.byG[g].won, d.byG[g].dec] : [d.byG[g].hits, d.byG[g].n];
+  const gLine = g => d.byG[g] ? `<div class="row" style="grid-template-columns:1fr auto;padding:16px 0;font-size:34px"><span>${GAME[g]} matches</span><span><b>${gOf(g)[0]}</b> of ${gOf(g)[1]}</span></div>` : '';
   const s1 = slide(`${hook(fin ? 'How did Formline <em>call</em> the window?' : 'How is Formline <em>calling</em> the window?')}<div class="kick">${kick}</div>
-<div style="font-size:150px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:30px">${d.hits}<span style="font-size:70px;color:#f1f4ec"> of ${d.n}</span></div>
-<p class="body" style="margin-top:10px;font-size:32px">results called right${fin ? '' : ' so far'}: ${pcOf(d.hits, d.n)}%</p>
-<div style="margin-top:34px">${gLine('men')}${gLine('women')}${d.strong.n >= 5 ? `<div class="row" style="grid-template-columns:1fr auto;padding:16px 0;font-size:34px"><span>Favourites given 70% or more</span><span><b>${d.strong.hits}</b> of ${d.strong.n}</span></div>` : ''}</div>
-<p class="body dim" style="margin-top:34px;font-size:24px">Every call was published before kick-off. Right means the likeliest of win, draw and defeat happened.</p>`);
+<div style="font-size:150px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:30px">${T.won}<span style="font-size:70px;color:#f1f4ec"> of ${T.dec}</span></div>
+<p class="body" style="margin-top:10px;font-size:32px">winners picked${fin ? '' : ' so far'}, in the matches that had one: ${pcOf(T.won, T.dec)}%</p>
+<div style="margin-top:30px">${gLine('men')}${gLine('women')}${T.draws ? `<div class="row" style="grid-template-columns:1fr auto;padding:16px 0;font-size:34px"><span>Draws it had as a toss-up</span><span><b>${T.close}</b> of ${T.draws}</span></div>` : ''}${d.strong.n >= 5 ? `<div class="row" style="grid-template-columns:1fr auto;padding:16px 0;font-size:34px"><span>Favourites given 70% or more won</span><span><b>${d.strong.hits}</b> of ${d.strong.n}</span></div>` : ''}</div>
+<p class="body dim" style="margin-top:30px;font-size:24px">Every call was published before kick-off. A draw is almost never the likeliest single result, so draws are counted apart.</p>`);
   const N = ['Formline', 'World Elo', 'FIFA method'], COL = ['#f6b638', '#6fa8dc', '#7d9484'], V = C ? [C.us, C.elo, C.fifa] : [];
   const s2 = show ? slide(`<div class="kick">${kick}</div><h2>Next to World Elo and the FIFA method</h2>
 <p class="body" style="margin-top:20px;font-size:30px">Picked the winner, in the ${num(C.n)} matches that had one:</p>
@@ -602,16 +613,17 @@ BUILD.windowRecord = function(d){
 <div style="margin-top:26px">${d.ups.map(x => `<div class="row" style="grid-template-columns:1fr auto;padding:15px 0;font-size:32px"><span class="ell" style="display:flex;align-items:center;gap:12px">${flagBox(x.hf, 36)}${esc(x.home)} <b>${x.hs}–${x.as}</b> ${esc(x.away)}${flagImg(x.af, 36)}</span><span class="dim" style="font-size:26px">given ${x.got}%</span></div>`).join('')}</div>
 <p class="body dim" style="margin-top:30px;font-size:24px">The chance Formline gave the result that happened.</p>`) : null;
   const x = wide(`<div class="kick" style="font-size:20px">${kick}</div><h2 style="font-size:44px">${fin ? 'How Formline called the window' : 'How Formline is calling the window'}</h2>
-<div style="font-size:120px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:20px">${d.hits}<span style="font-size:56px;color:#f1f4ec"> of ${d.n}</span></div>
-<p class="body" style="font-size:28px;margin-top:8px">results called right, every one published before kick-off</p>`);
-  const gTxt = ['men', 'women'].filter(g => d.byG[g]).map(g => `${GAME[g].toLowerCase()} ${d.byG[g].hits} of ${d.byG[g].n}`).join(', ');
+<div style="font-size:120px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:20px">${T.won}<span style="font-size:56px;color:#f1f4ec"> of ${T.dec}</span></div>
+<p class="body" style="font-size:28px;margin-top:8px">winners picked, every call published before kick-off${T.draws ? ` · ${drawsTxt(T, 'it')}` : ''}</p>`);
+  const gTxt = ['men', 'women'].filter(g => d.byG[g]).map(g => `${GAME[g].toLowerCase()} ${gOf(g)[0]} of ${gOf(g)[1]}`).join(', ');
+  const sumTxt = `picked the winner in ${T.won} of the ${T.dec} matches that had one (${pcOf(T.won, T.dec)}%); ${drawsTxt(T, 'it')}`;
   const cmpTxt = show ? `Picked the winner in the ${C.n} matches that had one: Formline ${C.us}, World Elo ${C.elo}, FIFA method ${C.fifa}.` : '';
-  const alts = [`Formline in the international window, ${range}${fin ? '' : ', so far'}: ${d.hits} of ${d.n} results called right (${pcOf(d.hits, d.n)}%); ${gTxt}.${d.strong.n >= 5 ? ` Favourites given 70% or more won ${d.strong.hits} of ${d.strong.n}.` : ''} Every call was published before kick-off.`];
+  const alts = [`Formline in the international window, ${range}${fin ? '' : ', so far'}: ${sumTxt}. Winners picked: ${gTxt}.${d.strong.n >= 5 ? ` Favourites given 70% or more won ${d.strong.hits} of ${d.strong.n}.` : ''} Every call was published before kick-off.`];
   if (s2) alts.push(cmpTxt + ' World Elo and the FIFA method with their ratings as they stood on the morning of each match.');
   if (s3) alts.push('The results nobody saw coming: ' + d.ups.map(u => `${u.home} ${u.hs}–${u.as} ${u.away}, given ${u.got}%`).join('; ') + '.');
-  return {title:`The window ${fin ? 'in full' : 'so far'}: ${d.hits} of ${d.n} right`, slides:[s1, s2, s3].filter(Boolean), x, alts,
-    caption:`${fin ? 'How did Formline call the international window?' : 'A few days into the international window: how is Formline calling it?'} 🎯\n\n${range}: ${d.hits} of ${d.n} results called right (${pcOf(d.hits, d.n)}%)${fin ? '' : ' so far'}. Every call was published before kick-off.\n\n${['men', 'women'].filter(g => d.byG[g]).map(g => `${g === 'men' ? '👨' : '👩'} ${GAME[g]}: ${d.byG[g].hits} of ${d.byG[g].n}`).join('\n')}${show ? `\n\n📊 ${cmpTxt}` : ''}${d.ups.length ? `\n\n😮 Biggest surprise: ${fe(d.ups[0].hf)}${d.ups[0].home} ${d.ups[0].hs}–${d.ups[0].as} ${d.ups[0].away}${fe(d.ups[0].af) ? ' ' + fe(d.ups[0].af).trim() : ''}, a result given ${d.ups[0].got}%.` : ''}\n\nEvery forecast is saved before kick-off and checked afterwards, hits and misses alike: Forecast record on Formline (link in bio).\n\n${hashtags(d.g, d.ups.slice(0, 2).map(u => u.home), null, 'roundup')}`,
-    xText:`🎯 ${fin ? 'The international window' : 'The international window so far'}, ${range}\n\nFormline called ${d.hits} of ${d.n} results right (${pcOf(d.hits, d.n)}%), every one published before kick-off.${show ? `\n\nPicked the winner: Formline ${C.us}, World Elo ${C.elo}, FIFA method ${C.fifa} (of ${C.n})` : ''}\n\n${BASE}#/record?v=live`};
+  return {title:`The window ${fin ? 'in full' : 'so far'}: ${wonOf} winners picked`, slides:[s1, s2, s3].filter(Boolean), x, alts,
+    caption:`${fin ? 'How did Formline call the international window?' : 'A few days into the international window: how is Formline calling it?'} 🎯\n\n${range}: Formline ${sumTxt}${fin ? '' : ', so far'}. Every call was published before kick-off.\n\n${['men', 'women'].filter(g => d.byG[g]).map(g => `${g === 'men' ? '👨' : '👩'} ${GAME[g]}: ${gOf(g)[0]} of ${gOf(g)[1]} winners picked`).join('\n')}${show ? `\n\n📊 ${cmpTxt}` : ''}${d.ups.length ? `\n\n😮 Biggest surprise: ${fe(d.ups[0].hf)}${d.ups[0].home} ${d.ups[0].hs}–${d.ups[0].as} ${d.ups[0].away}${fe(d.ups[0].af) ? ' ' + fe(d.ups[0].af).trim() : ''}, a result given ${d.ups[0].got}%.` : ''}\n\nEvery forecast is saved before kick-off and checked afterwards, hits and misses alike: Forecast record on Formline (link in bio).\n\n${hashtags(d.g, d.ups.slice(0, 2).map(u => u.home), null, 'roundup')}`,
+    xText:`🎯 ${fin ? 'The international window' : 'The international window so far'}, ${range}\n\nFormline ${sumTxt}. Every call published before kick-off.${show ? `\n\nPicked the winner: Formline ${C.us}, World Elo ${C.elo}, FIFA method ${C.fifa} (of ${C.n})` : ''}\n\n${BASE}#/record?v=live`};
 };
 
 export { BUILD };

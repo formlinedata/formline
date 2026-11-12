@@ -42,7 +42,7 @@ main{max-width:760px;margin:0 auto;padding:32px 18px 60px}a{color:var(--amber)}h
 .brand{font-weight:800;color:var(--chalk);text-decoration:none}.big{font-size:44px;font-weight:800;color:var(--amber)}.pm{color:var(--dim);font-size:18px}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:18px 0}
 table{width:100%;border-collapse:collapse}td{padding:7px 4px;border-top:1px solid var(--line);font-size:15px}td.n{text-align:right;white-space:nowrap}
-.W{color:var(--win);font-weight:700}.L{color:var(--loss);font-weight:700}.D{color:var(--dim);font-weight:700}.muted{color:var(--dim)}
+.W{color:var(--win);font-weight:700}.L{color:var(--loss);font-weight:700}.D{color:var(--dim);font-weight:700}.N{color:var(--amber, #f6b638);font-weight:700}.muted{color:var(--dim)}
 .btn{display:inline-block;background:var(--amber);color:var(--bg);font-weight:700;padding:10px 16px;border-radius:6px;text-decoration:none}
 ul.cols{columns:3 180px;padding-left:18px}
 .probs{display:flex;gap:10px;margin:10px 0 6px}.probs div{flex:1;text-align:center;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 4px}
@@ -184,7 +184,9 @@ function matchPage(g, x, meta){
   const box = (lbl, v, i) => `<div class="${i === fav ? 'fav' : ''}"><b>${v}%</b><span>${esc(lbl)}</span></div>`;
   const team = (name, r, slug) => r ? `<tr><td><a href="../../teams/${g}/${slug}.html">${esc(name)}</a></td><td class="n">${r.rating}</td><td class="n muted">${r.rank ? ord(r.rank) : 'unranked'}</td></tr>` : '';
   const verdict = played ? (() => { const o = x.result[0] > x.result[1] ? 0 : x.result[0] < x.result[1] ? 2 : 1, top = x.p.indexOf(Math.max(...x.p));
-    return o === top ? `The result matched Formline's most likely outcome.` : `Formline had ${['a ' + x.home + ' win', 'a draw', 'a ' + x.away + ' win'][top]} as the most likely outcome, so this one went against the prediction.`; })() : '';
+    return o === top ? `The result matched Formline's most likely outcome.`
+      : o === 1 && Math.max(x.p[0], x.p[2]) < 0.40 ? `Formline had this one as a toss-up, with neither side given 40%, and it ended level.`
+      : `Formline had ${['a ' + x.home + ' win', 'a draw', 'a ' + x.away + ' win'][top]} as the most likely outcome, so this one went against the prediction.`; })() : '';
   const recent = P ? P.meets.slice(-5).reverse().map(m => `<tr><td class="muted">${shortDay(m.date)}</td><td>${scoreLine(m)}<br><span class="muted">${esc(m.tournament)}</span></td></tr>`).join('') : '';
   return head({title, desc, base:meta.base, path:`matches/${g}/${meta.slug}.html`, analytics:meta.analytics, image:meta.image, imageAlt:meta.imageAlt,
       ogTitle:played ? res : `${x.home} v ${x.away}: ${ph}% · ${pd}% · ${pa}%`}) + `
@@ -314,24 +316,35 @@ export function recapWindows(entries, fixtures){
     return {...w, slug, open, label:d.toLocaleDateString('en-GB', {month:'long', year:'numeric', timeZone:'UTC'})};
   });
 }
+/* How a checked forecast reads, as on the site (callVerdict in index.html): right when the picked result happened;
+   "close" when the match was drawn and Formline had it as a toss-up (neither side given 40%); wrong otherwise. */
+export const TOSS_UP = 0.40;
+export const callVerdict = (p, outcome) => outcome === p.indexOf(Math.max(...p)) ? 'right' : outcome === 1 && Math.max(p[0], p[2]) < TOSS_UP ? 'close' : 'wrong';
+export function callCounts(list){
+  const o = {n:list.length, decided:0, won:0, draws:0, close:0};
+  for (const e of list){ const v = callVerdict(e.p, e.outcome);
+    if (e.outcome === 1){ o.draws++; if (v === 'close') o.close++; } else { o.decided++; if (v === 'right') o.won++; } }
+  return o;
+}
+export const drawsLine = C => C.draws ? `${C.draws} draw${C.draws === 1 ? '' : 's'}${C.close ? `, ${C.close === C.draws ? (C.draws === 1 ? 'which' : C.draws === 2 ? 'both of which' : 'all of which') : C.close + ' of which'} Formline had as ${C.close === 1 ? 'a toss-up' : 'toss-ups'}` : ''}` : 'no draws';
 export function recapPage(w, meta){
-  const L = w.list, n = L.length, hits = L.filter(e => e.hit).length, draws = L.filter(e => e.outcome === 1).length;
+  const L = w.list, n = L.length, CC = callCounts(L), wonTxt = CC.decided ? `${CC.won} of ${CC.decided}` : '–';
   const brier = L.reduce((a, e) => a + e.brier, 0) / n, byG = g => L.filter(e => e.g === g).length;
   const out = e => e.p[e.outcome], name = (e, i) => [e.home, 'Draw', e.away][i];
   const surprises = L.slice().sort((a, b) => out(a) - out(b)).slice(0, 5);
   const fav = e => e.p.indexOf(Math.max(...e.p));
   const range = w.from === w.to ? longDay(w.from) : `${longDay(w.from)} to ${longDay(w.to)}`;
   const title = `How Formline's predictions did: ${w.label} internationals${w.open ? ' (so far)' : ''} | Formline`;
-  const desc = `${w.label} international window${w.open ? ', so far' : ''}: Formline predicted ${n} matches before kick-off and its favourite won ${hits} (${Math.round(100 * hits / n)}%).`;
+  const desc = `${w.label} international window${w.open ? ', so far' : ''}: Formline predicted ${n} matches before kick-off and picked the winner in ${wonTxt} that had one; ${drawsLine(CC)}.`;
   const row = e => { const f = fav(e); return `<tr><td>${esc(e.home)} ${e.result[0]}–${e.result[1]} ${esc(e.away)}<br><span class="muted">${esc(e.tournament)} · ${shortDay(e.date)}${e.g === 'women' ? " · women's" : ''}</span></td>
-<td class="n">${esc(f === 1 ? 'Draw' : name(e, f))} ${Math.round(e.p[f] * 100)}%<br><span class="${e.hit ? 'W' : 'L'}">${e.hit ? 'Right' : 'Wrong'}</span></td></tr>`; };
+<td class="n">${esc(f === 1 ? 'Draw' : name(e, f))} ${Math.round(e.p[f] * 100)}%<br>${{right:'<span class="W">Right</span>', close:'<span class="N">Called close</span>', wrong:'<span class="L">Wrong</span>'}[callVerdict(e.p, e.outcome)]}</td></tr>`; };
   return plainHead({title, desc, base:meta.base, path:`records/recaps/${w.slug}.html`, analytics:meta.analytics,
-    ogTitle:`${w.label} internationals: Formline's favourite won ${hits} of ${n}`}) + `
+    ogTitle:`${w.label} internationals: Formline picked ${wonTxt} winners`}) + `
 <p class="muted" style="margin:18px 0 0">Forecast record · international window</p>
 <h1>How the predictions did: ${esc(w.label)}${w.open ? ', so far' : ''}</h1>
 <p>${range}. Formline published a prediction for each of these ${n} matches${byG('women') && byG('men') ? ` (${byG('men')} men's, ${byG('women')} women's)` : ''} before kick-off, and they are scored here exactly as they were made.${w.open ? ' The window is still going, so this page updates each night.' : ''}</p>
-<div class="probs"><div class="fav"><b>${hits} of ${n}</b><span>favourite won</span></div><div><b>${Math.round(100 * hits / n)}%</b><span>right</span></div><div><b>${brier.toFixed(2)}</b><span>Brier score</span></div></div>
-<p class="muted">The Brier score measures how close the chances were to what happened: 0 is perfect, and giving every outcome a third each time would score 0.67. ${draws} of the ${n} ended level.</p>
+<div class="probs"><div class="fav"><b>${wonTxt}</b><span>winners picked, in matches that had one</span></div><div><b>${CC.draws ? `${CC.close} of ${CC.draws}` : '0'}</b><span>${CC.draws ? 'draws it had as a toss-up' : 'draws'}</span></div><div><b>${brier.toFixed(2)}</b><span>Brier score</span></div></div>
+<p class="muted">A draw is almost never the likeliest single result, so the first figure counts the matches that had a winner. "Called close" below marks a draw in a match Formline had labelled a toss-up before kick-off. The Brier score counts every match, draws included: it measures how close the chances were to what happened, 0 is perfect, and giving every outcome a third each time would score 0.67.</p>
 <h2>Biggest surprises</h2><div class="box"><table>${surprises.map(e => `<tr><td>${esc(e.home)} ${e.result[0]}–${e.result[1]} ${esc(e.away)}<br><span class="muted">${esc(e.tournament)} · ${shortDay(e.date)}</span></td><td class="n">${e.outcome === 1 ? 'Draw' : esc(name(e, e.outcome)) + ' win'}: ${Math.round(out(e) * 100)}%</td></tr>`).join('')}</table></div>
 <p class="muted">The percentage is the chance Formline gave the result that happened.</p>
 <h2>Every prediction</h2><div class="box"><table>${L.slice().sort((a, b) => a.date.localeCompare(b.date) || a.home.localeCompare(b.home)).map(row).join('')}</table></div>

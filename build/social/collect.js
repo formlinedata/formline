@@ -262,6 +262,11 @@ async function cmpOthers(all){
 /* Results roundup: one day's results (a date, Toronto's) with Formline's published calls, the upsets, and the window so far.
    Only forecasts saved before kick-off count (data/forecasts.json). A day with fewer than five results gets no roundup of
    its own; its matches still count in the next roundup's "window so far". */
+/* How a checked forecast reads, with the page's own callVerdict: 'right' (the picked result happened), 'close' (a draw
+   in a match Formline had as a toss-up before kick-off) or 'wrong'. tally() sums a list up: matches that had a winner
+   and how many of those Formline picked, draws and how many of those it had called close. */
+const oOfE = e => e.result[0] > e.result[1] ? 0 : e.result[0] < e.result[1] ? 2 : 1;
+const tally = es => { const C = callCounts(es.map(e => ({p:e.p, outcome:oOfE(e)}))); return {n:C.n, dec:C.decided, won:C.won, draws:C.draws, close:C.close}; };
 S.roundup = async ({now, day}) => {
   day = day || new Date(now - 864e5).toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
   const all = ((state.record && state.record.entries) || []).filter(e => e.p && e.result && !e.void);
@@ -276,7 +281,7 @@ S.roundup = async ({now, day}) => {
       const kh = c.resolve(e.home), ka = c.resolve(e.away), A = c.byKey.get(kh), B = c.byKey.get(ka), ts = Date.parse(e.date + 'T12:00:00Z');
       const o = e.result[0] > e.result[1] ? 0 : e.result[0] < e.result[1] ? 2 : 1, call = e.p.indexOf(Math.max(...e.p));
       out.push({g, home:dn(kh || e.home), away:dn(ka || e.away), hs:e.result[0], as:e.result[1], comp:compName(e.tournament),
-        hf:flagSrc(dn(kh || e.home), ts), af:flagSrc(dn(ka || e.away), ts), p:e.p.map(pct), call, o, hit:call === o, kh, ka, ts,
+        hf:flagSrc(dn(kh || e.home), ts), af:flagSrc(dn(ka || e.away), ts), p:e.p.map(pct), call, o, hit:call === o, v:callVerdict(e.p, o), kh, ka, ts,
         top:(A && A.rank ? A.rank : 999) + (B && B.rank ? B.rank : 999) + (g === 'women' ? 40 : 0)});
     }
   }
@@ -288,7 +293,7 @@ S.roundup = async ({now, day}) => {
     const b = out[0], c = await useG(b.g);
     const side = (key, opp) => { const r = c.byKey.get(key), h = (c.history.get(key) || []).filter(x => x.opp === opp && Math.abs(x.ts - b.ts) <= 1.5 * 864e5).pop();
       return {rank:r && r.rank ? r.rank : null, rating:h ? Math.round(h.rating) : (r ? Math.round(r.rating) : null), delta:h ? Math.round(h.rating) - Math.round(h.pre) : null}; };
-    big = {g:b.g, home:b.home, away:b.away, hs:b.hs, as:b.as, comp:b.comp, hf:b.hf, af:b.af, p:b.p, call:b.call, o:b.o, hit:b.hit, H:side(b.kh, b.ka), A:side(b.ka, b.kh)};
+    big = {g:b.g, home:b.home, away:b.away, hs:b.hs, as:b.as, comp:b.comp, hf:b.hf, af:b.af, p:b.p, call:b.call, o:b.o, hit:b.hit, v:b.v, H:side(b.kh, b.ka), A:side(b.ka, b.kh)};
   }
   const hits = out.filter(x => x.hit).length;
   const ups = out.filter(x => x.o !== 1 && x.p[x.o] < 35).sort((a, b) => a.p[a.o] - b.p[b.o]).slice(0, 4);
@@ -299,7 +304,7 @@ S.roundup = async ({now, day}) => {
   let cmp = null; try { cmp = await cmpOthers(list); } catch(e){}
   return {type:'roundup', id:'roundup|' + day, g:out.some(x => x.g === 'men') ? 'men' : 'women', day, cmp,
     dayTxt:new Date(day + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}),
-    n:out.length, hits, list:out, ups, big, win:{n:win.length, hits:winHits}};
+    n:out.length, hits, tally:tally(list), list:out, ups, big, win:{n:win.length, hits:winHits, ...tally(win)}};
 };
 
 /* Today's matches (Toronto's date) with Formline's published calls, biggest first, leaving out any that kicked off before
@@ -610,18 +615,18 @@ S.windowRecord = async ({now, used = [], mode, from, min = 20}) => {
   const byG = {}, rows = [];
   for (const g of ['men', 'women']){
     const es = all.filter(e => e.g === g); if (!es.length) continue;
-    byG[g] = {n:es.length, hits:es.filter(e => callOf(e) === oOf(e)).length};
+    byG[g] = {n:es.length, hits:es.filter(e => callOf(e) === oOf(e)).length, ...tally(es)};
     const c = await useG(g);
     for (const e of es){
       const kh = c.resolve(e.home), ka = c.resolve(e.away), o = oOf(e), t = ts(e.date);
       rows.push({g, home:dn(kh || e.home), away:dn(ka || e.away), hs:e.result[0], as:e.result[1], comp:compName(e.tournament), hf:flagSrc(dn(kh || e.home), t), af:flagSrc(dn(ka || e.away), t),
-        o, call:callOf(e), hit:callOf(e) === o, got:pct(e.p[o]), fav:pct(Math.max(...e.p))});
+        o, call:callOf(e), hit:callOf(e) === o, v:callVerdict(e.p, o), got:pct(e.p[o]), fav:pct(Math.max(...e.p))});
     }
   }
   let cmp = null; try { cmp = await cmpOthers(all); } catch(e){}
   const strong = rows.filter(r => r.fav >= 70);
   const last = rows.map(r => r).length ? all.map(e => e.date).sort().pop() : end;
-  return {type:'windowRecord', mode:m, id, g:byG.men ? 'men' : 'women', from:start, to:m === 'final' && !from ? L : last, n:rows.length, hits:rows.filter(r => r.hit).length, byG,
+  return {type:'windowRecord', mode:m, id, g:byG.men ? 'men' : 'women', from:start, to:m === 'final' && !from ? L : last, n:rows.length, hits:rows.filter(r => r.hit).length, tally:tally(all), byG,
     cmp, strong:{n:strong.length, hits:strong.filter(r => r.hit).length},
     ups:rows.filter(r => r.o !== 1 && r.got < 35).sort((a, b) => a.got - b.got).slice(0, 5)};
 };
