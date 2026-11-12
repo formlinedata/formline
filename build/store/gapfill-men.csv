@@ -3,8 +3,17 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,k
 2026-11-05,Bhutan,Bangladesh,0,1,SAFF Cup,Dhaka,Bangladesh,FALSE,2026-11-05T14:00:00+00:00,,1648703,SAFF Championship,,,2026-11-08T18:13:55.275Z
 2026-11-08,Maldives,Pakistan,0,3,SAFF Cup,Dhaka,Bangladesh,TRUE,2026-11-08T09:30:00+00:00,,1648704,SAFF Championship,,,2026-11-11T07:22:07.368Z
 2026-11-08,Sri Lanka,Bhutan,2,2,SAFF Cup,Dhaka,Bangladesh,TRUE,2026-11-08T14:00:00+00:00,,1648705,SAFF Championship,,,2026-11-11T07:22:07.368Z
-2026-11-11,Sint Maarten,Anguilla,5,1,Friendly,,Sint Maarten,FALSE,2026-11-11T00:30:00+00:00,,1649540,Friendlies,,,2026-11-12T16:01:51.007Z
-2026-11-11,India,Maldives,1,0,SAFF Cup,Dhaka,Bangladesh,TRUE,2026-11-11T09:30:00+00:00,,1648706,SAFF Championship,,,2026-11-12T16:01:51.007Z
-2026-11-11,Vietnam,Taiwan,2,0,Friendly,Nam Dinh,Vietnam,FALSE,2026-11-11T12:00:00+00:00,,1647357,Friendlies,,,2026-11-12T16:01:51.007Z
-2026-11-11,Bangladesh,Sri Lanka,4,0,SAFF Cup,Dhaka,Bangladesh,FALSE,2026-11-11T14:00:00+00:00,,1648707,SAFF Championship,,,2026-11-12T16:01:51.007Z
-2026-11-12,New Zealand,India,5,0,Friendly,Auckland,New Zealand,FALSE,2026-11-12T06:10:00+00:00,,1586134,Friendlies,,,2026-11-12T16:01:51.007Z
+2026-11-11,Sint Maarten,Anguilla,5,1,Friendly,,Sint Maarten,FALSE,2026-11-11T00:30:00+00:00,,1649540,Friendlies,,,2026-11-12T19:19:01.672Z
+2026-11-11,India,Maldives,1,0,SAFF Cup,Dhaka,Bangladesh,TRUE,2026-11-11T09:30:00+00:00,,1648706,SAFF Championship,,,2026-11-12T19:19:01.672Z
+2026-11-11,Vietnam,Taiwan,2,0,Friendly,Nam Dinh,Vietnam,FALSE,2026-11-11T12:00:00+00:00,,1647357,Friendlies,,,2026-11-12T19:19:01.672Z
+2026-11-11,Bangladesh,Sri Lanka,4,0,SAFF Cup,Dhaka,Bangladesh,FALSE,2026-11-11T14:00:00+00:00,,1648707,SAFF Championship,,,2026-11-12T19:19:01.672Z
+2026-11-12,New Zealand,India,5,0,Friendly,Auckland,New Zealand,FALSE,2026-11-12T06:10:00+00:00,,1586134,Friendlies,,,2026-11-12T19:19:01.672Z
+2026-11-12,Ghana,Somalia,2,0,African Cup of Nations qualification,Sekondi-Takoradi,Ghana,FALSE,2026-11-12T15:00:00+00:00,,1545873,Africa Cup of Nations - Qualification,,,2026-11-12T19:19:01.672Z
+2026-11-12,Uzbekistan,Russia,2,3,Friendly,Tashkent,Uzbekistan,FALSE,2026-11-12T15:00:00+00:00,,1647358,Friendlies,,,2026-11-12T19:19:01.672Z
+2026-11-12,DR Congo,Sierra Leone,3,1,African Cup of Nations qualification,Kinshasa,DR Congo,FALSE,2026-11-12T16:00:00+00:00,391,1545869,Africa Cup of Nations - Qualification,,,2026-11-12T19:19:01.672Z
+2026-11-12,Equatorial Guinea,Zimbabwe,0,0,African Cup of Nations qualification,Yaounde,Cameroon,TRUE,2026-11-12T16:00:00+00:00,,1545871,Africa Cup of Nations - Qualification,,,2026-11-12T19:19:01.672Z
+2026-11-12,Madagascar,Guinea-Bissau,1,1,African Cup of Nations qualification,Oujda,Morocco,TRUE,2026-11-12T16:00:00+00:00,,1545876,Africa Cup of Nations - Qualification,,,2026-11-12T19:19:01.672Z
+2026-11-12,Guinea,Eritrea,2,1,African Cup of Nations qualification,Conakry,Guinea,FALSE,2026-11-12T16:00:00+00:00,,1545874,Africa Cup of Nations - Qualification,,,2026-11-12T19:19:01.672Z
+2026-11-12,Turkey,Belgium,1,2,UEFA Nations League,Izmir,Turkey,FALSE,2026-11-12T17:00:00+00:00,22441,1528958,UEFA Nations League,,,2026-11-12T19:19:01.672Z
+2026-11-12,Armenia,Cyprus,1,1,UEFA Nations League,Yerevan,Armenia,FALSE,2026-11-12T17:00:00+00:00,121,1528959,UEFA Nations League,,,2026-11-12T19:19:01.672Z
+2026-11-12,Lithuania,Suriname,0,0,Friendly,Kaunas,Lithuania,FALSE,2026-11-12T17:00:00+00:00,,1649011,Friendlies,,,2026-11-12T19:19:01.672Z
