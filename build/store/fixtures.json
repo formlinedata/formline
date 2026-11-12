@@ -1563,6 +1563,24 @@
   "gender": "men",
   "venue_src": "city"
  },
+ "1545878": {
+  "date": "2026-11-13",
+  "kickoff": "2026-11-13T20:00:00+00:00",
+  "home_team": "Morocco",
+  "away_team": "Niger",
+  "tournament": "African Cup of Nations qualification",
+  "city": "",
+  "country": "Morocco",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1545878,
+  "league": "Africa Cup of Nations - Qualification",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "venue_src": "assumed"
+ },
  "1545879": {
   "date": "2026-11-13",
   "kickoff": "2026-11-13T13:00:00+00:00",
