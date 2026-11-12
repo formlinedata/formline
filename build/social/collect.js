@@ -72,7 +72,7 @@ function nextFixtures(g){
 }
 function predictFx(c, fx){
   const pr = fixturePrediction(c, fx); if (!pr || !pr.p) return null;
-  return {p:[pr.p.home, pr.p.draw, pr.p.away].map(pct), likely:pr.sl.top[0][0] + '–' + pr.sl.top[0][1]};
+  return {p:[pr.p.home, pr.p.draw, pr.p.away].map(pct), likely:(pr.sl.pick || pr.sl.top[0])[0] + '–' + (pr.sl.pick || pr.sl.top[0])[1]};
 }
 const fxSlugDate = x => x.date;
 
@@ -235,6 +235,30 @@ S.windowOn = async ({now}) => {
 };
 
 
+/* The same matches put to World Elo and the FIFA method, with their ratings as they stood on the morning of each match:
+   how many winners each picked, over the matches with a winner where all three favoured a side. Formline's pick is the
+   call it published. Used by the day's roundup and the window recap, which only show it when Formline did best. */
+async function cmpOthers(all){
+  const D = 864e5, cmp = {n:0, us:0, elo:0, fifa:0};
+  for (const g of ['men', 'women']){
+    const es = all.filter(e => e.g === g && e.result && e.result[0] !== e.result[1] && e.p[0] !== e.p[2]); if (!es.length) continue;
+    const c = await useG(g), ms = state.matches[g], day = new Map();
+    for (const e of es){
+      try {
+        const kh = c.resolve(e.home), ka = c.resolve(e.away), t = Date.parse(e.date + 'T12:00:00Z'), home = e.result[0] > e.result[1]; if (!kh || !ka) continue;
+        if (!day.has(e.date)) day.set(e.date, {F:fifaMethod(g, Date.parse(e.date + 'T00:00:00Z') - 1), E:plainElo(g, Date.parse(e.date + 'T00:00:00Z') - 1)});
+        const {F, E} = day.get(e.date), mm = ms.find(x => Math.abs(x.ts - t) <= 1.5 * D && (namesFor(x), x._h === kh && x._a === ka));
+        const fh = F && F.byKey.get(kh), fa = F && F.byKey.get(ka);
+        if (!mm || !fh || !fa || !fh.rank || !fa.rank || !E.has(kh) || !E.has(ka)) continue;
+        const ee = eloE(E.get(kh) - E.get(ka) + venueSide(mm) * ELO_HOME), fx = fifaExpect(g, fh, fa, mm);
+        if (ee === 0.5 || fx === 0.5) continue;
+        cmp.n++; if ((e.p[0] > e.p[2]) === home) cmp.us++; if ((ee > 0.5) === home) cmp.elo++; if ((fx > 0.5) === home) cmp.fifa++;
+      } catch(err){}
+    }
+  }
+  return cmp.n ? cmp : null;
+}
+
 /* Results roundup: one day's results (a date, Toronto's) with Formline's published calls, the upsets, and the window so far.
    Only forecasts saved before kick-off count (data/forecasts.json). A day with fewer than five results gets no roundup of
    its own; its matches still count in the next roundup's "window so far". */
@@ -272,7 +296,8 @@ S.roundup = async ({now, day}) => {
   const since = new Date(Date.parse(day + 'T12:00:00Z') - 10 * 864e5).toISOString().slice(0, 10);
   const win = all.filter(e => local(e) <= day && local(e) >= since);
   const winHits = win.filter(e => e.p.indexOf(Math.max(...e.p)) === (e.result[0] > e.result[1] ? 0 : e.result[0] < e.result[1] ? 2 : 1)).length;
-  return {type:'roundup', id:'roundup|' + day, g:out.some(x => x.g === 'men') ? 'men' : 'women', day,
+  let cmp = null; try { cmp = await cmpOthers(list); } catch(e){}
+  return {type:'roundup', id:'roundup|' + day, g:out.some(x => x.g === 'men') ? 'men' : 'women', day, cmp,
     dayTxt:new Date(day + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}),
     n:out.length, hits, list:out, ups, big, win:{n:win.length, hits:winHits}};
 };
@@ -537,6 +562,68 @@ S.rankings = async ({now}) => {
     top:c.table.slice(0, 10).map(r => ({team:r.team, flag:flagSrc(r.team), rating:Math.round(r.rating), rank:r.rank})),
     next:c.table.slice(10, 20).map(r => ({team:r.team, flag:flagSrc(r.team), rating:Math.round(r.rating), rank:r.rank})),
     up:moves.slice(0, 3), down:moves.slice(-3).reverse().filter(x => x.d < 0)};
+};
+
+/* How often Formline is right: the site's standing test (every match since 2019, each predicted from the ratings of that
+   year's 1 January, next to World Elo and the FIFA method run the same way) and the live record of forecasts published
+   before kick-off. Men one fortnight, women the next. The numbers are the Forecast record page's own, worked out here
+   the same way; the builder only claims a lead where there is one. */
+S.record = async ({now, g, used = []}) => {
+  g = g || (Math.floor(now / (14 * 864e5)) % 2 ? 'women' : 'men');
+  if (used.includes('record|' + g + '|' + new Date(now).toISOString().slice(0, 7))) return null;
+  await useG(g); try { await loadFixtures(); } catch(e){}
+  kickVs(g); for (let i = 0; i < 1200 && !vsCache[g]; i++) await new Promise(r => setTimeout(r, 200));
+  const T = vsTotals(g); if (!T || T.dec < 500) return null;
+  const ys = T.ys, split = j => { const D = T.dis[j]; return D && D[0] ? {n:D[0], us:D[1], them:D[2], draw:D[3]} : null; };
+  const rec = state.record, sc = rec && rec.entries ? rec.entries.filter(e => e.g === g && e.result) : [];
+  return {type:'record', g, id:'record|' + g + '|' + new Date(now).toISOString().slice(0, 7), asOf:fmtDay(state.asOf), since:ys[0].y, to:ys[ys.length - 1].y, n:T.n, dec:T.dec,
+    hit:[0, 1, 2].map(j => 100 * T.hit[j] / T.dec), score:[0, 1, 2].map(j => sharp(T.ll[j] / T.n)), years:ys.length,
+    ahead:[0, ys.filter(a => a.ll[0] < a.ll[1]).length, ys.filter(a => a.ll[0] < a.ll[2]).length], split:[null, split(1), split(2)],
+    live:sc.length >= 20 ? {n:sc.length, hit:sc.filter(e => e.hit).length} : null};
+};
+
+/* How Formline's published calls did over an international window: a first count a couple of days in (mode 'mid') and the
+   final one the morning after the last match day (mode 'final'). Only forecasts saved before kick-off count
+   (data/forecasts.json). A window is a run of busy days (eight matches or more across both games) no more than two days
+   apart. The same matches are also put to World Elo and the FIFA method, with their ratings as they stood on the
+   morning of each match, for a comparison the builder only shows when Formline did at least as well as both.
+   By hand: from (a date) and min (fewest results) recap any period. */
+S.windowRecord = async ({now, used = [], mode, from, min = 20}) => {
+  const D = 864e5, iso = t => new Date(t).toISOString().slice(0, 10), ts = d => Date.parse(d + 'T12:00:00Z'), today = iso(now);
+  await useG('men'); try { await loadFixtures(); } catch(e){}
+  const seen = new Set();
+  for (const g of ['men', 'women']){ await useG(g);
+    state.matches[g].filter(m => m.ts > now - 30 * D && m.ts <= now).forEach(m => seen.add(iso(m.ts) + '|' + g + '|' + m.home + '|' + m.away));
+    ((state.fixtures && state.fixtures[g]) || []).forEach(x => seen.add(x.date + '|' + g + '|' + x.home + '|' + x.away)); }
+  const per = new Map(); seen.forEach(k => { const d = k.slice(0, 10); per.set(d, (per.get(d) || 0) + 1); });
+  const busy = [...per].filter(x => x[1] >= 8).map(x => x[0]).sort();
+  let L = busy.filter(d => d < today).pop() || null, S0 = L;
+  if (L) for (;;){ const p = busy.filter(d => d < S0 && ts(S0) - ts(d) <= 2 * D).shift(); if (!p) break; S0 = p; }
+  const cont = !!L && busy.some(d => d >= today && ts(d) - ts(L) <= 2 * D);
+  let m = from ? (mode || 'final') : !L ? null : !cont && ts(today) - ts(L) <= 2 * D ? 'final' : cont && ts(L) - ts(S0) >= 2 * D ? 'mid' : null;
+  if (!m || (mode && m !== mode)) return null;
+  const start = from || S0, end = from ? today : m === 'final' ? iso(ts(L) + D) : today, id = 'window|' + m + '|' + start;
+  if (used.includes(id)) return null;
+  const all = ((state.record && state.record.entries) || []).filter(e => e.p && e.result && !e.void && e.date >= start && e.date <= end);
+  if (all.length < min) return null;
+  const oOf = e => e.result[0] > e.result[1] ? 0 : e.result[0] < e.result[1] ? 2 : 1, callOf = e => e.p.indexOf(Math.max(...e.p));
+  const byG = {}, rows = [];
+  for (const g of ['men', 'women']){
+    const es = all.filter(e => e.g === g); if (!es.length) continue;
+    byG[g] = {n:es.length, hits:es.filter(e => callOf(e) === oOf(e)).length};
+    const c = await useG(g);
+    for (const e of es){
+      const kh = c.resolve(e.home), ka = c.resolve(e.away), o = oOf(e), t = ts(e.date);
+      rows.push({g, home:dn(kh || e.home), away:dn(ka || e.away), hs:e.result[0], as:e.result[1], comp:compName(e.tournament), hf:flagSrc(dn(kh || e.home), t), af:flagSrc(dn(ka || e.away), t),
+        o, call:callOf(e), hit:callOf(e) === o, got:pct(e.p[o]), fav:pct(Math.max(...e.p))});
+    }
+  }
+  let cmp = null; try { cmp = await cmpOthers(all); } catch(e){}
+  const strong = rows.filter(r => r.fav >= 70);
+  const last = rows.map(r => r).length ? all.map(e => e.date).sort().pop() : end;
+  return {type:'windowRecord', mode:m, id, g:byG.men ? 'men' : 'women', from:start, to:m === 'final' && !from ? L : last, n:rows.length, hits:rows.filter(r => r.hit).length, byG,
+    cmp, strong:{n:strong.length, hits:strong.filter(r => r.hit).length},
+    ups:rows.filter(r => r.o !== 1 && r.got < 35).sort((a, b) => a.got - b.got).slice(0, 5)};
 };
 
 window.FL_SOCIAL = S;

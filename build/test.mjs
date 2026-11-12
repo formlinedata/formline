@@ -66,6 +66,16 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
     ok(!t3 || !t3.date, 'Wikipedia: a box with no stadium and no time does not move the date');
     ok(t4 && t4.date === '2026-11-11', 'Wikipedia: a box with a stadium still moves the date');
   }
+  { /* Two articles disagree about the day: the one on the API's day wins (Iceland v Luxembourg, November 2026). */
+    const bx = (d, time) => ({date:d, t1:'JPN', t2:'BRA', stadium:'Saitama Stadium 2002', city:'Saitama', country:'Japan', kickoff:time ? d + 'T10:00:00+00:00' : null});
+    const cacheOf = (j, b) => ({titlesV:2, titles:{'men|Japan':{title:'J', checked:'2026-11-01'}, 'men|Brazil':{title:b ? 'B' : '', checked:'2026-11-01'}},
+      pages:{J:{fetched:'2026-11-01', matches:[j]}, ...(b ? {B:{fetched:'2026-11-01', matches:[b]}} : {})}, comps:{}});
+    const run = async (j, b) => (await W.wikiVenues([{api_id:4, gender:'men', date:'2026-11-16', home_team:'Japan', away_team:'Brazil'}], cacheOf(j, b), {fetchImpl:null, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x})).found.get('4');
+    const two = await run(bx('2026-11-15', true), bx('2026-11-16', true)), one = await run(bx('2026-11-15', true), null), far = await run(bx('2026-11-12', true), bx('2026-11-16', false));
+    ok(two && two.boxDate === '2026-11-16' && two.kickoff === '2026-11-16T10:00:00+00:00', 'Wikipedia: two articles a day apart, the one on the API\'s day is used');
+    ok(one && one.boxDate === '2026-11-15', 'Wikipedia: a lone article a day off still corrects the kick-off');
+    ok(far && !far.date && far.boxDate === '2026-11-16', 'Wikipedia: a moved date in one article gives way to a filled-in box on the API\'s day in another');
+  }
   const fxm = [{api_id:2, gender:'men', date:'2026-11-09', home_team:'Japan', away_team:'Brazil'}];
   const Rm = await W.wikiVenues(fxm, cache, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
   ok(Rm.found.get('2') && Rm.found.get('2').date === '2026-11-14' && Rm.found.get('2').country === 'Singapore' && Rm.stats.moved === 1, 'Wikipedia: the real date passed on for a fixture the API lists on the wrong day');
@@ -420,7 +430,20 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   const rec2 = JSON.parse(fs.readFileSync(path.join(root2, 'data/forecasts.json'), 'utf8'));
   const e = rec2.entries[0];
   ok(rec2.entries.length === 1 && e.home === 'Argentina' && e.p.length === 3 && Math.abs(e.p[0] + e.p[1] + e.p[2] - 1) < 1e-3, 'job records a forecast with the site model');
-  ok(e.xg.length === 2 && /^\d+-\d+$/.test(e.likely) && s4.forecasts.newThisRun === 1, 'forecast carries expected goals and likeliest score');
+  ok(e.xg.length === 2 && /^\d+-\d+$/.test(e.likely) && s4.forecasts.newThisRun === 1, 'forecast carries expected goals and a predicted score');
+}
+// the predicted score agrees with the pick (12 Nov 2026: 1-1 used to sit beside a 44% favourite)
+{
+  const {loadModel} = await import('./lib/model.mjs');
+  const m = loadModel(path.join(HERE, '..', 'index.html'));
+  const r = m.run(`(() => { let n = 0, bad = 0, was = 0;
+    for (const g of ['men', 'women']) for (let e = 0.04; e < 0.965; e += 0.005){
+      const sl = scorelines(e, g), p = [sl.probs.home, sl.probs.draw, sl.probs.away], top = p.indexOf(Math.max(...p));
+      const sign = x => x[0] > x[1] ? 0 : x[0] === x[1] ? 1 : 2;
+      n++; if (sign(sl.pick) !== top) bad++; if (sign(sl.top[0]) !== top) was++; }
+    return {n, bad, was, a:scoreWord([0.26, 0.30, 0.44], '1-1'), b:scoreWord([0.26, 0.30, 0.44], '0-1'), c:scoreWord([0.3, 0.4, 0.3], '1–1')}; })()`);
+  ok(r.n > 300 && r.bad === 0 && r.was > 0, 'predicted score always agrees with the pick, where the single likeliest score often did not');
+  ok(r.a === 'likeliest single score' && r.b === 'predicted score' && r.c === 'predicted score', 'an old stored score that disagrees with the pick is named for what it was');
 }
 // --- static team pages
 {
@@ -509,6 +532,50 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   const {loadModel} = await import('./lib/model.mjs');
   const model = loadModel(path.join(root, 'index.html'));
   for (const g of ['men', 'women']){ const p = path.join(root, 'data', g + '.json'); if (fs.existsSync(p)) model.load(g, JSON.parse(fs.readFileSync(p, 'utf8'))); }
+  { /* Stage 2 of keeping the method private: the build's own tables are the ones the page works out. */
+    const {precompute} = await import('./precompute.mjs');
+    if (fs.existsSync(path.join(root, 'data', 'women.json'))){
+      const P = precompute(model, 'women', 2024), T = model.table('women'), byKey = new Map(P.latest.rows.map(r => [r.key, r]));
+      ok(P.latest.asOf === T.asOf && T.rows.every(r => { const x = byKey.get(r.key); return x && Math.round(x.rating) === r.rating && (x.rank || null) === (r.rank || null); }),
+        'precompute: today\'s table matches the one the site works out, team by team');
+      const last = P.months.tables[P.months.tables.length - 1], stamp = P.months.stamps[P.months.stamps.length - 1];
+      const direct = model.run(`(() => { const [y, m] = ${JSON.stringify(stamp)}.split('-').map(Number); state.asOf = Date.UTC(y, m, 0); state.cache = {key:null}; const c = getRatings();
+        const out = c.all.filter(r => !r.island).map(r => [r.key, Math.round(r.rating * 10) / 10, r.rank || 0]); state.asOf = state.bounds.women.max; state.cache = {key:null}; return out; })()`);
+      ok(P.months.stamps[0] >= '2024-01' && P.months.stamps.length === P.months.tables.length && last.length === direct.length && direct.every(([k, r, rk]) => { const row = last.find(x => P.months.teams[x[0]] === k); return row && row[1] === r && row[3] === rk; }),
+        'precompute: a month-end table matches the site\'s table for that date');
+      /* A table after every match day, and every match as published: both equal what the page itself shows. */
+      const {dayTables, matchLedger, inputPrint, modelPrint} = await import('./precompute.mjs');
+      const Y = +T.asOf.slice(0, 4), D = dayTables(model, 'women', Y, false), A = dayTables(model, 'women', Y, true), L = matchLedger(model, 'women', Y);
+      const day = D.days[D.days.length - 1], want = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.asOf = Date.parse(${JSON.stringify(day)} + 'T00:00:00Z'); state.cache = {key:null};
+        const c = getRatings(), out = {t:c.all.filter(r => !r.island).map(r => [r.key, Math.round(r.rating * 10) / 10, r.rank || 0])};
+        state.asOf = state.bounds.women.max; state.cache = {key:null};
+        const k = getRatings().all[0].key, h = publishedHistory(k).filter(x => x.published); out.k = k; out.h = h.slice(-1).map(x => [fmtDate(x.ts), Math.round(x.pre * 10) / 10, Math.round(x.rating * 10) / 10])[0] || null; return out; })()`);
+      const lastT = D.tables[D.tables.length - 1];
+      ok(D.days.length > 0 && D.days.length === D.tables.length && want.t.every(([k, r, rk]) => { const row = lastT.find(x => D.teams[x[0]] === k); return row && row[1] === r && row[3] === rk; }),
+        'precompute: the table after a match day matches the site\'s table for that day');
+      ok(A.window === 'all' && A.days.join() === D.days.join() && A.tables.length === D.tables.length, 'precompute: the all-time tables cover the same match days');
+      const mine = want.h ? L.rows.filter(r => r[0] === want.h[0] && (L.teams[r[1]] === want.k || L.teams[r[2]] === want.k))[0] : null;
+      ok(!want.h || (mine && (L.teams[mine[1]] === want.k ? mine[5] === want.h[1] && mine[7] === want.h[2] : mine[6] === want.h[1] && mine[8] === want.h[2])),
+        'precompute: a match\'s ratings before and after equal the ones the team page shows');
+      ok(inputPrint(model, 'women', Y, false) === inputPrint(model, 'women', Y, false) && inputPrint(model, 'women', Y, true) !== '' && modelPrint(model) === modelPrint(model),
+        'precompute: the same data and model give the same prints, so unchanged years are skipped');
+      /* Today's table in full, read back from its file, equals the page's own table; a changed number is caught. */
+      const {tableFile, tableCheck, recordYears, recordCheck} = await import('./precompute.mjs');
+      for (const allTime of [false, true]){
+        const F = JSON.parse(JSON.stringify(tableFile(model, 'women', allTime))), chk = tableCheck(model, 'women', allTime, F);
+        ok(F.rows.length > 0 && F.window.length > 0 && chk.n > 100 && chk.entries === 2 * F.window.length && chk.bad.length === 0,
+          'precompute: the ' + (allTime ? 'all-time' : 'usual') + ' table read back from its file equals the page\'s, field by field' + (chk.bad.length ? ' (' + chk.bad[0] + ')' : ''));
+        if (!allTime){
+          const bent = JSON.parse(JSON.stringify(F)); bent.rows[0].rating += 1; bent.window[0][4] += 1;
+          const stale = JSON.parse(JSON.stringify(F)); stale.matches += 1;
+          ok(tableCheck(model, 'women', false, bent).bad.length >= 2 && tableCheck(model, 'women', false, stale).bad[0] === 'file refused',
+            'precompute: a changed number in a table file is caught, and a file from another match list is refused');
+        }
+      }
+      const RY = JSON.parse(JSON.stringify(recordYears(model, 'women'))), rc = recordCheck(model, 'women', RY);
+      ok(RY.length === Y - 2018 && rc.bad.length === 0, 'precompute: the Forecast record\'s yearly figures equal the page\'s' + (rc.bad.length ? ' (' + rc.bad[0] + ')' : ''));
+    }
+  }
   const asked = [];
   const fake = async (url) => { asked.push(url);
     if (url.includes('/page/summary/')) return {ok:true, json:async () => url.includes('Spain') ? {thumbnail:{source:'https://upload.wikimedia.org/x/Spain_crest.svg.png'}} : {}};
@@ -537,7 +604,28 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
 }
 /* Kick-off times on social posts: Toronto and UK time, with the weekday where a zone is on another day. */
 {
-  const {koText} = await import('./social.mjs');
+  const {koText, BUILD:SB} = await import('./social.mjs');
+  { /* The accuracy post only claims a lead where there is one. */
+    const base = {type:'record', g:'men', since:2019, to:2026, n:7322, dec:5638, years:8, live:null};
+    const level = SB.record({...base, hit:[79.07, 78.99, 75.98], score:[23.2, 21.4, 17.2], ahead:[0, 8, 8], split:[null, {n:316, us:106, them:102, draw:108}, {n:965, us:442, them:268, draw:255}]});
+    ok(/level with World Elo and ahead of the FIFA method/.test(level.caption) && level.slides.length === 3 && !/Formline and World Elo: 316/.test(level.alts.join(' ')) && /Formline and FIFA method: 965/.test(level.alts.join(' ')),
+      'social posts: the accuracy post says "level" for a lead under a point and leaves out a split that is not a clear win');
+    const behind = SB.record({...base, hit:[76.0, 79.0, 75.5], score:[19, 21, 17], ahead:[0, 2, 6], split:[null, {n:300, us:90, them:120, draw:90}, {n:60, us:20, them:22, draw:18}]});
+    ok(/behind World Elo and level with the FIFA method/.test(behind.caption) && behind.slides.length === 2 && /2 of the 8 years/.test(behind.alts[1]), 'social posts: the accuracy post says so when Formline is behind, and shows no split slide');
+  }
+  { /* The window recap brings in World Elo and the FIFA method only when Formline picked at least as many winners as both. */
+    const w = {type:'windowRecord', mode:'final', g:'men', from:'2026-11-12', to:'2026-11-17', n:158, hits:104, byG:{men:{n:121, hits:79}, women:{n:37, hits:25}}, strong:{n:41, hits:37}, ups:[]};
+    const up = SB.windowRecord({...w, cmp:{n:118, us:96, elo:93, fifa:88}}), down = SB.windowRecord({...w, mode:'mid', cmp:{n:118, us:90, elo:93, fifa:88}}), few = SB.windowRecord({...w, cmp:{n:12, us:11, elo:9, fifa:8}});
+    ok(up.slides.length === 2 && /Formline 96, World Elo 93, FIFA method 88/.test(up.caption) && /12–17 November: 104 of 158 results called right \(66%\)\./.test(up.caption), 'social posts: the window recap gives the count and, when Formline led, the comparison');
+    ok(down.slides.length === 1 && !/World Elo/.test(down.caption + down.xText) && /so far/.test(down.caption) && few.slides.length === 1, 'social posts: the window recap leaves the comparison out when Formline trailed either, or on too few matches');
+  }
+  { /* The day's roundup adds its "good day" slide only on a good day when Formline picked at least as many winners as both. */
+    const row = (i, hit) => ({g:'men', home:'Home ' + i, away:'Away ' + i, hs:hit ? 2 : 0, as:hit ? 0 : 1, comp:'Friendly', hf:null, af:null, p:[60, 25, 15], call:0, o:hit ? 0 : 2, hit, top:i});
+    const day = (hits, n, cmp) => SB.roundup({type:'roundup', g:'men', day:'2026-11-12', dayTxt:'Thursday 12 November', n, hits, list:Array.from({length:n}, (_, i) => row(i, i < hits)), ups:[], big:null, win:{n, hits}, cmp});
+    const best = day(10, 12, {n:12, us:10, elo:9, fifa:8}), poor = day(6, 12, {n:12, us:6, elo:5, fifa:4}), behind = day(10, 12, {n:12, us:10, elo:11, fifa:8}), none = day(10, 12, null);
+    ok(best.slides.length === poor.slides.length + 1 && /Formline 10, World Elo 9, FIFA method 8/.test(best.caption) && /yesterday/.test(best.slides[0]), 'social posts: a good day that beat World Elo and the FIFA method says so');
+    ok(!/World Elo/.test(poor.caption + behind.caption + none.caption) && behind.slides.length === poor.slides.length && none.slides.length === poor.slides.length, 'social posts: no comparison on a poor day, or when Formline trailed, or without the figures');
+  }
   ok(koText('2026-11-12T19:45:00+00:00', '2026-11-12') === '2:45 PM ET · 7:45 PM UK', 'social posts: a kick-off is given in Toronto and UK time');
   ok(koText('2026-11-13T00:30:00+00:00', '2026-11-12') === '7:30 PM ET · 12:30 AM UK (Fri)', 'social posts: a zone where the match is on another day says which day');
   ok(koText('2026-06-11T19:00:00+00:00', '2026-06-11') === '3:00 PM ET · 8:00 PM UK' && koText('', '2026-06-11') === '', 'social posts: summer time in both zones, and no text without a kick-off');

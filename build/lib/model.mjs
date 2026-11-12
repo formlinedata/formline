@@ -180,7 +180,7 @@ export function loadModel(htmlPath){
         const c = getRatings();
         return __fx.map(fx => { const pr = fixturePrediction(c, fx);
           if (!pr.p) return null;
-          return {p:[pr.p.home, pr.p.draw, pr.p.away], xg:pr.sl.xg, likely:pr.sl.top[0][0]+'-'+pr.sl.top[0][1], side:pr.side,
+          return {p:[pr.p.home, pr.p.draw, pr.p.away], xg:pr.sl.xg, likely:(pr.sl.pick || pr.sl.top[0])[0]+'-'+(pr.sl.pick || pr.sl.top[0])[1], side:pr.side,
             ratings:[pr.rh.rating, pr.ra.rating], bands:[pr.rh.band, pr.ra.band], asOf:fmtDate(state.asOf)}; });
       })()`);
     }

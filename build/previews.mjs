@@ -117,6 +117,9 @@ ${d.next ? `<div class="next fit" data-max="25">Next: <b>v ${esc(d.next.opp)}</b
 </div>${footer('Every team. All of them.')}`;
 }
 
+/* Forecasts frozen before 12 Nov 2026 stored the single likeliest score, which could disagree with the pick; named as such. */
+const scoreWord = (p, likely) => { const m = /^(\d+)\D+(\d+)$/.exec(String(likely || '')); if (!m || !p) return 'predicted score';
+  const top = p.indexOf(Math.max(...p)), s = +m[1] > +m[2] ? 0 : +m[1] === +m[2] ? 1 : 2; return s === top ? 'predicted score' : 'likeliest single score'; };
 function matchHtml(d, T){
   const side = s => `<div class="side">${flagImg(s.flag, 120)}<h2 class="fit" data-max="52">${esc(s.name)}</h2>
 <div class="meta">${s.rank ? `<i style="background:${tierColour(T, s.tier)}"></i>${ord(s.rank)} in the world · tier ${s.tier}` : 'Not ranked yet'}</div></div>`;
@@ -124,7 +127,7 @@ function matchHtml(d, T){
   const likely = d.likely ? d.likely.replace('-', '–') : '';
   return `<div id="c"><div class="top"><span class="brand">${MARK}Formline</span><span class="fit" data-max="22" style="max-width:720px;text-align:right">${esc(d.comp)} · ${dayLong(d.day)}</span></div>
 <div class="teams">${side(d.home)}<div class="mid${d.result ? ' score' : ''}">${d.result ? `${d.result[0]}–${d.result[1]}` : 'v'}</div>${side(d.away)}</div>
-<div class="probs"><div class="lbl">${d.result ? "Formline's prediction before kick-off" : "Formline's prediction"}${likely ? ` · most likely score ${likely}` : ''}</div>
+<div class="probs"><div class="lbl">${d.result ? "Formline's prediction before kick-off" : "Formline's prediction"}${likely ? ` · ${scoreWord(d.p, d.likely)} ${likely}` : ''}</div>
 <div class="bar">${[ph, pd, pa].map((v, i) => `<i style="width:${Math.max(v, 1)}%;background:${cols[i]}"></i>`).join('')}</div>
 <div class="pv"><span class="fit" data-max="26"><b>${ph}%</b>${esc(d.home.name)} win</span><span><b>${pd}%</b>Draw</span><span class="fit" data-max="26"><b>${pa}%</b>${esc(d.away.name)} win</span></div></div>
 </div>${footer(d.venue ? esc(d.venue) : 'Every team. All of them.')}`;

@@ -274,17 +274,23 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
     const pages = [];
     for (const t of [fx.home_team, fx.away_team]){ const T = cache.titles[fx.gender + '|' + t]; if (T && T.title && cache.pages[T.title]) pages.push(cache.pages[T.title]); }
     const C = cache.comps[compKey(fx)]; if (C) for (const t of C.titles) if (cache.pages[t]) pages.push(cache.pages[t]);
-    let best = null;
+    let best = null; const hits = []; let agreed = false;
     for (const P of pages){
       const m = findMatch(P.matches, fx); if (!m) continue;
-      const country = boxCountry(m, cities, cityKey, toArchive, known);
-      if (!country && !m.moved) continue;
       /* A box with no stadium and no kick-off time ("TBD") is a placeholder: its date is often a guess (Morocco v Niger,
          November 2026: Wikipedia had 11 Nov and no venue, the API the real 13 Nov), so it never moves a fixture. */
       const placeholder = !m.kickoff && (!m.stadium || isTBD(m.stadium));
+      if (m.date === fx.date && !placeholder) agreed = true;
+      const country = boxCountry(m, cities, cityKey, toArchive, known);
+      if (!country && !m.moved) continue;
       if (m.moved && placeholder && !country) continue;
-      const hit = {city:m.city, country, stadium:m.stadium, boxDate:m.date, ...(m.moved && !placeholder ? {date:m.date} : {}), ...(m.kickoff ? {kickoff:m.kickoff} : {})};
-      if (!best || (!best.country && country) || (!best.kickoff && hit.kickoff && !!best.country === !!country)) best = hit;
+      hits.push({city:m.city, country, stadium:m.stadium, boxDate:m.date, ...(m.moved && !placeholder ? {date:m.date} : {}), ...(m.kickoff ? {kickoff:m.kickoff} : {})});
+    }
+    /* Where Wikipedia's own articles give different days for a match, a filled-in box on the API's day settles it: the
+       boxes on another day are set aside (Iceland v Luxembourg, November 2026: Iceland's article had 15 Nov, while
+       Luxembourg's, the Nations League's and the API all had the real 16 Nov). */
+    for (const hit of (agreed ? hits.filter(h => h.boxDate === fx.date) : hits)){
+      if (!best || (!best.country && hit.country) || (!best.kickoff && hit.kickoff && !!best.country === !!hit.country)) best = hit;
       if (best.country && best.kickoff) break;
     }
     if (!best) continue;

@@ -84,7 +84,7 @@ export function bskyTags(g, teams, comp){
 /* Instagram: at most five, most specific first. Each team (its fans' own tag where there is a well-known one), the
    competition, #WoSo for women's posts, then one tag for what kind of post it is. */
 const TOPIC_TAG = {match:'#MatchPreview', spotlight:'#FootballStats', onthisday:'#OnThisDay', rivalry:'#HeadToHead',
-  tournament:'#FootballPredictions', past:'#FootballHistory', rankings:'#FootballRankings', roundup:'#FootballResults', today:'#FootballPredictions'};
+  tournament:'#FootballPredictions', past:'#FootballHistory', rankings:'#FootballRankings', roundup:'#FootballResults', today:'#FootballPredictions', record:'#FootballPredictions'};
 function hashtags(g, teams, comp, topic){
   const rest = [comp && COMP_TAG[comp] ? '#' + COMP_TAG[comp] : '', g === 'women' ? '#WoSo' : '', TOPIC_TAG[topic] || ''].filter(Boolean);
   const t = [...new Set(teams.filter(Boolean).map(x => FAN_TAG[g][x] ? '#' + FAN_TAG[g][x] : tag(x)))].slice(0, 5 - rest.length);
@@ -208,7 +208,7 @@ const BUILD = {
     const s1 = slide(`${hook(hk)}<div class="kick">${esc(d.comp)} · ${esc(d.day)}</div>${ko ? `<div class="body dim" style="font-size:26px;margin-top:8px">Kick-off ${esc(ko)}</div>` : ''}
 <div class="match"><div class="side">${flagImg(d.home.flag, 120)}${esc(A)}<small>${d.home.rank ? 'Ranked ' + ord(d.home.rank) : ''}</small></div><div class="vs">v</div>
 <div class="side">${flagImg(d.away.flag, 120)}${esc(B)}<small>${d.away.rank ? 'Ranked ' + ord(d.away.rank) : ''}</small></div></div>
-<div class="box"><div class="lab">Formline's chances</div>${pickBar(d.pr.p, A, B)}<div class="body" style="margin-top:18px">Most likely score <b>${esc(d.pr.likely)}</b>${venue(d) ? ' · ' + esc(venue(d)) : ''}</div></div>`);
+<div class="box"><div class="lab">Formline's chances</div>${pickBar(d.pr.p, A, B)}<div class="body" style="margin-top:18px">Predicted score <b>${esc(d.pr.likely)}</b>${venue(d) ? ' · ' + esc(venue(d)) : ''}</div></div>`);
     const s2 = slide(`<div class="kick">Head to head · ${GAME[d.g]}</div><h2>${esc(A)} v ${esc(B)}</h2>
 ${h.n ? `<div class="box">${recBlock(A, B, h.w, h.d, h.l, h.n)}<div class="body dim" style="font-size:24px">${h.n} meeting${h.n === 1 ? '' : 's'} · goals ${h.gf}–${h.ga}</div></div>
 <div class="lab" style="margin-top:34px">Last meetings</div>${h.last.map(m => `<div class="row" style="grid-template-columns:auto 1fr"><span class="dim" style="font-size:24px">${m.year}</span><span>${esc(m.home)} ${m.hs}–${m.as} ${esc(m.away)}<span class="sub">${esc(m.comp)}</span></span></div>`).join('')}`
@@ -225,13 +225,13 @@ ${(T.form || []).map(m => `<div class="gt" style="font-size:26px;gap:12px;paddin
 <div style="margin-top:22px">${pickBar(d.pr.p, A, B)}</div>`);
     const h2hTxt = h.n ? `🤝 All-time: ${A} ${h.w} win${h.w === 1 ? '' : 's'}, ${h.d} draw${h.d === 1 ? '' : 's'}, ${B} ${h.l} win${h.l === 1 ? '' : 's'} (${h.n} meetings).` : `🆕 It will be their first meeting on record.`;
     const formTxt = T => (T.form || []).map(m => m.r).join('');
-    const alts = [`${d.comp}, ${d.day}: ${A}${d.home.rank ? ` (ranked ${ord(d.home.rank)})` : ''} v ${B}${d.away.rank ? ` (ranked ${ord(d.away.rank)})` : ''}${venue(d) ? `, in ${venue(d)}` : ''}${ko ? `, kick-off ${ko.replace(' · ', ', ')}` : ''}. Formline's chances: ${A} win ${d.pr.p[0]}%, draw ${d.pr.p[1]}%, ${B} win ${d.pr.p[2]}%. Most likely score ${d.pr.likely}.`,
+    const alts = [`${d.comp}, ${d.day}: ${A}${d.home.rank ? ` (ranked ${ord(d.home.rank)})` : ''} v ${B}${d.away.rank ? ` (ranked ${ord(d.away.rank)})` : ''}${venue(d) ? `, in ${venue(d)}` : ''}${ko ? `, kick-off ${ko.replace(' · ', ', ')}` : ''}. Formline's chances: ${A} win ${d.pr.p[0]}%, draw ${d.pr.p[1]}%, ${B} win ${d.pr.p[2]}%. Predicted score ${d.pr.likely}.`,
       h.n ? `Head to head, ${A} v ${B} (${GAME[d.g].toLowerCase()}): ${h.n} meetings, ${A} ${h.w} wins, ${h.d} draws, ${B} ${h.l} wins, goals ${h.gf}–${h.ga}. Last meetings: ${h.last.map(m => `${m.year}, ${m.home} ${m.hs}–${m.as} ${m.away} (${m.comp})`).join('; ')}.`
         : `Head to head, ${A} v ${B}: this will be their first meeting on record.`,
       `Form guide, last five results. ${[d.home, d.away].map(T => `${T.team} (rating ${T.rating}${T.rank ? `, ${ord(T.rank)}` : ''}): ${(T.form || []).map(m => `${{W:'won', D:'drew', L:'lost'}[m.r]} ${m.gf}–${m.ga} v ${m.opp}`).join('; ')}`).join('. ')}.`];
     return {title:`${A} v ${B} preview`, slides:[s1, s2, s3], x, alts,
-      caption:`${A} v ${B} prediction: ${d.comp}, ${d.day} ${(eA + eB).trim()}${eA || eB ? ' ' : ''}🗓️${ko ? `\n⏰ Kick-off ${ko}` : ''}\n\n📊 ${fav}. Formline's chances: ${A} ${d.pr.p[0]}%, draw ${d.pr.p[1]}%, ${B} ${d.pr.p[2]}%. Most likely score ${d.pr.likely}.\n\n${h2hTxt}\n\n🔥 Last five: ${A} ${formTxt(d.home)}, ${B} ${formTxt(d.away)}.\n\nWho are you backing? 👇 Every upcoming match has a preview on Formline (link in bio).\n\n${hashtags(d.g, [A, B], d.comp, 'match')}`,
-      xText:`${eA}${A} v ${B} ${eB}· ${d.day}\n\n📊 ${A} ${d.pr.p[0]}% · Draw ${d.pr.p[1]}% · ${B} ${d.pr.p[2]}%\n🎯 Most likely: ${d.pr.likely}\n${h.n ? `🤝 Head to head: ${h.w}–${h.d}–${h.l}` : '🆕 First meeting on record'}\n\n${url}`};
+      caption:`${A} v ${B} prediction: ${d.comp}, ${d.day} ${(eA + eB).trim()}${eA || eB ? ' ' : ''}🗓️${ko ? `\n⏰ Kick-off ${ko}` : ''}\n\n📊 ${fav}. Formline's chances: ${A} ${d.pr.p[0]}%, draw ${d.pr.p[1]}%, ${B} ${d.pr.p[2]}%. Predicted score ${d.pr.likely}.\n\n${h2hTxt}\n\n🔥 Last five: ${A} ${formTxt(d.home)}, ${B} ${formTxt(d.away)}.\n\nWho are you backing? 👇 Every upcoming match has a preview on Formline (link in bio).\n\n${hashtags(d.g, [A, B], d.comp, 'match')}`,
+      xText:`${eA}${A} v ${B} ${eB}· ${d.day}\n\n📊 ${A} ${d.pr.p[0]}% · Draw ${d.pr.p[1]}% · ${B} ${d.pr.p[2]}%\n🎯 Predicted score: ${d.pr.likely}\n${h.n ? `🤝 Head to head: ${h.w}–${h.d}–${h.l}` : '🆕 First meeting on record'}\n\n${url}`};
   },
   spotlight(d){
     const T = d.team, t = T.team, url = teamUrl(d.g, t), eT = fe(T.flag);
@@ -454,7 +454,17 @@ BUILD.roundup = function(d){
   const head = d.list.slice(0, 7), rest = d.list.slice(7, 21), pc = Math.round(100 * d.hits / d.n);
   /* The cover's rows as large as the longest result allows: up to 40px for five results, 34px for seven. */
   const lineLen = x => `${x.home} ${x.hs}–${x.as} ${x.away}`.length, hfs = fitFs(Math.max(...head.map(lineLen)), head.length <= 5 ? 40 : head.length === 6 ? 37 : 34, 29, 780, 3);
-  const s1 = slide(`${hook(`Formline called <em>${d.hits} of ${d.n}</em>`)}<div class="kick">Results · ${esc(d.dayTxt)}</div>
+  /* A good day gets said so: seven calls in ten or better opens differently, and when Formline also picked at least as many
+     winners as World Elo and the FIFA method (and more than one of them, over ten matches or more) a slide shows all three. */
+  const C = d.cmp, good = pc >= 70, beat = !!C && C.n >= 10 && C.us >= C.elo && C.us >= C.fifa && (C.us > C.elo || C.us > C.fifa);
+  const cmpTxt = beat ? `Picked the winner in the ${C.n} matches that had one: Formline ${C.us}, World Elo ${C.elo}, FIFA method ${C.fifa}.` : '';
+  const sC = beat && good ? slide(`<div class="kick">Results · ${esc(d.dayTxt)}</div><h2>A good day for Formline</h2>
+<div style="font-size:150px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:34px">${d.hits}<span style="font-size:70px;color:#f1f4ec"> of ${d.n}</span></div>
+<p class="body" style="margin-top:10px;font-size:32px">results called right, every one published before kick-off</p>
+<p class="body" style="margin-top:44px;font-size:30px">Picked the winner, in the ${C.n} matches that had one:</p>
+<div style="margin-top:20px">${[['Formline', C.us, '#f6b638'], ['World Elo', C.elo, '#6fa8dc'], ['FIFA method', C.fifa, '#7d9484']].map(([n, v, col], j) => `<div style="display:grid;grid-template-columns:218px 1fr 150px;align-items:center;gap:20px;padding:14px 0;font-size:34px"><span style="font-weight:${j ? 500 : 800}">${n}</span><span style="height:21px;background:#1b3a29;border-radius:99px;overflow:hidden"><i style="display:block;height:100%;width:${(100 * v / C.n).toFixed(1)}%;background:${col};border-radius:99px"></i></span><span style="text-align:right;font-weight:800">${v} <span class="dim" style="font-weight:500;font-size:26px">${Math.round(100 * v / C.n)}%</span></span></div>`).join('')}</div>
+<p class="body dim" style="margin-top:30px;font-size:24px">World Elo and the FIFA method with their ratings as they stood that morning.</p>`) : null;
+  const s1 = slide(`${hook(good ? `Formline called <em>${d.hits} of ${d.n}</em> yesterday` : `Formline called <em>${d.hits} of ${d.n}</em>`)}<div class="kick">Results · ${esc(d.dayTxt)}</div>
 <div style="margin-top:16px">${head.map(x => rowR(x, hfs)).join('')}</div>${rest.length ? `<p class="body dim" style="font-size:22px;margin-top:10px">${rest.length} more results inside →</p>` : ''}`);
   /* The result of the day: the match between the highest-ranked sides, Formline's chances for it, and what it did to both ratings. */
   const B = d.big, chg = T => `<span style="color:${T.delta > 0 ? '#5fcf8a' : T.delta < 0 ? '#f08a7a' : '#a7bba9'}">${T.delta > 0 ? '+' : T.delta < 0 ? '−' : '±'}${Math.abs(T.delta)}</span>`;
@@ -482,8 +492,9 @@ ${d.ups.map(u => `<div class="box" style="margin-top:22px;display:grid;grid-temp
   if (s2) alts.push(`More results for ${d.dayTxt}: ${rest.map(r => `${r.home} ${r.hs}–${r.as} ${r.away} (${r.hit ? 'right' : 'wrong'})`).join('; ')}.`);
   if (s3) alts.push(`The upsets of ${d.dayTxt}, with the winner's chance before kick-off: ${d.ups.map(u => `${u.home} ${u.hs}–${u.as} ${u.away}, ${u.p[u.o]}%`).join('; ')}.`);
   if (s4) alts.push(`The window so far: Formline called ${d.win.hits} of ${d.win.n} results, ${Math.round(100 * d.win.hits / d.win.n)}%.`);
-  return {title:`Results: ${d.hits} of ${d.n}, ${d.dayTxt}`, slides:[s1, sB, s2, s3, s4].filter(Boolean), x, alts,
-    caption:`International football results, ${d.dayTxt}: Formline called ${d.hits} of ${d.n} (${pc}%) 📋\n\n${d.list.slice(0, 10).map(line).join('\n')}${d.list.length > 10 ? `\n…and ${d.list.length - 10} more in the slides` : ''}${upTxt ? '\n\n' + upTxt : ''}${d.win.n > d.n ? `\n\n📈 The window so far: ${d.win.hits} of ${d.win.n} called right.` : ''}\n\nWhich result surprised you most? 👇 Make your own picks for the next matchday at formlinedata.com (link in bio).\n\n${hashtags(d.g, d.list.slice(0, 2).map(r => r.home), null, 'roundup')}`,
+  if (sC) alts.splice(1, 0, `A good day for Formline: ${d.hits} of ${d.n} results called right. ${cmpTxt} World Elo and the FIFA method with their ratings as they stood that morning.`);
+  return {title:`Results: ${d.hits} of ${d.n}, ${d.dayTxt}`, slides:[s1, sC, sB, s2, s3, s4].filter(Boolean), x, alts,
+    caption:`International football results, ${d.dayTxt}: Formline called ${d.hits} of ${d.n} (${pc}%) 📋\n\n${d.list.slice(0, 10).map(line).join('\n')}${d.list.length > 10 ? `\n…and ${d.list.length - 10} more in the slides` : ''}${upTxt ? '\n\n' + upTxt : ''}${sC ? '\n\n📊 ' + cmpTxt : ''}${d.win.n > d.n ? `\n\n📈 The window so far: ${d.win.hits} of ${d.win.n} called right.` : ''}\n\nWhich result surprised you most? 👇 Make your own picks for the next matchday at formlinedata.com (link in bio).\n\n${hashtags(d.g, d.list.slice(0, 2).map(r => r.home), null, 'roundup')}`,
     xText:`📋 ${d.dayTxt}: Formline called ${d.hits} of ${d.n}\n\n${d.list.slice(0, 4).map(line).join('\n')}${upTxt ? '\n\n' + upTxt : ''}\n\n${BASE}#/matchday?ud=${d.day}`};
 };
 
@@ -523,6 +534,88 @@ const storyPage = d => page(1080, 1920, `<div class="kick" style="font-size:28px
 ${d.n > d.list.length ? `<p class="body dim" style="margin-top:14px;font-size:26px">+ ${d.n - d.list.length} more today</p>` : ''}
 <p class="body" style="margin-top:30px;font-size:30px">Make your own picks: <b class="a">formlinedata.com</b> · Matchday</p>`, {vars:';--pt:90px;--px:80px;--fb:220px;--fbot:140px', right:'Formline\'s pick and its chance'});
 
+/* How often Formline is right, next to World Elo and the FIFA method: the Forecast record page's standing test (every
+   match since 2019, each predicted from that year's 1 January ratings). A lead is only claimed where the numbers show
+   one: a point or more on picking the winner is "ahead", less is "level"; the slide on matches where the two backed
+   different winners only shows a rival Formline beat clearly. */
+BUILD.record = function(d){
+  const G = GAME[d.g], N = ['Formline', 'World Elo', 'FIFA method'], COL = ['#f6b638', '#6fa8dc', '#7d9484'];
+  const pc = v => v.toFixed(1) + '%', sc = v => String(Math.round(v)), num = n => n.toLocaleString('en-GB'), span = `${d.since} to ${d.to}`;
+  const bars = (vals, fmt, max, fs = 34) => vals.map((v, j) => `<div style="display:grid;grid-template-columns:${r0(fs * 6.4)}px 1fr ${r0(fs * 3.2)}px;align-items:center;gap:${r0(fs * 0.6)}px;padding:${r0(fs * 0.42)}px 0;font-size:${fs}px"><span style="font-weight:${j ? 500 : 800}">${N[j]}</span><span style="height:${r0(fs * 0.62)}px;background:#1b3a29;border-radius:99px;overflow:hidden"><i style="display:block;height:100%;width:${(100 * v / max).toFixed(1)}%;background:${COL[j]};border-radius:99px"></i></span><span style="text-align:right;font-weight:800">${fmt(v)}</span></div>`).join('');
+  const word = j => { const x = d.hit[0] - d.hit[j]; return x >= 1 ? 'ahead of' : x > -1 ? 'level with' : 'behind'; };
+  const stand = word(1) === word(2) ? `${word(1)} both World Elo and the FIFA method` : `${word(1)} World Elo and ${word(2)} the FIFA method`;
+  const yrs = j => d.ahead[j] === d.years ? `every year since ${d.since}` : `${d.ahead[j]} of the ${d.years} years`;
+  const test = 'A test on past matches: each one predicted from the ratings of 1 January that year.';
+  const s1 = slide(`${hook('How often is Formline <em>right?</em>')}<div class="kick">${G} internationals · ${span}</div>
+<div style="font-size:156px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:30px">${pc(d.hit[0])}</div>
+<p class="body" style="margin-top:10px;font-size:32px">picked the winner, in ${num(d.dec)} matches that had one</p>
+<div style="margin-top:46px">${bars(d.hit, pc, 100)}</div>
+<p class="body dim" style="margin-top:36px;font-size:24px">${test}</p>`);
+  const s2 = slide(`<div class="kick">${G} internationals · ${span}</div><h2>How sure, as well as how often</h2>
+<p class="body" style="margin-top:20px;font-size:30px">The forecast score rewards giving each result the right chance, not just naming the winner. 0 is a coin toss, 100 is knowing every result.</p>
+<div style="margin-top:44px">${bars(d.score, sc, Math.max(...d.score) / 0.92)}</div>
+<ul class="facts" style="margin-top:48px;font-size:30px"><li>Higher than <b>World Elo</b>: ${yrs(1)}</li><li>Higher than the <b>FIFA method</b>: ${yrs(2)}</li></ul>`);
+  const sp = [1, 2].filter(j => d.split[j] && d.split[j].n >= 50 && d.split[j].us >= 1.2 * d.split[j].them);
+  const seg = (v, n, c) => `<i style="display:block;height:100%;width:${(100 * v / n).toFixed(1)}%;background:${c}"></i>`;
+  const s3 = sp.length ? slide(`<div class="kick">${G} internationals · ${span}</div><h2>When they backed different winners</h2>` + sp.map(j => { const x = d.split[j], them = j === 2 ? 'the FIFA method' : N[j];
+    return `<p class="body" style="margin-top:${j === sp[0] ? 30 : 54}px;font-size:30px">Formline and ${them} picked different sides in <b style="color:#f1f4ec">${num(x.n)}</b> matches. Who was right?</p>
+<div style="display:flex;height:34px;border-radius:99px;overflow:hidden;margin-top:22px;background:#1b3a29">${seg(x.us, x.n, COL[0])}${seg(x.them, x.n, COL[j])}${seg(x.draw, x.n, '#33503f')}</div>
+<div style="display:flex;justify-content:space-between;margin-top:16px;font-size:28px"><span><b style="color:${COL[0]}">Formline ${num(x.us)}</b></span><span><b style="color:${COL[j]}">${N[j]} ${num(x.them)}</b></span><span class="dim">Draw ${num(x.draw)}</span></div>`; }).join('')) : null;
+  const L = d.live, livePc = L ? Math.round(100 * L.hit / L.n) : 0;
+  const s4 = L ? slide(`<div class="kick">${G} internationals · the live record</div><h2>And the forecasts published before kick-off</h2>
+<div style="font-size:150px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:40px">${livePc}%</div>
+<p class="body" style="margin-top:10px;font-size:32px">of the time the favourite won, in ${num(L.n)} forecasts checked so far</p>
+<p class="body dim" style="margin-top:40px;font-size:26px">Every forecast on the site is saved before kick-off, checked after the final whistle and never removed.</p>`) : null;
+  const x = wide(`<div class="kick" style="font-size:20px">${G} internationals · ${span}</div><h2 style="font-size:44px">How often is Formline right?</h2>
+<p class="body" style="font-size:24px;margin-top:6px">Picked the winner, in ${num(d.dec)} matches that had one</p><div style="margin-top:14px">${bars(d.hit, pc, 100, 30)}</div>`);
+  const line = (vals, fmt) => N.map((n, j) => `${n} ${fmt(vals[j])}`).join(', ');
+  const alts = [`How often is Formline right? ${G} internationals, ${span}: picked the winner in ${pc(d.hit[0])} of ${num(d.dec)} matches that had one. ${line(d.hit, pc)}. ${test}`,
+    `Forecast score out of 100, where 0 is a coin toss and 100 is knowing every result: ${line(d.score, sc)}. Higher than World Elo ${yrs(1)}, and than the FIFA method ${yrs(2)}.`];
+  if (s3) alts.push('Matches where they backed different winners. ' + sp.map(j => `Formline and ${N[j]}: ${d.split[j].n} matches, Formline right ${d.split[j].us}, ${N[j]} ${d.split[j].them}, draws ${d.split[j].draw}.`).join(' '));
+  if (s4) alts.push(`The live record: the favourite won ${livePc}% of the ${L.n} forecasts published before kick-off and checked so far.`);
+  return {title:`How often Formline is right (${G.toLowerCase()})`, slides:[s1, s2, s3, s4].filter(Boolean), x, alts,
+    caption:`How often is Formline right? 🎯\n\n${G} internationals, ${span}: it picked the winner in ${pc(d.hit[0])} of the ${num(d.dec)} matches that had one. That is ${stand}.\n\n📊 Picked the winner: ${line(d.hit, pc)}\n📈 Forecast score, out of 100: ${line(d.score, sc)}\n${sp.map(j => `⚔️ Different winners backed, ${num(d.split[j].n)} matches: Formline right ${num(d.split[j].us)}, ${N[j]} ${num(d.split[j].them)}`).join('\n')}${sp.length ? '\n' : ''}\n${test} Every forecast the site publishes is also saved before kick-off and checked afterwards. See the Forecast record page on Formline (link in bio).\n\n${hashtags(d.g, [], null, 'record')}`,
+    xText:`🎯 How often is Formline right?\n\n${G} internationals, ${span}, picked the winner:\n${N.map((n, j) => `${j ? '▫️' : '🟡'} ${n} ${pc(d.hit[j])}`).join('\n')}\n\n${BASE}#/record`};
+};
+
+/* How Formline's published calls did over a window: the count so far a couple of days in, and the final count the morning
+   after. World Elo and the FIFA method are only brought in when Formline picked at least as many winners as both, and
+   more than one of them, over fifteen matches or more. */
+BUILD.windowRecord = function(d){
+  const fin = d.mode === 'final', num = n => n.toLocaleString('en-GB'), pcOf = (a, b) => b ? Math.round(100 * a / b) : 0;
+  const dt = s => new Date(s + 'T12:00:00Z'), mon = x => x.toLocaleDateString('en-GB', {month:'long', timeZone:'UTC'}), dd = x => x.getUTCDate();
+  const A = dt(d.from), B = dt(d.to), range = d.from === d.to ? `${dd(A)} ${mon(A)}` : mon(A) === mon(B) ? `${dd(A)}–${dd(B)} ${mon(B)}` : `${dd(A)} ${mon(A)} – ${dd(B)} ${mon(B)}`;
+  const kick = `International window · ${range}${fin ? '' : ' · so far'}`;
+  const C = d.cmp, show = !!C && C.n >= 15 && C.us >= C.elo && C.us >= C.fifa && (C.us > C.elo || C.us > C.fifa);
+  const gLine = g => d.byG[g] ? `<div class="row" style="grid-template-columns:1fr auto;padding:16px 0;font-size:34px"><span>${GAME[g]} matches</span><span><b>${d.byG[g].hits}</b> of ${d.byG[g].n}</span></div>` : '';
+  const s1 = slide(`${hook(fin ? 'How did Formline <em>call</em> the window?' : 'How is Formline <em>calling</em> the window?')}<div class="kick">${kick}</div>
+<div style="font-size:150px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:30px">${d.hits}<span style="font-size:70px;color:#f1f4ec"> of ${d.n}</span></div>
+<p class="body" style="margin-top:10px;font-size:32px">results called right${fin ? '' : ' so far'}: ${pcOf(d.hits, d.n)}%</p>
+<div style="margin-top:34px">${gLine('men')}${gLine('women')}${d.strong.n >= 5 ? `<div class="row" style="grid-template-columns:1fr auto;padding:16px 0;font-size:34px"><span>Favourites given 70% or more</span><span><b>${d.strong.hits}</b> of ${d.strong.n}</span></div>` : ''}</div>
+<p class="body dim" style="margin-top:34px;font-size:24px">Every call was published before kick-off. Right means the likeliest of win, draw and defeat happened.</p>`);
+  const N = ['Formline', 'World Elo', 'FIFA method'], COL = ['#f6b638', '#6fa8dc', '#7d9484'], V = C ? [C.us, C.elo, C.fifa] : [];
+  const s2 = show ? slide(`<div class="kick">${kick}</div><h2>Next to World Elo and the FIFA method</h2>
+<p class="body" style="margin-top:20px;font-size:30px">Picked the winner, in the ${num(C.n)} matches that had one:</p>
+<div style="margin-top:36px">${V.map((v, j) => `<div style="display:grid;grid-template-columns:218px 1fr 150px;align-items:center;gap:20px;padding:14px 0;font-size:34px"><span style="font-weight:${j ? 500 : 800}">${N[j]}</span><span style="height:21px;background:#1b3a29;border-radius:99px;overflow:hidden"><i style="display:block;height:100%;width:${(100 * v / C.n).toFixed(1)}%;background:${COL[j]};border-radius:99px"></i></span><span style="text-align:right;font-weight:800">${v} <span class="dim" style="font-weight:500;font-size:26px">${pcOf(v, C.n)}%</span></span></div>`).join('')}</div>
+<p class="body dim" style="margin-top:36px;font-size:24px">World Elo and the FIFA method with their ratings as they stood on the morning of each match. Formline's are the calls it published.</p>`) : null;
+  const s3 = d.ups.length >= 2 ? slide(`<div class="kick">${kick}</div><h2>The results nobody saw coming</h2>
+<div style="margin-top:26px">${d.ups.map(x => `<div class="row" style="grid-template-columns:1fr auto;padding:15px 0;font-size:32px"><span class="ell" style="display:flex;align-items:center;gap:12px">${flagBox(x.hf, 36)}${esc(x.home)} <b>${x.hs}–${x.as}</b> ${esc(x.away)}${flagImg(x.af, 36)}</span><span class="dim" style="font-size:26px">given ${x.got}%</span></div>`).join('')}</div>
+<p class="body dim" style="margin-top:30px;font-size:24px">The chance Formline gave the result that happened.</p>`) : null;
+  const x = wide(`<div class="kick" style="font-size:20px">${kick}</div><h2 style="font-size:44px">${fin ? 'How Formline called the window' : 'How Formline is calling the window'}</h2>
+<div style="font-size:120px;font-weight:800;font-stretch:118%;color:#f6b638;line-height:1;margin-top:20px">${d.hits}<span style="font-size:56px;color:#f1f4ec"> of ${d.n}</span></div>
+<p class="body" style="font-size:28px;margin-top:8px">results called right, every one published before kick-off</p>`);
+  const gTxt = ['men', 'women'].filter(g => d.byG[g]).map(g => `${GAME[g].toLowerCase()} ${d.byG[g].hits} of ${d.byG[g].n}`).join(', ');
+  const cmpTxt = show ? `Picked the winner in the ${C.n} matches that had one: Formline ${C.us}, World Elo ${C.elo}, FIFA method ${C.fifa}.` : '';
+  const alts = [`Formline in the international window, ${range}${fin ? '' : ', so far'}: ${d.hits} of ${d.n} results called right (${pcOf(d.hits, d.n)}%); ${gTxt}.${d.strong.n >= 5 ? ` Favourites given 70% or more won ${d.strong.hits} of ${d.strong.n}.` : ''} Every call was published before kick-off.`];
+  if (s2) alts.push(cmpTxt + ' World Elo and the FIFA method with their ratings as they stood on the morning of each match.');
+  if (s3) alts.push('The results nobody saw coming: ' + d.ups.map(u => `${u.home} ${u.hs}–${u.as} ${u.away}, given ${u.got}%`).join('; ') + '.');
+  return {title:`The window ${fin ? 'in full' : 'so far'}: ${d.hits} of ${d.n} right`, slides:[s1, s2, s3].filter(Boolean), x, alts,
+    caption:`${fin ? 'How did Formline call the international window?' : 'A few days into the international window: how is Formline calling it?'} 🎯\n\n${range}: ${d.hits} of ${d.n} results called right (${pcOf(d.hits, d.n)}%)${fin ? '' : ' so far'}. Every call was published before kick-off.\n\n${['men', 'women'].filter(g => d.byG[g]).map(g => `${g === 'men' ? '👨' : '👩'} ${GAME[g]}: ${d.byG[g].hits} of ${d.byG[g].n}`).join('\n')}${show ? `\n\n📊 ${cmpTxt}` : ''}${d.ups.length ? `\n\n😮 Biggest surprise: ${fe(d.ups[0].hf)}${d.ups[0].home} ${d.ups[0].hs}–${d.ups[0].as} ${d.ups[0].away}${fe(d.ups[0].af) ? ' ' + fe(d.ups[0].af).trim() : ''}, a result given ${d.ups[0].got}%.` : ''}\n\nEvery forecast is saved before kick-off and checked afterwards, hits and misses alike: Forecast record on Formline (link in bio).\n\n${hashtags(d.g, d.ups.slice(0, 2).map(u => u.home), null, 'roundup')}`,
+    xText:`🎯 ${fin ? 'The international window' : 'The international window so far'}, ${range}\n\nFormline called ${d.hits} of ${d.n} results right (${pcOf(d.hits, d.n)}%), every one published before kick-off.${show ? `\n\nPicked the winner: Formline ${C.us}, World Elo ${C.elo}, FIFA method ${C.fifa} (of ${C.n})` : ''}\n\n${BASE}#/record?v=live`};
+};
+
+export { BUILD };
+
 /* ---------- run ---------- */
 function serve(root){
   const types = {'.html':'text/html', '.js':'text/javascript', '.json':'application/json', '.css':'text/css', '.webp':'image/webp', '.png':'image/png',
@@ -555,8 +648,13 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     const run = (t, extra = {}) => page.evaluate(([t, now, used, extra]) => window.FL_SOCIAL[t]({now, used, ...extra}), [t, now, used, extra]);
     const dow = new Date(date + 'T12:00:00Z').getUTCDay();
     let order = type ? [type] : [WEEK[dow]];
+    /* By hand only (SOCIAL_TYPE): 'record', the long test against World Elo and the FIFA method, and 'windowRecord' with
+       SOCIAL_FROM (a date) and SOCIAL_MIN to recap any period. */
+    const extraOf = t => t === 'windowRecord' && type ? {from:process.env.SOCIAL_FROM || '', min:+(process.env.SOCIAL_MIN || 20)} : {};
     /* SOCIAL_SLOT=c: window days, the results roundup of the day before, out at 8 am Toronto on Bluesky and Instagram. */
     let data = null;
+    /* The morning after a window's last match day: how Formline's published calls did over the whole window. */
+    if (!type && !slot){ try { data = await run('windowRecord', {mode:'final'}); } catch(e){ console.log('windowRecord: ' + e.message.split('\n')[0]); } }
     if (slot === 'c'){
       const w3 = await page.evaluate(now => window.FL_SOCIAL.windowOn({now}), now);
       if (!type && (!w3 || !w3.on)){ console.log('No results roundup: not an international window.'); return null; }
@@ -575,6 +673,8 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
       order = (dow === 1 && am === 'today' ? ['rankings', 'match', 'tieIn', 'tournament', 'spotlight'] :
         dow === 4 && am !== 'tournament' ? ['tournament', 'match', 'tieIn', 'rankings', 'spotlight'] : ['match', 'tieIn', 'tournament', 'rankings', 'spotlight']).filter((t, i) => i === 0 || t !== am);
       console.log(`Evening post (${w2.n} matches around today): ${order.join(', ')}.`);
+      /* A couple of days into a window, once: how the published calls are doing so far. */
+      try { data = await run('windowRecord', {mode:'mid'}); } catch(e){ console.log('windowRecord: ' + e.message.split('\n')[0]); }
     }
     /* International windows: no plain history posts. Sunday's past tournament and Wednesday's on-this-day give way to
        tournament chances, a tie-in (an earlier meeting of a pair that plays this week), movers and extra previews. */
@@ -592,7 +692,7 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
       if (m && ((m.g === 'men' && m.home.rank <= 25 && m.away.rank <= 25) || (m.g === 'women' && m.home.rank <= 12 && m.away.rank <= 12))) data = m;
     }
     if (!type && !slot) order = order.concat(FALLBACK.filter(t => !order.includes(t) && !(win && win.on && (t === 'pastTournament' || t === 'onThisDay'))));
-    for (const t of order){ if (data) break; try { data = await run(t); } catch(e){ console.log(`${t}: ${e.message.split('\n')[0]}`); } }
+    for (const t of order){ if (data) break; try { data = await run(t, extraOf(t)); } catch(e){ console.log(`${t}: ${e.message.split('\n')[0]}`); } }
     if (!data) throw new Error('No post could be made today');
     /* Gathered now, while the site page is still loaded (drawing the slides navigates away from it). */
     let storyData = null;
@@ -641,6 +741,8 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
       past:() => `Do you remember ${data.tournament} ${data.label}? Who was your player of the tournament? 👇`,
       rankings:() => `Who's too high, who's too low? 👇`,
       roundup:() => 'Which result surprised you most? 👇',
+      record:() => 'Which result did nobody see coming this year? 👇',
+      windowRecord:() => 'Which result surprised you most this window? 👇',
       today:() => 'Which favourite slips up today? 👇'}[data.type];
     const meta = {date, key, slot, type:data.type, id:data.id, g:data.g, title:post.title, slides:files, igSlides, story, alts, x:'x.png', caption:post.caption, xText:post.xText,
       question:question ? one(question()) : '',

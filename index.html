@@ -1867,7 +1867,13 @@ function scorelines(rawE, g, max, tot){
     const v = G[i][j] * (i > j ? pr.home/w : (i === j ? pr.draw/d : pr.away/l)); G[i][j] = v;
     xh += i*v; xa += j*v; list.push([i, j, v]); }
   list.sort((a, b) => b[2] - a[2]);
-  return {grid:G, xg:[xh, xa], top:list.slice(0, 6), probs:pr};
+  /* The predicted score: the likeliest score that agrees with the pick (the likeliest of win, draw and defeat, the home
+     side first on a tie, as everywhere else). The single likeliest score of all is often 1-1 even when one side is
+     favoured, because a draw has few scores to spread over and a win has many; next to "Russia 44%" a 1-1 reads as a
+     contradiction, and a 1-1 result then looks like a call Formline got right but marked wrong (Seb, 12 Nov 2026). */
+  const fav = pr.home >= pr.draw && pr.home >= pr.away ? 1 : pr.draw >= pr.away ? 0 : -1;
+  const pick = list.find(x => Math.sign(x[0] - x[1]) === fav) || list[0];
+  return {grid:G, xg:[xh, xa], top:list.slice(0, 6), pick, probs:pr};
 }
 /* Expected score against another team or benchmark, calibrated, neutral ground. */
 const rawVs = (a, b) => b.pool
@@ -2722,6 +2728,63 @@ function getRatings(){
         top10:top.reduce((a, b) => a + b, 0)/top.length, median:mid[Math.floor((mid.length - 1)/2)], best:rows[0]}); } }
   state.cache = {key, history, table, tiers, provisional, all, byKey, resolve, median, bench, windowStart:ws, ranges:null, confStats, st};
   return state.cache;
+}
+/* Stage 2 of keeping the method private (claude/private-method-stage2.md). The build works out the table and writes
+   it to a file (tableToFile, run by build/precompute.mjs); tableFromFile turns that file back into the object
+   getRatings() returns, without working anything out. Nothing on the page calls either yet: they sit here so the
+   build's checks can prove that a table read from a file equals the one the page computes, field by field.
+   Rows keep the table's order. Teams and matches are referred to by number: a row's place in `rows`, a match's place
+   in this game's match list. `window` is the run behind the table, one line a match in the order played:
+   [match, home row, away row, home before, home after, home rd, away before, away after, away rd, expected]. */
+function tableToFile(c){
+  const g = state.gender, ms = state.matches[g], mi = new Map(ms.map((m, i) => [m, i]));
+  const ri = new Map(c.all.map((r, i) => [r, i])), ki = new Map(c.all.map((r, i) => [r.key, i]));
+  const n2 = x => x == null ? null : Math.round(x*100)/100, n3 = x => x == null ? null : Math.round(x*1000)/1000, n4 = x => x == null ? null : Math.round(x*1e4)/1e4;
+  const pr = p => p ? [n4(p.home), n4(p.draw), n4(p.away)] : null;
+  const rows = c.all.map(r => ({key:r.key, team:r.team, rating:n2(r.rating), rd:n3(r.rd), rdOwn:n3(r.rdOwn), w:n3(r.w), pool:r.pool, mp:r.mp, lastTs:r.lastTs,
+    change:n2(r.change), status:r.status, defunct:r.defunct, island:r.island, islandWith:r.islandWith, provisional:r.provisional, rank:r.rank, tier:r.tier || null,
+    mix:r.tierMix ? r.tierMix.map(x => [x.n, n4(x.p)]) : null, also:r.tierAlso ? r.tierAlso.n : null,
+    eM:n4(r.expVsMedian), eB:n4(r.expVsBench), pM:pr(r.pVsMedian), pB:pr(r.pVsBench)}));
+  const seen = new Set(), win = [];
+  for (const [T, h] of c.history) for (const e of h){
+    if (seen.has(e.m)) continue; seen.add(e.m);
+    const o = c.history.get(e.opp).find(x => x.m === e.m), eHome = e.name === e.m._hn && e.oppName === e.m._an, H = eHome ? e : o, A = eHome ? o : e;
+    win.push([mi.get(e.m), ki.get(eHome ? T : e.opp), ki.get(eHome ? e.opp : T), n2(H.pre), n2(H.rating), n3(H.rd), n2(A.pre), n2(A.rating), n3(A.rd), n4(H.exp)]); }
+  win.sort((x, y) => x[0] - y[0]);
+  return {v:1, g, asOf:state.asOf, windowYears:state.windowYears, windowStart:c.windowStart, matches:ms.length, median:n3(c.median), bench:c.bench ? ri.get(c.bench) : null,
+    rows, tiers:c.tiers.map(t => ({rows:t.rows.map(r => ri.get(r)), wide:[...t.wide].map(r => ri.get(r))})),
+    conf:[...c.confStats.values()].map(x => ({conf:x.conf, n:x.n, level:n3(x.level), levelBand:n3(x.levelBand), top10:n3(x.top10), median:n2(x.median), best:ri.get(x.best)})),
+    window:win};
+}
+/* The table object from a file made by tableToFile. Returns null when the file was built from a different match list
+   than the page holds (the two are published together, so that means a stale copy of one of them). */
+function tableFromFile(F){
+  const ms = F && F.v === 1 && state.matches[F.g]; if (!ms || F.matches !== ms.length) return null;
+  const P = a => a ? {home:a[0], draw:a[1], away:a[2]} : null;
+  const all = F.rows.map(r => { const band = BAND_Z*r.rd, mix = r.mix ? r.mix.map(x => ({n:x[0], p:x[1]})) : undefined;
+    const o = {team:r.team, key:r.key, rating:r.rating, rd:r.rd, rdOwn:r.rdOwn, w:r.w, pool:r.pool, band, lower:r.rating - band, upper:r.rating + band,
+      mp:r.mp, lastTs:r.lastTs, change:r.change, conf:r.pool, status:r.status, defunct:r.defunct, island:r.island, islandWith:r.islandWith,
+      provisional:r.provisional, rank:r.rank};
+    if (r.tier){ o.tier = r.tier; o.tierMix = mix; o.tierAlso = r.also == null ? null : mix.find(x => x.n === r.also) || null; }
+    o.vsMedian = r.rating - F.median; o.expVsMedian = r.eM; o.expVsBench = r.eB; o.pVsMedian = P(r.pM); o.pVsBench = P(r.pB);
+    return o; });
+  const table = all.filter(r => !r.provisional), provisional = all.filter(r => r.provisional).sort((a, b) => b.lower - a.lower);
+  const tiers = F.tiers.map((t, i) => { const rows = t.rows.map(j => all[j]);
+    return {lead:rows[0], rows, n:i + 1, hi:rows[0].rating, lo:rows[rows.length - 1].rating, wide:new Set(t.wide.map(j => all[j]))}; });
+  tiers.forEach((t, i) => { t.gapUp = i ? tiers[i-1].lo - t.hi : null; t.gapDown = i < tiers.length - 1 ? t.lo - tiers[i+1].hi : null; });
+  const history = new Map(), push = (t, e) => { if (!history.has(t)) history.set(t, []); history.get(t).push(e); };
+  for (const [i, hi, ai, preH, postH, rdH, preA, postA, rdA, exp] of F.window){
+    const m = ms[i], hk = all[hi].key, ak = all[ai].key, vs = venueSide(m);
+    push(hk, {ts:m.ts, rating:postH, rd:rdH, pre:preH, oppPre:preA, oppPost:postA, m, opp:ak, oppName:m._an, name:m._hn,
+      gf:m.hs, ga:m.as, delta:postH - preH, exp, tournament:m.tournament, cat:m.cat, neutral:vs === 0, home:vs === 1});
+    push(ak, {ts:m.ts, rating:postA, rd:rdA, pre:preA, oppPre:preH, oppPost:postH, m, opp:hk, oppName:m._hn, name:m._an,
+      gf:m.as, ga:m.hs, delta:postA - preA, exp:1 - exp, tournament:m.tournament, cat:m.cat, neutral:vs === 0, home:vs === -1}); }
+  const byKey = new Map(all.map(r => [r.key, r]));
+  const resolve = nm => { if (!nm) return null; if (byKey.has(nm)) return nm;
+    const r = all.find(x => x.team === nm); return r ? r.key : keyOfName(nm); };
+  const confStats = new Map(F.conf.map(x => [x.conf, {conf:x.conf, n:x.n, level:x.level, levelBand:x.levelBand, top10:x.top10, median:x.median, best:all[x.best]}]));
+  return {key:null, history, table, tiers, provisional, all, byKey, resolve, median:F.median, bench:F.bench == null ? null : all[F.bench],
+    windowStart:F.windowStart, ranges:null, confStats, st:null, fromFile:true};
 }
 /* A team's rating and uncertainty as they stood at a given moment, within this run. */
 function stateAt(hist, ts){
@@ -3664,9 +3727,6 @@ const PAGE_TABS = {
       : /^World Cup places/.test(h) ? 'places' : e.id === 'confMeetBox' ? 'meet' : e.id === 'conf-teams' || e.classList.contains('conf-list') ? 'teams' : null; }},
   method:{label:'How it works', root:'.prose', tabs:[['basics', 'The basics'], ['matches', 'Matches'], ['confs', 'Confederations'], ['predict', 'Predictions and tests']],
     of:e => METHOD_TAB[e.id] || null},
-  /* Predict: the working sits behind its own tab; the teams, the venue and the other controls stay on both. */
-  predict:{label:'Match predictor', tabs:[['main', 'The prediction'], ['hood', 'Under the hood']],
-    of:e => !e.classList.contains('panel') ? null : e.classList.contains('uh') ? 'hood' : 'main'},
   /* Records: the panels of the grid by kind, for all time and for a single year alike. */
   records:{label:'Records', root:'.rec-grid', tabs:[['matches', 'Upsets and big wins'], ['teams', 'Best teams'], ['runs', 'Longest runs'], ['fifa', 'FIFA method']],
     of:e => { const h = headText(e); return /^FIFA method/.test(h) ? 'fifa' : /^Longest/.test(h) ? 'runs' : /^(Highest|Top of|Best records|Biggest risers)/.test(h) ? 'teams' : /^Biggest/.test(h) ? 'matches' : null; }}
@@ -3722,7 +3782,7 @@ function viewSources(){
       ['Women\'s results missing from the archives and API-Football, added by hand (242 matches: four 2026 tournaments, the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, missing qualifiers and recent friendlies); and a few scores and dates corrected', a('https://en.wikipedia.org', 'Wikipedia')+'\'s tournament and national-team articles. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Women\'s results neither the archives nor API-Football have, found each night', a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team articles, kept when two pages agree or the result stays up for two days. Marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Historical results and tables', a('https://www.rsssf.org', 'RSSSF')+' (the Rec.Sport.Soccer Statistics Foundation), through the archives above. '+
-        'It will be the main source for Formline\'s club history, with credit to the author of each page used, by kind permission of Karel Stokkermans.', 'Used with permission'],
+        'It will be the main source for Formline\'s club history, with credit to the author of each page used, by kind permission of Karel Stokkermans. Already used for the organiser\'s seeding at the 1998 African Cup of Nations.', 'Used with permission'],
     ])+
     group('Checking the model', [
       ['The Elo formula Formline is compared with', 'The World Football Elo Ratings, '+a('https://www.eloratings.net', 'eloratings.net')+'. The formula is worked out here from the same results; Formline is not affiliated with eloratings.net.', 'Formula only, no data copied'],
@@ -3808,12 +3868,12 @@ function viewAbout(){
         'Formline counts recent years, says how sure it is, and corrects for confederations that rarely meet. '+
         '<a href="#/compare">See all three side by side</a>.</dd>'+
       '<dt>What kind of model is it?</dt>'+
-      '<dd>A rating system in the Elo family. Like Mark Glickman\'s Glicko system it keeps a measure of doubt for every team, '+
-        'shown as the band, and like the World Football Elo Ratings it is adapted to football: home advantage, the margin of '+
-        'victory and the importance of each match all count. <a href="#/method">How it works</a> explains each part.</dd>'+
+      '<dd>A rating system in the Elo family, with one addition: it keeps a measure of doubt for every team, shown as the band. '+
+        'It is adapted to football, so home advantage, the margin of victory and the importance of each match all count, and the '+
+        'weights are not the same in every era. <a href="#/method">How it works</a> explains the ideas; the exact recipe is Formline\'s own.</dd>'+
       '<dt>Do friendlies count?</dt>'+
-      '<dd>Yes, but for less. A World Cup match moves a rating 1.7 times as much as a friendly, and qualifiers and continental '+
-        'tournaments sit in between. <a href="#/method" data-goto-method="m-weights">Which matches count most</a> has the full list.</dd>'+
+      '<dd>Yes, but for less. A World Cup match moves a rating more than a friendly does, and qualifiers and continental '+
+        'tournaments sit in between. <a href="#/method" data-goto-method="m-weights">Which matches count most</a> lists the groups.</dd>'+
       '<dt>Does it know about injuries, squads or managers?</dt>'+
       '<dd>No. It works from results alone: who played whom, where, the score and what the match was. That keeps it simple to '+
         'check, and it means a team\'s rating changes only when results say it should.</dd>'+
@@ -5261,6 +5321,14 @@ function viewH2H(){
   chartLater('h2hChart', snaps => trackDatasets([ka,kb], snaps, {bands:true, labels:[a,b], colors:[cssVar('--s1'), cssVar('--s3')]}));
 }
 
+/* What to call the score stored with a published forecast. Since 12 Nov 2026 it is the predicted score, which agrees
+   with the pick. Forecasts frozen before then stored the single likeliest score, which often did not (1-1 beside a
+   favourite); those are not rewritten, so where the stored score disagrees with the pick it is named for what it was. */
+function scoreWord(p, likely){
+  const m = /^(\d+)\D+(\d+)$/.exec(String(likely || '')); if (!m || !p) return 'predicted score';
+  const top = p.indexOf(Math.max(...p)), s = +m[1] > +m[2] ? 0 : +m[1] === +m[2] ? 1 : 2;
+  return s === top ? 'predicted score' : 'likeliest single score';
+}
 /* Scoreline grid, expected goals and the likeliest results. */
 function scorelinePanel(sl, a, b){
   /* At least 0 to 5 goals a side, and more when a lopsided match puts real weight on bigger scores. */
@@ -5289,7 +5357,7 @@ function scorelinePanel(sl, a, b){
       '<h3 class="sl-h">Likeliest results</h3><table class="kv-table"><tbody>'+
       sl.top.slice(0, 5).map(([i, j, v]) => '<tr><td>'+esc(i > j ? a : (i < j ? b : 'Draw'))+' '+(i < j ? j+'&ndash;'+i : i+'&ndash;'+j)+
         '</td><td>'+(v*100).toFixed(1)+'%</td></tr>').join('')+'</tbody></table>'+
-      '<p class="chart-note">Even the likeliest single score happens less than one time in five. '+
+      '<p class="chart-note">The predicted score shown above is the likeliest one for the result Formline expects, so it can sit below a 1&ndash;1 in this list. Even the likeliest single score happens less than one time in five. '+
         'Goals come from the gap between the two ratings and from how much each side usually scores and lets in; the model knows nothing of line-ups.</p></div>'+
   '</div></div>';
 }
@@ -5511,12 +5579,10 @@ function viewPredict(){
     (state.windowYears > 0 ? '<div class="chips lm-chips" style="margin:0 0 20px;align-items:center;">'+
       '<span class="muted" style="font-size:13px;margin-right:4px;">Predict from</span>'+
       '<button class="chip'+(lmOn?'':' on')+'" id="lmOff">The ratings shown</button>'+
-      '<button class="chip'+(lmOn?' on':'')+'" id="lmOn" title="Averages this prediction with one from every match since '+
-        new Date(state.bounds[state.gender].min).getUTCFullYear()+'">Long memory</button></div>'+
-      '<p class="chart-note" style="margin:-12px 0 20px;">'+(lmOn ? 'Like every forecast on the site, these chances mix the '+state.windowYears+'-year ratings '+
-        'with ratings from every match since '+new Date(state.bounds[state.gender].min).getUTCFullYear()+' and a second opinion from goals, which together predicted past results better. '+
-        'Pick "The ratings shown" to predict from the two ratings above alone.'
-        : 'Predicting from the two ratings above alone. Every other forecast on the site adds long memory and the goals model, which predicted past results better.')+'</p>' : '')+
+      '<button class="chip'+(lmOn?' on':'')+'" id="lmOn">The full forecast</button></div>'+
+      '<p class="chart-note" style="margin:-12px 0 20px;">'+(lmOn ? 'Like every forecast on the site, these chances draw on more than the two ratings above: older results and goals scored and let in count too, which predicted past results better. '+
+        'Pick "The ratings shown" to predict from the two ratings alone.'
+        : 'Predicting from the two ratings above alone. Every other forecast on the site draws on more than that, which predicted past results better.')+'</p>' : '')+
     (prov.length ? '<div class="notice"><b>Wide uncertainty.</b> '+
       prov.map(r=>esc(r.team)+' (&plusmn;'+Math.round(r.band)+')').join(' and ')+
       ' '+(prov.length>1?'are':'is')+' too uncertain to rank, so the prediction below is pulled well toward an even contest.</div>' : '')+
@@ -5525,15 +5591,14 @@ function viewPredict(){
       '<div class="prob-bar" role="img" aria-label="'+esc(dn(a))+' win '+pc(p.home)+', draw '+pc(p.draw)+', '+esc(dn(b))+' win '+pc(p.away)+'">'+
         seg(p.home,'seg-h',pc(p.home))+seg(p.draw,'seg-d',pc(p.draw))+seg(p.away,'seg-a',pc(p.away))+'</div>'+
       '<div class="prob-legend"><span>'+esc(dn(a))+' win</span><span>Draw</span><span>'+esc(dn(b))+' win</span></div>'+
-      '<div class="pred-tagrow">'+matchupTag(p, dn(a), dn(b))+'<span class="muted">Likeliest: '+sl.top.slice(0, 3).map(t =>
+      '<div class="pred-tagrow">'+matchupTag(p, dn(a), dn(b))+'<span class="muted">Predicted score: <b>'+(sl.pick[0] > sl.pick[1] ? esc(dn(a))+' '+sl.pick[0]+'&ndash;'+sl.pick[1] : sl.pick[0] < sl.pick[1] ? esc(dn(b))+' '+sl.pick[1]+'&ndash;'+sl.pick[0] : 'draw '+sl.pick[0]+'&ndash;'+sl.pick[1])+'</b> &middot; likeliest of all: '+sl.top.slice(0, 3).map(t =>
         (t[0] > t[1] ? esc(dn(a))+' '+t[0]+'&ndash;'+t[1] : t[0] < t[1] ? esc(dn(b))+' '+t[1]+'&ndash;'+t[0] : 'draw '+t[0]+'&ndash;'+t[1])+' '+Math.round(t[2]*100)+'%').join(' &middot; ')+'</span></div>'+
       '<div class="team-actions chips" style="margin:12px 0 0;"><button class="chip" type="button" data-shareimg="predict">Share image</button></div>'+
     '</div></div>'+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">What\'s at stake<span class="aside">rating points, if it were played today</span></div><div class="panel-body">'+
       '<div class="chips" style="margin-bottom:12px;">'+PRED_TYPES.map(([k, l]) => '<button class="chip'+(k === mt ? ' on' : '')+'" data-mt="'+k+'">'+l+'</button>').join('')+'</div>'+
       stakePanel+
-      '<p class="chart-note" style="margin:10px 0 0;">The kind of match changes how far ratings move afterwards, not the chances above: a '+
-        PRED_TYPES.find(x => x[0] === mt)[1].toLowerCase()+' counts with weight '+K+'. Bigger wins move ratings further; see the table under the hood.</p>'+
+      '<p class="chart-note" style="margin:10px 0 0;">The kind of match changes how far ratings move afterwards, not the chances above: the bigger the occasion, the bigger the move. Bigger wins move ratings further too.</p>'+
     '</div></div>'+
     scorelinePanel(sl, a, b)+
     underTheHood({c, rowA, rowB, a, b, h, neutral, eCertain, eWin, eUnc, eCal, p, full, sl, GMx})+'</div>';
@@ -5597,7 +5662,7 @@ function viewDream(){
       '<div class="prob-bar" role="img" aria-label="'+esc(nameA)+' win '+pc(p.home)+', draw '+pc(p.draw)+', '+esc(nameB)+' win '+pc(p.away)+'">'+
         seg(p.home,'seg-h',pc(p.home))+seg(p.draw,'seg-d',pc(p.draw))+seg(p.away,'seg-a',pc(p.away))+'</div>'+
       '<div class="prob-legend"><span>'+esc(nameA)+' win</span><span>Draw</span><span>'+esc(nameB)+' win</span></div>'+
-      '<div class="pred-tagrow">'+matchupTag(p, nameA, nameB)+'<span class="muted">Likeliest: '+sl.top.slice(0, 3).map(t =>
+      '<div class="pred-tagrow">'+matchupTag(p, nameA, nameB)+'<span class="muted">Predicted score: <b>'+(sl.pick[0] > sl.pick[1] ? esc(nameA)+' '+sl.pick[0]+'&ndash;'+sl.pick[1] : sl.pick[0] < sl.pick[1] ? esc(nameB)+' '+sl.pick[1]+'&ndash;'+sl.pick[0] : 'draw '+sl.pick[0]+'&ndash;'+sl.pick[1])+'</b> &middot; likeliest of all: '+sl.top.slice(0, 3).map(t =>
         (t[0] > t[1] ? esc(nameA)+' '+t[0]+'&ndash;'+t[1] : t[0] < t[1] ? esc(nameB)+' '+t[1]+'&ndash;'+t[0] : 'draw '+t[0]+'&ndash;'+t[1])+' '+Math.round(t[2]*100)+'%').join(' &middot; ')+'</span></div>'+
       '<div class="team-actions chips" style="margin:12px 0 0;"><button class="chip" type="button" data-shareimg="predict">Share image</button></div>'+
     '</div></div>'+
@@ -5627,6 +5692,7 @@ function ratingStakes(c, ka, kb, neutral, k){
   return out;
 }
 function underTheHood(o){
+  if (o) return '';   /* The working is no longer shown (12 Nov 2026): how the numbers are made is Formline's own. */
   const {c, rowA, rowB, a, b, h, neutral, eCertain, eWin, eUnc, eCal, p, full, sl, GMx} = o;
   const A = esc(dn(a)), B = esc(dn(b)), pc = x => (x*100).toFixed(1)+'%', r1 = x => x.toFixed(1);
   const same = rowA.pool === rowB.pool;
@@ -5674,9 +5740,9 @@ function underTheHood(o){
       'The rest of the expected score is split into wins: '+A+' '+pc(p.home)+', draw '+pc(p.draw)+', '+B+' '+pc(p.away)+'.</p>')+
     step(8, 'Goals', '<p>Each side\'s goals follow a curve fitted to past scores at this kind of gap'+(GMx && GMx.gm ? ', with the total set halfway between that and the goals model\'s '+
       (GMx.gm.lh + GMx.gm.la).toFixed(2)+' (two tight defences mean fewer goals, two leaky ones more)' : '')+', then tuned so the scorelines add up to the chances above: '+
-      A+' '+sl.xg[0].toFixed(2)+' expected goals, '+B+' '+sl.xg[1].toFixed(2)+'. Likeliest score: '+
-      (sl.top[0][0] > sl.top[0][1] ? A+' '+sl.top[0][0]+'&ndash;'+sl.top[0][1] : sl.top[0][0] < sl.top[0][1] ? B+' '+sl.top[0][1]+'&ndash;'+sl.top[0][0] : sl.top[0][0]+'&ndash;'+sl.top[0][1])+
-      ', '+pc(sl.top[0][2])+'.</p>')+
+      A+' '+sl.xg[0].toFixed(2)+' expected goals, '+B+' '+sl.xg[1].toFixed(2)+'. Predicted score, the likeliest one for the result Formline expects: '+
+      (sl.pick[0] > sl.pick[1] ? A+' '+sl.pick[0]+'&ndash;'+sl.pick[1] : sl.pick[0] < sl.pick[1] ? B+' '+sl.pick[1]+'&ndash;'+sl.pick[0] : sl.pick[0]+'&ndash;'+sl.pick[1])+
+      ', '+pc(sl.pick[2])+'.</p>')+
     (stakeTable ? '<h3 class="uh-h">What the result would do to the ratings</h3><p class="muted" style="margin:0 0 8px;font-size:13.5px;">If this match were played today. '+
       'A match counts for more at a bigger tournament, and a win by two goals moves ratings 1.5 times as far, by three or more 1.75 times. A team with a wider band moves further.</p>'+
       '<div class="table-wrap">'+stakeTable+'</div>' : '')+
@@ -5747,7 +5813,7 @@ function fixtureRow(c, fx){
   const seg = (v, cls, lab) => '<div class="prob-seg '+cls+'" style="width:'+(v*100)+'%" title="'+lab+' '+pc(v)+'">'+(v > 0.13 ? pc(v) : '')+'</div>';
   const bar = '<div class="prob-bar mini" role="img" aria-label="'+esc(hName)+' win '+pc(pr.p.home)+', draw '+pc(pr.p.draw)+', '+esc(aName)+' win '+pc(pr.p.away)+'">'+
     seg(pr.p.home, 'seg-h', esc(hName)+' win')+seg(pr.p.draw, 'seg-d', 'Draw')+seg(pr.p.away, 'seg-a', esc(aName)+' win')+'</div>';
-  const scores = 'Likeliest scores: '+pr.sl.top.slice(0, 3).map(x => x[0]+'&ndash;'+x[1]+' <span title="chance of exactly this score">'+Math.round(x[2]*100)+'%</span>').join(' &middot; ');
+  const scores = 'Predicted score: <b>'+pr.sl.pick[0]+'&ndash;'+pr.sl.pick[1]+'</b> &middot; likeliest of all: '+pr.sl.top.slice(0, 3).map(x => x[0]+'&ndash;'+x[1]+' <span title="chance of exactly this score">'+Math.round(x[2]*100)+'%</span>').join(' &middot; ');
   const fav = '<div class="mx-fav">'+matchupTag(pr.p, hName, aName)+'</div>';
   const prov = pr.rh.provisional || pr.ra.provisional ? '<div class="mx-scores">At least one side is too uncertain to rank, so the chances lean toward an even contest.</div>' : '';
   const side = (r, nm, xg, v, cls) => '<div class="mx-side '+cls+'"><div class="mx-name">'+nameHtml(nm)+'</div><div class="mx-sub">'+sub(r, xg)+'</div>'+
@@ -6047,7 +6113,7 @@ function matchdayItems(g, c){
   (upcomingFor(g) || []).forEach(fx => { if (seen.has(fx.date+'|'+fx.home+'|'+fx.away)) return;
     const f = fixturePrediction(c, fx); if (!f.p) return;
     out.push({id:[g, fx.date, fx.home, fx.away].join('|'), date:fx.date, kickoff:fx.kickoff, home:fx.home, away:fx.away, tournament:fx.tournament,
-      p:[f.p.home, f.p.draw, f.p.away], likely:f.sl.top[0][0]+'-'+f.sl.top[0][1], result:null, published:false}); });
+      p:[f.p.home, f.p.draw, f.p.away], likely:f.sl.pick[0]+'-'+f.sl.pick[1], result:null, published:false}); });
   out.forEach(x => { x.day = mdDay(x); });
   const ts = x => { const t = Date.parse(x.kickoff || ''); return isNaN(t) ? Date.parse(x.date+'T12:00:00Z') : t; };
   return out.sort((a, b) => ts(a) - ts(b) || a.home.localeCompare(b.home));
@@ -6102,7 +6168,7 @@ function viewMatchday(){
     const labels = [nm(x.home), 'Draw', nm(x.away)];
     const bar = '<div class="prob-bar mini">'+[['seg-h', 0], ['seg-d', 1], ['seg-a', 2]].map(([cl, j]) =>
       '<div class="prob-seg '+cl+'" style="width:'+(x.p[j]*100)+'%">'+(x.p[j] > 0.12 ? pc(x.p[j]) : '')+'</div>').join('')+'</div>';
-    const verdict = o === null ? '<span class="muted">Formline: '+(call === 1 ? 'a draw' : labels[call])+' '+pc(x.p[call])+(x.likely ? ' &middot; likeliest '+esc(x.likely).replace('-', '&ndash;') : '')+'</span>'
+    const verdict = o === null ? '<span class="muted">Formline: '+(call === 1 ? 'a draw' : labels[call])+' '+pc(x.p[call])+(x.likely ? ' &middot; '+scoreWord(x.p, x.likely)+' '+esc(x.likely).replace('-', '&ndash;') : '')+'</span>'
       : '<span class="'+(call === o ? 'up' : 'down')+'">Formline '+(call === o ? 'right' : 'wrong')+'</span> <span class="muted">('+(call === 1 ? 'draw' : labels[call])+' '+pc(x.p[call])+')</span>'+
         (up ? ' <span class="md-upset">Upset: '+pc(x.p[o])+' chance</span>' : '');
     const pickRow = o === null && !started ? '<div class="md-pick" role="group" aria-label="Your pick">'+'<span class="muted">Your pick:</span>'+
@@ -6285,7 +6351,7 @@ function embedMatch(c){
       (!fx && rec ? '<span>'+rec.result[0]+'&ndash;'+rec.result[1]+'</span>' : '<span class="muted">v</span>')+'<span>'+withFlag(away)+'</span></div>'+
       '<div class="prob-bar mini">'+seg(p[0], 'seg-h')+seg(p[1], 'seg-d')+seg(p[2], 'seg-a')+'</div>'+
       '<div class="muted" style="display:flex;justify-content:space-between;font-size:12.5px;margin:6px 0 8px;"><span>'+esc(dn(home))+' win</span><span>Draw</span><span>'+esc(dn(away))+' win</span></div>'+
-      (f && f.sl ? '<div class="muted" style="font-size:13px;margin-bottom:6px;">Likeliest score: '+f.sl.top[0][0]+'&ndash;'+f.sl.top[0][1]+'</div>' : (!fx && rec ? '<div class="muted" style="font-size:13px;margin-bottom:6px;">Formline\'s forecast before kick-off</div>' : ''))+'</div>'+foot+'</div>';
+      (f && f.sl ? '<div class="muted" style="font-size:13px;margin-bottom:6px;">Predicted score: '+f.sl.pick[0]+'&ndash;'+f.sl.pick[1]+'</div>' : (!fx && rec ? '<div class="muted" style="font-size:13px;margin-bottom:6px;">Formline\'s forecast before kick-off</div>' : ''))+'</div>'+foot+'</div>';
 }
 /* Who qualifies? One group of a competition under way: the results still to come can be set one by one, the table
    follows, and each team's chance of each finishing place comes from playing the open matches out on Formline's
@@ -8001,7 +8067,7 @@ function vsPanel(g){
       '<p class="chart-note">Each method\'s ratings are frozen on 1 January and used to predict that year\'s matches, between teams all three rank. '+
         'World Elo is the World Football Elo Ratings formula (eloratings.net) and the FIFA method is FIFA\'s ranking formula, both worked out here '+
         '(see <a href="#/compare">Formline, Elo and FIFA</a>). FIFA\'s ranking is built for seeding draws rather than predicting, but its formula still says what result it expects, '+
-        'and that is what is scored. Every Formline forecast here includes the goals model, as the site\'s forecasts do. Updated with every new result.</p></div></div></div>';
+        'and that is what is scored. Every Formline forecast here is the full forecast, as the site publishes it. Updated with every new result.</p></div></div></div>';
 }
 /* Year by year since 2019: the forecast score (what the "years better" count uses) and how often each picked the winner. */
 function vsYearsPanel(g){
@@ -8063,7 +8129,7 @@ function vsEras(g){
         : 'FIFA\'s women\'s ranking began in 2003, so this is its method run back to 1971, as FIFA itself did when it launched.')+
       (g === 'men' ? ' &Dagger; <b>FIFA\'s ranking as published at the time.</b> Its methods then had no formula for a match\'s chances, so its rank gaps and home '+
         'advantage were turned into chances with a formula fitted on the other half of those years, the fairest chance it could be given.' : '')+
-      ' The earlier eras were measured on the archives in November 2026, with the goals model; the latest row updates with every new result.</p></div>';
+      ' The earlier eras were measured on the archives in November 2026; the latest row updates with every new result.</p></div>';
 }
 function kickVs(g){
   if (vsCache[g] || vsCache[g+'busy']) return;
@@ -8153,7 +8219,7 @@ function viewRecord(){
         ['seg-h','seg-d','seg-a'].map((c, i) => '<div class="prob-seg '+c+'" style="width:'+(p[i]*100)+'%">'+(p[i] > 0.14 ? pc(p[i]) : '')+'</div>').join('')+'</div>';
       const rows = scored.slice().reverse().slice(0, 60).map(e =>
         '<tr><td class="muted date">'+e.date+'</td><td class="ml-cell">'+matchLine(e.home, e.away, e.result[0]+'&ndash;'+e.result[1], teamHref, {ts:Date.parse(e.date+'T00:00:00Z')})+
-          '<div class="muted" style="font-size:12px;text-align:center;">'+esc(shortComp(e.tournament))+' &middot; likeliest '+e.likely.replace('-', '&ndash;')+'</div></td>'+
+          '<div class="muted" style="font-size:12px;text-align:center;">'+esc(shortComp(e.tournament))+' &middot; '+scoreWord(e.p, e.likely)+' '+e.likely.replace('-', '&ndash;')+'</div></td>'+
         '<td class="hide-sm" style="min-width:170px;">'+bar(e.p)+'</td>'+
         '<td class="num '+(e.hit ? 'up' : 'muted')+'">'+(e.hit ? '&#10003; ' : '')+pc(e.p[e.outcome])+'</td></tr>').join('');
       live = tiles+(scored.length < 100 ? '<div class="notice"><b>Early days.</b> With '+scored.length+' forecasts checked, these numbers can still move a long way. '+
@@ -8292,7 +8358,7 @@ const fmtDay = ts => { const d = new Date(ts);
 const edK = e => { const ks = [...new Set(e.matches.map(m => Math.round(m.k)))].sort((a,b) => a-b);
   return 'match weight ' + (ks.length === 1 ? ks[0] : ks[0] + '&ndash;' + ks[ks.length-1]); };
 const COMP_GROUP_NOTE = {
-  premier:'Match weight '+PREMIER_K[0]+' until something bigger existed, '+PREMIER_K[1]+' until their teams took part in it, then '+PREMIER_K[2]+'. How it works lists the dates.',
+  premier:'They counted for most while nothing bigger existed, and for less once it did.',
   wcq:'Qualifying has no clean edition boundary in the data, so it is grouped by calendar year.',
   contq:'Grouped by calendar year, for the same reason.',
   nl:'Grouped by calendar year: league phases and finals run across seasons.'
@@ -8359,7 +8425,7 @@ function viewCompetitions(){
       '<input type="text" id="compSearch" placeholder="World Cup, Copa, Gulf&hellip;" style="width:300px;" value="'+esc(state.params.q||'')+'"></div>'+
     '<div class="chips comp-tools"><button class="chip" data-open="1">Open all</button><button class="chip" data-open="0">Close all</button></div>'+
     groups.map(c => byCat[c].length ? '<details class="panel comp-cat" open style="margin-bottom:18px;"><summary class="panel-head">'+COMPS[c].label+
-      ' <span style="text-transform:none;letter-spacing:0;font-weight:400;">&middot; match weight '+kText(c)+' &middot; '+byCat[c].length+' competition'+(byCat[c].length === 1 ? '' : 's')+
+      ' <span style="text-transform:none;letter-spacing:0;font-weight:400;">&middot; '+byCat[c].length+' competition'+(byCat[c].length === 1 ? '' : 's')+
       (COMP_GROUP_NOTE[c] ? ' &middot; '+COMP_GROUP_NOTE[c] : '')+'</span></summary>'+
       '<div class="panel-body comp-list">'+byCat[c].sort((a,b) => compName(a.name).localeCompare(compName(b.name))).map(tRow).join('')+'</div></details>' : '').join('')+
     (groups.every(c => !byCat[c].length) ? '<div class="status">No competition matches that search.</div>' : '')+
@@ -8549,6 +8615,8 @@ function viewQualifying(){
    Three come from news reports of the time instead: AFCON 2004 (BBC Sport, 16 Sep 2003; Wikipedia's table has Algeria and
    Mali the wrong way round, which the groups as drawn rule out), AFCON 2002 (Reuters, 15 Aug 2001) and the draw date of
    the 2004 Asian Cup (15 Jan 2004 in Chongqing; the pots are Wikipedia's).
+   Women's Euro 2009 is from UEFA.com's own preview of the draw (18 Nov 2008), and AFCON 1998 from RSSSF's page on
+   that tournament (rsssf.org/tables/98a-det.html).
    An entry belongs to the edition of that competition that started within 600 days after its draw date (Euro 2020 was played in 2021). Earlier
    editions are still to be added. regional: pots set by region rather than strength, so no pot-by-pot comparison. */
 const SEED_POTS = [
@@ -8590,21 +8658,25 @@ const SEED_POTS = [
      uneven: only some teams were seeded and the rest came from one pot, so there is no pot-by-pot comparison. */
   {g:'men', t:'FIFA World Cup', draw:'1974-01-05', basis:'four seeds (hosts West Germany, holders Brazil, and the other 1970 semi-finalists Italy and Uruguay); the other pots by region (Western Europe, Eastern Europe, South America, the rest of the world)', regional:true, pots:[['West Germany', 'Brazil', 'Italy', 'Uruguay'], ['Netherlands', 'Scotland'], ['Bulgaria', 'German DR', 'Poland', 'Yugoslavia'], ['Argentina', 'Chile'], ['Australia', 'Haiti', 'Sweden', 'Zaïre']]},
   {g:'men', t:'UEFA Euro', draw:'1995-12-17', basis:'four seeds only: hosts England, holders Denmark, and Spain and Germany as the two highest-ranked teams; the other twelve unseeded in one pot', uneven:true, pots:[['England', 'Denmark', 'Spain', 'Germany'], ['Bulgaria', 'Italy', 'Russia', 'Croatia', 'Netherlands', 'Scotland', 'Czech Republic', 'Portugal', 'Switzerland', 'France', 'Romania', 'Turkey']]},
+  {g:'men', t:'UEFA Euro', draw:'1992-01-17', basis:'two seeds only, hosts Sweden and holders the Netherlands, placed at the head of the two groups; the other six unseeded in one pot (the Soviet Union had qualified and were drawn as the CIS)', uneven:true, out:['Yugoslavia'], outWord:'excluded', outNote:'Yugoslavia were drawn into Group 1 but were excluded ten days before the start under United Nations sanctions; Denmark, runners-up in their qualifying group, took their place', pots:[['Sweden', 'Netherlands'], ['Russia', 'England', 'France', 'Germany', 'Scotland', 'Yugoslavia']]},
   {g:'men', t:'African Cup of Nations', draw:'2009-11-20', basis:'hosts Angola and holders Egypt seeded; the rest by records at the last three Cups of Nations', out:['Togo'], outNote:'Togo were drawn into Group B but withdrew before playing, after the attack on their team bus',
     pots:[['Angola', 'Egypt', 'Cameroon', 'Ivory Coast'], ['Ghana', 'Nigeria', 'Tunisia', 'Mali'], ['Zambia', 'Benin', 'Algeria', 'Togo'], ['Burkina Faso', 'Mozambique', 'Gabon', 'Malawi']]},
   {g:'men', t:'African Cup of Nations', draw:'2007-10-19', basis:'performances at past Cups of Nations; hosts Ghana at the head of Group A and holders Egypt of Group C', pots:[['Ghana', 'Egypt', 'Tunisia', 'Nigeria'], ['Ivory Coast', 'Cameroon', 'Morocco', 'Senegal'], ['South Africa', 'Guinea', 'Mali', 'Zambia'], ['Angola', 'Benin', 'Namibia', 'Sudan']]},
   {g:'men', t:'African Cup of Nations', draw:'2005-10-20', basis:'records at the last three Cups of Nations; hosts Egypt at the head of Group A and holders Tunisia of Group C', pots:[['Egypt', 'Tunisia', 'Cameroon', 'Nigeria'], ['Morocco', 'South Africa', 'Senegal', 'DR Congo'], ['Ghana', 'Ivory Coast', 'Guinea', 'Togo'], ['Zambia', 'Angola', 'Zimbabwe', 'Libya']]},
   {g:'men', t:'African Cup of Nations', draw:'2003-09-20', basis:'CAF\'s four categories, on records at past Cups of Nations; hosts Tunisia at the head of Group A and holders Cameroon of Group C, with lots drawn to put Senegal and Nigeria in B and D', pots:[['Tunisia', 'Cameroon', 'Nigeria', 'Senegal'], ['South Africa', 'Egypt', 'DR Congo', 'Mali'], ['Algeria', 'Morocco', 'Burkina Faso', 'Guinea'], ['Kenya', 'Rwanda', 'Benin', 'Zimbabwe']]},
   {g:'men', t:'African Cup of Nations', draw:'2001-09-08', basis:'hosts Mali and holders Cameroon seeded; the other two seeds and the rest by records at the last three Cups of Nations', pots:[['Mali', 'Cameroon', 'Egypt', 'South Africa'], ['DR Congo', 'Ghana', 'Nigeria', 'Tunisia'], ['Algeria', 'Burkina Faso', 'Ivory Coast', 'Zambia'], ['Liberia', 'Morocco', 'Senegal', 'Togo']]},
+  {g:'men', t:'African Cup of Nations', draw:'1997-09-25', basis:'hosts Burkina Faso placed in Group A and holders South Africa in Group C; the first seeds Zambia and Ghana drawn into Groups B and D; then three second seeds, five third seeds (two of them into the holders\' group) and four fourth seeds. From RSSSF\'s record of the draw in Ouagadougou', uneven:true, unevenText:'The organiser\'s tiers held four, three, five and four teams, so they don\'t line up with Formline\'s pot by pot.', pots:[['Burkina Faso', 'South Africa', 'Zambia', 'Ghana'], ['Tunisia', 'Cameroon', 'Morocco'], ['Ivory Coast', 'Egypt', 'DR Congo', 'Algeria', 'Angola'], ['Mozambique', 'Guinea', 'Togo', 'Namibia']]},
   {g:'men', t:'AFC Asian Cup', draw:'2006-12-19', basis:'the four co-hosts in the first pot and the four seeds (Australia, Iran, Japan, South Korea) in another, the rest by FIFA ranking; the AFC numbered its pots the other way round, with the seeds in pot 4', pots:[['Indonesia', 'Malaysia', 'Thailand', 'Vietnam'], ['Australia', 'Iran', 'Japan', 'South Korea'], ['Qatar', 'Uzbekistan', 'Saudi Arabia', 'Oman'], ['China PR', 'Iraq', 'United Arab Emirates', 'Bahrain']]},
   {g:'men', t:'AFC Asian Cup', draw:'2004-01-15', basis:'the AFC\'s four pots (what they were based on was not published); hosts China at the head of Group A and holders Japan of Group D', pots:[['China PR', 'Japan', 'South Korea', 'Saudi Arabia'], ['Iran', 'Iraq', 'Kuwait', 'Qatar'], ['Indonesia', 'Thailand', 'United Arab Emirates', 'Uzbekistan'], ['Bahrain', 'Jordan', 'Oman', 'Turkmenistan']]},
   {g:'men', t:'Copa América', draw:'2010-11-11', basis:'pots set by CONMEBOL\'s executive committee on 18 October 2010; hosts Argentina in pot 1, the invited sides in pot 4 (Costa Rica took Japan\'s place)', pots:[['Argentina', 'Brazil', 'Uruguay'], ['Chile', 'Colombia', 'Paraguay'], ['Bolivia', 'Peru', 'Venezuela'], ['Ecuador', 'Costa Rica', 'Mexico']]},
   {g:'men', t:'Copa América', draw:'2007-02-14', basis:'pots as CONMEBOL set them: hosts Venezuela with Argentina and Brazil in pot 1, invitees Mexico and the United States in pot 4', pots:[['Venezuela', 'Argentina', 'Brazil'], ['Ecuador', 'Paraguay', 'Uruguay'], ['Chile', 'Colombia', 'Peru'], ['Bolivia', 'Mexico', 'United States']]},
   {g:'men', t:'Copa América', draw:'2004-03-08', basis:'pots as CONMEBOL set them; the teams of pots 1 and 4 were placed in their groups by hand before the draw (hosts Peru in Group A)', pots:[['Peru', 'Argentina', 'Brazil'], ['Colombia', 'Paraguay', 'Uruguay'], ['Venezuela', 'Costa Rica', 'Mexico'], ['Bolivia', 'Ecuador', 'Chile']]},
+  {g:'men', t:'Copa América', draw:'2001-01-10', basis:'as CONMEBOL set them, with hosts Colombia, holders Brazil and Argentina at the head of the three groups and the invited Canada and Mexico in pot 4', out:['Argentina', 'Canada'], outNote:'Canada and Argentina were drawn into Group C but withdrew in the week before the start, after the tournament had been called off and reinstated; Costa Rica and Honduras, invited in their place, were not in the draw', pots:[['Colombia', 'Brazil', 'Argentina'], ['Chile', 'Paraguay', 'Uruguay'], ['Bolivia', 'Ecuador', 'Peru'], ['Venezuela', 'Canada', 'Mexico']]},
   {g:'women', t:'FIFA World Cup', draw:'2007-04-22', basis:'four seeds: hosts China and holders Germany, plus the United States and Norway by the FIFA Women\'s World Ranking of March 2007; the other pots by region', regional:true, pots:[['China PR', 'Germany', 'Norway', 'United States'], ['Australia', 'Japan', 'North Korea'], ['Denmark', 'England', 'Sweden'], ['Argentina', 'Ghana', 'New Zealand', 'Nigeria'], ['Brazil', 'Canada']]},
   {g:'women', t:'FIFA World Cup', draw:'2003-07-17', basis:'four seeds by the new FIFA Women\'s World Ranking (hosts the United States, China, Germany, Norway); the other pots by region', regional:true, pots:[['United States', 'China PR', 'Germany', 'Norway'], ['Argentina', 'Brazil', 'Ghana', 'Nigeria'], ['France', 'Russia', 'Sweden', 'South Korea'], ['Australia', 'Canada', 'Japan', 'North Korea']]},
   {g:'women', t:'FIFA World Cup', draw:'1999-02-14', basis:'the four highest-ranked teams seeded (hosts the United States, China, Germany, Norway); the other pots by region', regional:true, pots:[['United States', 'China PR', 'Germany', 'Norway'], ['Denmark', 'Italy', 'Russia', 'Sweden'], ['Australia', 'Brazil', 'Japan', 'North Korea'], ['Canada', 'Ghana', 'Mexico', 'Nigeria']]},
   {g:'women', t:'UEFA Euro', draw:'2012-11-09', basis:'UEFA coefficient ranking: three top seeds placed in advance (hosts Sweden A1, Germany B1, France C1), three seeded teams, and six unseeded in one pot', uneven:true, pots:[['Sweden', 'Germany', 'France'], ['England', 'Norway', 'Italy'], ['Denmark', 'Iceland', 'Finland', 'Russia', 'Netherlands', 'Spain']]},
+  {g:'women', t:'UEFA Euro', draw:'2008-11-18', basis:'hosts Finland placed in Group A; holders Germany and Sweden, with the two best UEFA coefficients, in pot 1 (shown with Finland); the other four qualifying-group winners in pot 2 and the five play-off winners in pot 3, so one group took two teams from pot 2 and the other two took two from pot 3 (UEFA.com, 18 November 2008)', uneven:true, unevenText:'The organiser\'s pots held three, four and five teams for the three groups, so they don\'t line up with Formline\'s pot by pot.', pots:[['Finland', 'Germany', 'Sweden'], ['Denmark', 'England', 'France', 'Norway'], ['Iceland', 'Italy', 'Russia', 'Ukraine', 'Netherlands']]},
   {g:'women', t:'Africa Cup of Nations', draw:'2022-04-29', basis:'three seeds placed in advance (hosts Morocco A1, Cameroon B1, holders Nigeria C1); the other nine drawn from one pot', uneven:true, pots:[['Morocco', 'Cameroon', 'Nigeria'], ['Togo', 'Uganda', 'Zambia', 'Burundi', 'Tunisia', 'Senegal', 'Botswana', 'Burkina Faso', 'South Africa']]},
   {g:'women', t:'Africa Cup of Nations', draw:'2018-10-21', basis:'hosts Ghana and holders Nigeria seeded; the rest by results at the last three editions (Equatorial Guinea took Kenya\'s place after the draw)', uneven:true, pots:[['Ghana', 'Nigeria'], ['Cameroon', 'South Africa'], ['Equatorial Guinea', 'Mali', 'Algeria', 'Zambia']]},
   {g:'women', t:'Africa Cup of Nations', draw:'2016-09-18', basis:'hosts Cameroon and holders Nigeria seeded; the rest by results at the last three editions', uneven:true, pots:[['Cameroon', 'Nigeria'], ['Ghana', 'South Africa'], ['Egypt', 'Kenya', 'Mali', 'Zimbabwe']]},
@@ -8645,6 +8717,8 @@ function seedingHtml(e, fmt){
   const drawTs = S && S.draw ? Date.parse(S.draw+'T12:00:00Z') : e.start - 150*DAY;
   /* A team that was in the draw but did not play (S.out) is potted with the rest and marked. */
   const played = fmt.groups.flat(), gone = S && S.out ? S.out.map(t => keyOfName(t)).filter(k => !played.includes(k)) : [];
+  /* Such a team has no match in the edition to take its name of the time from, so it is shown as the entry writes it (Yugoslavia, 1992). */
+  const goneName = new Map(S && S.out ? S.out.map(t => [keyOfName(t), t]) : []);
   const teams = played.concat(gone), nPots = Math.ceil(teams.length/nG);
   const hostCountries = new Set(e.matches.map(m => m.country).filter(Boolean));
   const out = atDefaults(c => {
@@ -8661,8 +8735,8 @@ function seedingHtml(e, fmt){
   const flOf = new Map(); if (!(S && (S.regional || S.uneven))) out.fl.forEach((p, i) => p.forEach(k => flOf.set(k, i)));
   const rawOf = new Map(); e.matches.forEach(m => { rawOf.set(keyOfName(m.home), m.home); rawOf.set(keyOfName(m.away), m.away); });
   const cell = (k, mine, other) => { const d = other.has(k) ? other.get(k) - mine : null;
-    return '<span class="sd-t'+(d ? ' sd-diff' : '')+'" title="'+(d ? (d > 0 ? 'A pot higher than' : 'A pot lower than')+' the other seeding' : '')+'">'+withFlag(dn(state.historicalNames ? resolveName(rawOf.get(k) || k, e.start) : k), e.start)+
-      (d ? ' <small class="'+(d > 0 ? 'up' : 'down')+'">'+(d > 0 ? '&uarr;' : '&darr;')+Math.abs(d)+'</small>' : '')+(gone.includes(k) ? ' <small class="muted">withdrew</small>' : '')+'</span>'; };
+    return '<span class="sd-t'+(d ? ' sd-diff' : '')+'" title="'+(d ? (d > 0 ? 'A pot higher than' : 'A pot lower than')+' the other seeding' : '')+'">'+withFlag(dn(state.historicalNames ? resolveName(rawOf.get(k) || (gone.includes(k) && goneName.get(k)) || k, e.start) : k), e.start)+
+      (d ? ' <small class="'+(d > 0 ? 'up' : 'down')+'">'+(d > 0 ? '&uarr;' : '&darr;')+Math.abs(d)+'</small>' : '')+(gone.includes(k) ? ' <small class="muted">'+esc(S.outWord || 'withdrew')+'</small>' : '')+'</span>'; };
   const nRows = Math.max(out.fl.length, real ? real.length : 0);
   const rows = Array.from({length:nRows}, (_, i) => '<tr><th>Pot '+(i + 1)+'</th><td>'+(out.fl[i] || []).map(k => cell(k, i, realOf)).join('')+'</td>'+
     (real ? '<td>'+(real[i] || []).map(t => cell(kOf(t), i, flOf)).join('')+'</td>' : '')+'</tr>').join('');
@@ -8683,7 +8757,7 @@ function seedingHtml(e, fmt){
   }
   return '<div class="panel-body"><p class="fr-q" style="margin-top:0;">How Formline\'s ratings would have potted the '+teams.length+' teams'+(S && S.draw ? ' on the day of the draw, '+fmtDay(drawTs) : ', about five months before kick-off')+
       (out.hosts.length ? ', with the host'+(out.hosts.length > 1 ? 's' : '')+' in pot 1' : '')+(real ? ', next to the pots the organiser used' : '')+'.'+
-      (real && !S.regional && !S.uneven ? ' <b>'+moved+'</b> of the '+teams.length+' teams would have been in a different pot.' : real && S.uneven ? ' The organiser seeded only some of the teams and drew the rest from one pot, so its pots don\'t line up with Formline\'s pot by pot.' : real ? ' The organiser\'s pots were set by region rather than strength, so they don\'t line up pot by pot.' : fit)+'</p>'+
+      (real && !S.regional && !S.uneven ? ' <b>'+moved+'</b> of the '+teams.length+' teams would have been in a different pot.' : real && S.uneven ? ' '+(S.unevenText || 'The organiser seeded only some of the teams and drew the rest from one pot, so its pots don\'t line up with Formline\'s pot by pot.') : real ? ' The organiser\'s pots were set by region rather than strength, so they don\'t line up pot by pot.' : fit)+'</p>'+
     '<div class="table-wrap"><table class="sd-t"><thead><tr><th></th><th>Formline\'s pots</th>'+(real ? '<th>The organiser\'s pots</th>' : '')+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
     '<p class="chart-note">'+(S && S.outNote ? esc(S.outNote)+'. ' : '')+(real ? 'The organiser\'s pots: '+esc(S.basis)+'.'+(S.regional || S.uneven ? '' : ' Arrows mark a team in a different pot under the other seeding: &uarr; a pot higher, &darr; lower.')
       : 'No organiser\'s pots are on record for this edition (some had none, and for others no list has been found), so these are the pots the ratings point to.')+'</p></div>';
@@ -9362,7 +9436,7 @@ function viewEdition(){
       '<div class="crumbs"><a href="#/competitions">Competitions</a> / '+esc(compName(e.tournament))+'</div>'+
       '<h1 class="page-title">'+esc(compName(e.tournament))+' '+e.label+'</h1>'+
       '<p class="page-sub">'+fmtDay(e.start)+(e.end!==e.start?' to '+fmtDay(e.end):'')+' '+hostTxt+' &middot; '+
-        e.teams.size+' teams &middot; '+e.matches.length+' matches &middot; '+COMPS[e.cat].label+' ('+edK(e)+')'+
+        e.teams.size+' teams &middot; '+e.matches.length+' matches &middot; '+COMPS[e.cat].label+
         (e.qualLike ? ' &middot; matches played in '+e.year : '')+'</p>'+
       '<div class="chips" style="margin-bottom:6px;">'+
         (prevE ? '<a class="chip" href="'+editionHref(prevE)+'">&larr; '+prevE.label+'</a>' : '')+
@@ -9509,7 +9583,7 @@ const COMP_EXAMPLES = {
   nl:'UEFA and CONCACAF Nations Leagues, the women\'s Nations Leagues', premier:'British Home Championship, Nordic Championship and other early regional cups',
   subreg:'Gulf Cup, Arab Cup, ASEAN Championship, COSAFA Cup, CECAFA Cup', games:'Asian Games, Pacific Games, Indian Ocean Island Games',
   subregq:'Qualifiers for the sub-regional cups', invit:'King\'s Cup, Kirin Cup, Algarve Cup, SheBelieves Cup',
-  nonfifa:'Island Games and other events outside FIFA', friendly:'Friendlies, including FIFA\'s own FIFA Series. K27.5 until 1990 (women 1991), easing to K25 by 2018 (women 2023)'
+  nonfifa:'Island Games and other events outside FIFA', friendly:'Friendlies, including FIFA\'s own FIFA Series'
 };
 function viewMethod(){
   const g = state.gender, game = g === 'men' ? "men's" : "women's";
@@ -9542,19 +9616,19 @@ function viewMethod(){
   const sec = (id, title, body) => '<section id="'+id+'"><h2>'+title+'</h2>'+body+'</section>';
   const toc = [['m-short','The short version'],['m-rating','What a rating means'],['m-band','What the band means'],
     ['m-order','Rating or bottom of the band?'],['m-tiers','Tiers'],['m-trend','Trend'],['m-match','How a match changes ratings'],['m-weights','Which matches count most'],['m-home','Home advantage'],['m-confs','How strong is each confederation?'],
-    ['m-unranked','Teams that are not ranked'],['m-predict','Predictions'],['m-tested','How we know it works'],['m-tech','Technical details']];
+    ['m-unranked','Teams that are not ranked'],['m-predict','Predictions'],['m-tested','How we know it works'],['m-tech','More detail']];
   document.getElementById('app').innerHTML =
   '<div class="wrap"><div class="doc-layout"><div class="prose">'+aboutTabs('method')+
     '<h1 class="page-title">How it works</h1>'+
     '<p class="page-sub">Formline turns match results into a strength rating for every national team, and says how sure '+
-      'it is about each one. This page explains it in plain terms; the technical account is at the bottom.</p>'+
+      'it is about each one. This page explains the ideas behind it in plain terms. The exact recipe, the weights and the settings, is Formline\'s own and is not published.</p>'+
     '<details class="toc-m"><summary>On this page</summary>'+toc.map(([id, t]) => '<a href="#/method" data-goto="'+id+'">'+t+'</a>').join('')+'</details>'+
 
     sec('m-short', 'The short version',
       '<div class="explain-grid">'+
         '<div><h3>Rating</h3><p>How strong a team is. Win more than expected and it goes up; less, and it goes down.</p></div>'+
         '<div><h3>Band (&plusmn;)</h3><p>How sure the model is about that rating. Narrow for teams that play often, wide for teams it has barely seen.</p></div>'+
-        '<div><h3>Window</h3><p>Which results count: the last 12 years by default, so the table reflects recent form, not old reputations.</p></div>'+
+        '<div><h3>Window</h3><p>Which results count: recent years only, so the table reflects recent form, not old reputations.</p></div>'+
       '</div>')+
 
     sec('m-rating', 'What a rating means',
@@ -9605,15 +9679,12 @@ function viewMethod(){
         '<tr><td>&plusmn;150 to &plusmn;200</td><td>Typical for a regular international side.</td></tr>'+
         '<tr><td>&plusmn;200 to &plusmn;'+DEFAULTS.maxBand+'</td><td>Some doubt: fewer matches, or a weaker link to other regions.</td></tr>'+
         '<tr><td>Wider than &plusmn;'+DEFAULTS.maxBand+'</td><td>Too unsure to rank: the team is listed as provisional.</td></tr>'+
-        '<tr><td>&plusmn;'+(BAND_Z*RD_MAX)+'</td><td>Knows nothing: a team before its first match.</td></tr>'+
       '</tbody></table>'+
       '<p>Even the best-known teams never get much below &plusmn;125. That is deliberate: a team\'s real strength changes from '+
         'year to year as players come and go, and the model allows for it.</p>'+
-      '<p>One adjustment applies at the other end. Teams the model has barely seen, with a band wider than about &plusmn;400, '+
-        'are marked down, more the wider the band. A team with almost no matches would otherwise sit close to where every '+
-        'team starts, yet the teams that play least are mostly weak ones, and history shows they nearly always turn out '+
-        'weaker than that. The adjustment made predictions about 0.2% more accurate for the men and 2.6% for the women; '+
-        'teams with a narrower band are not touched.</p>'+
+      '<p>Teams the model has barely seen are treated with caution. The sides that play least are mostly weak ones, and history '+
+        'shows they nearly always turn out weaker than a fresh start would suggest, so the model allows for that until it has '+
+        'seen more of them.</p>'+
       (ex ? '<p>For a sense of scale, '+Math.round(ex.top.band)+' points is about the gap between '+esc(ex.top.team)+' at the top and '+
         esc(ex.near.team)+' in '+ordinal(ex.nearRank)+'. That is why two teams whose bands overlap a lot cannot really be told '+
         'apart, and why the rankings show a <b>likely rank</b> range next to each position.</p>' : '')+
@@ -9626,13 +9697,9 @@ function viewMethod(){
         '<li><b>Bottom of the band</b> is the rating minus the band: how good a team is <i>at least</i>, almost certainly. '+
           'It is a cautious order. Two teams on the same rating are split by how sure the model is about each, so a '+
           'well-tested side goes above one that has played little.</li></ul>'+
-      '<p>Which is more accurate? We checked on about 26,000 past matches that had a winner, with ratings frozen at the '+
-        'start of each year. The two orders picked the same favourite 98% of the time. In the other 2%, the bottom of the band '+
-        'picked the winner a little more often, a sign that teams the model has seen little of tend to be weaker than their '+
-        'ratings. That led to the mark-down for unproven teams (see <i>What the band means</i>), which made the predictions '+
-        'clearly better. Marking down every uncertain team more heavily, which is what ordering by the bottom of the band '+
-        'amounts to, made them worse again. So the <b>rating</b> is the one to use for how strong a team is. The bottom of the '+
-        'band is a cautious view, useful when every team is ranked, so that a team with five lucky results cannot top the table.</p>')+
+      '<p>Which is more accurate? Tested on past matches, the two orders pick the same favourite almost every time. The '+
+        '<b>rating</b> is the one to use for how strong a team is. The bottom of the band is a cautious view, useful when every '+
+        'team is ranked, so that a team with five lucky results cannot top the table.</p>')+
 
     sec('m-trend', 'Trend',
       '<p>The <b>trend</b> describes how a team\'s rating has moved over the last 12 months (or 24, on the Rankings page): '+
@@ -9670,47 +9737,37 @@ function viewMethod(){
         'far the result beat or fell short of that. Beat a much stronger team and you gain a lot; beat a much weaker one '+
         'and you gain little. Lose to a much weaker team and you drop a lot.</p>'+
       '<p>Four things set the size of the move:</p><ul>'+
-        '<li><b>How important the match was.</b> A World Cup match counts 1.7 times as much as a friendly (next section).</li>'+
+        '<li><b>How important the match was.</b> A World Cup match counts for more than a friendly (next section).</li>'+
         '<li><b>The margin.</b> Winning 4&ndash;0 counts for more than 1&ndash;0, but not four times as much.</li>'+
         '<li><b>How sure the model is.</b> A team with a wide band moves further, because each result teaches the model more about it.</li>'+
         '<li><b>Where it was played.</b> Winning away is worth more than winning at home (see Home advantage).</li></ul>'+
       '<p>Both teams\' moves come from the same calculation, so what one gains the other mostly loses.</p>')+
 
     sec('m-weights', 'Which matches count most',
-      '<p>Every match is weighted by what it was. The weight is shown as a K number: the higher, the more a match moves '+
-        'ratings.</p>'+
-      '<table class="kv-table words"><thead><tr><th>Competition</th><th>Weight</th><th>Examples</th></tr></thead><tbody>'+
-        COMP_ORDER.map(c => '<tr><td>'+COMPS[c].label+'</td><td class="n">K'+(c === 'games' && g === 'women' ? COMPS.games.k+' / '+WOMEN_GAMES_K : kText(c))+'</td><td>'+
-          (COMP_EXAMPLES[c] || '')+'</td></tr>').join('')+
+      '<p>Every match is weighted by what it was. A World Cup match moves ratings more than a continental qualifier, and a '+
+        'qualifier more than a friendly. Every competition in both archives has been sorted by hand into one of these groups:</p>'+
+      '<table class="kv-table words"><thead><tr><th>Competition</th><th>Examples</th></tr></thead><tbody>'+
+        COMP_ORDER.map(c => '<tr><td>'+COMPS[c].label+'</td><td>'+(COMP_EXAMPLES[c] || '')+'</td></tr>').join('')+
       '</tbody></table>'+
-      '<p>The order is a judgement about what each competition means. The gaps between the weights were set by testing: a '+
-        'World Cup match does tell you more about a team than a friendly, but not as much more as its importance suggests. '+
-        'It is usually one game between two closely matched sides, often settled by a single moment, while friendlies are '+
-        'noisier but far more numerous. Halving the gaps the site used before (World Cup 60, friendlies 25) predicted better '+
-        'in every period tested, for both games, and widening them predicted worse.</p>'+
-      '<p>Qualifying is weighted by what it leads to: qualifiers for a continental championship count as much as World Cup '+
-        'qualifiers, qualifiers for a sub-regional cup much less. A few sub-regional cups were themselves the road to a '+
-        'continental championship, such as the Caribbean Cup and the Central American Cup for the Gold Cup between 1991 and '+
-        '2017, and in those years they count as continental qualifying. The early regional championships, before the World '+
-        'Cup existed, start high and step down as bigger competitions arrived; the technical details explain how.'+
-        (g === 'women' ? ' In the women\'s game the Asian, Pan American and Southeast Asian Games are played by full senior national teams, '+
-          'so they count K'+WOMEN_GAMES_K+', like a sub-regional championship; other multi-sport games count K'+COMPS.games.k+'.' : '')+'</p>')+
+      '<p>The order is a judgement about what each competition means, and the size of the gaps between the weights was set by '+
+        'testing against real results. The weights are not the same in every era: the early regional championships, '+
+        'before the World Cup existed, were the most important football their teams could play and count accordingly, and '+
+        'friendlies meant more in the past than they do now. Qualifying is weighted by what it leads to.</p>')+
 
     sec('m-home', 'Home advantage',
-      '<p>Playing at home helps, so the home side gets a head start in the model\'s expectations, worth about '+
-        homeAdv(g)+' points in the '+game+' game today. It has shrunk over the decades as travel got easier. It also depends on where the match is:</p>'+
-      '<ul><li><b>Europe:</b> smaller, about '+Math.round(homeAdv(g)*HOME_CONF.UEFA)+' points. Trips are short and away fans travel.</li>'+
-        '<li><b>Africa and South America:</b> bigger, about '+Math.round(homeAdv(g)*HOME_CONF.CAF)+' and '+Math.round(homeAdv(g)*HOME_CONF.CONMEBOL)+
-          ' points. Long journeys, heat and humidity.</li>'+
-        '<li><b>Altitude:</b> doubled in cities above about 2,000 metres, such as La Paz, Quito and Bogot&aacute;, unless the visitors are used to it.</li>'+
+      '<p>Playing at home helps, so the home side gets a head start in the model\'s expectations. It has shrunk over the '+
+        'decades as travel got easier, and it is not the same everywhere:</p>'+
+      '<ul><li><b>Europe:</b> smaller. Trips are short and away fans travel.</li>'+
+        '<li><b>Africa and South America:</b> bigger. Long journeys, heat and humidity.</li>'+
+        '<li><b>Altitude:</b> bigger still in the highest cities, such as La Paz, Quito and Bogot&aacute;, unless the visitors are used to it.</li>'+
         '<li><b>Neutral ground:</b> none.</li></ul>'+
       '<p>Each of these was measured from real results rather than assumed, and each made the predictions more accurate.</p>')+
 
     sec('m-confs', 'How strong is each confederation?',
-      '<p>Teams from different confederations meet far less often than neighbours do, so a team\'s rating has two parts: its '+
-        'own, set by every result, and a level its whole confederation shares, set only by matches against other '+
-        'confederations. When Morocco beat Spain, every African team edges up a little and every European team down, because '+
-        'the result says something about the two regions as well as the two teams.</p>'+
+      '<p>Teams from different confederations meet far less often than neighbours do, so a confederation that mostly plays '+
+        'itself could sit too high or too low as a whole without anyone noticing. The model keeps the confederations in balance '+
+        'with one another, using the matches between them. When Morocco beat Spain, the result says something about the two '+
+        'regions as well as the two teams.</p>'+
       '<p>Today\'s levels, with each confederation\'s <b>top-10 average</b>, the average rating of its ten best ranked teams, as an overall measure:</p>'+
       (atDefaults(c => confStrengthTable(c, true)) || '')+
       '<p>The <a href="#/confederations">Confederations page</a> lists every team region by region.</p>')+
@@ -9733,20 +9790,10 @@ function viewMethod(){
       '<p>These chances allow for the bands: when either team is barely known, they move toward even. They know nothing '+
         'about injuries, squads or motivation. The tournament simulator plays a tournament ten thousand times with these '+
         'chances to show how often each team gets through each round.</p>'+
-      '<p>Forecasts add one thing the table does not: <b>long memory</b>. For predicting, each team\'s strength is half its '+
-        'rating and half a rating from every match since the archive began. Old results still say a little about a team '+
-        'today, and in testing this mix predicted better than the window alone, every time it was checked: about 0.2% for '+
-        'the men and 0.6% for the women. So the fixtures, the simulator, past tournaments\' chances going in and the '+
-        'forecast record all use it, while the rankings stay on the window. The Predict page can switch it off, to show '+
-        'chances that follow from the two ratings alone.</p>'+
-      '<p id="m-goals">Forecasts also take a <b>second opinion from goals</b>. A separate model gives every team an attack and a defence number: '+
-        'how many goals it tends to score and to let in, against an average side. Before a match it expects each side to score its attack '+
-        'against the other\'s defence, and after it moves both numbers a small step towards what happened (a thrashing counts as 8&ndash;0 at most). '+
-        'New teams start a little below the established teams of their confederation and learn quickly. Its expected result is mixed with '+
-        'the ratings\' about two parts to three, and the expected number of goals is set halfway between the two, because the goals model '+
-        'also knows whether a match is likely to be tight or open. Tested on the years it was not tuned on, men and women, both ways round, '+
-        'the mix predicted results, scores and goal totals better every time. It follows the idea in Ley, Van de Wiele and Van Eetvelde\'s '+
-        'comparison of team-strength models. The rankings never use it.</p>'+
+      '<p id="m-goals">Forecasts draw on a little more than the table does. Older results still say something about a team '+
+        'today, and so do the goals it tends to score and let in, so the forecasts take both into account. In testing that '+
+        'predicted results, scores and goal totals better every time it was checked. The rankings themselves stay on the '+
+        'rating alone.</p>'+
       '<h3 id="m-labels">What the matchup labels mean</h3>'+
       '<p>Each fixture carries a label set only by the favourite\'s chance of winning, with home advantage already in it, so it can '+
         'differ from how far apart the two teams\' tiers are.</p>'+
@@ -9763,7 +9810,7 @@ function viewMethod(){
         'than standard Elo ratings. Since launch, the <a href="#/record">forecast record</a> scores every prediction the site '+
         'makes, in public.</p>')+
 
-    '<section id="m-tech"><details class="tech"><summary>Technical details: the full method, constants and test results</summary><div>'+
+    '<section id="m-tech"><details class="tech"><summary>More detail: competitions, historical teams and the data</summary><div>'+
       methodTechnical()+
     '</div></details></section>'+
   '</div>'+
@@ -9779,176 +9826,10 @@ function viewMethod(){
   loadBadges();
 }
 /* The full technical account, kept under "Technical details" at the foot of How it works. */
+/* What stays of the old technical account (12 Nov 2026): the sections about competitions, names, membership and data.
+   How the ratings are worked out is no longer published. */
 function methodTechnical(){
   return ''+
-
-    '<h2>Only gaps mean anything</h2>'+
-    '<p>A rating on its own says nothing. The model only ever uses the difference between two ratings, so starting '+
-      'every team at 1500, at zero, or at ten thousand would produce exactly the same predictions and the same table '+
-      'shifted up or down. 1500 is a convention borrowed from chess, where the system was first built, and it is used '+
-      'here only as the place an unknown team is put.</p>'+
-    '<p>Because of that, this site reads every rating against the <b>average team</b>, the median ranked team, rather than against 1500. '+
-      '"+250 on the average team" is a real statement; "1750" on its own is not. The median also moves, which is the '+
-      'point: the scale has no fixed meaning, and the drift of the average away from 1500 is expected rather than '+
-      'a fault.</p>'+
-
-    '<h2>What a gap is worth</h2>'+
-    '<div class="formula">Raw expected score = 1 / (1 + 10^(&minus;gap / 400))</div>'+
-    '<p>Expected score counts a win as 1 and a draw as a half. The 400 is as arbitrary as the 1500: it sets how many '+
-      'points a given advantage is spread across. Tested against real results, the raw formula turned out slightly '+
-      'overconfident: favourites won less often than it said. So every prediction on the site shrinks the gap by a '+
-      'fitted factor first, '+CAL.men.slope+' for the men and '+CAL.women.slope+' for the women. That changes only how a '+
-      'gap is read, not the ratings themselves. Between two well-known teams on neutral ground:</p>'+
-    '<table class="kv-table"><thead><tr><th>Lead</th><th>Raw formula</th><th>Men</th><th>Women</th></tr></thead><tbody>'+
-      [50,100,200,300,400].map(g => '<tr><td>'+g+' points</td><td class="n">'+pct(eloE(g))+'</td>'+
-        '<td class="n">'+pct(calE(eloE(g),'men'))+'</td><td>'+pct(calE(eloE(g),'women'))+'</td></tr>').join('')+
-    '</tbody></table>'+
-    '<p>The Rankings page shows where the current table\'s leaders, median and tail sit, and the team pages give each '+
-      'side\'s chances against the average team and against the 20th-ranked one. The second is there because the '+
-      'average team is weak enough that every leading side beats it almost every time, which separates nothing.</p>'+
-
-    '<h2>No rating before the first match</h2>'+
-    '<p>Before a team has played, there is nothing to estimate its strength from, so it has no rating: not 1500 '+
-      'and not a low number, none. Plain Elo cannot express that. It hands a team with no matches and a team with a '+
-      'thousand the same kind of number with the same confidence. When England and Scotland kicked off the first '+
-      'international in 1872, plain Elo treated both as precisely average.</p>'+
-    '<p>So every rating here carries a second number, its uncertainty, after a system called Glicko. A team the '+
-      'model has never seen starts with the widest possible band: placed at 1500 only so the arithmetic has somewhere '+
-      'to begin, but with a band of &plusmn;700, which in effect says "could be anything". Charts and tables only '+
-      'show a team from its first match onward.</p>'+
-
-    '<h2>How the band moves</h2>'+
-    '<p>Each match narrows a team\'s band, by more when the match is important and when the opponent is well known. '+
-      'Between matches the band widens again, slowly, because a team that has not played for two years may have '+
-      'changed. A team that stops playing altogether drifts back toward knowing nothing, which is why defunct sides '+
-      'such as East Germany fall out of the full-history ranking on their own rather than sitting in it forever on a '+
-      '1990 rating.</p>'+
-    '<p>The band also controls how far a result moves a rating. A newcomer with a wide band moves a long way after '+
-      'each early result, because the model is still finding it; an established side with a narrow band moves a '+
-      'little. And beating a team the model knows little about is worth less than beating one it knows well, because '+
-      'the win says less. That last effect fixes a real flaw in plain Elo: a weak newcomer losing heavily no longer '+
-      'hands a pile of points to whoever it happened to play.</p>'+
-    '<div class="formula">After each match: new rating = rating + step &times; importance &times; margin &times; (result &minus; expected)<br>'+
-      'step shrinks as the band narrows; the band narrows with each match and regrows between them</div>'+
-
-    '<h2>Ranked and provisional</h2>'+
-    '<p>The band shown everywhere is the rating plus or minus twice the uncertainty, roughly a 95% range. A team whose '+
-      'band is wider than the limit you set is listed as provisional and left out of the ranking, though its results '+
-      'still count in full. The default limit is &plusmn;250. That keeps out teams with only a handful of matches in '+
-      'the window and teams that have stopped playing, while nearly every side that plays regularly is ranked. The '+
-      'women\'s game has far more provisional teams at the same limit, because its archive has far fewer matches per team.</p>'+
-    '<p>Unproven teams are marked down. Once a team\'s own uncertainty (RD, before its confederation\'s) is above '+UNPROVEN.rd0+
-      ', a band wider than about &plusmn;'+(BAND_Z*UNPROVEN.rd0)+', its published rating is lowered by '+UNPROVEN.k+' points for every '+
-      'point of RD above that. It does not change how ratings are updated, only what is published and predicted. The reason '+
-      'is a selection effect: the teams that play least are mostly weak, so a rating that has barely moved from where every '+
-      'team starts flatters them. Tested over every match since 1995 for the men and 2005 for the women, it improved '+
-      'predictions by 0.2% and 2.6% respectively, and by a similar amount in each half of both periods.</p>'+
-    '<p>The ranking can also be ordered by the bottom of each band instead of the rating. That is the cautious reading: '+
-      'a team only ranks high if it is very likely to be at least that good. Removing the limit switches to it '+
-      'automatically, because otherwise a team with five matches and a band of &plusmn;500 can top the table on a '+
-      'lucky start; ordering by rating is still one click away.</p>'+
-    '<h2>Likely rank</h2>'+
-    '<p>A rank on its own hides how settled it is. So the table is redrawn 1,000 times with every rating replaced by '+
-      'a random draw from its own band, and each team gets two ranges from where it lands: the <b>likely</b> range covers '+
-      'the middle half of those positions, and the <b>plausible</b> range covers 95%. In the current table:</p>'+
-    rankExamples()+
-    '<p>Ranges are tight at the very top and bottom, where teams are spread out, and wide in the middle, where dozens of '+
-      'sides sit within a hundred points of each other. That width is the honest precision of the ratings: a band of about '+
-      '&plusmn;130 points per team does not support ranking the 40th-best side to within a place or two. The rankings show '+
-      'the likely range; hovering over it shows the plausible one.</p>'+
-
-    '<h2>Match importance</h2>'+
-    '<p>A friendly should not move a rating like a World Cup tie does, so every match is weighted by what it was.</p>'+
-    '<table class="kv-table"><tbody>'+
-      COMP_ORDER.map(c=>'<tr><td>'+COMPS[c].label+'</td><td>K'+kText(c)+'</td></tr>').join('')+
-    '</tbody></table>'+
-    '<p>Every competition in both archives has been sorted by hand; the plain-English section above lists the groups with '+
-      'examples. Three rules go beyond the names. Qualifying is weighted by what it qualifies for: qualifiers for a '+
-      'continental championship count at K40, qualifiers for a sub-regional cup at K25. Sub-regional cups that were '+
-      'also the road to a continental championship count as continental qualifying in those years: the Caribbean Cup '+
-      'and the Central American Cup, which sent teams to the Gold Cup from 1991 to 2017, and the AFC Challenge Cup, '+
-      'whose winners went to the Asian Cup from 2008 to 2014. And the Indian Ocean Island Games are multi-sport games, '+
-      'not a non-FIFA event, despite the name. A tournament that is not on the list, because it was added to the archive '+
-      'later, is treated as an invitational.</p>'+
-    '<h2>Historic premier championships</h2>'+
-    '<p>Before the World Cup, and before most continents had championships of their own, some regional tournaments were '+
-      'the most important football their teams could play. The British Home Championship is the clearest case. Their '+
-      'weight steps down twice, on one principle: what mattered is what was <i>available</i>, not what a team chose.</p>'+
-    '<p>They count at K'+PREMIER_K[0]+' until something higher existed: the World Cup, or the continent\'s own championship, whichever '+
-      'came first. They then count at K'+PREMIER_K[1]+' until most of their regular teams were actually taking part in it, and at K'+PREMIER_K[2]+' '+
-      'after that, the same as a sub-regional cup. So the British Home Championship drops in 1930, when the World Cup began and the home associations, '+
-      'at odds with FIFA, chose to stay out, and again in late 1949, when they entered World Cup qualifying. The '+
-      'Central European Cup also drops in 1930, but its teams entered the World Cup in 1934, so its second drop comes '+
-      'then. The editions of the British Home Championship that doubled as real qualifying groups, for the 1950 and 1954 '+
-      'World Cups and Euro 1968, count as the qualifiers they were.</p>'+
-    '<p>The dates are taken from the data rather than chosen: the first date a World Cup or continental match was played, '+
-      'and the date by which most of a tournament\'s regular teams had played one.</p>'+
-    eraTable()+
-    '<p>The same rule applies to the women\'s game, where it matters more, because official competitions arrived late: '+
-      'the official European Championship began with qualifying in 1982 and the Women\'s World Cup in 1991. The archive '+
-      'includes the unofficial world championships of 1970 and 1971 and unofficial European championships from 1957, '+
-      'filed under the official names. They were organised outside FIFA and UEFA, so here they are premier championships '+
-      'rather than World Cup or continental finals, along with the Mundialito and FIFA\'s own 1988 invitation tournament: '+
-      'the highest football available to women\'s national teams at the time.</p>'+
-    '<p>Olympic football is in both archives despite the sources saying otherwise, and it means different things in each. '+
-      'In the women\'s game it is a first-rank event played by full national teams, weighted like a continental '+
-      'championship. In the men\'s archive only 1908 to 1928 appear, and only 1924 and 1928 carry that weight: the '+
-      'editions FIFA organised and recognised as world championships before the World Cup existed. They were still amateur, '+
-      'but they were the top of the sport. 1908, 1912 and 1920 count as multi-sport games.</p>'+
-    '<p>The order of these weights is a judgement about what each competition meant, not a fit to the data; earlier '+
-      'reshuffles inside it (sub-regional cups, multi-sport games, non-FIFA tournaments, the qualifying split) made no '+
-      'measurable difference to accuracy. The size of the gaps is different: in October 2026 they were halved around the '+
-      'friendly\'s K25, which made predictions better in both halves of the test period for both games.</p>'+
-    '<p>Friendlies are the exception, and the one place the data pushed back. They were tested at K20, K25 and K30, and '+
-      'counting them more made predictions better every time. Raising every weight together did not, so friendlies '+
-      'genuinely carry more information than K20 gave them credit for. They now count at K25: official matches, sanctioned '+
-      'by FIFA or a confederation, but not qualifiers or tournaments. For most of football\'s history they mattered more: '+
-      'friendlies and tours were much of what national teams played, so they count K27.5 until 1990 (1991 for the women), '+
-      'easing to K25 by the arrival of the Nations League in 2018 (2023 for the women). The data is close to indifferent '+
-      'here: any friendly weight between K20 and K35 moved historical accuracy by 0.3% at most, and this gentle step cost '+
-      '0.09% on 1930&ndash;94 men\'s matches. FIFA\'s own FIFA Series, friendlies played in the '+
-      'international windows, count with them. Invitational cups count K27.5, a little above friendlies: a tournament a host '+
-      'puts on means more than a one-off friendly.</p>'+
-    '<h2>Margin of victory</h2>'+
-    '<p>Winning 4&ndash;0 says more than winning 1&ndash;0, but not four times as much: one goal &times;1, two &times;1.5, '+
-      'three &times;1.75, and (11 + margin) / 8 above that. Importance makes a match count as more evidence; margin only '+
-      'makes the result count as a bigger one. Testing showed letting margin also narrow the band made predictions '+
-      'slightly worse.</p>'+
-    '<h2>Home advantage</h2>'+
-    '<p>The home side gets a bonus when the model works out what it expects, and none on neutral ground. The size was '+
-      'fitted rather than assumed, and it has changed over time. In the men\'s game it rose after the war, peaked through '+
-      'the 1970s and 1980s, and has been falling since, as travel got easier and more matches were played in front of '+
-      'neutral or mixed crowds. The women\'s game shows the same fall from a lower start. The site uses a value for each '+
-      'date, drawn as straight lines between these fitted points and level beyond the first and last:</p>'+
-    '<table class="kv-table"><thead><tr><th>Year</th><th>Men</th><th>Women</th></tr></thead><tbody>'+
-      [...new Set([...HOME_ERAS.men, ...HOME_ERAS.women].map(k => k[0]))].sort((a,b) => a-b).map(y =>
-        '<tr><td>'+y+'</td><td class="n">+'+Math.round(homeAt('men', Date.UTC(y,0,1)))+'</td><td>'+
-        (y < 1990 ? '<span class="muted">&mdash;</span>' : '+'+Math.round(homeAt('women', Date.UTC(y,0,1))))+'</td></tr>').join('')+
-    '</tbody></table>'+
-    '<p>Fitting by era rather than one value per archive made predictions slightly better across every period tested. '+
-      'The era value is then scaled for where the match is played: &times;'+HOME_CONF.UEFA+' when the home side is European, '+
-      '&times;'+HOME_CONF.CAF+' in Africa, &times;'+HOME_CONF.CONMEBOL+' in South America and &times;1 elsewhere, and doubled in a '+
-      'city above about 2,000 metres (La Paz, Quito, Bogot&aacute;, Mexico City, Addis Ababa and a few more) unless the visitors '+
-      'come from a high-altitude country themselves. Those factors were fitted on every match since 1995 for the men and 2005 '+
-      'for the women. They improved the men\'s predictions by about 0.25% and the women\'s by 0.1%, and the gain held when '+
-      '1995&ndash;2010 and 2011&ndash;2026 were checked separately. Where the venue is unknown, as on the Predict page, only '+
-      'Bolivia and Ecuador are assumed to play at altitude.</p>'+
-
-    '<h2>Testing it</h2>'+
-    '<p>The model\'s constants were not picked by feel. Every setting was run over the real archives, predicting each '+
-      'match before it was played and scoring the predictions. Below, ratings were frozen at the start of each year and '+
-      'used to predict that year\'s matches, which is how the site is actually used. The score is log-loss: lower is '+
-      'better.</p>'+
-    backtestTable('men')+ backtestTable('women')+
-    '<p>Plain Elo here uses a single home advantage per archive; this model uses the era and venue values described above. Two conclusions. The uncertainty model beats plain '+
-      'Elo at every window length on both archives, by the most where records are thinnest: short windows and the '+
-      'women\'s game.</p>'+
-    '<p>The second is less comfortable. Longer windows predict better than shorter ones, and full history predicts '+
-      'best, if only just. Old results do still carry some information about a team today. The rolling window is '+
-      'this site\'s point of view rather than the most accurate setting, which is why the default is 12 years rather than '+
-      'something shorter: it keeps the emphasis on recent form while giving up almost nothing, and forecasts get the rest '+
-      'back through long memory. Under this model a 12-year window predicts better than conventional full-history Elo '+
-      'on both archives. Full history is one click away in the filter bar.</p>'+
 
     '<h2>Competitions and editions</h2>'+
     '<p>The Competitions page splits every tournament into editions. A finals tournament becomes a new edition wherever its '+
@@ -9956,7 +9837,7 @@ function methodTechnical(){
       'Nations League matches run almost continuously from one cycle into the next, with no gap to split on, so they are '+
       'grouped by calendar year. Editions are labelled by the year they were played: the Euro played in 2021 appears as 2021.</p>'+
     '<p>Each edition page shows every team\'s rating going in and coming out, its rank at both points, and its path match by '+
-      'match. Those ratings come from the window ending at that tournament, so the 1974 World Cup shows ratings as they stood '+
+      'match. Those ratings are the ones of the time, so the 1974 World Cup shows ratings as they stood '+
       'in 1974, not as they look from today. Drawn knockout matches show who went through on penalties, from the archive\'s '+
       'shootout records; the shootout itself does not change any rating.</p>'+
     '<h2>Historical teams</h2>'+
@@ -9983,101 +9864,12 @@ function methodTechnical(){
       'Asian until 1974, Australia as Oceanian until 2006 and Kazakhstan as Asian until 2002. Their matches count in the '+
       'confederation they belonged to at the time.</p>'+
 
-    '<h2>Comparing confederations</h2>'+
-    '<p>Most matches are played inside a confederation, so plain Elo calibrates each confederation mostly against '+
-      'itself, and a group that rarely meets anyone else can sit too high or too low as a whole without the model '+
-      'noticing. Early tables show it worst. At the end of 1958 an earlier version of this site ranked Costa Rica fourth '+
-      'in the world, on a run of wins over Central American and Caribbean sides that had hardly played anyone else.</p>'+
-    '<p>So every rating has two parts: an <b>offset</b> for the confederation, shared by all its members, and the team\'s '+
-      'own rating within it. A match inside a confederation moves only the two teams, since their offsets cancel. A match '+
-      'between confederations also moves both offsets, each side\'s change split between team and offset in proportion '+
-      'to how uncertain each is. A confederation that has barely met anyone else has an uncertain offset, so its first '+
-      'results against outsiders move the whole group; one that plays outsiders all the time has a settled offset, and the '+
-      'result falls mostly on the team. Offsets drift slowly back toward a band of &plusmn;'+(BAND_Z*POOL_W0)+' while a '+
-      'confederation plays no one else.</p>'+
-    '<p>When a window opens, every team starts level, but each confederation\'s offset starts where it stood in the full '+
-      'history on that day, with its band widened to at least &plusmn;'+(BAND_Z*SEED_POOL_W)+'. So results from before the '+
-      'window decide only how strong each confederation is assumed to be at the start, never any team\'s rating, and '+
-      'results inside the window correct even that. Starting every offset at zero instead predicted slightly worse. With '+
-      'full history on there is no window, and offsets start at zero in 1872.</p>'+
-    '<p>Three consequences. A team\'s rating can move between its own matches, when another member\'s result moves its '+
-      'confederation\'s offset. The uncertainty in the offset is part of each team\'s band, measured against the '+
-      'best-established confederation of the day, so a team from a poorly connected group needs results against outsiders '+
-      'before it is ranked: Costa Rica at the end of 1958 is now provisional. And the strongest teams sit higher than plain Elo would put them, '+
-      'because the European and South American offsets are above zero, which changes nothing about the gaps that matter. '+
-      'In the backtest, offsets cut the error on matches between confederations by about 5% for the men since 1995, 7% for '+
-      '1950&ndash;94 and 8% for the women, and improved predictions inside confederations as well.</p>'+
-    '<p>Offsets cannot conjure evidence that does not exist. In 1930 Cuba had played five matches, its first ever, all '+
-      'won against neighbours just as new to the game; with almost no results linking that region to anyone else, its '+
-      'rating stays high and its band stays enormous, so it is listed as provisional rather than ranked.</p>'+
-    '<p>Sometimes there is no link at all. Each time the table is worked out, the site follows the chain of matches '+
-      'from team to team, and any group with no chain to the rest of the world is set apart. At the end of 1950 there were '+
-      'six such groups: Mauritius, Madagascar and R&eacute;union; Kenya, Uganda, Tanganyika and Zanzibar; East Asia; and '+
-      'three more in Africa and Oceania. Their ratings rank them within their group and say nothing beyond it, so they '+
-      'are never ranked, and against outsiders their uncertainty gets a full &plusmn;'+(BAND_Z*RD_MAX)+' added on top. '+
-      'Small groups still turn up in the men\'s game into the 1980s, such as four Windward Islands in 1965 and Anguilla and the '+
-      'British Virgin Islands in 1985. In the women\'s game, Asia and Oceania had no link to Europe until the early 1980s, '+
-      'which used to leave New Zealand at the top of the 1980 table.</p>'+
-    '<h2>From ratings to win, draw and loss</h2>'+
-    '<p>The predictor takes three steps. It uses both teams\' uncertainty, which pulls the expectation toward an even '+
-      'contest when either side is barely known; it applies the calibration above; and it splits the result into win, '+
-      'draw and loss with a fitted draw rule:</p>'+
-    '<div class="formula">draw chance = d &times; 4 &times; E &times; (1 &minus; E)<br>'+
-      'd = '+CAL.men.draw+' for the men, '+CAL.women.draw+' for the women; E is the calibrated expected score</div>'+
-    '<p>So an even contest is drawn '+Math.round(CAL.men.draw*100)+'% of the time in the men\'s game and '+
-      Math.round(CAL.women.draw*100)+'% in the women\'s, falling away as the match gets more lopsided. An earlier version '+
-      'of this site used a draw curve that was chosen rather than fitted, and it was wrong: it predicted 9% draws in '+
-      'heavily lopsided men\'s matches that actually ended level 15% of the time. Fitted on every match since 1995, '+
-      'the result now looks like this for men\'s matches between two well-known teams:</p>'+
-    '<table class="kv-table"><thead><tr><th>Favourite\'s raw expectation</th><th>Matches</th><th>Fav. wins, actual</th>'+
-      '<th>predicted</th><th>Draws, actual</th><th>predicted</th></tr></thead><tbody>'+
-      [['0.50&ndash;0.55',3050,36.7,36.6,30.7,30.9],['0.55&ndash;0.65',6127,42.8,43.4,29.9,30.0],
-       ['0.65&ndash;0.75',5942,52.4,53.4,27.6,27.3],['0.75&ndash;0.85',5998,63.7,65.1,23.6,22.4],
-       ['0.85&ndash;0.95',5523,79.0,79.1,14.9,14.5],['0.95&ndash;1.00',1846,94.7,92.7,4.3,5.4]].map(r =>
-        '<tr><td>'+r[0]+'</td><td class="n">'+r[1].toLocaleString()+'</td><td class="n">'+r[2].toFixed(1)+'%</td>'+
-        '<td class="n">'+r[3].toFixed(1)+'%</td><td class="n">'+r[4].toFixed(1)+'%</td><td>'+r[5].toFixed(1)+'%</td></tr>').join('')+
-    '</tbody></table>'+
-    '<p>Every band but the most lopsided is within about a point and a half of reality; there, heavy favourites win about two points '+
-      'more often than predicted. The women\'s fit is looser, with fewer matches to fit on, but within about two points '+
-      'in every band. These '+
-      'parameters were fitted on the same matches they are checked against, but three numbers fitted to tens of thousands '+
-      'of results leaves little room for flattering the test.</p>'+
-    '<h2>Scorelines</h2>'+
-    '<p>The Predict and Fixtures pages also give a chance for every score. Each side\'s goals are treated as Poisson, '+
-      'the standard model for counts of rare events, with averages set by the calibrated expectation. The fit used every '+
-      'match since 2006 for the men and 2008 for the women, each predicted before it was played. Plain Poisson gets the '+
-      'men\'s draws slightly wrong, 21.6% against 23.4% in reality, so the grid is then scaled to agree exactly with '+
-      'the win, draw and loss chances. After that the men\'s common scores land within about a point of how often they '+
-      'happen: 1&ndash;0 11.4% against 10.2% predicted, 1&ndash;1 10.3% against 10.9%, 0&ndash;0 8.9% against 8.1%.</p>'+
-    '<p>The women\'s game fits less well. It has more goalless draws and more heavy wins than any Poisson model with these '+
-      'averages allows, because the gaps between teams are wider and less well measured, so treat its scorelines as rough. '+
-      'In both games, even the likeliest single score usually happens less than one time in five.</p>'+
-    '<h2>Tournament simulator</h2>'+
-    '<p>The simulator plays a tournament ten thousand times. Before each run, every team\'s true strength is drawn from '+
-      'its band, and that draw holds for all its matches in the run, so a team the model barely knows can go deep in one '+
-      'run and out early in the next. That is why thinly tested teams get wider spreads of outcomes than their ratings '+
-      'alone suggest. Matches use the calibrated chances and the scoreline model; level knockout matches get extra time '+
-      'worth a third of a match\'s goals, then penalties as a coin toss. Results already played are fixed, and any other '+
-      'group match can be fixed by hand to see what changes.</p>'+
-    '<p>Two rewinds, the 2022 World Cup and the 2023 Women\'s World Cup, are run with the ratings from the day before '+
-      'kick-off and set against what happened. They are there to keep the simulator honest, not to flatter it: Argentina '+
-      'and Spain were not the favourites.</p>'+
-    '<h2>Forecast record</h2>'+
-    '<p>A backtest, however careful, is run after the fact. So the nightly update also writes down a forecast for every '+
-      'listed fixture, revises it until kick-off, freezes it, and scores it once the result is in. The Record page shows '+
-      'how those forecasts have done, against two yardsticks: knowing nothing (a third each way, log-loss 1.099) and the '+
-      'backtest.</p>'+
     '<h2>Rating history charts</h2>'+
-    '<p>A rolling window creates a trap for charts. Every team starts the window level, so the first stretch of any run '+
-      'through it is ratings climbing from the start line to their real level, which looks like form but is not. It lasts '+
-      'longer than you might guess. Measured against what the site would actually have shown on each date, men\'s ratings '+
-      'are still a median of 81 points off two years into the window, 47 points off at four years and 25 at six.</p>'+
-    '<p>So the charts never use that run. Each point on a chart is <b>the rating the site would have published on that '+
-      'date</b>, computed from that date\'s own window, which is why charts take a moment to appear. The 1-year change '+
+    '<p>Each point on a chart is <b>the rating the site would have published on that '+
+      'date</b>, which is why charts take a moment to appear. The 1-year change '+
       'is worked out the same way, as today\'s rating against the one published a year ago. Match lists (team pages, head '+
-      'to head) follow the same rule: each match is taken from the window that ended the day before it, so the ratings '+
-      'going in, the chances and the change are what the site showed at the time, and agree with the charts. With full '+
-      'history on, none of this applies, because there is no window to restart.</p>'+
+      'to head) follow the same rule, so the ratings '+
+      'going in, the chances and the change are what the site showed at the time, and agree with the charts.</p>'+
 
     '<h2>Data</h2>'+
     '<p>Results come from two open archives on GitHub, compiled from Wikipedia, RSSSF and association sources and released '+
@@ -10094,10 +9886,9 @@ function methodTechnical(){
       'the teams, that team is treated as at home whatever the neutral flag says: the Soviet Union\'s home qualifiers in '+
       'Moscow and Kyiv, for example, were flagged neutral because the venue was recorded as the Soviet Union while the '+
       'team is filed as Russia. A handful of duplicated rows are dropped, a few neutral venues and one wrong country are '+
-      'fixed, and teams and competitions filed under two spellings in the women\'s archive are merged. Each fix is listed '+
-      'in the page source and has been reported to the archive.</p>'+
-    '<p>Every rating is computed in your browser when the page loads, and every filter is kept in the address bar, so '+
-      'any view can be linked.</p>';
+      'fixed, and teams and competitions filed under two spellings in the women\'s archive are merged. Each fix has been '+
+      'reported to the archive.</p>'+
+    '<p>Every filter is kept in the address bar, so any view can be linked.</p>';
 }
 
 /* ============================================================
@@ -10383,15 +10174,15 @@ function compareExplainer(){
   const g = state.gender, B = BACKTEST[g], row12 = B.rows.find(r => r[0] === 12) || B.rows[0];
   const t = (a, b, c, d) => '<tr><th>'+a+'</th><td data-l="Formline">'+b+'</td><td data-l="World Elo">'+c+'</td><td data-l="FIFA method">'+d+'</td></tr>';
   return '<div class="table-wrap"><table class="kv-table cmp-table"><thead><tr><th></th><th>Formline</th><th>World Elo</th><th>FIFA method</th></tr></thead><tbody>'+
-    t('Which results count', 'The last 12 years (you can change it)', 'Every match since the archive begins', g === 'men' ? 'Every match since June 2018, on top of points carried over from FIFA\'s June 2018 ranking' : 'Every match since 1971')+
-    t('Bigger wins count more', 'Yes: two goals 1.5 times, three or more 1.75 times', 'Yes: two goals 1.5 times, three 1.75 times, a little more for each goal after that', g === 'men' ? 'No' : 'Yes, on its own scale')+
-    t('Home advantage', 'Yes, by era and venue: smaller in Europe, bigger in Africa and South America, doubled at altitude', 'Yes, 100 points everywhere', g === 'men' ? 'No' : 'Yes, 100 points everywhere')+
-    t('How much each match counts', 'World Cup 42.5 down to friendlies 25 and non-FIFA 17.5; friendlies counted a little more before 1990', 'World Cup 60, continental finals 50, qualifiers and Nations Leagues 40, other tournaments 30, friendlies 20', g === 'men' ? 'World Cup knockouts 60 down to friendlies outside FIFA dates 5' : 'World Cup and Olympics 60 down to ordinary friendlies 15')+
+    t('Which results count', 'Recent years only, so old reputations fade', 'Every match since the archive begins', g === 'men' ? 'Every match since June 2018, on top of points carried over from FIFA\'s June 2018 ranking' : 'Every match since 1971')+
+    t('Bigger wins count more', 'Yes, up to a point', 'Yes: two goals 1.5 times, three 1.75 times, a little more for each goal after that', g === 'men' ? 'No' : 'Yes, on its own scale')+
+    t('Home advantage', 'Yes, and it varies by era and by where the match is played', 'Yes, 100 points everywhere', g === 'men' ? 'No' : 'Yes, 100 points everywhere')+
+    t('How much each match counts', 'By importance, from the World Cup down to friendlies, with weights that have varied over the years', 'World Cup 60, continental finals 50, qualifiers and Nations Leagues 40, other tournaments 30, friendlies 20', g === 'men' ? 'World Cup knockouts 60 down to friendlies outside FIFA dates 5' : 'World Cup and Olympics 60 down to ordinary friendlies 15')+
     t('How sure it is', 'Every rating has a &plusmn; band; unsure ratings move faster and predictions allow for them', 'One number, no band', 'One number, no band')+
-    t('Teams that rarely meet', 'Each confederation carries a level, corrected by results against other confederations', 'Nothing special', 'Nothing special')+
+    t('Teams that rarely meet', 'Confederations are kept in balance using the matches between them', 'Nothing special', 'Nothing special')+
     t('Defeat in a knockout', 'Costs points like any defeat', 'Costs points', g === 'men' ? 'No points lost in the knockout stages of a final tournament' : 'Costs points')+
     t('Penalty shoot-outs', 'A draw', 'A draw', g === 'men' ? 'The winner scores 0.75, the loser 0.5' : 'A draw')+
-    t('How well it predicts', 'Log-loss '+row12[2].toFixed(3)+' on '+B.n+' '+(g === 'men' ? "men's" : "women's")+' matches since '+B.span.slice(0, 4)+' (lower is better)',
+    t('How well it predicts', 'Tested against the other two on the <a href="#/record">Forecast record</a>',
       'Tested against the other two on the <a href="#/record">Forecast record</a>', 'Not built for predictions, but tested anyway: see the <a href="#/record">Forecast record</a>')+
     t('Updated', 'Every night', g === 'men' ? 'Every night here; eloratings.net updates its own after each match' : 'Every night here', 'Every night here; FIFA publishes its own '+(g === 'men' ? 'every month or two' : 'about four times a year'))+
   '</tbody></table></div>';
@@ -10665,14 +10456,18 @@ const CHANGELOG = [
     'The dream match now compares the two sides\' years side by side: rank, record, goals and biggest win, with both careers on one chart. It is in the Tools menu as Era comparer.',
     'Two new tools. Fixture difficulty ranks every team by how hard its coming matches are, allowing for who is at home. What if? changes the result of one past match and replays the ratings from there, to show who would move.',
     'Matchday: Beat the model. Your picks are now scored against Formline across the whole international window, day by day, with your best run and a picture of your record to share. Picks stay in your browser.',
-    'Long pages are split into tabs: a team\'s page (Overview, History, Matches, Opponents), Confederations, How it works, Records (upsets and big wins, best teams, longest runs, FIFA method) and the match predictor, where the working is behind an Under the hood tab. The tab is kept in the link, so a shared link opens on the same tab.',
+    'Long pages are split into tabs: a team\'s page (Overview, History, Matches, Opponents), Confederations, How it works, Records (upsets and big wins, best teams, longest runs, FIFA method) and the match predictor. The tab is kept in the link, so a shared link opens on the same tab.',
     'Seeding: the organiser\'s real pots for 25 more editions, among them the 1974 World Cup, Euro 1996, the 2006 and 2008 Africa Cups of Nations, the 2007 Asian Cup, three more Copa Am&eacute;ricas, the Women\'s World Cups of 1999, 2003 and 2007, Women\'s Euro 2013 and twelve more women\'s continental finals. Editions where a team withdrew and left the groups uneven are now shown too, with that team marked.',
     'Simulator: the Copa Am&eacute;rica 2024 rewind can be drawn again, from CONMEBOL\'s own pots or Formline\'s, with the four seeded sides in their places and no more than three CONMEBOL or two CONCACAF teams in a group.',
     'Seeding: the organiser\'s real pots for three more editions, the Africa Cups of Nations of 2002 and 2004 (from news reports of the time) and the 2004 Asian Cup.',
     'Seeding, where the organiser\'s pots aren\'t on record: the page now says how the groups as played measure up against Formline\'s pots, how many had one team from each pot and which sides from the same pot were drawn together. The 1950 World Cup has its seeding section too.',
     'Who qualifies?: "What each team needs" is now about what the group really decides in that competition (winning promotion, reaching the quarter-finals, the play-off, avoiding relegation, a qualifying place) and not just first place and the top two. Hosts who are already through are marked. The page has a picture to share as well.',
     'Forecast record: a new section, Against the betting market. On more than 6,000 men\'s and 900 women\'s internationals from 2005 to 2015 with bookmakers\' closing odds on record, Formline\'s forecasts are scored next to the market, World Elo and the FIFA method.',
-    'What if?: once a score is changed, a picture to share with both sides\' rating and rank before and after and who else moves.']],
+    'What if?: once a score is changed, a picture to share with both sides\' rating and rank before and after and who else moves.',
+    'Seeding: the organiser\'s real pots for more editions: Euro 1992 (two seeds, and Yugoslavia, who were drawn and then excluded), the 2001 Copa Am&eacute;rica (with Argentina and Canada, who were drawn and then withdrew) and Women\'s Euro 2009 (from UEFA\'s own preview of the draw). And a fourth, the 1998 African Cup of Nations, from RSSSF.',
+    'Fixtures: where Wikipedia\'s own pages give different days for a match, the one that agrees with the fixture feed is now used. Iceland v Luxembourg had been shown a day early, on 15 November; it is on the 16th.',
+    'Predicted scores now agree with the pick. The single likeliest score is often 1&ndash;1 even when one side is the favourite, because a win is spread over many scores and a draw over few, so a 1&ndash;1 could sit next to a 44% favourite. Each match now shows the likeliest score for the result Formline expects; the likeliest scores of all are still listed beside it. Forecasts already checked keep the score they were published with.',
+    'How it works now explains the ideas behind the ratings in plain terms. The exact weights and settings are Formline\'s own and are no longer published, and the match predictor\'s step-by-step working has gone with them. Nothing about the ratings or forecasts themselves has changed.']],
   ['11 Nov 2026', ['Qualifying, rebuilt: each qualifying competition is now organised by the tournament it led to (for 2026, for 2022…), then by confederation, then round by round, with group tables and ties. The rounds are worked out from the results, since the archives don\'t record them. Open them from Competitions or from any finals page.',
     'Seeding on every finals page with groups: how Formline\'s ratings would have potted the teams at the draw, next to the organiser\'s real pots for 48 editions so far (men\'s World Cups since 1966 except 1974, Euros since 2000, AFCONs since 2012, Asian Cups since 2011, Copas since 2015, recent Gold Cups, women\'s World Cups since 2011 and Women\'s Euros since 2017; older World Cup pots were set by region, and the page says so), with what the organiser based them on.',
     'Confederations: World Cup places against strength can now be shown for any past World Cup: the teams each confederation had at the finals against its teams in the world\'s best on the eve, with confederations as they stood then.',
@@ -10753,10 +10548,10 @@ const CHANGELOG = [
     'On phones, "How they differ" on Formline, Elo and FIFA reads as a list of questions, with the three answers under each, instead of a table that scrolls sideways.',
     'The Elo comparison now uses the World Football Elo Ratings formula (the one behind eloratings.net), worked out here, instead of the site\'s own plain Elo.',
     'The Forecast record explains why small gaps between the methods matter, and shows who was right when they picked different favourites.',
-    'Every forecast now uses long memory, which predicted past results better: fixtures, the simulator, past tournaments\' chances going in and the forecast record. Rankings and ratings are unchanged. The Predict page can still switch it off.',
+    'Forecasts now also draw on older results, which predicted past results better: fixtures, the simulator, past tournaments\' chances going in and the forecast record. Rankings and ratings are unchanged.',
     'The Forecast record compares all three methods through every era: since 1920 for the men and 1991 for the women, with FIFA\'s published ranking for 1993-2018 and a reverse calculation before it.',
     'The FIFA method now goes back before 2018: today\'s men\'s method run back from 1872, a reverse calculation, on Formline, Elo and FIFA, team pages and the Records page (years at number one, highest points, each year\'s top ten).',
-    'Match weights keep their order, but the gaps between them are halved: a World Cup match now counts 42.5 and a friendly 25 (it was 60 and 25). Big matches still count most; this predicted better in every period tested. Ratings near the top are about 30 points lower, and a few places have changed.']],
+    'Match weights retuned: big matches still count most, by less than before, which predicted better in every period tested. Ratings near the top are about 30 points lower, and a few places have changed.']],
   ['24 Oct 2026', ['A Support page: how to report a mistake, privacy, badges and credits, and room for donation links.',
     'Share images: a ready-made picture of the top ten, the year\'s movers or any team, tall or square for Instagram, or wide for X.',
     'On a team page, Share image can also show the team\'s place in the ranking: the five teams above it and the five below, in the world or in its confederation.',
@@ -10786,7 +10581,7 @@ const CHANGELOG = [
     'A finer rating scale with plain names, from World-class to Smallest.']],
   ['21 Oct 2026', ['Tiers: groups of teams the model cannot confidently tell apart, with each team\'s chance of belonging to the next.',
     'A records page, past-tournament chances run 10,000 times, and confederation strength.',
-    'Friendlies weighted by era, and an opt-in long memory on the Predict page.']],
+    'Friendlies weighted by era.']],
   ['20 Oct 2026', ['The site is renamed Formline, with a new look, a guided tour, and a nightly update that adds the latest results and fixtures.']]
 ];
 function viewChanges(){
@@ -11059,8 +10854,9 @@ async function siDraw(kind, size, opts = {}){
     siText(g, 'Draw', W/2, by + bh + 40, '600 26px Archivo, system-ui, sans-serif', SI.body, 'center');
     siText(g, lb+' win', W - pad, by + bh + 40, '600 26px Archivo, system-ui, sans-serif', SI.body, 'right', bw/3);
     if (!wide){
-      const t = S.sl.top.slice(0, 3).map(s => (s[0] > s[1] ? la+' '+s[0]+'–'+s[1] : s[0] < s[1] ? lb+' '+s[1]+'–'+s[0] : 'Draw '+s[0]+'–'+s[1])+' ('+Math.round(s[2]*100)+'%)');
-      siText(g, 'Likeliest scores', pad, by + bh + 120, '600 26px Archivo, system-ui, sans-serif', SI.dim);
+      const pk = S.sl.pick || S.sl.top[0];   // the predicted score leads, then the next likeliest of all
+      const t = [pk, ...S.sl.top.filter(s => s !== pk)].slice(0, 3).map(s => (s[0] > s[1] ? la+' '+s[0]+'–'+s[1] : s[0] < s[1] ? lb+' '+s[1]+'–'+s[0] : 'Draw '+s[0]+'–'+s[1])+' ('+Math.round(s[2]*100)+'%)');
+      siText(g, 'Predicted score and the likeliest others', pad, by + bh + 120, '600 26px Archivo, system-ui, sans-serif', SI.dim);
       t.forEach((line, i) => siText(g, line, pad, by + bh + 172 + i*50, '700 34px Archivo, system-ui, sans-serif', i ? SI.body : SI.amber, 'left', bw));
       siText(g, 'Expected goals '+S.sl.xg[0].toFixed(1)+' – '+S.sl.xg[1].toFixed(1), pad, by + bh + 340, '400 28px Archivo, system-ui, sans-serif', SI.body, 'left', bw);
     }
@@ -11510,7 +11306,7 @@ function pageTour(route){
       {sel:'#app .fxc', title:'One line per match', text:'Kick-off in your time zone, each side\'s chance of winning either side of the bar, and the '+
         'draw under it. Click a match to open its full prediction.'},
       {sel:'#app .mx', title:'A fixture', text:'Each team\'s numbers sit under its name: rank, tier, expected goals (xG) and its chance of winning. '+
-        'The bar in the middle reads first team wins, draw, second team wins, with the three likeliest scores below it.'},
+        'The bar in the middle reads first team wins, draw, second team wins, with the predicted score and the likeliest scores below it.'},
       {sel:'#app .mx-top', title:'When and where', text:'Kick-off in your own time zone, the competition, the venue and who has home advantage. '+
         'Until a venue is announced it says so: finals count as neutral (hosts at home), other matches as the first-named team at home.'},
       {sel:'#app .mu-tag', title:'The label', text:'How one-sided the match is, from the favourite\'s chance of winning, naming the favourite. '+
@@ -11521,9 +11317,7 @@ function pageTour(route){
       {sel:'#vHome', title:'Where it is played', text:'At the first team\'s home, or on neutral ground. Home advantage is worth more in some '+
         'regions than others, and more again at altitude.'},
       {sel:'#app .prob-bar', title:'The chances', text:'The first team\'s chances of winning, drawing and losing.'},
-      {panel:'Scorelines', title:'Scorelines', text:'How likely each exact score is, and the expected goals for each side.'},
-      {panel:'Under the hood', title:'Under the hood', text:'Every step from the two ratings to these numbers, for anyone who wants to check '+
-        'the working.'}]],
+      {panel:'Scorelines', title:'Scorelines', text:'How likely each exact score is, and the expected goals for each side.'}]],
     simulate:['Simulator', [
       {sel:'#app .wrap > .chips', title:'Pick a tournament', text:'Tournaments coming up, past ones replayed from the ratings at the time, '+
         'or your own with any teams you like.'},

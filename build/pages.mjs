@@ -194,7 +194,7 @@ function matchPage(g, x, meta){
 ${played ? `<div class="box"><b>Result:</b> <span class="big" style="font-size:30px">${x.result[0]}–${x.result[1]}</span><p style="margin:6px 0 0">${esc(verdict)}</p></div>` : ''}
 <div class="box"><b>${played ? "Formline's prediction before kick-off" : "Formline's prediction"}</b>
 <div class="probs">${box(x.home + ' win', ph, 0)}${box('Draw', pd, 1)}${box(x.away + ' win', pa, 2)}</div>
-<p class="muted" style="margin:0">Most likely score ${esc(String(x.likely).replace('-', '–'))}${x.xg ? ` · expected goals ${x.xg[0].toFixed(1)}–${x.xg[1].toFixed(1)}` : ''}</p></div>
+<p class="muted" style="margin:0">${(() => { const m = /^(\d+)\D+(\d+)$/.exec(String(x.likely || '')); return !m || (+m[1] > +m[2] ? 0 : +m[1] === +m[2] ? 1 : 2) === fav ? 'Predicted score' : 'Likeliest single score'; })()} ${esc(String(x.likely).replace('-', '–'))}${x.xg ? ` · expected goals ${x.xg[0].toFixed(1)}–${x.xg[1].toFixed(1)}` : ''}</p></div>
 ${meta.rh || meta.ra ? `<div class="box"><b>Ratings now</b><table>${team(x.home, meta.rh, meta.slugH)}${team(x.away, meta.ra, meta.slugA)}</table></div>` : ''}
 <h2>Head to head</h2>
 ${P ? `<div class="box">${recordBox(x.home, x.away, rec.w, P.d, rec.l, rec.gh, rec.ga, P.n)}</div>
