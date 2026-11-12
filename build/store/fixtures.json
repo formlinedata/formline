@@ -1,125 +1,4 @@
 {
- "1528960": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T19:45:00+00:00",
-  "home_team": "Italy",
-  "away_team": "France",
-  "tournament": "UEFA Nations League",
-  "city": "Milan",
-  "country": "Italy",
-  "neutral": "FALSE",
-  "venue_id": 907,
-  "api_id": 1528960,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Milan",
-   "country": "Italy",
-   "stadium": "San Siro",
-   "boxDate": "2026-11-12"
-  },
-  "venue_src": "api"
- },
- "1528961": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T19:45:00+00:00",
-  "home_team": "Czech Republic",
-  "away_team": "Spain",
-  "tournament": "UEFA Nations League",
-  "city": "Prague",
-  "country": "Czech Republic",
-  "neutral": "FALSE",
-  "venue_id": 19513,
-  "api_id": 1528961,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Prague",
-   "country": "Czech Republic",
-   "stadium": "Fortuna Arena",
-   "boxDate": "2026-11-12",
-   "kickoff": "2026-11-12T19:45:00+00:00"
-  },
-  "venue_src": "api"
- },
- "1528962": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T19:45:00+00:00",
-  "home_team": "England",
-  "away_team": "Croatia",
-  "tournament": "UEFA Nations League",
-  "city": "London",
-  "country": "England",
-  "neutral": "FALSE",
-  "venue_id": 566,
-  "api_id": 1528962,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "London",
-   "country": "England",
-   "stadium": "Wembley Stadium",
-   "boxDate": "2026-11-12"
-  },
-  "venue_src": "api"
- },
- "1528963": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T19:45:00+00:00",
-  "home_team": "Albania",
-  "away_team": "Finland",
-  "tournament": "UEFA Nations League",
-  "city": "Tirana",
-  "country": "Albania",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1528963,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Tirana",
-   "country": "Albania",
-   "stadium": "Arena Kombëtare",
-   "boxDate": "2026-11-12"
-  },
-  "venue_src": "city"
- },
- "1528964": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T19:45:00+00:00",
-  "home_team": "San Marino",
-  "away_team": "Belarus",
-  "tournament": "UEFA Nations League",
-  "city": "Serravalle",
-  "country": "San Marino",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1528964,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Serravalle",
-   "country": "San Marino",
-   "stadium": "San Marino Stadium",
-   "boxDate": "2026-11-12"
-  },
-  "venue_src": "city"
- },
  "1528965": {
   "date": "2026-11-13",
   "kickoff": "2026-11-13T19:45:00+00:00",
@@ -975,31 +854,6 @@
    "stadium": "Stadion Bilino Polje",
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T18:45:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1545613": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T19:45:00+00:00",
-  "home_team": "Montenegro",
-  "away_team": "Latvia",
-  "tournament": "UEFA Nations League",
-  "city": "Podgorica",
-  "country": "Montenegro",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545613,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Podgorica",
-   "country": "Montenegro",
-   "stadium": "Podgorica City Stadium",
-   "boxDate": "2026-11-12",
-   "kickoff": "2026-11-12T19:45:00+00:00"
   },
   "venue_src": "city"
  },
@@ -2526,30 +2380,6 @@
    "stadium": "Stade Roger Zami",
    "boxDate": "2026-11-13",
    "kickoff": "2026-11-13T19:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1640007": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T20:00:00+00:00",
-  "home_team": "Bonaire",
-  "away_team": "Cuba",
-  "tournament": "CONCACAF Nations League",
-  "city": "Havana",
-  "country": "Cuba",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1640007,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Havana",
-   "country": "Cuba",
-   "stadium": "Estadio La Polar",
-   "boxDate": "2026-11-12"
   },
   "venue_src": "city"
  },
