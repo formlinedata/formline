@@ -6292,6 +6292,7 @@ function embedMatch(c){
    chances (the Simulator's own engine and tie-breakers). */
 function viewQualify(){
   const g = state.gender, app = document.getElementById('app'), c = getRatings(), Q = state.params;
+  state.wqShare = null;
   const head = '<h1 class="page-title">Who qualifies?</h1><p class="page-sub">Pick a group, set the results still to come, and see the table and where each team is likely to finish. Matches you leave open are played out on Formline\'s chances.</p>';
   const open = TOURNAMENTS.filter(T => T.gender === g && T.status !== 'rewind' && T.id !== 'custom' && T.groups && Object.keys(T.groups).length)
     .filter(T => prepareTournament(T, c, {}).fixtures.some(f => !f.played));
@@ -6315,23 +6316,36 @@ function viewQualify(){
       : '<div class="chips wq-pick">'+pick(f, [1, 0], esc(dn(nm(f.home)))+' win')+pick(f, [1, 1], 'Draw')+pick(f, [0, 1], esc(dn(nm(f.away)))+' win')+
           '<span class="wq-sc" title="Or set the exact score"><input type="number" min="0" max="20" inputmode="numeric" class="wq-n" data-i="'+f.i+'" data-s="0" value="'+(f.forced ? f.forced[0] : '')+'" aria-label="'+esc(dn(nm(f.home)))+' goals">'+
           '<span class="muted">&ndash;</span><input type="number" min="0" max="20" inputmode="numeric" class="wq-n" data-i="'+f.i+'" data-s="1" value="'+(f.forced ? f.forced[1] : '')+'" aria-label="'+esc(dn(nm(f.away)))+' goals"></span></div>')+'</div>';
-  /* What each team needs, on points alone: every win, draw and loss still open in this group is tried (up to seven matches). */
-  const need = wqNeeds(teams, fx);
-  const needCell = (t, k) => { const a = [...need.acc.get(t).entries()].sort((x, y) => x[0] - y[0]), own = need.own(t);
-    if (a.every(([, e]) => e.worst <= k)) return '<b class="up">Certain</b>';
-    if (a.every(([, e]) => e.best > k)) return '<span class="muted">Out of reach</span>';
+  /* What each team needs, on points alone: every win, draw and loss still open in this group is tried (up to seven matches).
+     The columns are this competition's own stakes (wqTargets). Where hosts are already through, the others' place is
+     counted among the sides that are not hosts. */
+  const need = wqNeeds(teams, fx), TG = wqTargets(T, gr, teams), needH = need && TG.hosts.length ? wqNeeds(teams, fx, new Set(TG.hosts)) : null;
+  const needCell = (t, col) => { const hostCol = col.hostK !== null && needH;
+    if (hostCol && TG.hosts.includes(t)) return '<b class="up">Hosts: already through</b>';
+    const N = hostCol ? needH : need, k = hostCol ? col.hostK : col.k;
+    const a = [...N.acc.get(t).entries()].sort((x, y) => x[0] - y[0]), own = N.own(t);
+    if (a.every(([, e]) => e.worst <= k)) return '<b class="up">'+(col.avoid ? 'Safe' : 'Certain')+'</b>';
+    if (a.every(([, e]) => e.best > k)) return col.avoid ? '<span class="down">Cannot avoid it</span>' : '<span class="muted">Out of reach</span>';
     const can = a.find(([, e]) => e.best <= k)[0]; let sure = null;
     for (let i = a.length - 1; i >= 0; i--){ if (a[i][1].worst <= k) sure = a[i][0]; else break; }
     const pts = v => v+' point'+(v === 1 ? '' : 's');
     if (!own) return 'Has finished: needs other results';
     if (sure === null) return 'Needs help, even with '+pts(a[a.length - 1][0])+' from '+own+' match'+(own === 1 ? '' : 'es');
     return (sure === 3*own ? 'Sure if it wins '+(own === 1 ? 'its last match' : 'all '+own) : 'Sure with '+pts(sure)+' from '+own+' match'+(own === 1 ? '' : 'es'))+(can < sure ? ' <span class="muted">(possible with '+can+' and help)</span>' : ''); };
-  const needHtml = need ? '<h2 class="sec-h" style="margin-top:18px;">What each team needs</h2><div class="table-wrap"><table class="fr-t wq-needs"><thead><tr><th style="text-align:left;">Team</th><th style="text-align:left;">To win the group</th><th style="text-align:left;">To finish in the top two</th></tr></thead><tbody>'+
-      rows.map(r => '<tr><td style="text-align:left;white-space:nowrap;">'+withFlag(nm(r.t))+'</td><td style="text-align:left;">'+needCell(r.t, 1)+'</td><td style="text-align:left;">'+needCell(r.t, 2)+'</td></tr>').join('')+'</tbody></table></div>'+
-      '<p class="chart-note">Worked out on points alone from every way the '+need.open+' open match'+(need.open === 1 ? '' : 'es')+' in this group can go. "Sure" means clear on points; a team level on points with another depends on the tie-breakers, which the chances above include.</p>'
+  const needCols = TG.cols.filter(col => !(col.hostK !== null && needH && col.hostK < 1));
+  const needHtml = need ? '<h2 class="sec-h" style="margin-top:18px;">What each team needs</h2><div class="table-wrap"><table class="fr-t wq-needs"><thead><tr><th style="text-align:left;">Team</th>'+
+        needCols.map(col => '<th style="text-align:left;">'+esc(col.title)+'</th>').join('')+'</tr></thead><tbody>'+
+      rows.map(r => '<tr><td style="text-align:left;white-space:nowrap;">'+withFlag(nm(r.t))+'</td>'+needCols.map(col => '<td style="text-align:left;">'+needCell(r.t, col)+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>'+
+      '<p class="chart-note">The columns are what is at stake in this competition. Worked out on points alone from every way the '+need.open+' open match'+(need.open === 1 ? '' : 'es')+' in this group can go. "Sure" means clear on points; a team level on points with another depends on the tie-breakers, which the chances above include.'+
+        (TG.cols.some(col => col.third) ? ' Finishing third only goes through for the best third-placed teams across the groups.' : '')+'</p>'
     : (left.some(f => !f.forced) ? '<p class="chart-note">What each team needs appears here once seven or fewer matches are open in the group.</p>' : '');
   const places = Math.min(teams.length, 4), ord = ['1st', '2nd', '3rd', '4th'];
   const earns = wqPlaces(T, gr, rows.map(r => r.t)), earnCls = {q:'up', po:'wq-po', out:'down'};
+  /* For the share image: the table as shown, what each place earns, the results set by the visitor, and (once the runs
+     are in) each side's chance of every place. */
+  state.wqShare = {title:(T.short || T.name)+(letters.length > 1 ? ' · Group '+gr : ''), g, places, open:left.length - nSet,
+    rows:rows.map((r, i) => ({t:nm(r.t), pts:r.pts, earn:earns[i] || null})), pos:null,
+    set:left.filter(f => f.forced).map(f => dn(nm(f.home))+' '+f.forced[0]+'–'+f.forced[1]+' '+dn(nm(f.away)))};
   app.innerHTML = '<div class="wrap">'+head+
     '<div class="wi-ctl"><label>Competition <select id="wqT" class="sim-select" style="display:inline-block;width:auto;margin:0;">'+open.map(x => '<option value="'+x.id+'"'+(x === T ? ' selected' : '')+'>'+esc(x.short || x.name)+'</option>').join('')+'</select></label></div>'+
     (letters.length > 1 ? '<div class="chips" style="margin:12px 0 4px;"><span class="muted">Group</span>'+letters.map(l => '<button class="chip'+(l === gr ? ' on' : '')+'" data-wqg="'+esc(l)+'">'+esc(l)+'</button>').join('')+'</div>' : '')+
@@ -6343,7 +6357,7 @@ function viewQualify(){
     '<p class="chart-note">The table counts the matches played'+(nSet ? ' and the '+nSet+' result'+(nSet === 1 ? '' : 's')+' you set' : '')+', in order of points, goal difference and goals scored. The last column is what each place earns in this competition, if the group ended in this order. The chances play the '+(left.length - nSet)+' open match'+(left.length - nSet === 1 ? '' : 'es')+' in this group, and every other group, 4,000 times with the competition\'s own tie-breakers.</p>'+
     '<h2 class="sec-h" style="margin-top:18px;">Matches <span class="muted" style="font-weight:400;font-size:14px;">'+left.length+' to play</span></h2>'+
     '<div class="wq-list">'+left.map(frow).join('')+fx.filter(f => f.played).map(frow).join('')+'</div>'+needHtml+
-    '<div class="md-win-act" style="margin-top:14px;">'+(nSet ? '<button class="btn-secondary" id="wqClear">Clear my results</button>' : '')+
+    '<div class="md-win-act" style="margin-top:14px;"><button class="btn-secondary" data-shareimg="qualify">Share image</button>'+(nSet ? '<button class="btn-secondary" id="wqClear">Clear my results</button>' : '')+
       '<a class="btn-secondary" href="#/simulate?'+filterQuery({t:T.id, x:xs(forced)})+'">Open the whole competition in the Simulator</a></div></div>';
   const tSel = document.getElementById('wqT'); if (tSel) tSel.addEventListener('change', () => go({t:tSel.value}));
   app.querySelectorAll('[data-wqg]').forEach(b => b.addEventListener('click', () => set({gr:b.dataset.wqg})));
@@ -6357,6 +6371,7 @@ function viewQualify(){
   const gen = state.renderGen, pc = v => v >= 0.9995 ? '100%' : v >= 0.995 ? '&gt;99%' : v < 0.0005 ? '&ndash;' : v < 0.01 ? '&lt;1%' : Math.round(v*100)+'%';
   simulate(P, 4000, 'wq|'+T.id+'|'+JSON.stringify(forced)+'|'+fmtDate(state.asOf), R => { if (gen !== state.renderGen || state.route !== 'qualify') return;
     const ix = new Map(R.names.map((t, i) => [t, i]));
+    if (state.wqShare) state.wqShare.pos = rows.map(r => { const i = ix.get(r.t); return i === undefined ? null : Array.from({length:places}, (x, k) => R.pos[i][k]/R.runs); });
     app.querySelectorAll('.wq-c').forEach(td => { const i = ix.get(td.dataset.t), v = i === undefined ? 0 : R.pos[i][+td.dataset.k]/R.runs; td.innerHTML = pc(v); td.style.fontWeight = v >= 0.5 ? '700' : ''; }); });
 }
 /* What each place in a group earns, from the competition's own definition: the places its first knockout round names,
@@ -6377,7 +6392,28 @@ function wqPlaces(T, gr, rowTeams){
   if (!out.some(Boolean) && n) out[0] = {t:WQ_PLACE[T.winnerCol] || T.winnerCol || 'Wins the group', c:'q'};
   return out;
 }
-function wqNeeds(teams, fx){
+/* The columns of "What each team needs": every place in the group where what a team earns changes in this competition (its
+   knockout places, qualifying, promotion, the play-offs, relegation), always with the group's first place. k is the lowest
+   place that still does it; avoid marks a column about staying out of something; hostK is the place needed among the
+   sides that are not hosts, when hosts in the group are already through. */
+function wqTargets(T, gr, teams){
+  const n = teams.length, hosts = T.qualify ? (T.qualify.hosts || []).filter(h => teams.includes(h)) : [];
+  const E = wqPlaces(T, gr, teams.map((t, i) => '#'+i)), lab = i => E[i] ? E[i].t : '', rel = x => /Relegat/i.test(x);
+  const num = ['', 'one', 'two', 'three', 'four', 'five', 'six'], ordw = ['', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth'], cols = [];
+  for (let k = 1; k < n; k++){ if (lab(k - 1) === lab(k)) continue;
+    const above = E.slice(0, k), a = above.every(x => x && x.c === 'q' && x.t === above[0].t) ? above[0].t : null;
+    let title, avoid = false, hostK = null, third = false;
+    if (a){ title = /^Through to the /.test(a) ? 'To reach the '+a.replace(/^Through to the /, '') : a === 'Qualifies' ? 'To qualify' : a === 'Promoted' ? 'To win promotion' : k === 1 ? 'To win the group' : 'To finish in the top '+num[k];
+      if (a === 'Qualifies' && hosts.length) hostK = k - hosts.length; }
+    else if (E[k - 1] && E[k - 1].c !== 'out' && !rel(lab(k - 1))){ third = /^Through if/.test(lab(k - 1)); title = third ? 'To finish '+ordw[k]+' or better' : 'To reach at least the '+lab(k - 1).toLowerCase(); }
+    else if (rel(lab(k))){ avoid = true; title = /play-off/i.test(lab(k)) ? 'To avoid the relegation play-off' : 'To avoid relegation'; }
+    else title = 'To finish in the top '+num[k];
+    cols.push({k, title, avoid, hostK, third}); }
+  if (!cols.some(x => x.k === 1)) cols.unshift({k:1, title:'To win the group', avoid:false, hostK:null, third:false});
+  return {cols, hosts};
+}
+/* skip: sides left out of the count of places (hosts already through), though their matches still count for the points. */
+function wqNeeds(teams, fx, skip){
   const base = new Map(teams.map(t => [t, 0])), open = [];
   const add = (M, t, v) => M.set(t, M.get(t) + v);
   fx.forEach(f => { const v = f.played || f.forced; if (!v){ open.push(f); return; }
@@ -6388,7 +6424,7 @@ function wqNeeds(teams, fx){
     for (const f of open){ const o = x % 3; x = (x - o)/3;
       if (o === 0){ add(pts, f.home, 3); add(gain, f.home, 3); } else if (o === 2){ add(pts, f.away, 3); add(gain, f.away, 3); } else { add(pts, f.home, 1); add(pts, f.away, 1); add(gain, f.home, 1); add(gain, f.away, 1); } }
     for (const t of teams){ const p = pts.get(t); let more = 0, same = 0;
-      for (const u of teams) if (u !== t){ if (pts.get(u) > p) more++; else if (pts.get(u) === p) same++; }
+      for (const u of teams) if (u !== t && !(skip && skip.has(u))){ if (pts.get(u) > p) more++; else if (pts.get(u) === p) same++; }
       const a = acc.get(t), gk = gain.get(t); let e = a.get(gk); if (!e) a.set(gk, e = {best:99, worst:0});
       e.best = Math.min(e.best, more + 1); e.worst = Math.max(e.worst, more + same + 1); } }
   return {open:open.length, acc, own:t => open.filter(f => f.home === t || f.away === t).length};
@@ -6452,6 +6488,7 @@ function viewWhatIf(){
   const ctl = '<div class="wi-ctl"><label>Team <select id="wiTeam" class="sim-select" style="display:inline-block;width:auto;max-width:100%;margin:0;">'+teams.map(r => '<option value="'+esc(r.team)+'"'+(r.key === key ? ' selected' : '')+'>'+esc(dn(r.team))+'</option>').join('')+'</select></label> '+
     '<label>Match <select id="wiMatch" class="sim-select" style="display:inline-block;width:auto;max-width:100%;margin:0;">'+hist.slice(0, 150).map(x => '<option value="'+esc(idOf(x))+'"'+(x === e ? ' selected' : '')+'>'+
       fmtDay(x.m.ts)+': '+esc(dn(x.m.home))+' '+x.m.hs+'&ndash;'+x.m.as+' '+esc(dn(x.m.away))+'</option>').join('')+'</select></label></div>';
+  state.wiShare = null;
   if (!m){ app.innerHTML = '<div class="wrap">'+head+ctl+'<div class="status">This team has no matches in the window.</div></div>'; bind(); return; }
   const changed = hs !== m.hs || as !== m.as, st = changed ? whatIfState(m, hs, as) : null, ao = state.asOf;
   const alt = k => { if (!st) return c.byKey.get(k) ? c.byKey.get(k).rating : null; const p = pub(st, k, ao); return p ? p.r : null; };
@@ -6465,6 +6502,12 @@ function viewWhatIf(){
   const others = changed ? c.table.filter(r => !two.includes(r)).map(r => ({r, d:alt(r.key) - r.rating})).filter(x => Math.abs(x.d) >= 0.05).sort((x, y) => Math.abs(y.d) - Math.abs(x.d)) : [];
   const moved = changed ? c.table.filter(r => altRank.get(r.key) !== r.rank).length : 0;
   const th = '<thead><tr><th style="text-align:left;">Team</th><th>Rating now</th><th>What if</th><th>Change</th><th>World rank</th></tr></thead>';
+  /* For the share image: the changed score, both sides then and in the what-if, and the biggest other movers. */
+  const shareRow = r => ({team:r.team, now:Math.round(r.rating), alt:Math.round(alt(r.key)), d:alt(r.key) - r.rating, rank:r.rank || null, altRank:altRank.get(r.key) || null});
+  state.wiShare = changed ? {g, comp:compName(m.tournament), day:fmtDay(m.ts), ts:m.ts, home:m.home, away:m.away, real:[m.hs, m.as], alt:[hs, as],
+    two:two.map(shareRow), others:others.slice(0, 6).map(x => shareRow(x.r)), moved, ranked:c.table.length,
+    /* When nobody else's rating moves, the teams the two sides pass or drop behind still change rank. */
+    shift:others.length ? [] : c.table.filter(r => !two.includes(r) && r.rank && altRank.get(r.key) !== r.rank).slice(0, 6).map(shareRow)} : null;
   const num = (id, v, lab) => '<label class="wi-num"><span class="muted">'+lab+'</span><input type="number" id="'+id+'" min="0" max="20" value="'+v+'" inputmode="numeric"></label>';
   app.innerHTML = '<div class="wrap">'+head+ctl+
     '<div class="panel" style="margin:14px 0;"><div class="panel-head">'+esc(compName(m.tournament))+'<span class="aside">'+fmtDay(m.ts)+' &middot; really '+m.hs+'&ndash;'+m.as+'</span></div><div class="panel-body">'+
@@ -6472,6 +6515,7 @@ function viewWhatIf(){
         '<button class="btn" id="wiGo">Replay</button>'+(changed ? '<button class="btn-secondary" id="wiReset">Back to the real score</button>' : '')+'</div>'+
       (changed ? '' : '<p class="muted" style="margin:10px 0 0;">Set a different score and press Replay.</p>')+'</div></div>'+
     '<div class="table-wrap"><table class="fr-t">'+th+'<tbody>'+two.map(line).join('')+'</tbody></table></div>'+
+    (changed ? '<div class="team-actions chips" style="margin:12px 0 0;"><button class="chip" type="button" data-shareimg="whatif">Share image</button></div>' : '')+
     (changed ? '<h2 class="sec-h" style="margin-top:22px;">Who else moves</h2>'+(others.length ? '<div class="table-wrap"><table class="fr-t">'+th+'<tbody>'+others.slice(0, 12).map(x => line(x.r)).join('')+'</tbody></table></div>' : '<p class="muted">Nobody else moves by a tenth of a point.</p>')+
       '<p class="chart-note">'+moved+' of '+c.table.length+' ranked teams would hold a different world rank today. Other teams move because the two sides\' later opponents met differently rated teams'+(m._ph !== m._pa ? ', and because a match between confederations also moves both confederations\' levels' : '')+'. Forecasts and the real table are not affected.</p>' : '')+
     '</div>';
@@ -7894,6 +7938,24 @@ const frTile = (k, v, s) => '<div class="fr-tile"><div class="k">'+k+'</div><div
 const frBars = (rows, fmt) => '<div class="fr-bars">'+rows.map((r, j) => '<div class="row"><span class="lab'+(j ? '' : ' me')+'">'+r[0]+'</span>'+
   '<span class="track"><span class="fill" style="width:'+Math.max(0, Math.min(100, r[1])).toFixed(1)+'%;background:'+FR_COL[j]+'"></span></span>'+
   '<span class="val">'+fmt(r[1])+'</span></div>').join('')+'</div>';
+/* Formline against the betting market (claude/market-benchmark.md, 11 Nov 2026): the forecast score of each method on the
+   internationals of 2005 to June 2015 for which average closing odds are on record, the market's margin removed by the
+   power method. A yardstick only: nothing from the odds goes into the ratings. */
+const MARKET = {men:{n:6317, rows:[['Formline', 20.60], ['Betting market', 21.73], ['World Elo', 18.19], ['FIFA method', 14.56]], share:'two-thirds', when:'from 2005 to June 2015'},
+  women:{n:933, rows:[['Formline', 32.46], ['Betting market', 33.95], ['World Elo', 27.62], ['FIFA method', 26.26]], share:'three-quarters', when:'from 2005 to June 2015 (almost all from 2011 on)'}};
+function marketPanel(g){
+  const M = MARKET[g]; if (!M) return '';
+  const G = g === 'men' ? "men's" : "women's";
+  return '<div class="panel" id="frMarket"><div class="panel-head">Against the betting market<span class="aside">'+G+' internationals, 2005 to mid-2015</span></div><div class="panel-body">'+
+    '<p class="fr-q" style="margin-top:0;">Bookmakers\' odds are the practical ceiling for a forecast: the market knows who is fit, who is rested and who is playing, and Formline only knows the results. '+
+      'On the <b>'+M.n.toLocaleString()+'</b> '+G+' internationals '+M.when+' for which closing odds are on record, the forecast score of each:</p>'+
+    /* Bars from zero, scaled so the best score fills most of the track (the scores are all well under 100). */
+    (top => '<div class="fr-bars">'+M.rows.map((r, j) => '<div class="row"><span class="lab'+(j ? '' : ' me')+'">'+r[0]+'</span><span class="track"><span class="fill" style="width:'+(92*r[1]/top).toFixed(1)+'%;background:'+FR_COL[Math.min(j, FR_COL.length - 1)]+'"></span></span>'+
+      '<span class="val">'+r[1].toFixed(1)+'</span></div>').join('')+'</div>')(Math.max(...M.rows.map(r => r[1])))+
+    '<p class="fr-q">From results alone, Formline covers about <b>'+M.share+'</b> of the distance from World Elo to the market. What is left is mostly in matches between well-known teams, where the market\'s knowledge of the line-ups counts for most.</p>'+
+    '<p class="chart-note">The odds are a yardstick only: nothing from them goes into the ratings. One caution: Formline\'s settings were tuned on results that include these years, which the market never saw, so the comparison flatters Formline a little. '+
+      'Odds: average closing odds across bookmakers, from the file published with <a href="https://arxiv.org/abs/1710.02824" target="_blank" rel="noopener">Kaunitz, Zhong and Kreiner (2017)</a>; their margin is taken out before scoring.</p></div></div>';
+}
 /* "Forecast score": the plain name for sharpness, always shown as so many out of 100. */
 const fscore = v => Math.round(v)+'<small> out of 100</small>';
 function vsPanel(g){
@@ -8122,7 +8184,7 @@ function viewRecord(){
     : tab === 'live' ? '<p class="fr-q" style="margin-top:0;">Every forecast the site has published since it started keeping score: saved before kick-off, checked after the final whistle, never removed.</p>'+live
     : tab === 'research' ? researchPanel(g)
     : tab === 'stats' ? stats
-    : vsPanel(g)+liveHead;
+    : vsPanel(g)+liveHead+marketPanel(g);
   app.innerHTML = '<div class="wrap">'+intro+
     '<div class="chips fr-tabs" role="tablist">'+TABS.map(([k, l]) => '<button class="chip'+(k === tab ? ' on' : '')+'" role="tab" aria-selected="'+(k === tab)+'" data-frtab="'+k+'">'+l+'</button>').join('')+'</div>'+
     body+'</div>';
@@ -10607,7 +10669,10 @@ const CHANGELOG = [
     'Seeding: the organiser\'s real pots for 25 more editions, among them the 1974 World Cup, Euro 1996, the 2006 and 2008 Africa Cups of Nations, the 2007 Asian Cup, three more Copa Am&eacute;ricas, the Women\'s World Cups of 1999, 2003 and 2007, Women\'s Euro 2013 and twelve more women\'s continental finals. Editions where a team withdrew and left the groups uneven are now shown too, with that team marked.',
     'Simulator: the Copa Am&eacute;rica 2024 rewind can be drawn again, from CONMEBOL\'s own pots or Formline\'s, with the four seeded sides in their places and no more than three CONMEBOL or two CONCACAF teams in a group.',
     'Seeding: the organiser\'s real pots for three more editions, the Africa Cups of Nations of 2002 and 2004 (from news reports of the time) and the 2004 Asian Cup.',
-    'Seeding, where the organiser\'s pots aren\'t on record: the page now says how the groups as played measure up against Formline\'s pots, how many had one team from each pot and which sides from the same pot were drawn together. The 1950 World Cup has its seeding section too.']],
+    'Seeding, where the organiser\'s pots aren\'t on record: the page now says how the groups as played measure up against Formline\'s pots, how many had one team from each pot and which sides from the same pot were drawn together. The 1950 World Cup has its seeding section too.',
+    'Who qualifies?: "What each team needs" is now about what the group really decides in that competition (winning promotion, reaching the quarter-finals, the play-off, avoiding relegation, a qualifying place) and not just first place and the top two. Hosts who are already through are marked. The page has a picture to share as well.',
+    'Forecast record: a new section, Against the betting market. On more than 6,000 men\'s and 900 women\'s internationals from 2005 to 2015 with bookmakers\' closing odds on record, Formline\'s forecasts are scored next to the market, World Elo and the FIFA method.',
+    'What if?: once a score is changed, a picture to share with both sides\' rating and rank before and after and who else moves.']],
   ['11 Nov 2026', ['Qualifying, rebuilt: each qualifying competition is now organised by the tournament it led to (for 2026, for 2022…), then by confederation, then round by round, with group tables and ties. The rounds are worked out from the results, since the archives don\'t record them. Open them from Competitions or from any finals page.',
     'Seeding on every finals page with groups: how Formline\'s ratings would have potted the teams at the draw, next to the organiser\'s real pots for 48 editions so far (men\'s World Cups since 1966 except 1974, Euros since 2000, AFCONs since 2012, Asian Cups since 2011, Copas since 2015, recent Gold Cups, women\'s World Cups since 2011 and Women\'s Euros since 2017; older World Cup pots were set by region, and the page says so), with what the organiser based them on.',
     'Confederations: World Cup places against strength can now be shown for any past World Cup: the teams each confederation had at the finals against its teams in the world\'s best on the eve, with confederations as they stood then.',
@@ -10999,6 +11064,67 @@ async function siDraw(kind, size, opts = {}){
       t.forEach((line, i) => siText(g, line, pad, by + bh + 172 + i*50, '700 34px Archivo, system-ui, sans-serif', i ? SI.body : SI.amber, 'left', bw));
       siText(g, 'Expected goals '+S.sl.xg[0].toFixed(1)+' – '+S.sl.xg[1].toFixed(1), pad, by + bh + 340, '400 28px Archivo, system-ui, sans-serif', SI.body, 'left', bw);
     }
+  } else if (kind === 'qualify'){
+    /* Who qualifies?: the group table as set on the page, what each place earns, and each side's chance of every place. */
+    const S = state.wqShare; if (!S) return null;
+    const flags = await Promise.all(S.rows.map(r => siLoad(siFlagSrc(r.t, Infinity))));
+    const pad = siFrame(g, W, H, 'Who qualifies?', S.title+' · '+(S.g === 'women' ? "women's" : "men's")+' football');
+    const F = (w, px) => w+' '+px+'px Archivo, system-ui, sans-serif', wide = size === 'wide', n = S.rows.length;
+    const tall = H > 1200, top = pad*0.9 + (wide ? 178 : tall ? 250 : 200), bottom = H - pad*0.9 - 56;
+    const shown = wide ? [] : S.set.slice(0, tall ? 6 : 3), under = wide ? 40 : 70 + shown.length*46 + (S.set.length > shown.length ? 40 : 0);
+    const rowH = Math.min(wide ? 76 : tall ? 150 : 118, (bottom - top - 40 - under)/n);
+    const ord = ['1st', '2nd', '3rd', '4th'].slice(0, S.places), cw = wide ? 112 : 116, xPts = W - pad - ord.length*cw - 24;
+    const pc = v => v >= 0.9995 ? '100%' : v >= 0.995 ? '>99%' : v < 0.0005 ? '–' : v < 0.01 ? '<1%' : Math.round(v*100)+'%';
+    siText(g, 'PTS', xPts, top + 22, F('700', 20), SI.dim, 'right');
+    ord.forEach((o, k) => siText(g, o.toUpperCase(), W - pad - (ord.length - 1 - k)*cw, top + 22, F('700', 20), SI.dim, 'right'));
+    S.rows.forEach((r, i) => { const y = top + 40 + i*rowH, two = !!r.earn, fh = Math.min(46, rowH*0.44), mid = y + rowH/2;
+      g.fillStyle = SI.line; g.fillRect(pad, y, W - 2*pad, 1.5);
+      siFlag(g, flags[i], pad, mid - fh/2, fh, fh*1.5);
+      const nx = pad + fh*1.5 + 20, nameW = xPts - 80 - nx, nf = wide ? 30 : tall ? 40 : 36, ec = two ? (r.earn.c === 'q' ? SI.win : r.earn.c === 'out' ? SI.loss : SI.amber) : null;
+      /* What the place earns: under the name, or beside it on the wide picture, where the rows are short. */
+      if (wide){ const w = siText(g, dn(r.t), nx, mid + nf*0.36, F('700', nf), SI.chalk, 'left', nameW*0.5);
+        if (two) siText(g, r.earn.t, nx + w + 16, mid + nf*0.36 - 2, F('500', 20), ec, 'left', nameW - w - 16); }
+      else { siText(g, dn(r.t), nx, mid + (two ? -4 : nf*0.36), F('700', nf), SI.chalk, 'left', nameW);
+        if (two) siText(g, r.earn.t, nx, mid + (tall ? 32 : 28), F('500', tall ? 24 : 22), ec, 'left', nameW + 60); }
+      siText(g, String(r.pts), xPts, mid + 13, F('800', wide ? 32 : 38), SI.chalk, 'right');
+      ord.forEach((o, k) => { const v = S.pos && S.pos[i] ? S.pos[i][k] : null;
+        siText(g, v === null ? '…' : pc(v), W - pad - (ord.length - 1 - k)*cw, mid + 11, F(v !== null && v >= 0.5 ? '800' : '500', wide ? 28 : 31), v !== null && v >= 0.5 ? SI.amber : SI.body, 'right'); }); });
+    const y1 = top + 40 + n*rowH; g.fillStyle = SI.line; g.fillRect(pad, y1, W - 2*pad, 1.5);
+    const openTxt = S.open ? S.open+' open match'+(S.open === 1 ? '' : 'es')+' played out 4,000 times on Formline\'s chances' : 'Every match in the group is played or set';
+    if (wide) siText(g, (S.set.length ? S.set.length+' result'+(S.set.length === 1 ? '' : 's')+' set by hand · ' : '')+openTxt, pad, y1 + 34, F('400', 22), SI.dim, 'left', W - 2*pad);
+    else { let y = y1 + 50;
+      siText(g, S.set.length ? 'With these results set:' : 'Chance of finishing in each place', pad, y, F('600', 26), SI.dim, 'left', W - 2*pad);
+      shown.forEach(t => { y += 46; siText(g, t, pad, y, F('700', 32), SI.chalk, 'left', W - 2*pad); });
+      if (S.set.length > shown.length){ y += 40; siText(g, '+ '+(S.set.length - shown.length)+' more', pad, y, F('400', 24), SI.dim); }
+      siText(g, openTxt, pad, y + 46, F('400', 23), SI.dim, 'left', W - 2*pad); }
+  } else if (kind === 'whatif'){
+    /* What if?: one result changed, both sides' rating and world rank now and in the what-if, and who else moves. */
+    const S = state.wiShare; if (!S) return null;
+    const F = (w, px) => w+' '+px+'px Archivo, system-ui, sans-serif', wide = size === 'wide';
+    const list = S.others.length ? S.others : (S.shift || []), nOther = wide ? 0 : Math.min(list.length, size === 'square' ? 3 : 6);
+    const fl = await Promise.all(S.two.concat(list.slice(0, nOther)).map(r => siLoad(siFlagSrc(r.team, Infinity))));
+    const pad = siFrame(g, W, H, 'What if?', dn(S.home)+' '+S.alt[0]+'–'+S.alt[1]+' '+dn(S.away)+' (really '+S.real[0]+'–'+S.real[1]+') · '+S.day);
+    const top = pad*0.9 + (wide ? 186 : 214) + (H > 1200 && !nOther ? 150 : H > 1200 ? 40 : 0), colW = (W - 2*pad)/2, fh = wide ? 78 : 104;
+    const sg = d => Math.abs(d) < 0.05 ? '0.0' : (d > 0 ? '+' : '−')+Math.abs(d).toFixed(1), col = d => Math.abs(d) < 0.05 ? SI.dim : d > 0 ? SI.win : SI.loss;
+    const rk = r => !r.rank ? 'unranked' : 'World rank '+r.rank+(r.altRank && r.altRank !== r.rank ? ' → '+r.altRank : ' (no change)');
+    S.two.forEach((r, i) => { const x = pad + i*colW, cx = x + colW/2, im = fl[i];
+      if (im){ const w = fh*im.naturalWidth/im.naturalHeight; siFlag(g, im, cx - w/2, top, fh); }
+      siText(g, dn(r.team), cx, top + fh + (wide ? 44 : 54), F('800', wide ? 34 : 42), SI.chalk, 'center', colW - 30);
+      siText(g, r.now+' → '+r.alt, cx, top + fh + (wide ? 100 : 128), F('800', wide ? 46 : 60), SI.amber, 'center', colW - 30);
+      siText(g, sg(r.d)+' rating points', cx, top + fh + (wide ? 136 : 176), F('700', wide ? 24 : 30), col(r.d), 'center', colW - 30);
+      siText(g, rk(r), cx, top + fh + (wide ? 168 : 218), F('500', wide ? 22 : 26), SI.body, 'center', colW - 30); });
+    const y0 = top + fh + (wide ? 196 : 262);
+    g.fillStyle = SI.line; g.fillRect(pad, y0, W - 2*pad, 1.5);
+    const tail = S.moved+' of '+S.ranked+' ranked teams would hold a different world rank today';
+    if (!nOther) siText(g, tail, pad, y0 + (wide ? 38 : 48), F('400', wide ? 23 : 26), SI.dim, 'left', W - 2*pad);
+    else { siText(g, S.others.length ? 'WHO ELSE MOVES' : 'WHO ELSE CHANGES RANK', pad, y0 + 44, F('700', 21), SI.dim);
+      const rh = Math.min(64, (H - pad*0.9 - 110 - (y0 + 60))/nOther);
+      list.slice(0, nOther).forEach((r, i) => { const y = y0 + 60 + i*rh, mid = y + rh/2, im = fl[2 + i], h = Math.min(34, rh*0.56);
+        siFlag(g, im, pad, mid - h/2, h, h*1.5);
+        siText(g, dn(r.team), pad + h*1.5 + 16, mid + 11, F('600', 30), SI.chalk, 'left', W - 2*pad - 420);
+        if (S.others.length) siText(g, sg(r.d), W - pad - 250, mid + 11, F('800', 30), col(r.d), 'right');
+        siText(g, r.rank ? '#'+r.rank+(r.altRank && r.altRank !== r.rank ? ' → #'+r.altRank : '') : '', W - pad, mid + 10, F('500', 26), SI.body, 'right'); });
+      siText(g, tail, pad, y0 + 60 + nOther*rh + 40, F('400', 24), SI.dim, 'left', W - 2*pad); }
   } else if (kind === 'picks'){
     const S = state.picksShare; if (!S) return null;
     const pad = siFrame(g, W, H, 'My picks v Formline', S.label+' internationals · '+(S.g === 'women' ? "women's" : "men's")+' football');
@@ -11345,7 +11471,7 @@ function pageTour(route){
     qualify:['Who qualifies?', [
       {sel:'.wq-t', title:'The table', text:'The group as it stands, with each team\'s chance of finishing in each place. Matches you leave open are played out 4,000 times on Formline\'s chances.'},
       {sel:'.wq-list', title:'Set the results', text:'Tap a winner or a draw for any match still to play, or type the exact score. The table and the chances follow at once. Tap again to clear it.'},
-      {sel:'.wq-needs', title:'What each team needs', text:'On points alone: who is certain, who is out, and how many points make a team sure of first place or the top two.'}]],
+      {sel:'.wq-needs', title:'What each team needs', text:'On points alone: who is certain, who is out, and how many points make a team sure of each thing the group decides, such as promotion, a play-off or staying up.'}]],
     guess:['Guess the team', [
       {sel:'#app svg', title:'The line', text:'One team\'s rating after each match over the last twelve years, with the name left off. Everyone gets the same team each day.'},
       {sel:'#gsSel', title:'Your guess', text:'Pick a team and press Guess. You have six tries. Each miss tells you whether you have the right confederation and whether the answer is ranked higher or lower, and opens one more clue.'}]],
