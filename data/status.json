@@ -1,11 +1,11 @@
 {
- "built": "2026-11-12T22:22:33.765Z",
+ "built": "2026-11-12T23:18:42.143Z",
  "today": "2026-11-12",
  "mode": "light",
  "api": {
   "keyPresent": true,
   "used": 3,
-  "remaining": 7362,
+  "remaining": 7359,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 134,
+   "usedTodayBeforeRun": 137,
    "perMinute": 300
   },
   "paid": true,
@@ -29,6 +29,7 @@
   "youth": 97,
   "not counted": 6,
   "clubs": 36,
+  "status 2H": 1,
   "status 1H": 1,
   "status CANC": 1
  },
@@ -43,7 +44,7 @@
   }
  },
  "men": {
-  "built": "2026-11-12T22:22:33.765Z",
+  "built": "2026-11-12T23:18:42.143Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
@@ -56,10 +57,10 @@
   "manual": {
    "rows": 0
   },
-  "fixtures": 143
+  "fixtures": 142
  },
  "women": {
-  "built": "2026-11-12T22:22:33.765Z",
+  "built": "2026-11-12T23:18:42.143Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -79,8 +80,8 @@
   "fixtures": 53
  },
  "venues": {
-  "city": 100,
   "wiki": 2,
+  "city": 99,
   "assumed": 76,
   "api": 18
  },
@@ -88,8 +89,8 @@
   "total": 229,
   "scored": 34,
   "newThisRun": 0,
-  "updatedThisRun": 193,
-  "scoredThisRun": 6,
+  "updatedThisRun": 192,
+  "scoredThisRun": 0,
   "droppedThisRun": 0
  }
 }
