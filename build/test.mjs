@@ -445,6 +445,33 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   ok(r.n > 300 && r.bad === 0 && r.was > 0, 'predicted score always agrees with the pick, where the single likeliest score often did not');
   ok(r.a === 'likeliest single score' && r.b === 'predicted score' && r.c === 'predicted score', 'an old stored score that disagrees with the pick is named for what it was');
 }
+// --- the published folder (build/site.mjs): only what a browser needs, plus the ratings files
+{
+  const {buildSite, isSiteFile} = await import('./site.mjs');
+  const src = fs.mkdtempSync(path.join(os.tmpdir(), 'formline-src-')), out = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'formline-site-')), '_site');
+  const put = (f, t) => { fs.mkdirSync(path.dirname(path.join(src, f)), {recursive:true}); fs.writeFileSync(path.join(src, f), t); };
+  ['index.html', 'CNAME', 'LICENSE', 'robots.txt', 'data/men.json', 'flags/a.svg', 'teams/men/x.html', 'r/old.json',
+   'build/update.mjs', 'build/store/state.json', '.github/workflows/nightly.yml', 'tools/t.py', 'docs/d.md', 'Claude outputs/x.yml', 'README.md', '.gitignore',
+   '_precompute/index.json', '_precompute/table-men.json', '_precompute/manifest.json', '_precompute/days/men/2026.json', '_precompute/notes.txt'].forEach(f => put(f, f));
+  fs.mkdirSync(out, {recursive:true}); fs.writeFileSync(path.join(out, 'stale.html'), 'x');
+  const R = buildSite(src, out, path.join(src, '_precompute'));
+  const has = f => fs.existsSync(path.join(out, f));
+  ok(['index.html', 'CNAME', 'LICENSE', 'robots.txt', 'data/men.json', 'flags/a.svg', 'teams/men/x.html'].every(has) && R.files === 7 && !has('stale.html'),
+    'site folder: the pages, data and pictures are copied, and the folder is emptied first');
+  ok(!['build/update.mjs', 'build/store/state.json', '.github/workflows/nightly.yml', 'tools/t.py', 'docs/d.md', 'Claude outputs/x.yml', 'README.md', '.gitignore', '_precompute/index.json', 'r/old.json'].some(has)
+    && !isSiteFile('build/precompute.mjs') && isSiteFile('badges/index.json'), 'site folder: build scripts, workflows and working files are left out');
+  ok(['r/index.json', 'r/table-men.json', 'r/days/men/2026.json'].every(has) && !has('r/manifest.json') && !has('r/notes.txt') && R.ratings === 3, 'site folder: the ratings files go under r/, without the build\'s own notes');
+  /* The published page is switched to read the table file only when both games' files are there. */
+  put('index.html', 'a\nconst RATINGS_FILES = false;\nb'); put('_precompute/table-women.json', '{}');
+  const R3 = buildSite(src, out, path.join(src, '_precompute'));
+  ok(R.reads === false && R3.reads === true && fs.readFileSync(path.join(out, 'index.html'), 'utf8').includes('const RATINGS_FILES = true;') && fs.readFileSync(path.join(src, 'index.html'), 'utf8').includes('const RATINGS_FILES = false;'),
+    'site folder: the published page is told to read the table files when both are there; the project\'s own page is not touched');
+  fs.rmSync(path.join(src, '_precompute', 'index.json'));
+  const R2 = buildSite(src, out, path.join(src, '_precompute'));
+  ok(R2.ratings === 0 && !has('r') && has('index.html'), 'site folder: a ratings set without its index is left out whole');
+  let threw = false; try { buildSite(src, out, null, ['data/men.json']); } catch (e){ threw = true; }
+  ok(threw, 'site folder: refuses to publish without index.html');
+}
 // --- static team pages
 {
   const {slugify, buildPages} = await import('./pages.mjs');
@@ -559,6 +586,20 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
         'precompute: a match\'s ratings before and after equal the ones the team page shows');
       ok(inputPrint(model, 'women', Y, false) === inputPrint(model, 'women', Y, false) && inputPrint(model, 'women', Y, true) !== '' && modelPrint(model) === modelPrint(model),
         'precompute: the same data and model give the same prints, so unchanged years are skipped');
+      /* Stage 3, past dates: the table the page rebuilds from a match-day file equals the one it works out, to the
+         file's one decimal place; a date between two match days gets the earlier day's table; today is never taken
+         from a match-day file; a file that does not fit the match list is refused. */
+      { const {dayCheck} = await import('./precompute.mjs');
+        const D2 = JSON.parse(JSON.stringify(D)), mid = Math.max(0, D2.days.length - 2), dc = dayCheck(model, 'women', D2, mid);
+        ok(D2.v === 2 && D2.days.length >= 2 && dc.n > 50 && dc.bad.length === 0 && dc.tierDiffs === 0, 'past dates: a table rebuilt from the match-day file equals the page\'s own' + (dc.bad.length ? ' (' + dc.bad[0] + ')' : ''));
+        const gap = D2.days.findIndex((d, k) => k < D2.days.length - 1 && Date.parse(D2.days[k + 1]) - Date.parse(d) > 2 * 86400000);
+        const sh = gap >= 0 ? dayCheck(model, 'women', D2, gap, 1) : null;
+        ok(!sh || !sh.bad.some(b => !/rating|band|change|median|level|top ten/.test(b)), 'past dates: a date between two match days shows the earlier day\'s table' + (sh && sh.bad.length ? ' (' + sh.bad[0] + ')' : ''));
+        const today = dayCheck(model, 'women', D2, D2.days.length - 1);
+        const short = JSON.parse(JSON.stringify(D2)); short.tables[mid] = short.tables[mid].slice(1);
+        ok(today.bad[0] === 'the page did not use the file' && dayCheck(model, 'women', short, mid).bad[0] === 'the page did not use the file',
+          'past dates: today\'s table never comes from a match-day file, and a file that does not fit the match list is refused');
+      }
       /* Today's table in full, read back from its file, equals the page's own table; a changed number is caught. */
       const {tableFile, tableCheck, recordYears, recordCheck} = await import('./precompute.mjs');
       for (const allTime of [false, true]){
@@ -572,6 +613,22 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
             'precompute: a changed number in a table file is caught, and a file from another match list is refused');
         }
       }
+      /* Stage 3: with the switch on and a fitting file, getRatings() hands back the table from the file; a past date, a
+         changed setting or a file from another match list falls back to working it out. */
+      const sw = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames;
+        state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy; state.asOf = state.bounds.women.max; state.cache = {key:null};
+        const own = getRatings(), F = JSON.parse(JSON.stringify(tableToFile(own))), top = own.all[0].key, out = {off:!!own.fromFile};
+        state.useTableFiles = true; state.tableFiles = {women:F}; state.cache = {key:null};
+        const c = getRatings(); out.on = !!c.fromFile && c.all[0].key === top && c.all.length === own.all.length && getRatings() === c;
+        const k = c.all.find(r => (c.history.get(r.key) || []).length).key, o = c.history.get(k)[0].opp; out.stakes = !!ratingStakes(c, k, o, true, 20) && state.cache === c;
+        state.asOf = state.matches.women[state.matches.women.length - 2].ts - 86400000; state.cache = {key:null}; out.past = !getRatings().fromFile;
+        state.asOf = state.bounds.women.max; state.comps = new Set(COMP_ORDER.slice(0, 2)); state.cache = {key:null}; out.comps = !getRatings().fromFile;
+        state.comps = new Set(COMP_ORDER); state.windowYears = 0; state.cache = {key:null}; out.allTime = !getRatings().fromFile;
+        state.windowYears = DEFAULTS.windowYears; state.tableFiles = {women:{...F, print:F.print + 1}}; state.cache = {key:null}; out.stale = !getRatings().fromFile && state.tableFiles.women === null;
+        state.useTableFiles = false; state.tableFiles = {}; state.cache = {key:null};
+        return out; })()`);
+      ok(sw.off === false && sw.on && sw.stakes && sw.past && sw.comps && sw.allTime && sw.stale,
+        'table file: read for today\'s table at the site\'s settings, and worked out on the page for anything else ' + JSON.stringify(sw));
       const RY = JSON.parse(JSON.stringify(recordYears(model, 'women'))), rc = recordCheck(model, 'women', RY);
       ok(RY.length === Y - 2018 && rc.bad.length === 0, 'precompute: the Forecast record\'s yearly figures equal the page\'s' + (rc.bad.length ? ' (' + rc.bad[0] + ')' : ''));
     }

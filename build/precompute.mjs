@@ -11,8 +11,8 @@
 // Files, one pair per game (men, women):
 //   latest-<g>.json    today's table at the site's default settings: every rated team with its rating, band, rank,
 //                      tier and the rest of what the Rankings page shows.
-//   months-<g>.json    the table as the site would have published it at the end of every month since the archive
-//                      begins: [team, rating, band, rank] for every rated team.
+//   months-<g>.json    only with PRECOMPUTE_WHAT=months: the table at the end of every month since the archive begins
+//                      (superseded by the match-day files below).
 //   table-<g>.json     today's table in full (the page's tableToFile): rows, tiers, each confederation's figures and
 //   table-all-<g>.json the run of matches behind it; the second is the "all time" setting. Each is read back with the
 //                      page's tableFromFile and compared with the page's own table before it is written.
@@ -64,19 +64,69 @@ const DEFAULT_STATE = g => `state.gender = ${JSON.stringify(g)}; state.windowYea
     state.asOf = state.bounds[${JSON.stringify(g)}].max; state.cache = {key:null};`;
 
 /* Seb, 12 Nov 2026: past rankings after every match day, not only at month ends. The table as the site would have
-   published it at the end of each match day of one year: [team, rating, band, rank] for every rated team.
+   published it at the end of each match day of one year, in the table's own order: [team, rating, band, rank, tier,
+   change on a year earlier] for every rated team (rank and tier 0: not ranked; the change is left off where there was
+   no rating a year before), and for each day the confederations' levels as [confederation, level, its variance]. The page's
+   tableFromDay rebuilds the rest (matches played, form, tiers) from these and the match list.
    allTime: every match since the archive begins counts (the site's "all time" setting) instead of the usual window. */
 export function dayTables(model, g, year, allTime){
   return model.run(`(() => { ${DEFAULT_STATE(g)}
-    const g = ${JSON.stringify(g)}, Y = ${+year}, B = state.bounds[g], r1 = x => Math.round(x * 10) / 10;
+    const g = ${JSON.stringify(g)}, Y = ${+year}, B = state.bounds[g], r1 = x => Math.round(x * 10) / 10, r2 = x => Math.round(x * 100) / 100;
+    /* The band is shown as a whole number. Kept to one decimal place, 145.46 would become 145.5 and show as 146
+       instead of 145, so such a value is kept as 145.4: the page then shows the same whole number as the exact value. */
+    const rb = x => { const v = r1(x); return Math.round(v) === Math.round(x) ? v : r1(v - 0.1); };
     if (${allTime ? 'true' : 'false'}) state.windowYears = 0;
     const ms = state.matches[g], days = [], teams = [], idx = new Map(), id = k => { if (!idx.has(k)){ idx.set(k, teams.length); teams.push(k); } return idx.get(k); };
-    for (let i = firstIndexAt(ms, Date.UTC(Y, 0, 1)); i < ms.length && ms[i].ts < Date.UTC(Y + 1, 0, 1); i++) if (!days.length || days[days.length - 1] !== ms[i].ts) days.push(ms[i].ts);
+    let n = 0;
+    for (let i = firstIndexAt(ms, Date.UTC(Y, 0, 1)); i < ms.length && ms[i].ts < Date.UTC(Y + 1, 0, 1); i++){ n++; if (!days.length || days[days.length - 1] !== ms[i].ts) days.push(ms[i].ts); }
+    const pools = [];
     const tables = days.map(ts => { state.asOf = ts; state.cache = {key:null};
-      return getRatings().all.filter(r => !r.island).map(r => [id(r.key), r1(r.rating), Math.round(r.band), r.rank || 0]); });
+      const c = computeRatings(null);
+      pools.push([...new Set(c.table.map(r => r.pool))].filter(p => p && p !== 'UNKNOWN').map(p => { const o = poolAt(c.st, p, ts); return [p, r2(o.m), r2(o.w)]; }));
+      return c.all.map(r => r.change == null ? [id(r.key), r1(r.rating), rb(r.band), r.rank || 0, r.tier || 0] : [id(r.key), r1(r.rating), rb(r.band), r.rank || 0, r.tier || 0, r1(r.change)]); });
     state.windowYears = DEFAULTS.windowYears; state.asOf = B.max; state.cache = {key:null};
-    return {year:Y, window:${allTime ? "'all'" : 'DEFAULTS.windowYears'}, teams, days:days.map(fmtDate), tables};
+    return {v:2, year:Y, window:${allTime ? "'all'" : 'DEFAULTS.windowYears'}, matches:n, teams, days:days.map(fmtDate), tables, pools};
   })()`);
+}
+
+/* Rebuilds the table for day i of a match-day file with the page's own tableAt / tableFromDay and compares it with the
+   table the page works out for that day. The file keeps one decimal place, so numbers may differ by 0.05 (a band by 0.1, though never as shown); ranks, order,
+   matches played, names, confederations and cut-off groups must be equal. Tiers come from the file, so they must be equal too
+   (tierDiffs counts any that are not; the checks expect none).
+   shift: view a date that many days after the match day (it must still fall before the next one) to check that the
+   page picks the same day's table. */
+export function dayCheck(model, g, file, i, shift){
+  model.run(`__df = ${JSON.stringify(JSON.stringify(file))}`);
+  return model.run(`(() => { ${DEFAULT_STATE(g)}
+    const g = ${JSON.stringify(g)}, F = JSON.parse(__df), i = ${+i}, ts = Date.parse(F.days[i] + 'T00:00:00Z'), bad = [], say = s => { if (bad.length < 12) bad.push(s); };
+    let n = 0, tierDiffs = 0;
+    const num = (a, b, tol, what) => { n++; if ((a == null) !== (b == null) || (a != null && !(Math.abs(a - b) <= tol))) say(what + ': ' + a + ' v ' + b); };
+    const same = (a, b, what) => { n++; if (a !== b && !(a == null && b == null)) say(what + ': ' + a + ' v ' + b); };
+    state.asOf = ts; state.cache = {key:null};
+    const c = computeRatings(null);
+    state.useTableFiles = true; state.dayFiles = {[g + '|' + F.year]:F}; state.dayCache = null; state.asOf = ts + ${+(shift || 0)} * DAY; state.cache = {key:null};
+    const h = tableAt();
+    state.useTableFiles = false; state.dayFiles = {}; state.dayCache = null;
+    if (!h.lite){ say('the page did not use the file'); state.asOf = state.bounds[g].max; state.cache = {key:null}; return {n, bad, tierDiffs}; }
+    same(h.day, F.days[i], 'day'); same(c.all.length, h.all.length, 'teams'); same(c.table.map(r => r.key).join(), h.table.map(r => r.key).join(), 'ranked order');
+    same(c.provisional.map(r => r.key).sort().join(), h.provisional.map(r => r.key).sort().join(), 'provisional'); same(c.windowStart, h.windowStart, 'window start');
+    num(c.median, h.median, 0.051, 'median'); same(c.tiers.length > 0, h.tiers.length > 0, 'tiers exist');
+    c.all.forEach(r => { const x = h.byKey.get(r.key), w = r.key; if (!x){ say('missing ' + w); return; }
+      same(r.team, x.team, w + ' name'); same(r.rank, x.rank, w + ' rank'); same(r.pool, x.pool, w + ' pool'); same(r.mp, x.mp, w + ' played'); same(r.lastTs, x.lastTs, w + ' last match');
+      same(r.status, x.status, w + ' status'); same(!!r.defunct, !!x.defunct, w + ' defunct'); same(r.island, x.island, w + ' island'); same(r.provisional, x.provisional, w + ' provisional');
+      same((r.islandWith || []).slice().sort().join(), (x.islandWith || []).slice().sort().join(), w + ' island mates');
+      num(r.rating, x.rating, 0.0501, w + ' rating'); num(r.band, x.band, 0.1001, w + ' band'); same(Math.round(r.band), Math.round(x.band), w + ' band as shown'); num(r.change, x.change, 0.0501, w + ' change'); num(r.vsMedian, x.vsMedian, 0.11, w + ' v median');
+      if ((r.tier || 0) !== (x.tier || 0)) tierDiffs++;
+      const a = c.history.get(w) || [], b = h.history.get(w) || []; same(a.length, b.length, w + ' matches');
+      a.forEach((e, j) => { const f = b[j]; if (!f) return; if (e.m !== f.m){ say(w + ' match ' + j + ' differs'); return; }
+        same(e.opp, f.opp, w + ' opponent'); same(e.oppName, f.oppName, w + ' opponent name'); same(e.name, f.name, w + ' own name'); same(e.gf, f.gf, w + ' for'); same(e.ga, f.ga, w + ' against');
+        same(e.home, f.home, w + ' home'); same(e.neutral, f.neutral, w + ' neutral'); same(e.cat, f.cat, w + ' kind'); }); });
+    same([...c.confStats.keys()].sort().join(), [...h.confStats.keys()].sort().join(), 'confederations');
+    for (const [k, a] of c.confStats){ const b = h.confStats.get(k); if (!b) continue;
+      same(a.n, b.n, k + ' teams'); same(a.best.key, b.best.key, k + ' best'); num(a.level, b.level, 0.02, k + ' level'); num(a.levelBand, b.levelBand, 0.1, k + ' level band');
+      num(a.top10, b.top10, 0.0501, k + ' top ten'); num(a.median, b.median, 0.0501, k + ' median'); }
+    state.asOf = state.bounds[g].max; state.cache = {key:null};
+    return {n, bad, tierDiffs, ranked:c.table.length, tiers:[c.tiers.length, h.tiers.length]}; })()`);
 }
 
 /* Every match of one year with both sides' ratings as the site published them: going in (from the window that ended
@@ -217,9 +267,12 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   for (const g of ['men', 'women']) model.load(g, JSON.parse(fs.readFileSync(path.join(DATA, g + '.json'), 'utf8')));
   fs.mkdirSync(OUT, {recursive:true});
   const built = new Date().toISOString(), kb = n => (n / 1024).toFixed(0) + ' KB';
+  const what = (process.env.PRECOMPUTE_WHAT || 'days,matches').split(',').filter(Boolean);
   for (const g of ['men', 'women']){
-    const R = precompute(model, g, +(process.env.PRECOMPUTE_FROM || 0));
-    const files = {['latest-' + g + '.json']:{built, ...R.latest}, ['months-' + g + '.json']:{built, ...R.months}};
+    /* The month-end tables are superseded by the match-day files and take most of a minute, so they are only made when asked for (PRECOMPUTE_WHAT=months,...). */
+    const R = precompute(model, g, what.includes('months') ? +(process.env.PRECOMPUTE_FROM || 0) : 9999);
+    const files = {['latest-' + g + '.json']:{built, ...R.latest}};
+    if (R.months.stamps.length) files['months-' + g + '.json'] = {built, ...R.months};
     /* Today's table in full, at the usual window and for all time, each checked against the page before it is written. */
     for (const [name, allTime] of [['table-' + g + '.json', false], ['table-all-' + g + '.json', true]]){
       const t0 = Date.now(), F = tableFile(model, g, allTime), chk = tableCheck(model, g, allTime, F);
@@ -233,23 +286,24 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     for (const [name, obj] of Object.entries(files)){
       const s = JSON.stringify(obj); fs.writeFileSync(path.join(OUT, name), s + '\n');
       console.log(`${name}: ${kb(s.length)} (${kb(zlib.gzipSync(s).length)} gzipped)`); }
-    console.log(`${g}: today's table of ${R.latest.rows.length} teams in ${R.msLatest} ms; ${R.months.stamps.length} month-end tables (${R.months.from} to ${R.months.to}) in ${(R.msMonths / 1000).toFixed(1)} s`);
+    console.log(`${g}: today's table of ${R.latest.rows.length} teams in ${R.msLatest} ms` + (R.months.stamps.length ? `; ${R.months.stamps.length} month-end tables (${R.months.from} to ${R.months.to}) in ${(R.msMonths / 1000).toFixed(1)} s` : ''));
   }
   /* Year by year: the table after every match day (the usual window, and all time) and every match as published.
      PRECOMPUTE_WHAT=days,all,matches picks which (default days,matches); PRECOMPUTE_YEARS=1990-2026 limits the years. */
-  const what = (process.env.PRECOMPUTE_WHAT || 'days,matches').split(',').filter(Boolean);
   const mfile = path.join(OUT, 'manifest.json'), manifest = fs.existsSync(mfile) ? JSON.parse(fs.readFileSync(mfile, 'utf8')) : {};
   const mp = modelPrint(model), force = process.env.PRECOMPUTE_FORCE === '1' || manifest.model !== mp;
   if (force) for (const k of Object.keys(manifest)) delete manifest[k];
   manifest.model = mp;
   const [y0, y1] = (process.env.PRECOMPUTE_YEARS || '').split('-').map(Number);
+  /* A change to a kind of file's layout: bump its mark here and every year of it is worked out again. */
+  const FORMAT = {days:'v2b:', all:'v2b:'};
   const jobs = {days:(g, y) => dayTables(model, g, y, false), all:(g, y) => dayTables(model, g, y, true), matches:(g, y) => matchLedger(model, g, y)};
   for (const g of ['men', 'women']){
     const first = new Date(model.run(`state.bounds[${JSON.stringify(g)}].min`)).getUTCFullYear(), last = new Date(model.run(`state.bounds[${JSON.stringify(g)}].max`)).getUTCFullYear();
     for (const kind of what){ if (!jobs[kind]) continue;
       const t0 = Date.now(); let done = 0, kept = 0, bytes = 0, gz = 0;
       for (let y = Math.max(first, y0 || first); y <= Math.min(last, y1 || last); y++){
-        const name = `${kind}/${g}/${y}.json`, file = path.join(OUT, name), print = inputPrint(model, g, y, kind === 'all');
+        const name = `${kind}/${g}/${y}.json`, file = path.join(OUT, name), print = (FORMAT[kind] || '') + inputPrint(model, g, y, kind === 'all');
         if (manifest[name] === print && fs.existsSync(file)){ kept++; continue; }
         const s = JSON.stringify({built, ...jobs[kind](g, y)});
         fs.mkdirSync(path.dirname(file), {recursive:true}); fs.writeFileSync(file, s + '\n'); manifest[name] = print;
