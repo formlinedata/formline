@@ -73,30 +73,6 @@
   },
   "venue_src": "api"
  },
- "1528968": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T17:00:00+00:00",
-  "home_team": "Moldova",
-  "away_team": "Kazakhstan",
-  "tournament": "UEFA Nations League",
-  "city": "Chisinau",
-  "country": "Moldova",
-  "neutral": "FALSE",
-  "venue_id": 2615,
-  "api_id": 1528968,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Chișinău",
-   "country": "Moldova",
-   "stadium": "Zimbru Stadium",
-   "boxDate": "2026-11-13"
-  },
-  "venue_src": "api"
- },
  "1528969": {
   "date": "2026-11-13",
   "kickoff": "2026-11-13T19:45:00+00:00",
@@ -4074,24 +4050,6 @@
    "kickoff": "2026-11-18T03:00:00+00:00"
   },
   "venue_src": "city"
- },
- "1649542": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T16:30:00+00:00",
-  "home_team": "Kuwait",
-  "away_team": "Syria",
-  "tournament": "Friendly",
-  "city": "",
-  "country": "Kuwait",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1649542,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "assumed"
  },
  "1649550": {
   "date": "2026-11-17",

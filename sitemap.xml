@@ -37,15 +37,15 @@
   <url><loc>https://formlinedata.com/teams/men/ukraine.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/hungary.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/ir-iran.html</loc></url>
-  <url><loc>https://formlinedata.com/teams/men/canada.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/australia.html</loc></url>
+  <url><loc>https://formlinedata.com/teams/men/canada.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/scotland.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/serbia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/cote-d-ivoire.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/poland.html</loc></url>
-  <url><loc>https://formlinedata.com/teams/men/korea-republic.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/slovenia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/nigeria.html</loc></url>
+  <url><loc>https://formlinedata.com/teams/men/korea-republic.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/egypt.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/czechia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/republic-of-ireland.html</loc></url>
@@ -94,8 +94,8 @@
   <url><loc>https://formlinedata.com/teams/men/new-zealand.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/gabon.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/honduras.html</loc></url>
-  <url><loc>https://formlinedata.com/teams/men/qatar.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/bulgaria.html</loc></url>
+  <url><loc>https://formlinedata.com/teams/men/qatar.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/guatemala.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/palestine.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/oman.html</loc></url>
@@ -4506,8 +4506,6 @@
   <url><loc>https://formlinedata.com/h2h/men/aruba-vs-martinique.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/comoros-vs-congo.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-13-chinese-taipei-vs-kyrgyz-republic.html</loc></url>
-  <url><loc>https://formlinedata.com/matches/men/2026-11-13-kuwait-vs-syria.html</loc></url>
-  <url><loc>https://formlinedata.com/matches/men/2026-11-13-moldova-vs-kazakhstan.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-13-egypt-vs-malawi.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-13-mali-vs-rwanda.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-13-bermuda-vs-st-lucia.html</loc></url>
@@ -4677,6 +4675,8 @@
   <url><loc>https://formlinedata.com/matches/men/2026-11-13-mozambique-vs-ethiopia.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-13-zambia-vs-burundi.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-13-united-arab-emirates-vs-honduras.html</loc></url>
+  <url><loc>https://formlinedata.com/matches/men/2026-11-13-saudi-arabia-vs-korea-republic.html</loc></url>
+  <url><loc>https://formlinedata.com/matches/men/2026-11-13-qatar-vs-australia.html</loc></url>
   <url><loc>https://formlinedata.com/sim/afcon-2027-qualifiers.html</loc></url>
   <url><loc>https://formlinedata.com/sim/asian-cup-2027.html</loc></url>
   <url><loc>https://formlinedata.com/sim/saff-2026.html</loc></url>
