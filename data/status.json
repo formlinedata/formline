@@ -1,11 +1,11 @@
 {
- "built": "2026-11-13T06:33:38.749Z",
+ "built": "2026-11-13T07:25:03.746Z",
  "today": "2026-11-13",
- "mode": "light",
+ "mode": "full",
  "api": {
   "keyPresent": true,
-  "used": 3,
-  "remaining": 7478,
+  "used": 70,
+  "remaining": 7408,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,34 +15,53 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 18,
+   "usedTodayBeforeRun": 21,
    "perMinute": 300
   },
   "paid": true,
-  "budget": 60,
+  "budget": 1500,
   "notice": null
  },
  "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 1163,
-  "youth": 95,
-  "clubs": 40,
-  "not counted": 3,
+  "domestic": 16837,
+  "youth": 432,
+  "clubs": 195,
+  "not counted": 177,
   "status CANC": 1
  },
  "seen": {
   "men": {
-   "results": 26,
+   "results": 30,
    "latest": "2026-11-12"
   },
   "women": {
-   "results": 0,
-   "latest": null
+   "results": 2,
+   "latest": "2026-11-10"
   }
  },
+ "clubs": {
+  "checked": "2026-11-07"
+ },
+ "wiki": {
+  "open": 117,
+  "asked": 114,
+  "pages": 112,
+  "matched": 80,
+  "errors": 0,
+  "extra": 0
+ },
+ "wikiResults": {
+  "asked": 90,
+  "pages": 90,
+  "candidates": 35,
+  "added": 0,
+  "errors": 0,
+  "unconfirmed": 0
+ },
  "men": {
-  "built": "2026-11-13T06:33:38.749Z",
+  "built": "2026-11-13T07:25:03.746Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
@@ -55,10 +74,10 @@
   "manual": {
    "rows": 0
   },
-  "fixtures": 144
+  "fixtures": 145
  },
  "women": {
-  "built": "2026-11-13T06:33:38.749Z",
+  "built": "2026-11-13T07:25:03.746Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -78,17 +97,17 @@
   "fixtures": 53
  },
  "venues": {
-  "wiki": 3,
-  "city": 100,
-  "assumed": 76,
-  "api": 18
+  "assumed": 78,
+  "city": 57,
+  "api": 24,
+  "wiki": 39
  },
  "forecasts": {
-  "total": 231,
+  "total": 232,
   "scored": 36,
-  "newThisRun": 0,
-  "updatedThisRun": 193,
+  "newThisRun": 2,
+  "updatedThisRun": 192,
   "scoredThisRun": 0,
-  "droppedThisRun": 0
+  "droppedThisRun": 1
  }
 }
