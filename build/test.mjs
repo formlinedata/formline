@@ -580,9 +580,9 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
       const lastT = D.tables[D.tables.length - 1];
       ok(D.days.length > 0 && D.days.length === D.tables.length && want.t.every(([k, r, rk]) => { const row = lastT.find(x => D.teams[x[0]] === k); return row && row[1] === r && row[3] === rk; }),
         'precompute: the table after a match day matches the site\'s table for that day');
-      ok(A.window === 'all' && A.days.join() === D.days.join() && A.tables.length === D.tables.length, 'precompute: the all-time tables cover the same match days');
+      ok(A.window === 'all' && A.days.length > 0 && L.rows.every(r => A.days.includes(r[0]) && D.days.includes(r[0])) && A.tables.length === A.days.length, 'precompute: the all-time tables and the usual ones both cover every match day');
       const mine = want.h ? L.rows.filter(r => r[0] === want.h[0] && (L.teams[r[1]] === want.k || L.teams[r[2]] === want.k))[0] : null;
-      ok(!want.h || (mine && (L.teams[mine[1]] === want.k ? mine[5] === want.h[1] && mine[7] === want.h[2] : mine[6] === want.h[1] && mine[8] === want.h[2])),
+      ok(!want.h || (mine && (L.teams[mine[1]] === want.k ? Math.round(mine[5] * 10) / 10 === want.h[1] && Math.round(mine[7] * 10) / 10 === want.h[2] : Math.round(mine[6] * 10) / 10 === want.h[1] && Math.round(mine[8] * 10) / 10 === want.h[2])),   // the file keeps two decimal places
         'precompute: a match\'s ratings before and after equal the ones the team page shows');
       ok(inputPrint(model, 'women', Y, false) === inputPrint(model, 'women', Y, false) && inputPrint(model, 'women', Y, true) !== '' && modelPrint(model) === modelPrint(model),
         'precompute: the same data and model give the same prints, so unchanged years are skipped');
@@ -590,16 +590,38 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
          file's one decimal place; a date between two match days gets the earlier day's table; today is never taken
          from a match-day file; a file that does not fit the match list is refused. */
       { const {dayCheck} = await import('./precompute.mjs');
-        const D2 = JSON.parse(JSON.stringify(D)), mid = Math.max(0, D2.days.length - 2), dc = dayCheck(model, 'women', D2, mid);
-        ok(D2.v === 2 && D2.days.length >= 2 && dc.n > 50 && dc.bad.length === 0 && dc.tierDiffs === 0, 'past dates: a table rebuilt from the match-day file equals the page\'s own' + (dc.bad.length ? ' (' + dc.bad[0] + ')' : ''));
+        const D2 = JSON.parse(JSON.stringify(D)), mid = Math.max(0, D2.days.length - 2), prev = [Y - 1, Y - 2].map(y => JSON.parse(JSON.stringify(dayTables(model, 'women', y, false))));
+        const dc = dayCheck(model, 'women', D2, mid, 0, prev);
+        ok(D2.v === 3 && D2.days.length >= 2 && dc.n > 50 && dc.bad.length === 0 && dc.tierDiffs === 0, 'past dates: a table rebuilt from the match-day file equals the page\'s own' + (dc.bad.length ? ' (' + dc.bad[0] + ')' : ''));
         const gap = D2.days.findIndex((d, k) => k < D2.days.length - 1 && Date.parse(D2.days[k + 1]) - Date.parse(d) > 2 * 86400000);
-        const sh = gap >= 0 ? dayCheck(model, 'women', D2, gap, 1) : null;
-        ok(!sh || !sh.bad.some(b => !/rating|band|change|median|level|top ten/.test(b)), 'past dates: a date between two match days shows the earlier day\'s table' + (sh && sh.bad.length ? ' (' + sh.bad[0] + ')' : ''));
-        const today = dayCheck(model, 'women', D2, D2.days.length - 1);
+        const sh = gap >= 0 ? dayCheck(model, 'women', D2, gap, 1, prev) : null;
+        const steps = D2.days.slice(1).map((d, k) => (Date.parse(d) - Date.parse(D2.days[k])) / 86400000);
+        ok((!sh || sh.bad.length === 0) && steps.every(x => x >= 1 && x <= 7), 'past dates: the file has a day at least every week, and a date between two of its days gets the earlier day\'s table, equal to the one worked out for that date' + (sh && sh.bad.length ? ' (' + sh.bad[0] + ')' : ''));
+        const today = dayCheck(model, 'women', D2, D2.days.length - 1, 0, prev);
         const short = JSON.parse(JSON.stringify(D2)); short.tables[mid] = short.tables[mid].slice(1);
-        ok(today.bad[0] === 'the page did not use the file' && dayCheck(model, 'women', short, mid).bad[0] === 'the page did not use the file',
-          'past dates: today\'s table never comes from a match-day file, and a file that does not fit the match list is refused');
+        ok(today.bad[0] === 'the page did not use the file' && dayCheck(model, 'women', short, mid, 0, prev).bad[0] === 'the page did not use the file' && dayCheck(model, 'women', D2, mid).bad[0] === 'the page did not use the file',
+          'past dates: today\'s table never comes from a day file; a file that does not fit the match list is refused; without the year before\'s file the page works the table out');
       }
+      /* Stage 3, a table on a past date for the pages that only read published numbers (seeding, Confederations, the
+         early-years example): from the match-day file when asked for and in hand, worked out otherwise. */
+      { const D3 = JSON.parse(JSON.stringify(D)), day = D3.days[Math.max(0, D3.days.length - 2)];
+        model.run(`__d3 = ${JSON.stringify(JSON.stringify(D3))}`);
+        const got = model.run(`(() => { state.gender = 'women'; const F = JSON.parse(__d3), ts = Date.parse(${JSON.stringify(day)} + 'T12:00:00Z'), out = {};
+          const ask = lite => atDefaults(c => [!!c.lite, c.all.length, c.day || null], ts, lite);
+          state.useTableFiles = true; state.dayFiles = {['women|' + F.year]:F}; out.file = ask(true); out.notAsked = ask(false);
+          state.dayFiles = {}; out.noFile = ask(true); state.useTableFiles = false; state.dayFiles = {['women|' + F.year]:F}; out.off = ask(true);
+          state.dayFiles = {}; state.asOf = state.bounds.women.max; state.cache = {key:null}; return out; })()`);
+        ok(D3.days.length >= 2 && got.file[0] === true && got.file[2] === day && got.file[1] === got.notAsked[1] && !got.notAsked[0] && !got.noFile[0] && !got.off[0],
+          'past dates: a page that reads only published numbers gets the match-day file\'s table; others, and a missing file, get the worked-out one ' + JSON.stringify(got));
+        const {confYear} = await import('./precompute.mjs'), cy = confYear(model, 'women', Y - 1);
+        ok(cy && typeof cy === 'object' && Object.values(cy).every(v => typeof v.level === 'number' && typeof v.top10 === 'number'), 'precompute: a year end\'s confederation figures are written for the history chart'); }
+      /* Stage 3, team pages: each side of each match read from the year's file equals what the page works out (ratings to
+         one decimal place, ranks exactly), and a changed number is caught. */
+      { const {ledgerCheck} = await import('./precompute.mjs');
+        const L2 = JSON.parse(JSON.stringify(L)), lc = ledgerCheck(model, 'women', L2);
+        const bent = JSON.parse(JSON.stringify(L2)); if (bent.rows[0]) bent.rows[0][7] += 1;
+        ok(L2.v === 2 && L2.rows.length > 0 && L2.rows[0].length === 20 && lc.sides > 0 && lc.bad.length === 0 && ledgerCheck(model, 'women', bent).bad.length > 0,
+          'team pages: a match\'s published ratings and ranks read from the year file equal the page\'s own' + (lc.bad.length ? ' (' + lc.bad[0] + ')' : '')); }
       /* A team's cluster: the teams ranked inside its own likely rank range, itself included; none for an unranked team. */
       { const cl = model.run(`(() => { const out = {n:0, bad:0, none:true};
           for (const g of ['men', 'women']){ if (!state.matches[g]) continue; state.gender = g; state.asOf = state.bounds[g].max; state.cache = {key:null};
@@ -641,6 +663,144 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
         'table file: read for today\'s table at the site\'s settings, and worked out on the page for anything else ' + JSON.stringify(sw));
       const RY = JSON.parse(JSON.stringify(recordYears(model, 'women'))), rc = recordCheck(model, 'women', RY);
       ok(RY.length === Y - 2018 && rc.bad.length === 0, 'precompute: the Forecast record\'s yearly figures equal the page\'s' + (rc.bad.length ? ' (' + rc.bad[0] + ')' : ''));
+      /* Stage 3, charts: the series file (every team's rating and band on each sampled date, and on its match days of the
+         last two years) read back the way the page reads it equals what the page works out, at the usual window and
+         for all time; and the page takes it only when it fits (same match list, same dates, same window). */
+      { const {snapSeries} = await import('./precompute.mjs');
+        for (const allTime of [false, true]){
+          const R = snapSeries(model, 'women', allTime), F = JSON.parse(JSON.stringify(R.file));
+          ok(F.v === 1 && F.stamps.length === (allTime ? 121 : 37) && F.pts.length === F.stamps.length && F.pts[F.pts.length - 1].length > 0 && F.pts[F.pts.length - 1][0].length === (allTime ? 3 : 5) && R.n > 100 && R.bad.length === 0,
+            'charts: the ' + (allTime ? 'all-time' : 'usual') + ' series read back from its file equals the page\'s, point by point (' + R.n + ' values)' + (R.bad.length ? ' (' + R.bad[0] + ')' : ''));
+          if (allTime) continue;
+          model.run(`__sf = ${JSON.stringify(JSON.stringify(F))}`);
+          const got = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames;
+            state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy; state.asOf = state.bounds.women.max; state.cache = {key:null};
+            const F = JSON.parse(__sf), stamps = snapshotStamps(), out = {off:snapFileOk()};
+            state.useTableFiles = true; out.on = snapFileOk();
+            const S = snapsFromFile(F, snapKey(), stamps), M = {key:snapKey(), stamps, maps:stamps.map(t => runWindow(windowStartFor(t), t))};
+            out.read = !!S && S.fromFile === true && S.rows.length === stamps.length;
+            const keys = getRatings().all.slice(0, 3).map(r => r.key), line = X => JSON.stringify(trackDatasets(keys, X, {bands:true}).datasets.filter(d => !d._band).map(d => [d.data, d._bands]));
+            out.sameLine = !!S && line(S) === line(M); out.points = trackDatasets(keys, M, {}).datasets[0].data.filter(v => v !== null).length;
+            out.print = snapsFromFile({...F, print:F.print + 1}, snapKey(), stamps) === null;
+            out.dates = snapsFromFile({...F, stamps:F.stamps.map((t, i) => i ? t : t + 1)}, snapKey(), stamps) === null;
+            state.windowYears = 0; out.window = snapsFromFile(F, snapKey(), snapshotStamps()) === null; out.allTimeOk = snapFileOk();
+            state.windowYears = 8; out.other = !snapFileOk();
+            state.windowYears = DEFAULTS.windowYears; state.maxBand = 300; out.band = !snapFileOk(); state.maxBand = DEFAULTS.maxBand;
+            state.useTableFiles = false; state.cache = {key:null};
+            return out; })()`);
+          ok(got.off === false && got.on && got.read && got.sameLine && got.points > 0 && got.print && got.dates && got.window && got.allTimeOk && got.other && got.band,
+            'charts: the series file is read at the site\'s settings and gives the same lines; another match list, other dates, or a changed setting are worked out on the page ' + JSON.stringify(got));
+        }
+        /* A team with two matches on one day: each is found by its opponent and score; the ranks come off either row. */
+        const two = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames;
+          state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy; state.asOf = state.bounds.women.max;
+          const row = (h, a, hs, as, post) => ['2020-03-01', h, a, hs, as, 1500, 1500, post, 1500, 60, 60, 0.5, 3, 9, 1, 4, 5, 9, 2, 4];
+          const F = ledgerIndex({v:2, year:2020, teams:['A', 'B', 'C'], rows:[row(0, 1, 2, 0, 1510), row(0, 2, 1, 1, 1512), row(1, 2, 0, 0, 1500)]});
+          const ts = Date.parse('2020-03-01T00:00:00Z'), m = (h, a, hs, as) => ({_h:h, _a:a, hs, as}), out = {};
+          state.useTableFiles = true; state.ledgerFiles = {'women|2020':F};
+          const g = (key, mm) => { const L = ledgerRow(key, ts, mm); return L ? L[0][7] + ':' + L[1] : null; };
+          out.first = g('A', m('A', 'B', 2, 0)); out.second = g('A', m('A', 'C', 1, 1)); out.other = g('B', m('A', 'B', 2, 0)); out.wrong = g('A', m('A', 'B', 3, 0));
+          out.ranks = g('A', null); out.single = g('C', null) === null ? null : ledgerRow('C', ts, null)[0][7];
+          const R = rankAfter({}, 'A', ts, false); out.rank = R && R.rank + '/' + R.of;
+          state.useTableFiles = false; state.ledgerFiles = {}; state.cache = {key:null};
+          return out; })()`);
+        ok(two.first === '1510:0' && two.second === '1512:0' && two.other === '1510:1' && two.wrong === null && two.ranks === '1510:0' && two.rank === '3/9',
+          'team pages: a team with two matches on one day gets each from the year file, told apart by opponent and score ' + JSON.stringify(two)); }
+      /* Stage 3, edition pages: every edition's figures written to a file and read back equal the page's own; the page
+         takes the file only at the site's settings and only when it fits the matches in hand. */
+      { const {editionList, editionFile} = await import('./precompute.mjs');
+        const EL = editionList(model, 'women'); let n = 0; const bad = [], files = {};
+        for (const e of EL){ const R = editionFile(model, 'women', e.id); n += R.n; if (R.bad.length) bad.push(e.id + ': ' + R.bad[0]); files[e.id] = JSON.parse(JSON.stringify(R.file)); }
+        ok(EL.length > 0 && new Set(EL.map(e => e.name)).size === EL.length && EL.every(e => /^[A-Za-z0-9-]+$/.test(e.name)) && n > 50 && bad.length === 0,
+          'edition pages: every edition read back from its file equals the page\'s, field by field (' + EL.length + ' editions, ' + n + ' values)' + (bad.length ? ' (' + bad[0] + ')' : ''));
+        { const ELA = editionList(model, 'women', true); let nA = 0; const badA = [], filesA = {};
+          for (const e of ELA){ const R = editionFile(model, 'women', e.id, true); nA += R.n; if (R.bad.length) badA.push(e.id + ': ' + R.bad[0]); filesA[e.id] = JSON.parse(JSON.stringify(R.file)); }
+          const one = ELA.map(e => filesA[e.id]).sort((a, b) => b.rows.length - a.rows.length)[0];
+          model.run(`__eaf = ${JSON.stringify(JSON.stringify(one))}`);
+          const ea = model.run(`(() => { state.gender = 'women'; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames; state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy;
+            state.asOf = state.bounds.women.max; state.cache = {key:null};
+            const F = JSON.parse(__eaf), e = getEditions().byId.get(F.id), run = () => { state.edCache = null; return editionRun(e); }, out = {wy:F.windowYears};
+            state.useTableFiles = true; state.windowYears = 0; state.edFiles = {[edKey('women', e)]:F}; out.key = edKey('women', e).startsWith('all|'); out.on = run().fromFile === true;
+            state.windowYears = DEFAULTS.windowYears; state.edFiles = {[edKey('women', e)]:F}; out.wrongWindow = !run().fromFile;
+            state.useTableFiles = false; state.edFiles = {}; state.edCache = null; return out; })()`);
+          ok(ELA.length === EL.length && nA > 50 && badA.length === 0 && ea.wy === 0 && ea.key && ea.on && ea.wrongWindow,
+            'edition pages, all time: every edition read back from its all-time file equals the page\'s, and a file is only read under the setting it was made for (' + nA + ' values) ' + JSON.stringify(ea) + (badA.length ? ' (' + badA[0] + ')' : '')); }
+        const big = EL.map(e => files[e.id]).sort((a, b) => b.rows.length - a.rows.length)[0];
+        model.run(`__ef = ${JSON.stringify(JSON.stringify(big))}`);
+        const eg = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames;
+          state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy; state.asOf = state.bounds.women.max; state.cache = {key:null};
+          const F = JSON.parse(__ef), e = getEditions().byId.get(F.id), out = {rows:F.rows.length}, run = () => { state.edCache = null; return editionRun(e); };
+          state.edFiles = {['women|' + e.id]:F}; out.off = !run().fromFile;
+          state.useTableFiles = true; const D = run(); out.on = D.fromFile === true && D.rows.length === e.matches.length && D.rows.every((r, i) => r.m === e.matches[i] || e.matches.includes(r.m));
+          state.edFiles = {['women|' + e.id]:{...F, print:F.print + 1}}; out.stale = !run().fromFile;
+          state.edFiles = {['women|' + e.id]:{...F, id:F.id + 'x'}}; out.other = !run().fromFile;
+          state.edFiles = {['women|' + e.id]:F}; state.maxBand = 300; out.setting = !run().fromFile; state.maxBand = DEFAULTS.maxBand;
+          state.windowYears = 0; out.allTime = !run().fromFile; state.windowYears = DEFAULTS.windowYears;
+          state.useTableFiles = false; state.edFiles = {}; state.edCache = null;
+          return out; })()`);
+        ok(eg.rows > 0 && eg.off && eg.on && eg.stale && eg.other && eg.setting && eg.allTime,
+          'edition pages: the file is read at the site\'s settings when it fits; another run of matches, another edition or a changed setting is worked out on the page ' + JSON.stringify(eg)); }
+      /* Stage 3, Records and the all-time history on team pages: the lists drawn from the file equal the ones drawn from
+         the replay, for all time, each spacing of the peaks and every year; a team's all-time figures read back equal. */
+      { const {recordsFile, histFile} = await import('./precompute.mjs');
+        const RF = recordsFile(model, 'women'), HF = histFile(model, 'women');
+        ok(RF.n >= 6 && RF.bad.length === 0 && RF.file.rows.length > 0 && RF.file.rows.length <= RF.rows && RF.file.yearEnd.length > 0,
+          'records: the page drawn from the file equals the page drawn from the replay (' + RF.n + ' views)' + (RF.bad.length ? ' (' + RF.bad[0] + ')' : ''));
+        ok(HF.n > 20 && HF.bad.length === 0 && Object.keys(HF.file.teams).length > 0,
+          'team history, all time: best ranks, peak, upsets and every match line read back from the file equal the page\'s (' + HF.n + ' values)' + (HF.bad.length ? ' (' + HF.bad[0] + ')' : ''));
+        model.run(`__rf = ${JSON.stringify(JSON.stringify(RF.file))}; __hf = ${JSON.stringify(JSON.stringify(HF.file))}`);
+        const rh = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames;
+          state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy; state.asOf = state.bounds.women.max; state.cache = {key:null};
+          const RF = JSON.parse(__rf), HF = JSON.parse(__hf), out = {};
+          const rec = () => { state.recCache = {}; return recordsData('women'); }, his = () => { state.histAllCache = {}; return histAll('women'); };
+          state.recFiles = {women:RF}; state.histFiles = {women:HF}; out.off = !rec().fromFile && !his().fromFile;
+          state.useTableFiles = true; out.on = rec().fromFile === true && his().fromFile === true;
+          state.recFiles = {women:{...RF, print:RF.print + 1}}; out.staleRec = !rec().fromFile && state.recFiles.women === null;
+          state.histFiles = {women:{...HF, print:HF.print + 1}}; out.staleHist = !his().fromFile && state.histFiles.women === null;
+          state.histFiles = {women:HF}; state.asOf = state.matches.women[state.matches.women.length - 2].ts - 86400000; out.past = !his().fromFile;
+          state.asOf = state.bounds.women.max; state.maxBand = 300; out.band = !his().fromFile; state.maxBand = DEFAULTS.maxBand;
+          const bent = JSON.parse(__rf); bent.peak[0][2] += 50; const key = 'women|' + state.historicalNames + '|' + HOME_VER, sp = state.params;
+          const draw = X => { state.recCache = {[key]:X}; state.params = {}; viewRecords(); return document.getElementById('app').innerHTML; };
+          out.bent = draw(recordsFromFile('women', RF)) !== draw(recordsFromFile('women', bent)); state.params = sp;
+          state.useTableFiles = false; state.recFiles = {}; state.histFiles = {}; state.recCache = {}; state.histAllCache = {};
+          return out; })()`);
+        ok(rh.off && rh.on && rh.staleRec && rh.staleHist && rh.past && rh.band && rh.bent,
+          'records and all-time history: read from their files when these fit; another match list, a past date or a changed setting is worked out on the page, and a changed figure shows ' + JSON.stringify(rh)); }
+      /* Stage 4: today's forecasts from the build's file. With today's table and the forecast file in hand, the page
+         forecasts every listed fixture and other pairings, gives the stakes and the goals figures, and never runs the
+         rating engine; a file from another match list, a past date or a changed setting is not used. */
+      { const {fcFile} = await import('./precompute.mjs');
+        const names = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames; state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy;
+          state.asOf = state.bounds.women.max; state.cache = {key:null}; return {teams:getRatings().all.map(r => r.team), date:fmtDate(state.asOf + 86400000)}; })()`);
+        const fxs = [{home:names.teams[0], away:names.teams[1], date:names.date, tournament:'Friendly', country:names.teams[0], neutral:false},
+          {home:names.teams[1], away:names.teams[2] || names.teams[0], date:names.date, tournament:'FIFA World Cup qualification', neutral:true}];
+        const FC = fcFile(model, 'women', fxs);
+        ok(FC.n > 20 && FC.bad.length === 0 && FC.file.lm.length >= names.teams.length && FC.withStakes === 2 && Object.values(FC.file.stakes).every(s => s.length === 5),
+          'forecasts: with the forecast file the page gives the same chances, scores, stakes and goals figures without running the rating engine (' + FC.n + ' values)' + (FC.bad.length ? ' (' + FC.bad[0] + ')' : ''));
+        model.run(`__fcf = ${JSON.stringify(JSON.stringify(FC.file))}`);
+        const fo = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames; state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy;
+          state.asOf = state.bounds.women.max; const F = JSON.parse(__fcf), ts = state.asOf, out = {};
+          out.off = fcFileFor('women', ts) === null;
+          state.useTableFiles = true; state.fcFiles = {women:F}; out.on = fcFileFor('women', ts) === F;
+          out.past = fcFileFor('women', ts - 86400000) === null;
+          state.historicalNames = !DEFAULTS.historicalNames; out.names = fcFileFor('women', ts) === null; state.historicalNames = DEFAULTS.historicalNames;
+          state.fcFiles = {women:{...F, _ok:undefined, print:F.print + 1}}; out.stale = fcFileFor('women', ts) === null;   // _ok: the page remembers a file's fit, so the copy starts afresh
+          state.useTableFiles = false; state.fcFiles = {}; gmCache = {};
+          return out; })()`);
+        ok(fo.off && fo.on && fo.past && fo.names && fo.stale, 'forecasts: the forecast file is used for today only, with the usual names, and only when it fits the match list ' + JSON.stringify(fo)); }
+      /* Stage 4, the era comparer: every year's closing table from one file gives the same sides, last five results and
+         chances across eras, without the rating engine; a file from another match list is not used. */
+      { const {yearEndsFile} = await import('./precompute.mjs');
+        const YE = yearEndsFile(model, 'women');
+        ok(YE.years > 0 && YE.rows > 0 && YE.n > 20 && YE.bad.length === 0, 'era comparer: every year\'s closing table read from the file equals the page\'s, and no engine runs (' + YE.n + ' values)' + (YE.bad.length ? ' (' + YE.bad[0] + ')' : ''));
+        model.run(`__yef = ${JSON.stringify(JSON.stringify(YE.file))}`);
+        const ye = model.run(`(() => { state.gender = 'women'; state.asOf = state.bounds.women.max; const F = JSON.parse(__yef), y = F.years[F.years.length - 1][0], out = {};
+          const get = () => { dreamCache.clear(); return dreamTeams(y); };
+          state.yeFiles = {women:F}; out.off = !get().fromFile;
+          state.useTableFiles = true; out.on = get().fromFile === true;
+          state.yeFiles = {women:{...JSON.parse(__yef), print:F.print + 1}}; out.stale = !get().fromFile;
+          state.useTableFiles = false; state.yeFiles = {}; dreamCache.clear(); return out; })()`);
+        ok(ye.off && ye.on && ye.stale, 'era comparer: the file is read in the published copy only, and only when it fits the match list ' + JSON.stringify(ye)); }
     }
   }
   const asked = [];
