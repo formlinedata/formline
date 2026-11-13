@@ -3787,24 +3787,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1647636": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T14:15:00+00:00",
-  "home_team": "United Arab Emirates",
-  "away_team": "Honduras",
-  "tournament": "Friendly",
-  "city": "Abu Dhabi",
-  "country": "United Arab Emirates",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647636,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1647638": {
   "date": "2026-11-14",
   "kickoff": "2026-11-14T06:00:00+00:00",
@@ -4340,5 +4322,41 @@
   "gender": "men",
   "wiki": null,
   "venue_src": "assumed"
+ },
+ "1650135": {
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T09:00:00+00:00",
+  "home_team": "Oman",
+  "away_team": "Tajikistan",
+  "tournament": "King's Cup",
+  "city": "",
+  "country": "",
+  "neutral": "TRUE",
+  "venue_id": "",
+  "api_id": 1650135,
+  "league": "King's Cup",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "venue_src": "event"
+ },
+ "1650136": {
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T12:30:00+00:00",
+  "home_team": "Thailand",
+  "away_team": "Brunei",
+  "tournament": "King's Cup",
+  "city": "",
+  "country": "Thailand",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1650136,
+  "league": "King's Cup",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "venue_src": "event"
  }
 }
