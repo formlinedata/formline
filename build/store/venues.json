@@ -24,10 +24,25 @@
   "city": "Addis Abeba",
   "country": "Ethiopia"
  },
+ "615": {
+  "name": "Bolt Arena",
+  "city": "Helsinki",
+  "country": "Finland"
+ },
  "691": {
   "name": "Boris Paichadze Dinamo Arena",
   "city": "Tbilisi",
   "country": "Georgia"
+ },
+ "795": {
+  "name": "King Baudouin Stadium",
+  "city": "Brussels",
+  "country": "Belgium"
+ },
+ "817": {
+  "name": "Illovszky Rudolf Stadion",
+  "city": "Budapest",
+  "country": "Hungary"
  },
  "907": {
   "name": "Stadio Giuseppe Meazza",
@@ -79,6 +94,11 @@
   "city": "Ciudad de Guatemala",
   "country": "Guatemala"
  },
+ "2611": {
+  "name": "Stadions Skonto",
+  "city": "Rīga (Riga)",
+  "country": "Latvia"
+ },
  "2615": {
   "name": "Stadionul Zimbru",
   "city": "Chişinău",
@@ -99,15 +119,30 @@
   "city": "Oslo",
   "country": "Norway"
  },
+ "11918": {
+  "name": "PayPal Park",
+  "city": "San Jose, California",
+  "country": "USA"
+ },
  "18644": {
   "name": "Košická futbalová aréna",
   "city": "Košice",
   "country": "Slovakia"
  },
+ "19217": {
+  "name": "Estádio Cívitas Metropolitano",
+  "city": "Madrid",
+  "country": "Spain"
+ },
  "19513": {
   "name": "epet ARENA",
   "city": "Praha",
   "country": "Czech-Republic"
+ },
+ "19616": {
+  "name": "Alphamega Stadium",
+  "city": "Kolossi",
+  "country": "Cyprus"
  },
  "19922": {
   "name": "Stadion Hristo Botev",
