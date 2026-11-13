@@ -1094,7 +1094,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1545863": {
@@ -1113,7 +1112,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545865": {
@@ -1330,7 +1328,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545885": {
@@ -2745,7 +2742,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640087": {
@@ -2821,7 +2817,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640519": {
@@ -3569,7 +3564,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647365": {
@@ -3588,7 +3582,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647366": {
@@ -3889,7 +3882,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647641": {
@@ -3908,7 +3900,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647643": {
@@ -3946,7 +3937,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1648287": {
@@ -4158,56 +4148,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1649029": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T22:00:00+00:00",
-  "home_team": "Aruba",
-  "away_team": "Martinique",
-  "tournament": "CONCACAF Nations League",
-  "city": "Oranjestad",
-  "country": "Aruba",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1649029,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Oranjestad",
-   "country": "Aruba",
-   "stadium": "Trinidad Stadium",
-   "boxDate": "2026-11-12",
-   "kickoff": "2026-11-12T19:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1649030": {
-  "date": "2026-11-12",
-  "kickoff": "2026-11-12T23:00:00+00:00",
-  "home_team": "Antigua and Barbuda",
-  "away_team": "Trinidad and Tobago",
-  "tournament": "CONCACAF Nations League",
-  "city": "Antigua",
-  "country": "Guatemala",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1649030,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "St. John's",
-   "country": "Antigua and Barbuda",
-   "stadium": "Sir Vivian Richards Stadium",
-   "boxDate": "2026-11-12",
-   "kickoff": "2026-11-12T23:00:00+00:00"
-  },
-  "venue_src": "city"
- },
  "1649031": {
   "date": "2026-11-13",
   "kickoff": "2026-11-13T23:00:00+00:00",
@@ -4240,7 +4180,7 @@
   "away_team": "Nicaragua",
   "tournament": "CONCACAF Nations League",
   "city": "Santiago",
-  "country": "Chile",
+  "country": "Dominican Republic",
   "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1649032,
@@ -4256,7 +4196,7 @@
    "boxDate": "2026-11-13",
    "kickoff": "2026-11-14T00:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1649033": {
   "date": "2026-11-17",
@@ -4360,7 +4300,7 @@
  },
  "1649542": {
   "date": "2026-11-13",
-  "kickoff": "2026-11-13T14:00:00+00:00",
+  "kickoff": "2026-11-13T16:30:00+00:00",
   "home_team": "Kuwait",
   "away_team": "Syria",
   "tournament": "Friendly",
@@ -4394,5 +4334,41 @@
   "gender": "men",
   "wiki": null,
   "venue_src": "assumed"
+ },
+ "1649961": {
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T09:00:00+00:00",
+  "home_team": "India",
+  "away_team": "Bhutan",
+  "tournament": "SAFF Cup",
+  "city": "Dhaka",
+  "country": "Bangladesh",
+  "neutral": "TRUE",
+  "venue_id": "",
+  "api_id": 1649961,
+  "league": "SAFF Championship",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "venue_src": "city"
+ },
+ "1649962": {
+  "date": "2026-11-14",
+  "kickoff": "2026-11-14T14:30:00+00:00",
+  "home_team": "Bangladesh",
+  "away_team": "Pakistan",
+  "tournament": "SAFF Cup",
+  "city": "Dhaka",
+  "country": "Bangladesh",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1649962,
+  "league": "SAFF Championship",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "venue_src": "city"
  }
 }
