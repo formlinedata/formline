@@ -2979,24 +2979,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1644690": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T00:30:00+00:00",
-  "home_team": "Curaçao",
-  "away_team": "Panama",
-  "tournament": "CONCACAF Nations League",
-  "city": "",
-  "country": "Curaçao",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1644690,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "assumed"
- },
  "1644691": {
   "date": "2026-11-15",
   "kickoff": "2026-11-15T01:00:00+00:00",
@@ -4200,7 +4182,7 @@
    "boxDate": "2026-11-13",
    "kickoff": "2026-11-13T23:00:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1649032": {
   "date": "2026-11-14",
@@ -4208,7 +4190,7 @@
   "home_team": "Montserrat",
   "away_team": "Nicaragua",
   "tournament": "CONCACAF Nations League",
-  "city": "Santiago",
+  "city": "Santiago de Los",
   "country": "Dominican Republic",
   "neutral": "TRUE",
   "venue_id": "",
