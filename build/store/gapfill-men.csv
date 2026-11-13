@@ -7,29 +7,29 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,k
 2026-11-11,India,Maldives,1,0,SAFF Cup,Dhaka,Bangladesh,TRUE,2026-11-11T09:30:00+00:00,,1648706,SAFF Championship,,,2026-11-13T07:25:03.746Z
 2026-11-11,Vietnam,Taiwan,2,0,Friendly,Nam Dinh,Vietnam,FALSE,2026-11-11T12:00:00+00:00,,1647357,Friendlies,,,2026-11-13T07:25:03.746Z
 2026-11-11,Bangladesh,Sri Lanka,4,0,SAFF Cup,Dhaka,Bangladesh,FALSE,2026-11-11T14:00:00+00:00,,1648707,SAFF Championship,,,2026-11-13T07:25:03.746Z
-2026-11-12,New Zealand,India,5,0,Friendly,Auckland,New Zealand,FALSE,2026-11-12T06:10:00+00:00,,1586134,Friendlies,,,2026-11-13T07:25:03.746Z
-2026-11-12,Ghana,Somalia,2,0,African Cup of Nations qualification,Sekondi-Takoradi,Ghana,FALSE,2026-11-12T15:00:00+00:00,,1545873,Africa Cup of Nations - Qualification,,,2026-11-13T07:25:03.746Z
-2026-11-12,Uzbekistan,Russia,2,3,Friendly,Tashkent,Uzbekistan,FALSE,2026-11-12T15:00:00+00:00,,1647358,Friendlies,,,2026-11-13T07:25:03.746Z
-2026-11-12,DR Congo,Sierra Leone,3,1,African Cup of Nations qualification,Kinshasa,DR Congo,FALSE,2026-11-12T16:00:00+00:00,391,1545869,Africa Cup of Nations - Qualification,,,2026-11-13T07:25:03.746Z
-2026-11-12,Equatorial Guinea,Zimbabwe,0,0,African Cup of Nations qualification,Yaounde,Cameroon,TRUE,2026-11-12T16:00:00+00:00,,1545871,Africa Cup of Nations - Qualification,,,2026-11-13T07:25:03.746Z
-2026-11-12,Madagascar,Guinea-Bissau,1,1,African Cup of Nations qualification,Oujda,Morocco,TRUE,2026-11-12T16:00:00+00:00,,1545876,Africa Cup of Nations - Qualification,,,2026-11-13T07:25:03.746Z
-2026-11-12,Guinea,Eritrea,2,1,African Cup of Nations qualification,Conakry,Guinea,FALSE,2026-11-12T16:00:00+00:00,,1545874,Africa Cup of Nations - Qualification,,,2026-11-13T07:25:03.746Z
-2026-11-12,Turkey,Belgium,1,2,UEFA Nations League,Izmir,Turkey,FALSE,2026-11-12T17:00:00+00:00,22441,1528958,UEFA Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Armenia,Cyprus,1,1,UEFA Nations League,Yerevan,Armenia,FALSE,2026-11-12T17:00:00+00:00,121,1528959,UEFA Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Lithuania,Suriname,0,0,Friendly,Kaunas,Lithuania,FALSE,2026-11-12T17:00:00+00:00,,1649011,Friendlies,,,2026-11-13T07:25:03.746Z
-2026-11-12,Malta,Eswatini,1,1,Friendly,Ta' Qali,Malta,FALSE,2026-11-12T17:30:00+00:00,,1647359,Friendlies,,,2026-11-13T07:25:03.746Z
-2026-11-12,Benin,Central African Republic,4,1,African Cup of Nations qualification,Abidjan,Ivory Coast,TRUE,2026-11-12T19:00:00+00:00,,1545864,Africa Cup of Nations - Qualification,,,2026-11-13T07:25:03.746Z
-2026-11-12,Cameroon,Namibia,2,0,African Cup of Nations qualification,Douala,Cameroon,FALSE,2026-11-12T19:00:00+00:00,,1545866,Africa Cup of Nations - Qualification,,,2026-11-13T07:25:03.746Z
-2026-11-12,Ivory Coast,Gambia,2,1,African Cup of Nations qualification,Bouake,Ivory Coast,FALSE,2026-11-12T19:00:00+00:00,,1545875,Africa Cup of Nations - Qualification,,,2026-11-13T07:25:03.746Z
-2026-11-12,Senegal,Sudan,4,1,African Cup of Nations qualification,Dakar,Senegal,FALSE,2026-11-12T19:00:00+00:00,,1545881,Africa Cup of Nations - Qualification,,,2026-11-13T07:25:03.746Z
-2026-11-12,Barbados,Guadeloupe,0,3,CONCACAF Nations League,Guadalupe,Mexico,TRUE,2026-11-12T19:00:00+00:00,,1640004,CONCACAF Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Cayman Islands,Guyana,0,6,CONCACAF Nations League,Leonora,Guyana,FALSE,2026-11-12T19:00:00+00:00,,1640008,CONCACAF Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Bonaire,Cuba,1,7,CONCACAF Nations League,Havana,Cuba,FALSE,2026-11-12T20:00:00+00:00,,1640007,CONCACAF Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Italy,France,3,1,UEFA Nations League,Milan,Italy,FALSE,2026-11-12T19:45:00+00:00,907,1528960,UEFA Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Czech Republic,Spain,0,2,UEFA Nations League,Prague,Czech Republic,FALSE,2026-11-12T19:45:00+00:00,19513,1528961,UEFA Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,England,Croatia,2,1,UEFA Nations League,London,England,FALSE,2026-11-12T19:45:00+00:00,566,1528962,UEFA Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Albania,Finland,2,0,UEFA Nations League,Tirana,Albania,FALSE,2026-11-12T19:45:00+00:00,,1528963,UEFA Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,San Marino,Belarus,0,2,UEFA Nations League,Serravalle,San Marino,FALSE,2026-11-12T19:45:00+00:00,,1528964,UEFA Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Montenegro,Latvia,2,1,UEFA Nations League,Podgorica,Montenegro,FALSE,2026-11-12T19:45:00+00:00,,1545613,UEFA Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Aruba,Martinique,0,0,CONCACAF Nations League,Oranjestad,Aruba,FALSE,2026-11-12T22:00:00+00:00,,1649029,CONCACAF Nations League,,,2026-11-13T07:25:03.746Z
-2026-11-12,Antigua and Barbuda,Trinidad and Tobago,2,3,CONCACAF Nations League,Antigua,Guatemala,TRUE,2026-11-12T23:00:00+00:00,,1649030,CONCACAF Nations League,,,2026-11-13T07:25:03.746Z
+2026-11-12,New Zealand,India,5,0,Friendly,Auckland,New Zealand,FALSE,2026-11-12T06:10:00+00:00,,1586134,Friendlies,,,2026-11-13T07:55:20.199Z
+2026-11-12,Ghana,Somalia,2,0,African Cup of Nations qualification,Sekondi-Takoradi,Ghana,FALSE,2026-11-12T15:00:00+00:00,,1545873,Africa Cup of Nations - Qualification,,,2026-11-13T07:55:20.199Z
+2026-11-12,Uzbekistan,Russia,2,3,Friendly,Tashkent,Uzbekistan,FALSE,2026-11-12T15:00:00+00:00,,1647358,Friendlies,,,2026-11-13T07:55:20.199Z
+2026-11-12,DR Congo,Sierra Leone,3,1,African Cup of Nations qualification,Kinshasa,DR Congo,FALSE,2026-11-12T16:00:00+00:00,391,1545869,Africa Cup of Nations - Qualification,,,2026-11-13T07:55:20.199Z
+2026-11-12,Equatorial Guinea,Zimbabwe,0,0,African Cup of Nations qualification,Yaounde,Cameroon,TRUE,2026-11-12T16:00:00+00:00,,1545871,Africa Cup of Nations - Qualification,,,2026-11-13T07:55:20.199Z
+2026-11-12,Madagascar,Guinea-Bissau,1,1,African Cup of Nations qualification,Oujda,Morocco,TRUE,2026-11-12T16:00:00+00:00,,1545876,Africa Cup of Nations - Qualification,,,2026-11-13T07:55:20.199Z
+2026-11-12,Guinea,Eritrea,2,1,African Cup of Nations qualification,Conakry,Guinea,FALSE,2026-11-12T16:00:00+00:00,,1545874,Africa Cup of Nations - Qualification,,,2026-11-13T07:55:20.199Z
+2026-11-12,Turkey,Belgium,1,2,UEFA Nations League,Izmir,Turkey,FALSE,2026-11-12T17:00:00+00:00,22441,1528958,UEFA Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Armenia,Cyprus,1,1,UEFA Nations League,Yerevan,Armenia,FALSE,2026-11-12T17:00:00+00:00,121,1528959,UEFA Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Lithuania,Suriname,0,0,Friendly,Kaunas,Lithuania,FALSE,2026-11-12T17:00:00+00:00,,1649011,Friendlies,,,2026-11-13T07:55:20.199Z
+2026-11-12,Malta,Eswatini,1,1,Friendly,Ta' Qali,Malta,FALSE,2026-11-12T17:30:00+00:00,,1647359,Friendlies,,,2026-11-13T07:55:20.199Z
+2026-11-12,Benin,Central African Republic,4,1,African Cup of Nations qualification,Abidjan,Ivory Coast,TRUE,2026-11-12T19:00:00+00:00,,1545864,Africa Cup of Nations - Qualification,,,2026-11-13T07:55:20.199Z
+2026-11-12,Cameroon,Namibia,2,0,African Cup of Nations qualification,Douala,Cameroon,FALSE,2026-11-12T19:00:00+00:00,,1545866,Africa Cup of Nations - Qualification,,,2026-11-13T07:55:20.199Z
+2026-11-12,Ivory Coast,Gambia,2,1,African Cup of Nations qualification,Bouake,Ivory Coast,FALSE,2026-11-12T19:00:00+00:00,,1545875,Africa Cup of Nations - Qualification,,,2026-11-13T07:55:20.199Z
+2026-11-12,Senegal,Sudan,4,1,African Cup of Nations qualification,Dakar,Senegal,FALSE,2026-11-12T19:00:00+00:00,,1545881,Africa Cup of Nations - Qualification,,,2026-11-13T07:55:20.199Z
+2026-11-12,Barbados,Guadeloupe,0,3,CONCACAF Nations League,Guadalupe,Mexico,TRUE,2026-11-12T19:00:00+00:00,,1640004,CONCACAF Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Cayman Islands,Guyana,0,6,CONCACAF Nations League,Leonora,Guyana,FALSE,2026-11-12T19:00:00+00:00,,1640008,CONCACAF Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Bonaire,Cuba,1,7,CONCACAF Nations League,Havana,Cuba,FALSE,2026-11-12T20:00:00+00:00,,1640007,CONCACAF Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Italy,France,3,1,UEFA Nations League,Milan,Italy,FALSE,2026-11-12T19:45:00+00:00,907,1528960,UEFA Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Czech Republic,Spain,0,2,UEFA Nations League,Prague,Czech Republic,FALSE,2026-11-12T19:45:00+00:00,19513,1528961,UEFA Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,England,Croatia,2,1,UEFA Nations League,London,England,FALSE,2026-11-12T19:45:00+00:00,566,1528962,UEFA Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Albania,Finland,2,0,UEFA Nations League,Tirana,Albania,FALSE,2026-11-12T19:45:00+00:00,,1528963,UEFA Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,San Marino,Belarus,0,2,UEFA Nations League,Serravalle,San Marino,FALSE,2026-11-12T19:45:00+00:00,,1528964,UEFA Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Montenegro,Latvia,2,1,UEFA Nations League,Podgorica,Montenegro,FALSE,2026-11-12T19:45:00+00:00,,1545613,UEFA Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Aruba,Martinique,0,0,CONCACAF Nations League,Oranjestad,Aruba,FALSE,2026-11-12T22:00:00+00:00,,1649029,CONCACAF Nations League,,,2026-11-13T07:55:20.199Z
+2026-11-12,Antigua and Barbuda,Trinidad and Tobago,2,3,CONCACAF Nations League,Antigua,Guatemala,TRUE,2026-11-12T23:00:00+00:00,,1649030,CONCACAF Nations League,,,2026-11-13T07:55:20.199Z
