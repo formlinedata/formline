@@ -1,11 +1,11 @@
 {
- "built": "2026-11-13T20:31:18.490Z",
+ "built": "2026-11-13T21:26:27.626Z",
  "today": "2026-11-13",
  "mode": "light",
  "api": {
   "keyPresent": true,
   "used": 3,
-  "remaining": 7367,
+  "remaining": 7364,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 129,
+   "usedTodayBeforeRun": 132,
    "perMinute": 300
   },
   "paid": true,
@@ -30,12 +30,11 @@
   "clubs": 40,
   "not counted": 3,
   "status CANC": 1,
-  "status 2H": 5,
-  "status 1H": 10
+  "status 2H": 10
  },
  "seen": {
   "men": {
-   "results": 42,
+   "results": 47,
    "latest": "2026-11-13"
   },
   "women": {
@@ -44,13 +43,13 @@
   }
  },
  "men": {
-  "built": "2026-11-13T20:31:18.490Z",
+  "built": "2026-11-13T21:26:27.626Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
   },
   "gapfill": {
-   "rows": 50,
+   "rows": 55,
    "from": "2026-11-05",
    "to": "2026-11-13"
   },
@@ -60,7 +59,7 @@
   "fixtures": 116
  },
  "women": {
-  "built": "2026-11-13T20:31:18.490Z",
+  "built": "2026-11-13T21:26:27.626Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -88,10 +87,10 @@
  },
  "forecasts": {
   "total": 233,
-  "scored": 52,
+  "scored": 56,
   "newThisRun": 0,
   "updatedThisRun": 165,
-  "scoredThisRun": 0,
+  "scoredThisRun": 4,
   "droppedThisRun": 0
  }
 }
