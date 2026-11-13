@@ -2920,30 +2920,6 @@
   "gender": "men",
   "venue_src": "assumed"
  },
- "1647362": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T23:00:00+00:00",
-  "home_team": "Argentina",
-  "away_team": "Uruguay",
-  "tournament": "Friendly",
-  "city": "Buenos Aires",
-  "country": "Argentina",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647362,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Buenos Aires",
-   "country": "Argentina",
-   "stadium": "La Bombonera",
-   "boxDate": "2026-11-13"
-  },
-  "venue_src": "city"
- },
  "1647363": {
   "date": "2026-11-14",
   "kickoff": "2026-11-14T00:00:00+00:00",
@@ -3550,31 +3526,6 @@
   "gender": "women",
   "wiki": null,
   "venue_src": "assumed"
- },
- "1649031": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T23:00:00+00:00",
-  "home_team": "Saint Martin",
-  "away_team": "El Salvador",
-  "tournament": "CONCACAF Nations League",
-  "city": "Basseterre",
-  "country": "Saint Kitts and Nevis",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1649031,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Basseterre",
-   "country": "Saint Kitts and Nevis",
-   "stadium": "SKNFA Technical Center",
-   "boxDate": "2026-11-13",
-   "kickoff": "2026-11-13T23:00:00+00:00"
-  },
-  "venue_src": "city"
  },
  "1649032": {
   "date": "2026-11-14",
