@@ -1421,7 +1421,7 @@ const INTERCONT = new Set(['confederations cup','finalissima','conmebol–uefa c
    cups qualified teams for the Gold Cup from 1991 to 2017, and the AFC Challenge Cup's winners went to the Asian Cup
    from 2008 to 2014. In those years they, and their own qualifiers, count as continental qualifying. */
 const DOUBLED = {'CFU Caribbean Cup':[1991,2017], 'UNCAF Cup':[1991,2017], 'AFC Challenge Cup':[2008,2014]};
-const MULTISPORT = new Set(['Inter-Allied Games','Central American and Caribbean Games','Bolivarian Games','Asian Games',
+const MULTISPORT = new Set(['Pan Arab Games','Mediterranean Games','Central African Games','Inter-Allied Games','Central American and Caribbean Games','Bolivarian Games','Asian Games',
   'Southeast Asian Peninsular Games','African Friendship Games','South Pacific Games','All-African Games','GaNEFo',
   'Southeast Asian Games','South Pacific Mini Games','South Asian Games','East Asian Games','Afro-Asian Games',
   'Pacific Games','Pacific Mini Games','Goodwill Games','Pan American Games','Central American Games','African Games']);
@@ -1461,7 +1461,7 @@ function categorize(t, ts, g){
   if (t === 'British Home Championship' && ts !== undefined){
     for (const [a,b,c] of BHC_QUALIFIERS) if (ts >= a && ts <= b) return c;
   }
-  if (s.includes('olympic') && (s.includes('qualif') || s.includes('pre-olympic'))) return 'contq';
+  if (s.includes('olympic') && (s.includes('qualif') || s.includes('pre-olympic'))) return g === 'men' ? 'games' : 'contq';   // the men's Olympic qualifiers sit with the men's Olympic tournament: multi-sport games
   /* The Baltic Cup was the Baltic states' premier championship before the war; revived after independence in 1991,
      and in the women's game from 1996, it is a sub-regional cup like any other. */
   if (t === 'Baltic Cup' && (g === 'women' || (ts !== undefined && new Date(ts).getUTCFullYear() >= 1991))) return 'subreg';
@@ -2074,7 +2074,71 @@ const CORRECTIONS = {
     {date:'1961-12-27', home:'Ivory Coast', away:'Central African Republic', score:'1-0', set:{hs:11, as:0}, note:'Ivory Coast won 11-0, their biggest win; the archive has 1-0 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
     {date:'1961-10-28', home:'Myanmar', away:'South Korea', score:'3-0', set:{hs:1, as:3}, note:'South Korea won 3-1; the archive has 3-0 (Wikipedia and World Football Elo Ratings)'},
     {date:'1957-09-07', home:'Malaysia', away:'Indonesia', score:'4-2', set:{hs:2, as:4}, note:'Indonesia won 4-2; the archive has 4-2 (Wikipedia and World Football Elo Ratings)'},
-    {date:'1949-01-25', home:'Macau', away:'South Korea', score:'1-5', set:{hs:0, as:3}, note:'South Korea won 3-0; the archive has 1-5 (Wikipedia and World Football Elo Ratings)'}
+    {date:'1949-01-25', home:'Macau', away:'South Korea', score:'1-5', set:{hs:0, as:3}, note:'South Korea won 3-0; the archive has 1-5 (Wikipedia and World Football Elo Ratings)'},
+    /* Dates: the archive has the match on another day than Wikipedia and World Football Elo Ratings both give. */
+    {date:'1960-11-03', home:'United States', away:'Mexico', score:'3-3', set:{ts:Date.UTC(1960, 10, 6)}, note:'played 6 November 1960; the archive has 3 November (Wikipedia and World Football Elo Ratings)'},
+    {date:'1960-11-06', home:'Mexico', away:'United States', score:'3-0', set:{ts:Date.UTC(1960, 10, 13)}, note:'played 13 November 1960; the archive has 6 November (Wikipedia and World Football Elo Ratings)'},
+    {date:'1969-08-10', home:'Guinea', away:'Togo', score:'4-0', set:{ts:Date.UTC(1969, 3, 13)}, note:'played 13 April 1969; the archive has 10 August (Wikipedia and World Football Elo Ratings)'},
+    {date:'1971-10-27', home:'Egypt', away:'Morocco', score:'3-2', set:{ts:Date.UTC(1971, 3, 16)}, note:'played 16 April 1971; the archive has 27 October (Wikipedia and World Football Elo Ratings)'},
+    {date:'1971-10-13', home:'Zambia', away:'DR Congo', score:'2-1', set:{ts:Date.UTC(1971, 5, 6)}, note:'played 6 June 1971; the archive has 13 October (Wikipedia and World Football Elo Ratings)'},
+    {date:'1971-10-13', home:'Guinea', away:'Mali', score:'0-0', set:{ts:Date.UTC(1971, 5, 13)}, note:'played 13 June 1971; the archive has 13 October (Wikipedia and World Football Elo Ratings)'},
+    {date:'1971-10-27', home:'DR Congo', away:'Zambia', score:'3-0', set:{ts:Date.UTC(1971, 5, 20)}, note:'played 20 June 1971; the archive has 27 October (Wikipedia and World Football Elo Ratings)'},
+    {date:'1971-10-27', home:'Mali', away:'Guinea', score:'3-1', set:{ts:Date.UTC(1971, 5, 27)}, note:'played 27 June 1971; the archive has 27 October (Wikipedia and World Football Elo Ratings)'},
+    {date:'1973-04-17', home:'Kuwait', away:'Qatar', score:'4-1', set:{ts:Date.UTC(1973, 0, 5)}, note:'played 5 January 1973; the archive has 17 April (Wikipedia and World Football Elo Ratings)'},
+    {date:'1977-02-27', home:'Botswana', away:'China', score:'0-2', set:{ts:Date.UTC(1977, 6, 27)}, note:'played 27 July 1977; the archive has 27 February (Wikipedia and World Football Elo Ratings)'},
+    {date:'1979-04-25', home:'São Tomé and Príncipe', away:'Angola', score:'1-2', set:{ts:Date.UTC(1979, 6, 12)}, note:'played 12 July 1979; the archive has 25 April (Wikipedia and World Football Elo Ratings)'},
+    {date:'1991-06-22', home:'Philippines', away:'Brunei', score:'2-1', set:{ts:Date.UTC(1991, 4, 6)}, note:'played 6 May 1991; the archive has 22 June (Wikipedia and World Football Elo Ratings)'},
+    {date:'2019-08-28', home:'Belize', away:'Saint Vincent and the Grenadines', score:'1-1', set:{ts:Date.UTC(2019, 7, 30)}, note:'played 30 August 2019; the archive has 28 August (Wikipedia and World Football Elo Ratings)'},
+    {date:'2019-08-30', home:'Belize', away:'Saint Vincent and the Grenadines', score:'1-0', set:{ts:Date.UTC(2019, 8, 1)}, note:'played 1 September 2019; the archive has 30 August (Wikipedia and World Football Elo Ratings)'},
+    /* Results awarded afterwards (Seb, 13 November 2026): Formline rates the score on the pitch and says on the match what
+       was awarded later. The archive holds the awarded score, so `set` is the score on the pitch and `awarded` the official
+       one, home side first. `ab`: abandoned at that score. `late`: awarded after the competition had moved on, so who went
+       through is read from the pitch. Tables and titles follow the official result (offScore). */
+    {date:'2026-01-18', home:'Morocco', away:'Senegal', score:'3-0', set:{hs:0, as:1}, awarded:[3, 0], note:'Senegal won 1-0 after extra time; the CAF Appeal Board recorded it as 3-0 to Morocco on 17 March 2026, after Senegal had left the pitch during the match'},
+    {date:'2025-03-21', home:'South Africa', away:'Lesotho', score:'0-3', set:{hs:2, as:0}, awarded:[0, 3], note:'South Africa won 2-0; awarded 3-0 to Lesotho by FIFA (a suspended player was fielded)'},
+    {date:'2023-11-20', home:'Liberia', away:'Equatorial Guinea', score:'3-0', set:{hs:0, as:1}, awarded:[3, 0], note:'Equatorial Guinea won 1-0; awarded 3-0 to Liberia by FIFA (ineligible player)'},
+    {date:'2023-11-15', home:'Equatorial Guinea', away:'Namibia', score:'0-3', set:{hs:1, as:0}, awarded:[0, 3], note:'Equatorial Guinea won 1-0; awarded 3-0 to Namibia by FIFA (ineligible player)'},
+    {date:'2018-09-06', home:'Guyana', away:'Barbados', score:'3-0', set:{hs:2, as:2}, awarded:[3, 0], note:'2-2; awarded 3-0 to Guyana by CONCACAF (ineligible players)'},
+    {date:'2017-11-10', home:'Algeria', away:'Nigeria', score:'3-0', set:{hs:1, as:1}, awarded:[3, 0], note:'1-1; awarded 3-0 to Algeria by FIFA (ineligible player)'},
+    {date:'2016-11-07', home:'Tahiti', away:'Solomon Islands', score:'3-0', set:{hs:1, as:0}, awarded:[3, 0], note:'Tahiti won 1-0; awarded 3-0 to Tahiti by FIFA (ineligible player)'},
+    {date:'2016-09-06', home:'Chile', away:'Bolivia', score:'3-0', set:{hs:0, as:0}, awarded:[3, 0], note:'0-0; awarded 3-0 to Chile by FIFA (ineligible player)'},
+    {date:'2016-09-01', home:'Bolivia', away:'Peru', score:'0-3', set:{hs:2, as:0}, awarded:[0, 3], note:'Bolivia won 2-0; awarded 3-0 to Peru by FIFA (ineligible player)'},
+    {date:'2015-11-15', home:'DR Congo', away:'Burundi', score:'3-0', set:{hs:2, as:2}, awarded:[3, 0], note:'2-2; awarded 3-0 to DR Congo by FIFA (ineligible player)'},
+    {date:'2015-10-13', home:'Timor-Leste', away:'Malaysia', score:'0-3', set:{hs:0, as:1}, awarded:[0, 3], note:'Malaysia won 1-0; recorded as 3-0 to Malaysia after Timor-Leste were found to have fielded ineligible players'},
+    {date:'2015-10-08', home:'Timor-Leste', away:'Palestine', score:'0-3', set:{hs:1, as:1}, awarded:[0, 3], note:'1-1; awarded 3-0 to Palestine after Timor-Leste were found to have fielded ineligible players'},
+    {date:'2015-09-08', home:'Malaysia', away:'Saudi Arabia', score:'0-3', set:{hs:1, as:2}, awarded:[0, 3], ab:1, note:'abandoned late on with Saudi Arabia leading 2-1 (crowd trouble); awarded 3-0 to Saudi Arabia'},
+    {date:'2015-06-16', home:'Timor-Leste', away:'United Arab Emirates', score:'0-3', set:{hs:0, as:1}, awarded:[0, 3], note:'the United Arab Emirates won 1-0; recorded as 3-0 after Timor-Leste were found to have fielded ineligible players'},
+    {date:'2015-06-14', home:'Barbados', away:'Aruba', score:'0-3', set:{hs:1, as:0}, awarded:[0, 3], note:'Barbados won 1-0; awarded 3-0 to Aruba by FIFA (ineligible player), which put Aruba through'},
+    {date:'2015-06-11', home:'Malaysia', away:'Timor-Leste', score:'3-0', set:{hs:1, as:1}, awarded:[3, 0], note:'1-1; awarded 3-0 to Malaysia after Timor-Leste were found to have fielded ineligible players'},
+    {date:'2015-03-17', home:'Mongolia', away:'Timor-Leste', score:'3-0', set:{hs:0, as:1}, awarded:[3, 0], late:1, note:'Timor-Leste won 1-0; awarded 3-0 to Mongolia in 2017, long after Timor-Leste had gone through'},
+    {date:'2015-03-12', home:'Timor-Leste', away:'Mongolia', score:'0-3', set:{hs:4, as:1}, awarded:[0, 3], late:1, note:'Timor-Leste won 4-1; awarded 3-0 to Mongolia in 2017, long after Timor-Leste had gone through'},
+    {date:'2014-10-14', home:'Serbia', away:'Albania', score:'0-3', set:{hs:0, as:0}, awarded:[0, 3], ab:1, note:'abandoned at 0-0 before half-time (crowd trouble); awarded 3-0 to Albania by the Court of Arbitration for Sport'},
+    {date:'2013-09-07', home:'Tunisia', away:'Cape Verde', score:'3-0', set:{hs:0, as:2}, awarded:[3, 0], note:'Cape Verde won 2-0; awarded 3-0 to Tunisia by FIFA (ineligible player)'},
+    {date:'2013-06-09', home:'Togo', away:'Cameroon', score:'0-3', set:{hs:2, as:0}, awarded:[0, 3], note:'Togo won 2-0; awarded 3-0 to Cameroon by FIFA (ineligible player)'},
+    {date:'2013-06-08', home:'Cape Verde', away:'Equatorial Guinea', score:'3-0', set:{hs:2, as:1}, awarded:[3, 0], note:'Cape Verde won 2-1; awarded 3-0 to Cape Verde by FIFA (ineligible player)'},
+    {date:'2013-06-08', home:'Botswana', away:'Ethiopia', score:'3-0', set:{hs:1, as:2}, awarded:[3, 0], note:'Ethiopia won 2-1; awarded 3-0 to Botswana by FIFA (ineligible player)'},
+    {date:'2013-03-24', home:'Equatorial Guinea', away:'Cape Verde', score:'0-3', set:{hs:4, as:3}, awarded:[0, 3], note:'Equatorial Guinea won 4-3; awarded 3-0 to Cape Verde by FIFA (ineligible player)'},
+    {date:'2012-06-03', home:'Niger', away:'Gabon', score:'3-0', set:{hs:0, as:0}, awarded:[3, 0], note:'0-0; awarded 3-0 to Niger by FIFA (ineligible player)'},
+    {date:'2012-06-02', home:'Sudan', away:'Zambia', score:'0-3', set:{hs:2, as:0}, awarded:[0, 3], note:'Sudan won 2-0; awarded 3-0 to Zambia by FIFA (ineligible player)'},
+    {date:'2012-06-02', home:'Burkina Faso', away:'Congo', score:'0-3', set:{hs:0, as:0}, awarded:[0, 3], note:'0-0; awarded 3-0 to Congo by FIFA (ineligible player)'},
+    {date:'2011-07-28', home:'Tajikistan', away:'Syria', score:'3-0', set:{hs:0, as:4}, awarded:[3, 0], note:'Syria won 4-0; awarded 3-0 to Tajikistan by FIFA (ineligible player), which put Tajikistan through'},
+    {date:'2011-07-23', home:'Syria', away:'Tajikistan', score:'0-3', set:{hs:2, as:1}, awarded:[0, 3], note:'Syria won 2-1; awarded 3-0 to Tajikistan by FIFA (ineligible player), which put Tajikistan through'},
+    {date:'2009-01-30', home:'Costa Rica', away:'El Salvador', score:'3-0', set:{hs:1, as:0}, awarded:[3, 0], ab:1, note:'abandoned with Costa Rica leading 1-0, El Salvador having too few players left; recorded as 3-0'},
+    {date:'2008-06-14', home:'Singapore', away:'Saudi Arabia', score:'0-3', set:{hs:0, as:2}, awarded:[0, 3], note:'Saudi Arabia won 2-0; recorded as 3-0 by FIFA (Singapore fielded an ineligible player)'},
+    {date:'2008-06-07', home:'Uzbekistan', away:'Singapore', score:'3-0', set:{hs:1, as:0}, awarded:[3, 0], note:'Uzbekistan won 1-0; recorded as 3-0 by FIFA (Singapore fielded an ineligible player)'},
+    {date:'2007-06-02', home:'Denmark', away:'Sweden', score:'0-3', set:{hs:3, as:3}, awarded:[0, 3], ab:1, note:'abandoned at 3-3 in the 89th minute after a spectator attacked the referee; awarded 3-0 to Sweden'},
+    {date:'2003-11-12', home:'Iran', away:'North Korea', score:'3-0', set:{hs:1, as:0}, awarded:[3, 0], ab:1, note:'abandoned with Iran leading 1-0 (crowd trouble); awarded 3-0 to Iran'},
+    {date:'2024-11-15', home:'Romania', away:'Kosovo', score:'0-0', awarded:[3, 0], ab:1, note:'abandoned at 0-0 in stoppage time when Kosovo left the pitch; awarded 3-0 to Romania by UEFA'},
+    {date:'2010-10-12', home:'Italy', away:'Serbia', score:'3-0', set:{hs:0, as:0}, awarded:[3, 0], ab:1, note:'abandoned after six minutes at 0-0 (crowd trouble in Genoa); awarded 3-0 to Italy by UEFA'},
+    /* Awarded without being played (Seb, 13 November 2026): marked as awarded, never rated. `score` and `awarded` are the same. */
+    {date:'1973-11-21', home:'Chile', away:'Russia', score:'2-0', awarded:[2, 0], walkover:1, note:'the Soviet Union refused to travel to Santiago; Chile were awarded the match'},
+    {date:'2015-11-17', home:'Myanmar', away:'Kuwait', score:'3-0', awarded:[3, 0], walkover:1, note:'not played, Kuwait being suspended by FIFA; awarded to Myanmar'},
+    {date:'2019-06-11', home:'Sri Lanka', away:'Macau', score:'3-0', awarded:[3, 0], walkover:1, note:'Macau did not travel; awarded to Sri Lanka'},
+    {date:'2020-11-15', home:'Romania', away:'Norway', score:'3-0', awarded:[3, 0], walkover:1, note:'Norway could not travel under quarantine rules; awarded to Romania by UEFA'},
+    {date:'2020-11-17', home:'Switzerland', away:'Ukraine', score:'3-0', awarded:[3, 0], walkover:1, note:'called off with the Ukraine squad in quarantine; awarded to Switzerland by UEFA'},
+    {date:'2021-03-24', home:'Chad', away:'Namibia', score:'0-3', awarded:[0, 3], walkover:1, note:'not played, Chad having been disqualified by CAF; awarded to Namibia'},
+    {date:'2021-03-28', home:'Mali', away:'Chad', score:'3-0', awarded:[3, 0], walkover:1, note:'not played, Chad having been disqualified by CAF; awarded to Mali'},
+    {date:'2021-07-03', home:'Cuba', away:'French Guiana', score:'0-3', awarded:[0, 3], walkover:1, note:'Cuba could not travel; awarded to French Guiana'}
   ],
   women: [
     /* Checked against Wikipedia's tournament articles, November 2026. Each applies only while the archive still has the
@@ -2128,7 +2192,9 @@ function normalize(rows, g){
     const cs = fix.get(r.date+'|'+r.home_team+'|'+r.away_team);
     if (cs){
       const c = cs.find(c => !c.score || c.score === hs+'-'+as);
-      if (c){ applied++; if (c.drop) continue; Object.assign(m, c.set || {}); m.corrected = c.note || true; }
+      if (c){ applied++; if (c.drop) continue; Object.assign(m, c.set || {}); m.corrected = c.note || true;
+        if (c.awarded){ m.awarded = c.awarded; if (c.late) m.awardLate = 1; }
+        if (c.ab){ m.ab = 1; m.unrated = 1; } if (c.walkover){ m.walkover = 1; m.unrated = 1; } }
     }
     if (r.src) m.src = r.src;
     out.push(m);
@@ -2137,6 +2203,20 @@ function normalize(rows, g){
   out.sort((a,b) => a.ts - b.ts);
   return out;
 }
+/* A result awarded afterwards: ratings, records and match lists use the score on the pitch (m.hs, m.as); group tables,
+   ties and titles use the official score, unless the award came after the competition had moved on. */
+const offScore = m => m.awarded && !m.awardLate ? m.awarded : [m.hs, m.as];
+const awardLine = m => { if (!m.awarded && !m.ab) return ''; const aw = m.awarded, to = aw && (aw[0] > aw[1] ? m.home : m.away);
+  const given = aw ? 'awarded '+Math.max(aw[0], aw[1])+'&ndash;'+Math.min(aw[0], aw[1])+' to '+esc(dn(to)) : '';
+  return '<div class="pens-line">'+(m.walkover ? 'Not played; '+given+'. Not rated' : m.ab ? 'Abandoned at this score'+(aw ? '; later '+given : '')+'. Not rated' : 'The score on the pitch; later '+given)+'</div>'; };
+/* A team's matches that are shown but not rated (abandoned, or awarded without being played), for its match table. */
+const unratedFor = (key, h) => { const lo = h.length ? h[0].ts : windowStartTs();
+  return state.matches[state.gender].filter(m => m.unrated && m.ts >= lo && m.ts <= state.asOf && (lineageKey(m.home) === key || lineageKey(m.away) === key)).map(m => ({ts:m.ts, un:m})); };
+const unratedRow = (m, key) => { const home = lineageKey(m.home) === key, opp = home ? m.away : m.home;
+  return '<tr><td class="muted date">'+fmtDay(m.ts)+'</td><td><a href="'+teamHref(opp)+'">'+withFlag(opp, m.ts)+'</a>'+(m.neutral ? ' <span class="muted">(N)</span>' : home ? '' : ' <span class="muted">(A)</span>')+
+    awardLine(m).replace('class="pens-line"', 'class="pens-line" style="text-align:left;"')+'</td><td class="comp hide-sm" title="'+esc(m.tournament)+'">'+esc(shortComp(m.tournament))+'</td>'+
+    '<td class="num mono">'+(m.walkover ? '<span class="muted">&ndash;</span>' : (home ? m.hs : m.as)+'&ndash;'+(home ? m.as : m.hs))+'</td>'+
+    '<td class="hide-sm"></td><td class="hide-sm"></td><td class="hide-sm"></td><td class="num muted" colspan="3">not rated</td></tr>'; };
 function buildFormer(rows){
   const m = new Map();
   const add = (cur, name, s, e) => {
@@ -2604,7 +2684,7 @@ function windowStartFor(ts){
   return d.getTime();
 }
 const windowStartTs = () => windowStartFor(state.asOf);
-const includeMatch = m => state.comps.has(m.cat);
+const includeMatch = m => !m.unrated && state.comps.has(m.cat);   // an abandoned match, or one awarded without being played, is shown but never rated
 
 /*ENGINE<*/
 /* ------------------------------------------------------------
@@ -2781,7 +2861,7 @@ function colsFor(){
     const m = ms[i]; c.reg = idsFor(m);
     c.ts[i] = m.ts; c.hi[i] = m._hi; c.ai[i] = m._ai; c.hp[i] = m._hp; c.ap[i] = m._ap;
     c.wImp[i] = m.k/K_REF; c.wStep[i] = c.wImp[i]*goalMult(Math.abs(m.hs-m.as)); c.h[i] = homeOf(m);
-    c.sc[i] = m.hs>m.as ? 1 : (m.hs<m.as ? 0 : 0.5); c.cat[i] = catIx.get(m.cat); c.hn[i] = m._hn; c.an[i] = m._an;
+    c.sc[i] = m.hs>m.as ? 1 : (m.hs<m.as ? 0 : 0.5); c.cat[i] = m.unrated ? 255 : catIx.get(m.cat);   /* 255 is no kind at all, so the kernel passes over a match that is shown but not rated */ c.hn[i] = m._hn; c.an[i] = m._an;
   }
   return colCache[key] = c;
 }
@@ -3264,7 +3344,7 @@ const rankStd = () => state.maxBand === DEFAULTS.maxBand && state.rankBy === DEF
    in this game's match list. `window` is the run behind the table, one line a match in the order played:
    [match, home row, away row, home before, home after, home rd, away before, away after, away rd, expected]. */
 const matchListPrint = ms => { let h = 2166136261; const add = v => { h ^= v; h = Math.imul(h, 16777619) >>> 0; };
-  for (const m of ms){ add(m.ts/DAY | 0); add(m.hs); add(m.as); add(m.home.length*31 + m.away.length); }
+  for (const m of ms){ add(m.ts/DAY | 0); add(m.hs); add(m.as); add(m.home.length*31 + m.away.length); if (m.unrated) add(977); }
   return h; };
 /*ENGINE<*/
 function tableToFile(c){
@@ -4837,6 +4917,7 @@ function viewSources(){
         '. They are compiled from Wikipedia, RSSSF and football association sources.', 'CC0 (public domain)'],
       ['Results newer than the archives, and upcoming fixtures', a('https://www.api-football.com', 'API-Football'), 'Used under the site\'s paid plan'],
       ['Venues and kick-off times API-Football does not have yet', a('https://en.wikipedia.org', 'Wikipedia')+'\'s results and competition articles', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
+      ['Men\'s results missing from the archive, added by hand (1,738 matches, each found in two other records); scores corrected where two other records agree against the archive; and the score on the pitch for results awarded afterwards', a('https://www.eloratings.net/', 'World Football Elo Ratings')+' and '+a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team results pages. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')+' (Wikipedia)'],
       ['Women\'s results missing from the archives and API-Football, added by hand (242 matches: four 2026 tournaments, the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, missing qualifiers and recent friendlies); and a few scores and dates corrected', a('https://en.wikipedia.org', 'Wikipedia')+'\'s tournament and national-team articles. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Women\'s results neither the archives nor API-Football have, found each night', a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team articles, kept when two pages agree or the result stays up for two days. Marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Historical results and tables', a('https://www.rsssf.org', 'RSSSF')+' (the Rec.Sport.Soccer Statistics Foundation), through the archives above. '+
@@ -5574,7 +5655,7 @@ const FINISH = {Winner:[100, 'Champions'], Final:[90, 'Runners-up'], SF:[80, 'Se
 const finishOf = f => FINISH[f] || (/^\d+/.test(f) ? [50 - parseInt(f, 10), f+' place'] : [30, f]);
 /* The match that decided an edition the format reader cannot follow: the only match on the last day, or, when two were
    played that day (a final and a third-place match), the one between two teams that won their previous match. */
-const winnerOf = m => { const so = shootoutWinner(m); return m.hs > m.as ? m._h : m.hs < m.as ? m._a : so ? keyOfName(so) : null; };
+const winnerOf = m => { const so = shootoutWinner(m), [h, a] = offScore(m); return h > a ? m._h : h < a ? m._a : so ? keyOfName(so) : null; };
 function finalOf(e){
   const ms = e.matches, day = fmtDate(ms[ms.length - 1].ts), cand = ms.filter(m => fmtDate(m.ts) === day);
   const wonLast = (k, before) => { for (let i = ms.indexOf(before) - 1; i >= 0; i--){ const m = ms[i]; if (fmtDate(m.ts) === day) continue;
@@ -5727,7 +5808,7 @@ function historySection(key){
       ? '<b>All time</b>: one continuous run through every match on record, as on the Records page, so the numbers can differ a little from the rest of the site. Ranks are checked <span id="histAllHow">at the start of every month</span>, once at least '+RANK_MIN_TEAMS+' teams were ranked.'
       : '<b>'+winTxt+'</b>: what the site showed at the time, from the published rating on each date (<span id="histHow">checked <span id="histStep">every four months</span>, and after each match in the last two years</span>). Results and runs count matches inside the window.')+
       ' Tournament records are all time in both views. Upsets count only matches where the model knew both sides well. Names and flags as they were at the time.'+
-      ' Biggest results and runs are counted over the matches in Formline&rsquo;s archive. It leaves out Olympic matches after 1928 and games against amateur or B teams, and keeps a few matches some federations do not count, so a federation&rsquo;s own record book can differ now and then.'+
+      ' Biggest results and runs are counted over the matches in Formline&rsquo;s archive. It counts an Olympic match after 1928 only where the records list it as a full international, leaves out games against amateur or B teams, and keeps a few matches some federations do not count, so a federation&rsquo;s own record book can differ now and then.'+
       ' <a href="#/team/'+enc(dn(key))+(filterQuery({g:state.gender === 'men' ? 'women' : undefined}) ? '?'+filterQuery({g:state.gender === 'men' ? 'women' : undefined}) : '')+'">'+
         esc(dn(key))+(state.gender === 'men' ? '\'s women\'s team' : '\'s men\'s team')+' &rarr;</a></p></div></div>';
 }
@@ -5804,7 +5885,9 @@ function viewTeam(){
   }
   const row = c.byKey.get(key), team = row.team, h = publishedHistory(key);
   const rkConf = state.params.rk === 'conf';
-  const w = h.filter(x=>x.gf>x.ga).length, d = h.filter(x=>x.gf===x.ga).length, l = h.filter(x=>x.gf<x.ga).length;
+  /* A match awarded without being played is a win and a loss in the record, though it is never rated and no score counts. */
+  const wo = unratedFor(key, h).filter(x => x.un.walkover && x.un.awarded).map(x => (x.un.awarded[0] > x.un.awarded[1]) === (lineageKey(x.un.home) === key));
+  const w = h.filter(x=>x.gf>x.ga).length + wo.filter(v => v).length, d = h.filter(x=>x.gf===x.ga).length, l = h.filter(x=>x.gf<x.ga).length + wo.filter(v => !v).length;
   const gf = h.reduce((s,x)=>s+x.gf,0), ga = h.reduce((s,x)=>s+x.ga,0);
   const i = {...infoFor(key), conf:row.conf};
   const rg = row.rank ? rankRanges(c).get(key) : null;
@@ -5881,14 +5964,14 @@ function viewTeam(){
         '<th class="num hide-sm" title="The model\'s chances before kick-off: this team wins, draw, opponent wins (%)">Chances <span class="muted">W&middot;D&middot;L</span></th>'+
         '<th class="num hide-sm">Before</th><th class="num">After</th>'+
         '<th class="num">&Delta;</th><th class="num" title="'+(rkConf ? 'Rank in its confederation' : 'World rank')+' just after the match">Rank</th></tr></thead><tbody>'+
-        h.slice().reverse().map(x=>{
+        h.slice().reverse().concat(unratedFor(key, h)).sort((a, b) => b.ts - a.ts).map(x=>{ if (x.un) return unratedRow(x.un, key);
           const ed = x.m && x.m._ed, pen = x.m ? shootoutWinner(x.m) : null;
           return '<tr><td class="muted date">'+fmtDay(x.ts)+
             (x.m && x.m.src === 'gapfill' ? '<span class="gf" title="Not yet in the main results archive (Mart Jürisoo\'s, on Kaggle and GitHub): result from API-Football, collected by the nightly update">&dagger;</span>' :
              x.m && x.m.src === 'manual' ? '<span class="gf" title="Missing from the main results archive (Mart Jürisoo\'s): result added by hand, checked against Wikipedia">&Dagger;</span>' :
              x.m && x.m.src === 'wiki' ? '<span class="gf" title="Missing from the main results archive (Mart Jürisoo\'s) and from API-Football: result from Wikipedia, found by the nightly update">&Dagger;</span>' : '')+'</td>'+
           '<td><a href="'+teamHref(x.oppName)+'">'+withFlag(x.oppName, x.ts)+'</a>'+
-            (x.neutral?' <span class="muted">(N)</span>':(x.home?'':' <span class="muted">(A)</span>'))+'</td>'+
+            (x.neutral?' <span class="muted">(N)</span>':(x.home?'':' <span class="muted">(A)</span>'))+(x.m ? awardLine(x.m).replace('class="pens-line"', 'class="pens-line" style="text-align:left;"') : '')+'</td>'+
           '<td class="comp hide-sm" title="'+esc(x.tournament)+'">'+(ed ? '<a href="'+editionHref(ed)+'">'+esc(shortComp(x.tournament))+'</a>'
               : esc(shortComp(x.tournament)))+'</td>'+
           '<td class="num mono">'+x.gf+'&ndash;'+x.ga+(pen ? '<span class="pens" title="'+esc(pen)+' won on penalties">'+
@@ -6035,7 +6118,7 @@ function edLine(e, key){
 }
 const arMatch = (m, extra) => { const hn = state.historicalNames ? m._hn : dn(m._h), an = state.historicalNames ? m._an : dn(m._a);
   return '<tr><td class="muted date">'+fmtDay(m.ts)+'</td><td class="ml-cell">'+matchLine(hn, an, m.hs+'&ndash;'+m.as, teamHref, {ts:m.ts, win:m.hs > m.as ? 1 : m.hs < m.as ? -1 : 0})+
-    '<div class="muted" style="font-size:12.5px;text-align:center;margin-top:2px;">'+esc(shortComp(m.tournament))+'</div></td>'+(extra !== undefined ? '<td class="num mono">'+extra+'</td>' : '')+'</tr>'; };
+    '<div class="muted" style="font-size:12.5px;text-align:center;margin-top:2px;">'+esc(shortComp(m.tournament))+'</div>'+awardLine(m)+'</td>'+(extra !== undefined ? '<td class="num mono">'+extra+'</td>' : '')+'</tr>'; };
 function aroundPanel(c, key){
   const ao = state.asOf, ms = state.matches[state.gender], top = new Set(c.table.slice(0, 40).map(r => r.key));
   const mine = m => (namesFor(m), key ? m._h === key || m._a === key : top.has(m._h) || top.has(m._a));
@@ -6067,7 +6150,7 @@ function comingUp(c, key){
     return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Next matches<span class="aside">after '+fmtDay(state.asOf)+'</span></div>'+
       '<table class="next-matches"><tbody>'+next.map(m => '<tr><td class="muted date">'+fmtDay(m.ts)+'</td>'+
         '<td class="ml-cell">'+matchLine(nm(m, 0), nm(m, 1), m.hs+'&ndash;'+m.as, teamHref, {ts:m.ts, win:m.hs > m.as ? 1 : m.hs < m.as ? -1 : 0})+
-        '<div class="muted" style="font-size:12.5px;text-align:center;margin-top:2px;">'+esc(shortComp(m.tournament))+'</div></td></tr>').join('')+
+        '<div class="muted" style="font-size:12.5px;text-align:center;margin-top:2px;">'+esc(shortComp(m.tournament))+'</div>'+awardLine(m)+'</td></tr>').join('')+
       '</tbody></table></div>';
   }
   const up = (upcomingFor(state.gender) || []).filter(fx => c.resolve(fx.home) === key || c.resolve(fx.away) === key).slice(0, 6);
@@ -6874,7 +6957,8 @@ function yearEndRows(g, year, ts){
   /* last five results of each team inside the window that ended that day, newest last, as the table's history has them */
   const ms = state.matches[g], ws = (() => { const d = new Date(ts); d.setUTCFullYear(d.getUTCFullYear() - DEFAULTS.windowYears); return d.getTime(); })(), form = new Map(), want = new Set(list.map(x => x[0]));
   let open = want.size; const hn = state.historicalNames; state.historicalNames = true;   // names as they were then, as the worked-out table has them
-  for (let i = firstIndexAt(ms, ts + 1) - 1; i >= 0 && ms[i].ts >= ws && open > 0; i--){ const m = namesFor(ms[i]);
+  for (let i = firstIndexAt(ms, ts + 1) - 1; i >= 0 && ms[i].ts >= ws && open > 0; i--){ if (ms[i].unrated) continue;   /* not rated, so not in the table's history either */
+    const m = namesFor(ms[i]);
     for (const [k, e] of [[m._h, {ts:m.ts, gf:m.hs, ga:m.as, oppName:m._an}], [m._a, {ts:m.ts, gf:m.as, ga:m.hs, oppName:m._hn}]]){
       if (!want.has(k)) continue; let a = form.get(k); if (!a) form.set(k, a = []); if (a.length < 5){ a.unshift(e); if (a.length === 5) open--; } } }
   state.historicalNames = hn;
@@ -8719,7 +8803,7 @@ function actualOutcome(T, c){
   const final = ko[ko.length-1], counted = T.thirdPlace ? ko.slice(0, -2).concat([final]) : ko;
   const n = new Map(); counted.forEach(m => [m.home, m.away].forEach(t => n.set(keyOfName(t), (n.get(keyOfName(t)) || 0) + 1)));
   const pen = shootoutWinner(final);
-  const champ = keyOfName(final.hs > final.as ? final.home : (final.hs < final.as ? final.away : (pen || '')));
+  const fo = offScore(final), champ = keyOfName(fo[0] > fo[1] ? final.home : (fo[0] < fo[1] ? final.away : (pen || '')));
   const labels = T.knockout.map(r => r.col);
   const out = new Map();
   for (const [gn, ts] of Object.entries(T.groups)) for (const t of ts){
@@ -10046,14 +10130,14 @@ function qualStages(ms){
 /* Standings of one group: points, then goal difference, then goals (head-to-head differences are not applied). */
 function groupTable(it){
   const rows = new Map(it.teams.map(t => [t, {t, pl:0, w:0, d:0, l:0, gf:0, ga:0, pts:0}]));
-  it.matches.forEach(m => { const H = rows.get(m._h), A = rows.get(m._a); if (!H || !A) return;
-    H.pl++; A.pl++; H.gf += m.hs; H.ga += m.as; A.gf += m.as; A.ga += m.hs;
-    if (m.hs > m.as){ H.w++; A.l++; H.pts += 3; } else if (m.hs < m.as){ A.w++; H.l++; A.pts += 3; } else { H.d++; A.d++; H.pts++; A.pts++; } });
+  it.matches.forEach(m => { const H = rows.get(m._h), A = rows.get(m._a); if (!H || !A) return; const [hs, as] = offScore(m);
+    H.pl++; A.pl++; H.gf += hs; H.ga += as; A.gf += as; A.ga += hs;
+    if (hs > as){ H.w++; A.l++; H.pts += 3; } else if (hs < as){ A.w++; H.l++; A.pts += 3; } else { H.d++; A.d++; H.pts++; A.pts++; } });
   return [...rows.values()].sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga) || b.gf - a.gf);
 }
 function tieResult(it){
   const [a, b] = it.teams; let ga = 0, gb = 0;
-  it.matches.forEach(m => { if (m._h === a){ ga += m.hs; gb += m.as; } else { ga += m.as; gb += m.hs; } });
+  it.matches.forEach(m => { const [hs, as] = offScore(m); if (m._h === a){ ga += hs; gb += as; } else { ga += as; gb += hs; } });
   let w = ga > gb ? a : gb > ga ? b : null;
   if (!w){ const last = it.matches[it.matches.length - 1], so = shootoutWinner(last); if (so) w = keyOfName(so); }
   return {a, b, ga, gb, w};
@@ -10295,20 +10379,20 @@ function editionFormat(e){
   if (n < 2) return fail('too few teams');
   const pk = (a, b) => a < b ? a+'|'+b : b+'|'+a;
   const pens = (EDITION_FIX[e.id] && EDITION_FIX[e.id].pens) || {};   // shootouts missing from the archive
-  const decide = m => m.hs > m.as ? m._h : m.hs < m.as ? m._a : pens[fmtDate(m.ts)] || (shootoutWinner(m) ? keyOfName(shootoutWinner(m)) : null);
+  const decide = m => { const [h, a] = offScore(m); return h > a ? m._h : h < a ? m._a : pens[fmtDate(m.ts)] || (shootoutWinner(m) ? keyOfName(shootoutWinner(m)) : null); };
   const tieWinner = list => {
     const last = list[list.length-1];
     if (list.length > 1 && list.slice(0, -1).every(m => m.hs === m.as)) return decide(last);   // replay
-    const g = {}; list.forEach(m => { g[m._h] = (g[m._h] || 0) + m.hs; g[m._a] = (g[m._a] || 0) + m.as; });
+    const g = {}; list.forEach(m => { const [h, a] = offScore(m); g[m._h] = (g[m._h] || 0) + h; g[m._a] = (g[m._a] || 0) + a; });
     const [x, y] = [last._h, last._a];
     if (list.length > 2){ const w = {}; list.forEach(m => { const d = decide(m); if (d) w[d] = (w[d] || 0) + 1; });   // best of three
       if ((w[x] || 0) !== (w[y] || 0)) return (w[x] || 0) > (w[y] || 0) ? x : y; }
     return g[x] !== g[y] ? (g[x] > g[y] ? x : y) : decide(last);
   };
   const table = (list, keys) => { const t = new Map(keys.map(k => [k, {k, p:0, gd:0, gf:0}]));
-    list.forEach(m => { const A = t.get(m._h), B = t.get(m._a); if (!A || !B) return;
-      A.gf += m.hs; B.gf += m.as; A.gd += m.hs - m.as; B.gd += m.as - m.hs;
-      if (m.hs > m.as) A.p += 3; else if (m.hs < m.as) B.p += 3; else { A.p++; B.p++; } });
+    list.forEach(m => { const A = t.get(m._h), B = t.get(m._a); if (!A || !B) return; const [hs, as] = offScore(m);
+      A.gf += hs; B.gf += as; A.gd += hs - as; B.gd += as - hs;
+      if (hs > as) A.p += 3; else if (hs < as) B.p += 3; else { A.p++; B.p++; } });
     return [...t.values()].sort((a, b) => b.p - a.p || b.gd - a.gd || b.gf - a.gf); };
   const pairs = new Set(ms.map(m => pk(m._h, m._a)));
   /* League: everyone met everyone, and no one met twice in a row at the end (a final). */
@@ -10865,7 +10949,7 @@ function viewEdition(){
     return head + '<tr>'+(anyStage ? '<td class="hide-sm">'+(stages.get(m) ? '<span class="stage-tag">'+stages.get(m)+'</span>' : '')+'</td>' : '')+
       '<td class="ml-cell">'+matchLine(r.hn, r.an, m.hs+'&ndash;'+m.as, tHref, {ts:m.ts, win:hw,
         tagA:venueSide(m)===1 ? '<span class="ml-tag" title="Playing at home">(H)</span>' : ''})+
-      (pen ? '<div class="pens-line">'+esc(dn(pen))+' won on penalties</div>' : '')+
+      (pen ? '<div class="pens-line">'+esc(dn(pen))+' won on penalties</div>' : '')+awardLine(m)+
       ((m.city || stages.get(m)) ? '<div class="muted" style="font-size:12px;margin-top:2px;text-align:center;">'+
         (stages.get(m) ? '<span class="hide-wide">'+stages.get(m)+(m.city ? ' &middot; ' : '')+'</span>' : '')+esc(m.city || '')+'</div>' : '')+'</td>'+
       '<td class="num muted hide-sm">'+wdlCell(r.exp, r.hn, r.an)+'</td>'+
@@ -11976,7 +12060,9 @@ const CHANGELOG = [
     'Tiers are a little finer. A team now leaves a tier once Formline is 80% sure the tier\'s leader is the stronger side, where it was 90%, so there are more tiers and each holds fewer teams (the men\'s table goes from 12 tiers to 17, the women\'s from 10 to 14). No rating or rank changes.',
     'Tiers and clusters are now defined where they are shown. A team page says what its tier rests on (the gap between two ratings and how wide the bands are) and that it is not the chance of winning a match, with an example from today\'s table. How it works has the longer account.',
     'Team pages have a second cluster: the teams level with a side inside its own confederation, next to its world cluster.',
-    'Wrong scores corrected. Every men&rsquo;s match in the archive was set beside two other records, Wikipedia&rsquo;s results pages and World Football Elo Ratings, and where both of them disagreed with the archive the score has been corrected: 41 men&rsquo;s matches, from Cape Verde 3&ndash;0 Bermuda (6 June 2026, which the archive had the wrong way round, so it had been showing as the biggest upset of the year), Mali 0&ndash;0 Jordan (18 November 2025, not 3&ndash;2) and Russia 11&ndash;0 Brunei (15 November 2024, not 2&ndash;1) back to Ivory Coast 11&ndash;0 Central African Republic in 1961. Three women&rsquo;s matches the archive had as 0&ndash;0 are corrected too: United States 3&ndash;0 Argentina and Brazil 3&ndash;1 Colombia (October 2024) and Australia 5&ndash;0 Thailand (March 2018). Ratings move a little for the teams involved and their recent opponents. Two more things the check found are still being worked through: matches the archive does not hold at all, and results that were awarded afterwards.',
+    'Wrong scores corrected. Every men&rsquo;s match in the archive was set beside two other records, Wikipedia&rsquo;s results pages and World Football Elo Ratings, and where both of them disagreed with the archive the score has been corrected: 41 men&rsquo;s matches, from Cape Verde 3&ndash;0 Bermuda (6 June 2026, which the archive had the wrong way round, so it had been showing as the biggest upset of the year), Mali 0&ndash;0 Jordan (18 November 2025, not 3&ndash;2) and Russia 11&ndash;0 Brunei (15 November 2024, not 2&ndash;1) back to Ivory Coast 11&ndash;0 Central African Republic in 1961. Three women&rsquo;s matches the archive had as 0&ndash;0 are corrected too: United States 3&ndash;0 Argentina and Brazil 3&ndash;1 Colombia (October 2024) and Australia 5&ndash;0 Thailand (March 2018). Ratings move a little for the teams involved and their recent opponents.',
+    'Matches the archive was missing are being added. The first 1,738 men&rsquo;s matches are in, each found both in World Football Elo Ratings and on Wikipedia. 329 were played since November 2014: the COSAFA Cups of 2024 and 2025, the 2025 EAFF E-1 finals and CAFA Nations Cup, a full day of Asian Cup qualifiers from March 2026, and friendlies such as Japan 3&ndash;1 Uruguay (24 September 2026) and Russia 4&ndash;0 Serbia (2024). The other 1,409 are older, back to Ireland 4&ndash;3 Wales in 1893. They include matches at the Olympic Games after 1928, Olympic qualifiers and the Pan Arab Games, which the main archive leaves out; games against amateur or B teams (England Amateurs, for one) stay out. All are marked &Dagger; in match lists and count from the next nightly update. More follow as each is confirmed.',
+    'Results changed off the pitch are now handled by what happened on it. A match played to the end and awarded afterwards (a 3&ndash;0 for an ineligible player, say) counts as it was played, with a line under it saying what was awarded later: 29 matches, among them the January 2026 Africa Cup of Nations final, Senegal 1&ndash;0 on the pitch and later awarded 3&ndash;0 to Morocco, who remain the champions. A match that was abandoned is shown and marked as abandoned but no longer counts towards the ratings (seven so far, such as Serbia v Albania in 2014 and Romania v Kosovo in 2024). A match awarded without being played is marked as awarded and not rated either (eight so far, such as Chile v the Soviet Union in 1973 and Romania v Norway in 2020). Group tables and titles follow the official result throughout.',
     'History on team pages now opens on All time, so the biggest win shown is a team\'s biggest ever (the Netherlands\' 11&ndash;0 over San Marino, not the 8&ndash;0 over Malta that is their biggest of the last twelve years). The last twelve years are one tap away and say plainly what they cover.']],
   ['12 Nov 2026', ['Matchday now lists each match under your own calendar day, to match the kick-off times shown (a late-evening match in the Americas no longer appears under the next day).',
     'Fixtures: a match whose Wikipedia entry is only a placeholder (no stadium or time yet) keeps the date from the fixture feed. Morocco v Niger had been shown two days early.',

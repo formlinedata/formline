@@ -253,6 +253,12 @@ const st = await run();
   const man = W.m.filter(x => x[9] === 2);
   ok(man.length === 1 && W.s[man[0][1]] === 'Canada' && W.manual && W.manual.rows === 1, 'hand-added result in the compact file, flagged; one already in the archive skipped');
   ok(W.so.some(x => W.s[x[3]] === 'United States' && W.s[x[1]] === 'Canada'), 'hand-added shoot-out carried into the compact file');
+  { const {manualRows} = await import('./update.mjs');
+    const have = [{date:'2020-01-03', home_team:'A', away_team:'B', home_score:'1', away_score:'1'}];
+    const kept = manualRows([{date:'2020-01-01', home_team:'A', away_team:'B', home_score:'2', away_score:'0'},
+      {date:'2020-01-01', home_team:'B', away_team:'A', home_score:'0', away_score:'2', separate:'TRUE'},
+      {date:'2020-01-02', home_team:'B', away_team:'A', home_score:'1', away_score:'1', separate:'TRUE'}], have);
+    ok(kept.length === 1 && kept[0].separate === 'TRUE' && kept[0].home_score === '0', 'a hand-added match marked separate stays beside another between the same teams two days on, unless the score is the same'); }
   const wk = W.m.filter(x => x[9] === 3);
   ok(wk.length === 1 && W.s[wk[0][2]] === 'Portugal' && W.wiki && W.wiki.rows === 1, 'Wikipedia-found result in the compact file, flagged; one the archive now has dropped');
   const wf = parseCSV(fs.readFileSync(path.join(root, 'build/store/wikifill-women.csv'), 'utf8'));

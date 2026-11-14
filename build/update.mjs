@@ -69,10 +69,14 @@ const pairKey = (a, b) => [a, b].sort().join('|');
    (where the result was checked). A row the archive or the gap-filler already holds (the same two teams within two
    days) is skipped, so a match the archive adds later never counts twice. */
 export function manualRows(manual, rows){
+  /* Scores are kept the same way round for both spellings of a pair (first name in sorted order first). */
+  const sc = r => { const first = [r.home_team, r.away_team].sort()[0] === r.home_team; return first ? r.home_score + '-' + r.away_score : r.away_score + '-' + r.home_score; };
   const seen = new Map();
-  for (const r of rows){ const k = pairKey(r.home_team, r.away_team); if (!seen.has(k)) seen.set(k, []); seen.get(k).push(dayNum(r.date)); }
-  return manual.filter(r => { const ds = seen.get(pairKey(r.home_team, r.away_team)), d = dayNum(r.date);
-    return !(ds && ds.some(x => Math.abs(x - d) <= 2)); });
+  for (const r of rows){ const k = pairKey(r.home_team, r.away_team); if (!seen.has(k)) seen.set(k, []); seen.get(k).push([dayNum(r.date), sc(r)]); }
+  /* A row marked separate (column `separate`, TRUE) is known to be a different match from one the same two teams played
+     within two days (a two-match series), so it only drops out when the archive holds that very score. */
+  return manual.filter(r => { const ds = seen.get(pairKey(r.home_team, r.away_team)), d = dayNum(r.date), sep = String(r.separate || '').toUpperCase() === 'TRUE';
+    return !(ds && ds.some(([x, s]) => Math.abs(x - d) <= 2 && (!sep || s === sc(r)))); });
 }
 /* Women's results found on Wikipedia by the nightly run (see lib/wikiresults.mjs): kept in build/store/wikifill-women.csv,
    with the page each came from and the day it was found. Like hand-added rows, a row the archive, the gap-filler or the
