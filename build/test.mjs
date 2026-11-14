@@ -466,6 +466,42 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   const R3 = buildSite(src, out, path.join(src, '_precompute'));
   ok(R.reads === false && R3.reads === true && fs.readFileSync(path.join(out, 'index.html'), 'utf8').includes('const RATINGS_FILES = true;') && fs.readFileSync(path.join(src, 'index.html'), 'utf8').includes('const RATINGS_FILES = false;'),
     'site folder: the published page is told to read the table files when both are there; the project\'s own page is not touched');
+  /* The last stage of keeping the method private: the published page without the rating engine. The marked parts are
+     cut out, the notes left for that case become code or words, the switch reads false, the script's comments go, and
+     a page that would still use a cut name is refused. */
+  { const {stripEngine} = await import('./site.mjs');
+    const page = ['<html><script>var theme = 1;</script>', '<p><!--ENGINE<-->old words<!--ENGINE>--><!--ENGINE-OFF:new words:ENGINE-OFF--></p>', '<script>', 'const RATINGS_FILES = false;', 'const ENGINE = true;',
+      '/*ENGINE<*/', '/* how a rating moves */', 'function secretStep(a){ return a + 1; }', '/*>ENGINE*/', '/* a note about the method */', 'function table(){', '  /*ENGINE<*/ return secretStep(1); /*>ENGINE*/',
+      '  return null;   // without the engine', '}', '/*ENGINE-OFF: const gone = true; :ENGINE-OFF*/', "const url = 'https://example.org/a';   // where it lives", '</script></html>'].join('\n');
+    const S = stripEngine(page);
+    ok(S.regions === 3 && S.left.length === 0 && S.names.join() === 'secretStep' && S.comments === 3 && !/secretStep|how a rating moves|a note about the method|old words|without the engine|where it lives/.test(S.html)
+      && S.html.includes('const ENGINE = false;') && S.html.includes('const gone = true;') && S.html.includes('new words') && S.html.includes("const url = 'https://example.org/a';") && S.html.includes('var theme = 1;'),
+      'engine off the page: the marked parts and the script\'s comments are cut out, the notes for that case are put in, and the rest is left as it was');
+    const used = stripEngine(page.replace('return null;   // without the engine', 'return secretStep(2);'));
+    const refuses = bad => { try { stripEngine(bad); return false; } catch(e){ return true; } };
+    const orphan = stripEngine(page.replace('function table(){', 'const STEP_SIZE = 1;\nfunction table(){').replace('return a + 1;', 'return a + STEP_SIZE;'));
+    ok(S.orphans.length === 0 && orphan.orphans.join() === 'STEP_SIZE' && orphan.left.length === 0 && orphan.html.includes('const STEP_SIZE = 1;'),
+      'engine off the page: a setting left on the page that only the cut parts used is reported');
+    ok(used.left.join() === 'secretStep' && refuses(page.replace('/*>ENGINE*/\n/* a note', '/* a note')) && refuses(page.replace('const ENGINE = true;', '')) && refuses(page.replace('function table(){', 'function table({')),
+      'engine off the page: a page that still uses a cut name is reported, and one with a mark missing, no switch, or a script that no longer parses is refused');
+    put('index.html', page);
+    const R4 = buildSite(src, out, path.join(src, '_precompute'), undefined, true), html4 = fs.readFileSync(path.join(out, 'index.html'), 'utf8');
+    let threw4 = false; put('index.html', page.replace('return null;   // without the engine', 'return secretStep(2);')); try { buildSite(src, out, path.join(src, '_precompute'), undefined, true); } catch(e){ threw4 = /still refers/.test(e.message); }
+    put('index.html', page);
+    const R5 = buildSite(src, out, path.join(src, '_precompute'), undefined, false);
+    ok(R4.stripped && R4.stripped.regions === 3 && html4.includes('const RATINGS_FILES = true;') && html4.includes('const ENGINE = false;') && !html4.includes('secretStep') && threw4 && R5.stripped === null && fs.readFileSync(path.join(out, 'index.html'), 'utf8').includes('function secretStep')
+      && fs.readFileSync(path.join(src, 'index.html'), 'utf8') === page,
+      'engine off the page: the site builder cuts it out when asked (and only then), refuses a page that would break, and never touches the project\'s own page');
+    /* the real page: everything the cut removes is unused by what is left, and the engine's own names are gone */
+    const real = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), SR = stripEngine(real);
+    ok(!real.includes('<!-->') && real.split('<!--ENGINE<-->').length === real.split('<!--ENGINE>-->').length && refuses(page.replace('<!--ENGINE>-->', '<!-->ENGINE-->')),
+      'engine off the page: the marks in the page\'s own HTML are whole comments, so none of them shows as text on the page');
+    ok(SR.orphans.length === 0 && !/FRIENDLY_ERAS|PREMIER_WORLD|WOMEN_SENIOR_GAMES|WOMEN_GAMES_K|PREMIER_K/.test(SR.html),
+      'engine off the page: nothing that only the engine used is left behind on the real page' + (SR.orphans.length ? ' (left behind: ' + SR.orphans.join(', ') + ')' : ''));
+    ok(SR.regions > 60 && SR.left.length === 0 && SR.names.includes('applyMatch') && SR.names.includes('runWindow') && SR.names.includes('computeRatings') && SR.names.includes('setWeights')
+      && !/applyMatch|runWindow|computeRatings|glickoUpdate|windowKernel|setWeights|friendlyK|viewWhatIf\b/.test(SR.html) && SR.html.includes('const ENGINE = false;') && real.includes('const ENGINE = true;') && SR.comments > 400,
+      'engine off the page: cut from the real page, nothing left refers to the engine (' + SR.regions + ' parts, ' + SR.names.length + ' functions and settings, ' + SR.comments + ' comments)' + (SR.left.length ? ' (still used: ' + SR.left.join(', ') + ')' : ''));
+  }
   fs.rmSync(path.join(src, '_precompute', 'index.json'));
   const R2 = buildSite(src, out, path.join(src, '_precompute'));
   ok(R2.ratings === 0 && !has('r') && has('index.html'), 'site folder: a ratings set without its index is left out whole');
@@ -568,7 +604,7 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
       const last = P.months.tables[P.months.tables.length - 1], stamp = P.months.stamps[P.months.stamps.length - 1];
       const direct = model.run(`(() => { const [y, m] = ${JSON.stringify(stamp)}.split('-').map(Number); state.asOf = Date.UTC(y, m, 0); state.cache = {key:null}; const c = getRatings();
         const out = c.all.filter(r => !r.island).map(r => [r.key, Math.round(r.rating * 10) / 10, r.rank || 0]); state.asOf = state.bounds.women.max; state.cache = {key:null}; return out; })()`);
-      ok(P.months.stamps[0] >= '2024-01' && P.months.stamps.length === P.months.tables.length && last.length === direct.length && direct.every(([k, r, rk]) => { const row = last.find(x => P.months.teams[x[0]] === k); return row && row[1] === r && row[3] === rk; }),
+      ok(P.months.stamps[0] >= '2024-01' && P.months.stamps.length === P.months.tables.length && last.length === direct.length && direct.every(([k, r, rk]) => { const row = last.find(x => P.months.teams[x[0]] === k); return row && Math.round(row[1] * 10) / 10 === r && row[3] === rk; }),
         'precompute: a month-end table matches the site\'s table for that date');
       /* A table after every match day, and every match as published: both equal what the page itself shows. */
       const {dayTables, matchLedger, inputPrint, modelPrint} = await import('./precompute.mjs');
@@ -578,7 +614,7 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
         state.asOf = state.bounds.women.max; state.cache = {key:null};
         const k = getRatings().all[0].key, h = publishedHistory(k).filter(x => x.published); out.k = k; out.h = h.slice(-1).map(x => [fmtDate(x.ts), Math.round(x.pre * 10) / 10, Math.round(x.rating * 10) / 10])[0] || null; return out; })()`);
       const lastT = D.tables[D.tables.length - 1];
-      ok(D.days.length > 0 && D.days.length === D.tables.length && want.t.every(([k, r, rk]) => { const row = lastT.find(x => D.teams[x[0]] === k); return row && row[1] === r && row[3] === rk; }),
+      ok(D.days.length > 0 && D.days.length === D.tables.length && want.t.every(([k, r, rk]) => { const row = lastT.find(x => D.teams[x[0]] === k); return row && Math.round(row[1] * 10) / 10 === r && row[3] === rk; }),
         'precompute: the table after a match day matches the site\'s table for that day');
       ok(A.window === 'all' && A.days.length > 0 && L.rows.every(r => A.days.includes(r[0]) && D.days.includes(r[0])) && A.tables.length === A.days.length, 'precompute: the all-time tables and the usual ones both cover every match day');
       const mine = want.h ? L.rows.filter(r => r[0] === want.h[0] && (L.teams[r[1]] === want.k || L.teams[r[2]] === want.k))[0] : null;
@@ -592,11 +628,12 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
       { const {dayCheck} = await import('./precompute.mjs');
         const D2 = JSON.parse(JSON.stringify(D)), mid = Math.max(0, D2.days.length - 2), prev = [Y - 1, Y - 2].map(y => JSON.parse(JSON.stringify(dayTables(model, 'women', y, false))));
         const dc = dayCheck(model, 'women', D2, mid, 0, prev);
-        ok(D2.v === 5 && D2.days.length >= 2 && dc.n > 50 && dc.bad.length === 0 && dc.tierDiffs === 0, 'past dates: a table rebuilt from the match-day file equals the page\'s own' + (dc.bad.length ? ' (' + dc.bad[0] + ')' : ''));
+        ok(D2.v === 6 && D2.gaps.length === D2.days.length && D2.days.length >= 2 && dc.n > 50 && dc.bad.length === 0 && dc.tierDiffs === 0, 'past dates: a table rebuilt from the match-day file equals the page\'s own' + (dc.bad.length ? ' (' + dc.bad[0] + ')' : ''));
         const gap = D2.days.findIndex((d, k) => k < D2.days.length - 1 && Date.parse(D2.days[k + 1]) - Date.parse(d) > 2 * 86400000);
         const sh = gap >= 0 ? dayCheck(model, 'women', D2, gap, 1, prev) : null;
         const steps = D2.days.slice(1).map((d, k) => (Date.parse(d) - Date.parse(D2.days[k])) / 86400000);
-        ok((!sh || sh.bad.length === 0) && steps.every(x => x >= 1 && x <= 7), 'past dates: the file has a day at least every week, and a date between two of its days gets the earlier day\'s table, equal to the one worked out for that date' + (sh && sh.bad.length ? ' (' + sh.bad[0] + ')' : ''));
+        const between = D2.gaps.reduce((a, G) => a + G.length, 0), span = Math.round((Date.parse(D2.days[D2.days.length - 1]) - Date.parse(D2.days[0])) / 86400000) + 1;
+        ok((!sh || sh.bad.length === 0) && steps.every(x => x >= 1 && x <= 7) && between > 0 && D2.days.length + between >= span && D2.gaps.every(G => G.every(x => x.length === 6)), 'past dates: the file has a full table at least every week and every day in between has its own figures (' + between + ' such days); a date between two full tables shows exactly the table worked out for that date, to the file\'s two decimal places' + (sh && sh.bad.length ? ' (' + sh.bad[0] + ')' : ''));
         const today = dayCheck(model, 'women', D2, D2.days.length - 1, 0, prev);
         const short = JSON.parse(JSON.stringify(D2)); short.tables[mid] = short.tables[mid].slice(1);
         ok(today.bad[0] === 'the page did not use the file' && dayCheck(model, 'women', short, mid, 0, prev).bad[0] === 'the page did not use the file' && dayCheck(model, 'women', D2, mid).bad[0] === 'the page did not use the file',
@@ -652,14 +689,43 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
         ok(orr.read && orr.close && orr.odd && orr.missing, 'old ranks: under another band limit or rank order the page reads a match\'s ranks from the ranks file without the model; an unlisted band limit or a missing file is worked out on the page ' + JSON.stringify(orr)); }
       /* A team's cluster: the teams ranked inside its own likely rank range, itself included; none for an unranked team. */
       { const cl = model.run(`(() => { const out = {n:0, bad:0, none:true};
-          for (const g of ['men', 'women']){ if (!state.matches[g]) continue; state.gender = g; state.asOf = state.bounds[g].max; state.cache = {key:null};
+          for (const limit of [DEFAULTS.maxBand, 0]) for (const g of ['men', 'women']){ if (!state.matches[g]) continue; state.gender = g; state.asOf = state.bounds[g].max; state.maxBand = limit; state.cache = {key:null};   // also with every team ranked: the small test archive ranks no one inside the usual limit
             const c = getRatings(), R = rankRanges(c);
             c.table.forEach(r => { const K = clusterOf(c, r), m = R.get(r.key).mid; out.n++;
               if (!K || !K.rows.includes(r) || K.lo > r.rank || K.hi < r.rank || K.lo !== Math.min(m[0], r.rank) || K.hi !== Math.max(m[1], r.rank) || K.rows.length !== K.hi - K.lo + 1 || K.rows.some((x, i) => x.rank !== K.lo + i)) out.bad++; });
             c.provisional.forEach(r => { if (clusterOf(c, r) !== null) out.none = false; }); }
-          state.gender = 'women'; state.asOf = state.bounds.women.max; state.cache = {key:null};
+          state.gender = 'women'; state.asOf = state.bounds.women.max; state.maxBand = DEFAULTS.maxBand; state.cache = {key:null};
           return out; })()`);
-        ok(cl.bad === 0 && cl.none, 'cluster: every ranked team\'s cluster is the run of ranks inside its likely rank, itself included (' + cl.n + ' teams); none for an unranked team'); }
+        ok(cl.bad === 0 && cl.none && cl.n > 0, 'cluster: every ranked team\'s cluster is the run of ranks inside its likely rank, itself included (' + cl.n + ' teams); none for an unranked team'); }
+      /* The confederation cluster (Seb, 13 Nov 2026): the same among a confederation's ranked teams, places counted
+         there and each side redrawn from its own band; and the world's likely ranks are what they were before the
+         working was shared. */
+      { const cc = model.run(`(() => { const out = {n:0, bad:0, none:true, confs:0, same:true};
+          for (const limit of [DEFAULTS.maxBand, 0]) for (const g of ['men', 'women']){ if (!state.matches[g]) continue; state.gender = g; state.asOf = state.bounds[g].max; state.maxBand = limit; state.cache = {key:null};   // the small test archive ranks no one inside the usual limit, so also with every team ranked
+            const c = getRatings(), W = rankRanges(c), again = rangesOf(c.table, r => r.rd);
+            c.table.forEach(r => { const a = W.get(r.key), b = again.get(r.key); if (a.mid.join() !== b.mid.join() || a.wide.join() !== b.wide.join()) out.same = false; });
+            for (const conf of new Set(c.table.map(r => r.conf))){ const list = c.table.filter(r => r.conf === conf).sort((a, b) => a.rank - b.rank), R = confRanges(c, conf); out.confs++;
+              list.forEach((r, i) => { const K = clusterOf(c, r, 'conf'), m = R.get(r.key).mid, me = i + 1; out.n++;
+                if (!K || !K.conf || K.of !== list.length || !K.rows.includes(r) || K.lo !== Math.min(m[0], me) || K.hi !== Math.max(m[1], me) || K.rows.length !== K.hi - K.lo + 1
+                  || K.rows.some((x, j) => x !== list[K.lo - 1 + j]) || K.rows.some(x => x.conf !== conf) || K.pos(r) !== me || m[0] < 1 || m[1] > list.length) out.bad++; }); }
+            c.provisional.forEach(r => { if (clusterOf(c, r, 'conf') !== null) out.none = false; }); }
+          state.gender = 'women'; state.asOf = state.bounds.women.max; state.maxBand = DEFAULTS.maxBand; state.cache = {key:null};
+          return out; })()`);
+        ok(cc.bad === 0 && cc.none && cc.same && cc.confs >= 2, 'cluster: a team\'s confederation cluster is the run of its confederation\'s places inside its likely place there (' + cc.n + ' teams, ' + cc.confs + ' confederation tables); none for an unranked team; the world\'s likely ranks are unchanged'); }
+      /* The home page (Seb, 13 Nov 2026): each way in names a page of the menu in the menu's own words; the track
+         record counts what the Forecast record counts, and shows a percentage only from ten matches with a winner. */
+      { const html = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8');
+        const hub = model.run(`JSON.stringify(HOME_HUB)`), H = JSON.parse(hub), dec = s => s.replace(/&rsquo;|\u2019/g, "'").replace(/&amp;/g, '&');
+        const missing = H.filter(([r, name, line]) => !dec(html).includes('<a href="#/' + r + '" data-route="' + r + '">' + name + '<small>' + line + '</small></a>')).map(x => x[0]);
+        const tr = model.run(`(() => { const saved = state.record, g = 'women', mk = (p, outcome, i) => ({g, date:'2026-11-' + (10 + (i % 9)), result:[1, 0], p, outcome});
+          const few = [mk([0.6, 0.2, 0.2], 0, 0), mk([0.6, 0.2, 0.2], 2, 1), mk([0.38, 0.31, 0.31], 1, 2), {g, date:'2026-11-20', p:[0.5, 0.3, 0.2]}, {g:'men', date:'2026-11-01', result:[1, 0], p:[0.5, 0.3, 0.2], outcome:0}];
+          state.gender = g; state.record = {entries:few}; const a = homeTrack(g);
+          state.record = {entries:Array.from({length:12}, (x, i) => mk([0.6, 0.2, 0.2], i < 9 ? 0 : 2, i))}; const b = homeTrack(g);
+          state.record = null; const c = homeTrack(g); state.record = saved;
+          return {few:a.includes('>1 of 2<') && !/>\d+%</.test(a.split('since 2019')[0]) && a.includes('10 Nov 2026') && a.includes('Of the 3 checked so far'), many:b.includes('>75%<') && b.includes('<b>9 of 12</b>'),
+            none:c.includes('nightly update') && c.includes('id="homeTrack"'), std:typeof filtersStd() === 'boolean' && filterWords().win.length > 0}; })()`);
+        ok(H.length === 12 && missing.length === 0, 'home page: each of the ' + H.length + ' ways in is a page of the menu, in the menu\'s own words' + (missing.length ? ' (not found: ' + missing.join(', ') + ')' : ''));
+        ok(tr.few && tr.many && tr.none && tr.std, 'home page: the track record counts the matches that had a winner and how many of those were called, as a count until there are ten and a percentage from then on ' + JSON.stringify(tr)); }
       /* Today's table in full, read back from its file, equals the page's own table; a changed number is caught. */
       const {tableFile, tableCheck, recordYears, recordCheck} = await import('./precompute.mjs');
       for (const allTime of [false, true]){
@@ -877,11 +943,11 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
           out.off = fcFileFor('women', ts) === null;
           state.useTableFiles = true; state.fcFiles = {women:F}; out.on = fcFileFor('women', ts) === F;
           out.past = fcFileFor('women', ts - 86400000) === null;
-          state.historicalNames = !DEFAULTS.historicalNames; out.names = fcFileFor('women', ts) === null; state.historicalNames = DEFAULTS.historicalNames;
+          state.historicalNames = !DEFAULTS.historicalNames; out.names = fcFileFor('women', ts) === F; state.historicalNames = DEFAULTS.historicalNames;   // period names off still reads the file (13 Nov 2026)
           state.fcFiles = {women:{...F, _ok:undefined, print:F.print + 1}}; out.stale = fcFileFor('women', ts) === null;   // _ok: the page remembers a file's fit, so the copy starts afresh
           state.useTableFiles = false; state.fcFiles = {}; gmCache = {};
           return out; })()`);
-        ok(fo.off && fo.on && fo.past && fo.names && fo.stale, 'forecasts: the forecast file is used for today only, with the usual names, and only when it fits the match list ' + JSON.stringify(fo)); }
+        ok(fo.off && fo.on && fo.past && fo.names && fo.stale, 'forecasts: the forecast file is used for today only, with period names on or off, and only when it fits the match list ' + JSON.stringify(fo)); }
       /* Stage 4, the era comparer: every year's closing table from one file gives the same sides, last five results and
          chances across eras, without the rating engine; a file from another match list is not used. */
       { const {yearEndsFile} = await import('./precompute.mjs');
@@ -898,6 +964,45 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
       /* Stage 4, a team's page on a past date: the goals figures from that year's file, and the chart from the long
          series (the first day of each quarter), the matches' files (the team's match days) and the day's table (the
          date itself), all equal to the page's own and with no run of the rating engine. */
+      /* Groundwork for taking the engine off the page (13 Nov 2026): with period names off the published copy still
+         reads the files and shows today's names; the Predictor's "what this result would do" comes from its own file
+         for listed fixtures; a past date under "all time" reads the all-time year files, today's all-time table file
+         (each match's ratings) and the all-time series. */
+      { const {dayCheck: dcA, tableFile: tfA, stakesFile, seriesDecadeFile: sdA, seriesAllCheck} = await import('./precompute.mjs');
+        const clone = x => JSON.parse(JSON.stringify(x));
+        const nm = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy;
+          state.asOf = state.bounds.women.max; state.useTableFiles = false; state.tableFiles = {};
+          const names = c => c.all.map(r => r.key + '=' + r.team).sort().join('|'), hist = c => [...c.history].map(([k, h]) => k + ':' + h.map(e => e.name + '>' + e.oppName).join(',')).sort().join('|');
+          state.historicalNames = false; state.cache = {key:null}; const a = getRatings(), an = names(a), ah = hist(a);
+          state.historicalNames = true; state.cache = {key:null}; const tf = JSON.parse(JSON.stringify(tableToFile(getRatings())));
+          state.useTableFiles = true; state.tableFiles = {women:tf}; state.historicalNames = false; state.cache = {key:null};
+          let runs = 0; const cr = computeRatings; computeRatings = function(){ runs++; return cr.apply(this, arguments); };
+          let b; try { b = getRatings(); } finally { computeRatings = cr; }
+          const out = {fromFile:!!b.fromFile, runs, same:names(b) === an, hist:hist(b) === ah, teams:b.all.length, first:fmtDate(state.bounds.women.min).slice(0, 4), top:b.all.slice(0, 3).map(r => r.team), next:fmtDate(state.asOf + 86400000)};
+          state.useTableFiles = false; state.tableFiles = {}; state.historicalNames = true; state.cache = {key:null}; return out; })()`);
+        ok(nm.fromFile && nm.runs === 0 && nm.same && nm.hist && nm.teams > 2, 'period names off: today\'s table is still read from its file, with the same names as the page works out and no engine run');
+        const fxs = [{home:nm.top[0], away:nm.top[1], date:nm.next, tournament:'Friendly', country:nm.top[0], neutral:false}, {home:nm.top[1], away:nm.top[2], date:nm.next, tournament:'FIFA World Cup qualification', neutral:true}];
+        const SF = stakesFile(model, 'women', fxs), ids = Object.keys(SF.file.win);
+        ok(SF.bad.length === 0 && SF.entries >= 24 && ids.length === Object.keys(SF.file.all).length && Object.values(SF.file.win).every(s => s.length === 5 && s.every(x => x.length === 2))
+          && ids.some(k => /\|1\|/.test(k)) && ids.some(k => /\|0\|/.test(k)),
+          'predictor: what a result would do to both ratings is read from the stakes file for every listed pairing, in each venue and kind of match, under both windows, with no engine run (' + SF.n + ' values)' + (SF.bad.length ? ' (' + SF.bad[0] + ')' : ''));
+        const TA = clone(tfA(model, 'women', true)), A2 = clone(A), prevA = [Y - 1, Y - 2].map(y => clone(dayTables(model, 'women', y, true))), midA = Math.max(0, A2.days.length - 2);
+        const ac = dcA(model, 'women', A2, midA, 0, prevA, null, TA), ar = dcA(model, 'women', A2, midA, 0, prevA, {maxBand:150, rankBy:'lower'}, TA);
+        ok(A2.window === 'all' && ac.n > 50 && ac.bad.length === 0 && ar.bad.length === 0 && dcA(model, 'women', A2, midA, 0, prevA, null, null).bad[0] === 'the page did not use the file',
+          'all time on a past date: the table rebuilt from the all-time year file equals the page\'s own, each match\'s ratings included (from today\'s all-time table file), also when ranked again; without that file the page works it out (' + ac.n + ' values)' + (ac.bad.length ? ' (' + ac.bad[0] + ')' : ar.bad.length ? ' (' + ar.bad[0] + ')' : ''));
+        const filesA = {}, rfilesA = {}; let sbadA = [];
+        for (let dec = Math.floor(+nm.first / 10) * 10; dec <= Y - 1; dec += 10){ const R = sdA(model, 'women', dec, true); if (!R.file.stamps.length) continue; filesA[dec] = clone(R.file); rfilesA[dec] = clone(R.ranks); sbadA = sbadA.concat(R.bad); }
+        const daysA = {[Y]:A2, [Y - 1]:prevA[0], [Y - 2]:prevA[1]}, dateA = (Y - 1) + '-09-20', sa = seriesAllCheck(model, 'women', [dateA], filesA, rfilesA, daysA, TA);
+        const bentA = clone(filesA); for (const F of Object.values(bentA)) for (const P of F.pts) for (const row of P) row[1] += 3;
+        ok(sbadA.length === 0 && Object.values(filesA).every(F => F.all === true) && sa.pts > 0 && sa.altPts > 0 && sa.bad.length === 0 && seriesAllCheck(model, 'women', [dateA], bentA, rfilesA, daysA, TA).bad.length > 0,
+          'all time on a past date: the chart read from the all-time series and year files equals one pass of the model, under every band limit (' + sa.pts + ' points, ' + sa.altPts + ' under the other limits, ' + sa.edge + ' on a rounding edge); a changed figure shows' + (sbadA.length ? ' (' + sbadA[0] + ')' : sa.bad.length ? ' (' + sa.bad[0] + ')' : ''));
+      }
+      /* The rank after each match under "all time": a file a team, equal to the page's own under every band limit and
+         rank order, and read back with no piece of the engine. */
+      { const {rankAllFiles} = await import('./precompute.mjs');
+        const RA = rankAllFiles(model, 'women'), tk = Object.keys(RA.teams);
+        ok(RA.bad.length === 0 && RA.n > 20 && tk.length > 2 && tk.every(k => RA.teams[k].length > 0 && RA.teams[k].every(r => r.length === 49 && r.slice(1).every(v => v >= 1))),
+          'all time: a team\'s rank after each of its matches, read from its own file, equals the page\'s under every band limit and rank order (' + RA.n + ' ranks)' + (RA.bad.length ? ' (' + RA.bad[0] + ')' : '')); }
       { const {goalsYears, goalsCheck, seriesDecadeFile, seriesCheck, seriesCount} = await import('./precompute.mjs');
         const GY = goalsYears(model, 'women'), gc = goalsCheck(model, 'women', GY, [Y - 2, Y - 1, Y].filter(y => GY[y]));
         ok(GY[Y] && GY[Y].v === 1 && GY[Y].year === Y && gc.n > 0 && gc.bad.length === 0,

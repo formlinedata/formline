@@ -1,0 +1,100 @@
+name: Publish the site
+# Builds the folder that goes online (build/site.mjs) together with the ratings files (build/precompute.mjs).
+# When GitHub Pages is set to "GitHub Actions" (Settings -> Pages -> Source), it then puts that folder online.
+# While Pages is still set to "Deploy from a branch", this only builds: nothing about the live site changes, so this
+# file can be added ahead of the switch, and switching the setting back restores the old way of publishing.
+#
+# Runs after a push to main, after the data job commits new data (called from nightly.yml), or by hand from the
+# Actions tab. The ratings files are never committed: they are kept between runs in the Actions cache, and worked out
+# again from scratch (about thirty-five minutes on a desktop; allow longer on GitHub's machine) if the cache is empty.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150   # room for a build from an empty cache; an ordinary run takes a few minutes
+    # one build at a time, in order, so an older build can never be published after a newer one
+    concurrency:
+      group: publish-site-build
+      cancel-in-progress: false
+    outputs:
+      source: ${{ steps.pages.outputs.source }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: How is the site published at the moment?
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          t=""
+          for i in 1 2 3; do
+            t=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .build_type 2>/dev/null) && [ -n "$t" ] && break
+            sleep 5
+          done
+          if [ -z "$t" ]; then echo "Could not read the Pages setting."; exit 1; fi
+          echo "source=$t" >> "$GITHUB_OUTPUT"
+          echo "Pages source: $t (workflow = this job publishes; legacy = the branch is published as before)"
+      - name: Bring back the ratings files from the last run
+        id: ratings
+        uses: actions/cache/restore@v6
+        with:
+          path: _precompute
+          key: ratings-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            ratings-
+      - name: Work out the ratings files (only the years that changed)
+        # A failure here must not stop the site being published: without the files' index none of them is published,
+        # and the page then works its table out itself, as it always has. The warning shows on the run's summary.
+        # Once the model is no longer on the page, this step must fail the job instead.
+        run: |
+          node build/precompute.mjs || {
+            echo "::warning title=Ratings files::build/precompute.mjs failed; the site is published without ratings files"
+            rm -f _precompute/index.json
+          }
+      - name: Keep the ratings files for the next run
+        if: hashFiles('_precompute/manifest.json') != '' && steps.ratings.outputs.cache-matched-key != format('ratings-{0}', hashFiles('_precompute/manifest.json'))
+        continue-on-error: true
+        uses: actions/cache/save@v6
+        with:
+          path: _precompute
+          key: ratings-${{ hashFiles('_precompute/manifest.json') }}
+      - name: Put the site together
+        # STRIP_ENGINE: '1' publishes the page without the rating engine (the last stage of keeping the method private).
+        # Left at '0' for the first days after the switch, so the published page can still fall back on the engine;
+        # change it to '1' once the published site has been seen to work.
+        env:
+          STRIP_ENGINE: '0'
+        run: node build/site.mjs
+      - name: Hand the folder to GitHub Pages
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.source == 'workflow'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: publish-site-deploy
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Put it online
+        id: deployment
+        uses: actions/deploy-pages@v4

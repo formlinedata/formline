@@ -266,6 +266,32 @@
   }
   .home-grid{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,5fr);gap:20px;margin-bottom:20px;align-items:start;}
   @media(max-width:960px){.home-grid{grid-template-columns:1fr;}}
+  /* The home page as the site's front door: the track record, the next matches a line each, a way into every part. */
+  .track{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.25fr);gap:12px;margin:0 0 20px;}
+  .track .fr-tile .s{font-size:13px;color:var(--dim);line-height:1.45;margin-top:4px;}
+  .track-say{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;color:var(--body);font-size:14px;line-height:1.55;min-width:0;}
+  .track-say b{color:var(--chalk);} .track-say a{font-weight:600;white-space:nowrap;}
+  @media(max-width:860px){.track{grid-template-columns:1fr 1fr;} .track-say{grid-column:1 / -1;}}
+  @media(max-width:430px){.track .fr-tile .v{font-size:28px;}}
+  .home-h{font-size:21px;font-weight:800;color:var(--chalk);margin:0 0 12px;padding:0 2px 9px;border-bottom:2px solid var(--chalk);letter-spacing:-.005em;line-height:1.25;}
+  .hub{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 22px;}
+  @media(max-width:960px){.hub{grid-template-columns:repeat(3,minmax(0,1fr));}}
+  @media(max-width:640px){.hub{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}}
+  a.hub-card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px;text-decoration:none;min-width:0;}
+  a.hub-card b{display:block;color:var(--chalk);font-size:15.5px;font-weight:650;}
+  a.hub-card span{display:block;color:var(--dim);font-size:13px;line-height:1.4;margin-top:3px;}
+  a.hub-card:hover, a.hub-card:focus-visible{border-color:var(--amber);} a.hub-card:hover b{color:var(--amber);}
+  .hfx-day{padding:9px 17px 5px;font-size:12.5px;font-weight:650;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;border-top:1px solid var(--line);}
+  .hfx-day:first-of-type{border-top:0;}
+  a.hfx{display:grid;grid-template-columns:64px minmax(0,1fr);gap:2px 10px;padding:8px 17px 10px;text-decoration:none;color:var(--body);border-top:1px solid var(--line);}
+  .hfx-day + a.hfx{border-top:0;}
+  a.hfx:hover{background:var(--panel-2);}
+  .hfx-t{grid-row:1 / span 2;color:var(--dim);font-size:13px;font-variant-numeric:tabular-nums;padding-top:2px;}
+  .hfx-s{display:flex;align-items:center;gap:8px;min-width:0;color:var(--chalk);font-size:14.5px;}
+  .hfx-s .fn{min-width:0;flex:1;} .hfx-s.fav{font-weight:650;}
+  .hfx-s i{font-style:normal;font-variant-numeric:tabular-nums;color:var(--body);font-weight:500;} .hfx-s.fav i{color:var(--amber);font-weight:750;}
+  .hfx-c{grid-column:2;color:var(--dim);font-size:12.5px;margin-top:2px;}
+  .home-note{color:var(--dim);font-size:13.5px;margin:-8px 0 18px;}
   .leader{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px;}
 
   .flag{--fw:24px;--fh:16px;display:inline-flex;align-items:center;justify-content:flex-end;width:var(--fw);height:var(--fh);
@@ -1043,6 +1069,10 @@
 
   /* v43: tier-mates on team pages */
   .tier-mates{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px 36px;}
+  @media(min-width:760px){.tier-mates.tier-four{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  .tier-defs{margin:18px 0 4px;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 16px;font-size:13.5px;line-height:1.55;color:var(--body);}
+  .tier-defs dt{font-weight:650;color:var(--chalk);} .tier-defs dd{margin:0;max-width:86ch;}
+  @media(max-width:640px){.tier-defs{grid-template-columns:1fr;gap:2px;} .tier-defs dd{margin-bottom:8px;}}
   .tier-mates h3{font-size:15.5px;margin:0 0 8px;color:var(--chalk);} .tier-mates h3 .muted{font-weight:400;font-size:13.5px;}
   .tm-list{display:grid;gap:2px;max-height:430px;overflow:auto;}
   a.tm{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;color:var(--body);text-decoration:none;}
@@ -1120,6 +1150,7 @@
   .th-sort{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;white-space:nowrap;} .th-sort.on{color:var(--amber);}
   /* v56: history */
   .hv-chips .chip{font-size:12.5px;padding:3px 10px;}
+  .hist-scope{margin:0 0 12px;padding:8px 12px;border-left:3px solid var(--amber);background:var(--amber-soft);color:var(--body);font-size:13.5px;}
   .hist-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:12px 34px;margin:0;}
   .hist-list > div{padding:8px 0;border-bottom:1px solid var(--line);min-width:0;}
   .hist-list dt{font-size:12.5px;color:var(--dim);margin:0 0 2px;}
@@ -1194,7 +1225,7 @@
 <header class="masthead">
   <div class="masthead-inner">
     <a class="brand" href="#/" aria-label="Formline, home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26.5 10.5 21 17 24.5 29 12.5V3.5L17 15 10.5 12 3 18Z" fill="var(--amber-band)"/><path d="M3 22.5 10.5 16.5 17 19.8 29 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="8" r="3" fill="var(--amber)"/></svg><span class="brand-word">Formline</span></a>
-    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The coming weeks, with predictions</small></a><a href="#/window" data-route="window">This window<small>What's on, the model's calls, the upsets so far</small></a><a href="#/matchday" data-route="matchday">Matchday<small>One day's matches, the calls, and your own picks</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a><a href="#/qualify" data-route="qualify">Who qualifies?<small>Set the results left in a group</small></a><a href="#/predict?dm=1" data-route="dream">Era comparer<small>Any team from any year against another</small></a><a href="#/difficulty" data-route="difficulty">Fixture difficulty<small>Who has the hardest matches coming</small></a><a href="#/whatif" data-route="whatif">What if?<small>Change one result, see the ratings</small></a><a href="#/guess" data-route="guess">Guess the team<small>A new rating line every day</small></a><a href="#/widgets" data-route="widgets">Widgets<small>Formline boxes for your own site</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Embed the table, download the data, chip in</small></a><a href="#/contact" data-route="contact">Contact<small>Corrections, press and feedback</small></a></div></div></nav>
+    <nav id="nav" aria-label="Main"><div class="nav-search" role="search"><input type="search" id="teamSearchM" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResultsM" role="listbox" hidden></div></div><div class="nav-group" data-group="ratings"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-ratings">Ratings <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-ratings"><a href="#/rankings" data-route="rankings">Rankings<small>Every team in order, each with its band</small></a><a href="#/team" data-route="team">Teams<small>One team’s rating, matches and history</small></a><a href="#/confederations" data-route="confederations">Confederations<small>The table region by region</small></a><a href="#/competitions" data-route="competitions">Competitions<small>Every tournament, edition by edition</small></a><a href="#/records" data-route="records">Records<small>Upsets, peaks, streaks, all time or by year</small></a></div></div><div class="nav-group" data-group="matches"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-matches">Matches <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-matches"><a href="#/fixtures" data-route="fixtures">Fixtures<small>The coming weeks, with predictions</small></a><a href="#/window" data-route="window">This window<small>What's on, the model's calls, the upsets so far</small></a><a href="#/matchday" data-route="matchday">Matchday<small>One day's matches, the calls, and your own picks</small></a><a href="#/predict" data-route="predict">Predict<small>Any two teams, any venue</small></a><a href="#/record" data-route="record">Forecast record<small>How past predictions turned out</small></a></div></div><div class="nav-group" data-group="tools"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-tools">Tools <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-tools"><a href="#/simulate" data-route="simulate">Simulator<small>Play a tournament ten thousand times</small></a><a href="#/h2h" data-route="h2h">Head to head<small>Two teams side by side</small></a><a href="#/qualify" data-route="qualify">Who qualifies?<small>Set the results left in a group</small></a><a href="#/predict?dm=1" data-route="dream">Era comparer<small>Any team from any year against another</small></a><a href="#/difficulty" data-route="difficulty">Fixture difficulty<small>Who has the hardest matches coming</small></a><!--ENGINE<--><a href="#/whatif" data-route="whatif">What if?<small>Change one result, see the ratings</small></a><!--ENGINE>--><a href="#/guess" data-route="guess">Guess the team<small>A new rating line every day</small></a><a href="#/widgets" data-route="widgets">Widgets<small>Formline boxes for your own site</small></a></div></div><div class="nav-group" data-group="about"><button class="nav-top" type="button" aria-expanded="false" aria-controls="m-about">About <svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-menu" id="m-about"><a href="#/method" data-route="method">How it works<small>The model, and how it was tested</small></a><a href="#/about" data-route="about">About Formline<small>What this is, and common questions</small></a><a href="#/compare" data-route="compare">Formline, Elo and FIFA<small>How the three compare, side by side</small></a><a href="#/changes" data-route="changes">What's new<small>Changes to the site and the model</small></a><a href="#/support" data-route="support">Support Formline<small>Embed the table, download the data, chip in</small></a><a href="#/contact" data-route="contact">Contact<small>Corrections, press and feedback</small></a></div></div></nav>
     <div class="mast-search" role="search"><input type="search" id="teamSearch" class="team-search" placeholder="Find a team" aria-label="Find a team" autocomplete="off"><div class="search-results" id="teamSearchResults" role="listbox" hidden></div></div>
     <div class="mast-right">
       <div class="gender-switch" id="genderSwitch" role="group" aria-label="Men's or women's football">
@@ -1218,7 +1249,7 @@
       <div class="flinks fsocial"><span>Follow</span><a href="https://x.com/FormlineData" target="_blank" rel="noopener">X</a><a href="https://www.instagram.com/formline.data/" target="_blank" rel="noopener">Instagram</a><a href="https://bsky.app/profile/formlinedata.com" target="_blank" rel="noopener">Bluesky</a></div>
     </div>
     <div>
-      <p>Ratings are computed in your browser from open match data maintained by Mart J&uuml;risoo
+      <p><!--ENGINE<-->Ratings are computed in your browser from<!--ENGINE>--><!--ENGINE-OFF:Ratings are worked out from:ENGINE-OFF--> open match data maintained by Mart J&uuml;risoo
       (<a href="https://github.com/martj42/international_results" target="_blank" rel="noopener">men's</a> and
       <a href="https://github.com/martj42/womens-international-results" target="_blank" rel="noopener">women's</a> results),
       compiled from Wikipedia, RSSSF and football association sources and released under CC0. Results newer than the archives,
@@ -1329,28 +1360,34 @@ const archiveName = n => ARCHIVE_NAMES[n] || n;
    2. COMPETITIONS
    ============================================================ */
 const COMPS = {
-  wc:       {label:'World Cup finals',              k:42.5},
-  cont:     {label:'Continental finals',            k:37.5},
-  olympics: {label:'Olympic tournament',            k:37.5},
-  intercont:{label:'Intercontinental championships',k:37.5},
-  wcq:      {label:'World Cup qualifying',          k:32.5},
-  contq:    {label:'Continental qualifying',        k:32.5},
-  nl:       {label:'Nations League',                k:32.5},
-  premier:  {label:'Historic premier championships',k:null, kText:'35 → 30 → 27.5'},
-  subreg:   {label:'Sub-regional championships',    k:27.5},
-  games:    {label:'Multi-sport games',             k:25},
-  subregq:  {label:'Sub-regional qualifying',       k:25},
-  invit:    {label:'Invitational & bilateral cups', k:27.5},
-  nonfifa:  {label:'Non-FIFA tournaments',          k:17.5},
-  friendly: {label:'Friendlies',                    k:25, kText:'27.5 → 25'}
+  wc:       {label:'World Cup finals'},
+  cont:     {label:'Continental finals'},
+  olympics: {label:'Olympic tournament'},
+  intercont:{label:'Intercontinental championships'},
+  wcq:      {label:'World Cup qualifying'},
+  contq:    {label:'Continental qualifying'},
+  nl:       {label:'Nations League'},
+  premier:  {label:'Historic premier championships'},
+  subreg:   {label:'Sub-regional championships'},
+  games:    {label:'Multi-sport games'},
+  subregq:  {label:'Sub-regional qualifying'},
+  invit:    {label:'Invitational & bilateral cups'},
+  nonfifa:  {label:'Non-FIFA tournaments'},
+  friendly: {label:'Friendlies'}
 };
+/*ENGINE<*/
 /* The order of these weights is a judgement about what each competition meant. The gaps between them were halved in
    October 2026 (user's decision; each K was 25 + 2 x (K - 25) before: World Cup 60, continental finals 50, qualifiers
    40, sub-regional and invitational 30, non-FIFA 10). Big matches do tell more about a team than friendlies, but not as
    much more as their importance suggests: halving the gaps predicted better in both halves of the test period for
    both games, and widening them predicted worse. */
+{ const K = {wc:42.5, cont:37.5, olympics:37.5, intercont:37.5, wcq:32.5, contq:32.5, nl:32.5, premier:null, subreg:27.5, games:25, subregq:25, invit:27.5, nonfifa:17.5, friendly:25}; for (const c in K) COMPS[c].k = K[c];
+  COMPS.premier.kText = '35 → 30 → 27.5'; COMPS.friendly.kText = '27.5 → 25'; }
+/*>ENGINE*/
 const COMP_ORDER = ['wc','cont','olympics','intercont','wcq','contq','nl','premier','subreg','invit','friendly','games','subregq','nonfifa'];
+/*ENGINE<*/
 const kText = c => COMPS[c].kText || String(COMPS[c].k);   // friendlies: COMPS.friendly.k is today's value
+/*>ENGINE*/
 
 /* Every regional tournament in both archives, sorted into a tier. Anything not listed (a tournament
    added upstream later) is treated as an invitational, the cautious choice. Premier championships
@@ -1366,7 +1403,9 @@ const PREMIER = {
    The women's archive files the unofficial 1970-71 world championships as "World Cup" and the unofficial
    European championships of 1957, 1969 and 1979 as "European Championship" and "Euro". They were organised
    outside FIFA and UEFA, so they are premier championships here, not World Cup or continental finals. */
+/*ENGINE<*/
 const PREMIER_WORLD = new Set(['Mundialito',"FIFA Women's Invitation Tournament",'World Cup']);
+/*>ENGINE*/
 const WOMEN_UNOFFICIAL = new Set(['world cup','european championship','euro']);
 const SUBREGIONAL = new Set(['Arab Cup','Gulf Cup','CECAFA Cup','CFU Caribbean Cup','Amílcar Cabral Cup','West African Cup',
   'UDEAC Cup','UNIFFAC Cup','COSAFA Cup','AFF Championship','ASEAN Championship','SAFF Cup','EAFF Championship',
@@ -1451,13 +1490,17 @@ function categorize(t, ts, g){
    s2, when the tournament's regular teams actually took part in it (the median of the dates each first
       played a World Cup or continental match, finals or qualifying).
    PREMIER_K[0] before s1, PREMIER_K[1] until s2, PREMIER_K[2] after. Every other match takes its category's weight. */
+/*ENGINE<*/
 /* The last step matches a sub-regional championship (K30): once their teams play bigger competitions, that is what
    these tournaments are (user's decision, Oct 2026; it was K25). */
 const PREMIER_K = [35, 30, 27.5];
+/*>ENGINE*/
 /* Women's multi-sport tournaments played by full senior national teams (the men's sides at these games are age-limited
    or left the archive), counted like a sub-regional championship rather than at the multi-sport K25. */
+/*ENGINE<*/
 const WOMEN_SENIOR_GAMES = new Set(['Asian Games', 'Pan American Games', 'Southeast Asian Games']);
 const WOMEN_GAMES_K = 27.5;
+/*>ENGINE*/
 /* Friendlies by era: [year, K] points, straight lines between them, level beyond the ends (like home advantage).
    Friendlies and tours were much of international football for most of its history; today they sit between club
    seasons, squads are rotated, and the Nations Leagues have taken over many of the dates (men 2018, women 2023).
@@ -1465,6 +1508,7 @@ const WOMEN_GAMES_K = 27.5;
    the Nations League's arrival. The data is close to indifferent: in backtests any friendly weight from K20 to K35
    moved accuracy by 0.3% at most, and this gentle step cost 0.09% on 1930-94 men's matches while gaining a little
    since 1995. A premium before 1930 (K35) cost 0.7% on that era and was left out. */
+/*ENGINE<*/
 const FRIENDLY_ERAS = {men:[[1990,27.5],[2018,25]], women:[[1991,27.5],[2023,25]]};
 function friendlyK(g, ts){
   const k = FRIENDLY_ERAS[g] || FRIENDLY_ERAS.men, y = 1970 + ts/(365.2425*864e5);
@@ -1472,6 +1516,8 @@ function friendlyK(g, ts){
   for (let i = 1; i < k.length; i++) if (y <= k[i][0]) return k[i-1][1] + (k[i][1]-k[i-1][1])*(y - k[i-1][0])/(k[i][0] - k[i-1][0]);
   return k[k.length-1][1];
 }
+/*>ENGINE*/
+/*ENGINE<*/
 function setWeights(ms, g){
   const BIG = new Set(['wc','wcq','cont','contq']);
   const firstBig = new Map(), confFirst = {};
@@ -1506,13 +1552,18 @@ function setWeights(ms, g){
   }
   return eras;
 }
-const kFor = cat => COMPS[cat].k;
+/*>ENGINE*/
+/*ENGINE<*/
+const kOfKind = (g, kind, ts) => kind === 'friendly' ? friendlyK(g, ts) : (COMPS[kind] && COMPS[kind].k) || 30;   // what a kind of match weighs on a date
+/*>ENGINE*/
+/*ENGINE<*/
 function goalMult(d){
   if (d <= 1) return 1;
   if (d === 2) return 1.5;
   if (d === 3) return 1.75;
   return (11 + d) / 8;
 }
+/*>ENGINE*/
 
 /* ============================================================
    3. HISTORICAL NAMES
@@ -1747,9 +1798,15 @@ const badgeImg = (title, alt, cls, slug) => SHOW_BADGES && (title || slug)
    ============================================================ */
 const BASELINE  = 1500;   // where an unrated team is placed; arbitrary, only gaps matter
 const RD_MAX    = 350;    // uncertainty of a team about which nothing is known
+/*ENGINE<*/
 const RD_MIN    = 30;     // floor, so a rating can always still move
+/*>ENGINE*/
+/*ENGINE<*/
 const C2        = 4;      // uncertainty regrowth per day without a match (RD^2 units)
+/*>ENGINE*/
+/*ENGINE<*/
 const K_REF     = 40;     // match importance is expressed relative to this K
+/*>ENGINE*/
 /* Home advantage, fitted separately because it differs: +100 is best for the men since 2000,
    +60 for the women since 2005. */
 /* Home advantage by era: [year, points] knots, straight lines between them, flat beyond the ends. */
@@ -1808,12 +1865,15 @@ const BAND_Z = 2;         // band shown is rating ± 2·RD, roughly a 95% range
 const gRD = rd => 1 / Math.sqrt(1 + 3*Q*Q*rd*rd/(Math.PI*Math.PI));
 const eloE = dr => 1 / (1 + Math.pow(10, -dr/400));
 
+/*ENGINE<*/
 /* A team's state carried forward to a later date: rating unchanged, uncertainty regrown. */
 function inflate(s, ts){
   if (!s) return {r:BASELINE, rd:RD_MAX, last:null};
   const days = Math.max(0, (ts - s.last) / DAY);
   return {r:s.r, rd:Math.min(Math.sqrt(s.rd*s.rd + C2*days), RD_MAX), last:s.last};
 }
+/*>ENGINE*/
+/*ENGINE<*/
 /* Update one side of a match. h is the home bonus from this side's point of view. */
 function glickoUpdate(me, op, score, h, wImp, wStep){
   const gj = gRD(op.rd);
@@ -1821,6 +1881,7 @@ function glickoUpdate(me, op, score, h, wImp, wStep){
   const inv = 1/(me.rd*me.rd) + wImp*Q*Q*gj*gj*E*(1-E);
   return {r: me.r + (Q/inv)*wStep*gj*(score - E), rd: Math.max(1/Math.sqrt(inv), RD_MIN)};
 }
+/*>ENGINE*/
 /* Probability-of-winning style expectation that allows for both teams' uncertainty. */
 function predictE(A, B, h){
   const gp = gRD(Math.sqrt(A.rd*A.rd + B.rd*B.rd));
@@ -1905,8 +1966,16 @@ const BAND_WORDS = {150:'Strict: only teams the model knows very well', 200:'Tig
    worked out by the build. build/site.mjs switches this to true in the copy it publishes when those files are there;
    in the project's own index.html it stays false, and the page works the table out itself as before. */
 const RATINGS_FILES = false;
+/* The rating engine is on this page: the project's own copy, which is the live site until the publishing switch and
+   which the build always uses to make the files. The published copy can be built without it (build/site.mjs with
+   STRIP_ENGINE=1): everything between the ENGINE marks is cut out, each ENGINE-OFF note is put in as code, and this
+   switch reads false. That copy reads the build's files only: where a file is missing a page says so (noFiles) or
+   leaves the figure out, and the settings only the engine could serve are gone (window lengths other than twelve
+   years or all time, a band limit that is not one of the listed ones, What if?). */
+const ENGINE = true;
+function noFiles(what){ const e = new Error('The ratings files for this page could not be read ('+what+')'); e.noFiles = true; return e; }
 const state = {
-  useTableFiles:RATINGS_FILES, tableFiles:{}, dayFiles:{}, dayCache:null, ledgerFiles:{}, snapFiles:{}, edFiles:{}, recFiles:{}, histFiles:{}, fcFiles:{}, yeFiles:{}, goalFiles:{}, seriesFiles:{}, rankFiles:{}, snapRankFiles:{}, seriesRankFiles:{}, histRankFiles:{}, bestFiles:{},
+  useTableFiles:RATINGS_FILES, tableFiles:{}, dayFiles:{}, dayCache:null, ledgerFiles:{}, snapFiles:{}, edFiles:{}, recFiles:{}, histFiles:{}, fcFiles:{}, stakeFiles:{}, rankAllFiles:{}, yeFiles:{}, goalFiles:{}, seriesFiles:{}, rankFiles:{}, snapRankFiles:{}, seriesRankFiles:{}, histRankFiles:{}, histWFiles:{}, bestFiles:{},
   gender:'men',
   windowYears:DEFAULTS.windowYears,
   asOf:null,
@@ -1936,7 +2005,7 @@ const state = {
   edCache:null,
   renderGen:0,
   readingOpen:false,
-  moversScope:'top50',
+
   charts:[]
 };
 
@@ -1959,7 +2028,53 @@ const CORRECTIONS = {
   men: [
     {date:'1974-02-17', home:'Tahiti', away:'New Caledonia', score:'2-1', drop:'listed twice with opposite scores; neither can be trusted'},
     {date:'1974-02-17', home:'Tahiti', away:'New Caledonia', score:'1-2', drop:'listed twice with opposite scores; neither can be trusted'},
-    {date:'1979-07-25', home:'Belarus', away:'Russia', set:{country:'Belarus'}, note:'Minsk; a Soviet Spartakiad match, so Belarus was at home'}
+    {date:'1979-07-25', home:'Belarus', away:'Russia', set:{country:'Belarus'}, note:'Minsk; a Soviet Spartakiad match, so Belarus was at home'},
+    /* Found by the check against Wikipedia's results pages, 13 November 2026 (claude/data-audit.md); each confirmed from
+       a source outside Wikipedia too. Each applies only while the archive still has the wrong score. */
+    {date:'2026-06-06', home:'Bermuda', away:'Cape Verde', score:'3-0', set:{hs:0, as:3}, note:'Cape Verde won 3-0 in East Hartford; the archive has the score the wrong way round (Bernews, 6 June 2026; both teams\' Wikipedia pages)'},
+    {date:'2025-11-18', home:'Mali', away:'Jordan', score:'3-2', set:{hs:0, as:0}, note:'0-0 in Tunis; the archive has 3-2 (ESPN and FotMob; both teams\' Wikipedia pages)'},
+    {date:'2024-11-15', home:'Russia', away:'Brunei', score:'2-1', set:{hs:11, as:0}, note:'Russia won 11-0 in Krasnodar; the archive has 2-1 (both teams\' Wikipedia pages)'},
+    /* Found by setting three sources side by side, 13 November 2026: the archive, Wikipedia's results pages and World
+       Football Elo Ratings (eloratings.net). Each is a score on which the other two agree against the archive, and none
+       is a result awarded afterwards. */
+    {date:'2026-10-05', home:'Mauritius', away:'Sri Lanka', score:'1-2', set:{hs:2, as:3}, note:'Sri Lanka won 3-2 in Saint Pierre; the archive has 1-2 (The Morning, 7 October 2026; Wikipedia and World Football Elo Ratings)'},
+    {date:'2026-06-06', home:'Jamaica', away:'South Africa', score:'0-1', set:{hs:1, as:1}, note:'1-1 in Pachuca, behind closed doors; first reports said 1-0; the archive has 0-1 (SuperSport, 7 June 2026; Wikipedia and World Football Elo Ratings)'},
+    {date:'2026-06-04', home:'Guatemala', away:'Czech Republic', score:'1-5', set:{hs:1, as:3}, note:'the Czech Republic won 3-1 in Harrison; the archive has 1-5 (ESPN; Wikipedia and World Football Elo Ratings)'},
+    {date:'2025-08-24', home:'Qatar', away:'Lebanon', score:'2-2', set:{hs:0, as:1}, note:'Lebanon won 1-0 in Doha; the archive has 2-2 (ESPN; Wikipedia and World Football Elo Ratings)'},
+    {date:'2022-03-24', home:'Mauritius', away:'São Tomé and Príncipe', score:'3-0', set:{hs:0, as:1}, note:'São Tomé and Príncipe won 1-0; the 3-0 awarded to Mauritius was set aside on appeal on 30 May 2022 and the result on the pitch stands; the archive has 3-0 (CAF Appeal Board decision, reported by the BBC; Wikipedia and World Football Elo Ratings)'},
+    {date:'2019-03-04', home:'Barbados', away:'Grenada', score:'3-0', set:{hs:0, as:0}, note:'0-0; the archive has 3-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'2017-12-12', home:'New Caledonia', away:'Solomon Islands', score:'0-0', set:{hs:0, as:1}, note:'the Solomon Islands won 1-0; the archive has 0-0 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'2016-06-05', home:'Central African Republic', away:'Angola', score:'3-0', set:{hs:3, as:1}, note:'3-1; the archive has 3-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'2012-09-25', home:'Taiwan', away:'Macau', score:'1-0', set:{hs:2, as:2}, note:'2-2; the archive has 1-0 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'2011-03-26', home:'North Korea', away:'Iraq', score:'2-0', set:{hs:0, as:2}, note:'Iraq won 2-0; the archive has 2-0 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'2009-03-14', home:'Nepal', away:'Sri Lanka', score:'4-2', set:{hs:0, as:0}, note:'0-0; the archive has 4-2 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'2007-06-03', home:'Mozambique', away:'Burkina Faso', score:'3-0', set:{hs:3, as:1}, note:'3-1; the archive has 3-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1997-04-04', home:'British Virgin Islands', away:'Anguilla', score:'4-2', set:{hs:4, as:1}, note:'4-1; the archive has 4-2 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'1997-03-12', home:'Saudi Arabia', away:'Indonesia', score:'3-1', set:{hs:1, as:1}, note:'1-1; the archive has 3-1 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'1997-03-09', home:'Saudi Arabia', away:'Indonesia', score:'2-0', set:{hs:4, as:0}, note:'Saudi Arabia won 4-0; the archive has 2-0 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'1996-04-28', home:'Turkmenistan', away:'Iran', score:'0-1', set:{hs:1, as:0}, note:'Turkmenistan won 1-0; the archive has 0-1 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'1996-03-02', home:'Malaysia', away:'Indonesia', score:'1-1', set:{hs:0, as:0}, note:'0-0; the archive has 1-1 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'1993-04-10', home:'Ghana', away:'Liberia', score:'0-0', set:{hs:1, as:0}, note:'Ghana won 1-0; the archive has 0-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1993-02-10', home:'Mexico', away:'Romania', score:'0-2', set:{hs:2, as:0}, note:'Mexico won 2-0; the archive has 0-2 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1991-09-20', home:'New Caledonia', away:'Vanuatu', score:'3-1', set:{hs:3, as:0}, note:'3-0; the archive has 3-1 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'1990-08-29', home:'Seychelles', away:'Comoros', score:'3-1', set:{hs:2, as:1}, note:'2-1; the archive has 3-1 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1988-11-10', home:'Kenya', away:'Tanzania', score:'2-0', set:{hs:0, as:0}, note:'0-0; the archive has 2-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1988-04-21', home:'El Salvador', away:'Guatemala', score:'1-0', set:{hs:1, as:1}, note:'1-1; the archive has 1-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1988-02-16', home:'China', away:'India', score:'1-1', set:{hs:1, as:0}, note:'China won 1-0; the archive has 1-1 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'1985-04-21', home:'Bolivia', away:'Venezuela', score:'4-0', set:{hs:4, as:1}, note:'4-1; the archive has 4-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1985-04-17', home:'Colombia', away:'Paraguay', score:'2-0', set:{hs:1, as:0}, note:'1-0; the archive has 2-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1981-08-02', home:'Suriname', away:'Trinidad and Tobago', score:'1-1', set:{hs:0, as:0}, note:'0-0; the archive has 1-1 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1974-01-25', home:'Panama', away:'El Salvador', score:'1-0', set:{hs:1, as:1}, note:'1-1; the archive has 1-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1973-06-14', home:'Mauritius', away:'Tanzania', score:'1-1', set:{hs:0, as:0}, note:'0-0; the archive has 1-1 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1970-11-20', home:'Indonesia', away:'Malaysia', score:'1-3', set:{hs:0, as:3}, note:'Malaysia won 3-0; the archive has 1-3 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1970-11-15', home:'Indonesia', away:'Cambodia', score:'4-1', set:{hs:4, as:2}, note:'4-2; the archive has 4-1 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1969-08-20', home:'Vanuatu', away:'Solomon Islands', score:'7-2', set:{hs:2, as:7}, note:'the Solomon Islands won 7-2; the archive has 7-2 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'1969-03-22', home:'Morocco', away:'Algeria', score:'2-0', set:{hs:1, as:0}, note:'1-0; the archive has 2-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1968-11-26', home:'Indonesia', away:'Singapore', score:'7-0', set:{hs:7, as:1}, note:'7-1; the archive has 7-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1961-12-27', home:'Ivory Coast', away:'Central African Republic', score:'1-0', set:{hs:11, as:0}, note:'Ivory Coast won 11-0, their biggest win; the archive has 1-0 (both teams\' Wikipedia pages; World Football Elo Ratings)'},
+    {date:'1961-10-28', home:'Myanmar', away:'South Korea', score:'3-0', set:{hs:1, as:3}, note:'South Korea won 3-1; the archive has 3-0 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1957-09-07', home:'Malaysia', away:'Indonesia', score:'4-2', set:{hs:2, as:4}, note:'Indonesia won 4-2; the archive has 4-2 (Wikipedia and World Football Elo Ratings)'},
+    {date:'1949-01-25', home:'Macau', away:'South Korea', score:'1-5', set:{hs:0, as:3}, note:'South Korea won 3-0; the archive has 1-5 (Wikipedia and World Football Elo Ratings)'}
   ],
   women: [
     /* Checked against Wikipedia's tournament articles, November 2026. Each applies only while the archive still has the
@@ -1972,7 +2087,11 @@ const CORRECTIONS = {
     {date:'1998-12-11', home:'New Zealand', away:'Fiji', score:'14-0', set:{ts:Date.UTC(1998, 9, 11)}, note:'played 11 October 1998; the archive has 11 December (Wikipedia)'},
     {date:'1998-12-11', home:'Australia', away:'Papua New Guinea', score:'8-0', set:{ts:Date.UTC(1998, 9, 11)}, note:'played 11 October 1998; the archive has 11 December (Wikipedia)'},
     {date:'2002-12-12', home:'Cameroon', away:'South Africa', score:'3-0', set:{ts:Date.UTC(2002, 11, 20)}, note:'third-place match, played 20 December 2002; the archive has 12 December (Wikipedia)'},
-    {date:'2002-12-12', home:'Nigeria', away:'Ghana', score:'2-0', set:{ts:Date.UTC(2002, 11, 20)}, note:'final, played 20 December 2002; the archive has 12 December (Wikipedia)'}
+    {date:'2002-12-12', home:'Nigeria', away:'Ghana', score:'2-0', set:{ts:Date.UTC(2002, 11, 20)}, note:'final, played 20 December 2002; the archive has 12 December (Wikipedia)'},
+    /* Found by the check against Wikipedia's results pages, 13 November 2026; each confirmed from the federation or a match report. */
+    {date:'2024-10-30', home:'United States', away:'Argentina', score:'0-0', set:{hs:3, as:0}, note:'the United States won 3-0 in Louisville; the archive has 0-0 (U.S. Soccer match report)'},
+    {date:'2024-10-29', home:'Brazil', away:'Colombia', score:'0-0', set:{hs:3, as:1}, note:'Brazil won 3-1 in Cariacica; the archive has 0-0 (ESPN)'},
+    {date:'2018-03-26', home:'Australia', away:'Thailand', score:'0-0', set:{hs:5, as:0}, note:'Australia won 5-0 in Perth; the archive has 0-0 (Football Australia)'}
   ]
 };
 /* One team or tournament filed under two spellings, merged to the more common one. */
@@ -2054,6 +2173,9 @@ function buildFormer(rows){
   }
   return m.size ? m : null;
 }
+/* A name kept in one of the build's files is the name the team played under then. With period names switched off the
+   page shows today's name for the same team instead, as the match list on the page does (namesFor). */
+const fileName = (k, nm) => state.historicalNames ? nm : dn(k);
 function resolveName(team, ts){
   if (!state.historicalNames) return team;
   const f = state.former[state.gender];
@@ -2169,6 +2291,14 @@ async function loadFcFile(g){
   state.fcFiles[g] = null;
   try { const res = await fetch('r/fc-'+g+'.json', {cache:'no-cache'}); if (res.ok) state.fcFiles[g] = await res.json(); } catch(e){}
 }
+/* What a result would do to both ratings, for every pairing on the fixture list in each venue and kind of match the
+   Predictor offers (r/stakes-<g>.json, see stakesToFile). Asked for by the Predictor only. */
+function loadStakes(g){
+  if (!state.useTableFiles) return Promise.resolve(null);
+  if (state.stakeFiles[g] === undefined) state.stakeFiles[g] = fetch('r/stakes-'+g+'.json', {cache:'no-cache'}).then(res => res.ok ? res.json() : null).catch(() => null)
+    .then(F => state.stakeFiles[g] = F);
+  return Promise.resolve(state.stakeFiles[g]);
+}
 /* The goals figures for a past date (r/goals/<g>/<year>.json, see goalsYearFiles): asked for by the route when the date
    in view is a past one. */
 async function loadGoalsYear(g, y){
@@ -2186,10 +2316,11 @@ function seriesStamps(from, to){   // the quarter starts from `from` up to, not 
 }
 /* The quarter starts a chart for a past date is drawn through: those inside the window, from the archive's first match on. */
 const pastStamps = ao => seriesStamps(Math.max(windowStartFor(ao), state.bounds[state.gender].min), ao);
+const seriesKey = (g, decade) => (state.windowYears === 0 ? 'all|' : '')+g+'|'+decade;   // "all time" has its own series: r/series-all/, r/seriesr-all/
 function loadSeries(g, decade){
-  const k = g+'|'+decade;
+  const k = seriesKey(g, decade);
   if (!state.useTableFiles) return Promise.resolve(null);
-  if (state.seriesFiles[k] === undefined) state.seriesFiles[k] = fetch('r/series/'+g+'/'+decade+'.json', decade + 10 > new Date().getUTCFullYear() ? {cache:'no-cache'} : {})
+  if (state.seriesFiles[k] === undefined) state.seriesFiles[k] = fetch('r/series'+(state.windowYears === 0 ? '-all' : '')+'/'+g+'/'+decade+'.json', decade + 10 > new Date().getUTCFullYear() ? {cache:'no-cache'} : {})
     .then(res => res.ok ? res.json() : null).then(F => state.seriesFiles[k] = F).catch(() => state.seriesFiles[k] = null);
   return Promise.resolve(state.seriesFiles[k]);
 }
@@ -2223,6 +2354,30 @@ function loadBest(g, key){
     .then(res => res.ok ? res.json() : null).then(F => state.bestFiles[k] = F).catch(() => state.bestFiles[k] = null);
   return Promise.resolve(state.bestFiles[k]);
 }
+/* A team's rank just after each of its matches with the window set to "all time" (r/ranka/<g>/<name>.json; the
+   build's rankAllFiles): one row a day it played, [day number, then for each band limit (BAND_OPTIONS' order) and each
+   order (by rating, by the bottom of the band): world rank, out of how many, confederation rank, out of how many].
+   Under "all time" a rank at the time does not depend on the date being viewed, so one file answers for any date.
+   Asked for by a team's page when the window is set that way. */
+function loadRankAll(g, key){
+  const k = g+'|'+key;
+  if (!state.useTableFiles) return Promise.resolve(null);
+  if (state.rankAllFiles[k] === undefined) state.rankAllFiles[k] = fetch('r/ranka/'+g+'/'+bestFileName(key)+'.json', {cache:'no-cache'})
+    .then(res => res.ok ? res.json() : null).then(F => state.rankAllFiles[k] = F).catch(() => state.rankAllFiles[k] = null);
+  return Promise.resolve(state.rankAllFiles[k]);
+}
+/* {rank, of}, null for "not ranked", or undefined when the file is not in hand or does not answer (another match
+   list, an unlisted band limit, a day the team did not play). */
+function rankAllAfter(key, ts, byConf){
+  const g = state.gender, F = state.rankAllFiles[g+'|'+key], bi = BAND_OPTIONS.indexOf(state.maxBand);
+  if (!F || typeof F.then === 'function' || F.v !== 1 || F.g !== g || F.key !== key || bi < 0) return undefined;
+  if (F._ok === undefined) F._ok = F.print === matchListPrint(state.matches[g]);
+  if (!F._ok) return undefined;
+  if (!F._by) F._by = new Map(F.rows.map(r => [r[0], r]));
+  const r = F._by.get(Math.round(ts/DAY)); if (!r) return undefined;
+  const o = 1 + (bi*2 + (state.rankBy === 'lower' ? 1 : 0))*4 + (byConf ? 2 : 0);
+  return r[o] ? {rank:r[o], of:r[o + 1]} : null;
+}
 /* The answers for the date in view under the band limit in force: {r, lo, peak} as a team's History shows them, or null
    when the file does not fit (another match list, a later date, an unlisted band limit). */
 function bestAt(F, key, ao){
@@ -2235,6 +2390,21 @@ function bestAt(F, key, ao){
 }
 /* The all-time best ranks under every band limit (r/histr-<g>.json, see histRanksToFile): beside the history file,
    fetched only when the band limit is not the site's own. */
+/* The same records without the minimum number of ranked teams (r/histw-<g>.json), for a team's History when the window
+   is set to "all time": fetched only then. */
+async function loadHistW(g){
+  if (!state.useTableFiles || state.histWFiles[g] !== undefined) return;
+  state.histWFiles[g] = null;
+  try { const res = await fetch('r/histw-'+g+'.json', {cache:'no-cache'}); if (res.ok) state.histWFiles[g] = await res.json(); } catch(e){}
+}
+/* A team's best ranks on any day on record up to the date in view, under the band limit in force, or null when the
+   file is not in hand or does not go with the history file. */
+function histWindowBest(g, key){
+  const F = state.histFiles[g], W = state.histWFiles[g], ao = state.asOf, bi = BAND_OPTIONS.indexOf(state.maxBand);
+  if (!F || !W || W.v !== 1 || W.g !== g || W.asOf !== F.asOf || W.print !== F.print || bi < 0 || ao > W.asOf) return null;
+  const t = W.teams[key], lastBy = list => { let out = null; for (const x of list){ if (x[1] <= ao) out = x; else break; } return out ? {n:out[0], ts:out[1]} : null; };
+  return t ? {r:lastBy(t[bi][0]), lo:lastBy(t[bi][1])} : {r:null, lo:null};
+}
 async function loadHistRanks(g){
   if (!state.useTableFiles || state.histRankFiles[g] !== undefined) return;
   state.histRankFiles[g] = null;
@@ -2250,16 +2420,23 @@ async function loadEdFile(g, e){
   state.edFiles[k] = null;
   try { const res = await fetch('r/'+(state.windowYears === 0 ? 'ed-all' : 'ed')+'/'+g+'/'+edFileName(e.id)+'.json', e.end >= state.bounds[g].max - 400*DAY ? {cache:'no-cache'} : {}); if (res.ok) state.edFiles[k] = await res.json(); } catch(e2){}
 }
-/* A year of past tables (r/days/<g>/<year>.json): the table on every day of that year on which it changes (dayFor).
+/* A year of past tables (r/days/<g>/<year>.json), for every day of that year (Seb, 13 Nov 2026: accurate to the day).
+   A full table on each day something visible happens (a match, a match leaving the window, a team passing the band
+   limit, the order changing) and on 1 January; for each day in between, what moved since that table: every team's
+   rating and band in hundredths, the tiers and the cautious order where they changed, and the confederations' figures
+   (F.gaps[i][k-1] for the k-th day after day i: [ratings, bands, [[row, tier]...], cautious places, pools, pw]).
    Asked for once a year file; the running year is always fetched fresh. */
-async function loadDayFile(g, y){
-  const k = g+'|'+y;
+async function loadDayFile(g, y, all){
+  if (all === undefined) all = state.windowYears === 0;
+  const k = dayKey(g, y, all);
   if (!state.useTableFiles || state.dayFiles[k] !== undefined) return state.dayFiles[k] || null;
   state.dayFiles[k] = null;
-  try { const res = await fetch('r/days/'+g+'/'+y+'.json', y >= new Date().getUTCFullYear() ? {cache:'no-cache'} : {});
-    if (res.ok){ const F = await res.json(); if (F && F.v === 5 && F.year === y) state.dayFiles[k] = F; } } catch(e){}
+  try { const res = await fetch('r/'+(all ? 'all' : 'days')+'/'+g+'/'+y+'.json', y >= new Date().getUTCFullYear() ? {cache:'no-cache'} : {});
+    if (res.ok){ const F = await res.json(); if (F && F.v === 6 && F.year === y && (F.window === 'all') === all) state.dayFiles[k] = F; } } catch(e){}
   return state.dayFiles[k];
 }
+/* The same years of tables with the window set to "all time" live in r/all/<g>/<year>.json, and are kept apart here. */
+const dayKey = (g, y, all) => ((all === undefined ? state.windowYears === 0 : all) ? 'all|' : '')+g+'|'+y;   // all: the all-time kind, whatever window is in view (forecasts lean on the all-time table)
 /* A year of matches as published (r/matches/<g>/<year>.json): both sides' rating before and after each match, as the
    site showed them that day, and their ranks just after it. Indexed by date and team so a match is found at once; a
    team with two matches on one day (it has happened) has both under the one entry (ledgerRow tells them apart). */
@@ -2327,15 +2504,15 @@ function ledgerClose(key, ts){
   return [0, r[o], r[o + 1], X.row[X.c + 2*L[1]], X.row[X.c + 2*L[1] + 1]];
 }
 /* The year file for a date, and the ones before it while the date falls before that year's first match day. */
-async function loadDaysFor(g, ts){
+async function loadDaysFor(g, ts, all){
   const d = fmtDate(ts);
-  for (let y = new Date(ts).getUTCFullYear(), n = 0; n < 4; y--, n++){ const F = await loadDayFile(g, y); if (!F || (F.days.length && F.days[0] <= d)) return; }
+  for (let y = new Date(ts).getUTCFullYear(), n = 0; n < 4; y--, n++){ const F = await loadDayFile(g, y, all); if (!F || (F.days.length && F.days[0] <= d)) return; }
 }
 /* What a past date needs: its own year of tables, the year before's for each team's change on a year, and the one two
    years before for the 24-month trend. */
-async function loadPastDays(g){
-  const b = state.bounds[g];
-  await Promise.all([0, 365, 730].map(d => state.asOf - d*DAY).filter(t => t >= b.min).map(t => loadDaysFor(g, t)));
+async function loadPastDays(g, ts){
+  const b = state.bounds[g]; if (ts === undefined) ts = state.asOf;
+  await Promise.all([0, 365, 730].map(d => ts - d*DAY).filter(t => t >= b.min).map(t => loadDaysFor(g, t)));
 }
 async function ensureData(){
   const g = state.gender;
@@ -2343,7 +2520,7 @@ async function ensureData(){
     const src = await loadSource(g);
     state.dataInfo[g] = {source:src.source, meta:src.meta};
     const m = normalize(src.rows, g);
-    state.eras[g] = setWeights(m, g);
+    /*ENGINE<*/ state.eras[g] = setWeights(m, g); /*>ENGINE*/
     state.matches[g] = m;
     state.scheduled[g] = (m.scheduled || []).sort((a, b) => a.date < b.date ? -1 : 1);
     state.bounds[g] = {min:m[0].ts, max:m[m.length-1].ts};
@@ -2362,7 +2539,7 @@ async function ensureData(){
   await Promise.all([loadFixtures(), loadTableFile(g, false), state.windowYears === 0 ? loadTableFile(g, true) : null, loadFcFile(g)]);
   const b = state.bounds[g];
   if (!state.asOf || state.asOf < b.min || state.asOf > b.max) state.asOf = b.max;
-  if (state.useTableFiles && state.asOf < b.max && baseSettings()) await loadPastDays(g);
+  if (state.useTableFiles && state.asOf < b.max && fixedWindow()) await loadPastDays(g);
   return state.matches[g];
 }
 
@@ -2429,6 +2606,7 @@ function windowStartFor(ts){
 const windowStartTs = () => windowStartFor(state.asOf);
 const includeMatch = m => state.comps.has(m.cat);
 
+/*ENGINE<*/
 /* ------------------------------------------------------------
    Confederation offsets. A team's rating is its confederation's offset plus its own rating within the
    confederation. Matches inside a confederation move only the two teams. Matches between confederations also
@@ -2439,15 +2617,27 @@ const includeMatch = m => state.comps.has(m.cat);
    backtesting.
    ------------------------------------------------------------ */
 const POOL_W0 = 150, POOL_CW = 1;
+/*>ENGINE*/
+/*ENGINE<*/
 /* Window-start seeding. A window's teams all start level, but each confederation's offset starts where the
    full-history run had it on the window's first day, with its band reset to at least ±2·SEED_POOL_W. Earlier
    results therefore set the confederations' starting levels, never any team's. Fitted by backtest. */
 const SEED_POOL_W = 100;
+/*>ENGINE*/
+/*ENGINE<*/
 const seedOn = () => state.windowYears > 0;
+/*>ENGINE*/
+/*ENGINE<*/
 const newState = from => { const s = new Map(); s.C = new Map(); if (from !== undefined && seedOn()) s.seedFrom = from; return s; };
+/*>ENGINE*/
+/*ENGINE<*/
 const cloneState = st => { const s = new Map(st); s.C = new Map(st.C); s.seedFrom = st.seedFrom; return s; };
+/*>ENGINE*/
+/*ENGINE<*/
 /* Full-history trajectory of every confederation offset, built once per archive and competition filter. */
 let seedCache = {key:null};
+/*>ENGINE*/
+/*ENGINE<*/
 function seedTraj(){
   const key = [state.gender, [...state.comps].sort().join(','), HOME_VER].join('|');
   if (seedCache.key === key) return seedCache;
@@ -2457,6 +2647,8 @@ function seedTraj(){
   seedCache = {key, P};
   return seedCache;
 }
+/*>ENGINE*/
+/*ENGINE<*/
 function seedPool(pl, from){
   const a = seedTraj().P.get(pl);
   let lo = 0, hi = a ? a.length : 0;
@@ -2465,6 +2657,8 @@ function seedPool(pl, from){
   const e = a[lo-1];
   return {m:e[1], w:Math.min(Math.max(e[2] + POOL_CW*(from - e[0])/DAY, SEED_POOL_W*SEED_POOL_W), POOL_W0*POOL_W0)};
 }
+/*>ENGINE*/
+/*ENGINE<*/
 function poolAt(st, pl, ts){
   const x = st.C.get(pl);
   if (!x){ if (st.seedFrom === undefined) return {m:0, w:POOL_W0*POOL_W0};
@@ -2472,6 +2666,8 @@ function poolAt(st, pl, ts){
     return {m:sd.m, w:Math.min(sd.w + POOL_CW*Math.max(0, (ts - st.seedFrom)/DAY), POOL_W0*POOL_W0)}; }
   return {m:x.m, w:Math.min(x.w + POOL_CW*Math.max(0, (ts - x.last)/DAY), POOL_W0*POOL_W0)};
 }
+/*>ENGINE*/
+/*ENGINE<*/
 /* A team's own state carried to ts, re-based if it has moved confederation since its last match. */
 function teamAt(st, key, pl, ts){
   const x = st.get(key);
@@ -2480,20 +2676,28 @@ function teamAt(st, key, pl, ts){
   if (x.pool !== pl) c.r += poolAt(st, x.pool, ts).m - poolAt(st, pl, ts).m;
   return c;
 }
+/*>ENGINE*/
 /* The published rating: own rating plus the confederation offset. rdOwn is the team's own uncertainty, w its
    confederation offset's (as a variance). */
+/*ENGINE<*/
 /* Unproven teams. A team the model has barely seen keeps a rating close to where every team starts, but the teams that
    play least are mostly weak ones, so in practice they turned out far weaker than that. Once a team's own uncertainty
    is above RD0 (a band wider than about ±400), its published rating is marked down by K points per point of RD above
    it. Fitted on every match since 1995 (men) and 2005 (women): predictions improved by about 0.2% for the men and
    2.6% for the women, in both halves of each period. Teams with a narrower band are not affected at all. */
 const UNPROVEN = {k:4, rd0:200};
+/*>ENGINE*/
+/*ENGINE<*/
 const unproven = rd => UNPROVEN.k*Math.max(0, rd - UNPROVEN.rd0);
+/*>ENGINE*/
+/*ENGINE<*/
 function pub(st, key, ts){
   const x = st && st.get(key); if (!x) return null;
   const c = inflate(x, ts), o = poolAt(st, x.pool, ts);
   return {r:c.r + o.m - unproven(c.rd), rdOwn:c.rd, w:o.w, pool:x.pool, last:x.last, nm:x.nm};
 }
+/*>ENGINE*/
+/*ENGINE<*/
 /* An offset's uncertainty only matters relative to other confederations, so for ranking it is measured
    against the best-established confederation among those with rated teams. */
 function poolRef(st, ts){
@@ -2503,8 +2707,12 @@ function poolRef(st, ts){
   st._refTs = ts; st._ref = isFinite(ref) ? ref : 0;
   return st._ref;
 }
+/*>ENGINE*/
+/*ENGINE<*/
 const rankRd = (p, ref) => Math.sqrt(p.rdOwn*p.rdOwn + Math.max(0, p.w - ref));
+/*>ENGINE*/
 
+/*ENGINE<*/
 /* Process one match against a state. Returns published ratings before and after for both sides. */
 function applyMatch(st, m, wantExp){
   namesFor(m);
@@ -2531,15 +2739,19 @@ function applyMatch(st, m, wantExp){
   return {home, away, A:{r:a.r + oa.m - unproven(a.rd), rd:a.rd}, B:{r:b.r + ob.m - unproven(b.rd), rd:b.rd},
     nA:{r:H.r + poolAt(st, ph, m.ts).m - unproven(H.rd), rd:H.rd}, nB:{r:W.r + poolAt(st, pa, m.ts).m - unproven(W.rd), rd:W.rd}, expHome};
 }
+/*>ENGINE*/
 /* Index of the first match on or after ts (matches are sorted by date). */
 function firstIndexAt(ms, ts){
   let lo = 0, hi = ms.length;
   while (lo < hi){ const mid = (lo+hi) >> 1; if (ms[mid].ts < ts) lo = mid+1; else hi = mid; }
   return lo;
 }
+/*ENGINE<*/
 /* Ratings exactly as the site would have published them at time `to`. This runs dozens of times per chart,
    so it uses numeric ids and flat arrays. The arithmetic is identical to applyMatch. */
 const teamIds = {};
+/*>ENGINE*/
+/*ENGINE<*/
 function idsFor(m){
   const k = state.gender + (state.historicalNames ? '|h' : '|m');
   if (m._ik !== k){
@@ -2551,9 +2763,13 @@ function idsFor(m){
   }
   return teamIds[k];
 }
+/*>ENGINE*/
+/*ENGINE<*/
 /* The whole archive as flat columns, built once per archive and naming mode: reading plain arrays is several times
    faster than reading the match objects, which carry many cached fields. */
 const colCache = {};
+/*>ENGINE*/
+/*ENGINE<*/
 function colsFor(){
   const ms = state.matches[state.gender], key = state.gender + (state.historicalNames ? '|h' : '|m') + '|' + HOME_VER;
   const c0 = colCache[key]; if (c0 && c0.ms === ms && c0.n === ms.length) return c0;
@@ -2569,6 +2785,8 @@ function colsFor(){
   }
   return colCache[key] = c;
 }
+/*>ENGINE*/
+/*ENGINE<*/
 /* The inner loop of runWindow on its own, so the engine can compile it once and keep it compiled. */
 function windowKernel(col, start, end, on, R, V, LAST, SEEN, POOL, WHO, PM, PW, PL, PS, rec){
   const PI2 = Math.PI*Math.PI;
@@ -2618,6 +2836,8 @@ function windowKernel(col, start, end, on, R, V, LAST, SEEN, POOL, WHO, PM, PW, 
     LAST[b] = ts; SEEN[b] = 1; POOL[b] = qb; WHO[b] = -1 - i;
   }
 }
+/*>ENGINE*/
+/*ENGINE<*/
 function runWindow(from, to, opts){
   const ms = state.matches[state.gender];
   const out = newState();
@@ -2644,15 +2864,19 @@ function runWindow(from, to, opts){
   if (seeded) out.seedFrom = from;
   return out;
 }
+/*>ENGINE*/
 
 /* ============================================================
    TIERS
    A rank is a single number but a rating is a range, so the table is also cut into tiers: groups of teams the model
    cannot confidently tell apart. Going down the table, each tier is led by its highest-rated team, and a team joins
-   that tier unless the model is at least 90% sure the leader is better. The first team it is that sure about starts
-   the next tier. The same rule groups a tournament's field by the ratings it brought in.
+   that tier unless the model is at least 80% sure the leader is the stronger team. The first team it is that sure about
+   starts the next tier. The same rule groups a tournament's field by the ratings it brought in.
+   The bar was 90% until 13 Nov 2026 (Seb: "90% seems like a lot"; 80% gives finer tiers, 17 for the men where there
+   were 12). It is a judgement of what counts as confident, not something fitted to results.
    ============================================================ */
-const TIER_P = 0.9;
+const TIER_P = 0.8;
+const TIER_PCT = Math.round(TIER_P*100)+'%';   // the bar as the pages say it
 const TIER_ALSO = 1/3;   // another tier is flagged beside a team when its chance of belonging there is at least this
 function normCdf(z){   // Abramowitz and Stegun 26.2.17, accurate to about 1e-7
   const t = 1/(1 + 0.2316419*Math.abs(z)), d = 0.3989423*Math.exp(-z*z/2);
@@ -2684,6 +2908,18 @@ function confTierMap(c){
   m.sets = sets;
   return c._confTiers = m;
 }
+/* The bar by example (Seb, 13 Nov 2026: "at least 90% sure" read like a 90% chance of winning a match). How sure the
+   model is that tier 1's leader is a stronger side than tier 2's leader, next to the leader's chance of winning one
+   match between them on neutral ground. One sentence; without the match half when no forecast can be made here, and
+   nothing at all when the table has a single tier. */
+function tierExample(c){
+  const T = c && c.tiers; if (!T || T.length < 2) return '';
+  const a = T[0].lead, b = T[1].lead, sure = Math.round(100*pStronger(a.rating, a.rd, b.rating, b.rd));
+  let win = null;
+  try { const pr = fixturePrediction(c, {home:a.team, away:b.team, date:fmtDate(state.asOf), neutral:true}); if (pr && pr.p) win = Math.round(100*pr.p.home); } catch(e){}
+  const A = esc(dn(a.team)), B = esc(dn(b.team));
+  return 'Formline is '+sure+'% sure '+A+' are a stronger side than '+B+(win === null ? '.' : ', yet '+A+' would win a single match between them on neutral ground '+(win < 50 ? 'only ' : '')+win+'% of the time.');
+}
 /* The teams in a ranked team's tier: in the world table, or among its own confederation. Each row carries its place
    in that table. */
 function tierMates(c, row, scope){
@@ -2711,37 +2947,54 @@ const tmBreak = (txt, gap) => '<div class="tm-break"><span>'+txt+(gap !== null &
 /* A team's cluster (Seb, 12 Nov 2026): the teams ranked inside its own likely rank range, the middle half of the places
    it takes when every rating is redrawn from its band (rankRanges). Tiers are cut from the top of the table down, so a
    team at the top of a tier is grouped only with sides below it; the cluster is centred on the team itself, so it can
-   reach into the tier above and need not take in the whole of its own. */
-function clusterOf(c, row){
+   reach into the tier above and need not take in the whole of its own.
+   scope 'conf' (Seb, 13 Nov 2026): the same among its confederation's ranked teams, places counted there (confRanges). */
+function clusterOf(c, row, scope){
   if (!row || !row.rank) return null;
-  const rg = rankRanges(c).get(row.key); if (!rg) return null;
-  const lo = Math.min(rg.mid[0], row.rank), hi = Math.max(rg.mid[1], row.rank), rows = c.table.filter(r => r.rank >= lo && r.rank <= hi);
-  return {lo, hi, rows, above:c.table.filter(r => r.rank < lo).slice(-2), below:c.table.filter(r => r.rank > hi).slice(0, 2), wide:rg.wide,
-    tiers:[...new Set(rows.map(r => r.tier))].sort((a, b) => a - b)};
+  const conf = scope === 'conf';
+  const list = conf ? c.table.filter(r => r.conf === row.conf).sort((a, b) => a.rank - b.rank) : c.table;
+  const at = new Map(list.map((r, i) => [r, conf ? i + 1 : r.rank])), me = at.get(row);
+  const rg = (conf ? confRanges(c, row.conf) : rankRanges(c)).get(row.key); if (!rg || !me) return null;
+  const tierMap = conf ? confTierMap(c) : null, tierOf = r => conf ? tierMap.get(r.key) : r.tier;
+  const lo = Math.min(rg.mid[0], me), hi = Math.max(rg.mid[1], me), rows = list.filter(r => at.get(r) >= lo && at.get(r) <= hi);
+  return {lo, hi, rows, above:list.filter(r => at.get(r) < lo).slice(-2), below:list.filter(r => at.get(r) > hi).slice(0, 2), wide:rg.wide,
+    pos:r => at.get(r), tierOf, conf, label:conf ? confLabel(row.conf) : 'World', of:list.length,
+    tiers:[...new Set(rows.map(tierOf))].sort((a, b) => a - b)};
 }
-const clRow = (r, cls) => '<a class="tm'+(cls ? ' '+cls : '')+'" href="'+teamHref(r.team)+'"'+(cls === 'fade' ? ' title="Outside the cluster"' : '')+'><span class="tm-pos">'+r.rank+'</span>'+
-  withFlag(r.team)+'<span class="tchip tm-tier" style="--tc:'+tierColor(r.tier)+'" title="World tier '+r.tier+'">T'+r.tier+'</span><span class="tm-r">'+fmtR(r.rating)+'</span></a>';
+const clRow = (r, K, cls) => '<a class="tm'+(cls ? ' '+cls : '')+'" href="'+teamHref(r.team)+'"'+(cls === 'fade' ? ' title="Outside the cluster"' : '')+'><span class="tm-pos">'+K.pos(r)+'</span>'+
+  withFlag(r.team)+'<span class="tchip tm-tier" style="--tc:'+tierColor(K.tierOf(r))+'" title="'+esc(K.label)+' tier '+K.tierOf(r)+'">T'+K.tierOf(r)+'</span><span class="tm-r">'+fmtR(r.rating)+'</span></a>';
 function tierSection(c, row){
   if (!row || !row.rank) return '';
-  const K = clusterOf(c, row);
-  const cluster = K ? '<div><h3>Cluster: '+(K.lo === K.hi ? ordinal(K.lo) : ordinal(K.lo)+' to '+ordinal(K.hi))+' <span class="muted">&middot; '+K.rows.length+' team'+(K.rows.length === 1 ? '' : 's')+
+  const span = K => K.lo === K.hi ? ordinal(K.lo) : ordinal(K.lo)+' to '+ordinal(K.hi);
+  const clusterBlock = sc => { const K = clusterOf(c, row, sc); if (!K) return '';
+    return '<div><h3>'+esc(K.label)+' cluster: '+span(K)+' <span class="muted">of '+K.of+' &middot; '+K.rows.length+' team'+(K.rows.length === 1 ? '' : 's')+
       (K.tiers.length > 1 ? ' &middot; from tiers '+K.tiers.join(' and ') : '')+'</span></h3><div class="tm-list">'+
-      (K.above.length ? K.above.map(r => clRow(r, 'fade')).join('')+tmBreak('Above its likely rank', K.above[K.above.length - 1].rating - K.rows[0].rating) : '')+
-      K.rows.map(r => clRow(r, r === row ? 'me' : '')).join('')+
-      (K.below.length ? tmBreak('Below its likely rank', K.rows[K.rows.length - 1].rating - K.below[0].rating)+K.below.map(r => clRow(r, 'fade')).join('') : '')+'</div></div>' : '';
+      (K.above.length ? K.above.map(r => clRow(r, K, 'fade')).join('')+tmBreak('Above its likely rank', K.above[K.above.length - 1].rating - K.rows[0].rating) : '')+
+      K.rows.map(r => clRow(r, K, r === row ? 'me' : '')).join('')+
+      (K.below.length ? tmBreak('Below its likely rank', K.rows[K.rows.length - 1].rating - K.below[0].rating)+K.below.map(r => clRow(r, K, 'fade')).join('') : '')+'</div></div>'; };
   const block = sc => { const T = tierMates(c, row, sc); if (!T) return '';
-    return '<div><h3>'+(sc === 'conf' ? esc(T.label) : 'World')+': tier '+T.n+' <span class="muted">of '+T.of+' &middot; '+T.rows.length+' team'+(T.rows.length === 1 ? '' : 's')+'</span></h3>'+
+    return '<div><h3>'+esc(T.label)+' tier '+T.n+' <span class="muted">of '+T.of+' &middot; '+T.rows.length+' team'+(T.rows.length === 1 ? '' : 's')+'</span></h3>'+
       '<div class="tm-list">'+
         (T.above.length ? T.above.map(r => tmRow(r, T, 'fade')).join('')+tmBreak('Tier '+(T.n - 1)+' above', T.gapUp) : '')+
         T.rows.map(r => tmRow(r, T, r === row ? 'me' : '')).join('')+
         (T.below.length ? tmBreak('Tier '+(T.n + 1)+' below', T.gapDown)+T.below.map(r => tmRow(r, T, 'fade')).join('') : '')+'</div></div>'; };
-  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Tier and cluster<span class="aside">teams level with '+esc(dn(row.team))+'</span></div>'+
-    '<div class="panel-body"><div class="tier-mates">'+block('world')+block('conf')+cluster+'</div>'+
-    '<p class="chart-note">Teams in the same tier are too close to call apart. Faded teams past the dashed lines are the nearest in the tiers either side, '+
-      'with the points between the two tiers. <span class="tm-q" aria-hidden="true">?</span> marks a team in the tier mainly because the model is unsure of it. '+
-      (K ? '<b>Cluster</b>: the teams ranked inside '+esc(dn(row.team))+'\'s own likely rank ('+(K.lo === K.hi ? ordinal(K.lo) : ordinal(K.lo)+' to '+ordinal(K.hi))+'), each with its world tier. '+
-        'Tiers are cut from the top of the table down; the cluster is centred on the team itself, so it can reach into the tier above and need not take in all of its own. ' : '')+
-      '<a href="#/method" data-goto-method="m-tiers">How tiers work</a></p></div></div>';
+  const name = esc(dn(row.team)), cf = esc(confLabel(row.conf)), hasConf = !!tierMates(c, row, 'conf');
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Tier and cluster<span class="aside">teams level with '+name+'</span></div>'+
+    '<div class="panel-body"><div class="tier-mates tier-four">'+block('world')+block('conf')+clusterBlock('world')+(hasConf ? clusterBlock('conf') : '')+'</div>'+
+    '<dl class="tier-defs">'+
+      '<dt>Tier</dt><dd>A group of teams whose ratings are too close to separate. Working down the table, the top team leads tier 1. Each team below '+
+        'stays in that tier unless Formline is at least '+TIER_PCT+' sure the leader is really the stronger team; the first team it is that sure about leads tier 2, and so on. '+
+        'How sure it is comes from the gap between the two ratings and from both bands: a big gap or narrow bands separate teams, a small gap or wide bands keep them together. '+
+        'That is a judgement about the ratings, not about one match. '+tierExample(c)+'</dd>'+
+      (hasConf ? '<dt>'+cf+' tier</dt><dd>The same rule among '+cf+'&rsquo;s teams only, starting from '+cf+'&rsquo;s top team. Inside one confederation the teams meet often, so the model is surer of their order '+
+        'than of how the whole confederation compares with the others. So the lines can fall in different places from the world tiers.</dd>' : '')+
+      '<dt>Cluster</dt><dd>Built around '+name+' and not cut from the top. Every rating is redrawn inside its band a thousand times, and '+name+'&rsquo;s place is noted each time. '+
+        'The middle half of those places is its likely rank, and the cluster is every team ranked inside it. So it can reach into the tier above and need not take in all of its own.'+
+        (hasConf ? ' The '+cf+' cluster does the same among '+cf+'&rsquo;s teams, with places counted there.' : '')+'</dd>'+
+    '</dl>'+
+    '<p class="chart-note">Faded teams past the dashed lines are the nearest on either side, with the points between. '+
+      '<span class="tm-q" aria-hidden="true">?</span> marks a team in the tier mainly because the model is unsure of it. In a cluster each team carries its tier. '+
+      '<a href="#/method" data-goto-method="m-tiers">How tiers and clusters work</a></p></div></div>';
 }
 /* The confederations side by side: overall strength, the model's regional level, median and best team. */
 function confStrengthTable(c, here){
@@ -2842,7 +3095,7 @@ function makeTiers(list, rOf, rdOf){
   }
   tiers.forEach((t, i) => { t.n = i + 1; t.hi = rOf(t.rows[0]); t.lo = rOf(t.rows[t.rows.length-1]);
     /* Members that are in the tier mainly because the model is unsure of them: with a typical band (the median of the
-       list) the leader would be at least 90% sure of being better. */
+       list) the leader would clear the bar (TIER_P) of being the stronger side. */
     t.wide = new Set(t.rows.filter(x => x !== t.lead && rdOf(x) > mrd && pStronger(rOf(t.lead), rdOf(t.lead), rOf(x), mrd) >= TIER_P)); });
   tiers.forEach((t, i) => { t.gapUp = i ? tiers[i-1].lo - t.hi : null; t.gapDown = i < tiers.length - 1 ? t.lo - tiers[i+1].hi : null; });
   return tiers;
@@ -2854,7 +3107,7 @@ function getRatings(){
   /* Today's table at the site's own settings is read from the build's file when the published copy has one that fits
      the match list in hand; anything else (a past date, a setting changed, no file) is worked out here as before. */
   const fk = (state.windowYears === 0 ? 'all-' : '')+state.gender;
-  const F = state.useTableFiles && state.comps.size === COMP_ORDER.length && state.historicalNames === DEFAULTS.historicalNames &&
+  const F = state.useTableFiles && state.comps.size === COMP_ORDER.length &&
     (state.windowYears === DEFAULTS.windowYears || state.windowYears === 0) ? state.tableFiles[fk] : null;
   if (F && F.g === state.gender && F.asOf === state.asOf && F.windowYears === state.windowYears){
     const c0 = tableFromFile(F);
@@ -2865,8 +3118,10 @@ function getRatings(){
       if (c){ c.key = key; state.cache = c; return c; }
     }
   }
-  return computeRatings(key);
+  /*ENGINE<*/ return computeRatings(key); /*>ENGINE*/
+  throw noFiles('table');
 }
+/*ENGINE<*/
 /* The table worked out on the page: the model run over the window. */
 function computeRatings(key){
   if (key === undefined) key = null;
@@ -2892,7 +3147,17 @@ function computeRatings(key){
   const yearAgo = ao - 365*DAY;
   const prevMap = state.windowYears > 0 && yearAgo >= state.bounds[state.gender].min
     ? runWindow(windowStartFor(yearAgo), yearAgo) : null;
-
+  state.cache = tableFromState(st, history, ws, ao, key, prevMap);
+  return state.cache;
+}
+/*>ENGINE*/
+/*ENGINE<*/
+/* The table for date `ao` from a finished run: st the model's state after the last match on or before it, history each
+   team's matches in the window. Apart from computeRatings the build uses it for the days between match days, when no
+   match is played and none leaves the window, so the matches are the same and only the date moves (dayTables).
+   prevMap: the run that ended a year earlier, for the change on a year at the usual window (left out: no change). */
+function tableFromState(st, history, ws, ao, key, prevMap){
+  const yearAgo = ao - 365*DAY;
   /* Islands. A group of teams that played only among themselves inside the window has ratings that mean something
      inside the group and nothing outside it: there is no chain of matches linking it to everyone else. Such teams
      are never ranked, and their uncertainty against outsiders gets the full RD_MAX on top. */
@@ -2921,9 +3186,9 @@ function computeRatings(key){
       conf:p.pool, status:i.status, defunct:i.defunct, island, islandWith: island ? comp.get(root).filter(k => k !== team) : null,
       provisional: !!island || (state.maxBand > 0 && band > state.maxBand)});
   }
-  state.cache = finishTable(all, {key, history, windowStart:ws, st, off:p => poolAt(st, p, ao)});
-  return state.cache;
+  return finishTable(all, {key, history, windowStart:ws, st, off:p => poolAt(st, p, ao)});
 }
+/*>ENGINE*/
 /* From rated teams to a finished table: who is ranked, in what order, the tiers, the reference points and each
    confederation's figures. This is the ranking rule, not the rating engine: it is shared by the engine's own run and by
    a table read from the build's files and ranked again for another band limit or rank order (rerankTable). o: key,
@@ -3001,6 +3266,7 @@ const rankStd = () => state.maxBand === DEFAULTS.maxBand && state.rankBy === DEF
 const matchListPrint = ms => { let h = 2166136261; const add = v => { h ^= v; h = Math.imul(h, 16777619) >>> 0; };
   for (const m of ms){ add(m.ts/DAY | 0); add(m.hs); add(m.as); add(m.home.length*31 + m.away.length); }
   return h; };
+/*ENGINE<*/
 function tableToFile(c){
   const g = state.gender, ms = state.matches[g], mi = new Map(ms.map((m, i) => [m, i]));
   const ri = new Map(c.all.map((r, i) => [r, i])), ki = new Map(c.all.map((r, i) => [r.key, i]));
@@ -3029,13 +3295,14 @@ function tableToFile(c){
     pools:c.st ? [...new Set(c.all.map(r => r.pool))].filter(p => p).map(p => { const o = poolAt(c.st, p, state.asOf); return [p, n6(o.m), n6(o.w)]; }) : undefined,
     window:win};
 }
+/*>ENGINE*/
 /* The table object from a file made by tableToFile. Returns null when the file was built from a different match list
    than the page holds (the two are published together, so that means a stale copy of one of them). */
 function tableFromFile(F){
   const ms = F && F.v === 1 && state.matches[F.g]; if (!ms || F.matches !== ms.length || F.print !== matchListPrint(ms)) return null;
   const P = a => a ? {home:a[0], draw:a[1], away:a[2]} : null;
   const all = F.rows.map(r => { const band = BAND_Z*r.rd, mix = r.mix ? r.mix.map(x => ({n:x[0], p:x[1]})) : undefined;
-    const o = {team:r.team, key:r.key, rating:r.rating, rd:r.rd, rdOwn:r.rdOwn, w:r.w, pool:r.pool, band, lower:r.rating - band, upper:r.rating + band,
+    const o = {team:fileName(r.key, r.team), key:r.key, rating:r.rating, rd:r.rd, rdOwn:r.rdOwn, w:r.w, pool:r.pool, band, lower:r.rating - band, upper:r.rating + band,
       mp:r.mp, lastTs:r.lastTs, change:r.change, conf:r.pool, status:r.status, defunct:r.defunct, island:r.island, islandWith:r.islandWith,
       provisional:r.provisional, rank:r.rank};
     if (r.change24 !== undefined) o.change24 = r.change24;
@@ -3065,55 +3332,110 @@ function tableFromFile(F){
 const siteSettings = () => baseSettings() && rankStd();
 /* The same but for the band limit and rank order: what the ratings themselves depend on. A table from the build's
    files can be ranked again on the page, and a match's ratings before and after do not depend on the ranking. */
-const baseSettings = () => state.windowYears === DEFAULTS.windowYears && state.comps.size === COMP_ORDER.length && state.historicalNames === DEFAULTS.historicalNames;
+const baseSettings = () => state.windowYears === DEFAULTS.windowYears && state.comps.size === COMP_ORDER.length;
+/* The two windows the build works out, today and for every past date: the usual one and all time. */
+const fixedWindow = () => state.comps.size === COMP_ORDER.length && (state.windowYears === DEFAULTS.windowYears || state.windowYears === 0);
 /* The table for a date, among the year files in hand: {F, i} for the latest of the file's days on or before it, or
    null. The files hold every day on which the table changes: a match is played, or a match drops out of the twelve-year
    window (which moved 64 of 221 ranks between 15 October and 12 November 2024, with no match played), and a day at
    least every week besides. Between those days a table only drifts by a few hundredths of a point a day, so the latest
    one is the table for the date (Seb, 12 Nov 2026: a past date shows the table for that exact date). */
-function dayFor(g, ts){
+function dayFor(g, ts, all){
   const d = fmtDate(ts);
-  for (let y = new Date(ts).getUTCFullYear(), n = 0; n < 4; y--, n++){ const F = state.dayFiles[g+'|'+y]; if (!F) return null;
+  for (let y = new Date(ts).getUTCFullYear(), n = 0; n < 4; y--, n++){ const F = state.dayFiles[dayKey(g, y, all)]; if (!F) return null;
     let i = F.days.length - 1; while (i >= 0 && F.days[i] > d) i--;
-    if (i >= 0) return {F, i}; }
+    /* k: how many days after the file's day i the date falls (0: a day with a full table); exact: the file has that day's own figures. */
+    if (i >= 0){ const n = Math.round((Date.parse(d+'T00:00:00Z') - Date.parse(F.days[i]+'T00:00:00Z'))/DAY), G = F.gaps && F.gaps[i], k = Math.min(n, G ? G.length : 0);
+      return {F, i, k, exact:k === n}; } }
   return null;
 }
+/* The rows of day i's table as they stood k days later: [team, rating, band, rank, tier, cautious place(, 1 if cut off)]. */
+function dayRows(F, i, k){
+  if (!k) return F.tables[i];
+  const memo = F._gapRows || (F._gapRows = new Map()), mk = i+'|'+k; let out = memo.get(mk); if (out) return out;
+  const G = F.gaps[i][k - 1], dr = G[0] || [], db = G[1] || [], lo = G[3] || null;
+  out = F.tables[i].map((x, n) => { const y = x.slice(); if (dr[n]) y[1] = Math.round(x[1]*100 + dr[n])/100; if (db[n]) y[2] = Math.round(x[2]*100 + db[n])/100; if (lo) y[5] = lo[n]; return y; });
+  if (G[2]) for (const [n, t] of G[2]) out[n][4] = t;
+  if (memo.size > 60) memo.clear();
+  memo.set(mk, out); return out;
+}
+const dayPools = (F, i, k) => k ? F.gaps[i][k - 1][4] : (F.pools ? F.pools[i] : []);
+const dayPw = (F, i, k) => k ? F.gaps[i][k - 1][5] : F.pw[i];
 /* The table for the date being viewed, for the pages that have been moved over to the build's files (stage 3).
    Today's table comes from getRatings(). A past date, at the site's own settings, comes from that year's match-day
    file (see dayFor). Anything else is worked out on the page as before. */
 function tableAt(){
   const g = state.gender;
-  if (!state.useTableFiles || !baseSettings() || state.asOf >= state.bounds[g].max) return getRatings();
+  if (!state.useTableFiles || !fixedWindow() || state.asOf >= state.bounds[g].max) return getRatings();
   const hit = dayFor(g, state.asOf); if (!hit) return getRatings();
   /* Each team's change on a year earlier is the difference between this table and the one for the date a year before,
      so that year's file has to be in hand too (unless the archive does not go back that far). */
   const t1 = state.asOf - 365*DAY, was = t1 >= state.bounds[g].min ? dayFor(g, t1) : null;
   if (t1 >= state.bounds[g].min && !was) return getRatings();
-  const key = g+'|'+hit.F.year+'|'+hit.i+'|'+hit.F.built+'|'+state.asOf+'|'+state.maxBand+'|'+state.rankBy;
+  const key = g+'|'+hit.F.year+'|'+hit.i+'|'+hit.k+'|'+hit.F.built+'|'+state.asOf+'|'+state.maxBand+'|'+state.rankBy+'|'+state.windowYears+'|'+state.historicalNames;
   if (state.dayCache && state.dayCache.key === key) return state.dayCache;
-  let c = tableFromDay(hit.F, hit.i, was); if (!c) return getRatings();
+  let c = tableFromDay(hit.F, hit.i, was, hit.k); if (!c) return getRatings();
   /* Another band limit or rank order: the day's table ranked again here, from the levels the file carries for the day. */
-  if (!rankStd()){ const PW = hit.F.pw[hit.i].slice(1); c = PW.every(x => x.length >= 3) ? rerankTable(c, new Map(PW.map(([p, w, m]) => [p, {m, w}]))) : null; if (!c) return getRatings(); }
+  if (!rankStd()){ const PW = dayPw(hit.F, hit.i, hit.k).slice(1); c = PW.every(x => x.length >= 3) ? rerankTable(c, new Map(PW.map(([p, w, m]) => [p, {m, w}]))) : null; if (!c) return getRatings(); }
   c.key = key;
   return state.dayCache = c;
 }
+/* Today's all-time table file as a list by match: for match number j of the list, its row [j, home, away, home's rating
+   before, after, doubt, away's before, after, doubt, home's expected result]. Null when the file is not in hand or does
+   not go with the match list. */
+function allTimeRows(g){
+  const F = state.tableFiles['all-'+g], ms = state.matches[g];
+  if (!F || F.v !== 1 || F.g !== g || F.windowYears !== 0 || F.matches !== ms.length) return null;
+  if (F._rows === undefined){ F._rows = null;
+    if (F.print === matchListPrint(ms)){ const a = new Array(ms.length); for (const r of F.window) a[r[0]] = r; F._rows = a; } }
+  return F._rows;
+}
+/*ENGINE<*/
+/* Every team's rank just after each of its matches with the window set to "all time", under every band limit and both
+   rank orders, by the same rule as rankAfter: each team stands where its last match left it (its doubt grown for the
+   days since), the team itself always counts and the others only inside the band limit. One pass through the match
+   days instead of a scan of every team's history for every match. Returns Map(team -> rows) (see loadRankAll). */
+function rankAllRows(g){
+  const saved = {g:state.gender, w:state.windowYears, a:state.asOf, u:state.maxBand, r:state.rankBy}; state.gender = g; state.windowYears = 0; state.asOf = state.bounds[g].max; state.cache = {key:null};
+  const c = getRatings(), out = new Map(), at = new Map(), days = new Map();
+  for (const [k, h] of c.history){ out.set(k, []); at.set(k, -1); for (const e of h){ let L = days.get(e.ts); if (!L) days.set(e.ts, L = new Set()); L.add(k); } }
+  for (const ts of [...days.keys()].sort((a, b) => a - b)){
+    const T = [];
+    for (const [k, h] of c.history){ let i = at.get(k); while (i + 1 < h.length && h[i + 1].ts <= ts) i++; at.set(k, i); if (i < 0) continue;
+      const e = h[i], s = inflate({r:e.rating, rd:e.rd, last:e.ts}, ts), band = BAND_Z*s.rd; T.push({k, r:s.r, lo:s.r - band, band, conf:poolOf(k, ts)}); }
+    for (const key of days.get(ts)){ const me = T.find(x => x.k === key), row = [Math.round(ts/DAY)];
+      for (const b of BAND_OPTIONS) for (const lower of [false, true]){ const mine = lower ? me.lo : me.r; let a = 0, n = 0, ac = 0, nc = 0;
+        for (const x of T){ if (x === me || (b > 0 && x.band > b)) continue; const up = (lower ? x.lo : x.r) > mine; n++; if (up) a++; if (x.conf === me.conf){ nc++; if (up) ac++; } }
+        row.push(a + 1, n + 1, ac + 1, nc + 1); }
+      out.get(key).push(row); } }
+  state.gender = saved.g; state.windowYears = saved.w; state.asOf = saved.a; state.maxBand = saved.u; state.rankBy = saved.r; state.cache = {key:null};
+  return out;
+}
+/*>ENGINE*/
 /* A table object from one day of a match-day file. The file gives each team's rating, band, rank and tier; its change
    on a year earlier is the difference from the table of a year before (`was`, from dayFor; left empty without it); everything else is read off the match list (matches played, form, names, confederations,
    cut-off groups) or follows from the published numbers (the middle team, each tier's edges). It is a lighter object than getRatings() returns:
    no per-match ratings in `history`, no model state, and a team's own uncertainty is taken as its band (`lite`).
    Returns null when the file and the match list in hand do not describe the same teams. */
-function tableFromDay(F, i, was){
-  const g = state.gender, ms = state.matches[g], ao = Date.parse(F.days[i]+'T00:00:00Z'), ws = windowStartFor(ao);
-  const then = was ? new Map(was.F.tables[was.i].map(x => [was.F.teams[x[0]], x[1]])) : null;
+function tableFromDay(F, i, was, k){
+  k = k || 0;   // the k-th day after the file's day i: that day's own figures (dayRows)
+  const g = state.gender, ms = state.matches[g], ao = Date.parse(F.days[i]+'T00:00:00Z') + k*DAY, ws = windowStartFor(ao);
+  const then = was ? new Map(dayRows(was.F, was.i, was.k).map(x => [was.F.teams[x[0]], x[1]])) : null;
   const history = new Map(), lastOf = new Map(), push = (t, e) => { if (!history.has(t)) history.set(t, []); history.get(t).push(e); };
+  /* "All time" is one run through the whole archive, so a match's ratings before and after are the same on whatever
+     date the table is looked at: they are read from today's all-time table file, which lists every match. (At the
+     usual window they depend on the date, and come from the matches' own files: pubEntry.) */
+  const AT = F.window === 'all' ? allTimeRows(g) : null; if (F.window === 'all' && !AT) return null;
   for (let j = firstIndexAt(ms, ws); j < ms.length && ms[j].ts <= ao; j++){
     const m = namesFor(ms[j]); if (!includeMatch(m)) continue;
-    const vs = venueSide(m);
-    push(m._h, {ts:m.ts, m, opp:m._a, oppName:m._an, name:m._hn, gf:m.hs, ga:m.as, tournament:m.tournament, cat:m.cat, neutral:vs === 0, home:vs === 1});
-    push(m._a, {ts:m.ts, m, opp:m._h, oppName:m._hn, name:m._an, gf:m.as, ga:m.hs, tournament:m.tournament, cat:m.cat, neutral:vs === 0, home:vs === -1});
+    const vs = venueSide(m), x = AT ? AT[j] : null; if (AT && !x) return null;
+    push(m._h, Object.assign({ts:m.ts, m, opp:m._a, oppName:m._an, name:m._hn, gf:m.hs, ga:m.as, tournament:m.tournament, cat:m.cat, neutral:vs === 0, home:vs === 1},
+      x ? {rating:x[4], rd:x[5], pre:x[3], oppPre:x[6], oppPost:x[7], delta:x[4] - x[3], exp:x[9]} : null));
+    push(m._a, Object.assign({ts:m.ts, m, opp:m._h, oppName:m._hn, name:m._an, gf:m.as, ga:m.hs, tournament:m.tournament, cat:m.cat, neutral:vs === 0, home:vs === -1},
+      x ? {rating:x[7], rd:x[8], pre:x[6], oppPre:x[3], oppPost:x[4], delta:x[7] - x[6], exp:1 - x[9]} : null));
     lastOf.set(m._h, {nm:m._hn, pool:m._ph, ts:m.ts}); lastOf.set(m._a, {nm:m._an, pool:m._pa, ts:m.ts});
   }
-  const T = F.tables[i]; if (T.length !== history.size) return null;
+  const T = dayRows(F, i, k); if (T.length !== history.size) return null;
   /* Cut-off groups, as in computeRatings: teams with no chain of matches to the main body are never ranked. */
   const par = new Map(), find = x => { while (par.get(x) !== x){ par.set(x, par.get(par.get(x))); x = par.get(x); } return x; };
   for (const t of history.keys()) par.set(t, t);
@@ -3125,10 +3447,13 @@ function tableFromDay(F, i, was){
   /* A band is the team's own doubt, its confederation's above the day's reference level, and (for a cut-off team) the
      extra for being cut off; the file carries the levels, so the team's own doubt is what is left. A chance against
      another side needs the two apart (matchRd). */
-  const all = [], PW = F.pw[i], ref = PW[0], wOf = new Map(PW.slice(1));
+  const all = [], PW = dayPw(F, i, k), ref = PW[0], wOf = new Map(PW.slice(1));
   for (const [ti, rating, band, rank, tier, lo] of T){
     const key = F.teams[ti], L = lastOf.get(key); if (!L) return null;
-    const change = then && then.has(key) ? Math.round((rating - then.get(key))*10)/10 : null;
+    let change = then && then.has(key) ? rating - then.get(key) : null;   // not rounded here: a figure rounded twice can land on the other side (-94.52 -> -94.5 -> -94)
+    /* Under all time the change on a year is counted from the rating the team's last match before then left it with
+       (as the table worked out on the page does), read off its run of matches. */
+    if (AT){ let e = null; for (const x of history.get(key)){ if (x.ts <= state.asOf - 365*DAY) e = x; else break; } change = e ? rating - e.rating : null; }   // not rounded again: the earlier rating is exact
     const info = infoFor(key), root = find(key), island = root === mainRoot ? null : root, rd = band/BAND_Z;
     const w = wOf.has(L.pool) ? wOf.get(L.pool) : 0, rdOwn = Math.sqrt(Math.max(0, rd*rd - (island ? RD_MAX*RD_MAX : 0) - Math.max(0, w - ref)));
     all.push({_ord:all.length, _lo:lo, team:dn(L.nm || key), key, rating, rd, rdOwn, w, pool:L.pool, band, lower:rating - band, upper:rating + band,
@@ -3163,21 +3488,23 @@ function tableFromDay(F, i, was){
   const resolve = nm => { if (!nm) return null; if (byKey.has(nm)) return nm;
     const r = all.find(x => x.team === nm); return r ? r.key : keyOfName(nm); };
   /* Each confederation's figures, from the levels the file carries for the day. */
-  const confStats = new Map(), off = new Map((F.pools ? F.pools[i] : []).map(([p, m, w]) => [p, {m, w}]));
+  const confStats = new Map(), off = new Map(dayPools(F, i, k).map(([p, m, w]) => [p, {m, w}]));
   { const pools = [...new Set(table.map(r => r.pool))].filter(p => p && p !== 'UNKNOWN' && off.has(p));
     const avg = table.length ? table.reduce((a, r) => a + (off.has(r.pool) ? off.get(r.pool).m : 0), 0)/table.length : 0;
     for (const p of pools){ const rows = table.filter(r => r.pool === p), rs = rows.map(r => r.rating), top = rs.slice(0, 10), mid = rs.slice().sort((a, b) => a - b);
       confStats.set(p, {conf:p, n:rows.length, level:off.get(p).m - avg, levelBand:BAND_Z*Math.sqrt(off.get(p).w),
         top10:top.reduce((a, b) => a + b, 0)/top.length, median:mid[Math.floor((mid.length - 1)/2)], best:rows[0]}); } }
   return {key:null, history, table, tiers, provisional, all, byKey, resolve, median, bench, windowStart:ws, ranges:null, confStats, st:null,
-    fromFile:true, lite:true, day:F.days[i]};
+    fromFile:true, lite:true, day:fmtDate(ao)};
 }
+/*ENGINE<*/
 /* A team's rating and uncertainty as they stood at a given moment, within this run. */
 function stateAt(hist, ts){
   let e = null;
   for (const h of hist){ if (h.ts <= ts) e = h; else break; }
   return e ? inflate({r:e.rating, rd:e.rd, last:e.ts}, ts) : null;
 }
+/*>ENGINE*/
 /* A team's rank just after one of its matches, among every team as published that day: in window mode the day's own
    window (the same run that gives the published ratings in the Matches table), ranked the way the table ranks (teams
    whose band is wider than the cut-off aren't counted). byConf ranks it within the confederation it belonged to then.
@@ -3191,6 +3518,9 @@ function rankAfter(c, key, ts, byConf){
     /* Another band limit or rank order: the rank as it would have stood that day under that setting, from the year's ranks file. */
     const X = L && !rankStd() ? ranksRow(L, ts) : null;
     if (X){ const o = X.o + 4*L[1] + (byConf ? 2 : 0), out = X.row[o] ? {rank:X.row[o], of:X.row[o + 1]} : null; memo.set(mk, out); return out; } }
+  /* Under "all time" in the published copy: from the team's own file. */
+  if (state.windowYears === 0 && state.useTableFiles && state.comps.size === COMP_ORDER.length){ const out = rankAllAfter(key, ts, byConf); if (out !== undefined){ memo.set(mk, out); return out; } }
+  /*ENGINE<*/
   const conf = byConf ? poolOf(key, ts) : null, sk = (r, rd) => state.rankBy === 'lower' ? r - BAND_Z*rd : r;
   let mine = null; const vals = [];
   const st = state.windowYears > 0 ? pubDay(ts).st : null;
@@ -3217,6 +3547,8 @@ function rankAfter(c, key, ts, byConf){
   if (mine !== null){ let above = 0; for (const v of vals) if (v > mine) above++; out = {rank:above + 1, of:vals.length + 1}; }
   memo.set(mk, out);
   return out;
+  /*>ENGINE*/
+  return null;   // no engine and no file: no rank shown
 }
 /* Pool-aware uncertainty for predicting a match between two rated rows: the offsets cancel inside a
    confederation and add their uncertainty between two. */
@@ -3231,7 +3563,20 @@ const matchRd = (r, other) => {
    Seeded, so the same table always gives the same ranges. */
 function rankRanges(c){
   if (c.ranges) return c.ranges;
-  const t = c.table, n = t.length, SIMS = 1000;
+  return c.ranges = rangesOf(c.table, r => r.rd);
+}
+/* The same among one confederation's ranked teams (Seb, 13 Nov 2026): each side redrawn from its own band, without the
+   doubt about the confederation's level, which moves all of its teams together and so cannot change their order (the
+   rule confederation tiers follow). Places are counted within the confederation. */
+function confRanges(c, conf){
+  if (!c._confRanges) c._confRanges = new Map();
+  if (!c._confRanges.has(conf)) c._confRanges.set(conf, rangesOf(c.table.filter(r => r.conf === conf), r => r.rdOwn));
+  return c._confRanges.get(conf);
+}
+/* The places each team of a list takes when every rating is redrawn from its band a thousand times: the middle half of
+   them (mid) and nearly all of them (wide), by team key. The draws are seeded, so the same list gives the same answer. */
+function rangesOf(t, rdOf){
+  const n = t.length, SIMS = 1000;
   let seed = 0x9e3779b9;
   const rand = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0;
     let x = Math.imul(seed ^ seed >>> 15, 1 | seed);
@@ -3247,7 +3592,7 @@ function rankRanges(c){
   const keys = new Float64Array(n), SLOT = Math.max(1024, 1 << Math.ceil(Math.log2(n+1)));
   for (let s = 0; s < SIMS; s++){
     for (let i = 0; i < n; i++)
-      keys[i] = Math.round((10000 - (t[i].rating + t[i].rd*gauss()))*100)*SLOT + i;
+      keys[i] = Math.round((10000 - (t[i].rating + rdOf(t[i])*gauss()))*100)*SLOT + i;
     keys.sort();
     for (let k = 0; k < n; k++) pos[keys[k] % SLOT][s] = k + 1;
   }
@@ -3255,7 +3600,6 @@ function rankRanges(c){
   const out = new Map();
   t.forEach((r,i) => { const a = pos[i].sort();   // typed arrays sort numerically
     out.set(r.key, {mid:[q(a,0.25), q(a,0.75)], wide:[q(a,0.025), q(a,0.975)]}); });
-  c.ranges = out;
   return out;
 }
 const fmtRange = rg => !rg ? '&mdash;' : (rg[0]===rg[1] ? ordinal(rg[0]) : ordinal(rg[0])+'&ndash;'+ordinal(rg[1]));
@@ -3276,6 +3620,7 @@ function snapshotStamps(){
   for (let i = 0; i <= steps; i++) out.push(Math.round(start + (end-start)*i/steps));
   return out;
 }
+/*ENGINE<*/
 /* Every team's state at each of a set of dates in the "all time" setting: one pass through the archive, captured at
    each date (there is no window, so that is exact). The dates may come in any order. */
 function allTimeMaps(stamps){
@@ -3288,6 +3633,7 @@ function allTimeMaps(stamps){
   while (k < order.length){ maps[order[k][1]] = cloneState(st); k++; }
   return maps;
 }
+/*>ENGINE*/
 /* The series comes in one of two shapes. Worked out on the page: maps, the model's state on each date. Read from the
    build's file (stage 3, the published copy at the site's own settings): rows, for each date a team's
    [_, rating, band, rank, rank by the bottom of its band], and recent, the same for each team on each of its match days
@@ -3297,7 +3643,7 @@ function allTimeMaps(stamps){
    the same dates, and for each team its two ranks under each band limit in BAND_OPTIONS' order
    ([team, by rating, by the bottom of the band, ... six pairs]). Fetched only when the band limit is not the site's
    own. r/snapr-<g>.json and r/snapr-all-<g>.json go with today's two series, r/seriesr/<g>/<decade>.json with the long series. */
-const chartOk = () => state.useTableFiles && state.comps.size === COMP_ORDER.length && state.historicalNames === DEFAULTS.historicalNames &&
+const chartOk = () => state.useTableFiles && state.comps.size === COMP_ORDER.length &&
   (state.windowYears === DEFAULTS.windowYears || state.windowYears === 0) && BAND_OPTIONS.includes(state.maxBand);
 const chartAlt = () => state.maxBand !== DEFAULTS.maxBand;
 function loadSnapRanks(g, allTime){
@@ -3307,9 +3653,9 @@ function loadSnapRanks(g, allTime){
   return Promise.resolve(state.snapRankFiles[k]);
 }
 function loadSeriesRanks(g, decade){
-  const k = g+'|'+decade;
+  const k = seriesKey(g, decade);
   if (!state.useTableFiles) return Promise.resolve(null);
-  if (state.seriesRankFiles[k] === undefined) state.seriesRankFiles[k] = fetch('r/seriesr/'+g+'/'+decade+'.json', decade + 10 > new Date().getUTCFullYear() ? {cache:'no-cache'} : {})
+  if (state.seriesRankFiles[k] === undefined) state.seriesRankFiles[k] = fetch('r/seriesr'+(state.windowYears === 0 ? '-all' : '')+'/'+g+'/'+decade+'.json', decade + 10 > new Date().getUTCFullYear() ? {cache:'no-cache'} : {})
     .then(res => res.ok ? res.json() : null).then(F => state.seriesRankFiles[k] = F).catch(() => state.seriesRankFiles[k] = null);
   return Promise.resolve(state.seriesRankFiles[k]);
 }
@@ -3336,7 +3682,7 @@ function snapsFromFile(F, key, stamps, RF){
 /* The published copy at one of the two tables the build works out: the site's own settings, with the usual window or
    all time. */
 const fixedSettings = () => snapFileOk();
-const snapFileOk = () => state.useTableFiles && state.comps.size === COMP_ORDER.length && state.historicalNames === DEFAULTS.historicalNames &&
+const snapFileOk = () => state.useTableFiles && state.comps.size === COMP_ORDER.length &&
   state.maxBand === DEFAULTS.maxBand && state.rankBy === DEFAULTS.rankBy && (state.windowYears === DEFAULTS.windowYears || state.windowYears === 0);
 /* One team's published rating and band (the ± figure) at point k of the series, or null while it has no rating. */
 /* The series for a past date, from the build's files: the quarter starts inside the window from the long series, then
@@ -3352,11 +3698,12 @@ function snapsPast(key){
   const g = state.gender, ao = state.asOf, c = tableAt(); if (!c || !c.lite) return null;
   const stamps = pastStamps(ao), rows = [], alt = chartAlt(), bi = BAND_OPTIONS.indexOf(state.maxBand);
   if (alt && bi < 0) return null;
-  for (const t of stamps){ const F = state.seriesFiles[g+'|'+seriesDecade(t)]; if (!seriesOk(F, g)) return null;
+  const all = state.windowYears === 0;
+  for (const t of stamps){ const F = state.seriesFiles[seriesKey(g, seriesDecade(t))]; if (!seriesOk(F, g) || !!F.all !== all) return null;
     const i = F.at.get(t); if (i === undefined) return null;
     if (!alt){ rows.push(F.maps[i] || (F.maps[i] = new Map(F.pts[i].map(x => [F.teams[x[0]], x])))); continue; }
     /* another band limit: that limit's ranks from the decade's ranks file */
-    const RF = state.seriesRankFiles[g+'|'+seriesDecade(t)];
+    const RF = state.seriesRankFiles[seriesKey(g, seriesDecade(t))];
     if (!RF || RF.v !== 1 || RF.g !== g || RF.print !== F.print || !RF.pts || RF.pts.length !== F.pts.length) return null;
     const M = F.alt || (F.alt = {}), A = M[bi] || (M[bi] = []);
     rows.push(A[i] || (A[i] = rankedRows(F.pts[i], F.teams, RF.pts[i], RF.teams, bi))); }
@@ -3369,15 +3716,34 @@ function snapsPast(key){
   const In = T.filter(x => !(state.maxBand > 0 && x.b > state.maxBand));
   const byR = new Map(In.slice().sort((a, b) => b.r.rating - a.r.rating || (a.r._ord || 0) - (b.r._ord || 0)).map((x, i) => [x.r.key, i + 1]));
   const byLo = new Map(In.slice().sort((a, b) => b.lo - a.lo).map((x, i) => [x.r.key, i + 1]));
-  const last = new Map(T.map(x => [x.r.key, ledgerClose(x.r.key, ao) || [0, x.r.rating, x.b, byR.get(x.r.key) || 0, byLo.get(x.r.key) || 0]]));
+  const last = new Map(T.map(x => [x.r.key, (all ? null : ledgerClose(x.r.key, ao)) || [0, x.r.rating, x.b, byR.get(x.r.key) || 0, byLo.get(x.r.key) || 0, x.r.island ? 1 : 0]]));
   stamps.push(ao); rows.push(last);
-  return {key, stamps, rows, recent:closeLookup(), fromFile:true, past:true};
+  /* A team's match days: at the usual window from the matches' own files; under all time from the day's own table
+     (every match day has one, and the years the last two years reach are in hand). */
+  return {key, stamps, rows, recent:all ? {get:t => ({get:k => dayClose(k, t)})} : closeLookup(), fromFile:true, past:true};
+}
+/* One day of a year file as chart points, ranked the way a chart ranks under the band limit in force: a Map from team
+   to [0, rating, band, rank by rating, rank by the bottom of the band]. Kept with the file. */
+function dayChartRows(F, i, k){
+  const mk = i+'|'+(k || 0)+'|'+state.maxBand, memo = F._chart || (F._chart = new Map()); if (memo.has(mk)) return memo.get(mk);
+  const cut = BAND_Z*RD_MAX, T = dayRows(F, i, k || 0).map((x, n) => { const b = x[6] ? Math.sqrt(Math.max(0, x[2]*x[2] - cut*cut)) : x[2]; return {k:F.teams[x[0]], r:x[1], b, lo:x[1] - b, n, cut:x[6] ? 1 : 0}; });
+  const In = T.filter(x => !(state.maxBand > 0 && x.b > state.maxBand));
+  const byR = new Map(In.slice().sort((a, b) => b.r - a.r || a.n - b.n).map((x, j) => [x.k, j + 1])), byLo = new Map(In.slice().sort((a, b) => b.lo - a.lo).map((x, j) => [x.k, j + 1]));
+  const out = new Map(T.map(x => [x.k, [0, x.r, x.b, byR.get(x.k) || 0, byLo.get(x.k) || 0, x.cut]]));   // the sixth: a cut-off team, whose band is less exact (the extra for being cut off is taken back out of a rounded figure)
+  memo.set(mk, out); return out;
+}
+function dayClose(key, ts){
+  const hit = dayFor(state.gender, ts); if (!hit || !hit.exact) return null;
+  return dayChartRows(hit.F, hit.i, hit.k).get(key) || null;
 }
 function snapPt(snaps, k, key){
   if (snaps.rows){ const x = snaps.rows[k].get(key); return x ? {r:x[1], b:x[2]} : null; }
-  return statePt(snaps.maps[k], key, snaps.stamps[k]);
+  /*ENGINE<*/ return statePt(snaps.maps[k], key, snaps.stamps[k]); /*>ENGINE*/
+  return null;
 }
+/*ENGINE<*/
 function statePt(mp, key, ts){ const p = mp && pub(mp, key, ts); return p ? {r:p.r, b:BAND_Z*rankRd(p, poolRef(mp, ts))} : null; }
+/*>ENGINE*/
 function getSnapshots(){
   const key = snapKey(), band = state.useTableFiles ? state.maxBand : 0;   // a series from the files holds one band limit's ranks
   if (state.snap.key === key && state.snap.band === band && state.snap.promise) return state.snap.promise;
@@ -3385,17 +3751,18 @@ function getSnapshots(){
   const mine = state.snap = {key, band, promise:null};   // recorded first: the work below checks it to know it is still wanted
   /* On a past date the published copy reads the long series (stage 4): today's file holds only today's dates. Under
      another band limit the ranks files come with them. */
-  const g = state.gender, past = state.asOf < state.bounds[g].max, ok = chartOk(), alt = ok && chartAlt(), long = past && ok && baseSettings();
+  const g = state.gender, past = state.asOf < state.bounds[g].max, ok = chartOk(), alt = ok && chartAlt(), long = past && ok;
   const decs = long ? [...new Set(pastStamps(state.asOf).map(seriesDecade))] : [];
   const files = long ? Promise.all(decs.map(d => loadSeries(g, d)).concat(alt ? decs.map(d => loadSeriesRanks(g, d)) : [])).then(() => [null, null])
     : ok && !past ? Promise.all([loadSnapFile(g, state.windowYears === 0), alt ? loadSnapRanks(g, state.windowYears === 0) : null]) : Promise.resolve([null, null]);
   const promise = files.then(([F, RF]) => {
     if (state.snap !== mine) return null;   // superseded by a newer request
-    return (long && snapsPast(key)) || (F && snapsFromFile(F, key, stamps, RF)) || computeSnapshots(key, stamps);
+    return (long && snapsPast(key)) || (F && snapsFromFile(F, key, stamps, RF)) /*ENGINE<*/ || computeSnapshots(key, stamps) /*>ENGINE*/ || null;
   });
   state.snap.promise = promise;
   return promise;
 }
+/*ENGINE<*/
 function computeSnapshots(key, stamps){
   return new Promise(resolve => {
     if (state.windowYears === 0) return resolve({key, stamps, maps:allTimeMaps(stamps)});
@@ -3410,6 +3777,7 @@ function computeSnapshots(key, stamps){
     step();
   });
 }
+/*>ENGINE*/
 /* Draw a chart once the published history is ready, if the page is still the same one. */
 function chartLater(id, build){
   const gen = state.renderGen;
@@ -3582,6 +3950,8 @@ function applyParams(p){
   if (p.g === 'men' || p.g === 'women') state.gender = p.g;
   else state.gender = 'men';
   state.windowYears = p.w !== undefined ? Math.max(0, Math.min(16, parseInt(p.w,10)||0)) : DEFAULTS.windowYears;
+  /* Without the engine the two windows the build works out are the choice: any other length in an old link reads as the usual one. */
+  if (!ENGINE && state.windowYears !== 0) state.windowYears = DEFAULTS.windowYears;
   /* The competition filter has been withdrawn: every competition always counts, and old links that carry one are read
      without it, so nothing is filtered out of sight. */
   state.comps = new Set(COMP_ORDER);
@@ -3589,6 +3959,9 @@ function applyParams(p){
   state.fifaFilter = ['all','fifa','nonfifa'].includes(p.m) ? p.m : DEFAULTS.fifaFilter;
   state.historicalNames = p.h !== undefined ? p.h === '1' : DEFAULTS.historicalNames;
   state.maxBand = p.u !== undefined ? Math.max(0, parseInt(p.u,10)||0) : DEFAULTS.maxBand;
+  /* And a band limit that is not one of the listed ones (a hand-edited link) reads as the nearest listed one: old ranks
+     are kept for those only (Seb, 12 Nov 2026). */
+  if (!ENGINE && !BAND_OPTIONS.includes(state.maxBand)) state.maxBand = BAND_OPTIONS.filter(b => b > 0).reduce((a, b) => Math.abs(b - state.maxBand) < Math.abs(a - state.maxBand) ? b : a);
   state.rankBy = p.r === 'lower' ? 'lower' : DEFAULTS.rankBy;
   state.rankRange = p.rr === 'p' ? 'plausible' : 'likely';
   state._pendingDate = p.d || null;
@@ -3609,6 +3982,7 @@ function go(extra, routePath){
 /* How many teams a given uncertainty limit would rank in the current view. */
 function bandCount(n){
   let c = state.cache; try { if (DATE_ROUTES.includes(state.route)) c = tableAt(); } catch(e){}   // the table in view: on a past date in the published copy, the one from the build's files
+  if (state.route === 'simulate' && state.simTable) c = state.simTable;   // the Simulator wound back to a played tournament counts the eve's table
   if (!c || !c.all) return '';
   return c.all.filter(r => !r.island && (n === 0 || r.band <= n)).length;
 }
@@ -3617,30 +3991,39 @@ const rankRangeOf = (rg) => state.rankRange === 'plausible' ? rg.wide : rg.mid;
 const rankRangeHead = () => state.rankRange === 'plausible'
   ? '<th class="num" title="95% of the places this team takes when every rating is redrawn from its band 1,000 times">Plausible rank</th>'
   : '<th class="num" title="The middle half of the places this team takes when every rating is redrawn from its band 1,000 times; hover for the 95% range">Likely rank</th>';
-function filterBar(){
-  const b = state.bounds[state.gender];
-  const counts = state.compCounts[state.gender] || {};
-  const winTxt = state.windowYears===0 ? 'Every match since the start' : 'Last '+state.windowYears+' years';
+/* How the filters in force read in words: the window, then the rest. The filter bar's summary line and the home
+   page's note (which has no filter bar) both use it. */
+function filterWords(){
+  const win = state.windowYears===0 ? 'Every match since the start' : 'Last '+state.windowYears+' years';
   const confTxt = state.confs.size===0 ? 'All confederations' : [...state.confs].map(confLabel).join(', ');
   const fifaTxt = state.fifaFilter==='all' ? '' : (state.fifaFilter==='fifa' ? ' · FIFA only' : ' · non-FIFA only');
   const bandTxt = state.maxBand>0 ? ' · ranked once within ±'+state.maxBand : ' · every team ranked';
   const rankTxt = (state.rankBy==='lower' ? ' · cautious order' : '')+(state.rankRange==='plausible' ? ' · wider rank ranges' : '');
+  return {win, rest:confTxt+fifaTxt+bandTxt+rankTxt};
+}
+/* The site's own settings throughout: the table the home page is meant to show. */
+const filtersStd = () => siteSettings() && state.confs.size === 0 && state.fifaFilter === DEFAULTS.fifaFilter && state.historicalNames === DEFAULTS.historicalNames && state.rankRange === 'likely';
+function filterBar(){
+  const b = state.bounds[state.gender];
+  const counts = state.compCounts[state.gender] || {};
+  const FW = filterWords(), winTxt = FW.win;
 
   return '<div class="filterbar">'+
     '<button class="filter-summary" id="filterToggle" aria-expanded="'+(state.filterOpen?'true':'false')+'">'+
       '<span class="fs-label">Filters</span>'+
       '<span class="fs-val"><b>'+winTxt+'</b> &middot; to '+fmtDay(state.asOf)+
-        ' &middot; '+esc(confTxt)+esc(fifaTxt)+esc(bandTxt)+esc(rankTxt)+'</span>'+
+        ' &middot; '+esc(FW.rest)+'</span>'+
       '<span class="chev">'+(state.filterOpen?'Hide &#9650;':'Change &#9660;')+'</span>'+
     '</button>'+
     '<div class="filter-open'+(state.filterOpen?' show':'')+'" id="filterPanel">'+
 
       '<div class="frow"><div class="flabel">Years of results</div>'+
         '<div class="inline-ctls">'+
-          '<div class="ctl"><label for="winSlider">Length</label>'+
+          (ENGINE ? '<div class="ctl"><label for="winSlider">Length</label>'+
             '<input type="range" id="winSlider" min="2" max="16" step="1" value="'+(state.windowYears||DEFAULTS.windowYears)+'"'+
               (state.windowYears===0?' disabled':'')+'>'+
-            '<span class="val" id="winVal">'+(state.windowYears===0?'disabled':state.windowYears+' years')+'</span></div>'+
+            '<span class="val" id="winVal">'+(state.windowYears===0?'disabled':state.windowYears+' years')+'</span></div>'
+          : '<div class="ctl"><label>Length</label><span class="val">'+(state.windowYears===0?'Every match on record':'The last '+DEFAULTS.windowYears+' years')+'</span></div>')+
           (DATE_ROUTES.includes(state.route)
           ? '<div class="ctl"><label for="asOf">Ratings as of</label>'+
             '<input type="date" id="asOf" value="'+fmtDate(state.asOf)+'" min="'+fmtDate(b.min)+'" max="'+fmtDate(b.max)+'"></div>'+
@@ -3837,7 +4220,7 @@ async function render(){
   const app = document.getElementById('app');
   if (!state.matches[state.gender]){
     app.innerHTML = skeleton((state.gender==='men' ? 'Loading about 50,000 men\'s internationals, back to 1872.'
-      : 'Loading about 12,000 women\'s internationals, back to 1956.')+' Every rating is then worked out here in your browser.');
+      : 'Loading about 12,000 women\'s internationals, back to 1956.')+(ENGINE ? ' Every rating is then worked out here in your browser.' : ''));
   }
   try { await ensureData(); }
   catch(e){
@@ -3888,9 +4271,16 @@ async function render(){
   }
   /* The era comparer reads every year's closing table from one file (stage 4). */
   if (state.useTableFiles && p.route === 'predict' && state.params.dm){ await loadYearEnds(state.gender); if (gen !== state.renderGen) return; }
+  /* The Predictor's "what this result would do" figures for listed fixtures. */
+  if (state.useTableFiles && p.route === 'predict' && !state.params.dm){ await loadStakes(state.gender); if (gen !== state.renderGen) return; }
+  /* The Simulator winding back to a tournament already played reads the tables of the day before it began: the
+     window in view (with the years before, as any past date), the all-time one forecasts lean on, and the goals figures. */
+  if (state.useTableFiles && p.route === 'simulate' && fixedWindow()){ const T0 = tournamentById(state.params.t) || (state.params.t === 'custom' ? null : TOURNAMENTS[0]);
+    if (T0 && T0.status === 'rewind' && T0.gender === state.gender){ const ts = Date.parse(T0.start+'T00:00:00Z') - DAY;
+      await Promise.all([loadPastDays(state.gender, ts), loadDaysFor(state.gender, ts, true), loadGoalsYear(state.gender, new Date(ts).getUTCFullYear())]); if (gen !== state.renderGen) return; } }
   /* Records and a team's all-time history read the build's lists (stage 3). */
   if (state.useTableFiles && p.route === 'records'){ await loadRecordsFile(state.gender); if (gen !== state.renderGen) return; }
-  if (state.useTableFiles && p.route === 'team'){ await Promise.all([loadHistFile(state.gender), state.maxBand !== DEFAULTS.maxBand ? loadHistRanks(state.gender) : null]); if (gen !== state.renderGen) return; }
+  if (state.useTableFiles && p.route === 'team'){ await Promise.all([loadHistFile(state.gender), state.maxBand !== DEFAULTS.maxBand ? loadHistRanks(state.gender) : null, state.windowYears === 0 ? loadHistW(state.gender) : null]); if (gen !== state.renderGen) return; }
   /* An edition's page reads its figures from the edition's own file (stage 3). */
   if (chartOk() && p.route === 'competition'){
     let e = null; try { e = getEditions().byId.get(state.arg+'|'+state.arg2); } catch(e2){}
@@ -3899,17 +4289,25 @@ async function render(){
   /* On a past date the goals figures come from that year's file (stage 4). */
   if (state.useTableFiles && state.asOf < state.bounds[state.gender].max){ await loadGoalsYear(state.gender, new Date(state.asOf).getUTCFullYear()); if (gen !== state.renderGen) return; }
   /* A past date from the address is only known here: fetch its year of match-day tables before drawing (stage 3). */
-  if (state.useTableFiles && state.asOf < state.bounds[state.gender].max && baseSettings()){
+  if (state.useTableFiles && state.asOf < state.bounds[state.gender].max && fixedWindow()){
     await loadPastDays(state.gender);
     if (gen !== state.renderGen) return;
   }
+  /* A team page under "all time": the rank after each match comes from the team's own file. */
+  if (state.useTableFiles && p.route === 'team' && state.windowYears === 0 && state.comps.size === COMP_ORDER.length){
+    let k = null; try { const c = tableAt(); k = state.arg ? c.resolve(state.arg) : (c.table[0] || c.all[0]).key; if (!c.byKey.has(k)) k = null; } catch(e){}
+    if (k){ await loadRankAll(state.gender, k); if (gen !== state.renderGen) return; } }
   const views = {home:viewHome, rankings:viewRankings, team:viewTeam, competitions:viewCompetitions,
     competition:viewEdition, confederations:viewConfeds, h2h:viewH2H, predict:viewPredict, fixtures:viewFixtures, window:viewWindow, matchday:viewMatchday, qualifying:viewQualifying, wwc2027:viewWWC2027,
-    simulate:viewSimulate, difficulty:viewDifficulty, whatif:viewWhatIf, qualify:viewQualify, guess:viewGuess, widgets:viewWidgets, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, sources:viewSources, support:viewSupport, changes:viewChanges, embed:viewEmbed, contact:viewContact};
+    simulate:viewSimulate, difficulty:viewDifficulty, /*ENGINE<*/ whatif:viewWhatIf, /*>ENGINE*/ /*ENGINE-OFF: whatif:viewWhatIfGone, :ENGINE-OFF*/ qualify:viewQualify, guess:viewGuess, widgets:viewWidgets, record:viewRecord, method:viewMethod, about:viewAbout, records:viewRecords, compare:viewCompare, flags:viewFlags, sources:viewSources, support:viewSupport, changes:viewChanges, embed:viewEmbed, contact:viewContact};
   FLAG_AT = null;
   document.body.classList.toggle('embed-mode', p.route === 'embed');
   state._ptGoto = p.route === 'method' ? state.pendingScroll : null;
-  (views[p.route]||viewNotFound)();
+  try { (views[p.route]||viewNotFound)(); }
+  catch(e){ if (!e || !e.noFiles) throw e;   // only the published copy without the engine: a file it needs did not load
+    document.getElementById('app').innerHTML = '<div class="wrap"><div class="status">The ratings for this page could not be loaded. <a href="#" id="nfReload">Reload the page</a> to try again.</div></div>';
+    const a = document.getElementById('nfReload'); if (a) a.addEventListener('click', ev => { ev.preventDefault(); location.reload(); });
+    return; }
   ensureSectionTabs(); applyPageTabs();
   bindFilters(); bindRows(); bindExtras();
   if (p.route === 'home') maybeStartTour();
@@ -3918,6 +4316,12 @@ async function render(){
   document.title = p.route === 'home' || !h1t ? 'Formline – national-team football ratings' : (/Formline/.test(h1t) ? h1t : h1t+' – Formline');
   if (state.lastRoute !== undefined && state.lastRoute !== p.path){ window.scrollTo(0, 0); }
   state.lastRoute = p.path;
+}
+/* What if? replays the ratings with one result changed, which is the rating engine itself; the published copy without
+   the engine says so (Seb, 12 Nov 2026: removed at the last stage, to be looked at again with a private server). */
+function viewWhatIfGone(){
+  document.getElementById('app').innerHTML = '<div class="wrap"><h1>What if?</h1><div class="status">What if? is not available at the moment. '+
+    'Try the <a href="#/simulate">Simulator</a>, <a href="#/qualify">Who qualifies?</a> or the <a href="#/predict">match predictor</a> instead.</div></div>';
 }
 /* Placeholder page while the archive loads. */
 function skeleton(note){
@@ -3951,13 +4355,59 @@ function bindExtras(){
   lockTables();
   const rd = document.getElementById('readingDetails');
   if (rd) rd.addEventListener('toggle', () => { state.readingOpen = rd.open; });
-  document.querySelectorAll('[data-movers]').forEach(b => b.addEventListener('click', () => {
-    state.moversScope = b.dataset.movers; render(); }));
 }
 
 /* ============================================================
    12. VIEWS
    ============================================================ */
+/* The home page as the site's front door (Seb, 13 Nov 2026): who leads, how the published calls are doing, the next few
+   matches a line each, and a way into every part of the site. It has no filter bar; under settings other than the
+   site's own a line says so and offers the standard table. */
+const HOME_HUB = [['rankings', 'Rankings', 'Every team in order, each with its band'], ['fixtures', 'Fixtures', 'The coming weeks, with predictions'],
+  ['matchday', 'Matchday', 'One day\'s matches, the calls, and your own picks'], ['predict', 'Predict', 'Any two teams, any venue'],
+  ['simulate', 'Simulator', 'Play a tournament ten thousand times'], ['qualify', 'Who qualifies?', 'Set the results left in a group'],
+  ['h2h', 'Head to head', 'Two teams side by side'], ['competitions', 'Competitions', 'Every tournament, edition by edition'],
+  ['confederations', 'Confederations', 'The table region by region'], ['records', 'Records', 'Upsets, peaks, streaks, all time or by year'],
+  ['record', 'Forecast record', 'How past predictions turned out'], ['method', 'How it works', 'The model, and how it was tested']];
+const HOME_FIXTURES = 5, HOME_MOVERS = 5, HOME_UPSETS = 5, HOME_TRACK_MIN = 10;
+function homeHub(){
+  const q = filterQuery();
+  return '<h2 class="home-h">Explore Formline</h2><div class="hub">'+HOME_HUB.map(([r, name, line]) =>
+    '<a class="hub-card" href="#/'+r+(q ? '?'+q : '')+'"><b>'+esc(name)+'</b><span>'+esc(line)+'</span></a>').join('')+'</div>';
+}
+/* The track record: of the published calls checked so far, how often the side Formline picked won, counted over the
+   matches that had a winner (callCounts, the Forecast record's own count); and the same over every match since 2019,
+   which the Forecast record works out (kickVs fills it in when it is ready). */
+function homeTrack(g){
+  const rec = state.record, G = g === 'men' ? "men's" : "women's", q = filterQuery();
+  const sc = rec && rec.entries ? rec.entries.filter(e => e.g === g && e.result) : [], C = callCounts(sc), T = vsTotals(g);
+  const first = sc.reduce((a, e) => !a || e.date < a ? e.date : a, '');
+  /* a percentage only once there are enough matches for one to mean something; before that, the count itself */
+  const few = C.decided < HOME_TRACK_MIN;
+  const live = frTile('Picked the winner, live', !C.decided ? '&ndash;' : few ? C.won+' of '+C.decided : Math.round(100*C.won/C.decided)+'%',
+    C.decided ? (few ? '' : '<b>'+C.won+' of '+C.decided+'</b> ')+G+' match'+(C.decided === 1 ? '' : 'es')+' that had a winner, each call published before kick-off, since '+fmtDay(Date.parse(first+'T00:00:00Z'))
+      : (rec ? 'No '+G+' match with a winner has been checked yet' : 'The live record comes with the site\'s nightly update'));
+  const long = frTile('Picked the winner, since 2019', T && T.dec ? (100*T.hit[0]/T.dec).toFixed(1)+'%' : '&hellip;',
+    T && T.dec ? 'of '+T.dec.toLocaleString()+' '+G+' matches that had a winner, each forecast made from the results before it' : 'Being worked out');
+  return '<section class="track" id="homeTrack" aria-label="Formline\'s track record">'+live+long+
+    '<div class="track-say"><b>The track record.</b> Every forecast is saved before kick-off and checked afterwards, and none is ever removed. '+
+      (C.draws ? 'Of the '+C.n+' checked so far, '+drawsLine(C)+'. ' : '')+
+      '<a href="#/record'+(q ? '?'+q : '')+'">See the full record &rarr;</a></div></section>';
+}
+/* A coming match in one line each side: kick-off, the two teams with their chances, and the competition. Opens the
+   Predictor on that match. */
+function homeFixtures(c, list){
+  const pc = v => Math.round(v*100)+'%'; let day = null, html = '';
+  for (const fx of list){
+    const d = fxDay(fx); if (d !== day){ html += '<div class="hfx-day">'+fxDayLabel(d)+'</div>'; day = d; }
+    const pr = fixturePrediction(c, fx), p = pr.p, fav = p ? (p.home > p.away ? 'h' : p.away > p.home ? 'a' : '') : '';
+    const side = (t, v, f) => '<span class="hfx-s'+(f ? ' fav' : '')+'">'+withFlag(t)+'<i>'+(p ? pc(v) : '&ndash;')+'</i></span>';
+    html += '<a class="hfx" href="#/predict?'+filterQuery({a:pr.side < 0 ? fx.away : fx.home, b:pr.side < 0 ? fx.home : fx.away, v:pr.side ? 'home' : 'neutral'})+'">'+
+      '<span class="hfx-t">'+fxTime(fx)+'</span>'+side(fx.home, p && p.home, fav === 'h')+side(fx.away, p && p.away, fav === 'a')+
+      '<span class="hfx-c">'+esc(shortComp(fx.tournament || ''))+(p ? ' &middot; draw '+pc(p.draw) : '')+'</span></a>';
+  }
+  return html;
+}
 function viewHome(){
   const c = getRatings(), g = state.gender;
   const vis = visibleTable(c.table);
@@ -3965,18 +4415,13 @@ function viewHome(){
     '<div class="wrap">'+filterBar()+'<div class="status">No ranked teams under these filters. '+
     'Try a wider uncertainty limit or a longer window.</div></div>'; return; }
   const leader = vis[0], ranges = rankRanges(c), lg = ranges.get(leader.key);
-  const game = g === 'men' ? "men's" : "women's";
+  const game = g === 'men' ? "men's" : "women's", q = filterQuery(), qs = q ? '?'+q : '';
   const latest = state.asOf >= state.bounds[g].max;
   const eraTxt = state.windowYears === 0 ? 'every match since '+new Date(state.bounds[g].min).getUTCFullYear()
     : (latest ? 'the last '+state.windowYears+' years of results' : 'the '+state.windowYears+' years of results to '+fmtDay(state.asOf));
-  const pool = state.moversScope === 'all' ? vis : vis.filter(r => r.rank <= 50);
-  const movers = pool.filter(r => r.change !== null);
-  const scopeChips = '<div class="chips" style="margin-bottom:12px;align-items:center;">'+
-    '<span class="muted" style="font-size:13px;margin-right:4px;">Movers among</span>'+
-    [['top50','the top 50'],['all','all ranked teams']].map(([v,l]) =>
-      '<button class="chip'+(state.moversScope===v?' on':'')+'" data-movers="'+v+'">'+l+'</button>').join('')+'</div>';
+  const movers = vis.filter(r => r.rank <= 50 && r.change !== null);
   const top10 = vis.slice(0, 10);
-  const topTable = '<div class="panel"><div class="panel-head">Top ten<a class="aside" href="#/rankings'+(filterQuery()?'?'+filterQuery():'')+'">All '+vis.length+' ranked teams</a></div>'+
+  const topTable = '<div class="panel"><div class="panel-head">Top ten<a class="aside" href="#/rankings'+qs+'">All '+vis.length+' ranked teams</a></div>'+
     '<table><thead><tr><th>#</th><th>Team</th><th class="num">Rating</th>'+
     rankRangeHead().replace('<th class="num"', '<th class="num hide-sm"')+
     '<th class="num" title="Rating change over the last 12 months">Past year</th></tr></thead><tbody>'+
@@ -3984,15 +4429,19 @@ function viewHome(){
       '<td class="num rating">'+fmtR(r.rating)+' '+pmSpan(r.band)+'</td>'+
       '<td class="num muted hide-sm range">'+fmtRange(rankRangeOf(ranges.get(r.key)))+'</td>'+
       '<td class="num mono">'+changeCell(r.change)+'</td></tr>').join('')+'</tbody></table>'+
-    '<a class="btn-primary btn-block" href="#/rankings'+(filterQuery()?'?'+filterQuery():'')+'">View the full rankings: all '+vis.length+' teams &rarr;</a></div>';
+    '<a class="btn-primary btn-block" href="#/rankings'+qs+'">View the full rankings: all '+vis.length+' teams &rarr;</a></div>';
   const up = upcomingFor(g), topKeys = new Set(vis.slice(0, 40).map(r => r.key));
-  const pick = up ? up.filter(fx => topKeys.has(c.resolve(fx.home)) || topKeys.has(c.resolve(fx.away))).slice(0, 6) : [];
+  const pick = up ? up.filter(fx => topKeys.has(c.resolve(fx.home)) || topKeys.has(c.resolve(fx.away))).slice(0, HOME_FIXTURES) : [];
   const leadersChart = '<div class="panel"><div class="panel-head">The leading six over time</div>'+
     '<div class="panel-body">'+chartBox('homeChart','Published rating of the six highest ranked teams on each date')+
     '<p class="chart-note">Each team\'s rating as it stood on each date.</p></div></div>';
   const side = isPast() ? aroundPanel(c, null) : pick.length
-    ? '<div class="panel"><div class="panel-head">Coming up<a class="aside" href="#/fixtures'+(filterQuery()?'?'+filterQuery():'')+'">All fixtures</a></div>'+fixtureList(c, pick)+'</div>'
+    ? '<div class="panel"><div class="panel-head">Coming up<a class="aside" href="#/fixtures'+qs+'">All '+(up ? up.length+' ' : '')+'fixtures</a></div>'+homeFixtures(c, pick)+
+      '<a class="btn-secondary btn-block" href="#/matchday'+qs+'">Make your own picks on Matchday &rarr;</a></div>'
     : leadersChart;
+  const FW = filterWords();
+  const note = filtersStd() ? '' : '<p class="home-note">Shown with your filter settings: '+esc(FW.win)+' &middot; '+esc(FW.rest)+'. '+
+    '<a href="#/'+(g === 'women' ? '?g=women' : '')+'">Show the standard table</a> &middot; <a href="#/rankings'+qs+'">Change them on Rankings</a></p>';
   document.getElementById('app').innerHTML =
   '<div class="wrap">'+
     '<section class="hero">'+
@@ -4005,7 +4454,7 @@ function viewHome(){
           ((c.history.get(leader.key) || []).length ? '<div><div class="k">Last five</div><div class="v" style="font-size:16px;">'+formChips(c.history.get(leader.key))+'</div></div>' : '')+
         '</div>'+
         '<p class="muted" style="font-size:14px;">'+freshnessText()+'</p>'+
-        '<div class="hero-links"><a class="btn-primary" href="#/rankings'+(filterQuery()?'?'+filterQuery():'')+'">View the full rankings &rarr;</a>'+
+        '<div class="hero-links"><a class="btn-primary" href="#/rankings'+qs+'">View the full rankings &rarr;</a>'+
           '<a class="btn-secondary" href="#/method">How it works</a></div>'+
       '</div>'+
       '<figure class="formline" id="heroLine" style="margin:0;">'+
@@ -4014,24 +4463,27 @@ function viewHome(){
         '<div class="fl-svgwrap"><div class="sk fl-wait"></div></div><div class="fl-years" id="heroYears"></div>'+
       '</figure>'+
     '</section>'+
-    toolRow()+
+    note+
+    homeTrack(g)+
     '<div class="home-grid">'+topTable+side+'</div>'+
-    scopeChips+
+    homeHub()+
     '<div class="two-col" style="margin-bottom:20px;">'+
-      '<div class="panel"><div class="panel-head">Biggest risers over the last year</div>'+
-        miniTable(movers.slice().sort((a,b)=>b.change-a.change).slice(0,8))+'</div>'+
-      '<div class="panel"><div class="panel-head">Biggest fallers over the last year</div>'+
-        miniTable(movers.slice().sort((a,b)=>a.change-b.change).slice(0,8))+'</div>'+
+      '<div class="panel"><div class="panel-head">Biggest risers over the last year<span class="aside">among the top 50</span></div>'+
+        miniTable(movers.slice().sort((a,b)=>b.change-a.change).slice(0, HOME_MOVERS))+'</div>'+
+      '<div class="panel"><div class="panel-head">Biggest fallers over the last year<span class="aside">among the top 50</span></div>'+
+        miniTable(movers.slice().sort((a,b)=>a.change-b.change).slice(0, HOME_MOVERS))+'</div>'+
     '</div>'+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Biggest upsets of the last year'+
-      '<span class="aside">the winner\'s chance before kick-off</span></div>'+
-      upsetTable(biggestUpsets(c, state.asOf - 365*DAY, state.asOf, 8))+'</div>'+
-    (pick.length ? leadersChart : '')+
+      '<a class="aside" href="#/records'+qs+'">All records</a></div>'+
+      upsetTable(biggestUpsets(c, state.asOf - 365*DAY, state.asOf, HOME_UPSETS))+
+      '<p class="chart-note" style="padding:0 17px 12px;margin:8px 0 0;">The figure is the winner\'s chance before kick-off.</p></div>'+
   '</div>';
-  const six = vis.slice(0, 6);
-  chartLater('homeChart', snaps => trackDatasets(six.map(r=>r.key), snaps, {labels:six.map(r=>r.team)}));
+  if (!pick.length && !isPast()){ const six = vis.slice(0, 6);
+    chartLater('homeChart', snaps => trackDatasets(six.map(r=>r.key), snaps, {labels:six.map(r=>r.team)})); }
   const gen = state.renderGen;
   getSnapshots().then(snaps => { if (snaps && gen === state.renderGen && snaps.key === snapKey()) drawFormline('heroLine', snaps, leader.key); });
+  /* the long test's figure, once the page has drawn (the Forecast record's own working, a year at a step) */
+  if (!vsTotals(g)) setTimeout(() => { if (gen === state.renderGen && state.route === 'home') kickVs(g); }, 700);
 }
 /* The hero line: one team's published rating and band on every sampled date of the window, drawn as an SVG that
    stretches to its box. The line keeps its width however the box is shaped. */
@@ -4088,8 +4540,9 @@ function recordsData(g){
   state.recCache = state.recCache || {};
   if (state.recCache[key]) return state.recCache[key];
   /* Stage 3: in the published copy the lists come from the build's file (the entries each list can show, not the replay). */
-  if (state.useTableFiles && state.historicalNames === DEFAULTS.historicalNames && state.comps.size === COMP_ORDER.length && state.recFiles[g]){
+  if (state.useTableFiles && state.comps.size === COMP_ORDER.length && state.recFiles[g]){
     const D = recordsFromFile(g, state.recFiles[g]); if (D) return state.recCache[key] = D; state.recFiles[g] = null; }
+  /*ENGINE<*/
   const saved = state.gender; state.gender = g;
   const ms = state.matches[g], st = newState(-Infinity), rows = [];
   const peak = new Map(), surest = new Map(), runs = new Map(), streaks = [], series = [];
@@ -4121,6 +4574,8 @@ function recordsData(g){
   for (const [k, R] of runs) closeRun(k, R);
   state.gender = saved;
   return state.recCache[key] = {rows, peak:[...peak.values()], surest:[...surest.values()], streaks, yearEnd, series};
+  /*>ENGINE*/
+  throw noFiles('records');
 }
 /* The Records page's lists that need the model, each from a set of the replay's rows or entries. The page and the
    build's file writer both use these, so the file holds exactly the entries a list can show. */
@@ -4142,6 +4597,7 @@ const recTopSurest = surest => surest.slice().sort((a, b) => b.lo - a.lo).slice(
 const recRuns = (streaks, kind) => streaks.filter(s => s.kind === kind).sort((a, b) => b.n - a.n).slice(0, 10);
 const recYearSurest = ye => [...ye.values()].filter(u => u.band < 250).sort((a, b) => (b.r - b.band) - (a.r - a.band)).slice(0, 12);
 const recRisers = (ye, prevMap) => [...ye.values()].filter(u => prevMap.has(u.k) && u.band < 300).map(u => ({u, d:u.r - prevMap.get(u.k).r})).sort((a, b) => b.d - a.d).slice(0, 10);
+/*ENGINE<*/
 /* Records as a file, and back (stage 3). The page lists a top ten or twelve of each kind, for all time and for each
    year; the file holds every entry that reaches one of those lists, in the replay's own order (so ties fall the same
    way), with its figures to six decimal places. Read back, every match is there with its score and names, and only
@@ -4166,12 +4622,13 @@ function recordsToFile(g, D){
     streaks:D.streaks.filter(s => runs.has(s)).map(s => [s.k, nm(s.nm), s.kind, s.n, s.from, s.to]),
     yearEnd:[...D.yearEnd.keys()].map(y => [y, [...D.yearEnd.get(y).values()].filter(u => needY.has(y) && needY.get(y).has(u.k)).map(E)])};
 }
+/*>ENGINE*/
 function recordsFromFile(g, F){
   const ms = state.matches[g];
   if (!F || F.v !== 1 || F.g !== g || F.print !== matchListPrint(ms)) return null;
   const saved = state.gender; state.gender = g;
   const by = new Map(F.rows.map(r => [r[0], r])), N = F.names;
-  const E = u => ({k:u[0], nm:N[u[1]], r:u[2], band:u[3], ts:u[4]}), L = u => Object.assign(E(u), {lo:u[2] - u[3]});
+  const E = u => ({k:u[0], nm:fileName(u[0], N[u[1]]), r:u[2], band:u[3], ts:u[4]}), L = u => Object.assign(E(u), {lo:u[2] - u[3]});
   const rows = [];
   ms.forEach((m, i) => { if (!includeMatch(m)) return; namesFor(m);
     const x = {m, ts:m.ts, h:m._h, a:m._a, hn:m._hn, an:m._an}, r = by.get(i);
@@ -4179,7 +4636,7 @@ function recordsFromFile(g, F){
     rows.push(x); });
   state.gender = saved;
   return {rows, peak:F.peak.map(E), surest:F.surest.map(L), series:F.series.map(L),
-    streaks:F.streaks.map(s => ({k:s[0], nm:N[s[1]], kind:s[2], n:s[3], from:s[4], to:s[5]})),
+    streaks:F.streaks.map(s => ({k:s[0], nm:fileName(s[0], N[s[1]]), kind:s[2], n:s[3], from:s[4], to:s[5]})),
     yearEnd:new Map(F.yearEnd.map(([y, list]) => [y, new Map(list.map(u => [u[0], E(u)]))])), fromFile:true};
 }
 function viewRecords(){
@@ -4299,7 +4756,7 @@ function aboutTabs(on){
 const SECTION_TABS = {
   ratings:['Ratings pages', [['rankings', 'Rankings'], ['team', 'Teams'], ['confederations', 'Confederations'], ['competitions', 'Competitions'], ['records', 'Records']]],
   matches:['Matches pages', [['fixtures', 'Fixtures'], ['window', 'This window'], ['matchday', 'Matchday'], ['predict', 'Predict'], ['record', 'Forecast record']]],
-  tools:['Tools', [['simulate', 'Simulator'], ['h2h', 'Head to head'], ['qualify', 'Who qualifies?'], ['difficulty', 'Fixture difficulty'], ['whatif', 'What if?'], ['guess', 'Guess the team'], ['widgets', 'Widgets']]]
+  tools:['Tools', [['simulate', 'Simulator'], ['h2h', 'Head to head'], ['qualify', 'Who qualifies?'], ['difficulty', 'Fixture difficulty'], /*ENGINE<*/ ['whatif', 'What if?'], /*>ENGINE*/ ['guess', 'Guess the team'], ['widgets', 'Widgets']]]
 };
 const SECTION_ON = {competition:'competitions', qualifying:'competitions', wwc2027:'competitions'};
 function ensureSectionTabs(){
@@ -4432,7 +4889,7 @@ function viewAbout(){
       'results in a rolling window, twelve years by default, and puts a band around every rating: wide for a team the model '+
       'has barely seen, narrow for one it knows well. Everything else on the site is built on those two ideas, from the '+
       'fixture predictions to the tournament simulator.</p>'+
-    '<p>Every number is worked out in your browser from open data, and every choice in the model was tested against real '+
+    '<p>Every number is worked out '+(ENGINE ? 'in your browser ' : '')+'from open data, and every choice in the model was tested against real '+
       'results before it went in. <a href="#/method">How it works</a> explains the model and shows the tests; the '+
       '<a href="#/record">forecast record</a> shows how its predictions have done since.</p>'+
     '<h2>Common questions</h2><dl class="faq faq-grid">'+
@@ -4666,7 +5123,7 @@ function viewRankings(){
       'It looks at goals alone, over every match the team has played, with recent ones counting most. Click either heading to sort; the # stays the ranking. '+
       'The rankings themselves never use it.</details>' : '')+
     (simple ? '' : '<details class="tip"><summary>What the Tier column means</summary>'+
-      (tierView ? 'Each tier is led by its highest-rated team; a team joins it unless the model is at least 90% sure the leader is better. ' : '')+
+      (tierView ? 'Each tier is led by its highest-rated team; a team stays in it unless the model is at least '+TIER_PCT+' sure the leader is really the stronger team (a judgement about the ratings, not the chance of winning one match). ' : '')+
       'The <b>Tier</b> bar shows how likely each team is to belong in each tier, in that tier\'s colour, so it shades into '+
       'the next tier as the team\'s band overlaps it. <span class="talso" style="margin:0">/1</span> beside a team marks another '+
       'tier it has at least a one-in-three chance of belonging to. <a href="#/method" data-goto-method="m-tiers">How tiers work</a></details>')+
@@ -4778,10 +5235,13 @@ function trendData(c, months){
        worked out by the build exactly as below. Any other table works it out here. */
     const day2 = c.lite && state.useTableFiles && t0 >= state.bounds[state.gender].min ? dayFor(state.gender, t0) : null;
     if (c.fromFile && !c.lite && c.all.some(r => r.change24 !== undefined)) prevOf = r => r.change24 === null || r.change24 === undefined ? null : r.rating - r.change24;
-    else if (day2){ const then2 = new Map(day2.F.tables[day2.i].map(x => [day2.F.teams[x[0]], x[1]])); prevOf = r => then2.has(r.key) ? then2.get(r.key) : null; }   // a past date from the files: the table of two years before it
+    else if (day2){ const then2 = new Map(dayRows(day2.F, day2.i, day2.k).map(x => [day2.F.teams[x[0]], x[1]])); prevOf = r => then2.has(r.key) ? then2.get(r.key) : null; }   // a past date from the files: the table of two years before it
+    /*ENGINE<*/
     else { const mp = t0 >= state.bounds[state.gender].min ? runWindow(windowStartFor(t0), t0) : null;
       prevOf = r => { const q = mp ? pub(mp, r.key, t0) : null; return q ? q.r : null; }; }
-  } else prevOf = r => { const s = stateAt(c.history.get(r.key) || [], t0); return s ? s.r : null; };
+    /*>ENGINE*/
+    if (!prevOf) prevOf = () => null;
+  } else prevOf = r => { let e = null; for (const h of c.history.get(r.key) || []){ if (h.ts <= t0) e = h; else break; } return e ? e.rating : null; };   // all time: the rating its last match before then left it with
   const raw = new Map(); c.all.forEach(r => { const p = prevOf(r); if (p !== null) raw.set(r.key, r.rating - p); });
   const ranked = c.table.map(r => raw.get(r.key)).filter(x => x !== undefined).sort((a, b) => a - b);
   const field = ranked.length ? ranked[ranked.length >> 1] : 0;
@@ -4873,6 +5333,7 @@ function trendCell(t, T, withNum){
    ------------------------------------------------------------ */
 const pubCache = {key:null, day:new Map(), team:new Map()};
 function pubReset(){ const k = snapKey(); if (pubCache.key !== k){ pubCache.key = k; pubCache.day = new Map(); pubCache.team = new Map(); } }
+/*ENGINE<*/
 /* Every counted match on one day, played in order from the window that ended the day before. */
 function pubDay(ts){
   pubReset();
@@ -4887,6 +5348,7 @@ function pubDay(ts){
   pubCache.day.set(ts, d);
   return d;
 }
+/*>ENGINE*/
 /* One team's side of a match as published then; base carries the fields that do not depend on the ratings. */
 function pubEntry(base, key){
   if (state.windowYears === 0 || !base.m) return base;
@@ -4897,10 +5359,13 @@ function pubEntry(base, key){
     /* net: the change as closely as the file has it (two decimal places), for totals over several matches. */
     return Object.assign({}, base, {pre, rating:post, rd:r[9 + side]/BAND_Z, oppPre:oPre, oppPost:oPost, delta:(Math.round(post*10) - Math.round(pre*10))/10, net:post - pre,
       exp:side ? 1 - r[11] : r[11], published:true}); }
+  /*ENGINE<*/
   const x = pubDay(base.ts).get(base.m); if (!x) return base;
   const home = x.home === key, me = home ? x.A : x.B, op = home ? x.B : x.A, nMe = home ? x.nA : x.nB, nOp = home ? x.nB : x.nA;
   return Object.assign({}, base, {pre:me.r, rating:nMe.r, rd:nMe.rd, oppPre:op.r, oppPost:nOp.r, delta:nMe.r - me.r,
     exp:home ? x.expHome : 1 - x.expHome, published:true});
+  /*>ENGINE*/
+  return base;
 }
 function publishedHistory(key){
   const h = tableAt().history.get(key) || [];   // tableAt: on a past date in the published copy, the table from the build's files
@@ -4910,6 +5375,7 @@ function publishedHistory(key){
   if (!out){ out = h.map(x => pubEntry(x, key)); pubCache.team.set(key, out); }
   return out;
 }
+/*ENGINE<*/
 function mapsAt(stamps){
   return new Promise(resolve => {
     if (!stamps.length) return resolve([]);
@@ -4922,20 +5388,24 @@ function mapsAt(stamps){
     step();
   });
 }
+/*>ENGINE*/
 const TEAM_DETAIL_YEARS = 2;
 /* One team's points for its chart and its history: the site-wide series plus a point after each of its matches in the
    last two years. Each point: {ts, v:{r, b} or null (rating and band), rk() -> {r, lo} (its rank by rating and by the
    bottom of its band among the ranked teams that day, where it was ranked), match}. From the build's file where the
    series came from one (stage 3); a match day the file does not hold is worked out here. */
 function teamPoints(snaps, key, extra, maps){
+  /*ENGINE<*/
   const fromState = (mp, ts, match) => ({ts, match, v:statePt(mp, key, ts),
     rk:() => { if (!mp) return {}; const R = ranksIn(mp, ts); return {r:R.byR.get(key), lo:R.byLo.get(key)}; }});
+  /*>ENGINE*/
+  /*ENGINE-OFF: const fromState = () => null; :ENGINE-OFF*/
   const fromRow = (x, ts, match) => ({ts, match, v:x ? {r:x[1], b:x[2]} : null, rk:() => x ? {r:x[3] || undefined, lo:x[4] || undefined} : {}});
   const S = new Map();
   snaps.stamps.forEach((t, i) => S.set(t, snaps.rows ? fromRow(snaps.rows[i].get(key), t, false) : fromState(snaps.maps[i], t, false)));
   extra.forEach((t, i) => { const x = snaps.recent && snaps.recent.get(t) && snaps.recent.get(t).get(key);
     S.set(t, x ? fromRow(x, t, true) : fromState(maps[i], t, true)); });
-  return [...S.values()].sort((a, b) => a.ts - b.ts);
+  return [...S.values()].filter(p => p).sort((a, b) => a.ts - b.ts);   // a point the files do not hold is left out (only without the engine)
 }
 function teamSnapshots(key){
   const k = snapKey()+'|'+key+'|'+(state.useTableFiles ? state.maxBand : 0);
@@ -4946,8 +5416,11 @@ function teamSnapshots(key){
     if (!snaps) return null;
     /* Only the match days the file does not hold need the model (none, when the file is the one for this match list). */
     const need = extra.map(t => !(snaps.recent && snaps.recent.get(t) && snaps.recent.get(t).get(key)));
-    return mapsAt(extra.filter((t, i) => need[i])).then(got => { let n = 0; const maps = extra.map((t, i) => need[i] ? got[n++] : null);
+    /*ENGINE<*/
+    if (ENGINE) return mapsAt(extra.filter((t, i) => need[i])).then(got => { let n = 0; const maps = extra.map((t, i) => need[i] ? got[n++] : null);
       return {key:snaps.key, pts:teamPoints(snaps, key, extra, maps), past:!!snaps.past}; });
+    /*>ENGINE*/
+    return {key:snaps.key, pts:teamPoints(snaps, key, extra, extra.map(() => null)), past:!!snaps.past};
   });
   state.teamSnap = {key:k, promise};
   return promise;
@@ -4977,6 +5450,7 @@ function teamChartLater(key, team){
    the window (what the Rankings page showed at the time, from the published ratings) and all time (one continuous
    run through every match, as on Records).
    ------------------------------------------------------------ */
+/*ENGINE<*/
 /* Ranks of every team in a state on a date: by rating and by the bottom of the band, among the teams that would be
    ranked (band within the limit). */
 function ranksIn(mp, ts){
@@ -4988,40 +5462,58 @@ function ranksIn(mp, ts){
   arr.sort((a, b) => b.lo - a.lo).forEach((x, i) => byLo.set(x.k, i + 1));
   return {byR, byLo};
 }
+/*>ENGINE*/
 const RANK_MIN_TEAMS = 50;
 /* All time: one pass through the archive up to the as-of date, with every team's ranks at the start of each month. */
 function histAll(g){
-  const key = [g, state.historicalNames, state.maxBand, state.asOf, HOME_VER].join('|');
+  const key = [g, state.historicalNames, state.maxBand, state.asOf, HOME_VER, state.histDaily ? 'd' : ''].join('|');
   state.histAllCache = state.histAllCache || {};
   if (state.histAllCache[key]) return state.histAllCache[key];
   /* Stage 3: in the published copy, at the site's settings, the figures come from the build's file (today's, or a past
      date's: the file holds every record in the order it was set). */
-  if (state.useTableFiles && state.historicalNames === DEFAULTS.historicalNames && state.comps.size === COMP_ORDER.length && state.histFiles[g]){
+  if (state.useTableFiles && state.comps.size === COMP_ORDER.length && state.histFiles[g]){
     /* Another band limit: that limit's best ranks come from the ranks file beside it (old ranks follow the filter). */
     const alt = state.maxBand !== DEFAULTS.maxBand, RF = alt ? state.histRankFiles[g] : null;
     if (!alt || RF){ const H = histFromFile(g, state.histFiles[g], RF); if (H) return state.histAllCache[key] = H; if (!alt) state.histFiles[g] = null; } }
+  /*ENGINE<*/
   const saved = state.gender; state.gender = g;
-  const ms = state.matches[g], st = newState(-Infinity), items = new Map(), peak = new Map(), best = new Map(), peaks = new Map(), ao = state.asOf;
+  const ms = state.matches[g], st = newState(-Infinity), items = new Map(), peak = new Map(), peaks = new Map(), ao = state.asOf;
   const add = (k, it) => { let a = items.get(k); if (!a) items.set(k, a = []); a.push(it); };
-  const d0 = new Date(state.bounds[g].min); let next = Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1);
-  const snap = ts => { const R = ranksIn(st, ts);
-    if (R.byR.size < RANK_MIN_TEAMS) return;   // a rank among a handful of teams says little
-    for (const [k, n] of R.byR){ let B = best.get(k); if (!B){ B = {rs:[], los:[]}; best.set(k, B); } if (!B.r || n < B.r.n){ B.r = {n, ts}; B.rs.push(B.r); } }
-    for (const [k, n] of R.byLo){ const B = best.get(k); if (!B.lo || n < B.lo.n){ B.lo = {n, ts}; B.los.push(B.lo); } } };
+  /* The ranks are looked at on the first of every month and on the date in view. The build looks every day instead
+     (state.histDaily; Seb, 13 Nov 2026: best ranks to the day), under every band limit in one pass, and takes each
+     team's peak rating on any day, not only after its matches; a look a day would take the page too long. */
+  const daily = !!state.histDaily, BL = daily ? [...new Set(BAND_OPTIONS.concat([state.maxBand]))] : [state.maxBand], sets = BL.map(() => new Map()), lastNm = new Map();
+  const sets0 = daily ? BL.map(() => new Map()) : null;   // the same without the minimum number of ranked teams: a team's History with the window set to "all time" has no such rule
+  const d0 = new Date(state.bounds[g].min); let next = daily ? state.bounds[g].min + DAY : Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1);
+  const after = t => { if (daily) return t + DAY; const d = new Date(t); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1); };
+  const snap = ts => { const ref = poolRef(st, ts), rows = [];
+    for (const k of st.keys()){ const p = pub(st, k, ts); if (!p) continue; const band = BAND_Z*rankRd(p, ref); rows.push({k, r:p.r, lo:p.r - band, band}); }
+    const byR = rows.slice().sort((a, b) => b.r - a.r), byLo = byR.slice().sort((a, b) => b.lo - a.lo);   // the order ranksIn gives
+    BL.forEach((lim, bi) => { const inB = x => !(lim > 0 && x.band > lim), A = byR.filter(inB), L = byLo.filter(inB);
+      const upd = best => { A.forEach((x, i) => { let B = best.get(x.k); if (!B){ B = {rs:[], los:[]}; best.set(x.k, B); } if (!B.r || i + 1 < B.r.n){ B.r = {n:i + 1, ts}; B.rs.push(B.r); } });
+        L.forEach((x, i) => { const B = best.get(x.k); if (!B.lo || i + 1 < B.lo.n){ B.lo = {n:i + 1, ts}; B.los.push(B.lo); } }); };
+      if (sets0) upd(sets0[bi]);
+      if (A.length >= RANK_MIN_TEAMS) upd(sets[bi]); });   // a rank among a handful of teams says little
+    if (daily) for (const x of rows){ const pk = peak.get(x.k); if (!pk || x.r > pk.r){ const v = {r:x.r, band:x.band, ts, nm:lastNm.get(x.k)}; peak.set(x.k, v); let a = peaks.get(x.k); if (!a) peaks.set(x.k, a = []); a.push(v); } } };
   for (const m of ms){
     if (m.ts > ao) break;
-    while (m.ts > next){ snap(next); const d = new Date(next); next = Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1); }
+    while (m.ts > next){ snap(next); next = after(next); }
     if (!includeMatch(m)) continue;
     const x = applyMatch(st, m, true), ref = poolRef(st, m.ts), P = probsFromE(x.expHome);
     add(x.home, {ts:m.ts, m, gf:m.hs, ga:m.as, p:P.home, q:P.away, opp:m._an, nm:m._hn, known:x.A.rd < 100 && x.B.rd < 100});
     add(x.away, {ts:m.ts, m, gf:m.as, ga:m.hs, p:P.away, q:P.home, opp:m._hn, nm:m._an, known:x.A.rd < 100 && x.B.rd < 100});
-    for (const [k, nm] of [[x.home, m._hn], [x.away, m._an]]){ const p = pub(st, k, m.ts); if (!p) continue;
+    for (const [k, nm] of [[x.home, m._hn], [x.away, m._an]]){ lastNm.set(k, nm); const p = pub(st, k, m.ts); if (!p) continue;
       const pk = peak.get(k); if (!pk || p.r > pk.r){ const v = {r:p.r, band:BAND_Z*rankRd(p, ref), ts:m.ts, nm}; peak.set(k, v); let a = peaks.get(k); if (!a) peaks.set(k, a = []); a.push(v); } }
   }
+  if (daily) while (next < ao){ snap(next); next = after(next); }   // the days since the last match
   snap(ao);
   state.gender = saved;
-  return state.histAllCache[key] = {items, peak, best, peaks};   // peaks, and rs and los on each best: every record in the order it was set (for the build's file)
+  const best = sets[BL.indexOf(state.maxBand)];
+  return state.histAllCache[key] = {items, peak, best, peaks, bestBy:daily ? new Map(BL.map((b, i) => [b, sets[i]])) : null, bestBy0:daily ? new Map(BL.map((b, i) => [b, sets0[i]])) : null};   // peaks, and rs and los on each best: every record in the order it was set (for the build's file)
+  /*>ENGINE*/
+  return {items:new Map(), peak:new Map(), best:new Map(), peaks:new Map(), bestBy:null, bestBy0:null, missing:true};   // no engine and no file: nothing to show
 }
+/*ENGINE<*/
 /* The all-time history as a file, and back (stage 3). For each team, every record in the order it was set: its best rank
    by rating and by the bottom of its band with their dates, its peak, and its biggest upsets (the win it was given
    least chance of, the defeat it was least expected to suffer) with the chance. Everything else in the history (biggest results, runs, first match) comes
@@ -5037,18 +5529,22 @@ function histToFile(g, H){
       upW.map(x => [x[0], x[1]]), upL.map(x => [x[0], x[1]])]; }
   return {v:2, g, asOf:state.asOf, print:matchListPrint(ms), names, teams};
 }
+/*>ENGINE*/
 /* For the date in view, which may be any date up to the file's own: each list is in the order its records were set, so
    the last entry on or before the date is the record as it stood then. On a past date the best ranks are taken from
    the first of each month up to it; the page working it out itself also looks at the date itself. */
+/*ENGINE<*/
 /* Every team's best ranks, in the order they were set, under each band limit in BAND_OPTIONS' order: the replay is
    run once a limit (the build's job). teams[k] = [[records by rating, records by the bottom of the band], ... six]. */
-function histRanksToFile(g){
+function histRanksToFile(g, noMin){   // noMin (the build's daily pass only): without the minimum number of ranked teams, for the "all time" window (histWindowBest)
   const saved = state.maxBand, teams = {};
-  BAND_OPTIONS.forEach((b, bi) => { state.maxBand = b; const H = histAll(g);
+  const one = state.histDaily ? histAll(g) : null;   // the build's daily pass holds every band limit at once
+  BAND_OPTIONS.forEach((b, bi) => { state.maxBand = b; const H = one ? {best:(noMin ? one.bestBy0 : one.bestBy).get(b)} : histAll(g);
     for (const [k, B] of H.best){ if (!teams[k]) teams[k] = BAND_OPTIONS.map(() => [[], []]); teams[k][bi] = [(B.rs || []).map(x => [x.n, x.ts]), (B.los || []).map(x => [x.n, x.ts])]; } });
   state.maxBand = saved;
   return {v:1, g, asOf:state.asOf, print:matchListPrint(state.matches[g]), bands:BAND_OPTIONS, teams};
 }
+/*>ENGINE*/
 function histFromFile(g, F, RF){
   const ms = state.matches[g], ao = state.asOf;
   if (!F || F.v !== 2 || F.g !== g || ao > F.asOf || F.print !== matchListPrint(ms)) return null;
@@ -5065,7 +5561,7 @@ function histFromFile(g, F, RF){
     const rk = RF ? (RF.teams[k] ? RF.teams[k][bi] : [[], []]) : t;   // the band limit's own records, or the site's
     const r = lastBy(rk[0], x => x[1]), lo = lastBy(rk[1], x => x[1]), P = lastBy(t[2], x => x[2]);
     if (r || lo){ const B = {}; if (r) B.r = {n:r[0], ts:r[1]}; if (lo) B.lo = {n:lo[0], ts:lo[1]}; best.set(k, B); }
-    if (P) peak.set(k, {r:P[0], band:P[1], ts:P[2], nm:F.names[P[3]]});
+    if (P) peak.set(k, {r:P[0], band:P[1], ts:P[2], nm:fileName(k, F.names[P[3]])});
     for (const [list, f] of [[t[3], 'p'], [t[4], 'q']]){ const u = lastBy(list, x => ms[x[0]] ? ms[x[0]].ts : Infinity); if (!u) continue;
       const m = ms[u[0]], pair = m && at.get(m), it = pair ? (m._h === k ? pair[0] : m._a === k ? pair[1] : null) : null;
       if (!it) return null; it.known = true; it[f] = u[1]; }
@@ -5148,7 +5644,9 @@ function teamHistoryData(key, mode){
   };
   if (all) return new Promise(res => setTimeout(() => {
     const H = histAll(state.gender), B = H.best.get(key) || {};
-    res(done({r:B.r || null, lo:B.lo || null}, H.peak.get(key) || null, H.items.get(key) || [], -Infinity));
+    { const how = document.getElementById('histAllHow'); if (how && H.fromFile) how.textContent = 'on every day'; }   // the build's file looks every day
+    const S = done({r:B.r || null, lo:B.lo || null}, H.peak.get(key) || null, H.items.get(key) || [], -Infinity); if (H.fromFile) S.daily = true;
+    res(S);
   }, 20));
   const items = publishedHistory(key).map(x => { const P = probsFromE(x.exp);
     return {ts:x.ts, m:x.m, gf:x.gf, ga:x.ga, p:P.home, q:P.away, opp:x.oppName, nm:x.name, known:true}; });
@@ -5164,6 +5662,12 @@ function teamHistoryData(key, mode){
     { const st = document.getElementById('histStep'); if (st && T.past) st.textContent = 'at the start of every quarter'; }   // a past date read from the build's long series
     return done({r, lo}, peak, items, c.windowStart);
   });
+  /* With the window set to "all time" the window is the whole archive: the all-time records, which the build's file
+     holds to the day. */
+  if (state.useTableFiles && state.windowYears === 0 && state.histFiles[state.gender]){ const H = histAll(state.gender);
+    const B = H.fromFile ? histWindowBest(state.gender, key) : null; if (!B) return sampled();
+    const how = document.getElementById('histHow'); if (how) how.textContent = 'the best on any day on record';
+    return Promise.resolve(done({r:B.r, lo:B.lo}, H.peak.get(key) || null, items, c.windowStart)); }
   if (!(state.useTableFiles && baseSettings() && BAND_OPTIONS.includes(state.maxBand))) return sampled();
   const ao = state.asOf;
   return loadBest(state.gender, key).then(F => { const X = state.asOf === ao ? bestAt(F, key, ao) : null; if (!X) return sampled();
@@ -5192,7 +5696,8 @@ function historyLines(D, html){
     const yrs = (n > 5 ? 'most recently ' : '')+shown.map(edLink).join(', ');
     const v = f.label === 'Champions' ? (n === 1 ? 'Champions once' : 'Champions '+n+' times') : (n === 1 ? f.label : f.label+', '+n+' times');
     return {k, v, s:yrs+' · '+apps}; };
-  const when = ts => D.mode === 'all' ? 'first in '+(html ? '<a href="'+rankDayHref(ts)+'">'+monYear(ts)+'</a>' : monYear(ts)) : 'first on '+day(ts);
+  /* All time: the page's own replay looks at month starts, so it names the month; the build's file looks every day (D.daily) and names the day. */
+  const when = ts => D.mode === 'all' && !D.daily ? 'first in '+(html ? '<a href="'+rankDayHref(ts)+'">'+monYear(ts)+'</a>' : monYear(ts)) : 'first on '+(D.mode === 'all' && html ? '<a href="'+rankDayHref(ts)+'">'+day(ts)+'</a>' : day(ts));
   if (D.ranks.r) L.push({k:'Best rank', v:'#'+D.ranks.r.n, s:when(D.ranks.r.ts)});
   if (D.ranks.lo && html) L.push({k:'Best rank, cautious order', v:'#'+D.ranks.lo.n, s:'by the bottom of its band, '+when(D.ranks.lo.ts)});
   if (D.peak) L.push({k:'Peak rating', v:fmtR(D.peak.r), s:(html ? '&plusmn;'+Math.round(D.peak.band)+', ' : '')+day(D.peak.ts)});
@@ -5207,27 +5712,34 @@ function historyLines(D, html){
   if (D.first) L.push({k:'First match on record', v:sc(D.first), s:'v '+opp(D.first)+' · '+fmtDay(D.first.ts)+' · '+comp(D.first)});
   return L;
 }
+/* Which History is in view: all time unless the link asks for the window (hv=win). All time is what "biggest win" and
+   "best rank" are taken to mean (Seb, 13 Nov 2026: the Netherlands' 8-0 over Malta, their biggest win of the last
+   twelve years, read as their biggest ever, which is 11-0). Until then the window was shown first. */
+const histMode = () => state.params.hv === 'win' ? 'win' : 'all';
 function historySection(key){
-  const mode = state.params.hv === 'all' ? 'all' : 'win';
+  const mode = histMode();
   const winTxt = state.windowYears > 0 ? 'Last '+state.windowYears+' years' : 'Whole window';
   return '<div class="panel" style="margin-bottom:20px;" id="teamHist"><div class="panel-head">History<span class="aside">'+
-      '<span class="chips hv-chips" id="hvChips"><button class="chip'+(mode === 'win' ? ' on' : '')+'" data-hv="win">'+winTxt+'</button>'+
-      '<button class="chip'+(mode === 'all' ? ' on' : '')+'" data-hv="all">All time</button></span></span></div>'+
+      '<span class="chips hv-chips" id="hvChips"><button class="chip'+(mode === 'all' ? ' on' : '')+'" data-hv="all">All time</button>'+
+      '<button class="chip'+(mode === 'win' ? ' on' : '')+'" data-hv="win">'+winTxt+'</button></span></span></div>'+
     '<div class="panel-body"><div class="hist-body" id="histBody"><p class="muted">Working out the history&hellip;</p></div>'+
     '<p class="chart-note">'+(mode === 'all'
-      ? '<b>All time</b>: one continuous run through every match on record, as on the Records page, so the numbers can differ a little from the rest of the site. Ranks are checked at the start of every month, once at least '+RANK_MIN_TEAMS+' teams were ranked.'
+      ? '<b>All time</b>: one continuous run through every match on record, as on the Records page, so the numbers can differ a little from the rest of the site. Ranks are checked <span id="histAllHow">at the start of every month</span>, once at least '+RANK_MIN_TEAMS+' teams were ranked.'
       : '<b>'+winTxt+'</b>: what the site showed at the time, from the published rating on each date (<span id="histHow">checked <span id="histStep">every four months</span>, and after each match in the last two years</span>). Results and runs count matches inside the window.')+
       ' Tournament records are all time in both views. Upsets count only matches where the model knew both sides well. Names and flags as they were at the time.'+
+      ' Biggest results and runs are counted over the matches in Formline&rsquo;s archive. It leaves out Olympic matches after 1928 and games against amateur or B teams, and keeps a few matches some federations do not count, so a federation&rsquo;s own record book can differ now and then.'+
       ' <a href="#/team/'+enc(dn(key))+(filterQuery({g:state.gender === 'men' ? 'women' : undefined}) ? '?'+filterQuery({g:state.gender === 'men' ? 'women' : undefined}) : '')+'">'+
         esc(dn(key))+(state.gender === 'men' ? '\'s women\'s team' : '\'s men\'s team')+' &rarr;</a></p></div></div>';
 }
 function fillHistory(key){
-  const gen = state.renderGen, mode = state.params.hv === 'all' ? 'all' : 'win';
+  const gen = state.renderGen, mode = histMode();
   teamHistoryData(key, mode).then(D => {
     const box = document.getElementById('histBody');
     if (!D || gen !== state.renderGen || !box) return;
     const L = historyLines(D, true);
-    box.innerHTML = L.length ? '<dl class="hist-list">'+L.map(x => '<div><dt>'+x.k+'</dt><dd><b>'+x.v+'</b><span>'+x.s+'</span></dd></div>').join('')+'</dl>'
+    /* the window's records say so above the list: a biggest win of the last twelve years is not the biggest ever */
+    const scope = mode === 'win' && L.length ? '<p class="hist-scope">From '+(state.windowYears > 0 ? 'the last '+state.windowYears+' years' : 'the window')+' only. The biggest results, runs and best rank of all time are under <b>All time</b>.</p>' : '';
+    box.innerHTML = L.length ? scope+'<dl class="hist-list">'+L.map(x => '<div><dt>'+x.k+'</dt><dd><b>'+x.v+'</b><span>'+x.s+'</span></dd></div>').join('')+'</dl>'
       : '<p class="muted">Nothing on record yet.</p>';
   });
 }
@@ -5399,7 +5911,7 @@ function viewTeam(){
     '</div>';
 
   bindCombo('teamPick', pickRows, key);
-  document.querySelectorAll('#hvChips [data-hv]').forEach(b => b.addEventListener('click', () => go({hv:b.dataset.hv === 'all' ? 'all' : undefined, rk:state.params.rk})));
+  document.querySelectorAll('#hvChips [data-hv]').forEach(b => b.addEventListener('click', () => go({hv:b.dataset.hv === 'win' ? 'win' : undefined, rk:state.params.rk})));
   document.querySelectorAll('#rkChips [data-rk]').forEach(b => b.addEventListener('click', () => go({rk:b.dataset.rk === 'conf' ? 'conf' : undefined, hv:state.params.hv})));
   fillHistory(key);
   document.querySelectorAll('.tm-list').forEach(l => { const m = l.querySelector('.me'); if (m) l.scrollTop = Math.max(0, m.offsetTop - l.offsetTop - l.clientHeight/2 + m.offsetHeight/2); });
@@ -6096,9 +6608,19 @@ function lmState(ts){
   if (lmCache[key]) return lmCache[key];
   const F = fcFileFor(g, ts);
   if (F) return lmCache[key] = new Map(F.lm.map(x => [x[0], {r:x[1], rdOwn:x[2], w:x[3], pool:x[4]}]));
+  /* A past date in the published copy (the Simulator winding back to the eve of a tournament already played): that
+     day's all-time table, its bands split back into each team's own doubt and its confederation's (as tableFromDay does). */
+  { const hit = state.useTableFiles && ts < state.bounds[g].max ? dayFor(g, ts, true) : null;
+    if (hit && hit.exact){ const PW = dayPw(hit.F, hit.i, hit.k), ref = PW[0], wOf = new Map(PW.slice(1)), out = new Map();
+      for (const x of dayRows(hit.F, hit.i, hit.k)){ const k = hit.F.teams[x[0]], pool = poolOf(k, ts), rd = x[2]/BAND_Z, w = wOf.has(pool) ? wOf.get(pool) : 0;
+        out.set(k, {r:x[1], rdOwn:Math.sqrt(Math.max(0, rd*rd - (x[6] ? RD_MAX*RD_MAX : 0) - Math.max(0, w - ref))), w, pool}); }
+      return lmCache[key] = out; } }
+  /*ENGINE<*/
   const st = runWindow(state.bounds[g].min, ts), out = new Map();
   for (const k of st.keys()){ const x = pub(st, k, ts); if (x) out.set(k, {r:x.r, rdOwn:x.rdOwn, w:x.w, pool:x.pool}); }
   return lmCache[key] = out;
+  /*>ENGINE*/
+  return new Map();
 }
 function lmTable(ts){
   const g = state.gender; if (ts === undefined) ts = state.asOf;
@@ -6117,6 +6639,7 @@ function longMemory(ka, kb, h){
   const rd = (x, y) => x.pool === y.pool ? x.rdOwn : Math.sqrt(x.rdOwn*x.rdOwn + x.w);
   return {a:A, b:B, E:predictE({r:A.r, rd:rd(A, B)}, {r:B.r, rd:rd(B, A)}, h)};
 }
+/*ENGINE<*/
 /* Stage 4: what today's forecasts are made from, as a file and back. The build works out the three things that need
    the rating engine or a run through the archive, and the page turns them into chances as before:
    lm: every team in the all-time table (rating, its own uncertainty, its confederation's, the confederation);
@@ -6128,13 +6651,47 @@ function fcToFile(g, fixtures){
   const saved = state.gender; state.gender = g;
   const n6 = x => Math.round(x*1e6)/1e6, ts = state.asOf, G = goalsModel(g, ts), c = getRatings(), stakes = {};
   for (const fx of fixtures || []){ const q = stakeQuery(c, fx); if (!q) continue;
-    const st = ratingStakes(c, q.ka, q.kb, q.neutral, q.k); if (st) stakes[q.id] = st.map(x => [n6(x.da), n6(x.db)]); }
+    const st = ratingStakes(c, q.ka, q.kb, q.neutral, q.kind); if (st) stakes[q.id] = st.map(x => [n6(x.da), n6(x.db)]); }
+  /* the same under "all time", for a team page's next match with the window set that way */
+  const stakes0 = {}, w = state.windowYears; state.windowYears = 0;
+  { const c0 = getRatings(); for (const fx of fixtures || []){ const q = stakeQuery(c0, fx); if (!q) continue;
+      const st = ratingStakes(c0, q.ka, q.kb, q.neutral, q.kind); if (st) stakes0[q.id] = st.map(x => [n6(x.da), n6(x.db)]); } }
+  state.windowYears = w;
   const F = {v:1, g, asOf:ts, print:matchListPrint(state.matches[g]), lm:[...lmState(ts)].map(([k, x]) => [k, x.r, x.rdOwn, x.w, x.pool]),
-    mu:G ? G.mu : null, gm:G ? [...G.att.keys()].map(k => [k, G.att.get(k), G.def.get(k), G.nm.get(k)]) : [], stakes};
+    mu:G ? G.mu : null, gm:G ? [...G.att.keys()].map(k => [k, G.att.get(k), G.def.get(k), G.nm.get(k)]) : [], stakes, stakes0};
   state.gender = saved; return F;
 }
+/*>ENGINE*/
+/*ENGINE<*/
+/* The Predictor's panel "what this result would do to both ratings" is the rating engine itself, so once the engine is
+   off the page it shows for matches on the fixture list only (Seb, 12 Nov 2026). The build works it out for every
+   listed pairing in each venue the Predictor offers (either side at home, neutral ground) and each kind of match it
+   offers, and for the pairing the page opens on (the top two), under the usual window and under all time. */
+const predKs = () => PRED_TYPES.map(x => x[0]);   // the kinds of match the Predictor offers
+/*>ENGINE*/
+/*ENGINE<*/
+function stakesToFile(g, fixtures){
+  const saved = {g:state.gender, w:state.windowYears}; state.gender = g;
+  const n6 = x => Math.round(x*1e6)/1e6, F = {v:1, g, asOf:state.asOf, print:matchListPrint(state.matches[g]), win:{}, all:{}}, ks = predKs();
+  for (const [name, w] of [['win', DEFAULTS.windowYears], ['all', 0]]){
+    state.windowYears = w; const c = getRatings(), top = c.table.length >= 2 ? c.table : c.all, pairs = [];
+    for (const fx of fixtures || []){ const q = stakeQuery(c, fx); if (q) pairs.push([q.ka, q.kb, q.kind]); }
+    if (top.length >= 2) pairs.push([top[0].key, top[1].key, null]);
+    for (const [ka, kb, k0] of pairs)
+      for (const [a, b, nt] of [[ka, kb, false], [kb, ka, false], ka < kb ? [ka, kb, true] : [kb, ka, true]])   // neutral ground is kept one way round
+        for (const k of new Set(k0 === null ? ks : ks.concat([k0]))){ const id = stakeId(a, b, nt, k); if (F[name][id]) continue;
+          const st = ratingStakes(c, a, b, nt, k); if (st) F[name][id] = st.map(x => [n6(x.da), n6(x.db)]); } }
+  state.gender = saved.g; state.windowYears = saved.w; return F;
+}
+/*>ENGINE*/
+function stakesFileFor(g){
+  const F = state.stakeFiles[g]; if (!F || typeof F.then === 'function') return null;
+  if (F.v !== 1 || F.g !== g || F.asOf !== state.asOf || F.asOf !== state.bounds[g].max) return null;
+  if (F._ok === undefined) F._ok = F.print === matchListPrint(state.matches[g]);
+  return F._ok ? F : null;
+}
 function fcFileFor(g, ts){
-  if (!state.useTableFiles || state.historicalNames !== DEFAULTS.historicalNames || state.comps.size !== COMP_ORDER.length) return null;
+  if (!state.useTableFiles || state.comps.size !== COMP_ORDER.length) return null;
   const F = state.fcFiles[g]; if (!F) return null;
   if (F.v !== 1 || F.g !== g || F.asOf !== ts || ts !== state.bounds[g].max) return null;
   if (F._ok === undefined) F._ok = F.print === matchListPrint(state.matches[g]);
@@ -6142,13 +6699,14 @@ function fcFileFor(g, ts){
 }
 /* The question ratingStakes is asked for a listed fixture, as the next-match card asks it. */
 const STAKE_SCORES = [[3, 0], [1, 0], [1, 1], [0, 1], [0, 3]];
-const stakeId = (ka, kb, neutral, k) => ka+'|'+kb+'|'+(neutral ? 1 : 0)+'|'+k;
+const stakeId = (ka, kb, neutral, kind) => ka+'|'+kb+'|'+(neutral ? 1 : 0)+'|'+kind;   // kind: the match's category (friendly, wcq, wc...); its weight stays with the engine
+/*ENGINE<*/
 function stakeQuery(c, fx){
   const f = fixturePrediction(c, fx); if (!f.p) return null;
   const ts = Date.parse(fx.date+'T00:00:00Z'), cat = categorize(fx.tournament, ts, state.gender);
-  const k = cat === 'friendly' ? friendlyK(state.gender, ts) : (COMPS[cat] && COMPS[cat].k) || 30;
-  return {f, ka:f.rh.key, kb:f.ra.key, neutral:!f.side, k, id:stakeId(f.rh.key, f.ra.key, !f.side, k)};
+  return {f, ka:f.rh.key, kb:f.ra.key, neutral:!f.side, kind:cat, id:stakeId(f.rh.key, f.ra.key, !f.side, cat)};
 }
+/*>ENGINE*/
 const blendE = (e1, e2) => { const lg = e => Math.log(e/(1-e)), cl = e => Math.min(Math.max(e, 1e-9), 1-1e-9);
   return 1/(1 + Math.exp(-(LM_WEIGHT*lg(cl(e1)) + (1-LM_WEIGHT)*lg(cl(e2))))); };
 /* ---------- Goals model ----------
@@ -6173,8 +6731,9 @@ function goalsModel(g, ts, rec){
   if (Object.keys(gmCache).length > 60) gmCache = {};
   /* Stage 4: today's figures come from the build's file in the published copy. */
   if (!rec){ const F = fcFileFor(g, ts); if (F && F.mu !== null) return gmCache[key] = {g, P:GM[g], att:new Map(F.gm.map(x => [x[0], x[1]])), def:new Map(F.gm.map(x => [x[0], x[2]])),
-      nm:new Map(F.gm.map(x => [x[0], x[3]])), mu:F.mu, fromFile:true};
+      nm:new Map(F.gm.map(x => [x[0], fileName(x[0], x[3])])), mu:F.mu, fromFile:true};
     const G = goalsFromYear(g, ts); if (G) return gmCache[key] = G; }   // a past date: the year's file
+  /*ENGINE<*/
   const P = GM[g], att = new Map(), def = new Map(), nm = new Map(), conf = new Map();
   let mu = 0.15;
   const init = t => { if (att.has(t)) return;
@@ -6198,6 +6757,8 @@ function goalsModel(g, ts, rec){
   }
   if (rec) return {g, P, att, def, nm, mu};
   return gmCache[key] = {g, P, att, def, nm, mu};
+  /*>ENGINE*/
+  return null;
 }
 /* The goals figures as year files, and back (stage 4, for past dates). One run through the archive: each year's file
    holds every team's [attack, defence, matches counted] as the year began with the level mu, and for each match of the
@@ -6207,6 +6768,7 @@ function goalsModel(g, ts, rec){
 const listPrintTo = (ms, ts) => { let h = 2166136261; const add = v => { h ^= v; h = Math.imul(h, 16777619) >>> 0; };
   for (let i = 0; i < ms.length && ms[i].ts <= ts; i++){ const m = ms[i]; add(m.ts/DAY | 0); add(m.hs); add(m.as); add(m.home.length*31 + m.away.length); }
   return h; };
+/*ENGINE<*/
 function goalsYearFiles(g){
   const n6 = x => Math.round(x*1e6)/1e6, ms = state.matches[g], B = state.bounds[g], out = {}, y0 = new Date(B.min).getUTCFullYear(), y1 = new Date(B.max).getUTCFullYear();
   /* a running copy of the figures as they stood before the match in hand: the recorder is told them after each match */
@@ -6222,6 +6784,7 @@ function goalsYearFiles(g){
   while (cur < y1){ cur++; open(cur); }
   return out;
 }
+/*>ENGINE*/
 function goalsFromYear(g, ts){
   const B = state.bounds[g]; if (!state.useTableFiles || !B || ts >= B.max) return null;
   const y = new Date(ts).getUTCFullYear(), F = state.goalFiles[g+'|'+y]; if (!F || F.v !== 1 || F.g !== g || F.year !== y || F.mu0 === null) return null;
@@ -6291,6 +6854,7 @@ function predCard(c, row, ts, label){
 const PRED_TYPES = [['friendly', 'Friendly'], ['wcq', 'Qualifier'], ['nl', 'Nations League'], ['cont', 'Continental finals'], ['wc', 'World Cup']];
 /* Dream matches: each side as it stood at the end of a chosen year, rated at the site's default settings. */
 const dreamCache = new Map();
+/*ENGINE<*/
 /* The era comparer's tables as a file, and back (stage 4): for every year, each team with a match in the window as the
    table had it on the year's last day: name then, rating, band, rank, tier and confederation. The page adds each
    side's last five results from the match list. Rating and band keep two decimal places (each nudged where
@@ -6301,6 +6865,7 @@ function yearEndsToFile(g, years){
   return {v:1, g, print:matchListPrint(state.matches[g]), names,
     years:years.map(y => [y, dreamTeams(y).rows.map(r => [r.key, nm(r.team), keep(r.rating), keep(r.band), r.rank || 0, r.tier || 0, r.pool, r.conf === r.pool ? 0 : r.conf])])};
 }
+/*>ENGINE*/
 function yearEndRows(g, year, ts){
   if (!state.useTableFiles) return null;
   const F = state.yeFiles[g]; if (!F || F.v !== 1 || F.g !== g) return null;
@@ -6374,8 +6939,7 @@ function viewPredict(){
   const recTxt = met.n ? esc(dn(a))+' '+met.a+' win'+(met.a === 1 ? '' : 's')+', '+met.d+' draw'+(met.d === 1 ? '' : 's')+', '+esc(dn(b))+' '+met.b+' win'+(met.b === 1 ? '' : 's')+
     ' in '+met.n+' meeting'+(met.n === 1 ? '' : 's') : '';
   /* What the match would do to both ratings, for the chosen kind of match. */
-  const K = mt === 'friendly' ? friendlyK(g, state.asOf) : COMPS[mt].k;
-  const stake = ratingStakes(c, rowA.key, rowB.key, neutral, K);
+  const stake = ratingStakes(c, rowA.key, rowB.key, neutral, mt);
   const sg = x => Math.abs(x) < 0.05 ? '0.0' : (x > 0 ? '+' : '&minus;')+Math.abs(x).toFixed(1);
   const cl = v => Math.abs(v) < 0.05 ? 'muted' : v > 0 ? 'up' : 'down';
   const stakePanel = stake ? '<div class="pred-stakes">'+[[1, esc(dn(a))+' win 1&ndash;0'], [2, 'Draw 1&ndash;1'], [3, esc(dn(b))+' win 1&ndash;0']].map(([i, lab]) =>
@@ -6508,19 +7072,28 @@ function viewDream(){
 
 
 /* The Predict page's workings, step by step, in plain words, with what the match would do to both ratings. */
-function ratingStakes(c, ka, kb, neutral, k){
+function ratingStakes(c, ka, kb, neutral, kind){
   /* Stage 4: for a listed fixture the build has worked these out (published copy, today). */
-  { const F = c.fromFile && !c.lite && baseSettings() ? fcFileFor(state.gender, state.asOf) : null, S = F && F.stakes[stakeId(ka, kb, neutral, k)];
-    if (S) return S.map((x, i) => ({hs:STAKE_SCORES[i][0], as:STAKE_SCORES[i][1], da:x[0], db:x[1]})); }
+  { const w = state.windowYears, ok = c.fromFile && !c.lite && state.comps.size === COMP_ORDER.length && (w === DEFAULTS.windowYears || w === 0);
+    const F = ok ? fcFileFor(state.gender, state.asOf) : null, rd = S => S.map((x, i) => ({hs:STAKE_SCORES[i][0], as:STAKE_SCORES[i][1], da:x[0], db:x[1]}));
+    let S = F && (w === 0 ? F.stakes0 || {} : F.stakes)[stakeId(ka, kb, neutral, kind)];
+    if (S) return rd(S);
+    const X = ok ? stakesFileFor(state.gender) : null, T = X && (w === 0 ? X.all : X.win);
+    if (T){ if ((S = T[stakeId(ka, kb, neutral, kind)])) return rd(S);
+      /* neutral ground is kept one way round: the same match with the two sides named the other way */
+      if (neutral && (S = T[stakeId(kb, ka, true, kind)])) return STAKE_SCORES.map(([hs, as], i) => ({hs, as, da:S[4 - i][1], db:S[4 - i][0]})); } }
+  /*ENGINE<*/
   if (!c.st && c.fromFile){ const st = computeRatings(null).st; state.cache = c; c.st = st; }   // a table read from a file has no model state: worked out once, when asked for
   if (!c.st) return null;
-  const out = [];
+  const out = [], k = kOfKind(state.gender, kind, state.asOf);
   for (const [hs, as] of STAKE_SCORES){
     const st = cloneState(c.st), m = {home:ka, away:kb, ts:state.asOf, k, hs, as, neutral, country:undefined, city:undefined, tournament:'Friendly'};
     const r = applyMatch(st, m);
     out.push({hs, as, da:r.nA.r - r.A.r, db:r.nB.r - r.B.r});
   }
   return out;
+  /*>ENGINE*/
+  return null;   // not a listed fixture: the panel is left out (Seb, 12 Nov 2026)
 }
 function underTheHood(o){
   if (o) return '';   /* The working is no longer shown (12 Nov 2026): how the numbers are made is Formline's own. */
@@ -6532,10 +7105,9 @@ function underTheHood(o){
   const step = (n, title, body, val) => '<div class="uh-step"><div class="uh-n">'+n+'</div><div class="uh-body"><h3>'+title+'</h3>'+body+'</div>'+
     (val !== undefined ? '<div class="uh-val">'+val+'</div>' : '')+'</div>';
   const gap = rowA.rating + h - rowB.rating;
-  const fk = friendlyK(state.gender, state.asOf);
-  const stakes = [['as a friendly', fk], ['at a World Cup', COMPS.wc.k]].map(([lab, k]) => [lab, k, ratingStakes(c, rowA.key, rowB.key, neutral, k)]);
+  const stakes = [['as a friendly', 'friendly'], ['at a World Cup', 'wc']].map(([lab, kind]) => [lab, kind, ratingStakes(c, rowA.key, rowB.key, neutral, kind)]);
   const sg = x => Math.abs(x) < 0.05 ? '0.0' : (x > 0 ? '+' : '&minus;')+Math.abs(x).toFixed(1);
-  const stakeTable = stakes[0][2] ? '<table class="kv-table uh-stakes"><thead><tr><th>Result</th>'+stakes.map(([lab, k]) => '<th colspan="2">'+lab+' (weight '+k+')</th>').join('')+'</tr>'+
+  const stakeTable = stakes[0][2] ? '<table class="kv-table uh-stakes"><thead><tr><th>Result</th>'+stakes.map(([lab, kind]) => '<th colspan="2">'+lab /*ENGINE<*/ +' (weight '+kOfKind(state.gender, kind, state.asOf)+')' /*>ENGINE*/ +'</th>').join('')+'</tr>'+
       '<tr><th></th>'+stakes.map(() => '<th>'+A+'</th><th>'+B+'</th>').join('')+'</tr></thead><tbody>'+
       [0, 1, 2, 3, 4].map(i => { const x = stakes[0][2][i];
         const lab = x.hs > x.as ? A+' win '+x.hs+'&ndash;'+x.as : x.hs < x.as ? B+' win '+x.as+'&ndash;'+x.hs : 'Draw '+x.hs+'&ndash;'+x.as;
@@ -7057,7 +7629,10 @@ function viewDifficulty(){
       t.list.push({op, where, adj:op.rating + (where === 'A' ? hb : where === 'H' ? -hb : 0), pw, pts:3*pw + f.p.draw, date:x.date, comp:x.tournament, fx:x}); }); }
   const rows = [...T.values()].filter(t => t.list.length >= Math.min(2, n)).map(t => { const k = t.list.length;
     return Object.assign(t, {adj:t.list.reduce((a, m) => a + m.adj, 0)/k, pts:t.list.reduce((a, m) => a + m.pts, 0)/k}); });
-  rows.sort(sort === 'pts' ? (a, b) => b.pts - a.pts : sort === 'easy' ? (a, b) => a.adj - b.adj : (a, b) => b.adj - a.adj);
+  /* Two teams with the same fixtures between them (A hosts C and visits D, B the reverse) tie exactly; the last digits
+     of a sum must not decide the order, so a tie goes to the higher-ranked team. */
+  const tie = (d, a, b) => Math.abs(d) > 1e-6 ? d : (a.row.rank || 1e9) - (b.row.rank || 1e9) || a.row.key.localeCompare(b.row.key);
+  rows.sort(sort === 'pts' ? (a, b) => tie(b.pts - a.pts, a, b) : sort === 'easy' ? (a, b) => tie(a.adj - b.adj, a, b) : (a, b) => tie(b.adj - a.adj, a, b));
   const chip = (on, label, o) => '<button class="chip'+(on ? ' on' : '')+'" data-fd=\''+JSON.stringify(o)+'\'>'+label+'</button>';
   const wh = {H:'home', A:'away', N:'neutral'};
   const mchip = m => '<a class="fd-m fd-'+m.where+'" href="#/predict?'+filterQuery({a:m.fx.home, b:m.fx.away, v:'home'})+'" title="'+esc(dn(m.op.team))+', '+wh[m.where]+', '+fmtDay(Date.parse(m.date+'T00:00:00Z'))+': '+Math.round(m.pw*100)+'% to win">'+
@@ -7362,6 +7937,7 @@ function yearRecord(key, year){
   }
   return o;
 }
+/*ENGINE<*/
 /* What if: one result in the window changed, and every rating worked out again from there. The real table is untouched:
    the window is replayed with a copy of that one match. */
 function whatIfState(m, hs, as){
@@ -7370,6 +7946,8 @@ function whatIfState(m, hs, as){
     applyMatch(st, x === m ? Object.assign({}, x, {hs, as}) : x, false); }
   return st;
 }
+/*>ENGINE*/
+/*ENGINE<*/
 function viewWhatIf(){
   const g = state.gender, app = document.getElementById('app'), c = getRatings(), P = state.params;
   const head = '<h1 class="page-title">What if?</h1><p class="page-sub">Change the result of one match and see what the ratings would look like today. Every match played since is replayed from the changed result.</p>';
@@ -7425,6 +8003,7 @@ function viewWhatIf(){
   ['wiH', 'wiA'].forEach(id => document.getElementById(id).addEventListener('keydown', ev => { if (ev.key === 'Enter') run(); }));
   const rs = document.getElementById('wiReset'); if (rs) rs.addEventListener('click', () => set({s:undefined}));
 }
+/*>ENGINE*/
 /* Under the team's next fixture in Coming up: what each result would do to its rating, and links to the match's other pages. */
 function nextMatchCard(c, key){
   if (isPast()) return '';
@@ -7432,8 +8011,7 @@ function nextMatchCard(c, key){
   if (!fx) return '';
   const f = fixturePrediction(c, fx); if (!f.p) return '';
   const ts = Date.parse(fx.date+'T00:00:00Z'), cat = categorize(fx.tournament, ts, state.gender);
-  const K = cat === 'friendly' ? friendlyK(state.gender, ts) : (COMPS[cat] && COMPS[cat].k) || 30;
-  const st = ratingStakes(c, f.rh.key, f.ra.key, !f.side, K), meH = f.rh.key === key;
+  const st = ratingStakes(c, f.rh.key, f.ra.key, !f.side, cat), meH = f.rh.key === key;
   const sg = x => Math.abs(x) < 0.05 ? '0.0' : (x > 0 ? '+' : '&minus;')+Math.abs(x).toFixed(1), cl = v => Math.abs(v) < 0.05 ? 'muted' : v > 0 ? 'up' : 'down';
   const me = r => meH ? r.da : r.db;
   const rows = st ? [['win 1&ndash;0', meH ? st[1] : st[3]], ['draw 1&ndash;1', st[2]], ['lose 0&ndash;1', meH ? st[3] : st[1]]] : [];
@@ -7441,7 +8019,7 @@ function nextMatchCard(c, key){
   return '<div class="nm-strip">'+(rows.length ? '<div><b>What\'s at stake</b> for '+esc(dn(meH ? f.rh.team : f.ra.team))+' against '+esc(dn(meH ? f.ra.team : f.rh.team))+' on '+fmtDay(ts).replace(/ \d{4}$/, '')+': '+
       rows.map(([l, r]) => l+' <b class="'+cl(me(r))+'">'+sg(me(r))+'</b>').join(' &middot; ')+' <span class="muted">rating points</span></div>' : '')+
     '<div><a href="'+preview+'">Match preview</a> &middot; <a href="#/matchday?d='+mdDay(fx)+'">Make your pick on Matchday</a> &middot; <a href="#/difficulty">Fixture difficulty</a>'+
-      (c.byKey.get(key) ? ' &middot; <a href="#/whatif?'+filterQuery({t:c.byKey.get(key).team})+'">What if a result had gone differently?</a>' : '')+'</div></div>';
+      /*ENGINE<*/ (c.byKey.get(key) ? ' &middot; <a href="#/whatif?'+filterQuery({t:c.byKey.get(key).team})+'">What if a result had gone differently?</a>' : '')+ /*>ENGINE*/ '</div></div>';
 }
 
 /* ============================================================
@@ -8492,7 +9070,8 @@ function viewSimulate(){
   // rewinds use the ratings from the eve of the tournament
   let savedAsOf = null;
   if (T0 && T0.status === 'rewind'){ savedAsOf = state.asOf; state.asOf = Date.parse(T0.start+'T00:00:00Z') - DAY; }
-  const c = getRatings();
+  const c = savedAsOf !== null ? tableAt() : getRatings();   // tableAt: the eve's table from the build's files in the published copy, worked out here otherwise
+  state.simTable = savedAsOf !== null ? c : null;
   const restore = () => { if (savedAsOf !== null){ state.asOf = savedAsOf; savedAsOf = null; } };
   let T = T0, err = null;
   /* A rewind drawn again: the organiser's pots or Formline's, under the rules of the time. */
@@ -8967,7 +9546,8 @@ function kickVs(g){
   vsCache[g+'busy'] = true;
   const y1 = new Date(state.bounds[g].max).getUTCFullYear(), out = [];
   const done = list => { vsCache[g] = list; vsCache[g+'busy'] = false;
-    if (state.route === 'record' && state.gender === g) viewRecord(); };
+    if (state.route === 'record' && state.gender === g) viewRecord();
+    else if (state.route === 'home' && state.gender === g){ const el = document.getElementById('homeTrack'); if (el) el.outerHTML = homeTrack(g); } };
   let y = 2019;
   const step = () => {
     if (y > y1){ done(out); return; }
@@ -9113,6 +9693,7 @@ function editionRun(e){
      build's file for the edition. */
   if (chartOk()){ const F = state.edFiles[edKey(state.gender, e)], data = F ? edFromFile(e, F) : null;   // any listed band limit: the file holds what each needs
     if (data){ state.edCache = {key, data}; return data; } }
+  /*ENGINE<*/
   const ms = state.matches[state.gender];
   const preTs = e.start - 1, st = newState(windowStartFor(preTs));
   let i = firstIndexAt(ms, windowStartFor(preTs));
@@ -9186,6 +9767,8 @@ function editionRun(e){
   const data = {rows, teams:[...teams.values()], counted, preTs, preTop, worldTier, preAll:allAt(preMap, preTs), postAll:allAt(postMap, e.end)};
   state.edCache = {key, data};
   return data;
+  /*>ENGINE*/
+  throw noFiles('tournament');
 }
 
 /* An edition's figures as a file, and back (stage 3). The file holds what editionRun works out: each match's ratings
@@ -9202,6 +9785,7 @@ function edPrint(e){
   for (let i = 0; i < ms.length && ms[i].ts <= e.end; i++){ const m = ms[i]; add(m.ts/DAY | 0); add(m.hs); add(m.as); add(m.home.length*31 + m.away.length); }
   add(e.matches.length); return h;
 }
+/*ENGINE<*/
 function edToFile(e, D){
   const n6 = x => Math.round(x*1e6)/1e6, keys = [], ki = new Map(), id = k => { if (!ki.has(k)){ ki.set(k, keys.length); keys.push(k); } return ki.get(k); };
   const mi = new Map(e.matches.map((m, i) => [m, i])), P = x => [n6(x.r), n6(x.rd)], Q = x => x ? P(x) : [null, null];
@@ -9218,6 +9802,7 @@ function edToFile(e, D){
     top:D.preTop.map(x => [id(x.key), n6(x.r), n6(x.rd), D.worldTier.get(x.key) || 0, n6(own.get(x.key))]),
     extra:D.preAll.filter(x => !inTop.has(x.key)).sort((p, q) => q.r - p.r).map(x => [id(x.key), n6(x.r), n6(x.rd), n6(x.own)]), keys};
 }
+/*>ENGINE*/
 function edFromFile(e, F){
   if (!F || F.v !== 3 || F.id !== e.id || F.g !== state.gender || F.windowYears !== state.windowYears || F.print !== edPrint(e)) return null;
   const band = state.maxBand, alt = band !== DEFAULTS.maxBand, bi = BAND_OPTIONS.indexOf(band); if (alt && bi < 0) return null;
@@ -9240,7 +9825,7 @@ function edFromFile(e, F){
   }
   const teams = new Map();
   for (const t of F.teams){ const pre = t[2] === null ? null : S(t[2], t[3]), k = K[t[0]];
-    teams.set(k, {key:k, team:t[1], pre, preRank:alt ? preRank.get(k) || null : t[4], steps:[pre ? pre.r : null], p:0, w:0, d:0, l:0, gf:0, ga:0,
+    teams.set(k, {key:k, team:fileName(k, t[1]), pre, preRank:alt ? preRank.get(k) || null : t[4], steps:[pre ? pre.r : null], p:0, w:0, d:0, l:0, gf:0, ga:0,
       post:t[5] === null ? null : S(t[5], t[6]), postRank:alt ? t[9][bi] || null : t[7], confTier:alt ? confTier.get(k) || null : t[8]}); }
   for (const r of rows){ const H = teams.get(r.home), A = teams.get(r.away), m = r.m; if (!H || !A) return null;
     H.steps.push(r.hPost.r); A.steps.push(r.aPost.r);
@@ -9270,8 +9855,10 @@ function sparkline(vals){
 }
 const fmtDay = ts => { const d = new Date(ts);
   return d.getUTCDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()]+' '+d.getUTCFullYear(); };
+/*ENGINE<*/
 const edK = e => { const ks = [...new Set(e.matches.map(m => Math.round(m.k)))].sort((a,b) => a-b);
   return 'match weight ' + (ks.length === 1 ? ks[0] : ks[0] + '&ndash;' + ks[ks.length-1]); };
+/*>ENGINE*/
 const COMP_GROUP_NOTE = {
   premier:'They counted for most while nothing bigger existed, and for less once it did.',
   wcq:'Qualifying has no clean edition boundary in the data, so it is grouped by calendar year.',
@@ -10144,8 +10731,8 @@ function editionField(run, tHref, e){
     '<div class="t-a">'+byConf+'<p class="chart-note" style="padding:0 15px 12px;">Each confederation\'s teams grouped by their tier inside it on '+fmtDay(run.preTs)+' '+
       '(tier 1 its strongest group), among all that confederation\'s ranked teams at the time, as on the Confederations page.</p></div>'+
     '<div class="t-b">'+byWorld+'<p class="chart-note" style="padding:0 15px 12px;">Each team\'s world tier on '+fmtDay(run.preTs)+', the day before kick-off: the tiers '+
-      'across every ranked team in the world at the time, as the Rankings page would have shown them then. A team joins a tier unless the model was at least '+
-      '90% sure that tier\'s leader was better.</p></div>'+
+      'across every ranked team in the world at the time, as the Rankings page would have shown them then. A team stays in a tier unless the model was at least '+
+      TIER_PCT+' sure that tier\'s leader was the stronger team.</p></div>'+
     '<p class="chart-note" style="padding:0 15px 12px;margin-top:-6px;">Beside each team, its won&ndash;drawn&ndash;lost record here'+
       (fmt.ok ? ' and, in amber, how far it went (GS group stage, R2 second round, FR final round, R16 round of 16, QF, SF, Final, Winner).' : '.')+
       (run.teams.length > rated.length ? ' Teams with no rating going in are left out.' : '')+
@@ -10460,6 +11047,7 @@ function rankExamples(){
   return '<table class="kv-table"><thead><tr><th>'+(g==='men'?'Men':'Women')+'\'s table, default settings</th><th>Likely</th><th>Plausible</th></tr></thead>'+
     '<tbody>'+rows+'</tbody></table>';
 }
+/*ENGINE<*/
 /* Premier-championship dates for the Method page, from the archive being viewed. */
 function eraTable(){
   const eras = state.eras[state.gender];
@@ -10475,6 +11063,7 @@ function eraTable(){
   return '<table class="kv-table"><thead><tr><th>'+(state.gender==='men'?"Men's":"Women's")+' premier championships</th>'+
     '<th>K'+PREMIER_K[0]+' &rarr; K'+PREMIER_K[1]+'</th><th>K'+PREMIER_K[1]+' &rarr; K'+PREMIER_K[2]+'</th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
+/*>ENGINE*/
 /* Run something against the current archive at the site's default settings and latest date, then put every
    setting back. For live examples on the explanatory pages. */
 function atDefaults(fn, ts, lite){
@@ -10488,7 +11077,7 @@ function atDefaults(fn, ts, lite){
   /* lite (stage 3): a caller that reads only what a published table shows (ratings, bands, ranks, tiers, the
      confederations' figures) takes a past date's table from the build's match-day file when that year is in hand. */
   try { const hit = lite && ts && state.useTableFiles && state.asOf < state.bounds[g].max ? dayFor(g, state.asOf) : null;
-    out = fn((hit && tableFromDay(hit.F, hit.i)) || getRatings()); }
+    out = fn((hit && tableFromDay(hit.F, hit.i, null, hit.k)) || getRatings()); }
   finally { state.asOf = saved.a; state.windowYears = saved.w; state.comps = saved.c; state.historicalNames = saved.h;
     state.maxBand = saved.u; state.rankBy = saved.r; state.confs = saved.f; state.fifaFilter = saved.m; state.cache = {key:null}; }
   return out;
@@ -10512,7 +11101,7 @@ function viewMethod(){
     const near = t.slice(1).reduce((b, r) => Math.abs(top.rating - r.rating - top.band) < Math.abs(top.rating - b.rating - top.band) ? r : b, t[1] || top);
     const wideRanked = t[Math.min(t.length-1, 59)];
     const prov = c.provisional.filter(r => !r.island && r.mp > 0).sort((a,b) => a.band - b.band)[0] || null;
-    return {top, near, nearRank:near.rank, wideRanked, prov, tiers:c.tiers};
+    return {top, near, nearRank:near.rank, wideRanked, prov, tiers:c.tiers, tierEx:tierExample(c)};
   });
   const pr = probsFromE(eloE(100)), pr200 = probsFromE(eloE(200)), r0 = x => Math.round(x*100)+'%';
   /* The same model in 1910 (men) or 1985 (women): few teams, few matches, wide bands. */
@@ -10631,9 +11220,17 @@ function viewMethod(){
         'expected to keep rising; the forecasts use the rating alone.</p>')+
     sec('m-tiers', 'Tiers',
       '<p>Because every rating is a range, so is every rank: 5th and 8th can be the same strength. So the rankings can '+
-        'also be shown in <b>tiers</b>, groups of teams the model cannot confidently tell apart. Going down the table, '+
-        'each tier is led by its highest-rated team. A team joins that tier unless the model is at least 90% sure the '+
-        'leader is better; the first team it is that sure about starts the next tier.</p>'+
+        'also be shown in <b>tiers</b>, groups of teams whose ratings are too close to separate. Going down the table, '+
+        'each tier is led by its highest-rated team. A team stays in that tier unless the model is at least '+TIER_PCT+' sure the '+
+        'leader is really the stronger team; the first team it is that sure about starts the next tier.</p>'+
+      '<p><b>Not the chance of winning a match.</b> Being '+TIER_PCT+' sure that one team is stronger than another is a judgement '+
+        'about their two ratings. A single match between them is far more open'+(ex && ex.tierEx ? ': '+ex.tierEx : '.')+'</p>'+
+      '<p><b>What a tier rests on.</b> Two things only: the gap between two teams\' ratings, and how wide their bands are. '+
+        'From those the model works out the chance that the higher-rated team really is the stronger one. A big gap or '+
+        'narrow bands push that chance up and split teams into different tiers; a small gap or wide bands keep them together. '+
+        'Nothing is drawn by hand, and a tier has no fixed size: where teams bunch, a tier is large, and where they string '+
+        'out, tiers are small. The '+TIER_PCT+' bar is our choice of what counts as confident. A higher bar would give fewer, '+
+        'bigger tiers; a lower one more, smaller ones.</p>'+
       (ex && ex.tiers ? '<p>In the '+game+' table today: <b>Tier 1</b> is '+ex.tiers[0].rows.map(r => esc(r.team)).join(', ').replace(/, ([^,]*)$/, ' and $1')+
         (ex.tiers[1] ? '; <b>Tier 2</b> is '+ex.tiers[1].rows.map(r => esc(r.team)).join(', ').replace(/, ([^,]*)$/, ' and $1') : '')+
         '. '+ex.tiers.length+' tiers in all.</p>' : '')+
@@ -10645,6 +11242,16 @@ function viewMethod(){
             'belonging in tier '+o.n+'. ' : ''; })() : '')+
         'When another tier has at least a one-in-three chance, its number is shown beside the team\'s own, as in '+
         '<span class="tchip" style="--tc:var(--tier-2)">T2</span><span class="talso">/1</span>.</p>'+
+      '<p><b>Confederation tiers</b> apply the same rule to one confederation\'s teams on their own. Teams of one '+
+        'confederation meet often, so the model is surer of their order than of how the whole confederation compares with '+
+        'the others. The tiers are cut from the confederation\'s own top team, so the lines between them can fall in different '+
+        'places from the world table\'s.</p>'+
+      '<p>A <b>cluster</b> answers a slightly different question: who is level with <i>this</i> team? Tiers are cut from the '+
+        'top of the table down, so the team at the top of a tier is grouped only with sides below it, even when the side just '+
+        'above is closer. A cluster is built around the team itself. Every rating is redrawn inside its band a thousand times '+
+        'and the team\'s place is noted each time; the middle half of those places is its <b>likely rank</b>, and its cluster is '+
+        'every team ranked inside that range. Team pages show two: the world cluster, and the confederation cluster, worked '+
+        'out the same way among the confederation\'s teams with places counted there.</p>'+
       '<p>Tiers are a guide to who is roughly level, not a hard split. The same idea appears in three other places: '+
         'fixtures say whether a match is evenly matched or a mismatch and how many tiers apart the teams are; the '+
         'simulator sorts a tournament\'s field into favourites, contenders, dark horses and outsiders; and each past tournament '+
@@ -11303,7 +11910,7 @@ function viewSupport(){
   '<div class="wrap"><div class="doc-layout wide"><div class="prose">'+
     '<h1 class="page-title">Support Formline</h1>'+
     '<p class="page-sub">Formline is free to use, with no ads, no accounts and no cookies. It is built and kept running by one person, '+
-      'and every rating is worked out in your browser from open data.</p>'+
+      'and every rating is worked out '+(ENGINE ? 'in your browser ' : '')+'from open data.</p>'+
     '<h2 id="donate">Chip in</h2>'+
     (SITE.donate.length
       ? '<p>If the site is useful to you, a small donation helps cover the domain and hosting, and the time that goes into the data, '+
@@ -11365,6 +11972,12 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['13 Nov 2026', ['The home page is now a front door to the whole site. It shows Formline\'s track record (how often the side it picked won, in the calls published so far and in every match since 2019), the next few matches a line each, and a way into every part of the site. The filters have moved off it; they are on Rankings.',
+    'Tiers are a little finer. A team now leaves a tier once Formline is 80% sure the tier\'s leader is the stronger side, where it was 90%, so there are more tiers and each holds fewer teams (the men\'s table goes from 12 tiers to 17, the women\'s from 10 to 14). No rating or rank changes.',
+    'Tiers and clusters are now defined where they are shown. A team page says what its tier rests on (the gap between two ratings and how wide the bands are) and that it is not the chance of winning a match, with an example from today\'s table. How it works has the longer account.',
+    'Team pages have a second cluster: the teams level with a side inside its own confederation, next to its world cluster.',
+    'Wrong scores corrected. Every men&rsquo;s match in the archive was set beside two other records, Wikipedia&rsquo;s results pages and World Football Elo Ratings, and where both of them disagreed with the archive the score has been corrected: 41 men&rsquo;s matches, from Cape Verde 3&ndash;0 Bermuda (6 June 2026, which the archive had the wrong way round, so it had been showing as the biggest upset of the year), Mali 0&ndash;0 Jordan (18 November 2025, not 3&ndash;2) and Russia 11&ndash;0 Brunei (15 November 2024, not 2&ndash;1) back to Ivory Coast 11&ndash;0 Central African Republic in 1961. Three women&rsquo;s matches the archive had as 0&ndash;0 are corrected too: United States 3&ndash;0 Argentina and Brazil 3&ndash;1 Colombia (October 2024) and Australia 5&ndash;0 Thailand (March 2018). Ratings move a little for the teams involved and their recent opponents. Two more things the check found are still being worked through: matches the archive does not hold at all, and results that were awarded afterwards.',
+    'History on team pages now opens on All time, so the biggest win shown is a team\'s biggest ever (the Netherlands\' 11&ndash;0 over San Marino, not the 8&ndash;0 over Malta that is their biggest of the last twelve years). The last twelve years are one tap away and say plainly what they cover.']],
   ['12 Nov 2026', ['Matchday now lists each match under your own calendar day, to match the kick-off times shown (a late-evening match in the Americas no longer appears under the next day).',
     'Fixtures: a match whose Wikipedia entry is only a placeholder (no stadium or time yet) keeps the date from the fixture feed. Morocco v Niger had been shown two days early.',
     'Every page in Ratings, Matches and Tools now has the same row of tabs at the top as the About pages, so a section\'s pages are one tap apart. On phones the row is a drop-down, on the About pages too.',
@@ -11739,7 +12352,7 @@ async function siDraw(kind, size, opts = {}){
     if (kind === 'top10') siText(g, '▲ ▼ trend over 12 months, against the field: a description, not a prediction', pad, bottom + 28, font('400', 21), SI.dim, 'left', W - 2*pad);
   } else if (kind === 'history'){
     const key = c.resolve(state.arg) || state.arg, row = c.byKey.get(key); if (!row) return null;
-    const mode = state.params.hv === 'all' ? 'all' : 'win', D = await teamHistoryData(key, mode); if (!D) return null;
+    const mode = histMode(), D = await teamHistoryData(key, mode); if (!D) return null;
     const pick = ['Best rank', 'Peak rating', 'Biggest win', 'Biggest defeat', 'Longest unbeaten run', 'Biggest upset win', 'Best World Cup finish', 'Best continental finish', 'First match on record'];
     const L = historyLines(D, false).filter(x => pick.includes(x.k) || x.kind).slice(0, size === 'square' ? 6 : 8);
     const flag = await siLoad(siFlagSrc(row.team, state.asOf >= state.bounds[state.gender].max ? Infinity : state.asOf));
@@ -12155,9 +12768,11 @@ function tourSteps(){
     {sel:'.home-grid table th.range, .home-grid .panel', title:'Likely rank', text:'Because every rating has a band, so does every '+
       'position. Likely rank is the range of places a team takes most of the time when the whole table is redrawn from the bands. '+
       'Teams whose bands overlap a lot cannot really be told apart; the Rankings page can group them into tiers.'},
-    {sel:'.filterbar', title:'Filters', text:'Change how the ratings are worked out: the length of the window (12 years by default), the '+
-      'date, to see the table as it stood on any day in history, which competitions count, and more. The same filters apply on '+
-      'every page, and Share keeps them in the link.'},
+    {sel:'#homeTrack', title:'The track record', text:'Every forecast is saved before kick-off and checked afterwards. '+
+      'These two figures count the matches that had a winner, and how often the side Formline picked was the one that won: '+
+      'in the calls published so far, and in every match since 2019.'},
+    {sel:'.hub', title:'Everything on the site', text:'A way into each part of Formline. The filters, to change how many years of '+
+      'results count or to see the table on any date in history, are on the Rankings page.'},
     {sel:'#genderSwitch', title:'Men and women', text:'Switch between the men\'s and the women\'s game. Each has its own ratings, '+
       'fitted to its own results.'},
     {sel:narrow ? '#menuBtn' : '#nav', title:'Find your way around', text:'<b>Ratings</b>: rankings, a page for every team, '+
@@ -12213,7 +12828,7 @@ function pageTour(route){
       {sel:'.team-actions', title:'Share, download, compare', text:'A share picture of this team, its matches as a spreadsheet file, '+
         'head to head with any other team, or a prediction for any match.'},
       {panel:'Coming up', title:'Coming up', text:'Its next matches, each with its chances. At a past date this becomes Around that date: its last matches, big tournaments then, and what happened next.'},
-      {panel:'Tier and cluster', title:'Its tier and cluster', text:'The teams level with it, in the world and in its own confederation, and its cluster: the teams ranked inside its own likely rank.'},
+      {panel:'Tier and cluster', title:'Its tier and cluster', text:'The teams level with it, in the world and in its own confederation, and its clusters: the teams ranked inside its own likely rank, in the world and in its confederation. Each is defined under the lists.'},
       {panel:'Rating over time', title:'Rating over time', text:'How the rating moved, with the band shaded around it. The band widens '+
         'while a team goes without playing. Each dot is one of its matches in the last two years.'},
       {panel:'History', title:'History', text:'Best rank, peak rating, biggest results, runs, upsets and best tournament finishes. '+

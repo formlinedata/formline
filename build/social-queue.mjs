@@ -21,7 +21,7 @@ fs.writeFileSync(path.join(Q, 'used.json'), JSON.stringify(used, null, 1) + '\n'
 const cutoff = new Date(Date.parse(date + 'T12:00:00Z') - KEEP_DAYS * 864e5).toISOString().slice(0, 10);
 for (const d of fs.readdirSync(Q)) if (/^\d{4}-\d{2}-\d{2}(-[a-z])?$/.test(d) && d.slice(0, 10) < cutoff) fs.rmSync(path.join(Q, d), {recursive:true, force:true});
 
-const raw = f => `https://raw.githubusercontent.com/${repo}/social-queue/${key}/${f}`;
+const raw = f => `https://raw.githubusercontent.com/${process.env.SOCIAL_QUEUE_REPO || repo}/social-queue/${key}/${f}`;   // SOCIAL_QUEUE_REPO: the public repository that holds the queue once this one is private
 const owner = repo.split('/')[0];
 const when = slot === 'c' ? "This morning's results roundup goes out on Bluesky and Instagram at about 8 am Toronto time (9 am in summer)" :
   slot ? "This evening's post goes out on Bluesky and Instagram at about 6 pm Toronto time (7 pm in summer)" :

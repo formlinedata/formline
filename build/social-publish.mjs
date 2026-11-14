@@ -106,7 +106,10 @@ const issue = issues.find(i => i.title.startsWith(label));
 if (!issue){ note(slot ? `No ${slot === 'c' ? 'results roundup' : 'evening post'} for ${date} (only made in international windows).` : `No post was prepared for ${date}.`, slot ? 'notice' : 'warning'); process.exit(0); }
 if (issue.state === 'closed' || issue.labels.some(l => l.name === 'skip')){
   note(`Skipped: the review issue for ${key} is closed.`); process.exit(0); }
-const base = `https://raw.githubusercontent.com/${repo}/social-queue/${key}/`;
+/* The pictures are handed to Instagram as links, so they must be readable by anyone. Once this repository is private
+   its own files are not: the queue branch then lives in a small public repository named in SOCIAL_QUEUE_REPO
+   (owner/name). Without it, this repository, as before. */
+const base = `https://raw.githubusercontent.com/${process.env.SOCIAL_QUEUE_REPO || repo}/social-queue/${key}/`;
 const meta = await (await fetch(base + 'post.json')).json();
 const done = new Set(issue.labels.map(l => l.name)), lines = [];
 let igMediaId = null;
@@ -136,11 +139,14 @@ if (!IG_USER_ID || !IG_TOKEN){
     note(`Instagram: posted "${meta.title}"${link ? ' ' + link : ''}`);
   } catch(e){ failed = true; lines.push(`Instagram didn't accept this post: ${e.message}. Nothing was published there, so you can post it by hand.`); note('Instagram refused the post: ' + e.message, 'warning'); }
 }
-/* The opening comment: a question under the post to start the replies (needs instagram_manage_comments on the token).
+/* The opening comment: a question under the post to start the replies. With a token from Meta's Unified login
+   (graph.facebook.com) Meta asks for instagram_basic, instagram_manage_comments and pages_read_engagement, and ads_read
+   as well when the role comes through a business portfolio; without them it answers "(#10) Application does not have
+   permission for this action". The note then carries the question itself, so it can be added by hand from a phone.
    Pinning it stays a job for the app: the API can't pin. Never fails the run. */
 if (igMediaId && meta.question && !done.has('commented')){
   try { await ig(`/${igMediaId}/comments`, {message:meta.question}); done.add('commented'); lines.push(`Comment added: "${meta.question}" (pin it in the app if you like).`); }
-  catch(e){ lines.push(`The question comment didn't go on: ${e.message}${/permission|scope|\(#10\)|\(#200\)/i.test(e.message) ? '. The token needs the instagram_manage_comments permission.' : ''}`); note('Instagram comment failed: ' + e.message, 'warning'); }
+  catch(e){ lines.push(`The question comment didn't go on: ${e.message}${/permission|scope|\(#10\)|\(#200\)/i.test(e.message) ? '. The token needs three permissions for comments: instagram_manage_comments, pages_read_engagement and ads_read.' : ''}\n\nTo add it by hand, comment on the post with: ${meta.question}`); note('Instagram comment failed: ' + e.message, 'warning'); }
 }
 /* Window days: today's matches as an Instagram Story, after the feed post. A failure here never fails the run. */
 if (IG_USER_ID && IG_TOKEN && meta.story && done.has('posted') && !done.has('story')){

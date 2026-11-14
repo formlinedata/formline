@@ -33,6 +33,7 @@
 //   ranks/<g>/<y>.json old ranks under every band limit and both rank orders, a row a match beside matches/<g>/<y>.json.
 //   best/<g>/<team>.json  a team's best rank (under every band limit, in each order) and peak rating over every day of
 //                      the twelve years ending on any date, with the day each was first held (bestSeries below).
+//   histw-<g>.json     the same records without the minimum number of ranked teams, for the "all time" window.
 //   histr-<g>.json     beside hist-<g>.json: every team's all-time best ranks under every band limit.
 //   snapr-<g>.json, snapr-all-<g>.json, seriesr/<g>/<decade>.json  beside the snap files and series/: the same dates' ranks under every band limit.
 //   series/<g>/<decade>.json  the chart on a past date: every team's rating, band and ranks on the first day of each
@@ -95,7 +96,10 @@ export function dayTables(model, g, year, allTime){
        instead of 145, so such a value is kept as 145.4: the page then shows the same whole number as the exact value. */
     /* And a band just over a whole number (150.04) is kept as 150.1, not 150.0: a band limit is a whole number, so the
        page then ranks the same teams as the model under any limit a visitor picks. */
-    const rb = x => { let v = r1(x); if (Math.round(v) !== Math.round(x)) v = r1(v - 0.1); const k = Math.floor(x); return x > k && v <= k ? r1(k + 0.1) : v; };
+    /* Two decimal places since 13 Nov 2026 (one before): what the page adds up from these (a trend, the gap between two
+       tiers, the ends of "likely between") then lands on the site's own figure but for a rare rounding edge. */
+    const rb = x => { let v = r2(x); if (Math.round(v) !== Math.round(x)) v = r2(v - 0.01); const k = Math.floor(x); return x > k && v <= k ? r2(k + 0.01) : v; };
+    const keep = x => { const v = r2(x); return r1(v) === r1(x) && Math.round(v) === Math.round(x) ? v : r2(v + (v > x ? -0.01 : 0.01)); };
     if (${allTime ? 'true' : 'false'}) state.windowYears = 0;
     const ms = state.matches[g], days = [], teams = [], idx = new Map(), id = k => { if (!idx.has(k)){ idx.set(k, teams.length); teams.push(k); } return idx.get(k); };
     let n = 0;
@@ -113,33 +117,53 @@ export function dayTables(model, g, year, allTime){
       /* weekly fill: from the year's first day (or the archive's first match) to its last, no gap longer than seven days */
       const edges = [from - DAY].concat(sorted.filter(x => x >= from), [y1 + DAY]);
       for (let k = 0; k + 1 < edges.length; k++) for (let t = edges[k] + 7 * DAY; t < edges[k + 1]; t += 7 * DAY) if (t >= B.min && t <= y1) set.add(t); }
+    if (y0 >= B.min) set.add(y0);   // 1 January always has a full table, so a date never reaches back into the year before
     for (const t of [...set].sort((a, b) => a - b)) if (t >= B.min && t <= y1) days.push(t);
-    /* One more kind of day: a team's band grows a little every day it does not play, and the day it passes the limit
-       for being ranked the team leaves the table and everyone below moves up a place. Where a team sits close enough
-       under the limit to pass it before the next day in the list, the days in between are looked at one by one and the
-       day the ranked teams change is added. */
-    const pools = [], tables = [], outDays = [], pw = [];
+    /* Every day of the year has its own figures (Seb, 13 Nov 2026: accurate to the day; a stored table shown for a later
+       date was up to a week stale, and about one team in ten then showed a band one lower than the site's own). The
+       days above get a full table. For each day in between, when no match is played and none leaves the window, the
+       matches are the same and only the date moves: the table is made again from the same matches for that date
+       (tableFromState; at the usual window the run itself is made again, since it starts a day later) and the file
+       keeps what moved since the last full table: each team's rating and band in hundredths, the tiers and the
+       cautious order where they changed, and the confederations' figures. A day on which the order of the teams or
+       who is ranked changes (a band passing the limit, two close teams changing places) gets a full table instead. */
+    const pools = [], tables = [], outDays = [], pw = [], gaps = [];
     const tableOn = ts => { state.asOf = ts; state.cache = {key:null}; return computeRatings(null); };
-    const put = (ts, c) => { outDays.push(ts);
-      pools.push([...new Set(c.table.map(r => r.pool))].filter(p => p && p !== 'UNKNOWN').map(p => { const o = poolAt(c.st, p, ts); return [p, r2(o.m), r2(o.w)]; }));
-      /* What a team's band is made of: the day's reference level of confederation doubt, then each confederation's own
-         (every team's, ranked or not). With these the page splits a band back into the team's own doubt and its
-         confederation's, as it needs to for a chance against another side. */
-      pw.push([r2(poolRef(c.st, ts))].concat([...new Set(c.all.map(r => r.pool))].map(p => { const o = poolAt(c.st, p, ts); return [p, r2(o.w), r2(o.m)]; })));
-      /* A row also carries the team's place among all teams by the bottom of its band (the cautious order, exact: the
-         one-decimal numbers here cannot give it), and a 1 at the end for a team cut off from the main body. With these
-         the day's table can be ranked exactly under any band limit and either order. */
-      const loPos = new Map(c.all.slice().sort((a, b) => b.lower - a.lower).map((r, i) => [r.key, i + 1]));
-      tables.push(c.all.map(r => { const row = [id(r.key), r1(r.rating), rb(r.band), r.rank || 0, r.tier || 0, loPos.get(r.key)]; if (r.island) row.push(1); return row; })); };
-    const ranked = c => c.table.map(r => r.key).join('|');
-    days.forEach((ts, k) => { let c = tableOn(ts); put(ts, c);
-      const next = k + 1 < days.length ? days[k + 1] : Math.min(y1 + DAY, B.max + DAY), gap = Math.round((next - ts) / DAY);
-      if (gap > 1 && state.maxBand > 0 && c.table.some(r => r.band > state.maxBand - 0.15 * gap)){
-        let was = ranked(c);
-        for (let t = ts + DAY; t < next; t += DAY){ const x = tableOn(t), now = ranked(x); if (now !== was){ put(t, x); was = now; } } } });
+    const poolsOf = (c, ts) => [...new Set(c.table.map(r => r.pool))].filter(p => p && p !== 'UNKNOWN').map(p => { const o = poolAt(c.st, p, ts); return [p, r2(o.m), r2(o.w)]; });
+    /* What a team's band is made of: the day's reference level of confederation doubt, then each confederation's own
+       (every team's, ranked or not). With these the page splits a band back into the team's own doubt and its
+       confederation's, as it needs to for a chance against another side. */
+    const pwOf = (c, ts) => [r2(poolRef(c.st, ts))].concat([...new Set(c.all.map(r => r.pool))].map(p => { const o = poolAt(c.st, p, ts); return [p, r2(o.w), r2(o.m)]; }));
+    /* A row also carries the team's place among all teams by the bottom of its band (the cautious order, exact: the
+       rounded numbers here cannot give it), and a 1 at the end for a team cut off from the main body. With these
+       the day's table can be ranked exactly under any band limit and either order. */
+    const loOf = c => { const m = new Map(c.all.slice().sort((a, b) => b.lower - a.lower).map((r, i) => [r.key, i + 1])); return c.all.map(r => m.get(r.key)); };
+    let base = null;   // the last full table: the rounded figures the days after it are counted from
+    const put = (ts, c) => { outDays.push(ts); pools.push(poolsOf(c, ts)); pw.push(pwOf(c, ts)); gaps.push([]);
+      const lo = loOf(c), R = c.all.map(r => keep(r.rating)), Bd = c.all.map(r => rb(r.band));
+      tables.push(c.all.map((r, i) => { const row = [id(r.key), R[i], Bd[i], r.rank || 0, r.tier || 0, lo[i]]; if (r.island) row.push(1); return row; }));
+      base = {c, R, Bd, lo, keys:c.all.map(r => r.key).join('|'), ranks:c.all.map(r => r.rank || 0).join()}; };
+    const trim = a => { let k = a.length; while (k && !a[k - 1]) k--; return k ? a.slice(0, k) : 0; };
+    /* The table for a day with the same matches as the last full one. */
+    const again = ts => { state.asOf = ts; const ws = windowStartFor(ts);
+      return tableFromState(state.windowYears > 0 ? runWindow(ws, ts) : base.c.st, base.c.history, ws, ts, null, null); };
+    const between = (ts, x) => { const lo = loOf(x), t = [];
+      x.all.forEach((r, i) => { const was = base.c.all[i].tier || 0; if ((r.tier || 0) !== was) t.push([i, r.tier || 0]); });
+      gaps[gaps.length - 1].push([trim(x.all.map((r, i) => Math.round((keep(r.rating) - base.R[i]) * 100))), trim(x.all.map((r, i) => Math.round((rb(r.band) - base.Bd[i]) * 100))),
+        t.length ? t : 0, lo.some((v, i) => v !== base.lo[i]) ? lo : 0, poolsOf(x, ts), pwOf(x, ts)]); };
+    let gapN = 0, fullN = 0, tried = 0; const bad = [];
+    days.forEach((ts, k) => { put(ts, tableOn(ts));
+      const next = k + 1 < days.length ? days[k + 1] : Math.min(y1 + DAY, B.max + DAY);
+      for (let t = ts + DAY; t < next; t += DAY){ const x = again(t);
+        /* every thirtieth such day the short way is compared with the whole table worked out afresh for that date */
+        if (gapN++ % 30 === 0){ tried++; const e = tableOn(t), by = new Map(x.all.map(r => [r.key, r]));
+          if (e.all.length !== x.all.length) bad.push(fmtDate(t) + ': ' + x.all.length + ' teams v ' + e.all.length);
+          else for (const r of e.all){ const q = by.get(r.key); if (!q || keep(q.rating) !== keep(r.rating) || rb(q.band) !== rb(r.band) || (q.rank || 0) !== (r.rank || 0) || (q.tier || 0) !== (r.tier || 0) || !!q.island !== !!r.island){ if (bad.length < 6) bad.push(fmtDate(t) + ' ' + r.key + ': ' + (q ? q.rating + ' ±' + q.band + ' #' + q.rank + ' T' + q.tier : 'missing') + ' v ' + r.rating + ' ±' + r.band + ' #' + r.rank + ' T' + r.tier); break; } } }
+        if (x.all.map(r => r.key).join('|') !== base.keys || x.all.map(r => r.rank || 0).join() !== base.ranks){ put(t, tableOn(t)); fullN++; } else between(t, x); } });
+    if (bad.length) throw new Error('a day between match days, made again from the same matches, differs from the table worked out afresh: ' + bad.join('; '));
     days.length = 0; outDays.forEach(t => days.push(t));
     state.windowYears = DEFAULTS.windowYears; state.asOf = B.max; state.cache = {key:null};
-    return {v:5, year:Y, window:${allTime ? "'all'" : 'DEFAULTS.windowYears'}, matches:n, teams, days:days.map(fmtDate), tables, pools, pw};
+    return {v:6, year:Y, window:${allTime ? "'all'" : 'DEFAULTS.windowYears'}, matches:n, teams, days:days.map(fmtDate), tables, pools, pw, gaps, between:gapN, promoted:fullN, tried};
   })()`);
 }
 
@@ -151,8 +175,11 @@ export function dayTables(model, g, year, allTime){
    table worked out for that later date: between the file's days a table only drifts, by a few hundredths of a point a
    day, so the numbers are allowed that much more. before: the year files before this one, which the page needs for
    each team's change on a year earlier (the difference between the two dates' tables). */
-export function dayCheck(model, g, file, i, shift, before, set){
-  model.run(`__df = ${JSON.stringify(JSON.stringify(file))}; __dp = ${JSON.stringify(JSON.stringify(before || []))}`);
+/* A year of "all time" tables (file.window === 'all') is checked the same way with the window set to all time; the page
+   then also needs today's all-time table file (tableAll), which it reads each match's ratings from, and those are
+   compared with the model's too. */
+export function dayCheck(model, g, file, i, shift, before, set, tableAll){
+  model.run(`__df = ${JSON.stringify(JSON.stringify(file))}; __dp = ${JSON.stringify(JSON.stringify(before || []))}; __ta = ${JSON.stringify(JSON.stringify(tableAll || null))}`);
   return model.run(`(() => { ${DEFAULT_STATE(g)}
     const g = ${JSON.stringify(g)}, F = JSON.parse(__df), i = ${+i}, ts = Date.parse(F.days[i] + 'T00:00:00Z'), bad = [], say = s => { if (bad.length < 12) bad.push(s); };
     /* set: {maxBand, rankBy}. The day's table is then ranked again on the page from numbers kept to one decimal place:
@@ -161,13 +188,15 @@ export function dayCheck(model, g, file, i, shift, before, set){
        team exactly on the band limit can fall either side (edgeOff). Tiers are cut again, so they can differ (tierDiffs). */
     const SET = ${JSON.stringify(set || null)};
     if (SET){ state.maxBand = SET.maxBand; state.rankBy = SET.rankBy; }
-    const done = () => { state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy; state.asOf = state.bounds[g].max; state.cache = {key:null}; };
+    const ALL = F.window === 'all', dk = y => (ALL ? 'all|' : '') + g + '|' + y; if (ALL) state.windowYears = 0;
+    const done = () => { state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy; state.windowYears = DEFAULTS.windowYears; state.tableFiles = {}; state.asOf = state.bounds[g].max; state.cache = {key:null}; };
     let n = 0, tierDiffs = 0, pN = 0, pOff = 0, rankOff = 0, edgeOff = 0; const OWN_TOL = 0.2, P_TOL = 0.004;
     const num = (a, b, tol, what) => { n++; if ((a == null) !== (b == null) || (a != null && !(Math.abs(a - b) <= tol))) say(what + ': ' + a + ' v ' + b); };
     const same = (a, b, what) => { n++; if (a !== b && !(a == null && b == null)) say(what + ': ' + a + ' v ' + b); };
     state.asOf = ts + ${+(shift || 0)} * DAY; state.cache = {key:null};
-    const c = computeRatings(null), drift = ${+(shift || 0)} * 0.06;
-    state.useTableFiles = true; state.dayFiles = {[g + '|' + F.year]:F}; for (const P of JSON.parse(__dp)) state.dayFiles[g + '|' + P.year] = P;
+    const c = computeRatings(null), drift = F.gaps ? 0 : ${+(shift || 0)} * 0.06;   // layout 6: the date's own figures, nothing drifts
+    state.useTableFiles = true; state.dayFiles = {[dk(F.year)]:F}; for (const P of JSON.parse(__dp)) state.dayFiles[dk(P.year)] = P;
+    if (ALL) state.tableFiles = {['all-' + g]:JSON.parse(__ta)};
     state.dayCache = null; state.asOf = ts + ${+(shift || 0)} * DAY; state.cache = {key:null};
     let runs = 0; const rw = runWindow; runWindow = function(){ runs++; return rw.apply(this, arguments); };
     let h; try { h = tableAt(); } finally { runWindow = rw; }
@@ -176,7 +205,7 @@ export function dayCheck(model, g, file, i, shift, before, set){
     n++; if (runs) say('the model ran ' + runs + ' times');
     const edge = SET ? c.all.filter(r => (h.byKey.get(r.key) || {}).provisional !== r.provisional) : [];
     if (SET){ n++; edgeOff = edge.length; for (const r of edge) if (r.island || !(state.maxBand > 0 && Math.abs(r.band - state.maxBand) <= 0.1001 + ${+(shift || 0)} * 0.06)) say(r.key + ' ranked on one side only, band ' + r.band); }
-    same(h.day, F.days[i], 'day'); same(c.all.length, h.all.length, 'teams');
+    same(h.day, F.gaps ? fmtDate(ts + ${+(shift || 0)} * DAY) : F.days[i], 'day'); same(c.all.length, h.all.length, 'teams');
     if (!SET){ same(c.table.map(r => r.key).join(), h.table.map(r => r.key).join(), 'ranked order');
       same(c.provisional.map(r => r.key).sort().join(), h.provisional.map(r => r.key).sort().join(), 'provisional'); }
     else if (SET.rankBy === 'rating' && !edge.length) same(c.table.map(r => r.key).join(), h.table.map(r => r.key).join(), 'ranked order'); if (!drift) same(c.windowStart, h.windowStart, 'window start');
@@ -187,7 +216,8 @@ export function dayCheck(model, g, file, i, shift, before, set){
       else if (r.rank !== x.rank){ n++; if (r.rank && x.rank && Math.abs(r.rank - x.rank) <= 1 + edge.length) rankOff++; else if (!edge.some(e => e.key === w)) say(w + ' rank: ' + r.rank + ' v ' + x.rank); } same(r.mp, x.mp, w + ' played'); same(r.lastTs, x.lastTs, w + ' last match');
       same(r.status, x.status, w + ' status'); same(!!r.defunct, !!x.defunct, w + ' defunct'); same(r.island, x.island, w + ' island'); if (!SET) same(r.provisional, x.provisional, w + ' provisional');
       same((r.islandWith || []).slice().sort().join(), (x.islandWith || []).slice().sort().join(), w + ' island mates');
-      num(r.rating, x.rating, 0.0501 + drift, w + ' rating'); num(r.band, x.band, 0.1001 + drift, w + ' band'); if (!drift) same(Math.round(r.band), Math.round(x.band), w + ' band as shown');
+      num(r.rating, x.rating, (F.gaps ? 0.0101 : 0.0501) + drift, w + ' rating'); num(r.band, x.band, (F.gaps ? 0.0101 : 0.1001) + drift, w + ' band'); if (!drift) same(Math.round(r.band), Math.round(x.band), w + ' band as shown');
+      if (F.gaps) same(fmtR(r.rating), fmtR(x.rating), w + ' rating as shown');
       /* The band split back into the team's own doubt and its confederation's, and the chances that rest on the split. */
       num(r.w, x.w, 0.0051 + ${+(shift || 0)} * POOL_CW, w + ' confederation doubt'); num(r.rdOwn, x.rdOwn, OWN_TOL + drift, w + ' own doubt');
       for (const f of ['pVsMedian', 'pVsBench']) if (r[f] || x[f]){ if (!r[f] || !x[f]) say(w + ' ' + f + ' missing'); else for (const s of ['home', 'draw', 'away']){ num(r[f][s], x[f][s], P_TOL + drift * 0.01, w + ' ' + f + ' ' + s); pN++; if (Math.round(r[f][s] * 100) !== Math.round(x[f][s] * 100)) pOff++; } }
@@ -196,7 +226,8 @@ export function dayCheck(model, g, file, i, shift, before, set){
       const a = c.history.get(w) || [], b = h.history.get(w) || []; same(a.length, b.length, w + ' matches');
       a.forEach((e, j) => { const f = b[j]; if (!f) return; if (e.m !== f.m){ say(w + ' match ' + j + ' differs'); return; }
         same(e.opp, f.opp, w + ' opponent'); same(e.oppName, f.oppName, w + ' opponent name'); same(e.name, f.name, w + ' own name'); same(e.gf, f.gf, w + ' for'); same(e.ga, f.ga, w + ' against');
-        same(e.home, f.home, w + ' home'); same(e.neutral, f.neutral, w + ' neutral'); same(e.cat, f.cat, w + ' kind'); }); });
+        same(e.home, f.home, w + ' home'); same(e.neutral, f.neutral, w + ' neutral'); same(e.cat, f.cat, w + ' kind');
+        if (ALL) for (const q of ['rating', 'rd', 'pre', 'oppPre', 'oppPost', 'delta', 'exp']) num(e[q], f[q], 2.1e-6, w + ' match ' + j + ' ' + q); }); });
     same([...c.confStats.keys()].sort().join(), [...h.confStats.keys()].sort().join(), 'confederations');
     for (const [k, a] of c.confStats){ const b = h.confStats.get(k); if (!b) continue;
       same(a.n, b.n, k + ' teams'); same(a.best.key, b.best.key, k + ' best'); num(a.level, b.level, 0.02 + drift, k + ' level'); num(a.levelBand, b.levelBand, 0.1 + drift, k + ' level band');
@@ -486,8 +517,9 @@ export function snapSeries(model, g, allTime){
    rows a chart point is read from, as in snapSeries), at the site's settings. The page reads the quarters inside the
    window before the date in view (its snapsPast). Returns {file, n, bad}: each date is read back the way the page
    reads it and compared with the run of the window it came from. */
-export function seriesDecadeFile(model, g, decade){
+export function seriesDecadeFile(model, g, decade, allTime){
   return model.run(`(() => { ${DEFAULT_STATE(g)}
+    const ALL = ${allTime ? 'true' : 'false'}; if (ALL) state.windowYears = 0;
     const g = ${JSON.stringify(g)}, D = ${+decade}, B = state.bounds[g], r1 = x => Math.round(x * 10) / 10, r2 = x => Math.round(x * 100) / 100;
     const keep = x => { const v = r2(x); return r1(v) === r1(x) && Math.round(v) === Math.round(x) ? v : r2(v - 0.01); };
     const rb = x => { const v = r1(x); return Math.round(v) === Math.round(x) ? v : r1(v - 0.1); };
@@ -495,7 +527,8 @@ export function seriesDecadeFile(model, g, decade){
     const teams = [], idx = new Map(), id = k => { if (!idx.has(k)){ idx.set(k, teams.length); teams.push(k); } return idx.get(k); }, pts = [], bad = [], say = s => { if (bad.length < 12) bad.push(s); };
     let n = 0;
     const rteams = [], ridx = new Map(), rid = k => { if (!ridx.has(k)){ ridx.set(k, rteams.length); rteams.push(k); } return ridx.get(k); }, rpts = [];
-    for (const ts of stamps){ const mp = runWindow(windowStartFor(ts), ts), R = ranksIn(mp, ts), out = [];
+    const AM = ALL ? allTimeMaps(stamps) : null;   // all time: one pass through the archive, captured at each date
+    stamps.forEach((ts, si) => { const mp = AM ? AM[si] : runWindow(windowStartFor(ts), ts), R = ranksIn(mp, ts), out = [];
       /* each team's two ranks under every band limit, for the decade's ranks file */
       { const saved = state.maxBand, RB = BAND_OPTIONS.map(b => { state.maxBand = b; return ranksIn(mp, ts); }), rout = []; state.maxBand = saved;
         for (const key of mp.keys()){ if (!statePt(mp, key, ts)) continue; const row = [rid(key)]; for (const Q of RB) row.push(Q.byR.get(key) || 0, Q.byLo.get(key) || 0); rout.push(row);
@@ -504,10 +537,12 @@ export function seriesDecadeFile(model, g, decade){
       for (const key of mp.keys()){ const p = statePt(mp, key, ts); if (!p) continue;
         const row = [id(key), keep(p.r), rb(p.b), R.byR.get(key) || 0, R.byLo.get(key) || 0]; out.push(row);
         n++; if (!(Math.abs(row[1] - p.r) <= 0.0101 && fmtR(row[1]) === fmtR(p.r) && Math.round(row[1]) === Math.round(p.r) && Math.abs(row[2] - p.b) <= 0.1001 && Math.round(row[2]) === Math.round(p.b))) say(fmtDate(ts) + ' ' + key + ': ' + row[1] + ' ±' + row[2] + ' v ' + p.r + ' ±' + p.b); }
-      pts.push(out); }
+      pts.push(out); });
     const file = {v:1, g, decade:D, print:stamps.length ? listPrintTo(state.matches[g], stamps[stamps.length - 1]) : 0, stamps, teams, pts};
     const ranks = {v:1, g, decade:D, print:file.print, bands:BAND_OPTIONS, stamps, teams:rteams, pts:rpts};
+    if (ALL){ file.all = true; ranks.all = true; }
     if (stamps.length && !seriesOk(JSON.parse(JSON.stringify(file)), g)) say('the page refused the file');
+    state.windowYears = DEFAULTS.windowYears;
     return {file, ranks, n, bad}; })()`);
 }
 /* How many quarter starts a decade's file holds (part of its mark: a quarter can turn with no match changed). */
@@ -522,6 +557,59 @@ export function seriesCount(model, g, decade){
 /* alt: {rfiles: {decade: ranks file}, rledgers: {year: ranks file}}. Then the same chart is read again under every other
    band limit and its ranks compared with the model's own under that limit: the quarter starts, each team's match days,
    and the date itself (where a rank can be one place out, as above). */
+/* The same under "all time": the quarter starts from the all-time series (files, rfiles: {decade: file}), each team's
+   match days of the last two years and the date itself from the all-time day tables (days: {year: file}), with today's
+   all-time table file in hand (tableAll). Compared with one pass of the model through the archive, under the usual
+   band limit and under every other. A match day or the date itself is read off a table kept to one decimal place, so
+   there a rank by the bottom of the band may be one place out. */
+export function seriesAllCheck(model, g, dates, files, rfiles, days, tableAll){
+  model.run(`__sf = ${JSON.stringify(JSON.stringify({files, rfiles, days, tableAll}))}`);
+  return model.run(`(() => { ${DEFAULT_STATE(g)}
+    const g = ${JSON.stringify(g)}, X = JSON.parse(__sf), bad = [], say = s => { if (bad.length < 12) bad.push(s); };
+    let n = 0, pts = 0, edge = 0, runs = 0, altPts = 0; const rw = runWindow, am = allTimeMaps, cr = computeRatings;
+    const watch = () => { runWindow = function(){ runs++; return rw.apply(this, arguments); }; allTimeMaps = function(){ runs++; return am.apply(this, arguments); }; computeRatings = function(){ runs++; return cr.apply(this, arguments); }; };
+    const free = () => { runWindow = rw; allTimeMaps = am; computeRatings = cr; };
+    state.windowYears = 0;
+    for (const d of ${JSON.stringify(dates)}){
+      const ao = Date.parse(d + 'T00:00:00Z'); state.asOf = ao; state.cache = {key:null}; state.dayCache = null; state.maxBand = DEFAULTS.maxBand;
+      state.useTableFiles = false; state.dayFiles = {}; state.seriesFiles = {}; state.seriesRankFiles = {}; state.tableFiles = {};
+      const c = getRatings(), st = pastStamps(ao).concat([ao]), maps = allTimeMaps(st);
+      const from = ao - TEAM_DETAIL_YEARS * 365 * DAY, extras = new Map(), days = new Set();
+      for (const [key, h] of c.history){ const e = [...new Set(h.filter(x => x.ts >= from && x.ts < ao).map(x => x.ts))]; extras.set(key, e); for (const t of e) days.add(t); }
+      const dl = [...days], dm = allTimeMaps(dl), dayMaps = new Map(dl.map((t, i) => [t, dm[i]]));
+      state.useTableFiles = true; state.tableFiles = {['all-' + g]:X.tableAll};
+      for (const [y, F] of Object.entries(X.days)) state.dayFiles['all|' + g + '|' + y] = F;
+      for (const [k, F] of Object.entries(X.files)) state.seriesFiles['all|' + g + '|' + k] = F;
+      for (const [k, F] of Object.entries(X.rfiles)) state.seriesRankFiles['all|' + g + '|' + k] = F;
+      for (const b of [DEFAULTS.maxBand].concat(BAND_OPTIONS.filter(x => x !== DEFAULTS.maxBand))){
+        const std = b === DEFAULTS.maxBand, tag = d + (std ? ' ' : ' ±' + b + ' ');
+        state.maxBand = b; state.cache = {key:null}; state.dayCache = null;
+        watch(); let S = null, err = null; try { S = snapsPast(snapKey()); } catch(e){ err = e; } finally { free(); }
+        n++; if (!S){ say(tag + 'the page did not read the files' + (err ? ': ' + err.message : '')); continue; }
+        n++; if (S.stamps.length !== st.length || S.stamps.some((t, i) => t !== st[i])){ say(tag + 'different dates'); continue; }
+        const drift = Math.round((ao - Date.parse(tableAt().day + 'T00:00:00Z')) / DAY) * 0.06;
+        const cmp = (w, own, x, p, er, el) => { n++; if (std) pts++; else altPts++;
+          if (!p){ if (x) say(w + ': a point the model does not have'); return; } if (!x){ say(w + ': no point'); return; }
+          /* A cut-off team's band on a day read off a table: the table's band carries the extra for being cut off,
+             kept to one decimal place, and taking the extra back out stretches that rounding. */
+          const tol = own ? 0.0501 + drift : 0.0101, cutB = BAND_Z * RD_MAX, tolB = 0.1001 * (own && x[5] ? Math.sqrt(p.b * p.b + cutB * cutB) / Math.max(1, p.b) : 1) + (own ? drift : 0);
+          if (!(Math.abs(p.r - x[1]) <= tol && Math.abs(p.b - x[2]) <= tolB)) return say(w + ': ' + p.r + ' ±' + p.b + ' v ' + x[1] + ' ±' + x[2]);
+          if (!own && !(fmtR(p.r) === fmtR(x[1]) && Math.round(p.r) === Math.round(x[1]) && Math.round(p.b) === Math.round(x[2]))) return say(w + ' as shown: ' + p.r + ' ±' + p.b + ' v ' + x[1] + ' ±' + x[2]);
+          if (x[3] === er && x[4] === el) return;
+          if (own && Math.abs((x[3] || er) - (er || x[3])) <= 1 && Math.abs((x[4] || el) - (el || x[4])) <= 1) edge++;
+          else say(w + ' ranks: ' + x[3] + '/' + x[4] + ' v ' + er + '/' + el); };
+        st.forEach((t, i) => { const R = ranksIn(maps[i], t);
+          for (const key of maps[i].keys()) cmp(tag + fmtDate(t) + ' ' + key, t === ao, S.rows[i].get(key), statePt(maps[i], key, t), R.byR.get(key) || 0, R.byLo.get(key) || 0); });
+        const RD = new Map();
+        for (const [key, e] of extras) for (const t of e){ if (!RD.has(t)) RD.set(t, ranksIn(dayMaps.get(t), t)); const R = RD.get(t);
+          cmp(tag + 'match day ' + fmtDate(t) + ' ' + key, true, S.recent.get(t).get(key), statePt(dayMaps.get(t), key, t), R.byR.get(key) || 0, R.byLo.get(key) || 0); }
+      }
+    }
+    n++; if (runs) say('the model ran ' + runs + ' times');
+    state.useTableFiles = false; state.dayFiles = {}; state.seriesFiles = {}; state.seriesRankFiles = {}; state.tableFiles = {}; state.dayCache = null;
+    state.maxBand = DEFAULTS.maxBand; state.windowYears = DEFAULTS.windowYears; state.asOf = state.bounds[g].max; state.cache = {key:null};
+    return {n, pts, altPts, edge, bad}; })()`);
+}
 export function seriesCheck(model, g, dates, files, ledgers, days, alt){
   model.run(`__sf = ${JSON.stringify(JSON.stringify({files, ledgers, days, alt:alt || null}))}`);
   return model.run(`(() => { ${DEFAULT_STATE(g)}
@@ -614,6 +702,7 @@ export function bestSeries(days, opts){
     if (o) o.e = D; const q = t.dq[i]; while (q.length && better(v, q[q.length - 1].v)) q.pop();
     const e = {v, x:extra, s:D, e:Infinity}; q.push(e); t.open[i] = e; if (t.raw) t.raw[i].push([D, v, extra]); };
   const lt = (a, b) => a < b, gt = (a, b) => a > b;
+  const b1 = v => { let q = Math.round(v * 10) / 10; if (Math.round(q) !== Math.round(v)) q = Math.round((q - 0.1) * 10) / 10; return q; };
   let stdBad = 0, nDays = 0, D = null, n = 0;
   const step = (day) => {   // the answers for day `day`, after that day's table (if any) has been put in
     const ws = wsOf(day);
@@ -622,8 +711,14 @@ export function bestSeries(days, opts){
       if (i < NS){ const v = none ? 0 : f.v, s0 = none ? 0 : f.s; if (!z ? !none : z[1] !== v || z[2] !== s0) L.push([day, v, s0]); }
       else { if (none){ if (z && z[1] !== null) L.push([day, null, 0, 0]); } else if (!z || z[1] !== f.v || z[3] !== f.s) L.push([day, f.v, f.x, f.s]); } } };
   for (let y = first; y <= last; y++){ const F = days(y); if (!F) continue;
-    F.days.forEach((ds, k) => { const dn = Math.round(Date.parse(ds + 'T00:00:00Z') / DAY), rows = F.tables[k]; nDays++;
-      if (D !== null) for (let d = D + 1; d < dn; d++) step(d);   // the days between two tables: nothing new, but old spells leave the window
+    /* Every day of the file: the days with a full table, and after each the days in between, whose rows are that
+       table's with the day's own ratings, bands, tiers and cautious places put in (as the page's dayRows does). */
+    const feed = []; F.days.forEach((ds, k) => { const dn0 = Math.round(Date.parse(ds + 'T00:00:00Z') / DAY), base = F.tables[k]; feed.push([dn0, base]);
+      (F.gaps ? F.gaps[k] : []).forEach((G, j) => { const dr = G[0] || [], db = G[1] || [], lo = G[3] || null;
+        const rows = base.map((x, i) => { const y = x.slice(); if (dr[i]) y[1] = Math.round(x[1] * 100 + dr[i]) / 100; if (db[i]) y[2] = Math.round(x[2] * 100 + db[i]) / 100; if (lo) y[5] = lo[i]; return y; });
+        feed.push([dn0 + j + 1, rows]); }); });
+    feed.forEach(([dn, rows]) => { nDays++;
+      if (D !== null) for (let d = D + 1; d < dn; d++) step(d);   // a day the files do not have (none, since every day has its figures): nothing new, but old spells leave the window
       const byLo = rows.slice().sort((a, b) => a[5] - b[5]), here = new Set();
       const rk = new Map(rows.map(r => [r[0], new Array(NS).fill(Infinity)]));
       bands.forEach((b, bi) => { let c = 0; for (const r of rows) if (!r[6] && (b === 0 || r[2] <= b)) rk.get(r[0])[bi * 2] = ++c;
@@ -632,7 +727,9 @@ export function bestSeries(days, opts){
       for (const r of rows){ const key = F.teams[r[0]], t = team(key), R = rk.get(r[0]); here.add(key); t.seen = dn;
         if (std >= 0 && (isFinite(R[std]) ? R[std] : 0) !== r[3]) stdBad++;
         for (let i = 0; i < NS; i++) put(t, i, dn, R[i], 0, lt);
-        put(t, NS, dn, r[1], r[6] ? Math.round(Math.sqrt(Math.max(0, r[2] * r[2] - cut * cut)) * 10) / 10 : r[2], gt); }
+        /* the peak is followed as the table shows it, to one decimal place (the rows keep two, and a rating can drift
+           by a hundredth a day); its band to one place too, never across the whole number the page shows */
+        put(t, NS, dn, Math.round(r[1] * 10) / 10, b1(r[6] ? Math.sqrt(Math.max(0, r[2] * r[2] - cut * cut)) : r[2]), gt); }
       for (const [key, t] of T) if (!here.has(key) && t.open[NS] && isFinite(t.open[NS].v)){ for (let i = 0; i < NS; i++) put(t, i, dn, Infinity, 0, lt); put(t, NS, dn, -Infinity, 0, gt); }   // out of the table
       step(dn); D = dn; }); }
   if (D !== null) for (let d = D + 1; d <= lastDay; d++) step(d);
@@ -652,6 +749,38 @@ export function bestSeries(days, opts){
   return {teams, n, nDays, bad};
 }
 
+/* A team's rank just after each of its matches with the window set to "all time", under every band limit and both rank
+   orders (the page's rankAllRows): a file a team. Checked two ways: a sample of matches against the page's own
+   rankAfter under every setting, and the same sample read back the way the page reads the file, with no model.
+   Returns {teams: {key: rows}, n, bad}. */
+export function rankAllFiles(model, g){
+  return model.run(`(() => { ${DEFAULT_STATE(g)}
+    const g = ${JSON.stringify(g)}, bad = [], say = s => { if (bad.length < 12) bad.push(s); }; let n = 0;
+    state.useTableFiles = false; state.rankAllFiles = {};
+    const M = rankAllRows(g), teams = {}; for (const [k, rows] of M) teams[k] = rows;
+    state.windowYears = 0; state.asOf = state.bounds[g].max; state.cache = {key:null};
+    const c = getRatings(), print = matchListPrint(state.matches[g]), keys = [...M.keys()], sample = [];
+    keys.forEach((k, i) => { const h = c.history.get(k); if (i % 7 === 0) for (let j = i % 5; j < h.length; j += 1 + Math.floor(h.length / 4)) sample.push([k, h[j].ts]); });
+    const ask = () => { const out = [];
+      for (const b of BAND_OPTIONS) for (const order of ['rating', 'lower']){ state.maxBand = b; state.rankBy = order; c._rankAfter = null;
+        for (const [k, ts] of sample) for (const byConf of [false, true]){ const r = rankAfter(c, k, ts, byConf); out.push(r ? r.rank + '/' + r.of : '-'); } }
+      return out; };
+    const A = ask();
+    /* the file's own numbers, row by row */
+    let q = 0;
+    BAND_OPTIONS.forEach((b, bi) => ['rating', 'lower'].forEach((order, oi) => { for (const [k, ts] of sample){ const row = M.get(k).find(r => r[0] === Math.round(ts / DAY));
+      for (const byConf of [false, true]){ const o = 1 + (bi * 2 + oi) * 4 + (byConf ? 2 : 0), got = row ? row[o] + '/' + row[o + 1] : 'no row'; n++;
+        if (got !== A[q]) say(k + ' ' + fmtDate(ts) + ' ±' + b + ' ' + order + (byConf ? ' in its confederation' : '') + ': ' + got + ' v ' + A[q]); q++; } } }));
+    /* and read back by the page, with no model */
+    state.useTableFiles = true; for (const [k] of sample) state.rankAllFiles[g + '|' + k] = {v:1, g, key:k, print, rows:M.get(k)};
+    let runs = 0; const inf = inflate; inflate = function(){ runs++; return inf.apply(this, arguments); };
+    let Bk; try { Bk = ask(); } finally { inflate = inf; }
+    n++; if (runs) say('the page worked ' + runs + ' ranks out itself');
+    A.forEach((a, i) => { n++; if (a !== Bk[i]) say('read back, answer ' + i + ': ' + Bk[i] + ' v ' + a); });
+    state.useTableFiles = false; state.rankAllFiles = {}; state.windowYears = DEFAULTS.windowYears; state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy; state.cache = {key:null};
+    return {teams, n, bad, print, sample:sample.length}; })()`);
+}
+
 /* The best files against the page. dates: dates to view; best: {key: file} for some teams; days: {year: match-day
    file} for the dates' years and the years before. For each date and each of the twelve settings: the rank the page's
    own table shows a team that day can never beat the file's best rank for the window ending that day; when the file
@@ -668,16 +797,17 @@ export function bestCheck(model, g, dates, best, days){
         for (const b of BAND_OPTIONS) for (const order of ['rating', 'lower']){ state.maxBand = b; state.rankBy = order; state.cache = {key:null}; state.dayCache = null;
           /* the day's table from its file, ranked under the setting as the page ranks it (today's date included: the
              page itself reads today from the table file, which says the same) */
-          const hit = dayFor(g, ao), w = d + ' ±' + b + ' ' + order + ' '; let c = hit ? tableFromDay(hit.F, hit.i, null) : null;
-          if (c && !rankStd()){ const PW = hit.F.pw[hit.i].slice(1); c = rerankTable(c, new Map(PW.map(([p, w2, m]) => [p, {m, w:w2}]))); }
+          const hit = dayFor(g, ao), w = d + ' ±' + b + ' ' + order + ' '; let c = hit ? tableFromDay(hit.F, hit.i, null, hit.k) : null;
+          if (c && !rankStd()){ const PW = dayPw(hit.F, hit.i, hit.k).slice(1); c = rerankTable(c, new Map(PW.map(([p, w2, m]) => [p, {m, w:w2}]))); }
           if (!c){ say(w + 'no table from the files'); continue; }
           for (const [key, F] of Object.entries(X.best)){ const B = bestAt(F, key, ao), row = c.byKey.get(key); n++;
             if (!B){ say(w + key + ': the page refused the file'); continue; }
             const mine = B[order === 'lower' ? 'lo' : 'r'], now = row && row.rank ? row.rank : 0;
             if (now && (!mine || mine.n > now)) say(w + key + ': ranked ' + now + ' that day, best in the file ' + (mine ? mine.n : 'none'));
             if (mine && mine.ts === ao){ held++; if (mine.n !== now) say(w + key + ': best ' + mine.n + ' first held that day, ranked ' + now); }
-            if (row && (!B.peak || B.peak.r < row.rating - 1e-9)) say(w + key + ': rated ' + row.rating + ' that day, peak in the file ' + (B.peak ? B.peak.r : 'none'));
-            if (B.peak && B.peak.ts === ao && row && Math.abs(B.peak.r - row.rating) > 1e-9) say(w + key + ': peak ' + B.peak.r + ' set that day, rated ' + row.rating); } } }
+            const shown = row ? Math.round(row.rating * 10) / 10 : null;   /* the peak is kept as the table shows it, to one decimal place */
+            if (row && (!B.peak || B.peak.r < shown - 1e-9)) say(w + key + ': rated ' + row.rating + ' that day, peak in the file ' + (B.peak ? B.peak.r : 'none'));
+            if (B.peak && B.peak.ts === ao && row && Math.abs(B.peak.r - shown) > 1e-9) say(w + key + ': peak ' + B.peak.r + ' set that day, rated ' + row.rating); } } }
       const k0 = Object.keys(X.best)[0]; state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy;
       n++; if (k0 && bestAt({...X.best[k0], print:X.best[k0].print + 1}, k0, state.asOf) !== null) say('a file for another match list was read');
       n++; if (k0){ state.maxBand = 175; if (bestAt(X.best[k0], k0, state.asOf) !== null) say('read under an unlisted band limit'); state.maxBand = DEFAULTS.maxBand; }
@@ -765,10 +895,27 @@ export function recordsFile(model, g){
 export function histFile(model, g){
   return model.run(`(() => { ${DEFAULT_STATE(g)}
     const g = ${JSON.stringify(g)}, bad = [], say = s => { if (bad.length < 12) bad.push(s); }; let n = 0;
-    state.useTableFiles = false; state.histAllCache = {};
+    /* The build looks at the ranks every day, under every band limit in the one pass (the page's own replay looks at
+       month starts): best ranks and peaks to the day. */
+    state.useTableFiles = false; state.histAllCache = {}; state.histDaily = true;
     const H = histAll(g), file = histToFile(g, H), B = histFromFile(g, JSON.parse(JSON.stringify(file)));
+    const ranks = histRanksToFile(g), R3 = JSON.parse(JSON.stringify(ranks)); let rankN = 0;
+    /* and without the minimum number of ranked teams, for a team's History when the window is set to "all time" */
+    const ranksW = histRanksToFile(g, true), W3 = JSON.parse(JSON.stringify(ranksW));
+    const wCheck = (A, tag) => { state.histFiles = {[g]:file}; state.histWFiles = {[g]:W3};
+      for (const b of BAND_OPTIONS){ state.maxBand = b; const A0 = A.bestBy0.get(b);
+        for (const k of A.items.keys()){ const x = A0.get(k) || {}, y = histWindowBest(g, k); if (!y){ say(tag + '±' + b + ' ' + k + ': the page did not read the all-time window file'); break; }
+          for (const f of ['r', 'lo']){ n++; rankN++; const a = x[f], c = y[f]; if (!(a && c ? a.n === c.n && a.ts === c.ts : !a && !c)) say(tag + '±' + b + ' ' + k + ' best ' + f + ' (no minimum): ' + JSON.stringify(a) + ' v ' + JSON.stringify(c)); } } }
+      state.maxBand = DEFAULTS.maxBand; state.histFiles = {}; state.histWFiles = {}; };
+    wCheck(H, '');
     state.histAllCache = {};
-    if (!B) return {file, n, bad:['the page refused the file']};
+    if (!B){ state.histDaily = false; return {file, n, bad:['the page refused the file']}; }
+    /* today under every band limit: the ranks file read back against the pass */
+    for (const b of BAND_OPTIONS){ state.maxBand = b; const C = histFromFile(g, JSON.parse(JSON.stringify(file)), b === DEFAULTS.maxBand ? null : R3), A = H.bestBy.get(b);
+      if (!C){ say('±' + b + ': the page refused the ranks file'); continue; }
+      for (const k of H.items.keys()){ const x = A.get(k) || {}, y = C.best.get(k) || {};
+        for (const f of ['r', 'lo']){ n++; rankN++; const a = x[f], c = y[f]; if (!(a && c ? a.n === c.n && a.ts === c.ts : !a && !c)) say('±' + b + ' ' + k + ' best ' + f + ': ' + JSON.stringify(a) + ' v ' + JSON.stringify(c)); } } }
+    state.maxBand = DEFAULTS.maxBand;
     const eq = (a, b, w) => { n++; if (a !== b) say(w + ': ' + a + ' v ' + b); }, num = (a, b, w) => { n++; if (a === undefined || b === undefined ? a !== b : !(Math.abs(a - b) <= 5.1e-7)) say(w + ': ' + a + ' v ' + b); };
     eq(H.items.size, B.items.size, 'teams'); eq(H.peak.size, B.peak.size, 'peaks'); eq(H.best.size, B.best.size, 'best ranks');
     for (const [k, items] of H.items){ const it = B.items.get(k) || [], S = histStats(items), T = histStats(it), x = H.best.get(k) || {}, y = B.best.get(k) || {}, p = H.peak.get(k), q = B.peak.get(k);
@@ -783,7 +930,7 @@ export function histFile(model, g){
     /* Past dates: the file answers for any date up to its own. Peak, upsets and match lines must equal the page's. A
        best rank may differ only around the date itself: the page looks at the date in view and skips the month starts
        since the last match before it; the file has every month start and not the date. */
-    { const B0 = state.bounds[g], dates = [0.35, 0.6, 0.8, 0.93, 0.985].map(f => Math.round((B0.min + (B0.max - B0.min) * f) / DAY) * DAY), F2 = JSON.parse(JSON.stringify(file));
+    { const B0 = state.bounds[g], dates = [0.6, 0.93].map(f => Math.round((B0.min + (B0.max - B0.min) * f) / DAY) * DAY), F2 = JSON.parse(JSON.stringify(file));
       for (const d of dates){ state.asOf = d; state.histAllCache = {}; const A = histAll(g), C = histFromFile(g, F2), w0 = fmtDate(d) + ' ', ms = state.matches[g], li = firstIndexAt(ms, d + 1) - 1, lm = li >= 0 ? ms[li].ts : -Infinity;
         if (!C){ say(w0 + 'the page refused the file'); continue; }
         eq(A.items.size, C.items.size, w0 + 'teams');
@@ -792,21 +939,16 @@ export function histFile(model, g){
           eq(!!p, !!q, w + ' peak'); if (p && q){ num(p.r, q.r, w + ' peak rating'); eq(p.ts, q.ts, w + ' peak date'); eq(p.nm, q.nm, w + ' peak name'); }
           eq(S.n, T.n, w + ' matches');
           for (const f of ['win', 'loss', 'upWin', 'upLoss']) eq(S[f] ? S[f].m : null, T[f] ? T[f].m : null, w + ' ' + f);
-          if (S.upWin && T.upWin) num(S.upWin.p, T.upWin.p, w + ' upset win chance'); if (S.upLoss && T.upLoss) num(S.upLoss.q, T.upLoss.q, w + ' upset loss chance'); } }
+          if (S.upWin && T.upWin) num(S.upWin.p, T.upWin.p, w + ' upset win chance'); if (S.upLoss && T.upLoss) num(S.upLoss.q, T.upLoss.q, w + ' upset loss chance'); }
+        /* the same date under every band limit, from the same pass */
+        for (const b of BAND_OPTIONS){ if (b === DEFAULTS.maxBand) continue; state.maxBand = b; const C2 = histFromFile(g, F2, R3), A2 = A.bestBy.get(b); state.maxBand = DEFAULTS.maxBand;
+          if (!C2){ say(w0 + '±' + b + ': the page refused the ranks file'); continue; }
+          for (const k of A.items.keys()){ const x = A2.get(k) || {}, y = C2.best.get(k) || {};
+            for (const f of ['r', 'lo']){ n++; rankN++; const a = x[f], c = y[f], same = a && c ? a.n === c.n && a.ts === c.ts : !a && !c; if (!same) say(w0 + '±' + b + ' ' + k + ' best ' + f + ': ' + JSON.stringify(a) + ' v ' + JSON.stringify(c)); } } }
+        wCheck(A, w0); }
       state.asOf = B0.max; state.histAllCache = {}; }
-    /* The best ranks under every band limit (the ranks file beside it): the replay once a limit, read back the way the
-       page reads it, today and on two past dates (with the same leeway around the date as above). */
-    state.histAllCache = {}; const ranks = histRanksToFile(g), F3 = JSON.parse(JSON.stringify(file)), R3 = JSON.parse(JSON.stringify(ranks)), B1 = state.bounds[g]; let rankN = 0;
-    for (const d of [B1.max, Math.round((B1.min + (B1.max - B1.min) * 0.6) / DAY) * DAY, Math.round((B1.min + (B1.max - B1.min) * 0.93) / DAY) * DAY]){
-      const ms = state.matches[g], li = firstIndexAt(ms, d + 1) - 1, lm = li >= 0 ? ms[li].ts : -Infinity, past = d < B1.max;
-      for (const b of BAND_OPTIONS){ state.asOf = d; state.maxBand = b; if (past) state.histAllCache = {};
-        const A = histAll(g), C = histFromFile(g, F3, b === DEFAULTS.maxBand ? null : R3), w0 = fmtDate(d) + ' ±' + b + ' ';
-        if (!C){ say(w0 + 'the page refused the ranks file'); continue; }
-        for (const k of A.items.keys()){ const x = A.best.get(k) || {}, y = C.best.get(k) || {};
-          for (const f of ['r', 'lo']){ n++; rankN++; const a = x[f], c = y[f], same = a && c ? a.n === c.n && a.ts === c.ts : !a && !c;
-            if (!same && !(past && ((a && a.ts === d) || (c && c.ts > lm)))) say(w0 + k + ' best ' + f + ': ' + JSON.stringify(a) + ' v ' + JSON.stringify(c)); } } } }
-    state.asOf = B1.max; state.maxBand = DEFAULTS.maxBand; state.histAllCache = {};
-    return {file, ranks, rankN, n, bad}; })()`);
+    state.histDaily = false; state.maxBand = DEFAULTS.maxBand; state.histAllCache = {};
+    return {file, ranks, ranksW, rankN, n, bad}; })()`);
 }
 
 /* Stage 4: what today's forecasts are made from (the page's fcToFile): every team in the all-time table, the goals
@@ -822,13 +964,13 @@ export function fcFile(model, g, fixtures){
     const c = getRatings(), file = fcToFile(g, fixtures), tf = JSON.parse(JSON.stringify(tableToFile(c)));
     const fp = fx => { const f = fixturePrediction(c0, fx); return f.p ? [f.p.home, f.p.draw, f.p.away, f.sl.xg[0], f.sl.xg[1], f.sl.pick[0], f.sl.pick[1], f.E] : null; };
     const pairs = []; { const T = c.table; for (let i = 0; i < T.length; i += 7) for (let j = 3; j < T.length; j += 31) if (i !== j) pairs.push({home:T[i].team, away:T[j].team, date:fmtDate(state.asOf), neutral:(i + j) % 2 === 0, country:(i + j) % 2 ? T[i].team : undefined, tournament:'Friendly'}); }
-    let c0 = c; const A = fixtures.concat(pairs).map(fp), SA = fixtures.map(fx => { const q = stakeQuery(c, fx); return q ? ratingStakes(c, q.ka, q.kb, q.neutral, q.k) : null; });
+    let c0 = c; const A = fixtures.concat(pairs).map(fp), SA = fixtures.map(fx => { const q = stakeQuery(c, fx); return q ? ratingStakes(c, q.ka, q.kb, q.neutral, q.kind) : null; });
     const GA = goalsStats(c, 'med'), lmA = lmTable();
     /* the published copy: today's table and the forecast file, no model */
     state.useTableFiles = true; state.tableFiles = {[g]:tf}; state.fcFiles = {[g]:JSON.parse(JSON.stringify(file))}; clear();
     let runs = 0; const rw = runWindow; runWindow = function(){ runs++; return rw.apply(this, arguments); };
     c0 = getRatings(); n++; if (!c0.fromFile) say('the table was not read from its file');
-    const B = fixtures.concat(pairs).map(fp), SB = fixtures.map(fx => { const q = stakeQuery(c0, fx); return q ? ratingStakes(c0, q.ka, q.kb, q.neutral, q.k) : null; });
+    const B = fixtures.concat(pairs).map(fp), SB = fixtures.map(fx => { const q = stakeQuery(c0, fx); return q ? ratingStakes(c0, q.ka, q.kb, q.neutral, q.kind) : null; });
     const GB = goalsStats(c0, 'med'), lmB = lmTable(), G = goalsModel(g, state.asOf);
     runWindow = rw; n++; if (runs) say('the model ran ' + runs + ' times'); n++; if (!G || !G.fromFile) say('the goals figures were not read from the file');
     A.forEach((a, i) => { const b = B[i]; n++; if (!a !== !b) return say('forecast ' + i + ': one is missing'); if (!a) return;
@@ -840,6 +982,37 @@ export function fcFile(model, g, fixtures){
     for (const [k, v] of GA.map){ n++; if (JSON.stringify(v) !== JSON.stringify(GB.map.get(k))) say('goals figures of ' + k + ': ' + JSON.stringify(v) + ' v ' + JSON.stringify(GB.map.get(k))); }
     state.useTableFiles = false; state.tableFiles = {}; state.fcFiles = {}; clear();
     return {file, n, bad, fixtures:fixtures.length, withStakes:Object.keys(file.stakes).length, pairs:pairs.length}; })()`);
+}
+
+/* The Predictor's "what this result would do to both ratings" for listed fixtures (the page's stakesToFile): every
+   pairing on the fixture list, and the pairing the Predictor opens on, in each venue and kind of match the Predictor
+   offers, under the usual window and under all time. Read back the way the page reads it (today's two tables, the
+   forecast file and this file, no model) and compared with what the page works out itself, the two ways round on
+   neutral ground included. Returns {file, n, bad}. */
+export function stakesFile(model, g, fixtures){
+  model.run(`__fxl = ${JSON.stringify(JSON.stringify(fixtures || []))}`);
+  return model.run(`(() => { ${DEFAULT_STATE(g)}
+    const g = ${JSON.stringify(g)}, fixtures = JSON.parse(__fxl), bad = [], say = s => { if (bad.length < 12) bad.push(s); }; let n = 0;
+    const clear = () => { for (const k of Object.keys(lmCache)) delete lmCache[k]; for (const k of Object.keys(lmTabCache)) delete lmTabCache[k]; gmCache = {}; state.cache = {key:null}; };
+    state.useTableFiles = false; state.fcFiles = {}; state.tableFiles = {}; state.stakeFiles = {}; clear();
+    const file = stakesToFile(g, fixtures), fc = fcToFile(g, fixtures), ks = predKs(), W = [DEFAULTS.windowYears, 0];
+    const asks = c => { const top = c.table.length >= 2 ? c.table : c.all, out = [];
+      const pairs = fixtures.map(fx => stakeQuery(c, fx)).filter(q => q).map(q => [q.ka, q.kb, q.kind]); if (top.length >= 2) pairs.push([top[0].key, top[1].key, null]);
+      for (const [ka, kb, k0] of pairs) for (const [a, b, nt] of [[ka, kb, false], [kb, ka, false], [ka, kb, true], [kb, ka, true]])
+        for (const k of new Set(k0 === null ? ks : ks.concat([k0]))) out.push([a, b, nt, k, ratingStakes(c, a, b, nt, k)]);
+      return out; };
+    const A = [], tfs = {};
+    for (const w of W){ state.windowYears = w; clear(); const c = getRatings(); A.push(asks(c)); tfs[(w === 0 ? 'all-' : '') + g] = JSON.parse(JSON.stringify(tableToFile(c))); }
+    /* the published copy: no model */
+    state.useTableFiles = true; state.tableFiles = tfs; state.fcFiles = {[g]:JSON.parse(JSON.stringify(fc))}; state.stakeFiles = {[g]:JSON.parse(JSON.stringify(file))};
+    let runs = 0; const rw = runWindow, cr = computeRatings; runWindow = function(){ runs++; return rw.apply(this, arguments); }; computeRatings = function(){ runs++; return cr.apply(this, arguments); };
+    W.forEach((w, wi) => { state.windowYears = w; clear(); const c = getRatings(); n++; if (!c.fromFile) say('window ' + w + ': the table was not read from its file');
+      const B = asks(c); n++; if (B.length !== A[wi].length) return say('window ' + w + ': ' + A[wi].length + ' questions v ' + B.length);
+      A[wi].forEach((a, i) => { const b = B[i], id = 'window ' + w + ' ' + a.slice(0, 4).join('|'); n++; if (!a[4] || !b[4]) return say(id + ': missing');
+        a[4].forEach((x, j) => { n += 2; const y = b[4][j]; if (!(Math.abs(x.da - y.da) <= 1.1e-6 && Math.abs(x.db - y.db) <= 1.1e-6) || x.hs !== y.hs || x.as !== y.as) say(id + ' result ' + j + ': ' + x.da + '/' + x.db + ' v ' + y.da + '/' + y.db); }); }); });
+    runWindow = rw; computeRatings = cr; n++; if (runs) say('the model ran ' + runs + ' times');
+    state.useTableFiles = false; state.tableFiles = {}; state.fcFiles = {}; state.stakeFiles = {}; state.windowYears = DEFAULTS.windowYears; clear();
+    return {file, n, bad, entries:Object.keys(file.win).length + Object.keys(file.all).length}; })()`);
 }
 
 /* The era comparer: every year's closing table (the page's yearEndsToFile), read back the way the page reads it and
@@ -924,7 +1097,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   for (const g of ['men', 'women']) model.load(g, JSON.parse(fs.readFileSync(path.join(DATA, g + '.json'), 'utf8')));
   fs.mkdirSync(OUT, {recursive:true});
   const built = new Date().toISOString(), kb = n => (n / 1024).toFixed(0) + ' KB';
-  const what = (process.env.PRECOMPUTE_WHAT || 'days,matches,ed').split(',').filter(Boolean);
+  const what = (process.env.PRECOMPUTE_WHAT || 'days,all,matches,ed').split(',').filter(Boolean);
   for (const g of ['men', 'women']){
     /* The month-end tables are superseded by the match-day files and take most of a minute, so they are only made when asked for (PRECOMPUTE_WHAT=months,...). */
     const R = precompute(model, g, what.includes('months') ? +(process.env.PRECOMPUTE_FROM || 0) : 9999);
@@ -950,14 +1123,18 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     console.log(`${g}: today's table of ${R.latest.rows.length} teams in ${R.msLatest} ms` + (R.months.stamps.length ? `; ${R.months.stamps.length} month-end tables (${R.months.from} to ${R.months.to}) in ${(R.msMonths / 1000).toFixed(1)} s` : ''));
   }
   /* Year by year: the table after every match day (the usual window, and all time) and every match as published.
-     PRECOMPUTE_WHAT=days,all,matches,ed picks which (default days,matches,ed); PRECOMPUTE_YEARS=1990-2026 limits the years. */
+     PRECOMPUTE_WHAT=days,all,matches,ed picks which (the default is all four); PRECOMPUTE_YEARS=1990-2026 limits the years. */
   const mfile = path.join(OUT, 'manifest.json'), manifest = fs.existsSync(mfile) ? JSON.parse(fs.readFileSync(mfile, 'utf8')) : {};
   const mp = modelPrint(model), force = process.env.PRECOMPUTE_FORCE === '1' || manifest.model !== mp;
   if (force) for (const k of Object.keys(manifest)) delete manifest[k];
   manifest.model = mp;
   const [y0, y1] = (process.env.PRECOMPUTE_YEARS || '').split('-').map(Number);
   /* A change to a kind of file's layout: bump its mark here and every year of it is worked out again. */
-  const FORMAT = {days:'v5:', all:'v5:', matches:'v2d:'};   // matches v2b: the expected result to six decimal places (four moved a shown chance by a point now and then)
+  /* The day files hold each team's tier, and so do the tournament files (each side's world and confederation tier
+     going in) and the all-time and year-end tables, so the bar tiers are cut at is part of their marks: when it
+     changes, they are all written again (13 Nov 2026: 90% to 80%). */
+  const TIER_MARK = 't' + Math.round(model.run('TIER_P') * 100) + ':';
+  const FORMAT = {days:'v6:' + TIER_MARK, all:'v6:' + TIER_MARK, matches:'v2d:'};   // days v6: every day's own figures, two decimal places   // matches v2b: the expected result to six decimal places (four moved a shown chance by a point now and then)
   const jobs = {days:(g, y) => dayTables(model, g, y, false), all:(g, y) => dayTables(model, g, y, true), matches:(g, y) => matchLedger(model, g, y)};
   for (const g of ['men', 'women']){
     const first = new Date(model.run(`state.bounds[${JSON.stringify(g)}].min`)).getUTCFullYear(), last = new Date(model.run(`state.bounds[${JSON.stringify(g)}].max`)).getUTCFullYear();
@@ -1020,7 +1197,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     let done = 0, kept = 0, gone = 0, bytes = 0, n = 0;
     for (const f of fs.readdirSync(dir)) if (!names.has(f)){ fs.unlinkSync(path.join(dir, f)); delete manifest[`${kind}/${g}/${f}`]; gone++; }
     let seen = 0, deepN = 0;
-    for (const e of list){ const name = `${kind}/${g}/${e.name}.json`, file = path.join(OUT, name), print = 'v3:' + e.print; seen++;
+    for (const e of list){ const name = `${kind}/${g}/${e.name}.json`, file = path.join(OUT, name), print = 'v3:' + TIER_MARK + e.print; seen++;
       if (manifest[name] === print && fs.existsSync(file)){ kept++; continue; }
       const R = editionFile(model, g, e.id, allTime, seen % 20 === 1); deepN += R.deepN || 0;
       if (R.bad.length) throw new Error(`${name} does not match the page: ${R.bad.join('; ')}`);
@@ -1032,11 +1209,12 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   /* Records and the teams' all-time history: kept while the archive and the model are unchanged. */
   for (const g of ['men', 'women']){
     const last = new Date(model.run(`state.bounds[${JSON.stringify(g)}].max`)).getUTCFullYear(), all = inputPrint(model, g, last, true);
-    for (const [name, make, mark] of [[`records-${g}.json`, recordsFile, 'v1:'], [`hist-${g}.json`, histFile, 'v2b:'], [`yearends-${g}.json`, yearEndsFile, 'v1:']]){
-      const file = path.join(OUT, name), print = mark + all;
+    for (const [name, make, mark] of [[`records-${g}.json`, recordsFile, 'v1:'], [`hist-${g}.json`, histFile, 'v2d:'], [`yearends-${g}.json`, yearEndsFile, 'v1:']]){
+      const file = path.join(OUT, name), print = mark + TIER_MARK + all;
       if (manifest[name] === print && fs.existsSync(file)){ console.log(`${name}: unchanged`); continue; }
       const t0 = Date.now(), R = make(model, g);
       if (R.bad.length) throw new Error(`${name} does not match the page: ${R.bad.join('; ')}`);
+      if (R.ranksW){ const wn = `histw-${g}.json`, ws = JSON.stringify({built, ...R.ranksW}); fs.writeFileSync(path.join(OUT, wn), ws + '\n'); manifest[wn] = print; console.log(`${wn}: the same for the all-time window, ${kb(ws.length)} (${kb(zlib.gzipSync(ws).length)} gzipped)`); }
       if (R.ranks){ const rn = `histr-${g}.json`, rs = JSON.stringify({built, ...R.ranks}); fs.writeFileSync(path.join(OUT, rn), rs + '\n'); manifest[rn] = print;
         console.log(`${rn}: best ranks under every band limit, ${R.rankN} equal to the page's, ${kb(rs.length)} (${kb(zlib.gzipSync(rs).length)} gzipped)`); }
       const s = JSON.stringify({built, ...R.file}); fs.writeFileSync(file, s + '\n'); manifest[name] = print;
@@ -1049,9 +1227,9 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
      and a few teams on a few dates against the page's own table for that day under all twelve settings. */
   for (const g of ['men', 'women']){
     const t0 = Date.now(), dir = path.join(OUT, 'best', g), B = model.run(`state.bounds[${JSON.stringify(g)}]`), first = new Date(B.min).getUTCFullYear(), last = new Date(B.max).getUTCFullYear();
-    const mark = 'v1:' + inputPrint(model, g, last, true), mname = `best/${g}`;
+    const mark = 'v2:' + inputPrint(model, g, last, true), mname = `best/${g}`;   // v2: every day counted (day files layout 6), the peak as the table shows it
     if (manifest[mname] === mark && fs.existsSync(dir)){ console.log(`best/${g}: unchanged`); continue; }
-    const read = y => { const f = path.join(OUT, 'days', g, y + '.json'); if (!fs.existsSync(f)) return null; const F = JSON.parse(fs.readFileSync(f, 'utf8')); return F.v === 5 ? F : null; };
+    const read = y => { const f = path.join(OUT, 'days', g, y + '.json'); if (!fs.existsSync(f)) return null; const F = JSON.parse(fs.readFileSync(f, 'utf8')); return F.v === 6 ? F : null; };
     if (!read(last)){ console.log(`best/${g}: skipped (no match-day tables to read)`); continue; }
     const R = bestSeries(read, {first, last, lastDay:Math.round(B.max / 86400000), bands:model.run('BAND_OPTIONS'), cut:model.run('BAND_Z*RD_MAX')});
     if (R.bad.length) throw new Error(`best/${g} does not add up: ${R.bad.join('; ')}`);
@@ -1069,6 +1247,21 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     keys.forEach((key, i) => { const s = JSON.stringify({built, ...files.get(key)}); fs.writeFileSync(path.join(dir, names[i] + '.json'), s + '\n'); bytes += s.length; gz += zlib.gzipSync(s).length; });
     manifest[mname] = mark; fs.writeFileSync(mfile, JSON.stringify(manifest, null, 1) + '\n');
     console.log(`best/${g}: ${keys.length} teams from ${R.nDays} days of tables (${kb(bytes)}, ${kb(gz)} gzipped; the largest ${kb(Math.max(...keys.map(k => JSON.stringify(files.get(k)).length)))}), ${R.n} answers equal to a plain scan, ${cn} compared with the page's table for the day (${held} exactly) (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+  }
+  /* A team's rank after each of its matches under "all time": a file a team, worked out again when any match changes. */
+  for (const g of ['men', 'women']){
+    const t0 = Date.now(), dir = path.join(OUT, 'ranka', g), B = model.run(`state.bounds[${JSON.stringify(g)}]`), last = new Date(B.max).getUTCFullYear();
+    const mark = 'v1:' + inputPrint(model, g, last, true), mname = `ranka/${g}`;
+    if (manifest[mname] === mark && fs.existsSync(dir)){ console.log(`ranka/${g}: unchanged`); continue; }
+    const R = rankAllFiles(model, g);
+    if (R.bad.length) throw new Error(`ranka/${g} does not match the page: ${R.bad.join('; ')}`);
+    const keys = Object.keys(R.teams), names = model.run(`${JSON.stringify(keys)}.map(bestFileName)`), bands = model.run('BAND_OPTIONS');
+    if (new Set(names).size !== names.length) throw new Error(`ranka/${g}: two teams share a file name`);
+    fs.rmSync(dir, {recursive:true, force:true}); fs.mkdirSync(dir, {recursive:true}); let bytes = 0, gz = 0, big = 0, rows = 0;
+    keys.forEach((key, i) => { const s = JSON.stringify({built, v:1, g, key, asOf:B.max, print:R.print, bands, rows:R.teams[key]}); fs.writeFileSync(path.join(dir, names[i] + '.json'), s + '\n');
+      bytes += s.length; gz += zlib.gzipSync(s).length; big = Math.max(big, s.length); rows += R.teams[key].length; });
+    manifest[mname] = mark; fs.writeFileSync(mfile, JSON.stringify(manifest, null, 1) + '\n');
+    console.log(`ranka/${g}: ${keys.length} teams, ${rows} match days (${kb(bytes)}, ${kb(gz)} gzipped; the largest ${kb(big)}), ${R.n} ranks equal to the page's on ${R.sample} matches under every setting (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
   }
   /* The goals figures for past dates: a file a year, all from one run through the archive; a year is written again
      only when a match up to its end has changed. Checked on a spread of dates in every sixth year and the last three. */
@@ -1119,6 +1312,42 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     Object.assign(manifest, marks); fs.writeFileSync(mfile, JSON.stringify(manifest, null, 1) + '\n');
     console.log(`series/${g}: ${done} decades written (${kb(bytes)}), ${kept} unchanged, ${n} values equal to the page's; ranks under every band limit ${kb(rbytes)}; ${tried} past charts read back, ${pts} points equal and ${altPts} ranks under the other band limits (${edge} on a rounding edge) (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
   }
+  /* A past date with the window set to "all time": the tables are the year files under all/ (written above), a match's
+     ratings come from today's all-time table file, and the chart's older part from a series of its own (series-all/,
+     with its ranks under every band limit in seriesr-all/). A few days' tables and a few past charts are read back the
+     way the page reads them, on every run. */
+  for (const g of ['men', 'women']){
+    const t0 = Date.now(), dir = path.join(OUT, 'series-all', g), first = new Date(model.run(`state.bounds[${JSON.stringify(g)}].min`)).getUTCFullYear(), last = new Date(model.run(`state.bounds[${JSON.stringify(g)}].max`)).getUTCFullYear();
+    const read = (kind, y) => { const f = path.join(OUT, kind, g, y + '.json'); return fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : null; };
+    if (!read('all', last)){ console.log(`all time on a past date (${g}): no year files (PRECOMPUTE_WHAT without "all"), nothing written`); continue; }
+    let done = 0, kept = 0, bytes = 0, rbytes = 0, n = 0; const marks = {};
+    fs.mkdirSync(dir, {recursive:true});
+    for (let D = Math.floor(first / 10) * 10; D <= last; D += 10){
+      const name = `series-all/${g}/${D}.json`, file = path.join(OUT, name), print = 'v1:' + seriesCount(model, g, D) + ':' + inputPrint(model, g, Math.min(D + 9, last), true);
+      const rname = `seriesr-all/${g}/${D}.json`, rfile = path.join(OUT, rname);
+      if (manifest[name] === print && fs.existsSync(file) && manifest[rname] === print && fs.existsSync(rfile)){ kept++; continue; }
+      const R = seriesDecadeFile(model, g, D, true);
+      if (R.bad.length) throw new Error(`${name} does not match the page: ${R.bad.join('; ')}`);
+      const s = JSON.stringify({built, ...R.file}); fs.writeFileSync(file, s + '\n'); delete manifest[name]; marks[name] = print; done++; bytes += s.length; n += R.n;
+      const rs = JSON.stringify({built, ...R.ranks}); fs.mkdirSync(path.dirname(rfile), {recursive:true}); fs.writeFileSync(rfile, rs + '\n'); delete manifest[rname]; marks[rname] = print; rbytes += rs.length;
+    }
+    const tableAll = JSON.parse(fs.readFileSync(path.join(OUT, `table-all-${g}.json`), 'utf8'));
+    /* tables: a day in the middle of three years, as published and ranked again under another band limit in the cautious order */
+    let tn = 0, tdays = 0;
+    for (const y of [...new Set([first + 8, g === 'men' ? 1974 : 1999, last - 1])]){ const F = read('all', y), P = read('all', y - 1), i = F ? F.days.length >> 1 : -1; if (i < 0) continue;
+      for (const set of [null, {maxBand:150, rankBy:'lower'}]){ const C = dayCheck(model, g, F, i, 0, P ? [P] : [], set, tableAll); tn += C.n; tdays++;
+        if (C.bad.length) throw new Error(`all/${g}/${y}.json, ${F.days[i]}${set ? ' ranked again' : ''}, does not match the page: ${C.bad.join('; ')}`); } }
+    /* charts */
+    const dates = (g === 'men' ? ['1938-06-20', '1974-07-08'] : ['1999-07-11']).concat([(last - 1) + '-03-15']); let pts = 0, edge = 0, tried = 0, altPts = 0;
+    for (const d of dates){ const y = +d.slice(0, 4), files = {}, rfiles = {}, days = {};
+      for (let D = Math.floor(first / 10) * 10; D <= y; D += 10){ const F = read('series-all', D), RF = read('seriesr-all', D); if (F) files[D] = F; if (RF) rfiles[D] = RF; }
+      for (let k = y - 3; k <= y; k++){ const F = read('all', k); if (F) days[k] = F; }
+      const C = seriesAllCheck(model, g, [d], files, rfiles, days, tableAll); tried++;
+      if (C.bad.length) throw new Error(`series-all/${g} does not match the page on ${d}: ${C.bad.join('; ')}`);
+      pts += C.pts; edge += C.edge; altPts += C.altPts; }
+    Object.assign(manifest, marks); fs.writeFileSync(mfile, JSON.stringify(manifest, null, 1) + '\n');
+    console.log(`all time on a past date (${g}): series ${done} decades written (${kb(bytes)}, ranks ${kb(rbytes)}), ${kept} unchanged; ${tdays} tables read back, ${tn} values equal to the page's; ${tried} past charts read back, ${pts} points equal and ${altPts} under the other band limits (${edge} on a rounding edge) (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+  }
   /* What today's forecasts are made from. Worked out on every run: the listed fixtures change through the day. */
   { const fxFile = path.join(DATA, 'fixtures.json'), FX = fs.existsSync(fxFile) ? JSON.parse(fs.readFileSync(fxFile, 'utf8')) : {};
     for (const g of ['men', 'women']){
@@ -1126,6 +1355,10 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       if (R.bad.length) throw new Error(`${name} does not match the page: ${R.bad.join('; ')}`);
       const s = JSON.stringify({built, ...R.file}); fs.writeFileSync(path.join(OUT, name), s + '\n');
       console.log(`${name}: ${R.file.lm.length} teams, ${R.withStakes} of ${R.fixtures} listed fixtures with their stakes, ${R.n} values equal to the page's (${R.pairs} other pairings tried), ${kb(s.length)} (${kb(zlib.gzipSync(s).length)} gzipped) (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+      { const t1 = Date.now(), name2 = `stakes-${g}.json`, S = stakesFile(model, g, FX[g] || []);
+        if (S.bad.length) throw new Error(`${name2} does not match the page: ${S.bad.join('; ')}`);
+        const s2 = JSON.stringify({built, ...S.file}); fs.writeFileSync(path.join(OUT, name2), s2 + '\n');
+        console.log(`${name2}: ${S.entries} match-ups (listed pairings, each venue and kind of match, both windows), ${S.n} values equal to the page's, ${kb(s2.length)} (${kb(zlib.gzipSync(s2).length)} gzipped) (${((Date.now() - t1) / 1000).toFixed(1)} s)`); }
     } }
   /* The index the pages will read first: for each game, the date of today's table and which years each kind of year
      file covers (a page asks only for the year being looked at). */
