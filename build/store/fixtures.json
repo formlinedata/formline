@@ -1686,7 +1686,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1638241": {
@@ -2265,24 +2264,6 @@
   "wiki": null,
   "venue_src": "city"
  },
- "1640518": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T00:00:00+00:00",
-  "home_team": "Colombia",
-  "away_team": "Chile",
-  "tournament": "Friendly",
-  "city": "Cali",
-  "country": "Colombia",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1640518,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1640519": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T23:00:00+00:00",
@@ -2432,31 +2413,6 @@
   },
   "venue_src": "city"
  },
- "1644692": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T02:00:00+00:00",
-  "home_team": "Guatemala",
-  "away_team": "Canada",
-  "tournament": "CONCACAF Nations League",
-  "city": "Guatemala City",
-  "country": "Guatemala",
-  "neutral": "FALSE",
-  "venue_id": 2463,
-  "api_id": 1644692,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Guatemala City",
-   "country": "Guatemala",
-   "stadium": "Estadio Manuel Felipe Carrera",
-   "boxDate": "2026-11-13",
-   "kickoff": "2026-11-14T02:00:00+00:00"
-  },
-  "venue_src": "api"
- },
  "1644693": {
   "date": "2026-11-14",
   "kickoff": "2026-11-14T21:30:00+00:00",
@@ -2540,7 +2496,7 @@
   "city": "Panama City",
   "country": "Panama",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 1207,
   "api_id": 1644696,
   "league": "CONCACAF Nations League",
   "unmapped_tournament": "",
@@ -2553,7 +2509,7 @@
    "stadium": "Estadio Rommel Fernández",
    "boxDate": "2026-11-15"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1644697": {
   "date": "2026-11-18",
@@ -2902,67 +2858,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1647360": {
-  "date": "2026-11-13",
-  "kickoff": "2026-11-13T12:00:00+00:00",
-  "home_team": "Taiwan",
-  "away_team": "Kyrgyzstan",
-  "tournament": "Friendly",
-  "city": "",
-  "country": "Taiwan",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647360,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "assumed"
- },
- "1647363": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T00:00:00+00:00",
-  "home_team": "Ecuador",
-  "away_team": "Costa Rica",
-  "tournament": "Friendly",
-  "city": "Quito",
-  "country": "Ecuador",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647363,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Quito",
-   "country": "Ecuador",
-   "stadium": "Estadio Olímpico Atahualpa",
-   "boxDate": "2026-11-13",
-   "kickoff": "2026-11-14T00:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1647364": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T01:00:00+00:00",
-  "home_team": "Peru",
-  "away_team": "Bolivia",
-  "tournament": "Friendly",
-  "city": "Lima",
-  "country": "Peru",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647364,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1647365": {
   "date": "2026-11-14",
   "kickoff": "2026-11-14T12:00:00+00:00",
@@ -2997,7 +2892,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1647367": {
@@ -3526,31 +3420,6 @@
   "gender": "women",
   "wiki": null,
   "venue_src": "assumed"
- },
- "1649032": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T00:00:00+00:00",
-  "home_team": "Montserrat",
-  "away_team": "Nicaragua",
-  "tournament": "CONCACAF Nations League",
-  "city": "Santiago de Los",
-  "country": "Dominican Republic",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1649032,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Santiago",
-   "country": "Dominican Republic",
-   "stadium": "Estadio Cibao FC",
-   "boxDate": "2026-11-13",
-   "kickoff": "2026-11-14T00:00:00+00:00"
-  },
-  "venue_src": "wiki"
  },
  "1649033": {
   "date": "2026-11-17",
