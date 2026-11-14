@@ -32,7 +32,7 @@ concurrency: social
 jobs:
   prepare:
     if: (github.event_name == 'schedule' && github.event.schedule == '27 10 * * *') || (github.event_name == 'workflow_dispatch' && inputs.step == 'prepare')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -109,7 +109,7 @@ jobs:
 
   publish:
     if: (github.event_name == 'schedule' && (github.event.schedule == '7 14 * * *' || github.event.schedule == '7 13 * * *' || github.event.schedule == '7 20 * * *' || github.event.schedule == '7 23 * * *')) || (github.event_name == 'workflow_dispatch' && (inputs.step == 'publish' || inputs.step == 'publish-results' || inputs.step == 'publish-evening'))
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       GH_TOKEN: ${{ github.token }}
       IG_USER_ID: ${{ secrets.IG_USER_ID }}
