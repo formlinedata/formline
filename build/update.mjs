@@ -356,10 +356,12 @@ export async function run(){
         const R = await wikiResults({g, known, teams:new Set(A[g].flatMap(r => [r.home_team, r.away_team])), cache:wcache, today, everyDays:soonFx ? 1 : 3,
           cities, cityKey, toArchive:archiveCountry, mapTournament:mapT, tournaments:tours, pauseMs:+(process.env.WIKI_PAUSE_MS || 400), log: m => console.log(m),
           fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_RESULTS_LIMIT || (g === 'men' ? 520 : 240))});
-        wikiFill[g] = wikiFill[g].concat(R.rows.map(r => ({...r, found:today})));
+        /* Men: a competition the archive has no name for is a small friendly tournament, filed as the archive would. */
+        const named = R.rows.map(r => ({...r, comp:r.tournament, tournament:g === 'men' && !tours.has(r.tournament) ? 'Friendly' : r.tournament}));
+        wikiFill[g] = wikiFill[g].concat(named.map(({comp, ...r}) => ({...r, found:today})));
         status[key] = R.stats;
         if (R.rows.length) console.log('Wikipedia results (' + g + '): added ' + R.rows.map(r => r.date + ' ' + r.home_team + ' ' + r.home_score + '-' + r.away_score + ' ' + r.away_team).join('; '));
-        for (const r of R.rows) feedGaps.push({kind:'result', g, date:r.date, home:r.home_team, away:r.away_team, score:r.home_score + '-' + r.away_score, source:r.source});
+        for (const r of named) feedGaps.push({kind:'result', g, date:r.date, home:r.home_team, away:r.away_team, score:r.home_score + '-' + r.away_score, comp:r.comp, source:r.source});
         /* Fixtures on a team's own page that the feed has no entry for (neither side within a week): shown and forecast
            like the ones found on competition pages (2b), and flagged. Rebuilt on every full run. */
         const recent = known.filter(r => dayNum(r.date) >= dayNum(today) - 2);
@@ -368,12 +370,15 @@ export async function run(){
         for (const x of R.upcoming || []){
           if (Object.values(fixturesStore).some(f => f.gender === g && same(f, x) && Math.abs(dayNum(f.date) - dayNum(x.date)) <= 7)) continue;
           if (recent.some(r => same(r, x) && Math.abs(dayNum(r.date) - dayNum(x.date)) <= 1)) continue;   // a box dated today, already played and held
-          const tour = tournamentFor(x.comp, g, mapT, tours); if (!tour) continue;
+          /* Not when either team already has a feed fixture within a day: a page with the wrong opponent in a box. */
+          if (Object.values(fixturesStore).some(f => !f.wikiOnly && f.gender === g && [f.home_team, f.away_team].some(t => t === x.home_team || t === x.away_team) && Math.abs(dayNum(f.date) - dayNum(x.date)) <= 1)) continue;
+          let tour = tournamentFor(x.comp, g, mapT, tours); if (!tour) continue;
+          if (g === 'men' && !tours.has(tour)) tour = 'Friendly';
           const k = 'wiki:' + x.id;
           fixturesStore[k] = {date:x.date, kickoff:x.kickoff || '', home_team:x.home_team, away_team:x.away_team, tournament:tour,
             city:'', country:'', neutral:'', venue_id:'', api_id:k, league:tour, unmapped_tournament:'', tbd:'', tbc:x.kickoff ? '' : 1,
             gender:g, wikiOnly:1, wikiSource:x.source, wiki:{city:x.city, country:x.country, stadium:x.stadium}};
-          feedGaps.push({kind:'fixture', g, date:x.date, home:x.home_team, away:x.away_team, source:wikiURL(x.source)}); shown++;
+          feedGaps.push({kind:'fixture', g, date:x.date, home:x.home_team, away:x.away_team, comp:x.comp || '', source:wikiURL(x.source)}); shown++;
         }
         status[key].shown = shown;
       } catch(e){ status[key] = {error:e.message}; }

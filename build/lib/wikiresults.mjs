@@ -101,7 +101,8 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
   catch(e){ stats.errors++; log('Wikipedia results: titles: ' + e.message); }
   /* Each team's results article where it has one, and its main article (smaller teams list results there). The pages
      read longest ago go first; each at most every `everyDays` days. */
-  const pages = new Set(); for (const k of keys){ const T = cache.titles[k]; if (!T) continue; if (T.title) pages.add(T.title); if (T.main) pages.add(T.main); }
+  const pages = new Set(), owner = new Map();   // owner: the team each page belongs to (a team's two pages are one voice, not two)
+  for (const k of keys){ const T = cache.titles[k]; if (!T) continue; for (const p of [T.title, T.main]) if (p){ pages.add(p); owner.set(p, k); } }
   const due = [...pages].filter(p => { const P = cache.resultPages[p]; return !P || t0 - dayNum(P.fetched) >= everyDays; })
     .sort((a, b) => ((cache.resultPages[a] || {}).fetched || '') < ((cache.resultPages[b] || {}).fetched || '') ? -1 : 1);
   for (const title of due){
@@ -121,6 +122,7 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
   /* Every result on every cached page, grouped: the same date, teams and score, whichever way round. */
   const byCode = new Map(); for (const t of teams){ const c = codeOf(t); if (c && !byCode.has(c)) byCode.set(c, t); }
   const held = new Map(); for (const r of known){ const k = pairKey(r.home_team, r.away_team); if (!held.has(k)) held.set(k, []); held.get(k).push(dayNum(r.date)); }
+  const busy = new Set(); for (const r of known) if (r.date >= from){ const d = dayNum(r.date); busy.add(r.home_team + '|' + d); busy.add(r.away_team + '|' + d); }
   const groups = new Map();
   for (const [title, P] of Object.entries(cache.resultPages)){
     if (t0 - dayNum(P.fetched) > windowDays) { delete cache.resultPages[title]; continue; }
@@ -140,7 +142,10 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
     const ds = held.get(pairKey(G.home, G.away)), d = dayNum(G.m.date);
     if (ds && ds.some(x => Math.abs(x - d) <= 2)) continue;
     if (!cache.resultSeen[id]) cache.resultSeen[id] = today;
-    if (G.pages.size < 2 && t0 - dayNum(cache.resultSeen[id]) < 2){ stats.unconfirmed++; continue; }
+    /* Confirmed by two different teams' pages, or by staying up two days. And never a second match for a team on a day
+       it already has one: a box with the wrong opponent (Ukraine's page had Hungary for Georgia in November 2026). */
+    if (new Set([...G.pages].map(p => owner.get(p) || p)).size < 2 && t0 - dayNum(cache.resultSeen[id]) < 2){ stats.unconfirmed++; continue; }
+    if (busy.has(G.home + '|' + d) || busy.has(G.away + '|' + d)){ stats.clash = (stats.clash || 0) + 1; continue; }
     const tour = tournamentFor(G.m.comp, g, mapTournament, tournaments);
     if (!tour) continue;
     const country = boxCountry(G.m, cities, cityKey, toArchive, teams) || G.home;

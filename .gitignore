@@ -3,3 +3,5 @@ node_modules/
 _precompute/
 _social_tmp/
 _site/
+# saved copies of the page (index-1.html and the like) stay out of the site
+index-*.html

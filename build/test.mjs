@@ -171,6 +171,14 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   const m2 = await R.wikiResults({g:'men', known:knownM, teams:teamsM, cache, fetchImpl:fakeM, today:'2026-11-10', toArchive:x => x});
   ok(m1.rows.length === 0 && m2.rows.length === 1 && m2.rows[0].home_team === 'Iraq' && m2.rows[0].away_team === 'Lebanon' && m2.rows[0].home_score === 0,
     'Wikipedia results, men: the women\'s pages in the same cache add nothing; a one-page result is added after two days (Iraq 0–0 Lebanon)');
+  // a team's own two pages are one voice; and no second match for a team on a day it already has one
+  const cache2 = {titles:{'men|Lebanon':{title:'Lebanon national football team results (2020–present)', name:'Lebanon', main:'Lebanon national football team', checked:'2026-11-08'}}};
+  const both2 = pagesM['Lebanon national football team'];
+  const fake2 = async url => ({ok:true, json:async () => ({parse:{wikitext:both2}})});
+  const o1 = await R.wikiResults({g:'men', known:knownM, teams:teamsM, cache:cache2, fetchImpl:fake2, today:'2026-11-08', toArchive:x => x});
+  const o2 = await R.wikiResults({g:'men', known:knownM.concat([{date:'2026-11-06', home_team:'Iraq', away_team:'Palestine'}]), teams:teamsM, cache:cache2, fetchImpl:fake2, today:'2026-11-10', toArchive:x => x});
+  ok(o1.rows.length === 0 && o1.stats.unconfirmed === 1 && o2.rows.length === 0 && o2.stats.clash === 1,
+    'Wikipedia results: a team\'s main and results pages do not confirm each other; a result is not added for a team that already has a match that day');
   ok(m1.upcoming.length === 1 && m1.upcoming[0].home_team === 'Lebanon' && m1.upcoming[0].away_team === 'Palestine' && m1.upcoming[0].date === '2026-11-17' && r1.upcoming.some(x => x.home_team === 'Gabon' && x.away_team === 'Chad'),
     'Wikipedia results: fixtures still to come on a team\'s page are handed back (Lebanon v Palestine)');
 }
