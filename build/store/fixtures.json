@@ -536,7 +536,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T19:45:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1528993": {
   "date": "2026-11-17",
@@ -561,7 +561,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T19:45:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1528994": {
   "date": "2026-11-17",
@@ -585,7 +585,7 @@
    "stadium": "Anton Malatinský Stadium",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1528995": {
   "date": "2026-11-17",
@@ -609,7 +609,7 @@
    "stadium": "Puskás Aréna",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1528996": {
   "date": "2026-11-17",
@@ -633,7 +633,7 @@
    "stadium": "Nagyerdei Stadion",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1528997": {
   "date": "2026-11-17",
@@ -658,7 +658,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T18:45:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1528998": {
   "date": "2026-11-17",
@@ -682,7 +682,7 @@
    "stadium": "Stadion Narodowy",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1528999": {
   "date": "2026-11-17",
@@ -707,7 +707,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T18:45:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1545616": {
   "date": "2026-11-15",
@@ -848,7 +848,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1545863": {
@@ -867,7 +866,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545884": {
@@ -886,7 +884,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1545886": {
@@ -1743,7 +1740,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1638241": {
@@ -2263,7 +2259,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640087": {
@@ -2364,7 +2359,7 @@
    "stadium": "JFE Harenokuni Stadium",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1641091": {
   "date": "2026-11-29",
@@ -2388,7 +2383,7 @@
    "stadium": "Edion Peace Wing Hiroshima",
    "boxDate": "2026-11-29"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1641698": {
   "date": "2026-11-28",
@@ -2519,7 +2514,7 @@
    "boxDate": "2026-11-16",
    "kickoff": "2026-11-17T01:00:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1644695": {
   "date": "2026-11-18",
@@ -2592,7 +2587,7 @@
    "stadium": "TQL Stadium",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1645470": {
   "date": "2026-12-02",
@@ -2933,7 +2928,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647366": {
@@ -2952,7 +2946,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1647367": {
@@ -3035,7 +3028,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T15:30:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1647371": {
   "date": "2026-11-17",
@@ -3216,7 +3209,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647643": {
@@ -3254,7 +3246,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1648287": {
@@ -3725,6 +3716,6 @@
    "country": "Thailand",
    "stadium": "Sisaket Province Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  }
 }

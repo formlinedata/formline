@@ -1,11 +1,11 @@
 {
- "built": "2026-11-14T07:08:05.286Z",
+ "built": "2026-11-14T08:01:53.269Z",
  "today": "2026-11-14",
- "mode": "full",
+ "mode": "light",
  "api": {
   "keyPresent": true,
-  "used": 71,
-  "remaining": 7406,
+  "used": 3,
+  "remaining": 7403,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,26 +15,25 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 22,
+   "usedTodayBeforeRun": 93,
    "perMinute": 300
   },
   "paid": true,
-  "budget": 1500,
+  "budget": 60,
   "notice": null
  },
  "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 16809,
-  "clubs": 194,
-  "youth": 431,
+  "domestic": 1895,
+  "clubs": 26,
+  "youth": 85,
   "status CANC": 1,
-  "status 2H": 1,
-  "not counted": 172
+  "not counted": 2
  },
  "seen": {
   "men": {
-   "results": 68,
+   "results": 39,
    "latest": "2026-11-14"
   },
   "women": {
@@ -42,41 +41,14 @@
    "latest": null
   }
  },
- "clubs": {
-  "checked": "2026-11-14",
-  "competitions": 1177,
-  "leagues": 788,
-  "cups": 389,
-  "women": 63,
-  "countries": 171,
-  "seasons": 8578,
-  "earliest": 2010,
-  "withEvents": 1043
- },
- "wiki": {
-  "open": 87,
-  "asked": 81,
-  "pages": 78,
-  "matched": 64,
-  "errors": 0,
-  "extra": 1
- },
- "wikiResults": {
-  "asked": 90,
-  "pages": 90,
-  "candidates": 34,
-  "added": 0,
-  "errors": 0,
-  "unconfirmed": 0
- },
  "men": {
-  "built": "2026-11-14T07:08:05.286Z",
+  "built": "2026-11-14T08:01:53.269Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
   },
   "gapfill": {
-   "rows": 72,
+   "rows": 73,
    "from": "2026-11-05",
    "to": "2026-11-14"
   },
@@ -86,7 +58,7 @@
   "fixtures": 108
  },
  "women": {
-  "built": "2026-11-14T07:08:05.286Z",
+  "built": "2026-11-14T08:01:53.269Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -106,17 +78,17 @@
   "fixtures": 53
  },
  "venues": {
-  "city": 52,
-  "wiki": 16,
+  "city": 66,
+  "wiki": 2,
   "api": 21,
   "assumed": 72
  },
  "forecasts": {
   "total": 234,
-  "scored": 73,
-  "newThisRun": 10,
-  "updatedThisRun": 148,
-  "scoredThisRun": 0,
-  "droppedThisRun": 9
+  "scored": 74,
+  "newThisRun": 0,
+  "updatedThisRun": 158,
+  "scoredThisRun": 1,
+  "droppedThisRun": 0
  }
 }
