@@ -25,8 +25,8 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {parseCSV, toCSV} from './lib/csv.mjs';
 import {makeTeamMatcher, makeTournamentMapper, archiveCountry} from './lib/names.mjs';
-import {wikiVenues, isTBD} from './lib/wikivenues.mjs';
-import {wikiResults, tournamentFor} from './lib/wikiresults.mjs';
+import {wikiVenues, isTBD, feedHas} from './lib/wikivenues.mjs';
+import {wikiResults, tournamentFor, teamPageVenue} from './lib/wikiresults.mjs';
 import {makeClient, mapFixture, planStatus, isFreePlan} from './lib/apifootball.mjs';
 import {loadModel} from './lib/model.mjs';
 import {survey as clubSurvey} from './lib/clubsurvey.mjs';
@@ -43,7 +43,7 @@ const RAW = {
 };
 const DAY = 864e5;
 const GAP_COLS = ['date','home_team','away_team','home_score','away_score','tournament','city','country','neutral',
-  'kickoff','venue_id','api_id','league','shootout_winner','unmapped_tournament','updated'];
+  'kickoff','venue_id','api_id','league','shootout_winner','unmapped_tournament','updated','wiki_country'];
 
 const iso = ts => new Date(ts).toISOString().slice(0, 10);
 const dayNum = d => Math.round(Date.parse(d + 'T00:00:00Z') / DAY);
@@ -118,7 +118,8 @@ export function planDates(today, earliest, fetched, mode, ahead = 14){
 /* Where a match is played, worked out from what is known, best first:
    1. the venue's country from API-Football (venue_src 'api');
    2. the city, looked up in the archive's own record of where each city is (venue_src 'city');
-   2b. the match box in the team's Wikipedia results article (venue_src 'wiki'), for fixtures the API has no venue for yet;
+   2b. the match box on Wikipedia (venue_src 'wiki'): the competition's articles, the teams' results articles and their main
+       articles, for fixtures the API has no venue for yet and for held results it never had one for (wiki_country);
    3. finals tournaments and other events played in one place are neutral, except for the hosts (venue_src 'event');
    4. otherwise the first-named team is taken to be at home (venue_src 'assumed').
    Home advantage only goes to a team playing in its own country, as everywhere else on the site. Recomputed every run,
@@ -134,6 +135,7 @@ export const EVENT_HOSTS = {'FIFA World Cup|2026':['United States', 'Canada', 'M
   'African Cup of Nations|2027':['Kenya', 'Uganda', 'Tanzania'], 'FIFA World Cup|2027':['Brazil'], 'Arab Cup|2025':['Qatar'],
   'Gold Cup|2027':['United States'], 'UEFA Euro|2028':['England', 'Republic of Ireland', 'Scotland', 'Wales'], 'SheBelieves Cup|2027':['United States'],
   'Algarve Cup|2027':['Portugal'], 'Kirin Cup|2026':['Japan'], 'Kirin Challenge Cup|2026':['Japan'], 'King\'s Cup|2026':['Thailand']};
+export const PART_OF = {Zanzibar:'Tanzania'};
 export const cityKey = c => String(c || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]/g, '');
 /* city -> country from the archive: the country each city appears with most often. */
 export function cityCountries(rows){
@@ -144,7 +146,13 @@ export function cityCountries(rows){
 }
 export function placeRow(r, venues, cities){
   const v = r.venue_id && venues[r.venue_id];
-  const set = (country, src) => { r.country = country; r.neutral = country === r.home_team || country === r.away_team ? 'FALSE' : 'TRUE'; r.venue_src = src; };
+  /* A territory with a team of its own counts as its country when that country's team plays there and the territory's
+     own team does not: Tanzania v Nigeria in Zanzibar City (November 2026) is a home match for Tanzania, as the archive
+     has Tanzania's earlier matches there. */
+  const set = (country, src) => {
+    const parent = PART_OF[country];
+    if (parent && (r.home_team === parent || r.away_team === parent) && r.home_team !== country && r.away_team !== country) country = parent;
+    r.country = country; r.neutral = country === r.home_team || country === r.away_team ? 'FALSE' : 'TRUE'; r.venue_src = src; };
   /* A city saved from a placeholder box ("TBD") before November 2026's fix: dropped. */
   if (isTBD(r.city)) r.city = '';
   if (r.wiki && isTBD(r.wiki.city)) r.wiki.city = '';
@@ -152,6 +160,7 @@ export function placeRow(r, venues, cities){
   const fromCity = r.city && cities ? cities.get(cityKey(r.city)) : null;
   if (fromCity){ set(fromCity, 'city'); return r; }
   if (r.wiki && r.wiki.country){ if (!r.city) r.city = r.wiki.city; set(r.wiki.country, 'wiki'); return r; }
+  if (r.wiki_country){ set(r.wiki_country, 'wiki'); return r; }
   if (NEUTRAL_EVENTS.has(r.tournament)){
     const hosts = EVENT_HOSTS[r.tournament+'|'+String(r.date || '').slice(0, 4)] || [];
     const host = hosts.includes(r.home_team) ? r.home_team : hosts.includes(r.away_team) ? r.away_team : null;
@@ -279,7 +288,12 @@ export async function run(){
           continue;
         }
         if (x.row.unmapped_tournament) status.unmappedTournaments[x.row.league] = (status.unmappedTournaments[x.row.league] || 0) + 1;
-        if (x.kind === 'result'){ x.row.updated = built; byId[x.gender].set(String(x.row.api_id), x.row);
+        if (x.kind === 'result'){ x.row.updated = built;
+          /* The venue Wikipedia gave while this was still a fixture stays with the result. */
+          const was = byId[x.gender].get(String(x.row.api_id)), wv = wikiKept[x.row.api_id];
+          if (was && was.wiki_country){ x.row.wiki_country = was.wiki_country; if (!x.row.city && was.city) x.row.city = was.city; }
+          else if (wv && wv.country){ x.row.wiki_country = wv.country; if (!x.row.city && wv.city && !isTBD(wv.city)) x.row.city = wv.city; }
+          byId[x.gender].set(String(x.row.api_id), x.row);
           const S = status.seen[x.gender]; S.results++; if (!S.latest || x.row.date > S.latest) S.latest = x.row.date; }
         else fixturesStore[x.row.api_id] = {...x.row, gender:x.gender, ...(wikiKept[x.row.api_id] ? {wiki:wikiKept[x.row.api_id]} : {})};
       }
@@ -322,7 +336,7 @@ export async function run(){
     for (const g of ['men', 'women']) for (const r of A[g]) if (r.date >= '2018-01-01'){ archTeams[g].add(r.home_team); archTeams[g].add(r.away_team); }
     try {
       const W = await wikiVenues(open, wcache, {today, cities, cityKey, toArchive:archiveCountry, log: m => console.log(m), all:apiFx, teams:archTeams,
-        fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_LIMIT || 400)});
+        fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_LIMIT || 500)});
       for (const r of apiFx) r.wiki = W.found.get(String(r.api_id)) || null;
       /* Matches only Wikipedia lists (the API has no fixture for them): rebuilt on every full run, kept between runs. */
       for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].wikiOnly) delete fixturesStore[k];
@@ -330,7 +344,7 @@ export async function run(){
         const key = 'wiki:' + x.id;
         fixturesStore[key] = {date:x.date, kickoff:x.kickoff || '', home_team:x.home_team, away_team:x.away_team, tournament:x.tournament,
           city:'', country:'', neutral:'', venue_id:'', api_id:key, league:x.tournament, unmapped_tournament:'', tbd:'', tbc:x.kickoff ? '' : 1,
-          gender:x.gender, wikiOnly:1, wikiSource:x.source, wiki:{city:x.city, country:x.country, stadium:x.stadium}};
+          gender:x.gender, wikiOnly:1, wikiSource:x.source, pairDates:x.pairDates || [], wiki:{city:x.city, country:x.country, stadium:x.stadium}};
       }
       status.wiki = {open:open.length, ...W.stats};
     } catch(e){ status.wiki = {error:e.message}; }
@@ -368,16 +382,21 @@ export async function run(){
         const same = (f, x) => (f.home_team === x.home_team && f.away_team === x.away_team) || (f.home_team === x.away_team && f.away_team === x.home_team);
         let shown = 0;
         for (const x of R.upcoming || []){
-          if (Object.values(fixturesStore).some(f => f.gender === g && same(f, x) && Math.abs(dayNum(f.date) - dayNum(x.date)) <= 7)) continue;
+          /* Not a match the feed has, on this day or (with no box of its own) within a week; nor one a competition's
+             article already gave (2b). A second match between the two in the same week is kept (see feedHas). */
+          const pairFx = Object.values(fixturesStore).filter(f => f.gender === g && same(f, x));
+          const pairDates = x.pairDates || [];
+          if (pairFx.some(f => f.wikiOnly && Math.abs(dayNum(f.date) - dayNum(x.date)) <= 1)) continue;
+          if (feedHas(x.date, pairFx.filter(f => !f.wikiOnly).map(f => f.date), pairDates)) continue;
           if (recent.some(r => same(r, x) && Math.abs(dayNum(r.date) - dayNum(x.date)) <= 1)) continue;   // a box dated today, already played and held
           /* Not when either team already has a feed fixture within a day: a page with the wrong opponent in a box. */
           if (Object.values(fixturesStore).some(f => !f.wikiOnly && f.gender === g && [f.home_team, f.away_team].some(t => t === x.home_team || t === x.away_team) && Math.abs(dayNum(f.date) - dayNum(x.date)) <= 1)) continue;
-          let tour = tournamentFor(x.comp, g, mapT, tours); if (!tour) continue;
+          let tour = tournamentFor(x.comp, g, mapT, tours, x.link); if (!tour) continue;
           if (g === 'men' && !tours.has(tour)) tour = 'Friendly';
           const k = 'wiki:' + x.id;
           fixturesStore[k] = {date:x.date, kickoff:x.kickoff || '', home_team:x.home_team, away_team:x.away_team, tournament:tour,
             city:'', country:'', neutral:'', venue_id:'', api_id:k, league:tour, unmapped_tournament:'', tbd:'', tbc:x.kickoff ? '' : 1,
-            gender:g, wikiOnly:1, wikiSource:x.source, wiki:{city:x.city, country:x.country, stadium:x.stadium}};
+            gender:g, wikiOnly:1, wikiSource:x.source, pairDates, wiki:{city:x.city, country:x.country, stadium:x.stadium}};
           feedGaps.push({kind:'fixture', g, date:x.date, home:x.home_team, away:x.away_team, comp:x.comp || '', source:wikiURL(x.source)}); shown++;
         }
         status[key].shown = shown;
@@ -385,6 +404,26 @@ export async function run(){
     }
   }
   writeJSON(path.join(STORE, 'wiki-venues.json'), wcache, true);
+
+  // 2d. Venues from the two teams' own Wikipedia pages (read in 2c; no requests here, so every run), for fixtures and
+  // held results that would otherwise be taken as a home match for the first-named team.
+  {
+    const known = new Set([...cities.values()]); for (const g of ['men', 'women']) for (const r of A[g]) if (r.date >= '2018-01-01'){ known.add(r.home_team); known.add(r.away_team); }
+    const opt = {cities, cityKey, toArchive:archiveCountry, known};
+    const guessed = r => ['assumed', 'event'].includes(placeRow({...r}, venues, cities).venue_src);
+    let fx = 0, res = 0;
+    for (const r of Object.values(fixturesStore)){
+      if (r.tbd || !guessed(r)) continue;
+      const v = teamPageVenue(wcache, r.gender, r, opt);
+      if (v){ r.wiki = {...(r.wiki || {}), ...v}; fx++; }
+    }
+    for (const g of ['men', 'women']) for (const r of gap[g]){
+      if (r.wiki_country || !guessed(r)) continue;
+      const v = teamPageVenue(wcache, g, r, opt);
+      if (v){ r.wiki_country = v.country; if (!r.city && v.city) r.city = v.city; res++; }
+    }
+    status.wikiTeamVenues = {fixtures:fx, results:res};
+  }
 
   // 3. Merge, write
   const fixtures = {built, men:[], women:[]}, expired = [], merged = {};
@@ -401,8 +440,8 @@ export async function run(){
     const moved = w.date && w.date !== r.date ? w.date : (wk && w.boxDate && w.boxDate !== r.date ? w.boxDate : null);
     if ((moved || r.date) < today){ expired.push({...r, date:moved || r.date}); delete fixturesStore[r.api_id]; continue; }
     /* A Wikipedia-only match the API has since added (a light run can add it before the next full run): the API's wins. */
-    if (r.wikiOnly && Object.values(fixturesStore).some(f => !f.wikiOnly && f.gender === r.gender && dayNum(f.date) - dayNum(r.date) <= 7 && dayNum(r.date) - dayNum(f.date) <= 7 &&
-      ((f.home_team === r.home_team && f.away_team === r.away_team) || (f.home_team === r.away_team && f.away_team === r.home_team)))){ delete fixturesStore[r.api_id]; continue; }
+    if (r.wikiOnly && feedHas(r.date, Object.values(fixturesStore).filter(f => !f.wikiOnly && f.gender === r.gender &&
+      ((f.home_team === r.home_team && f.away_team === r.away_team) || (f.home_team === r.away_team && f.away_team === r.home_team))).map(f => f.date), r.pairDates || [])){ delete fixturesStore[r.api_id]; continue; }
     placeRow(r, venues, cities);
     fixtures[r.gender].push({date:moved || r.date, kickoff:wk || (moved ? moved + 'T12:00:00+00:00' : (r.kickoff || r.date + 'T12:00:00+00:00')), home:r.home_team, away:r.away_team, tournament:r.tournament,
       city:r.city, country:r.country, neutral:r.neutral === 'TRUE', venue:r.venue_src, ...(r.tbd ? {tbd:true} : {}), ...(!wk && (r.tbc || moved) ? {tbc:true} : {}),

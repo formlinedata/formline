@@ -54,17 +54,23 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   ok(cache.titles['men|Japan'].title === 'Japan national football team results (2020–present)', 'Wikipedia: the article running to the present is chosen');
   const n = calls.length; await W.wikiVenues(fx, cache, {fetchImpl:fake, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x});
   ok(calls.length === n + 2 || calls.length === n, 'Wikipedia: cached titles not searched again');
-  { /* A placeholder box (no stadium, no time) never moves a fixture's date; one with a stadium does. */
-    const box = st => "{{Football box collapsible|date={{Start date|2026|11|11}}|team1={{fb-rt|JPN}}|score=|team2={{fb|BRA}}|stadium=" + st + "|location=TBD, [[Japan]]}}";
+  { /* A box with no kick-off time never moves a fixture's date, stadium or not (the Africa Cup qualifiers of 17 Nov 2026
+       stood as 15 Nov on Wikipedia with the stadium filled in); one with a time does. Its venue counts either way. */
+    const box = (st, time) => "{{Football box collapsible|date={{Start date|2026|11|11}}" + (time ? '|time={{UTZ|19:00|+9}}' : '') + "|team1={{fb-rt|JPN}}|score=|team2={{fb|BRA}}|stadium=" + st + "|location=TBD, [[Japan]]}}";
     const fxT = {date:'2026-11-13', home_team:'Japan', away_team:'Brazil'};
     const mT = W.findMatch(W.pageMatches(box('TBD')), fxT);
     ok(mT && mT.moved && mT.stadium === '' && mT.city === '' && mT.country === 'Japan' && !mT.kickoff, 'Wikipedia: a TBD box is still matched to the fixture, TBD read as nothing');
     const cacheOf = st => ({titlesV:2, titles:{'men|Japan':{title:'J', checked:'2026-11-01'}, 'men|Brazil':{title:'', checked:'2026-11-01'}},
-      pages:{J:{fetched:'2026-11-01', matches:W.pageMatches(box(st))}}, comps:{}});
-    const run = async st => (await W.wikiVenues([{api_id:3, gender:'men', ...fxT}], cacheOf(st), {fetchImpl:null, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x})).found.get('3');
-    const t3 = await run('TBD'), t4 = await run('[[Saitama Stadium 2002]]');
+      pages:{J:{fetched:'2026-11-01', matches:W.pageMatches(box(...st))}}, comps:{}});
+    const run = async (...st) => (await W.wikiVenues([{api_id:3, gender:'men', ...fxT}], cacheOf(st), {fetchImpl:null, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x})).found.get('3');
+    const t3 = await run('TBD'), t4 = await run('[[Saitama Stadium 2002]]'), t5 = await run('[[Saitama Stadium 2002]]', true);
     ok(!t3 || !t3.date, 'Wikipedia: a box with no stadium and no time does not move the date');
-    ok(t4 && t4.date === '2026-11-11', 'Wikipedia: a box with a stadium still moves the date');
+    ok(t4 && !t4.date && t4.country === 'Japan', 'Wikipedia: a box with a stadium but no time gives the venue and leaves the date alone');
+    ok(t5 && t5.date === '2026-11-11', 'Wikipedia: a box with a kick-off time moves the date');
+    /* Two friendlies in a week, only the first on the page: its box is not taken for the second. */
+    const two = [{api_id:3, gender:'men', date:'2026-11-11', home_team:'Japan', away_team:'Brazil'}, {api_id:4, gender:'men', date:'2026-11-14', home_team:'Japan', away_team:'Brazil'}];
+    const F2 = (await W.wikiVenues(two, cacheOf(['[[Saitama Stadium 2002]]', true]), {fetchImpl:null, today:'2026-11-01', cities, cityKey:ck, toArchive:x => x})).found;
+    ok(F2.get('3') && !F2.get('4'), 'Wikipedia: the first match\'s box is not used for the second match between the same teams');
   }
   { /* Two articles disagree about the day: the one on the API's day wins (Iceland v Luxembourg, November 2026). */
     const bx = (d, time) => ({date:d, t1:'JPN', t2:'BRA', stadium:'Saitama Stadium 2002', city:'Saitama', country:'Japan', kickoff:time ? d + 'T10:00:00+00:00' : null});
@@ -370,6 +376,81 @@ ok(menMtime > 0, 'men.json written');
   ok(r4.neutral === 'FALSE' && r4.country === 'Curaçao' && r4.venue_src === 'assumed', 'otherwise the first-named team is assumed at home, and marked so');
   const r5 = placeRow({home_team:'Curaçao', away_team:'Panama', tournament:'Friendly', city:'', venue_id:7, date:'2026-11-09'}, {7:{country:'Panama', city:'Panama City'}}, cc);
   ok(r5.neutral === 'FALSE' && r5.country === 'Panama' && r5.venue_src === 'api', 'the venue\'s own country wins when the API gives one');
+  const r6 = placeRow({home_team:'Palestine', away_team:'Iran', tournament:'Friendly', city:'', home_score:'0', away_score:'2', wiki_country:'Iraq', date:'2026-11-14'}, {}, cc);
+  ok(r6.neutral === 'TRUE' && r6.country === 'Iraq' && r6.venue_src === 'wiki', 'a held result keeps the country Wikipedia gave: Palestine v Iran in Iraq is neutral');
+  const zc = cityCountries([{city:'Zanzibar City', country:'Zanzibar'}]);
+  const r7 = placeRow({home_team:'Tanzania', away_team:'Nigeria', tournament:'African Cup of Nations qualification', city:'Zanzibar City', date:'2026-11-17'}, {}, zc);
+  const r8 = placeRow({home_team:'Zanzibar', away_team:'Kenya', tournament:'Friendly', city:'Zanzibar City', date:'2026-11-17'}, {}, zc);
+  const r9 = placeRow({home_team:'Sudan', away_team:'Uganda', tournament:'Friendly', city:'Zanzibar City', date:'2026-11-17'}, {}, zc);
+  ok(r7.country === 'Tanzania' && r7.neutral === 'FALSE' && r8.country === 'Zanzibar' && r8.neutral === 'FALSE' && r9.country === 'Zanzibar' && r9.neutral === 'TRUE',
+    'Tanzania playing in Zanzibar is at home; Zanzibar\'s own matches and other teams\' there are as before');
+}
+// --- unit: Wikipedia's match boxes, November 2026: years from headings, sides not decided, group articles, venues from the teams' pages
+{
+  const W = await import('./lib/wikivenues.mjs'), R = await import('./lib/wikiresults.mjs');
+  const page = "==Results==\n===2025===\n{{football box collapsible|date=14 November|team1={{fb-rt|IRQ}}|score=1–0|team2={{fb|IRN}}|location=[[Basra]], Iraq}}\n" +
+    "=== [[2026 in Iraqi football|2026]] ===\n====November====\n{{football box\n|date= 17 November<ref>{{cite web|date=2026-11-01|title=x}}</ref>\n|time = 22:45\n|round=[[2026 Basra International Tournament|Basra Tournament]]\n|team1 = {{fb-rt|IRQ}}\n|score = –\n|team2 = {{fb|IRN}}\n|stadium    = [[]], [[Basra]]\n}}\n" +
+    "{{#invoke:football box collapsible|main|date=November 20|team1={{fb-rt|IRQ}}|team2={{fb|BGD}}|location=[[Doha]], Qatar}}\n" +
+    "{{football box|date=23 November|team1={{fb-rt|IRQ}}|team2={{fb|OMA}} or {{fb|TJK}}|location=[[Doha]], Qatar}}\n" +
+    "==Head to head==\n{{football box|date=1 May|team1={{fb|IRQ}}|team2={{fb|SYR}}}}\n==Upcoming matches==\n{{football box|date=3 March|team1={{fb|IRQ}}|team2={{fb|SYR}}|location=[[Amman]], Jordan}}";
+  const M = W.pageMatches(page, '2026-11-14');
+  ok(M.length === 4 && M[0].date === '2025-11-14' && M[1].date === '2026-11-17' && M[2].date === '2026-11-20' && M[3].date === '2027-03-03',
+    'Wikipedia: a date with no year takes the year of its section; outside a year section it is skipped, and under "Upcoming matches" it is the next such day');
+  ok(M[1].city === 'Basra' && M[1].stadium === '' && M[1].timed === 1 && !M[1].kickoff && M[1].link === '2026 Basra International Tournament', 'Wikipedia: "[[]], [[Basra]]" still gives the city; a bare time counts as a time; the linked competition is kept');
+  ok(M[2].t2 === 'BAN', 'Wikipedia: the #invoke form of a box is read, and ISO\'s code (BGD) is turned into FIFA\'s (BAN)');
+  ok(!M.some(m => m.t2 === 'OMA') && W.boxTeam('{{fb|OMA}} or {{fb|TJK}}') === null && W.boxTeam('Winner SF1') === null && W.boxTeam('{{fb|CIV}}<ref>a or b</ref>') === 'CIV',
+    'Wikipedia: a side still to be decided ("A or B", "Winner SF1") is no team');
+  ok(W.boxDate('15–17 November', 2026) === null && W.boxDate('31 February', 2026) === null && W.boxDate('TBD', 2026) === null && W.boxDate('14 November 2026', 2025) === '2026-11-14',
+    'Wikipedia: a range of days, an impossible day and TBD give no date; a full date ignores the heading');
+  const qual = "==Group stage==\n===Group A===\n{{main|2027 Africa Cup of Nations qualification Group A}}\n{{main|2027 Africa Cup of Nations qualification Group B}}\n{{#lst:2027 Africa Cup of Nations qualification preliminary round|Preliminary round}}\n{{main|2027 Africa Cup of Nations}}\n{{see also|2027 Africa Cup of Nations qualification squads}}";
+  ok(W.compSubs(qual, 'African Cup of Nations qualification', 2026, false).join('|') === '2027 Africa Cup of Nations qualification Group A|2027 Africa Cup of Nations qualification Group B|2027 Africa Cup of Nations qualification preliminary round',
+    'Wikipedia: a competition article hands on to its group articles, not to the finals or the squads');
+  { /* the group articles are read and their boxes used */
+    const pages = {'Q':qual.replace(/2027 Africa Cup of Nations qualification Group A/, 'GA'), 'GA':"{{football box|date={{Start date|2026|11|15|df=y}}|team1={{fb-rt|SDN}}|team2={{fb|SEN}}|stadium=[[Juba Stadium]], [[Juba]]}}"};
+    const asked = [];
+    const fake = async url => { const q = new URL(url).searchParams; asked.push(q.get('page')); return {ok:true, json: async () => ({parse:{wikitext:pages[q.get('page')] || ''}})}; };
+    const cache = {titlesV:2, titles:{'men|Sudan':{title:'', main:'', checked:'2026-11-14'}, 'men|Senegal':{title:'', main:'', checked:'2026-11-14'}}, pages:{}, comps:{'men|African Cup of Nations qualification|2026':{titles:['Q'], checked:'2026-11-01'}}};
+    const fxs = [{api_id:9, gender:'men', date:'2026-11-17', home_team:'Sudan', away_team:'Senegal', tournament:'African Cup of Nations qualification'}];
+    const Rv = await W.wikiVenues(fxs, cache, {fetchImpl:fake, today:'2026-11-14', cities:new Map([['juba', 'South Sudan']]), cityKey:c => String(c).toLowerCase(), toArchive:x => x});
+    ok(asked.includes('Q') && cache.comps['men|African Cup of Nations qualification|2026'].subs.includes('2027 Africa Cup of Nations qualification Group B'), 'Wikipedia: the articles a competition hands on to are remembered and read');
+    cache.comps['men|African Cup of Nations qualification|2026'].subs = ['GA']; cache.pages = {};
+    const Rv2 = await W.wikiVenues(fxs, cache, {fetchImpl:fake, today:'2026-11-14', cities:new Map([['juba', 'South Sudan']]), cityKey:c => String(c).toLowerCase(), toArchive:x => x});
+    const h2 = Rv2.found.get('9');
+    ok(h2 && h2.country === 'South Sudan' && h2.city === 'Juba' && !h2.date, 'Wikipedia: a group article\'s box gives the venue (Sudan v Senegal in Juba) and, having no time, leaves the feed\'s date alone');
+  }
+  ok(W.feedHas('2026-12-05', ['2026-12-05']) && W.feedHas('2026-12-05', ['2026-12-01'], ['2026-12-05']) && !W.feedHas('2026-12-05', ['2026-12-01'], ['2026-12-01', '2026-12-05']) && !W.feedHas('2026-12-05', [], ['2026-12-05']),
+    'Wikipedia: a box near a feed fixture is that fixture, unless the same page lists the pair twice (two friendlies in a week)');
+  { /* venues from the two teams' own pages, for a fixture and for a held result */
+    const cache = {titles:{'men|Palestine':{title:'', main:'P'}, 'men|Iran':{title:'I', main:''}, 'men|Taiwan':{title:'T', main:''}},
+      resultPages:{I:{fetched:'2026-11-14', results:[{date:'2026-11-14', t1:'IRN', t2:'PLE', hs:2, as:0, city:'Basra', country:'', stadium:''}], upcoming:[{date:'2026-11-17', t1:'IRQ', t2:'IRN', city:'Basra', country:'', stadium:''}]},
+        T:{fetched:'2026-11-14', results:[{date:'2026-11-14', t1:'TPE', t2:'KGZ', hs:1, as:3, city:'Nam Dinh', country:'Vietnam', stadium:''}], upcoming:[]}}};
+    const opt = {cities:new Map([['basra', 'Iraq']]), cityKey:c => String(c).toLowerCase(), toArchive:x => x, known:new Set(['Iraq', 'Vietnam'])};
+    const v1 = R.teamPageVenue(cache, 'men', {date:'2026-11-14', home_team:'Palestine', away_team:'Iran', home_score:'0', away_score:'2'}, opt);
+    const v2 = R.teamPageVenue(cache, 'men', {date:'2026-11-17', home_team:'Iraq', away_team:'Iran'}, opt);
+    const v3 = R.teamPageVenue(cache, 'men', {date:'2026-11-14', home_team:'Taiwan', away_team:'Kyrgyzstan', home_score:'0', away_score:'3'}, opt);
+    const v4 = R.teamPageVenue(cache, 'men', {date:'2026-11-14', home_team:'Palestine', away_team:'Iran'}, opt);
+    ok(v1 && v1.country === 'Iraq' && v1.city === 'Basra' && v2 && v2.country === 'Iraq', 'Wikipedia: the teams\' own pages give the venue of a held result (Palestine v Iran in Basra) and of a fixture');
+    ok(v3 === null && v4 === null, 'Wikipedia: a result box with a different score, or a result box for a match not played yet, gives no venue');
+  }
+  { /* the linked article names the competition */
+    const N = await import('./lib/names.mjs');
+    const tours = new Set(['African Cup of Nations qualification', 'UEFA Nations League', 'CONCACAF Nations League', 'Friendly']), map = N.makeTournamentMapper({men:tours, women:new Set()});
+    ok(R.tournamentFor('2027 AFCON qualification', 'men', map, tours, '2027 Africa Cup of Nations qualification') === 'African Cup of Nations qualification'
+      && R.tournamentFor('2026–27 Nations League', 'men', map, tours, '2026–27 CONCACAF Nations League A') === 'CONCACAF Nations League'
+      && R.tournamentFor('2027 AFCON Q', 'men', map, tours) === 'African Cup of Nations qualification'
+      && R.tournamentFor('2026 Basra International Tournament', 'men', map, tours, '2026 Basra International Tournament') === 'Basra International',
+      'Wikipedia: the linked article names the competition where the text is short (AFCON, a bare "Nations League"); an unknown one stays as written');
+  }
+  { /* two pages name different opponents for a team on one day */
+    const mk = (t1, t2, d = '2026-11-17') => ({date:d, t1, t2, kickoff:'', city:'Sisaket', country:'Thailand', stadium:'', comp:"2026 King's Cup"});
+    const cache = {titles:{'men|Oman':{title:'O', main:'', checked:'2026-11-15'}, 'men|Thailand':{title:'T', main:'', checked:'2026-11-15'}, 'men|Tajikistan':{title:'J', main:'', checked:'2026-11-15'}, 'men|Brunei':{title:'B', main:'', checked:'2026-11-15'}},
+      resultPages:{O:{fetched:'2026-11-15', results:[], upcoming:[mk('OMA', 'THA')]}, T:{fetched:'2026-11-15', results:[], upcoming:[mk('TJK', 'THA')]}, J:{fetched:'2026-11-15', results:[], upcoming:[mk('TJK', 'THA')]}, B:{fetched:'2026-11-15', results:[], upcoming:[mk('OMA', 'BRU'), mk('BRU', 'OMA', '2026-11-20'), mk('BRU', 'OMA', '2026-11-24')]}}};
+    const known = [{date:'2026-01-01', home_team:'Oman', away_team:'Thailand'}, {date:'2026-01-02', home_team:'Tajikistan', away_team:'Brunei'}];
+    const U = await R.wikiResults({g:'men', known, teams:new Set(['Oman', 'Thailand', 'Tajikistan', 'Brunei']), cache, today:'2026-11-15', everyDays:99, limit:0, fetchImpl:async () => { throw new Error('none'); }});
+    const ids = U.upcoming.map(x => x.date.slice(8) + ' ' + x.home_team + ' v ' + x.away_team).join('; ');
+    ok(ids === '17 Tajikistan v Thailand; 20 Brunei v Oman; 24 Brunei v Oman' && U.stats.disagree === 2, 'Wikipedia: a team given two opponents on one day keeps the match both teams\' pages list; with neither on both, both are set aside');
+    ok(U.upcoming[1].pairDates.join() === '2026-11-17,2026-11-20,2026-11-24' && U.upcoming[0].pages === 2, 'Wikipedia: a fixture carries the days its own page gives the pair, and how many teams\' pages list it');
+  }
 }
 {
   const {mapFixture} = await import('./lib/apifootball.mjs');

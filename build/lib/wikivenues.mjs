@@ -2,24 +2,40 @@
 // coming matches in match boxes ({{Football box collapsible}}) with the stadium and the city, usually well before
 // API-Football has them. Read through Wikipedia's API (allowed); the content is CC BY-SA 4.0, credited in the site's
 // footer. Only fixtures still without a known venue are looked up, each team's article at most every few days.
-import {codeOf} from './fifacodes.mjs';
+import {codeOf, fifaCode} from './fifacodes.mjs';
 import {normKey} from './names.mjs';
 
 const API = 'https://en.wikipedia.org/w/api.php';
 const UA = 'Formline national-team ratings (nightly venue check; hello@formlinedata.com; https://formlinedata.com/)';
 const MONTHS = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 
-/* The template at each "{{Football box" in a page, braces balanced. */
-export function footballBoxes(wikitext){
-  const out = [], re = /\{\{\s*football\s?box[^|}]*\|/gi;
-  let m;
+/* The template at each "{{Football box" in a page, braces balanced. Also the form some long pages use,
+   "{{#invoke:football box collapsible|main|…}}". */
+export function footballBoxes(wikitext){ return boxesIn(wikitext).map(b => b.body); }
+/* The same, each with the year of the section it sits in. Most results articles give a box's date without the year
+   ("22 June") under a heading that is the year ("=== 2026 ==="), so the heading supplies it. A year heading holds until
+   the next heading at its own level or above; deeper headings (months, competitions) stay inside it. A box under
+   "Fixtures", "Upcoming matches" and the like, outside any year, has year 'next': the coming occurrence of its date. */
+export function boxesIn(wikitext){
+  const heads = [], hre = /^(=+)([^=\n]+?)=+[ \t]*$/gm;
+  let m, cur = null;
+  while ((m = hre.exec(wikitext))){
+    const txt = m[2].replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/'''?/g, '').trim(), level = m[1].length;
+    if (/^(19|20)\d\d$/.test(txt)) cur = {year:+txt, level};
+    else if (/^(upcoming|forthcoming|future) (fixtures|matches)$|^fixtures$/i.test(txt) && (!cur || level <= cur.level)) cur = {year:'next', level};
+    else if (cur && level <= cur.level) cur = null;
+    heads.push({at:m.index, year:cur ? cur.year : null});
+  }
+  const out = [], re = /\{\{\s*(?:#invoke:\s*)?football\s?box[^|}]*\|/gi;
+  let h = 0, year = null;
   while ((m = re.exec(wikitext))){
+    while (h < heads.length && heads[h].at < m.index){ year = heads[h].year; h++; }
     let depth = 0, i = m.index;
     for (; i < wikitext.length; i++){
       if (wikitext.startsWith('{{', i)){ depth++; i++; }
       else if (wikitext.startsWith('}}', i)){ depth--; i++; if (!depth) break; }
     }
-    out.push(wikitext.slice(m.index + 2, i - 1));
+    out.push({body:wikitext.slice(m.index + 2, i - 1), year});
     re.lastIndex = i;
   }
   return out;
@@ -41,23 +57,41 @@ export function params(body){
   return out;
 }
 const pad = n => String(n).padStart(2, '0');
-/* A match box's date as YYYY-MM-DD: {{Start date|2026|11|14}}, {{dts|...}}, "14 November 2026" or "November 14, 2026". */
-export function boxDate(s){
+/* A match box's date as YYYY-MM-DD: {{Start date|2026|11|14}}, {{dts|...}}, "14 November 2026" or "November 14, 2026".
+   A date with no year ("14 November", "November 14") takes `year`, the year of the section the box is in (see boxesIn);
+   with year 'next' and `today` given, the first such day from a week before today on. */
+export function boxDate(s, year, today){
   if (!s) return null;
   let m = s.match(/\{\{\s*(?:start date|dts|date)[^|}]*\|\s*(\d{4})\s*\|\s*(\d{1,2})\s*\|\s*(\d{1,2})/i);
   if (m) return m[1]+'-'+pad(m[2])+'-'+pad(m[3]);
-  const t = s.replace(/<[^>]*>/g, ' ').replace(/\{\{[^}]*\}\}/g, ' ').toLowerCase();
+  const t = s.replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/gi, ' ').replace(/<[^>]*>/g, ' ').replace(/\{\{[^}]*\}\}/g, ' ').toLowerCase();
   m = t.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/); if (m && MONTHS.includes(m[2])) return m[3]+'-'+pad(MONTHS.indexOf(m[2]) + 1)+'-'+pad(m[1]);
   m = t.match(/([a-z]+)\s+(\d{1,2}),?\s+(\d{4})/); if (m && MONTHS.includes(m[1])) return m[3]+'-'+pad(MONTHS.indexOf(m[1]) + 1)+'-'+pad(m[2]);
-  return null;
+  if (!year || /\d{4}/.test(t)) return null;
+  let mo = -1, d = 0;
+  m = t.match(/^[\s\[]*(\d{1,2})\s+([a-z]+)\b/); if (m && MONTHS.includes(m[2])){ mo = MONTHS.indexOf(m[2]); d = +m[1]; }
+  else { m = t.match(/^[\s\[]*([a-z]+)\s+(\d{1,2})\b/); if (m && MONTHS.includes(m[1])){ mo = MONTHS.indexOf(m[1]); d = +m[2]; } }
+  if (mo < 0 || d < 1 || d > 31) return null;
+  if (year === 'next'){
+    if (!today) return null;
+    const from = Date.parse(today + 'T00:00:00Z') - 7 * 864e5, y0 = +today.slice(0, 4);
+    for (const y of [y0 - 1, y0, y0 + 1]){ const ts = Date.UTC(y, mo, d); if (ts >= from && new Date(ts).getUTCDate() === d) return y+'-'+pad(mo + 1)+'-'+pad(d); }
+    return null;
+  }
+  return new Date(Date.UTC(year, mo, d)).getUTCDate() === d ? year+'-'+pad(mo + 1)+'-'+pad(d) : null;
 }
 /* A team cell: its FIFA code from {{fb|JPN}}, {{fbw-rt|JPN}}, {{flagicon|JPN}} and the like; otherwise its name from a
    link, turned into a code. */
 export function boxTeam(s){
   if (!s) return null;
+  s = String(s).replace(/<!--[\s\S]*?-->/g, ' ').replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/gi, ' ');
+  /* A side not decided yet, "{{fb|OMA}} or {{fb|TJK}}" or "Winner of semi-final 1" (the King's Cup final on Thailand's and
+     Oman's pages, November 2026): no team. */
+  if ((s.match(/\{\{\s*(?:fb|fbw|fb-rt|fbw-rt|fbu|fbu-rt|flagicon|flagcountry)\s*\|/gi) || []).length > 1) return null;
+  if (/\b(or|winners?|losers?|runners?-up|tbd|tba|tbc)\b|\//i.test(s.replace(/<[^>]*>/g, ' ').replace(/\{\{[^{}]*\}\}/g, ' ').replace(/\[\[[^\]]*\]\]/g, ' '))) return null;
   const m = s.match(/\{\{\s*(?:fb|fbw|fb-rt|fbw-rt|flagicon|flagcountry|fbu|fbu-rt)\s*\|\s*([A-Z]{3})\b/i)
     || s.match(/\{\{\s*#invoke:\s*(?:flag|fb)\w*\s*\|[^|}]*\|\s*([A-Z]{3})\s*[|}]/i);   // {{#invoke:flag|deco|MEX}}
-  if (m) return m[1].toUpperCase();
+  if (m) return fifaCode(m[1]);
   const l = s.match(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/);
   const name = l ? (l[2] || l[1]) : s.replace(/<[^>]*>|\{\{[^}]*\}\}|'''?/g, '').trim();
   return codeOf(name.replace(/ (women's )?national (football|soccer) team.*$/i, '').trim());
@@ -74,20 +108,37 @@ export function boxKickoff(date, time){
 /* Wiki markup to plain text: links to their text, templates and references out. */
 export const plain = s => String(s || '').replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/gi, '').replace(/\{\{[^{}]*\}\}/g, '')
   .replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/<[^>]*>/g, '').replace(/'''?/g, '').replace(/\s+/g, ' ').trim();
-/* The matches a results article lists: date, the two codes, stadium, city and country (the last part of the location,
-   when it names one). */
-export function pageMatches(wikitext){
+/* The article a box's competition links to ("[[2027 Africa Cup of Nations qualification#Group D|2027 AFCON qualification]]"
+   gives "2027 Africa Cup of Nations qualification"): the competition's full name, where the text shown is often short
+   ("2026–27 Nations League", UEFA's or CONCACAF's). '' when there is no link or it is a general one (Exhibition game). */
+export function compLink(P){
+  const m = String(P.round || P.event || P.title || '').match(/\[\[\s*([^\]|#]+)/);
+  const t = m ? m[1].replace(/_/g, ' ').trim() : '';
+  return /^(exhibition game|friendly|association football|football)\b/i.test(t) ? '' : t;
+}
+/* A box's stadium, city and country (the last part of the location, when it names one). */
+export function boxPlace(P){
+  let loc = plain(P.location).split(',').map(x => x.trim()).filter(Boolean), stadium = plain(P.stadium);
+  /* Competition articles often give "[[Stadium]], [[City]]" with no location: the city is the part after the stadium.
+     The stadium may be blank ("[[]], [[Basra]]", Iran's article, November 2026): the city still counts. */
+  if (!loc.length && stadium.includes(',')){ const sp = stadium.split(',').map(x => x.trim()); stadium = sp[0]; loc = sp.slice(1).filter(Boolean); }
+  if (isTBD(stadium)) stadium = '';
+  /* "Kingstown (Saint Vincent and the Grenadines)" or a bare "(United States)": the part in brackets is the country. */
+  loc = loc.flatMap(x => { const b = x.match(/^(.*?)\s*\(([^()]+)\)$/); return b ? [b[1], b[2]].map(y => y.trim()).filter(Boolean) : [x]; });
+  return {stadium, city:isTBD(loc[0]) ? '' : loc[0] || '', country:loc.length > 1 && !isTBD(loc[loc.length - 1]) ? loc[loc.length - 1] : ''};
+}
+/* The matches a results article lists: date, the two codes, stadium, city and country. today: for boxes under a
+   "Fixtures" heading with no year (see boxDate). */
+export function pageMatches(wikitext, today){
   const out = [];
-  for (const b of footballBoxes(wikitext)){
-    const P = params(b), date = boxDate(P.date);
+  for (const b of boxesIn(wikitext)){
+    const P = params(b.body), date = boxDate(P.date, b.year, today);
     const t1 = boxTeam(P.team1), t2 = boxTeam(P.team2);
     if (!date || !t1 || !t2) continue;
-    let loc = plain(P.location).split(',').map(x => x.trim()).filter(Boolean), stadium = plain(P.stadium); if (isTBD(stadium)) stadium = '';
-    /* Competition articles often give "[[Stadium]], [[City]]" with no location: the city is the stadium's last part. */
-    if (!loc.length && stadium.includes(',')){ const sp = stadium.split(',').map(x => x.trim()).filter(Boolean); stadium = sp[0]; loc = sp.slice(1); }
-    /* "Kingstown (Saint Vincent and the Grenadines)" or a bare "(United States)": the part in brackets is the country. */
-    loc = loc.flatMap(x => { const b = x.match(/^(.*?)\s*\(([^()]+)\)$/); return b ? [b[1], b[2]].map(y => y.trim()).filter(Boolean) : [x]; });
-    out.push({date, t1, t2, stadium, city:isTBD(loc[0]) ? '' : loc[0] || '', country:loc.length > 1 && !isTBD(loc[loc.length - 1]) ? loc[loc.length - 1] : '', kickoff:boxKickoff(date, P.time), comp:plain(P.round || P.event || P.title || '')});
+    /* timed: a kick-off time is given, with or without its zone ("19:30 SGT"). A box with none has a provisional date. */
+    const timed = /\d{1,2}[:.]\d{2}/.test(String(P.time || '').replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/gi, ''));
+    const link = compLink(P);
+    out.push({date, t1, t2, ...boxPlace(P), kickoff:boxKickoff(date, P.time), comp:plain(P.round || P.event || P.title || ''), ...(link ? {link} : {}), ...(timed ? {timed:1} : {})});
   }
   return out;
 }
@@ -198,6 +249,23 @@ export function compTitles(titles, tour, year, women){
   return titles.filter(t => seasons.some(s => t.startsWith(s + ' ')) && has(t) && /women/i.test(t) === !!women)
     .filter(t => (!/qualification/i.test(t) || qual) && (!YOUTH.test(t) || YOUTH.test(tour))).slice(0, 6);
 }
+/* The articles a competition's article hands its matches to: "2027 Africa Cup of Nations qualification" has no match
+   boxes of its own, only {{main|… Group A}} to {{main|… Group L}}; the women's World Cup qualifying goes two steps down
+   (… (UEFA), then … – UEFA League A). Taken from {{main}}, {{see also}} and {{#lst:}}, and kept when the title passes the
+   same test as a search result (the season, the competition's words, women or not, no youth). */
+export function compSubs(wikitext, tour, year, women){
+  const out = new Set();
+  for (const m of String(wikitext || '').matchAll(/\{\{\s*(?:main|see also|further)\s*\|([^{}]*)\}\}|\{\{\s*#(?:lst|section|section-h)\w*:\s*([^|{}]*)/gi)){
+    for (const part of (m[1] !== undefined ? m[1].split('|') : [m[2]])){
+      const t = part.replace(/<!--[\s\S]*?-->/g, '').split('#')[0].replace(/_/g, ' ').trim();
+      if (!t || /=/.test(t) || /\b(bids?|squads?|statistics|broadcasting|seeding|draw|disciplinary)\b/i.test(t)) continue;
+      if (compTitles([t], tour, year, women).length) out.add(t);
+    }
+  }
+  return [...out];
+}
+/* Every article held for a competition: the ones the search found and the ones they hand their matches to. */
+export const compPages = C => C ? [...new Set((C.titles || []).concat(C.subs || []))] : [];
 export async function api(fetchImpl, q){
   const res = await fetchImpl(API + '?' + new URLSearchParams({format:'json', formatversion:'2', ...q}), {headers:{'User-Agent':UA}});
   if (!res.ok) throw new Error('Wikipedia HTTP ' + res.status);
@@ -226,7 +294,10 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
         const j = await api(fetchImpl, {action:'query', list:'search', srlimit:'10', srsearch:year + ' ' + tour + (g === 'women' && !/women/i.test(tour) ? " women's" : '')});
         C = cache.comps[k] = {titles:compTitles(((j.query && j.query.search) || []).map(x => x.title), tour, +year, g === 'women'), checked:today};
       }
-      for (const title of C.titles){
+      /* The list grows as articles name the ones below them (at most 40 for a competition). */
+      const list = compPages(C);
+      for (let n = 0; n < list.length; n++){
+        const title = list[n];
         if (stats.asked >= limit) break;
         const P = cache.pages[title], fresh = P && dayDiff(P.fetched, today) < (soon({date:compWant.get(k)}) ? 1 : 3);
         if (fresh) continue;
@@ -234,8 +305,12 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
         const j = await api(fetchImpl, {action:'parse', page:title, prop:'wikitext', redirects:'1'});
         const text = j.parse && (typeof j.parse.wikitext === 'string' ? j.parse.wikitext : j.parse.wikitext && j.parse.wikitext['*']);
         if (!text) continue;
-        cache.pages[title] = {fetched:today, matches:pageMatches(text).filter(m => m.date >= today)};
+        cache.pages[title] = {fetched:today, matches:pageMatches(text, today).filter(m => m.date >= today)};
         stats.pages++;
+        for (const sub of compSubs(text, tour, +year, g === 'women')){
+          if (list.includes(sub) || list.length >= 40) continue;
+          list.push(sub); C.subs = (C.subs || []).concat(sub);
+        }
       }
     } catch(e){ stats.errors++; log('Wikipedia: ' + tour + ': ' + e.message); if (stats.errors >= 5) break; }
   }
@@ -259,7 +334,7 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
         const j = await api(fetchImpl, {action:'parse', page:T.title, prop:'wikitext', redirects:'1'});
         const text = j.parse && (typeof j.parse.wikitext === 'string' ? j.parse.wikitext : j.parse.wikitext && j.parse.wikitext['*']);
         if (!text) continue;
-        cache.pages[T.title] = {fetched:today, matches:pageMatches(text).filter(m => m.date >= today)};
+        cache.pages[T.title] = {fetched:today, matches:pageMatches(text, today).filter(m => m.date >= today)};
         stats.pages++;
       }
     } catch(e){ stats.errors++; log('Wikipedia: ' + team + ': ' + e.message); if (stats.errors >= 5) break; }
@@ -273,14 +348,21 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
   for (const fx of coming){
     const pages = [];
     for (const t of [fx.home_team, fx.away_team]){ const T = cache.titles[fx.gender + '|' + t]; if (T && T.title && cache.pages[T.title]) pages.push(cache.pages[T.title]); }
-    const C = cache.comps[compKey(fx)]; if (C) for (const t of C.titles) if (cache.pages[t]) pages.push(cache.pages[t]);
+    for (const t of compPages(cache.comps[compKey(fx)])) if (cache.pages[t]) pages.push(cache.pages[t]);
     let best = null; const hits = []; let agreed = false;
+    const twins = all.filter(o => o !== fx && o.gender === fx.gender && ((o.home_team === fx.home_team && o.away_team === fx.away_team) || (o.home_team === fx.away_team && o.away_team === fx.home_team)));
     for (const P of pages){
       const m = findMatch(P.matches, fx); if (!m) continue;
-      /* A box with no stadium and no kick-off time ("TBD") is a placeholder: its date is often a guess (Morocco v Niger,
-         November 2026: Wikipedia had 11 Nov and no venue, the API the real 13 Nov), so it never moves a fixture. */
-      const placeholder = !m.kickoff && (!m.stadium || isTBD(m.stadium));
-      if (m.date === fx.date && !placeholder) agreed = true;
+      /* A box on another day that sits on the day of another fixture between the same two teams is that fixture's box
+         (two friendlies in a week, the second not on the page yet): not this one's date, and not its venue either. */
+      if (m.moved && twins.some(o => dayDiff(o.date, m.date) <= 1)) continue;
+      /* A box with no kick-off time is a placeholder as far as its date goes: the date is often a guess, the first day
+         of the window (Morocco v Niger, November 2026: Wikipedia had 11 Nov and no venue, the API the real 13 Nov; the
+         Africa Cup qualifiers of 17 Nov 2026 stood as 15 Nov on the group articles, stadium filled in, the day after
+         the same teams' first match). It never moves a fixture; its venue still counts. */
+      const placeholder = !m.kickoff && !m.timed;
+      /* Agreeing with the API's day needs less: a box on that day with a stadium or a time. */
+      if (m.date === fx.date && (m.kickoff || (m.stadium && !isTBD(m.stadium)))) agreed = true;
       const country = boxCountry(m, cities, cityKey, toArchive, known);
       if (!country && !m.moved) continue;
       if (m.moved && placeholder && !country) continue;
@@ -304,6 +386,16 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
   return {found, stats, extra};
 }
 
+/* Whether a Wikipedia box for two teams on `date` is a match the feed already has. feedDates: the days of the feed's
+   fixtures between the two; boxDates: the days of every Wikipedia box for the pair. A feed fixture within a day is the
+   same match. One within a week is too (the feed often has a placeholder day, and so does Wikipedia), unless that
+   fixture has a box of its own on the same article: one article listing the pair twice means two matches (two
+   friendlies in a week: Singapore v Bangladesh and Cyprus v Luxembourg, women, November and December 2026). boxDates
+   must come from one article: two articles giving one match different days are not two matches. */
+export function feedHas(date, feedDates, boxDates = []){
+  if (feedDates.some(d => dayDiff(d, date) <= 1)) return true;
+  return feedDates.filter(d => dayDiff(d, date) <= 7).some(d => !boxDates.some(b => b !== date && dayDiff(b, d) <= 1));
+}
 /* Matches a competition's Wikipedia season articles list that API-Football doesn't have at all (e.g. the CONCACAF
    Nations League play-in ties of Nov 2026): both teams known to the archive, in the next `horizonDays`, and no API
    fixture between the same two teams within a week either way round. teams: {men:Set, women:Set} of archive names. */
@@ -314,17 +406,20 @@ export function extraFixtures(cache, all, comps, {today, horizonDays = 30, teams
   for (const k of comps.keys()){
     const [g, tour] = k.split('|'), C = cache.comps && cache.comps[k];
     if (!C) continue;
-    for (const title of C.titles){
+
+    for (const title of compPages(C)){
       const P = cache.pages[title]; if (!P) continue;
       for (const m of P.matches){
         if (m.date < today || dayDiff(m.date, today) > horizonDays) continue;
         const home = byCode[g].get(m.t1), away = byCode[g].get(m.t2);
         if (!home || !away || home === away) continue;
         const pair = (x, y) => (x === home && y === away) || (x === away && y === home);
-        if (all.some(f => f.gender === g && pair(f.home_team, f.away_team) && dayDiff(f.date, m.date) <= 7)) continue;
+        /* the days this same article gives the pair: two boxes on one article are two matches */
+        const days = [...new Set(P.matches.filter(o => (o.t1 === m.t1 && o.t2 === m.t2) || (o.t1 === m.t2 && o.t2 === m.t1)).map(o => o.date))];
+        if (feedHas(m.date, all.filter(f => f.gender === g && pair(f.home_team, f.away_team)).map(f => f.date), days)) continue;
         const id = g + '|' + m.date + '|' + home + '|' + away;
         if (seen.has(id)) continue; seen.add(id);
-        out.push({id, gender:g, tournament:tour, date:m.date, kickoff:m.kickoff || null, home_team:home, away_team:away,
+        out.push({id, gender:g, tournament:tour, date:m.date, pairDates:days, kickoff:m.kickoff || null, home_team:home, away_team:away,
           city:m.city, stadium:m.stadium, country:boxCountry(m, cities, cityKey, toArchive, known), source:title});
       }
     }

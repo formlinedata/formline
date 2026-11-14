@@ -7,3 +7,9 @@ export const FIFA_CODE_LIST = 'Afghanistan=AFG;Albania=ALB;Algeria=ALG;American 
   'Northern Cyprus=NCY;Abkhazia=ABH;Somaliland=SMD;South Ossetia=OSS;Transnistria=PMR;Western Sahara=ESH;Basque Country=BSQ;Catalonia=CAT';
 const BY_NAME = new Map(FIFA_CODE_LIST.split(';').filter(Boolean).map(x => { const [n, c] = x.split('='); return [normKey(n), c]; }));
 export const codeOf = name => BY_NAME.get(normKey(name)) || null;
+/* ISO's three-letter codes where they differ from FIFA's: Wikipedia's templates take both ({{fb|BGD}} and {{fb|BAN}} are
+   both Bangladesh), and some pages use ISO's (Singapore's women's page, November 2026). */
+const ISO_TO_FIFA = Object.fromEntries('DZA=ALG;AGO=ANG;ASM=ASA;ABW=ARU;BHS=BAH;BGD=BAN;BMU=BER;BTN=BHU;BWA=BOT;BRN=BRU;BGR=BUL;KHM=CAM;CYM=CAY;CAF=CTA;TCD=CHA;CHL=CHI;TWN=TPE;COG=CGO;CRI=CRC;HRV=CRO;DNK=DEN;GNQ=EQG;FJI=FIJ;GMB=GAM;DEU=GER;GRC=GRE;GRD=GRN;GTM=GUA;GIN=GUI;HTI=HAI;HND=HON;KWT=KUW;LSO=LES;MDG=MAD;MYS=MAS;MRT=MTN;MUS=MRI;MMR=MYA;NPL=NEP;NLD=NED;NIC=NCA;NER=NIG;OMN=OMA;PSE=PLE;PRY=PAR;PHL=PHI;PRT=POR;PRI=PUR;KNA=SKN;VCT=VIN;WSM=SAM;SAU=KSA;SYC=SEY;SLB=SOL;ZAF=RSA;LKA=SRI;CHE=SUI;PYF=TAH;TZA=TAN;TGO=TOG;TON=TGA;TTO=TRI;ARE=UAE;URY=URU;VUT=VAN;VNM=VIE;ZMB=ZAM;ZWE=ZIM'.split(';').map(x => x.split('=')));
+const FIFA_SET = new Set(FIFA_CODE_LIST.split(';').filter(Boolean).map(x => x.split('=')[1]));
+/* A three-letter code as FIFA's: itself when FIFA uses it, else ISO's code turned into FIFA's. */
+export const fifaCode = c => { c = String(c || '').toUpperCase(); return FIFA_SET.has(c) ? c : ISO_TO_FIFA[c] || c; };

@@ -6,7 +6,7 @@
 // and it is confirmed: listed on two different pages, or still listed two days after it was first seen. Wikipedia's
 // content is CC BY-SA 4.0, credited on Sources & thanks; each row records the page it came from. Never throws.
 import {codeOf} from './fifacodes.mjs';
-import {footballBoxes, params, boxDate, boxTeam, plain, boxCountry, api, resolveTitles, pageMatches} from './wikivenues.mjs';
+import {boxesIn, params, boxDate, boxTeam, boxPlace, compLink, plain, boxCountry, api, resolveTitles, pageMatches, findMatch} from './wikivenues.mjs';
 
 const DAY = 864e5;
 const dayNum = d => Math.round(Date.parse(d + 'T00:00:00Z') / DAY);
@@ -44,8 +44,8 @@ export function goalsAgree(g1, g2, hs, as){
    side won: 1 or 2), competition, stadium, city and country. */
 export function pageResults(wikitext, from, to){
   const out = [];
-  for (const b of footballBoxes(wikitext)){
-    const P = params(b), date = boxDate(P.date);
+  for (const b of boxesIn(wikitext)){
+    const P = params(b.body), date = boxDate(P.date, b.year);
     if (!date || date < from || date > to) continue;
     const t1 = boxTeam(P.team1), t2 = boxTeam(P.team2), sc = boxScore(P.score);
     if (!t1 || !t2 || t1 === t2 || !sc) continue;
@@ -54,20 +54,25 @@ export function pageResults(wikitext, from, to){
     if (!goalsAgree(P.goals1, P.goals2, sc[0], sc[1])) continue;
     let so = 0; const pen = String(plain(P.penaltyscore || '')).match(/(\d{1,2})\s*[–\-−]\s*(\d{1,2})/);
     if (pen && sc[0] === sc[1] && +pen[1] !== +pen[2]) so = +pen[1] > +pen[2] ? 1 : 2;
-    let loc = plain(P.location).split(',').map(x => x.trim()).filter(Boolean), stadium = plain(P.stadium);
-    if (!loc.length && stadium.includes(',')){ const sp = stadium.split(',').map(x => x.trim()).filter(Boolean); stadium = sp[0]; loc = sp.slice(1); }
-    loc = loc.flatMap(x => { const q = x.match(/^(.*?)\s*\(([^()]+)\)$/); return q ? [q[1], q[2]].map(y => y.trim()).filter(Boolean) : [x]; });
-    out.push({date, t1, t2, hs:sc[0], as:sc[1], so, comp:plain(P.round || P.event || P.title || ''), stadium,
-      city:loc[0] || '', country:loc.length > 1 ? loc[loc.length - 1] : ''});
+    const link = compLink(P);
+    out.push({date, t1, t2, hs:sc[0], as:sc[1], so, comp:plain(P.round || P.event || P.title || ''), ...(link ? {link} : {}), ...boxPlace(P)});
   }
   return out;
 }
 /* The tournament name to file a match under: "Friendly" for friendlies, else the archive's name for the competition
    when it is one the gap-filler knows, else the competition as Wikipedia names it (unknown names count as an
    invitational, the cautious weight). A youth or otherwise uncounted competition is skipped (null). */
-export function tournamentFor(comp, g, mapTournament, tournaments){
+export function tournamentFor(comp, g, mapTournament, tournaments, link){
+  /* The linked article's name first, when it is a competition the archive knows: the text shown is often an
+     abbreviation ("2027 AFCON qualification", "2026–27 Nations League"). */
+  if (link){
+    const t = tournamentFor(link, g, mapTournament, tournaments);
+    if (t && t !== 'Friendly' && tournaments && tournaments.has(t)) return t;
+  }
   let c = String(comp || '').replace(/\s+/g, ' ').trim();
   if (!c || /friendl/i.test(c)) return 'Friendly';
+  /* Editors' short forms: "2027 AFCON Q", "2027 AFCON Qualifiers". */
+  c = c.replace(/\bAFCON\b/gi, 'Africa Cup of Nations').replace(/\b(qualifiers|qualifying)\b/gi, 'qualification').replace(/\bQ\b/, 'qualification');
   if (/\bU-?\d{2}\b|under-?\d{2}|youth|futsal|beach/i.test(c)) return null;
   /* "Football at the 2026 Asian Games Group F", "2026 Women's Africa Cup of Nations qualification First round": the
      competition's own name, without the year, the stage or "women's". */
@@ -115,7 +120,7 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
       const text = j.parse && (typeof j.parse.wikitext === 'string' ? j.parse.wikitext : j.parse.wikitext && j.parse.wikitext['*']);
       /* Also the boxes for the next 30 days: fixtures on a team's own page that the feed may not have (see `upcoming`). */
       cache.resultPages[title] = {fetched:today, results:text ? pageResults(text, from, to) : [],
-        upcoming:text ? pageMatches(text).filter(m => m.date >= today && m.date <= ahead).map(m => ({date:m.date, t1:m.t1, t2:m.t2, kickoff:m.kickoff || '', city:m.city, country:m.country, stadium:m.stadium, comp:m.comp || ''})) : []};
+        upcoming:text ? pageMatches(text, today).filter(m => m.date >= today && m.date <= ahead).map(m => ({date:m.date, t1:m.t1, t2:m.t2, kickoff:m.kickoff || '', city:m.city, country:m.country, stadium:m.stadium, comp:m.comp || '', ...(m.link ? {link:m.link} : {}), ...(m.timed ? {timed:1} : {})})) : []};
       stats.pages++;
     } catch(e){ stats.errors++; log('Wikipedia results: ' + title + ': ' + e.message); if (stats.errors >= 5) break; }
   }
@@ -146,7 +151,7 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
        it already has one: a box with the wrong opponent (Ukraine's page had Hungary for Georgia in November 2026). */
     if (new Set([...G.pages].map(p => owner.get(p) || p)).size < 2 && t0 - dayNum(cache.resultSeen[id]) < 2){ stats.unconfirmed++; continue; }
     if (busy.has(G.home + '|' + d) || busy.has(G.away + '|' + d)){ stats.clash = (stats.clash || 0) + 1; continue; }
-    const tour = tournamentFor(G.m.comp, g, mapTournament, tournaments);
+    const tour = tournamentFor(G.m.comp, g, mapTournament, tournaments, G.m.link);
     if (!tour) continue;
     const country = boxCountry(G.m, cities, cityKey, toArchive, teams) || G.home;
     rows.push({date:G.m.date, home_team:G.home, away_team:G.away, home_score:G.m.hs, away_score:G.m.as, tournament:tour,
@@ -157,18 +162,63 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
   for (const [id, d] of Object.entries(cache.resultSeen)) if (t0 - dayNum(d) > windowDays + 7) delete cache.resultSeen[id];
   stats.added = rows.length;
   /* Matches still to come on this gender's pages, both teams known: the caller shows those the feed has no fixture for. */
-  const upcoming = [], seenUp = new Set();
+  let upcoming = []; const seenUp = new Map();
   for (const title of pages){
     const P = cache.resultPages[title]; if (!P) continue;
     for (const m of P.upcoming || []){
       if (m.date < today) continue;
       const home = byCode.get(m.t1), away = byCode.get(m.t2);
       if (!home || !away || home === away) continue;
-      const k = m.date + '|' + pairKey(home, away); if (seenUp.has(k)) continue; seenUp.add(k);
-      upcoming.push({id:g + '|' + m.date + '|' + home + '|' + away, gender:g, date:m.date, kickoff:m.kickoff || null, home_team:home, away_team:away, comp:m.comp || '',
-        city:m.city, stadium:m.stadium, country:boxCountry(m, cities, cityKey, toArchive, teams) || '', source:title});
+      const k = m.date + '|' + pairKey(home, away);
+      /* the days this same page gives the pair: two boxes on one page are two matches (see feedHas) */
+      const days = (P.upcoming || []).filter(o => (o.t1 === m.t1 && o.t2 === m.t2) || (o.t1 === m.t2 && o.t2 === m.t1)).map(o => o.date);
+      if (seenUp.has(k)){ const y = seenUp.get(k); y.owners.add(owner.get(title) || title); for (const d of days) if (!y.pairDates.includes(d)) y.pairDates.push(d); continue; }
+      const x = {id:g + '|' + m.date + '|' + home + '|' + away, gender:g, date:m.date, kickoff:m.kickoff || null, home_team:home, away_team:away, comp:m.comp || '', link:m.link || '', pairDates:[...new Set(days)],
+        city:m.city, stadium:m.stadium, country:boxCountry(m, cities, cityKey, toArchive, teams) || '', source:title, owners:new Set([owner.get(title) || title])};
+      seenUp.set(k, x); upcoming.push(x);
     }
   }
+  /* A team listed against two different opponents on one day: the pages disagree (a stale box, or a guess at who goes
+     through). The match both teams' pages list stands and the other goes; with neither on both, both go. */
+  const sameDay = new Map();
+  for (const x of upcoming) for (const t of [x.home_team, x.away_team]){ const k = t + '|' + x.date; if (!sameDay.has(k)) sameDay.set(k, []); sameDay.get(k).push(x); }
+  const out = new Set();
+  for (const list of sameDay.values()){
+    if (list.length < 2) continue;
+    const sure = list.filter(x => x.owners.size > 1);
+    for (const x of list) if (sure.length !== 1 || x !== sure[0]) out.add(x);
+  }
+  if (out.size){
+    stats.disagree = out.size; upcoming = upcoming.filter(x => !out.has(x));
+    log('Wikipedia fixtures set aside (' + g + ', the pages disagree): ' + [...out].map(x => x.date + ' ' + x.home_team + ' v ' + x.away_team + ' [' + x.source + ']').join('; '));
+  }
+  upcoming = upcoming.map(({owners, ...x}) => ({...x, pages:owners.size}));
   stats.upcoming = upcoming.length;
   return {rows:rows.sort((a, b) => a.date < b.date ? -1 : 1), stats, upcoming:upcoming.sort((a, b) => a.date < b.date ? -1 : 1)};
+}
+
+/* Where a match is played according to the two teams' own pages, from what the nightly reading above has kept: the boxes
+   still to come and, for a match already played (row.home_score set), the results of the last 60 days, where the score
+   must agree. The same two teams within a day; a box that names no place is passed over. For fixtures and held results
+   API-Football gives no venue for: a small friendly on neutral ground (Chinese Taipei v Kyrgyzstan in Vietnam, Palestine v
+   Iran in Basra, November 2026) would otherwise count as a home match for the first-named team. Returns {city, country,
+   stadium} or null. No requests: it only reads the cache. */
+export function teamPageVenue(cache, g, row, {cities, cityKey, toArchive = x => x, known} = {}){
+  const played = row.home_score !== undefined && row.home_score !== '' && row.home_score !== null;
+  const h = codeOf(row.home_team), a = codeOf(row.away_team);
+  if (!h || !a || !cache || !cache.resultPages) return null;
+  for (const t of [row.home_team, row.away_team]){
+    const T = (cache.titles || {})[g + '|' + t]; if (!T) continue;
+    for (const title of [T.title, T.main]){
+      const P = title && cache.resultPages[title]; if (!P) continue;
+      const lists = played ? [(P.results || []).filter(m => (m.t1 === h ? [m.hs, m.as] : [m.as, m.hs]).join('-') === (+row.home_score) + '-' + (+row.away_score)), P.upcoming || []] : [P.upcoming || []];
+      for (const list of lists){
+        const m = findMatch(list, {home_team:row.home_team, away_team:row.away_team, date:row.date});
+        if (!m || m.moved) continue;
+        const country = boxCountry(m, cities, cityKey, toArchive, known);
+        if (country) return {city:m.city || '', country, stadium:m.stadium || ''};
+      }
+    }
+  }
+  return null;
 }
