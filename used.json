@@ -1,0 +1,27 @@
+{
+ "ids": [
+  "match|men|2026-11-16|Germany|Netherlands",
+  "roundup|2026-11-13",
+  "today|2026-11-14",
+  "match|men|2026-11-15|Spain|England",
+  "roundup|2026-11-12",
+  "today|2026-11-13",
+  "match|men|2026-11-14|Portugal|Denmark",
+  "roundup|2026-11-11",
+  "tournament|nations-league-a-2026",
+  "otd|men|1937-11-11|Argentina|Uruguay",
+  "match|men|2026-11-12|Italy|France",
+  "rankings|men|2026-11-08",
+  "past|AFC Asian Cup|1992-10-29",
+  "match|men|2026-11-08|Maldives|Pakistan"
+ ],
+ "recentTypes": [
+  "match",
+  "roundup",
+  "today",
+  "match",
+  "roundup",
+  "today",
+  "match"
+ ]
+}
