@@ -67,7 +67,7 @@
   "wiki": {
    "city": "Tbilisi",
    "country": "Georgia",
-   "stadium": "Boris Paichadze Dinamo Arena",
+   "stadium": "Mikheil Meskhi Stadium",
    "boxDate": "2026-11-14"
   },
   "venue_src": "api"
@@ -397,7 +397,7 @@
   "home_team": "Faroe Islands",
   "away_team": "Moldova",
   "tournament": "UEFA Nations League",
-  "city": "Tórshavn",
+  "city": "Torshavn",
   "country": "Faroe Islands",
   "neutral": "FALSE",
   "venue_id": "",
@@ -424,7 +424,7 @@
   "city": "Tallinn",
   "country": "Estonia",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 605,
   "api_id": 1528988,
   "league": "UEFA Nations League",
   "unmapped_tournament": "",
@@ -437,7 +437,7 @@
    "stadium": "Lilleküla Stadium",
    "boxDate": "2026-11-16"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1528989": {
   "date": "2026-11-16",
@@ -448,7 +448,7 @@
   "city": "Kaunas",
   "country": "Lithuania",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 2612,
   "api_id": 1528989,
   "league": "UEFA Nations League",
   "unmapped_tournament": "",
@@ -462,7 +462,7 @@
    "boxDate": "2026-11-16",
    "kickoff": "2026-11-16T17:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1528990": {
   "date": "2026-11-16",
@@ -473,7 +473,7 @@
   "city": "Berlin",
   "country": "Germany",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 694,
   "api_id": 1528990,
   "league": "UEFA Nations League",
   "unmapped_tournament": "",
@@ -487,7 +487,7 @@
    "boxDate": "2026-11-16",
    "kickoff": "2026-11-16T19:45:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1528991": {
   "date": "2026-11-16",
@@ -495,10 +495,10 @@
   "home_team": "Greece",
   "away_team": "Serbia",
   "tournament": "UEFA Nations League",
-  "city": "Piraeus",
+  "city": "Volos",
   "country": "Greece",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 1918,
   "api_id": 1528991,
   "league": "UEFA Nations League",
   "unmapped_tournament": "",
@@ -511,7 +511,7 @@
    "stadium": "Karaiskakis Stadium",
    "boxDate": "2026-11-16"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1528992": {
   "date": "2026-11-17",
@@ -536,7 +536,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T19:45:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1528993": {
   "date": "2026-11-17",
@@ -561,7 +561,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T19:45:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1528994": {
   "date": "2026-11-17",
@@ -585,7 +585,7 @@
    "stadium": "Anton Malatinský Stadium",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1528995": {
   "date": "2026-11-17",
@@ -609,7 +609,7 @@
    "stadium": "Puskás Aréna",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1528996": {
   "date": "2026-11-17",
@@ -633,7 +633,7 @@
    "stadium": "Nagyerdei Stadion",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1528997": {
   "date": "2026-11-17",
@@ -658,7 +658,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T18:45:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1528998": {
   "date": "2026-11-17",
@@ -682,7 +682,7 @@
    "stadium": "Stadion Narodowy",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1528999": {
   "date": "2026-11-17",
@@ -707,7 +707,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T18:45:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545616": {
   "date": "2026-11-15",
@@ -740,7 +740,7 @@
   "home_team": "Iceland",
   "away_team": "Luxembourg",
   "tournament": "UEFA Nations League",
-  "city": "Reykjavík",
+  "city": "Reykjavik",
   "country": "Iceland",
   "neutral": "FALSE",
   "venue_id": "",
@@ -792,7 +792,7 @@
   "city": "St.Gallen",
   "country": "Switzerland",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 1543,
   "api_id": 1545652,
   "league": "UEFA Nations League",
   "unmapped_tournament": "",
@@ -806,7 +806,7 @@
    "boxDate": "2026-11-16",
    "kickoff": "2026-11-16T19:45:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1545662": {
   "date": "2026-11-16",
@@ -817,7 +817,7 @@
   "city": "Skopje",
   "country": "North Macedonia",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 1045,
   "api_id": 1545662,
   "league": "UEFA Nations League",
   "unmapped_tournament": "",
@@ -830,7 +830,7 @@
    "stadium": "Toše Proeski Arena",
    "boxDate": "2026-11-16"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1545862": {
   "date": "2026-11-14",
@@ -848,6 +848,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
+  "wiki": null,
   "venue_src": "assumed"
  },
  "1545863": {
@@ -866,6 +867,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
+  "wiki": null,
   "venue_src": "city"
  },
  "1545884": {
@@ -884,6 +886,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
+  "wiki": null,
   "venue_src": "city"
  },
  "1545886": {
@@ -1576,6 +1579,60 @@
   "gender": "men",
   "wiki": null
  },
+ "1545971": {
+  "date": "2027-01-13",
+  "kickoff": "2027-01-13T14:00:00+00:00",
+  "home_team": "Jordan",
+  "away_team": "Bahrain",
+  "tournament": "AFC Asian Cup",
+  "city": "Jeddah",
+  "country": "",
+  "neutral": "",
+  "venue_id": "",
+  "api_id": 1545971,
+  "league": "Asian Cup",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": null
+ },
+ "1545972": {
+  "date": "2027-01-13",
+  "kickoff": "2027-01-13T14:00:00+00:00",
+  "home_team": "Kyrgyzstan",
+  "away_team": "Iran",
+  "tournament": "AFC Asian Cup",
+  "city": "Riyadh",
+  "country": "",
+  "neutral": "",
+  "venue_id": "",
+  "api_id": 1545972,
+  "league": "Asian Cup",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": null
+ },
+ "1545973": {
+  "date": "2027-01-13",
+  "kickoff": "2027-01-13T14:00:00+00:00",
+  "home_team": "North Korea",
+  "away_team": "Uzbekistan",
+  "tournament": "AFC Asian Cup",
+  "city": "Riyadh",
+  "country": "",
+  "neutral": "",
+  "venue_id": "",
+  "api_id": 1545973,
+  "league": "Asian Cup",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": null
+ },
  "1549407": {
   "date": "2027-01-10",
   "kickoff": "2027-01-10T14:00:00+00:00",
@@ -1596,7 +1653,7 @@
  },
  "1550710": {
   "date": "2026-11-27",
-  "kickoff": "2026-11-27T21:00:00+00:00",
+  "kickoff": "2026-11-27T22:00:00+00:00",
   "home_team": "Jamaica",
   "away_team": "Costa Rica",
   "tournament": "FIFA World Cup qualification",
@@ -1614,8 +1671,8 @@
   "venue_src": "assumed"
  },
  "1550711": {
-  "date": "2026-11-27",
-  "kickoff": "2026-11-27T21:00:00+00:00",
+  "date": "2026-11-28",
+  "kickoff": "2026-11-28T01:30:00+00:00",
   "home_team": "United States",
   "away_team": "El Salvador",
   "tournament": "FIFA World Cup qualification",
@@ -1634,7 +1691,7 @@
  },
  "1550712": {
   "date": "2026-11-28",
-  "kickoff": "2026-11-28T21:00:00+00:00",
+  "kickoff": "2026-11-28T18:00:00+00:00",
   "home_team": "Canada",
   "away_team": "Panama",
   "tournament": "FIFA World Cup qualification",
@@ -1653,7 +1710,7 @@
  },
  "1550713": {
   "date": "2026-11-28",
-  "kickoff": "2026-11-28T21:00:00+00:00",
+  "kickoff": "2026-11-28T21:30:00+00:00",
   "home_team": "Mexico",
   "away_team": "Haiti",
   "tournament": "FIFA World Cup qualification",
@@ -1686,6 +1743,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
+  "wiki": null,
   "venue_src": "city"
  },
  "1638241": {
@@ -1709,7 +1767,7 @@
  },
  "1638242": {
   "date": "2026-11-28",
-  "kickoff": "2026-11-28T14:00:00+00:00",
+  "kickoff": "2026-11-28T19:00:00+00:00",
   "home_team": "Ghana",
   "away_team": "Ecuador",
   "tournament": "FIFA World Cup qualification",
@@ -1728,7 +1786,7 @@
  },
  "1638243": {
   "date": "2026-11-28",
-  "kickoff": "2026-11-28T14:00:00+00:00",
+  "kickoff": "2026-11-28T16:30:00+00:00",
   "home_team": "Uzbekistan",
   "away_team": "Papua New Guinea",
   "tournament": "FIFA World Cup qualification",
@@ -1766,7 +1824,7 @@
  },
  "1638245": {
   "date": "2026-12-01",
-  "kickoff": "2026-12-01T14:00:00+00:00",
+  "kickoff": "2026-12-01T19:00:00+00:00",
   "home_team": "South Africa",
   "away_team": "Ecuador",
   "tournament": "FIFA World Cup qualification",
@@ -1785,7 +1843,7 @@
  },
  "1638246": {
   "date": "2026-12-01",
-  "kickoff": "2026-12-01T14:00:00+00:00",
+  "kickoff": "2026-12-01T16:30:00+00:00",
   "home_team": "Uzbekistan",
   "away_team": "Ghana",
   "tournament": "FIFA World Cup qualification",
@@ -1804,7 +1862,7 @@
  },
  "1638247": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T17:00:00+00:00",
   "home_team": "Taiwan",
   "away_team": "Ecuador",
   "tournament": "FIFA World Cup qualification",
@@ -1823,7 +1881,7 @@
  },
  "1638248": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T17:00:00+00:00",
   "home_team": "Papua New Guinea",
   "away_team": "Ghana",
   "tournament": "FIFA World Cup qualification",
@@ -1842,7 +1900,7 @@
  },
  "1638249": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T17:00:00+00:00",
   "home_team": "South Africa",
   "away_team": "Uzbekistan",
   "tournament": "FIFA World Cup qualification",
@@ -1958,9 +2016,9 @@
   "home_team": "Dominica",
   "away_team": "Cayman Islands",
   "tournament": "CONCACAF Nations League",
-  "city": "Georgetown",
-  "country": "Cayman Islands",
-  "neutral": "FALSE",
+  "city": "Leonora",
+  "country": "Guyana",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640010,
   "league": "CONCACAF Nations League",
@@ -2008,9 +2066,9 @@
   "home_team": "Guadeloupe",
   "away_team": "Bermuda",
   "tournament": "CONCACAF Nations League",
-  "city": "Le Gosier",
-  "country": "Guadeloupe",
-  "neutral": "FALSE",
+  "city": "Guadalupe",
+  "country": "Mexico",
+  "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1640013,
   "league": "CONCACAF Nations League",
@@ -2033,9 +2091,9 @@
   "home_team": "Guyana",
   "away_team": "Puerto Rico",
   "tournament": "CONCACAF Nations League",
-  "city": "Georgetown",
-  "country": "Cayman Islands",
-  "neutral": "TRUE",
+  "city": "Leonora",
+  "country": "Guyana",
+  "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1640014,
   "league": "CONCACAF Nations League",
@@ -2205,6 +2263,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
+  "wiki": null,
   "venue_src": "city"
  },
  "1640087": {
@@ -2305,7 +2364,7 @@
    "stadium": "JFE Harenokuni Stadium",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1641091": {
   "date": "2026-11-29",
@@ -2329,7 +2388,7 @@
    "stadium": "Edion Peace Wing Hiroshima",
    "boxDate": "2026-11-29"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1641698": {
   "date": "2026-11-28",
@@ -2460,7 +2519,7 @@
    "boxDate": "2026-11-16",
    "kickoff": "2026-11-17T01:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1644695": {
   "date": "2026-11-18",
@@ -2533,7 +2592,7 @@
    "stadium": "TQL Stadium",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1645470": {
   "date": "2026-12-02",
@@ -2555,8 +2614,8 @@
   "venue_src": "assumed"
  },
  "1646037": {
-  "date": "2026-11-26",
-  "kickoff": "2026-11-26T14:00:00+00:00",
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T16:30:00+00:00",
   "home_team": "Finland",
   "away_team": "Italy",
   "tournament": "FIFA World Cup qualification",
@@ -2574,8 +2633,8 @@
   "venue_src": "assumed"
  },
  "1646038": {
-  "date": "2026-11-26",
-  "kickoff": "2026-11-26T14:00:00+00:00",
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T17:00:00+00:00",
   "home_team": "Poland",
   "away_team": "Republic of Ireland",
   "tournament": "FIFA World Cup qualification",
@@ -2593,8 +2652,8 @@
   "venue_src": "assumed"
  },
  "1646039": {
-  "date": "2026-11-26",
-  "kickoff": "2026-11-26T14:00:00+00:00",
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T17:00:00+00:00",
   "home_team": "Portugal",
   "away_team": "Iceland",
   "tournament": "FIFA World Cup qualification",
@@ -2612,8 +2671,8 @@
   "venue_src": "assumed"
  },
  "1646040": {
-  "date": "2026-11-26",
-  "kickoff": "2026-11-26T14:00:00+00:00",
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T19:25:00+00:00",
   "home_team": "Scotland",
   "away_team": "Sweden",
   "tournament": "FIFA World Cup qualification",
@@ -2631,8 +2690,8 @@
   "venue_src": "assumed"
  },
  "1646041": {
-  "date": "2026-11-26",
-  "kickoff": "2026-11-26T14:00:00+00:00",
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T16:00:00+00:00",
   "home_team": "Slovenia",
   "away_team": "Netherlands",
   "tournament": "FIFA World Cup qualification",
@@ -2650,8 +2709,8 @@
   "venue_src": "assumed"
  },
  "1646042": {
-  "date": "2026-11-26",
-  "kickoff": "2026-11-26T14:00:00+00:00",
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T18:00:00+00:00",
   "home_team": "Switzerland",
   "away_team": "Austria",
   "tournament": "FIFA World Cup qualification",
@@ -2669,8 +2728,8 @@
   "venue_src": "assumed"
  },
  "1646043": {
-  "date": "2026-11-26",
-  "kickoff": "2026-11-26T14:00:00+00:00",
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T17:00:00+00:00",
   "home_team": "Ukraine",
   "away_team": "England",
   "tournament": "FIFA World Cup qualification",
@@ -2688,8 +2747,8 @@
   "venue_src": "assumed"
  },
  "1646044": {
-  "date": "2026-11-26",
-  "kickoff": "2026-11-26T14:00:00+00:00",
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T19:15:00+00:00",
   "home_team": "Wales",
   "away_team": "Norway",
   "tournament": "FIFA World Cup qualification",
@@ -2708,7 +2767,7 @@
  },
  "1646045": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T15:10:00+00:00",
   "home_team": "Austria",
   "away_team": "Switzerland",
   "tournament": "FIFA World Cup qualification",
@@ -2727,7 +2786,7 @@
  },
  "1646046": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T17:30:00+00:00",
   "home_team": "England",
   "away_team": "Ukraine",
   "tournament": "FIFA World Cup qualification",
@@ -2765,7 +2824,7 @@
  },
  "1646048": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T17:00:00+00:00",
   "home_team": "Republic of Ireland",
   "away_team": "Poland",
   "tournament": "FIFA World Cup qualification",
@@ -2784,7 +2843,7 @@
  },
  "1646049": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T20:15:00+00:00",
   "home_team": "Italy",
   "away_team": "Finland",
   "tournament": "FIFA World Cup qualification",
@@ -2803,7 +2862,7 @@
  },
  "1646050": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T17:00:00+00:00",
   "home_team": "Netherlands",
   "away_team": "Slovenia",
   "tournament": "FIFA World Cup qualification",
@@ -2822,7 +2881,7 @@
  },
  "1646051": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T16:00:00+00:00",
   "home_team": "Norway",
   "away_team": "Wales",
   "tournament": "FIFA World Cup qualification",
@@ -2841,7 +2900,7 @@
  },
  "1646052": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T14:00:00+00:00",
+  "kickoff": "2026-12-05T15:00:00+00:00",
   "home_team": "Sweden",
   "away_team": "Scotland",
   "tournament": "FIFA World Cup qualification",
@@ -2874,6 +2933,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
+  "wiki": null,
   "venue_src": "city"
  },
  "1647366": {
@@ -2892,6 +2952,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
+  "wiki": null,
   "venue_src": "assumed"
  },
  "1647367": {
@@ -2974,7 +3035,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T15:30:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1647371": {
   "date": "2026-11-17",
@@ -3155,6 +3216,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
+  "wiki": null,
   "venue_src": "city"
  },
  "1647643": {
@@ -3192,6 +3254,7 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
+  "wiki": null,
   "venue_src": "assumed"
  },
  "1648287": {
@@ -3595,8 +3658,8 @@
   "home_team": "Oman",
   "away_team": "Tajikistan",
   "tournament": "King's Cup",
-  "city": "",
-  "country": "",
+  "city": "Sisaket",
+  "country": "Thailand",
   "neutral": "TRUE",
   "venue_id": "",
   "api_id": 1650135,
@@ -3605,7 +3668,14 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "venue_src": "event"
+  "wiki": {
+   "city": "Sisaket",
+   "country": "Thailand",
+   "stadium": "Sisaket Province Stadium",
+   "boxDate": "2026-11-14",
+   "kickoff": "2026-11-14T09:00:00+00:00"
+  },
+  "venue_src": "wiki"
  },
  "1650136": {
   "date": "2026-11-14",
@@ -3613,7 +3683,7 @@
   "home_team": "Thailand",
   "away_team": "Brunei",
   "tournament": "King's Cup",
-  "city": "",
+  "city": "Sisaket",
   "country": "Thailand",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3623,6 +3693,38 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "venue_src": "event"
+  "wiki": {
+   "city": "Sisaket",
+   "country": "Thailand",
+   "stadium": "Sisaket Province Stadium",
+   "boxDate": "2026-11-14",
+   "kickoff": "2026-11-14T12:30:00+00:00"
+  },
+  "venue_src": "wiki"
+ },
+ "wiki:men|2026-11-17|Oman|Thailand": {
+  "date": "2026-11-17",
+  "kickoff": "2026-11-17T09:00:00+00:00",
+  "home_team": "Oman",
+  "away_team": "Thailand",
+  "tournament": "King's Cup",
+  "city": "Sisaket",
+  "country": "Thailand",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": "wiki:men|2026-11-17|Oman|Thailand",
+  "league": "King's Cup",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wikiOnly": 1,
+  "wikiSource": "2026 King's Cup",
+  "wiki": {
+   "city": "Sisaket",
+   "country": "Thailand",
+   "stadium": "Sisaket Province Stadium"
+  },
+  "venue_src": "wiki"
  }
 }
