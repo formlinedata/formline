@@ -844,24 +844,6 @@
   "gender": "men",
   "venue_src": "city"
  },
- "1545884": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T16:00:00+00:00",
-  "home_team": "Uganda",
-  "away_team": "Botswana",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Hoima",
-  "country": "Uganda",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545884,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1545886": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T19:00:00+00:00",
