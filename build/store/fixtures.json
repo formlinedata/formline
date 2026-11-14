@@ -3139,24 +3139,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1647638": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T06:00:00+00:00",
-  "home_team": "Bahrain",
-  "away_team": "Yemen",
-  "tournament": "Friendly",
-  "city": "Guangzhou",
-  "country": "China",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1647638,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1647641": {
   "date": "2026-11-14",
   "kickoff": "2026-11-14T19:00:00+00:00",
