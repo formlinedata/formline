@@ -1,77 +1,4 @@
 {
- "1528971": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T14:00:00+00:00",
-  "home_team": "Kosovo",
-  "away_team": "Israel",
-  "tournament": "UEFA Nations League",
-  "city": "Pristina",
-  "country": "Kosovo",
-  "neutral": "FALSE",
-  "venue_id": 22563,
-  "api_id": 1528971,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Pristina",
-   "country": "Kosovo",
-   "stadium": "Fadil Vokrri Stadium",
-   "boxDate": "2026-11-14"
-  },
-  "venue_src": "api"
- },
- "1528972": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T17:00:00+00:00",
-  "home_team": "Norway",
-  "away_team": "Wales",
-  "tournament": "UEFA Nations League",
-  "city": "Oslo",
-  "country": "Norway",
-  "neutral": "FALSE",
-  "venue_id": 11603,
-  "api_id": 1528972,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Oslo",
-   "country": "Norway",
-   "stadium": "Ullevaal Stadion",
-   "boxDate": "2026-11-14",
-   "kickoff": "2026-11-14T17:00:00+00:00"
-  },
-  "venue_src": "api"
- },
- "1528973": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T17:00:00+00:00",
-  "home_team": "Georgia",
-  "away_team": "Hungary",
-  "tournament": "UEFA Nations League",
-  "city": "Tbilisi",
-  "country": "Georgia",
-  "neutral": "FALSE",
-  "venue_id": 691,
-  "api_id": 1528973,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Tbilisi",
-   "country": "Georgia",
-   "stadium": "Mikheil Meskhi Stadium",
-   "boxDate": "2026-11-14"
-  },
-  "venue_src": "api"
- },
  "1528974": {
   "date": "2026-11-14",
   "kickoff": "2026-11-14T19:45:00+00:00",
@@ -275,10 +202,10 @@
   "home_team": "France",
   "away_team": "Turkey",
   "tournament": "UEFA Nations League",
-  "city": "Lyon",
+  "city": "Bordeaux",
   "country": "France",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 638,
   "api_id": 1528982,
   "league": "UEFA Nations League",
   "unmapped_tournament": "",
@@ -291,7 +218,7 @@
    "stadium": "Stade Atlantique",
    "boxDate": "2026-11-15"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1528983": {
   "date": "2026-11-15",
@@ -861,24 +788,6 @@
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1545863,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
- "1545884": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T16:00:00+00:00",
-  "home_team": "Uganda",
-  "away_team": "Botswana",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Hoima",
-  "country": "Uganda",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545884,
   "league": "Africa Cup of Nations - Qualification",
   "unmapped_tournament": "",
   "tbd": "",
@@ -3194,24 +3103,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1648285": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T15:00:00+00:00",
-  "home_team": "Palestine",
-  "away_team": "Iran",
-  "tournament": "Friendly",
-  "city": "",
-  "country": "Palestine",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1648285,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "assumed"
- },
  "1648287": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T23:30:00+00:00",
@@ -3539,30 +3430,6 @@
   "gender": "men",
   "wiki": null,
   "venue_src": "assumed"
- },
- "1649962": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T14:30:00+00:00",
-  "home_team": "Bangladesh",
-  "away_team": "Pakistan",
-  "tournament": "SAFF Cup",
-  "city": "Dhaka",
-  "country": "Bangladesh",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1649962,
-  "league": "SAFF Championship",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Dhaka",
-   "country": "Bangladesh",
-   "stadium": "National Stadium",
-   "boxDate": "2026-11-14"
-  },
-  "venue_src": "city"
  },
  "1650001": {
   "date": "2026-11-17",
