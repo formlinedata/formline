@@ -1,11 +1,11 @@
 {
- "built": "2026-11-14T08:01:53.269Z",
+ "built": "2026-11-14T08:55:07.244Z",
  "today": "2026-11-14",
  "mode": "light",
  "api": {
   "keyPresent": true,
   "used": 3,
-  "remaining": 7403,
+  "remaining": 7400,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 93,
+   "usedTodayBeforeRun": 96,
    "perMinute": 300
   },
   "paid": true,
@@ -42,7 +42,7 @@
   }
  },
  "men": {
-  "built": "2026-11-14T08:01:53.269Z",
+  "built": "2026-11-14T08:55:07.244Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
@@ -58,7 +58,7 @@
   "fixtures": 108
  },
  "women": {
-  "built": "2026-11-14T08:01:53.269Z",
+  "built": "2026-11-14T08:55:07.244Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -80,15 +80,15 @@
  "venues": {
   "city": 66,
   "wiki": 2,
-  "api": 21,
-  "assumed": 72
+  "assumed": 72,
+  "api": 21
  },
  "forecasts": {
   "total": 234,
   "scored": 74,
   "newThisRun": 0,
   "updatedThisRun": 158,
-  "scoredThisRun": 1,
+  "scoredThisRun": 0,
   "droppedThisRun": 0
  }
 }
