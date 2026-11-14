@@ -3576,30 +3576,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1649961": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T09:00:00+00:00",
-  "home_team": "India",
-  "away_team": "Bhutan",
-  "tournament": "SAFF Cup",
-  "city": "Dhaka",
-  "country": "Bangladesh",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1649961,
-  "league": "SAFF Championship",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Dhaka",
-   "country": "Bangladesh",
-   "stadium": "National Stadium",
-   "boxDate": "2026-11-14"
-  },
-  "venue_src": "city"
- },
  "1649962": {
   "date": "2026-11-14",
   "kickoff": "2026-11-14T14:30:00+00:00",
@@ -3642,31 +3618,6 @@
   "gender": "men",
   "wiki": null,
   "venue_src": "assumed"
- },
- "1650135": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T09:00:00+00:00",
-  "home_team": "Oman",
-  "away_team": "Tajikistan",
-  "tournament": "King's Cup",
-  "city": "Sisaket",
-  "country": "Thailand",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1650135,
-  "league": "King's Cup",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Sisaket",
-   "country": "Thailand",
-   "stadium": "Sisaket Province Stadium",
-   "boxDate": "2026-11-14",
-   "kickoff": "2026-11-14T09:00:00+00:00"
-  },
-  "venue_src": "wiki"
  },
  "1650136": {
   "date": "2026-11-14",
