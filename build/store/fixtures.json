@@ -3170,24 +3170,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1648285": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T15:00:00+00:00",
-  "home_team": "Palestine",
-  "away_team": "Iran",
-  "tournament": "Friendly",
-  "city": "",
-  "country": "Palestine",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1648285,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "assumed"
- },
  "1648287": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T23:30:00+00:00",
