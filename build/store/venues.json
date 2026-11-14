@@ -19,6 +19,11 @@
   "city": "Nottingham, Nottinghamshire",
   "country": "England"
  },
+ "605": {
+  "name": "A. Le Coq Arena",
+  "city": "Tallinn",
+  "country": "Estonia"
+ },
  "608": {
   "name": "Addis Ababa Stadium",
   "city": "Addis Abeba",
@@ -34,6 +39,11 @@
   "city": "Tbilisi",
   "country": "Georgia"
  },
+ "694": {
+  "name": "Olympiastadion Berlin",
+  "city": "Berlin",
+  "country": "Germany"
+ },
  "795": {
   "name": "King Baudouin Stadium",
   "city": "Brussels",
@@ -48,6 +58,11 @@
   "name": "Stadio Giuseppe Meazza",
   "city": "Milano",
   "country": "Italy"
+ },
+ "1045": {
+  "name": "Toše Proeski Arena",
+  "city": "Skopje",
+  "country": "Macedonia"
  },
  "1117": {
   "name": "Johan Cruijff Arena",
@@ -84,10 +99,20 @@
   "city": "Solna",
   "country": "Sweden"
  },
+ "1543": {
+  "name": "St. Jakob-Park",
+  "city": "Basel",
+  "country": "Switzerland"
+ },
  "1545": {
   "name": "Rheinpark Stadion",
   "city": "Vaduz",
   "country": "Liechtenstein"
+ },
+ "1918": {
+  "name": "Panthessaliko Stadio",
+  "city": "Volos",
+  "country": "Greece"
  },
  "1971": {
   "name": "Windsor Park",
@@ -103,6 +128,11 @@
   "name": "Stadions Skonto",
   "city": "Rīga (Riga)",
   "country": "Latvia"
+ },
+ "2612": {
+  "name": "S. Dariaus ir S. Girėno stadionas",
+  "city": "Kaunas",
+  "country": "Lithuania"
  },
  "2615": {
   "name": "Stadionul Zimbru",
