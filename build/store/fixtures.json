@@ -1,28 +1,4 @@
 {
- "1528971": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T14:00:00+00:00",
-  "home_team": "Kosovo",
-  "away_team": "Israel",
-  "tournament": "UEFA Nations League",
-  "city": "Pristina",
-  "country": "Kosovo",
-  "neutral": "FALSE",
-  "venue_id": 22563,
-  "api_id": 1528971,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Pristina",
-   "country": "Kosovo",
-   "stadium": "Fadil Vokrri Stadium",
-   "boxDate": "2026-11-14"
-  },
-  "venue_src": "api"
- },
  "1528972": {
   "date": "2026-11-14",
   "kickoff": "2026-11-14T17:00:00+00:00",
@@ -3539,30 +3515,6 @@
   "gender": "men",
   "wiki": null,
   "venue_src": "assumed"
- },
- "1649962": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T14:30:00+00:00",
-  "home_team": "Bangladesh",
-  "away_team": "Pakistan",
-  "tournament": "SAFF Cup",
-  "city": "Dhaka",
-  "country": "Bangladesh",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1649962,
-  "league": "SAFF Championship",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Dhaka",
-   "country": "Bangladesh",
-   "stadium": "National Stadium",
-   "boxDate": "2026-11-14"
-  },
-  "venue_src": "city"
  },
  "1650001": {
   "date": "2026-11-17",
