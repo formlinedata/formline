@@ -4935,7 +4935,7 @@ function viewSources(){
         '. They are compiled from Wikipedia, RSSSF and football association sources.', 'CC0 (public domain)'],
       ['Results newer than the archives, and upcoming fixtures', a('https://www.api-football.com', 'API-Football'), 'Used under the site\'s paid plan'],
       ['Venues and kick-off times API-Football does not have yet', a('https://en.wikipedia.org', 'Wikipedia')+'\'s results and competition articles', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
-      ['Men\'s results missing from the archive, added by hand (1,956 matches, each found in two other records); scores corrected where two other records agree against the archive; and the score on the pitch for results awarded afterwards', a('https://www.eloratings.net/', 'World Football Elo Ratings')+' and '+a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team results pages, with '+a('https://www.rsssf.org', 'RSSSF')+' as the third record for some older matches. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')+' (Wikipedia)'],
+      ['Men\'s results missing from the archive, added by hand (2,256 matches, each found in two other records); scores corrected where two other records agree against the archive; and the score on the pitch for results awarded afterwards', a('https://www.eloratings.net/', 'World Football Elo Ratings')+' and '+a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team results pages, with '+a('https://www.rsssf.org', 'RSSSF')+' as the third record for some older matches. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')+' (Wikipedia)'],
       ['Women\'s results missing from the archives and API-Football, added by hand (242 matches: four 2026 tournaments, the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, missing qualifiers and recent friendlies); and a few scores and dates corrected', a('https://en.wikipedia.org', 'Wikipedia')+'\'s tournament and national-team articles. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Women\'s results neither the archives nor API-Football have, found each night', a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team articles, kept when two pages agree or the result stays up for two days. Marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Historical results and tables', a('https://www.rsssf.org', 'RSSSF')+' (the Rec.Sport.Soccer Statistics Foundation), through the archives above. '+
@@ -5712,6 +5712,11 @@ function histStats(items){
   const S = {n:items.length};
   let w = 0, u = 0, wFrom = 0, uFrom = 0;
   items.forEach((x, i) => {
+    /* A match awarded without being played: a win or a loss as far as runs go, and nothing else (no score, no upset). */
+    if (x.wo){ S.n--;
+      if (x.wo > 0){ if (!w) wFrom = i; w++; if (!S.wRun || w > S.wRun.n) S.wRun = {n:w, from:items[wFrom], to:x}; if (!u) uFrom = i; u++; if (!S.uRun || u > S.uRun.n) S.uRun = {n:u, from:items[uFrom], to:x}; }
+      else { w = 0; u = 0; }
+      return; }
     const d = x.gf - x.ga;
     if (d > 0 && (!S.win || d > S.win.gf - S.win.ga || (d === S.win.gf - S.win.ga && x.gf > S.win.gf))) S.win = x;
     if (d < 0 && (!S.loss || -d > S.loss.ga - S.loss.gf || (-d === S.loss.ga - S.loss.gf && x.ga > S.loss.ga))) S.loss = x;
@@ -5738,7 +5743,11 @@ function firstMatch(key){
 function teamHistoryData(key, mode){
   const c = tableAt(), all = mode === 'all';
   const done = (ranks, peak, items, from) => {
-    const S = histStats(items);
+    /* Matches awarded without being played take their place in the runs (a win and a loss in the record books). */
+    const lo = all ? -Infinity : windowStartTs();
+    const wo = state.matches[state.gender].filter(m => m.walkover && m.awarded && m.ts >= lo && m.ts <= state.asOf && (lineageKey(m.home) === key || lineageKey(m.away) === key))
+      .map(m => ({ts:m.ts, wo:(m.awarded[0] > m.awarded[1]) === (lineageKey(m.home) === key) ? 1 : -1}));
+    const S = histStats(wo.length ? items.concat(wo).map((x, i) => [x, i]).sort((p, q) => p[0].ts - q[0].ts || p[1] - q[1]).map(p => p[0]) : items);
     return Object.assign(S, {mode, key, from, ranks, peak, first:firstMatch(key), fin:bestFinishes(key, -Infinity, state.asOf)});   // trophies are facts: always all time
   };
   if (all) return new Promise(res => setTimeout(() => {
@@ -6487,10 +6496,17 @@ function h2hMeetingsHtml(c, ka, kb, a, b, meets, f, allTime){
   const chip = (v, label, n) => '<button type="button" class="chip'+(f === v ? ' on' : '')+(n === 0 ? ' zero' : '')+'" data-h2h-f="'+v+'"'+(n === 0 ? ' disabled' : '')+'>'+label+
     '<span class="cnt">'+n+'</span></button>';
   const chips = nComp && nFr ? '<div class="chips h2h-chips">'+chip('all', 'All', meets.length)+chip('comp', 'Competitive', nComp)+chip('friendly', 'Friendlies', nFr)+'</div>' : '';
-  if (!shown.length) return chips+'<div class="panel-body muted">No meetings of this kind in this window.</div>';
-  let aw = 0, dr = 0, bw = 0, ag = 0, bg = 0;
+  /* Matches between the two that are shown but not rated: abandoned ones (listed only) and ones awarded without being
+     played (a win for the side it was awarded to, no goals). */
+  const lo = allTime ? -Infinity : windowStartTs();
+  const extra = (state.matches[state.gender] || []).filter(m => { if (!m.unrated || m.ts < lo || m.ts > state.asOf) return false; namesFor(m);
+    return ((m._h === ka && m._a === kb) || (m._h === kb && m._a === ka)) && (f === 'comp' ? m.tournament !== 'Friendly' : f === 'friendly' ? m.tournament === 'Friendly' : true); });
+  if (!shown.length && !extra.length) return chips+'<div class="panel-body muted">No meetings of this kind in this window.</div>';
+  let aw = 0, dr = 0, bw = 0, ag = 0, bg = 0, nWo = 0, nAb = 0;
   shown.forEach(x => { const o = h2hOutcome(x, kb); if (o.r > 0) aw++; else if (o.r < 0) bw++; else dr++; ag += x.gf; bg += x.ga; });
-  const N = shown.length, pct = v => (v/N*100)+'%';
+  const woFor = m => m.walkover && m.awarded ? ((m.awarded[0] > m.awarded[1]) === (m._h === ka) ? 1 : -1) : 0;
+  extra.forEach(m => { const r = woFor(m); if (r > 0){ aw++; nWo++; } else if (r < 0){ bw++; nWo++; } else nAb++; });
+  const N = shown.length + nWo, pct = v => (N ? v/N*100 : 0)+'%';
   const summary = '<div class="h2h-sum">'+
     '<div class="h2h-sum-row"><span class="h2h-a"><b>'+aw+'</b><span>'+withFlag(a)+' win'+(aw === 1 ? '' : 's')+'</span></span>'+
       '<span class="h2h-d"><b>'+dr+'</b><span>draw'+(dr === 1 ? '' : 's')+'</span></span>'+
@@ -6499,16 +6515,26 @@ function h2hMeetingsHtml(c, ka, kb, a, b, meets, f, allTime){
       '<span class="sa" style="width:'+pct(aw)+'"></span><span class="sd" style="width:'+pct(dr)+'"></span><span class="sb" style="width:'+pct(bw)+'"></span></div>'+
     '<div class="h2h-goals muted">Goals '+esc(dn(a))+' '+ag+' &ndash; '+bg+' '+esc(dn(b))+' &middot; '+N+' meeting'+(N === 1 ? '' : 's')+
       ' &middot; penalty shoot-outs count as wins'+
+      (nWo ? ' &middot; '+nWo+' awarded without being played' : '')+(nAb ? ' &middot; '+nAb+' abandoned, not counted' : '')+
 '</div></div>';
   const outTitle = 'No rating for this match';
   const side = (pre, post) => pre == null ? '<td class="num muted hide-sm" title="'+outTitle+'">&mdash;</td>' : '<td class="num mono ba hide-sm">'+fmtR(pre)+' &rarr; '+
     '<span class="rating">'+fmtR(post)+'</span> <span class="'+(post>pre?'up':(post<pre?'down':'flat'))+'">'+
     (post>=pre?'+':'&minus;')+Math.abs(post-pre).toFixed(1)+'</span></td>';
   let lastYear = null;
-  const rows = shown.slice().reverse().map(x => {
-    const m = x.m, o = h2hOutcome(x, kb), yr = new Date(x.ts).getUTCFullYear();
+  const unRow = m => { const aHome = m._h === ka, aName = aHome ? m._hn : m._an, bName = aHome ? m._an : m._hn, r = woFor(m);
+    const sc = m.walkover ? '<span class="muted">&ndash;</span>' : (aHome ? m.hs : m.as)+'&ndash;'+(aHome ? m.as : m.hs);
+    return '<tr><td class="muted date" title="'+fmtDay(m.ts)+'">'+fmtDay(m.ts).replace(/,? \d{4}$/, '')+'</td>'+
+      '<td class="ml-cell">'+matchLine(aName, bName, sc, t => teamHref(t), {ts:m.ts, win:r})+
+        '<div class="h2h-meta">'+esc(compName(m.tournament))+'</div>'+awardLine(m).replace('class="pens-line"', 'class="pens-line" style="text-align:left;"')+'</td>'+
+      '<td class="h2h-rc">'+(r ? '<span class="h2h-res '+(r > 0 ? 'a' : 'b')+'">'+esc(dn(r > 0 ? aName : bName))+' <small>awarded</small></span>' : '<span class="h2h-res d">Abandoned</span>')+'</td>'+
+      '<td class="num muted hide-sm" colspan="3">not rated</td></tr>'; };
+  const rows = shown.map(x => ({ts:x.ts, x})).concat(extra.map(m => ({ts:m.ts, un:m}))).sort((p, q) => p.ts - q.ts).reverse().map(it => {
+    const x = it.x, yr = new Date(it.ts).getUTCFullYear();
     const head = yr !== lastYear ? '<tr class="dayrow"><td colspan="6">'+yr+'</td></tr>' : '';
     lastYear = yr;
+    if (it.un) return head+unRow(it.un);
+    const m = x.m, o = h2hOutcome(x, kb);
     const aName = x.name || a, bName = x.oppName || b, vs = m ? venueSide(m) : 1;
     const aHome = m ? x.name === m._hn : x.home;          // A is the listed home side
     const aHost = vs === 0 ? false : (vs === 1) === aHome, bHost = vs !== 0 && !aHost;
@@ -6609,7 +6635,7 @@ function viewH2H(){
       '<span class="tg" aria-hidden="true"></span>All-time meetings<span class="cnt">'+meetsAll.length+'</span></button>';
     panel.innerHTML = '<div class="panel-head h2h-head"><span>Meetings <span class="muted" style="font-weight:400;">'+list.length+'</span>'+
         '<span class="h2h-scope">'+(allTime || !winOn ? 'all time' : 'last '+state.windowYears+' years')+'</span></span>'+toggle+'</div>'+
-      (list.length
+      (list.length || (state.matches[state.gender] || []).some(m => m.unrated && m.ts <= state.asOf && (allTime || !winOn || m.ts >= windowStartTs()) && (namesFor(m), (m._h === ka && m._a === kb) || (m._h === kb && m._a === ka)))
         ? '<div id="h2hMeetBody">'+h2hMeetingsHtml(c, ka, kb, a, b, list, ['comp', 'friendly'].includes(f) ? f : 'all', allTime)+'</div>'
         : '<div class="panel-body muted">'+(meetsAll.length ? 'These two have not met in the last '+state.windowYears+' years. Switch on All-time meetings to see their '+
             meetsAll.length+' earlier meeting'+(meetsAll.length === 1 ? '' : 's')+'.'
@@ -12076,7 +12102,9 @@ function viewSupport(){
 const CHANGELOG = [
   ['14 Nov 2026', ['Neutral ground is now recognised much more often. When the results feed gives no venue for a match, Formline reads it from Wikipedia: the competition\'s group pages and the two teams\' own pages. Until now such a match was taken to be a home match for the first-named team. Sudan v Senegal in Juba, Namibia v Cameroon in Gaborone and the women\'s World Cup play-offs in Sal&eacute; are now forecast as the neutral matches they are, and Kyrgyzstan v Vietnam as the Vietnam home match it is. The same goes for results already in: Palestine 0&ndash;2 Iran in Basra and Montserrat 1&ndash;2 Nicaragua in the Dominican Republic no longer count as home defeats. A venue that is still unknown is marked &ldquo;venue not confirmed&rdquo;, as before.',
     'Men\'s matches the results feed misses are now picked up from Wikipedia, as the women\'s already were: a finished match that both teams\' pages list is added and marked, and a fixture only Wikipedia lists is shown and forecast. Iraq 0&ndash;0 Lebanon in Basra (13 November) was the match that prompted it.',
-    'Forty-four more men\'s matches the archive was missing are in, 1,956 in all. Each is in World Football Elo Ratings and on Wikipedia, this time on the competition\'s own page where the teams\' pages are silent: nine from the 2019 CECAFA Cup, thirteen from the COSAFA Cups of 2024 and 2025 (the 2024 final among them, Angola 5&ndash;0 Namibia), the 2017 Gold Cup play-off between Haiti and Nicaragua, four Africa Cup qualifiers that were played and then struck from the tables (Chad withdrew in 2016, Sierra Leone were disqualified in 2018), and recent friendlies such as Kenya 4&ndash;0 Lesotho (June 2026) and Yemen 2&ndash;1 Kuwait (September 2026). The last four are special cases: Kyrgyzstan 1&ndash;0 Afghanistan (2023), later recorded as 3&ndash;0, and three matches that were abandoned, which are shown but not rated: Montenegro v Russia (2015), French Guiana v Bermuda (2016) and the 2025 Arab Cup third-place match between Saudi Arabia and the United Arab Emirates. All count from the next nightly update.']],
+    'Forty-four more men\'s matches the archive was missing are in, 1,956 in all. Each is in World Football Elo Ratings and on Wikipedia, this time on the competition\'s own page where the teams\' pages are silent: nine from the 2019 CECAFA Cup, thirteen from the COSAFA Cups of 2024 and 2025 (the 2024 final among them, Angola 5&ndash;0 Namibia), the 2017 Gold Cup play-off between Haiti and Nicaragua, four Africa Cup qualifiers that were played and then struck from the tables (Chad withdrew in 2016, Sierra Leone were disqualified in 2018), and recent friendlies such as Kenya 4&ndash;0 Lesotho (June 2026) and Yemen 2&ndash;1 Kuwait (September 2026). The last four are special cases: Kyrgyzstan 1&ndash;0 Afghanistan (2023), later recorded as 3&ndash;0, and three matches that were abandoned, which are shown but not rated: Montenegro v Russia (2015), French Guiana v Bermuda (2016) and the 2025 Arab Cup third-place match between Saudi Arabia and the United Arab Emirates. All count from the next nightly update.',
+    'Head to head now lists the matches between two teams that were abandoned or awarded without being played, each marked as such. An awarded match counts as a win for the side it was awarded to, with no goals; an abandoned one is shown and not counted. A team\'s longest winning and unbeaten runs on its History now count an awarded match as a win or a loss too.',
+    'Another 300 older matches are in, which makes 2,256 added in all. Each is in World Football Elo Ratings and on Wikipedia\'s page for the competition it was played in: 102 Olympic qualifiers and 72 All-Africa Games qualifiers, nearly all between African sides from 1959 to 1988, 43 matches at the Central American and Caribbean Games, 14 Africa Cup of Nations qualifiers, 11 from the CECAFA Cup and smaller numbers from the Pan Arab Games and the Caribbean Cup. Matches a team\'s own record leaves out, and Olympic matches involving European sides, are still held back. All of them are older than the twelve-year window, so today\'s table does not move; all-time tables and team histories gain them.']],
   ['13 Nov 2026', ['The home page is now a front door to the whole site. It shows Formline\'s track record (how often the side it picked won, in the calls published so far and in every match since 2019), the next few matches a line each, and a way into every part of the site. The filters have moved off it; they are on Rankings.',
     'Tiers are a little finer. A team now leaves a tier once Formline is 80% sure the tier\'s leader is the stronger side, where it was 90%, so there are more tiers and each holds fewer teams (the men\'s table goes from 12 tiers to 17, the women\'s from 10 to 14). No rating or rank changes.',
     'Tiers and clusters are now defined where they are shown. A team page says what its tier rests on (the gap between two ratings and how wide the bands are) and that it is not the chance of winning a match, with an example from today\'s table. How it works has the longer account.',

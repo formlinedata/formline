@@ -105,17 +105,71 @@ Every row is a score on which the two other records agree against the archive; t
 | 1957-09-07 | Malaysia | 4–2 | Indonesia | Merdeka Tournament | **2–4** | Wikipedia and World Football Elo Ratings |
 | 1949-01-25 | Macau | 1–5 | South Korea | Friendly | **0–3** | Wikipedia and World Football Elo Ratings |
 
-### Dates that look wrong (same check)
+### Dates that look wrong (26 rows; updated 14 November 2026)
 
-| Archive | What the other two records have |
-|---|---|
-| 1960-11-03 United States 3–3 Mexico and 1960-11-06 Mexico 3–0 United States (World Cup qualification) | 6 November (Los Angeles, 3–3) and 13 November (Mexico City, 3–0) |
-| 1915-05-18 China 0–0 Philippines and 1915-05-19 China 1–0 Philippines (Far Eastern Championship Games) | Elo has three matches: 17 May 1–0, 18 May 0–0, 20 May 1–1 |
-| 2019-08-28 Belize 1–1 Saint Vincent and the Grenadines and 2019-08-30 Belize 1–0 | Elo has them on 30 August (1–1) and 1 September (1–0) |
+Each was settled with two other records: World Football Elo Ratings and Wikipedia, and RSSSF for the matches of 1931, 1944, 1955, 1993 and 1994. Five have a wrong score as well.
 
-### Matches the archive does not hold (same check)
+| Archive date | Home | Archive score | Away | Date in the other records | Score there |
+|---|---|---|---|---|---|
+| 2019-08-30 | Belize | 1–0 | Saint Vincent and the Grenadines | **2019-09-01** | same |
+| 2019-08-28 | Belize | 1–1 | Saint Vincent and the Grenadines | **2019-08-30** | same |
+| 1994-09-14 | India | 0–1 | Yemen | **1994-09-23** | **0–2** |
+| 1993-04-05 | Antigua and Barbuda | 0–2 | Sint Maarten | **1993-04-02** | **0–1** |
+| 1991-06-22 | Philippines | 2–1 | Brunei | **1991-05-06** | same |
+| 1979-04-25 | São Tomé and Príncipe | 1–2 | Angola | **1979-07-12** | same |
+| 1977-02-27 | Botswana | 0–2 | China | **1977-07-27** | same |
+| 1973-04-17 | Kuwait | 4–1 | Qatar | **1973-01-05** | same |
+| 1971-10-27 | Mali | 3–1 | Guinea | **1971-06-27** | same |
+| 1971-10-27 | Egypt | 3–2 | Morocco | **1971-04-16** | same |
+| 1971-10-27 | DR Congo | 3–0 | Zambia | **1971-06-20** | same |
+| 1971-10-13 | Zambia | 2–1 | DR Congo | **1971-06-06** | same |
+| 1971-10-13 | Guinea | 0–0 | Mali | **1971-06-13** | same |
+| 1969-08-10 | Guinea | 4–0 | Togo | **1969-04-13** | same |
+| 1960-11-06 | Mexico | 3–0 | United States | **1960-11-13** | same |
+| 1960-11-03 | United States | 3–3 | Mexico | **1960-11-06** | same |
+| 1955-12-25 | Myanmar | 3–1 | Sri Lanka | **1955-12-23** | same |
+| 1955-12-22 | Myanmar | 1–2 | India | **1955-12-20** | **2–5** |
+| 1944-10-14 | Barbados | 1–4 | Trinidad and Tobago | **1944-05-10** | same |
+| 1944-10-08 | Barbados | 1–1 | Trinidad and Tobago | **1944-05-08** | same |
+| 1944-10-04 | Barbados | 1–1 | Trinidad and Tobago | **1944-05-04** | same |
+| 1931-03-14 | Guyana | 7–0 | Barbados | **1931-03-20** | same |
+| 1931-03-10 | Guyana | 9–0 | Barbados | **1931-03-13** | same |
+| 1931-03-08 | Guyana | 0–2 | Trinidad and Tobago | **1931-03-18** | **2–0** |
+| 1931-03-06 | Barbados | 1–5 | Trinidad and Tobago | **1931-03-16** | same |
+| 1931-03-05 | Guyana | 2–1 | Trinidad and Tobago | **1931-03-11** | **1–1** |
 
-World Football Elo Ratings lists about 4,650 men's matches that are not in the archive, 155 of them between January 2024 and 6 October 2026. The recent ones include whole events: the COSAFA Cup of 2024 and 2025, the EAFF E-1 Championship finals of July 2025, the CAFA Nations Cup of 2025, the AFC Asian Cup qualifiers played on 31 March 2026, the UEFA Nations League play-outs of March 2026, and single matches such as Russia 4–0 Serbia (21 March 2024), Mali 2–0 Nigeria (26 March 2024), Egypt 2–1 Nigeria (16 December 2025) and Japan 3–1 Uruguay (24 September 2026, confirmed from the Japan FA's match report). The full list is kept with the audit notes.
+Notes:
+
+- 1931, Martinez Shield in Georgetown: RSSSF's page for the tournament and Elo agree on all six matches.
+- 1944, Barbados v Trinidad and Tobago: the archive has these three in October, on days when it also has Trinidad at home to Barbados. Elo and both teams' Wikipedia pages have them on 4, 8 and 10 May.
+- 1955, Colombo Cup in Dhaka: RSSSF and Elo have India 5–2 Burma on 20 December. India 2–1 Pakistan (24 December) is missing from the archive.
+- 1971: five 1972 Africa Cup of Nations qualifiers are filed in October 1971 and were played between April and June.
+- 1994, Qatar Independence Cup: Yemen 2–0 India was the third-place match on 23 September (RSSSF's tournament page, Elo, 11v11). RSSSF's older yearly file agrees with the archive, so RSSSF is split.
+- Still open: 1915-05-18 China 0–0 Philippines and 1915-05-19 China 1–0 Philippines (Far Eastern Championship Games), where Elo has three matches: 17 May 1–0, 18 May 0–0, 20 May 1–1.
+- July 1938, Trinidad and Tobago v Suriname (three rows): doubtful. RSSSF shows Suriname's opponents on that tour were a Port of Spain XI and a Georgetown club, and that the April 1938 matches in Georgetown that Elo lists were against the N.G.V.B., a rival federation's team and not Suriname's national side.
+
+### Matches the archive does not hold (updated 14 November 2026)
+
+World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record** (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository. 374 were played since November 2014. They are free to take.
+
+Whole events among the recent ones:
+
+- COSAFA Cup 2024 (26 June to 7 July) and 2025 (4 to 15 June): the archive's COSAFA Cup stops in 2023.
+- CECAFA Cup 2019 (7 to 19 December): nine matches.
+- EAFF E-1 Championship finals, July 2025 (six matches, including South Korea 0–1 Japan).
+- CAFA Nations Cup, 29 August to 8 September 2025 (14 matches).
+- AFC Asian Cup qualifiers of 31 March 2026 (12 matches, such as Vietnam 3–1 Malaysia and India 2–1 Hong Kong).
+- UEFA Nations League play-outs, 26 and 31 March 2026 (Gibraltar v Latvia, Malta v Luxembourg, both legs).
+- Copa Centroamericana 2017: Panama 2–1 Nicaragua and Panama 1–0 El Salvador. The 2017 Gold Cup play-off, Haiti 3–1 Nicaragua and Nicaragua 3–0 Haiti.
+- Four-nations tournaments in Malawi and Madagascar, March 2024.
+
+Single matches: Russia 4–0 Serbia (2024-03-21), Mali 2–0 Nigeria (2024-03-26), Egypt 2–1 Nigeria (2025-12-16), Kenya 4–0 Lesotho (2026-06-07), Yemen 2–1 Kuwait (2026-09-18), Japan 3–1 Uruguay (2026-09-24, confirmed from the Japan FA's own report), US Virgin Islands 3–2 Bahamas (2026-10-04, CONCACAF Nations League C).
+
+Older ones (1,882 before November 2014, back to Ireland 4–3 Wales in 1893) include the Olympic Games after 1928, Olympic qualifiers and the Pan Arab Games, which the archive may leave out on purpose; matches against amateur or B sides are not in the list.
+
+Played and later struck from the tables, which the archive leaves out though the matches took place: Nigeria 2–0 Chad (2015-06-13), Chad 1–5 Egypt (2015-09-06) and Chad 0–1 Tanzania (2016-03-23), annulled when Chad withdrew; Sierra Leone 2–1 Kenya (2017-06-10) and Ethiopia 1–0 Sierra Leone (2018-09-09), annulled when Sierra Leone were disqualified.
+
+Abandoned matches that are not in the archive at all, though others like them are (Serbia v Albania 2014, Romania v Kosovo 2024): Montenegro v Russia (2015-03-27, abandoned at 0–0, awarded 0–3), French Guiana v Bermuda (2016-06-01, abandoned with Bermuda leading 1–0, replayed on 19 June), Saudi Arabia v United Arab Emirates (2025-12-18, Arab Cup third-place match, abandoned at half-time at 0–0). Also missing: Kyrgyzstan 1–0 Afghanistan (2023-06-10, CAFA Nations Cup, later recorded as 3–0).
 
 ### Awarded results (same check)
 
