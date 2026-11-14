@@ -62,7 +62,8 @@ const pad = n => String(n).padStart(2, '0');
    with year 'next' and `today` given, the first such day from a week before today on. */
 export function boxDate(s, year, today){
   if (!s) return null;
-  let m = s.match(/\{\{\s*(?:start date|dts|date)[^|}]*\|\s*(\d{4})\s*\|\s*(\d{1,2})\s*\|\s*(\d{1,2})/i);
+  /* {{Start date|df=yes|2016|6|4}}: a named setting may come before the numbers. */
+  let m = s.match(/\{\{\s*(?:start date|dts|date)[^|}]*\|(?:\s*[a-z]+\s*=[^|}]*\|)*\s*(\d{4})\s*\|\s*(\d{1,2})\s*\|\s*(\d{1,2})/i);
   if (m) return m[1]+'-'+pad(m[2])+'-'+pad(m[3]);
   const t = s.replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/gi, ' ').replace(/<[^>]*>/g, ' ').replace(/\{\{[^}]*\}\}/g, ' ').toLowerCase();
   m = t.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/); if (m && MONTHS.includes(m[2])) return m[3]+'-'+pad(MONTHS.indexOf(m[2]) + 1)+'-'+pad(m[1]);
@@ -127,12 +128,35 @@ export function boxPlace(P){
   loc = loc.flatMap(x => { const b = x.match(/^(.*?)\s*\(([^()]+)\)$/); return b ? [b[1], b[2]].map(y => y.trim()).filter(Boolean) : [x]; });
   return {stadium, city:isTBD(loc[0]) ? '' : loc[0] || '', country:loc.length > 1 && !isTBD(loc[loc.length - 1]) ? loc[loc.length - 1] : ''};
 }
-/* The matches a results article lists: date, the two codes, stadium, city and country. today: for boxes under a
-   "Fixtures" heading with no year (see boxDate). */
-export function pageMatches(wikitext, today){
-  const out = [];
+/* The year a competition's article is about, from its title: "2024 COSAFA Cup", "Football at the 2023 Island Games –
+   Men's tournament". Its boxes often give the day and month only ("28 June") with no year heading above them. A season
+   over two years ("2026–27 UEFA Nations League") or a title naming two years gives none. */
+export function titleYear(title){
+  const ys = [...new Set(String(title || '').match(/\b(?:19|20)\d\d\b(?![–\-]\d)/g) || [])];
+  /* Not for qualifying: "2027 Africa Cup of Nations qualification" is played in 2026 and 2027. */
+  return ys.length === 1 && !/\b(?:19|20)\d\d[–\-]\d/.test(title) && !/qualif/i.test(title) ? +ys[0] : null;
+}
+/* Every box with its parameters and its date. A date with no year takes the year of its section; failing that, the
+   article's own year (titleYear), and one more once the months start again (a tournament running over the New Year:
+   December's matches, then January's). */
+export function datedBoxes(wikitext, {today, year:ty} = {}){
+  const out = []; let wrap = 0, prev = 0;
   for (const b of boxesIn(wikitext)){
-    const P = params(b.body), date = boxDate(P.date, b.year, today);
+    const P = params(b.body);
+    let date = boxDate(P.date, b.year, today);
+    if (!date && !b.year && ty){
+      date = boxDate(P.date, ty + wrap);
+      if (date){ const mo = +date.slice(5, 7); if (prev && mo < prev - 5){ wrap++; date = boxDate(P.date, ty + wrap); } prev = mo; }
+    }
+    out.push({P, date});
+  }
+  return out;
+}
+/* The matches a results article lists: date, the two codes, stadium, city and country. today: for boxes under a
+   "Fixtures" heading with no year (see boxDate). year: a competition article's own year (see titleYear). */
+export function pageMatches(wikitext, today, year){
+  const out = [];
+  for (const {P, date} of datedBoxes(wikitext, {today, year})){
     const t1 = boxTeam(P.team1), t2 = boxTeam(P.team2);
     if (!date || !t1 || !t2) continue;
     /* timed: a kick-off time is given, with or without its zone ("19:30 SGT"). A box with none has a provisional date. */
@@ -305,7 +329,7 @@ export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch,
         const j = await api(fetchImpl, {action:'parse', page:title, prop:'wikitext', redirects:'1'});
         const text = j.parse && (typeof j.parse.wikitext === 'string' ? j.parse.wikitext : j.parse.wikitext && j.parse.wikitext['*']);
         if (!text) continue;
-        cache.pages[title] = {fetched:today, matches:pageMatches(text, today).filter(m => m.date >= today)};
+        cache.pages[title] = {fetched:today, matches:pageMatches(text, today, titleYear(title)).filter(m => m.date >= today)};
         stats.pages++;
         for (const sub of compSubs(text, tour, +year, g === 'women')){
           if (list.includes(sub) || list.length >= 40) continue;

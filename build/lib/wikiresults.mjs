@@ -6,7 +6,7 @@
 // and it is confirmed: listed on two different pages, or still listed two days after it was first seen. Wikipedia's
 // content is CC BY-SA 4.0, credited on Sources & thanks; each row records the page it came from. Never throws.
 import {codeOf} from './fifacodes.mjs';
-import {boxesIn, params, boxDate, boxTeam, boxPlace, compLink, plain, boxCountry, api, resolveTitles, pageMatches, findMatch} from './wikivenues.mjs';
+import {datedBoxes, boxTeam, boxPlace, compLink, plain, boxCountry, api, resolveTitles, pageMatches, findMatch} from './wikivenues.mjs';
 
 const DAY = 864e5;
 const dayNum = d => Math.round(Date.parse(d + 'T00:00:00Z') / DAY);
@@ -42,10 +42,9 @@ export function goalsAgree(g1, g2, hs, as){
 }
 /* Finished matches on a page between `from` and `to` (YYYY-MM-DD): date, the two FIFA codes, score, shoot-out (which
    side won: 1 or 2), competition, stadium, city and country. */
-export function pageResults(wikitext, from, to){
+export function pageResults(wikitext, from, to, year){
   const out = [];
-  for (const b of boxesIn(wikitext)){
-    const P = params(b.body), date = boxDate(P.date, b.year);
+  for (const {P, date} of datedBoxes(wikitext, {year})){
     if (!date || date < from || date > to) continue;
     const t1 = boxTeam(P.team1), t2 = boxTeam(P.team2), sc = boxScore(P.score);
     if (!t1 || !t2 || t1 === t2 || !sc) continue;

@@ -385,6 +385,27 @@ ok(menMtime > 0, 'men.json written');
   ok(r7.country === 'Tanzania' && r7.neutral === 'FALSE' && r8.country === 'Zanzibar' && r8.neutral === 'FALSE' && r9.country === 'Zanzibar' && r9.neutral === 'TRUE',
     'Tanzania playing in Zanzibar is at home; Zanzibar\'s own matches and other teams\' there are as before');
 }
+// --- unit: the cross-check against API-Football (lib/apiaudit.mjs)
+{
+  const AU = await import('./lib/apiaudit.mjs');
+  const held = AU.heldIndex({men:[{date:'2024-07-07', home_team:'Angola', away_team:'Namibia', home_score:'5', away_score:'0'}, {date:'2024-07-05', home_team:'Namibia', away_team:'Mozambique', home_score:'1', away_score:'0'}], women:[]});
+  const fakeMap = f => f.skip ? {skip:f.skip} : {kind:f.kind || 'result', gender:'men', row:{date:f.date, home_team:f.h, away_team:f.a, home_score:f.hs, away_score:f.as, tournament:'COSAFA Cup', league:'COSAFA Cup', api_id:f.id}};
+  const day = [{id:1, date:'2024-07-07', h:'Angola', a:'Namibia', hs:5, as:0}, {id:2, date:'2024-07-06', h:'Mozambique', a:'Namibia', hs:0, as:0}, {id:3, date:'2024-07-07', h:'Lesotho', a:'Seychelles', hs:1, as:1}, {id:4, date:'2024-07-07', h:'X', a:'Y', hs:1, as:0, kind:'fixture'}, {skip:'youth'}];
+  const C = AU.compareDay(day, held, {mapFixture:fakeMap});
+  ok(C.results === 3 && C.missing.length === 1 && C.missing[0].home === 'Lesotho' && C.diffs.length === 1 && C.diffs[0].score === '0-0' && C.diffs[0].held === '0-1' && C.diffs[0].heldDate === '2024-07-05',
+    'cross-check: a match the site lacks is listed as missing, one held with another score as a difference (the other way round and a day apart included), a held one is passed over');
+  ok(AU.auditDays({}, {end:'2026-10-06', from:'2026-10-04', perRun:5}).join() === '2026-10-06,2026-10-05,2026-10-04' && AU.auditDays({cursor:'2026-09-30'}, {end:'2026-10-06', from:'2014-11-01', perRun:2}).join() === '2026-09-30,2026-09-29'
+    && AU.auditDays({done:'2026-12-01', recent:'2026-06-10'}, {end:'2026-10-06', from:'2014-11-01', perRun:300, again:3}).join() === '2026-06-10,2026-06-09,2026-10-06',
+    'cross-check: the sweep works back from the archive\'s last day, picks up where it stopped, and once done goes round the last 120 days');
+  const asked = [], client = {covers:() => true, fixturesOn: async d => { asked.push(d); return d === '2024-07-07' ? day : asked.length > 3 ? null : []; }};
+  const state = {}, report = {};
+  const S1 = await AU.sweep({client, state, report, held, today:'2026-11-15', end:'2024-07-07', from:'2024-07-01', perRun:10, mapFixture:fakeMap});
+  ok(S1.asked === 3 && S1.stopped === 'request budget used up' && state.cursor === '2024-07-04' && report.missing.length === 1 && report.diffs.length === 1 && report.days === 3, 'cross-check: a run stops at the request budget and remembers where');
+  const held2 = AU.heldIndex({men:[{date:'2024-07-07', home_team:'Angola', away_team:'Namibia', home_score:'5', away_score:'0'}, {date:'2024-07-06', home_team:'Mozambique', away_team:'Namibia', home_score:'0', away_score:'0'}, {date:'2024-07-07', home_team:'Seychelles', away_team:'Lesotho', home_score:'2', away_score:'1'}], women:[]});
+  const S2 = await AU.sweep({client:{covers:() => true, fixturesOn: async () => []}, state, report, held:held2, today:'2026-11-16', end:'2024-07-07', from:'2024-07-01', perRun:10, mapFixture:fakeMap});
+  ok(report.missing.length === 0 && report.diffs.length === 1 && report.diffs[0].home === 'Lesotho' && report.diffs[0].held === '1-2' && state.done === '2026-11-16' && S2.open.diffs === 1,
+    'cross-check: an entry the site now holds drops out, one it now holds with another score becomes a difference, and the sweep ends at its first day');
+}
 // --- unit: Wikipedia's match boxes, November 2026: years from headings, sides not decided, group articles, venues from the teams' pages
 {
   const W = await import('./lib/wikivenues.mjs'), R = await import('./lib/wikiresults.mjs');
@@ -400,6 +421,7 @@ ok(menMtime > 0, 'men.json written');
   ok(M[2].t2 === 'BAN', 'Wikipedia: the #invoke form of a box is read, and ISO\'s code (BGD) is turned into FIFA\'s (BAN)');
   ok(!M.some(m => m.t2 === 'OMA') && W.boxTeam('{{fb|OMA}} or {{fb|TJK}}') === null && W.boxTeam('Winner SF1') === null && W.boxTeam('{{fb|CIV}}<ref>a or b</ref>') === 'CIV',
     'Wikipedia: a side still to be decided ("A or B", "Winner SF1") is no team');
+  ok(W.boxDate('{{Start date|df=yes|2016|6|4}}') === '2016-06-04' && W.boxDate('{{Start date|2016|6|4|df=y}}') === '2016-06-04', 'Wikipedia: a start date is read with its setting before or after the numbers');
   ok(W.boxDate('15–17 November', 2026) === null && W.boxDate('31 February', 2026) === null && W.boxDate('TBD', 2026) === null && W.boxDate('14 November 2026', 2025) === '2026-11-14',
     'Wikipedia: a range of days, an impossible day and TBD give no date; a full date ignores the heading');
   const qual = "==Group stage==\n===Group A===\n{{main|2027 Africa Cup of Nations qualification Group A}}\n{{main|2027 Africa Cup of Nations qualification Group B}}\n{{#lst:2027 Africa Cup of Nations qualification preliminary round|Preliminary round}}\n{{main|2027 Africa Cup of Nations}}\n{{see also|2027 Africa Cup of Nations qualification squads}}";
@@ -417,6 +439,14 @@ ok(menMtime > 0, 'men.json written');
     const Rv2 = await W.wikiVenues(fxs, cache, {fetchImpl:fake, today:'2026-11-14', cities:new Map([['juba', 'South Sudan']]), cityKey:c => String(c).toLowerCase(), toArchive:x => x});
     const h2 = Rv2.found.get('9');
     ok(h2 && h2.country === 'South Sudan' && h2.city === 'Juba' && !h2.date, 'Wikipedia: a group article\'s box gives the venue (Sudan v Senegal in Juba) and, having no time, leaves the feed\'s date alone');
+  }
+  { /* a competition's article: the year from its title, and one more after the New Year */
+    const cup = "==Group A==\n{{football box|date=28 June|team1={{fb-rt|ANG}}|score=0–0|team2={{fb|NAM}}|location=[[Gqeberha]]}}\n{{football box|date=8 December|team1={{fb-rt|ZAN}}|score=1–1|team2={{fb|SUD}}}}\n{{football box|date=5 January|team1={{fb-rt|KEN}}|score=2–1|team2={{fb|TAN}}}}";
+    const Rs = R.pageResults(cup, '2024-01-01', '2025-12-31', W.titleYear('2024 COSAFA Cup'));
+    ok(W.titleYear('2024 COSAFA Cup') === 2024 && W.titleYear("Football at the 2023 Island Games – Men's tournament") === 2023 && W.titleYear('2026–27 UEFA Nations League A') === null && W.titleYear('2027 Africa Cup of Nations qualification Group A') === null,
+      'Wikipedia: a competition article\'s year comes from its title; a two-year season or a qualifying competition gives none');
+    ok(Rs.length === 3 && Rs[0].date === '2024-06-28' && Rs[1].date === '2024-12-08' && Rs[1].t2 === 'SDN' && Rs[2].date === '2025-01-05' && R.pageResults(cup, '2024-01-01', '2025-12-31').length === 0,
+      'Wikipedia: boxes with no year on a competition article take the article\'s year, the next one after the New Year; SUD is read as Sudan');
   }
   ok(W.feedHas('2026-12-05', ['2026-12-05']) && W.feedHas('2026-12-05', ['2026-12-01'], ['2026-12-05']) && !W.feedHas('2026-12-05', ['2026-12-01'], ['2026-12-01', '2026-12-05']) && !W.feedHas('2026-12-05', [], ['2026-12-05']),
     'Wikipedia: a box near a feed fixture is that fixture, unless the same page lists the pair twice (two friendlies in a week)');

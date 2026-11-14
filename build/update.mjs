@@ -31,6 +31,7 @@ import {makeClient, mapFixture, planStatus, isFreePlan} from './lib/apifootball.
 import {loadModel} from './lib/model.mjs';
 import {survey as clubSurvey} from './lib/clubsurvey.mjs';
 import {updateRecord} from './lib/forecasts.mjs';
+import {sweep as apiAudit, heldIndex} from './lib/apiaudit.mjs';
 
 /* Tournaments postponed by their organiser whose old dates API-Football still lists (checked by hand). The AFC moved the
    2027 Asian Cup from January 2027 to 23 December 2027 to 21 January 2028 (AFC announcement). */
@@ -312,6 +313,20 @@ export async function run(){
       venues[id] = v[0] ? {name:v[0].name || '', city:v[0].city || '', country:v[0].country || ''} : {name:'', city:'', country:''};
     }
     for (const g of ['men', 'women']) gap[g] = [...byId[g].values()];
+    // cross-check: older days asked about again and set beside what the site holds (full runs on the paid plan; a
+    // report in build/store/api-audit.json, nothing added; see lib/apiaudit.mjs)
+    if (mode === 'full' && pace.paid && process.env.API_AUDIT !== '0'){
+      try {
+        const rd = f => readStoreCSV(path.join(STORE, f));
+        const held = heldIndex({men:A.men.concat(gap.men, rd('manual-men.csv'), rd('wikifill-men.csv')), women:A.women.concat(gap.women, rd('manual-women.csv'), rd('wikifill-women.csv'))});
+        const report = readJSON(path.join(STORE, 'api-audit.json'), {});
+        state.audit = state.audit || {};
+        status.apiAudit = await apiAudit({client, state:state.audit, report, held, today, end:ends.men < ends.women ? ends.men : ends.women,
+          from:process.env.API_AUDIT_FROM || '2014-11-01', perRun:+(process.env.API_AUDIT_DAYS || 200), mapFixture, matchTeam, mapTournament, log: m => console.log(m)});
+        writeJSON(path.join(STORE, 'api-audit.json'), report, true);
+        console.log('API cross-check: ' + JSON.stringify(status.apiAudit));
+      } catch(e){ status.apiAudit = {error:e.message}; }
+    }
     // club football groundwork: what the API covers, once a week on full runs (one request; nothing shown on the site)
     if (mode === 'full' && process.env.CLUB_SURVEY !== '0'){
       const dir = path.join(STORE, 'clubs');
