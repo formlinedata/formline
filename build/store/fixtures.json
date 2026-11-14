@@ -2243,24 +2243,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1640086": {
-  "date": "2026-11-14",
-  "kickoff": "2026-11-14T10:15:00+00:00",
-  "home_team": "Japan",
-  "away_team": "Brazil",
-  "tournament": "Friendly",
-  "city": "Kallang",
-  "country": "Singapore",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1640086,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1640087": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T10:00:00+00:00",
