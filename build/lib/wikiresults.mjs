@@ -1,11 +1,12 @@
-// Results from Wikipedia, for women's matches that neither the open archive nor API-Football has. Small teams' matches
+// Results from Wikipedia, for matches that neither the open archive nor API-Football has (women since November 2026,
+// men from 14 November 2026, after Iraq v Lebanon in Basra reached neither). Small teams' matches
 // often reach neither: four friendlies in Libreville in November 2026 (Gabon 3–6 Congo among them) were on the teams'
 // Wikipedia pages within a day. Each night (full runs) a share of the active teams' pages is read through Wikipedia's
 // API, and a finished match within the last 60 days is kept when both teams are known, it is not already in the data,
 // and it is confirmed: listed on two different pages, or still listed two days after it was first seen. Wikipedia's
 // content is CC BY-SA 4.0, credited on Sources & thanks; each row records the page it came from. Never throws.
 import {codeOf} from './fifacodes.mjs';
-import {footballBoxes, params, boxDate, boxTeam, plain, boxCountry, api, resolveTitles} from './wikivenues.mjs';
+import {footballBoxes, params, boxDate, boxTeam, plain, boxCountry, api, resolveTitles, pageMatches} from './wikivenues.mjs';
 
 const DAY = 864e5;
 const dayNum = d => Math.round(Date.parse(d + 'T00:00:00Z') / DAY);
@@ -92,7 +93,7 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
   const stats = {asked:0, pages:0, candidates:0, added:0, errors:0, unconfirmed:0};
   if (!fetchImpl) return {rows:[], stats};
   cache.titles = cache.titles || {}; cache.resultPages = cache.resultPages || {}; cache.resultSeen = cache.resultSeen || {};
-  const t0 = dayNum(today), from = iso(t0 - windowDays), to = iso(t0 - 1);
+  const t0 = dayNum(today), from = iso(t0 - windowDays), to = iso(t0 - 1), ahead = iso(t0 + 30);
   /* Teams that played in the last three years. */
   const recent = new Set(); for (const r of known) if (dayNum(r.date) >= t0 - 3*365){ recent.add(r.home_team); recent.add(r.away_team); }
   const keys = [...recent].filter(t => teams.has(t)).sort().map(t => g + '|' + t);
@@ -111,7 +112,9 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
       stats.asked++;
       const j = await api(fetchImpl, {action:'parse', page:title, prop:'wikitext', redirects:'1'});
       const text = j.parse && (typeof j.parse.wikitext === 'string' ? j.parse.wikitext : j.parse.wikitext && j.parse.wikitext['*']);
-      cache.resultPages[title] = {fetched:today, results:text ? pageResults(text, from, to) : []};
+      /* Also the boxes for the next 30 days: fixtures on a team's own page that the feed may not have (see `upcoming`). */
+      cache.resultPages[title] = {fetched:today, results:text ? pageResults(text, from, to) : [],
+        upcoming:text ? pageMatches(text).filter(m => m.date >= today && m.date <= ahead).map(m => ({date:m.date, t1:m.t1, t2:m.t2, kickoff:m.kickoff || '', city:m.city, country:m.country, stadium:m.stadium, comp:m.comp || ''})) : []};
       stats.pages++;
     } catch(e){ stats.errors++; log('Wikipedia results: ' + title + ': ' + e.message); if (stats.errors >= 5) break; }
   }
@@ -121,6 +124,7 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
   const groups = new Map();
   for (const [title, P] of Object.entries(cache.resultPages)){
     if (t0 - dayNum(P.fetched) > windowDays) { delete cache.resultPages[title]; continue; }
+    if (!pages.has(title)) continue;   // the cache holds both genders' pages: only this gender's count here
     for (const m of P.results || []){
       if (m.date < from || m.date > to) continue;
       const home = byCode.get(m.t1), away = byCode.get(m.t2);
@@ -147,5 +151,19 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
   }
   for (const [id, d] of Object.entries(cache.resultSeen)) if (t0 - dayNum(d) > windowDays + 7) delete cache.resultSeen[id];
   stats.added = rows.length;
-  return {rows:rows.sort((a, b) => a.date < b.date ? -1 : 1), stats};
+  /* Matches still to come on this gender's pages, both teams known: the caller shows those the feed has no fixture for. */
+  const upcoming = [], seenUp = new Set();
+  for (const title of pages){
+    const P = cache.resultPages[title]; if (!P) continue;
+    for (const m of P.upcoming || []){
+      if (m.date < today) continue;
+      const home = byCode.get(m.t1), away = byCode.get(m.t2);
+      if (!home || !away || home === away) continue;
+      const k = m.date + '|' + pairKey(home, away); if (seenUp.has(k)) continue; seenUp.add(k);
+      upcoming.push({id:g + '|' + m.date + '|' + home + '|' + away, gender:g, date:m.date, kickoff:m.kickoff || null, home_team:home, away_team:away, comp:m.comp || '',
+        city:m.city, stadium:m.stadium, country:boxCountry(m, cities, cityKey, toArchive, teams) || '', source:title});
+    }
+  }
+  stats.upcoming = upcoming.length;
+  return {rows:rows.sort((a, b) => a.date < b.date ? -1 : 1), stats, upcoming:upcoming.sort((a, b) => a.date < b.date ? -1 : 1)};
 }

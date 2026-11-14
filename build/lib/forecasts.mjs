@@ -14,16 +14,16 @@ export function scoreForecast(p, hs, as){
   return {outcome:k, ll:+ll.toFixed(5), brier:+brier.toFixed(5), hit:fav === k};
 }
 
-/* Find a played match in the merged rows: the same two teams within a day, either way round. */
-function findResult(rows, e){
-  const d = dayNum(e.date);
+/* Find a played match in the merged rows: the same two teams within a day, either way round, the nearest day first. */
+function findRow(rows, e){
+  const d = dayNum(e.date); let best = null, bd = 9;
   for (const r of rows){
-    const dd = dayNum(r.date); if (Math.abs(dd - d) > 1) continue;
-    if (r.home_team === e.home && r.away_team === e.away) return [+r.home_score, +r.away_score];
-    if (r.home_team === e.away && r.away_team === e.home) return [+r.away_score, +r.home_score];
+    const dd = Math.abs(dayNum(r.date) - d); if (dd > 1 || dd >= bd) continue;
+    if ((r.home_team === e.home && r.away_team === e.away) || (r.home_team === e.away && r.away_team === e.home)){ best = r; bd = dd; }
   }
-  return null;
+  return best;
 }
+const resultOf = (r, e) => r.home_team === e.home ? [+r.home_score, +r.away_score] : [+r.away_score, +r.home_score];
 
 /* entries: existing record (array). fixtures: {men:[...], women:[...]} from this run. predict(g, list) returns
    forecasts in the same order (or null for a fixture the model cannot rate). rows: merged results per gender. */
@@ -53,13 +53,24 @@ export function updateRecord(entries, fixtures, predict, rows, now, built){
     const live = new Set(list.map(f => fxId(g, f)));
     for (const [id, e] of byId) if (e.g === g && !e.result && !e.void && Date.parse(e.kickoff || (e.date + 'T23:59:00Z')) > now && !live.has(id)){ byId.delete(id); dropped++; }
   }
-  // results for forecasts whose match has been played
+  /* Results for forecasts whose match has been played. One played match answers one forecast. When a fixture's date
+     moves after its first kick-off time has passed (API-Football had Chinese Taipei v Kyrgyzstan a day early in
+     November 2026), two forecasts stand a day apart for one match: the one on the day it was played keeps the result
+     and the other goes, also when an earlier run had already scored both. */
+  const byRow = new Map();
   for (const e of byId.values()){
-    if (e.result || e.void) continue;
-    if (Date.parse(e.kickoff || (e.date + 'T23:59:00Z')) > now) continue;
-    const r = findResult(rows[e.g] || [], e);
-    if (r){ e.result = r; Object.assign(e, scoreForecast(e.p, r[0], r[1])); scored++; }
-    else if (now - Date.parse(e.date + 'T00:00:00Z') > 21 * DAY) e.void = 'no result found within three weeks (postponed or not played)';
+    if (e.void) continue;
+    if (!e.result && Date.parse(e.kickoff || (e.date + 'T23:59:00Z')) > now) continue;
+    const r = findRow(rows[e.g] || [], e);
+    if (r){ if (!byRow.has(r)) byRow.set(r, []); byRow.get(r).push(e); }
+    else if (!e.result && now - Date.parse(e.date + 'T00:00:00Z') > 21 * DAY) e.void = 'no result found within three weeks (postponed or not played)';
+  }
+  for (const [r, es] of byRow){
+    const off = e => Math.abs(dayNum(e.date) - dayNum(r.date));
+    es.sort((a, b) => off(a) - off(b) || (a.date < b.date ? 1 : -1));
+    const e = es[0];
+    if (!e.result){ e.result = resultOf(r, e); Object.assign(e, scoreForecast(e.p, e.result[0], e.result[1])); scored++; }
+    for (const x of es.slice(1)){ byId.delete(x.id); dropped++; }
   }
   const list = [...byId.values()].sort((a, b) => (a.kickoff || a.date) < (b.kickoff || b.date) ? -1 : 1);
   return {list, made, updated, scored, dropped};

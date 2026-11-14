@@ -161,6 +161,18 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   ok(r2.rows.length === 1 && r2.rows[0].home_team === 'Central African Republic' && r2.rows[0].neutral === 'TRUE', 'Wikipedia results: a one-page match added once it has stayed up two days');
   const r3 = await R.wikiResults({g:'women', known, teams:teamsW, cache:{}, fetchImpl: async () => { throw new Error('offline'); }, today:'2026-11-08', toArchive:x => x});
   ok(r3.rows.length === 0 && r3.stats.errors > 0, 'Wikipedia results: offline means nothing added, not a failure');
+  // the men's pages share the cache with the women's: each gender reads only its own, and fixtures still to come are handed back
+  const pagesM = {'Lebanon national football team':box('2026-11-06', 'IRQ', '0–0', 'LBN', '', '', '[[Basra]], Iraq', '2026 Basra International Tournament') + box('2026-11-17', 'LBN', 'v', 'PLE', '', '', '[[Basra]], Iraq')};
+  const fakeM = async url => { const q = new URL(url).searchParams; return {ok:true, json:async () => ({parse:{wikitext:pagesM[q.get('page')] || ''}})}; };
+  const teamsM = new Set(['Lebanon', 'Iraq', 'Palestine', 'Gabon', 'Congo', 'Central African Republic']);
+  for (const t of ['Lebanon', 'Iraq']) cache.titles['men|' + t] = {title:'', name:t, main:t + ' national football team', checked:'2026-11-08'};
+  const knownM = [{date:'2026-10-01', home_team:'Lebanon', away_team:'Iraq'}];
+  const m1 = await R.wikiResults({g:'men', known:knownM, teams:teamsM, cache, fetchImpl:fakeM, today:'2026-11-08', toArchive:x => x});
+  const m2 = await R.wikiResults({g:'men', known:knownM, teams:teamsM, cache, fetchImpl:fakeM, today:'2026-11-10', toArchive:x => x});
+  ok(m1.rows.length === 0 && m2.rows.length === 1 && m2.rows[0].home_team === 'Iraq' && m2.rows[0].away_team === 'Lebanon' && m2.rows[0].home_score === 0,
+    'Wikipedia results, men: the women\'s pages in the same cache add nothing; a one-page result is added after two days (Iraq 0–0 Lebanon)');
+  ok(m1.upcoming.length === 1 && m1.upcoming[0].home_team === 'Lebanon' && m1.upcoming[0].away_team === 'Palestine' && m1.upcoming[0].date === '2026-11-17' && r1.upcoming.some(x => x.home_team === 'Gabon' && x.away_team === 'Chad'),
+    'Wikipedia results: fixtures still to come on a team\'s page are handed back (Lebanon v Palestine)');
 }
 
 // --- unit: names
@@ -420,6 +432,16 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   ok(mvd.dropped === 1 && mvd.made === 1 && mvd.list.length === 1 && mvd.list[0].date === '2026-11-14', 'moved fixture: stale forecast dropped, new date forecast');
   const kept = updateRecord(mvd.list, {men:[], women:[]}, pred, {men:[], women:[]}, Date.parse('2026-11-02T06:00:00Z'), 'r3');
   ok(kept.dropped === 0 && kept.list.length === 1, 'an empty fixture list never wipes open forecasts');
+  // a fixture whose date moves after its first kick-off time has passed: one match, one scored forecast
+  const tk = d => ({id:'men|' + d + '|Taiwan|Kyrgyzstan', g:'men', date:d, kickoff:d + 'T12:00:00+00:00', home:'Taiwan', away:'Kyrgyzstan', p:[0.08, 0.17, 0.75], result:null});
+  const played = {men:[{date:'2026-11-14', home_team:'Taiwan', away_team:'Kyrgyzstan', home_score:'0', away_score:'2'}], women:[]};
+  const two = updateRecord([tk('2026-11-13'), tk('2026-11-14')], {men:[], women:[]}, pred, played, Date.parse('2026-11-14T15:00:00Z'), 'r');
+  const both = updateRecord([{...tk('2026-11-13'), result:[0, 2], outcome:2, hit:true}, {...tk('2026-11-14'), result:[0, 2], outcome:2, hit:true}], {men:[], women:[]}, pred, played, Date.parse('2026-11-15T06:00:00Z'), 'r');
+  const apart = updateRecord([tk('2026-11-13'), tk('2026-11-14')], {men:[], women:[]}, pred,
+    {men:[{date:'2026-11-13', home_team:'Taiwan', away_team:'Kyrgyzstan', home_score:'1', away_score:'1'}, ...played.men], women:[]}, Date.parse('2026-11-14T15:00:00Z'), 'r');
+  ok(two.list.length === 1 && two.list[0].date === '2026-11-14' && two.scored === 1 && two.dropped === 1 && both.list.length === 1 && both.list[0].date === '2026-11-14' &&
+    apart.list.length === 2 && apart.scored === 2 && apart.list[0].result.join('-') === '1-1' && apart.list[1].result.join('-') === '0-2',
+    'a match moved a day after its first kick-off time: one forecast scored, the stale one dropped; two real matches a day apart both count');
 }
 // end to end: the site's own model inside the job
 {

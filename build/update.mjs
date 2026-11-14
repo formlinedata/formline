@@ -26,7 +26,7 @@ import {fileURLToPath} from 'node:url';
 import {parseCSV, toCSV} from './lib/csv.mjs';
 import {makeTeamMatcher, makeTournamentMapper, archiveCountry} from './lib/names.mjs';
 import {wikiVenues, isTBD} from './lib/wikivenues.mjs';
-import {wikiResults} from './lib/wikiresults.mjs';
+import {wikiResults, tournamentFor} from './lib/wikiresults.mjs';
 import {makeClient, mapFixture, planStatus, isFreePlan} from './lib/apifootball.mjs';
 import {loadModel} from './lib/model.mjs';
 import {survey as clubSurvey} from './lib/clubsurvey.mjs';
@@ -338,24 +338,51 @@ export async function run(){
 
   // 2c. Wikipedia, for women's results that neither the archive nor API-Football has (full runs only; never fatal).
   // Small teams' friendlies (Libreville, November 2026) are on their Wikipedia pages within a day.
-  const wikiFill = {women:readStoreCSV(path.join(STORE, 'wikifill-women.csv'))};
+  const wikiFill = {women:readStoreCSV(path.join(STORE, 'wikifill-women.csv')), men:readStoreCSV(path.join(STORE, 'wikifill-men.csv'))};
   const manualOf = g => readStoreCSV(path.join(STORE, 'manual-' + g + '.csv'));
+  /* What API-Football turned out to lack, kept in build/store/feed-gaps.json so each gap can be reported to them: a result
+     or a fixture found on Wikipedia instead, and a fixture whose day passed with no result (a wrong date, as with
+     Chinese Taipei v Kyrgyzstan in November 2026, or a match that was never played). */
+  const feedGaps = [];
+  const wikiURL = t => 'https://en.wikipedia.org/wiki/' + encodeURIComponent(String(t).replace(/ /g, '_')).replace(/%2F/g, '/');
   if (mode === 'full' && process.env.WIKI_RESULTS !== '0'){
-    try {
-      const tours = new Set(A.women.map(r => r.tournament)), mapT = makeTournamentMapper({men:new Set(), women:tours});
-      const known = A.women.concat(gap.women, manualOf('women'), wikiFill.women);
-      const R = await wikiResults({g:'women', known, teams:new Set(A.women.flatMap(r => [r.home_team, r.away_team])), cache:wcache, today,
-        cities, cityKey, toArchive:archiveCountry, mapTournament:mapT, tournaments:tours, pauseMs:+(process.env.WIKI_PAUSE_MS || 400), log: m => console.log(m),
-        fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_RESULTS_LIMIT || 90)});
-      wikiFill.women = wikiFill.women.concat(R.rows.map(r => ({...r, found:today})));
-      status.wikiResults = R.stats;
-      if (R.rows.length) console.log('Wikipedia results: added ' + R.rows.map(r => r.date + ' ' + r.home_team + ' ' + r.home_score + '-' + r.away_score + ' ' + r.away_team).join('; '));
-    } catch(e){ status.wikiResults = {error:e.message}; }
+    /* With matches in the next ten days every page is read daily, so a friendly the feed lacks shows before kick-off. */
+    const soonFx = Object.values(fixturesStore).some(r => !r.wikiOnly && r.date >= today && dayNum(r.date) - dayNum(today) <= 10);
+    for (const g of ['women', 'men']){
+      const key = g === 'women' ? 'wikiResults' : 'wikiResultsMen';
+      try {
+        const tours = new Set(A[g].map(r => r.tournament)), mapT = makeTournamentMapper(g === 'men' ? {men:tours, women:new Set()} : {men:new Set(), women:tours});
+        const known = A[g].concat(gap[g], manualOf(g), wikiFill[g]);
+        const R = await wikiResults({g, known, teams:new Set(A[g].flatMap(r => [r.home_team, r.away_team])), cache:wcache, today, everyDays:soonFx ? 1 : 3,
+          cities, cityKey, toArchive:archiveCountry, mapTournament:mapT, tournaments:tours, pauseMs:+(process.env.WIKI_PAUSE_MS || 400), log: m => console.log(m),
+          fetchImpl: process.env.WIKI_FETCH === 'off' ? null : globalThis.fetch, limit:+(process.env.WIKI_RESULTS_LIMIT || (g === 'men' ? 520 : 240))});
+        wikiFill[g] = wikiFill[g].concat(R.rows.map(r => ({...r, found:today})));
+        status[key] = R.stats;
+        if (R.rows.length) console.log('Wikipedia results (' + g + '): added ' + R.rows.map(r => r.date + ' ' + r.home_team + ' ' + r.home_score + '-' + r.away_score + ' ' + r.away_team).join('; '));
+        for (const r of R.rows) feedGaps.push({kind:'result', g, date:r.date, home:r.home_team, away:r.away_team, score:r.home_score + '-' + r.away_score, source:r.source});
+        /* Fixtures on a team's own page that the feed has no entry for (neither side within a week): shown and forecast
+           like the ones found on competition pages (2b), and flagged. Rebuilt on every full run. */
+        const recent = known.filter(r => dayNum(r.date) >= dayNum(today) - 2);
+        const same = (f, x) => (f.home_team === x.home_team && f.away_team === x.away_team) || (f.home_team === x.away_team && f.away_team === x.home_team);
+        let shown = 0;
+        for (const x of R.upcoming || []){
+          if (Object.values(fixturesStore).some(f => f.gender === g && same(f, x) && Math.abs(dayNum(f.date) - dayNum(x.date)) <= 7)) continue;
+          if (recent.some(r => same(r, x) && Math.abs(dayNum(r.date) - dayNum(x.date)) <= 1)) continue;   // a box dated today, already played and held
+          const tour = tournamentFor(x.comp, g, mapT, tours); if (!tour) continue;
+          const k = 'wiki:' + x.id;
+          fixturesStore[k] = {date:x.date, kickoff:x.kickoff || '', home_team:x.home_team, away_team:x.away_team, tournament:tour,
+            city:'', country:'', neutral:'', venue_id:'', api_id:k, league:tour, unmapped_tournament:'', tbd:'', tbc:x.kickoff ? '' : 1,
+            gender:g, wikiOnly:1, wikiSource:x.source, wiki:{city:x.city, country:x.country, stadium:x.stadium}};
+          feedGaps.push({kind:'fixture', g, date:x.date, home:x.home_team, away:x.away_team, source:wikiURL(x.source)}); shown++;
+        }
+        status[key].shown = shown;
+      } catch(e){ status[key] = {error:e.message}; }
+    }
   }
   writeJSON(path.join(STORE, 'wiki-venues.json'), wcache, true);
 
   // 3. Merge, write
-  const fixtures = {built, men:[], women:[]};
+  const fixtures = {built, men:[], women:[]}, expired = [], merged = {};
   for (const r of Object.values(fixturesStore)){
     /* Tournaments moved by their organiser while the API still lists the old dates: left out until the API catches up. */
     if (POSTPONED.some(x => x.tournament.test(r.tournament || '') && r.date < x.before)) continue;
@@ -367,7 +394,7 @@ export async function run(){
     const w = r.wiki || {};
     const wk = w.kickoff && (!r.kickoff || Math.abs(Date.parse(w.kickoff) - Date.parse(r.kickoff)) >= 36e5) ? w.kickoff : null;
     const moved = w.date && w.date !== r.date ? w.date : (wk && w.boxDate && w.boxDate !== r.date ? w.boxDate : null);
-    if ((moved || r.date) < today){ delete fixturesStore[r.api_id]; continue; }
+    if ((moved || r.date) < today){ expired.push({...r, date:moved || r.date}); delete fixturesStore[r.api_id]; continue; }
     /* A Wikipedia-only match the API has since added (a light run can add it before the next full run): the API's wins. */
     if (r.wikiOnly && Object.values(fixturesStore).some(f => !f.wikiOnly && f.gender === r.gender && dayNum(f.date) - dayNum(r.date) <= 7 && dayNum(r.date) - dayNum(f.date) <= 7 &&
       ((f.home_team === r.home_team && f.away_team === r.away_team) || (f.home_team === r.away_team && f.away_team === r.home_team)))){ delete fixturesStore[r.api_id]; continue; }
@@ -391,9 +418,26 @@ export async function run(){
       gapfill:{rows:gap[g].length, from:gap[g].length ? gap[g][0].date : null, to:gap[g].length ? gap[g][gap[g].length - 1].date : null},
       manual:{rows:manual.length}, ...(wikiFill[g] ? {wiki:{rows:wiki.length, latest:wiki.length ? wiki[wiki.length - 1].date : null}} : {})};
     writeIfChanged(path.join(DATA, g + '.json'), compact(g, rows, so, former, meta));
+    merged[g] = rows;
     status[g] = {...meta, fixtures:fixtures[g].length};
   }
   writeIfChanged(path.join(DATA, 'fixtures.json'), fixtures);
+  /* A fixture whose day has passed with no result within a day either side: the feed had the wrong date, or the match
+     was not played. Either way it is worth a look and a word to API-Football. */
+  for (const r of expired){
+    if (r.tbd || r.wikiOnly) continue;   // a match only Wikipedia lists is flagged as a fixture gap already
+    const lo = iso((dayNum(r.date) - 1) * DAY), hi = iso((dayNum(r.date) + 1) * DAY);
+    const got = (merged[r.gender] || []).some(x => x.date >= lo && x.date <= hi && ((x.home_team === r.home_team && x.away_team === r.away_team) || (x.home_team === r.away_team && x.away_team === r.home_team)));
+    if (!got) feedGaps.push({kind:'no result', g:r.gender, date:r.date, home:r.home_team, away:r.away_team, source:r.wikiOnly ? wikiURL(r.wikiSource || '') : 'API-Football fixture ' + r.api_id});
+  }
+  {
+    const file = path.join(STORE, 'feed-gaps.json'), old = readJSON(file, []), id = x => [x.kind, x.g, x.date, x.home, x.away].join('|');
+    const have = new Set(old.map(id)), fresh = feedGaps.filter(x => !have.has(id(x))).map(x => ({...x, seen:today}));
+    const keep = old.concat(fresh).filter(x => dayNum(today) - dayNum(x.seen) <= 45);
+    if (fresh.length || keep.length !== old.length) writeJSON(file, keep, true);
+    status.feedGaps = {new:fresh.length, held:keep.length};
+    if (fresh.length) console.log('Feed gaps: ' + fresh.map(x => x.kind + ' ' + x.date + ' ' + x.home + ' v ' + x.away).join('; '));
+  }
   /* How each fixture's venue was worked out, so missing venues show up. */
   status.venues = {};
   for (const g of ['men', 'women']) for (const f of fixtures[g]) status.venues[f.venue] = (status.venues[f.venue] || 0) + 1;

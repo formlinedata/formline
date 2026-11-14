@@ -87,7 +87,7 @@ export function pageMatches(wikitext){
     if (!loc.length && stadium.includes(',')){ const sp = stadium.split(',').map(x => x.trim()).filter(Boolean); stadium = sp[0]; loc = sp.slice(1); }
     /* "Kingstown (Saint Vincent and the Grenadines)" or a bare "(United States)": the part in brackets is the country. */
     loc = loc.flatMap(x => { const b = x.match(/^(.*?)\s*\(([^()]+)\)$/); return b ? [b[1], b[2]].map(y => y.trim()).filter(Boolean) : [x]; });
-    out.push({date, t1, t2, stadium, city:isTBD(loc[0]) ? '' : loc[0] || '', country:loc.length > 1 && !isTBD(loc[loc.length - 1]) ? loc[loc.length - 1] : '', kickoff:boxKickoff(date, P.time)});
+    out.push({date, t1, t2, stadium, city:isTBD(loc[0]) ? '' : loc[0] || '', country:loc.length > 1 && !isTBD(loc[loc.length - 1]) ? loc[loc.length - 1] : '', kickoff:boxKickoff(date, P.time), comp:plain(P.round || P.event || P.title || '')});
   }
   return out;
 }
