@@ -1674,24 +1674,6 @@
   },
   "venue_src": "wiki"
  },
- "1586133": {
-  "date": "2026-11-15",
-  "kickoff": "2026-11-15T03:10:00+00:00",
-  "home_team": "New Zealand",
-  "away_team": "India",
-  "tournament": "Friendly",
-  "city": "Christchurch",
-  "country": "New Zealand",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1586133,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1638241": {
   "date": "2026-11-28",
   "kickoff": "2026-11-28T14:00:00+00:00",
