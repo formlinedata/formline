@@ -318,11 +318,13 @@ export async function run(){
     if (mode === 'full' && pace.paid && process.env.API_AUDIT !== '0'){
       try {
         const rd = f => readStoreCSV(path.join(STORE, f));
-        const held = heldIndex({men:A.men.concat(gap.men, rd('manual-men.csv'), rd('wikifill-men.csv')), women:A.women.concat(gap.women, rd('manual-women.csv'), rd('wikifill-women.csv'))});
+        /* The site's own corrections, read from the page, so a score it has already put right is not listed again. */
+        let fixes = null; try { fixes = JSON.parse(loadModel(process.env.SITE_HTML || path.join(ROOT, 'index.html')).run('JSON.stringify(CORRECTIONS)')); } catch(e){ console.log('API cross-check: the site\'s corrections could not be read (' + e.message + ')'); }
+        const held = heldIndex({men:A.men.concat(gap.men, rd('manual-men.csv'), rd('wikifill-men.csv')), women:A.women.concat(gap.women, rd('manual-women.csv'), rd('wikifill-women.csv'))}, fixes);
         const report = readJSON(path.join(STORE, 'api-audit.json'), {});
         state.audit = state.audit || {};
         status.apiAudit = await apiAudit({client, state:state.audit, report, held, today, end:ends.men < ends.women ? ends.men : ends.women,
-          from:process.env.API_AUDIT_FROM || '2014-11-01', perRun:+(process.env.API_AUDIT_DAYS || 200), mapFixture, matchTeam, mapTournament, log: m => console.log(m)});
+          from:process.env.API_AUDIT_FROM || '2014-11-01', perRun:+(process.env.API_AUDIT_DAYS || 200), mapFixture, matchTeam, mapTournament, settled:readJSON(path.join(STORE, 'api-audit-settled.json'), []), log: m => console.log(m)});
         writeJSON(path.join(STORE, 'api-audit.json'), report, true);
         console.log('API cross-check: ' + JSON.stringify(status.apiAudit));
       } catch(e){ status.apiAudit = {error:e.message}; }

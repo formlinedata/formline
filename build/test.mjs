@@ -405,6 +405,20 @@ ok(menMtime > 0, 'men.json written');
   const S2 = await AU.sweep({client:{covers:() => true, fixturesOn: async () => []}, state, report, held:held2, today:'2026-11-16', end:'2024-07-07', from:'2024-07-01', perRun:10, mapFixture:fakeMap});
   ok(report.missing.length === 0 && report.diffs.length === 1 && report.diffs[0].home === 'Lesotho' && report.diffs[0].held === '1-2' && state.done === '2026-11-16' && S2.open.diffs === 1,
     'cross-check: an entry the site now holds drops out, one it now holds with another score becomes a difference, and the sweep ends at its first day');
+  // 15 Nov 2026: the held matches carry the site's corrections, and entries settled as the feed's mistake stay out
+  const arch = [{date:'2026-06-04', home_team:'Guatemala', away_team:'Czech Republic', home_score:'1', away_score:'5'}, {date:'1960-11-03', home_team:'United States', away_team:'Mexico', home_score:'3', away_score:'3'},
+    {date:'2026-03-31', home_team:'Czech Republic', away_team:'Denmark', home_score:'2', away_score:'2'}, {date:'2000-01-01', home_team:'A', away_team:'B', home_score:'1', away_score:'0'}];
+  const fixes = {men:[{date:'2026-06-04', home:'Guatemala', away:'Czech Republic', score:'1-5', set:{hs:1, as:3}}, {date:'1960-11-03', home:'United States', away:'Mexico', score:'3-3', set:{ts:Date.parse('1960-11-06T00:00:00Z')}},
+    {date:'2000-01-01', home:'A', away:'B', drop:1}, {date:'2026-03-31', home:'Czech Republic', away:'Denmark', score:'9-9', set:{hs:0, as:0}}]};
+  const H = AU.heldIndex({men:arch, women:[]}, fixes), at = (a, b) => H.men.get([a, b].sort().join('|'));
+  ok(at('Guatemala', 'Czech Republic')[0].as === 3 && Math.round(Date.parse('1960-11-06T00:00:00Z') / 864e5) === at('United States', 'Mexico')[0].d && !at('A', 'B') && at('Czech Republic', 'Denmark')[0].hs === 2,
+    'cross-check: held matches take the site\'s corrected score or date, a dropped row is left out, and a correction for another score is not applied');
+  const day2 = [{id:11, date:'2026-06-05', h:'Czech Republic', a:'Guatemala', hs:3, as:1}, {id:12, date:'2026-03-31', h:'Czech Republic', a:'Denmark', hs:1, as:1}, {id:13, date:'2026-06-05', h:'Barbados', a:'Elsewhere', hs:1, as:0}];
+  const C2 = AU.compareDay(day2, H, {mapFixture:fakeMap}), C3 = AU.compareDay(day2, AU.heldIndex({men:arch, women:[]}), {mapFixture:fakeMap});
+  ok(C3.diffs.length === 2 && C2.diffs.length === 1 && C2.diffs[0].api_id === 12 && C2.missing.length === 1, 'cross-check: a score the site has already corrected is no longer listed as a difference');
+  const rep3 = {missing:C2.missing.slice(), diffs:C2.diffs.slice()}, S3 = await AU.sweep({client:{covers:() => true, fixturesOn: async () => []}, state:{done:'2026-11-15'}, report:rep3, held:H, today:'2026-11-16',
+    end:'2026-10-06', from:'2014-11-01', perRun:1, mapFixture:fakeMap, settled:[{api_id:12, note:'the feed has the score after 90 minutes'}, {api_id:13, note:'the feed names the wrong team'}]});
+  ok(rep3.missing.length === 0 && rep3.diffs.length === 0 && S3.settled === 2 && S3.open.missing === 0, 'cross-check: entries settled as the feed\'s mistake are left out and counted');
 }
 // --- unit: Wikipedia's match boxes, November 2026: years from headings, sides not decided, group articles, venues from the teams' pages
 {

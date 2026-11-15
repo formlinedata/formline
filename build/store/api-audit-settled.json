@@ -1,0 +1,5 @@
+[
+ {"api_id": 1537579, "g": "men", "date": "2026-03-31", "match": "Czech Republic v Denmark", "feed": "1-1", "right": "2-2 after extra time, Czech Republic won 3-1 on penalties", "note": "the feed has the score after 90 minutes; the archive and Wikipedia (both teams' pages) have 2-2", "checked": "2026-11-14"},
+ {"api_id": 1488313, "g": "women", "date": "2026-04-14", "match": "Barbados v United States Virgin Islands", "feed": "Barbados 1-0", "right": "Saint Vincent and the Grenadines 1-0 United States Virgin Islands, in Kingstown", "note": "the feed names Barbados where Saint Vincent and the Grenadines played; the archive holds the match under the right name", "checked": "2026-11-14"},
+ {"api_id": 1488325, "g": "women", "date": "2026-04-18", "match": "Saint Lucia v Barbados", "feed": "0-1 Barbados", "right": "Saint Lucia 0-1 Saint Vincent and the Grenadines, in Gros Islet", "note": "the feed names Barbados where Saint Vincent and the Grenadines played; Barbados lost 4-0 in Honduras the day before", "checked": "2026-11-14"}
+]

@@ -233,6 +233,15 @@ All three are in the archive as 0–0. Each was confirmed from the federation or
 | 2024-10-29 | Brazil | 0–0 | Colombia | Friendly | **3–1** (Cariacica) | ESPN; both teams' Wikipedia pages |
 | 2018-03-26 | Australia | 0–0 | Thailand | Friendly | **5–0** (Perth) | Football Australia; both teams' Wikipedia pages |
 
+### Matches the archive does not hold (updated 14 November 2026)
+
+264 women's matches the archive lacks are in [`build/store/manual-women.csv`](../build/store/manual-women.csv), in the archive's own columns with a source for each. The latest 22 were found on 14 November 2026 by setting API-Football's results for March to October 2026 beside the archive, and each is also on Wikipedia:
+
+- **Central American and Caribbean Games 2026, all 16 matches** (29 July to 6 August, Moca and Santiago de los Caballeros; senior national teams). Final: Colombia 1–1 Mexico, Mexico 4–2 on penalties. Semi-finals: Venezuela 2–2 Colombia (Colombia 4–3 on penalties) and Mexico 4–1 El Salvador after extra time. The archive holds the 2010, 2014, 2018 and 2023 tournaments.
+- **Friendlies, the first of two matches in a window where the archive has only the second:** Nigeria 2–1 Senegal (5 June, Ikenne), Egypt 1–1 Tunisia (5 June, Cairo; Egypt 4–2 on penalties), Morocco 4–2 Benin (5 June, Rabat).
+- Nigeria 2–1 Tanzania (22 July, Casablanca).
+- Cook Islands 1–0 and 3–0 Afghanistan (4 and 8 June, Auckland). Afghanistan here is Afghan Women United, the side the archive lists as Afghanistan in the FIFA Unites Women's Series of 2025.
+
 ### Flagged neutral, but the venue is in the away side's country (6 rows)
 
 Some of these may be the listed home side's designated home match played in the opponent's country (Haiti and Ukraine played home matches abroad in 2023). If so, the rows follow the archive's convention, but the neutral flag hides that the away side was playing at home. Worth a look in case any are a wrong venue or a home/away swap instead.
