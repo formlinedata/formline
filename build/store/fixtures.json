@@ -1,76 +1,4 @@
 {
- "1528979": {
-  "date": "2026-11-15",
-  "kickoff": "2026-11-15T14:00:00+00:00",
-  "home_team": "Cyprus",
-  "away_team": "Montenegro",
-  "tournament": "UEFA Nations League",
-  "city": "Limassol",
-  "country": "Cyprus",
-  "neutral": "FALSE",
-  "venue_id": 19616,
-  "api_id": 1528979,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Limassol",
-   "country": "Cyprus",
-   "stadium": "Alphamega Stadium",
-   "boxDate": "2026-11-15"
-  },
-  "venue_src": "api"
- },
- "1528980": {
-  "date": "2026-11-15",
-  "kickoff": "2026-11-15T17:00:00+00:00",
-  "home_team": "Belarus",
-  "away_team": "Albania",
-  "tournament": "UEFA Nations League",
-  "city": "Budapest",
-  "country": "Hungary",
-  "neutral": "TRUE",
-  "venue_id": 817,
-  "api_id": 1528980,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Budapest",
-   "country": "Hungary",
-   "stadium": "Illovszky Rudolf Stadion",
-   "boxDate": "2026-11-15"
-  },
-  "venue_src": "api"
- },
- "1528981": {
-  "date": "2026-11-15",
-  "kickoff": "2026-11-15T17:00:00+00:00",
-  "home_team": "Finland",
-  "away_team": "San Marino",
-  "tournament": "UEFA Nations League",
-  "city": "Helsinki",
-  "country": "Finland",
-  "neutral": "FALSE",
-  "venue_id": 615,
-  "api_id": 1528981,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Helsinki",
-   "country": "Finland",
-   "stadium": "Helsinki Olympic Stadium",
-   "boxDate": "2026-11-15"
-  },
-  "venue_src": "api"
- },
  "1528982": {
   "date": "2026-11-15",
   "kickoff": "2026-11-15T19:45:00+00:00",
@@ -508,31 +436,6 @@
    "stadium": "Stadion Bilino Polje",
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T18:45:00+00:00"
-  },
-  "venue_src": "api"
- },
- "1545616": {
-  "date": "2026-11-15",
-  "kickoff": "2026-11-15T14:00:00+00:00",
-  "home_team": "Latvia",
-  "away_team": "Armenia",
-  "tournament": "UEFA Nations League",
-  "city": "Riga",
-  "country": "Latvia",
-  "neutral": "FALSE",
-  "venue_id": 2611,
-  "api_id": 1545616,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Riga",
-   "country": "Latvia",
-   "stadium": "Skonto Stadium",
-   "boxDate": "2026-11-15",
-   "kickoff": "2026-11-15T14:00:00+00:00"
   },
   "venue_src": "api"
  },
