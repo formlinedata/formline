@@ -120,33 +120,45 @@ ${extra.all && extra.all.length > extra.rivals.length ? `<h2>Every opponent (${e
 const venuePlain = x => x.city ? x.city + (x.country && x.country !== x.city ? ', ' + x.country : '') : (x.country && x.venue !== 'assumed' ? x.country : '');
 const venueTxt = x => esc(venuePlain(x));
 const h2hHref = (g, a, b) => `../../index.html#/h2h/${encodeURIComponent(a)}/${encodeURIComponent(b)}?ha=1${g === 'women' ? '&g=women' : ''}`;
-const recordBox = (a, b, w, d, l, ga, gb, n) => `<div class="rec"><div><b>${w}</b><span>${esc(a)} win${w === 1 ? '' : 's'}</span></div>
+const recordBox = (a, b, w, d, l, ga, gb, n, extra) => `<div class="rec"><div><b>${w}</b><span>${esc(a)} win${w === 1 ? '' : 's'}</span></div>
 <div><b>${d}</b><span>draw${d === 1 ? '' : 's'}</span></div><div><b>${l}</b><span>${esc(b)} win${l === 1 ? '' : 's'}</span></div></div>
 <div class="bar"><span class="a" style="width:${w / n * 100}%"></span><span class="d" style="width:${d / n * 100}%"></span><span class="b" style="width:${l / n * 100}%"></span></div>
-<p class="muted" style="margin:0">Goals: ${esc(a)} ${ga}, ${esc(b)} ${gb} · ${n} meeting${n === 1 ? '' : 's'}</p>`;
+<p class="muted" style="margin:0">Goals: ${esc(a)} ${ga}, ${esc(b)} ${gb} · ${n} meeting${n === 1 ? '' : 's'}${extra || ''}</p>`;
 const scoreLine = x => `${esc(x.home)} ${x.hs}–${x.as} ${esc(x.away)}${x.pen ? ' <span class="muted">(pens)</span>' : ''}`;
 const winnerOf = (x, a, b) => x.r > 0 ? a : x.r < 0 ? b : null;
+/* A result awarded afterwards, an abandoned match, or one awarded without being played, in the site's own words. */
+const given = x => x.award && x.award.to ? `awarded ${x.award.score} to ${esc(x.award.to)}` : '';
+const awardNote = x => x.wo ? `Not played; ${given(x)}. Not rated` : x.ab ? `Abandoned at this score${given(x) ? '; later ' + given(x) : ''}. Not rated`
+  : given(x) ? `The score on the pitch; later ${given(x)}` : '';
+/* A meeting in a sentence: the score, or for a match never played, who it was awarded to. */
+const meetLine = x => x.wo ? `${x.home} v ${x.away}, not played and awarded to ${x.award.to}` : `${x.home} ${x.hs}–${x.as} ${x.away}`;
 
 /* One head-to-head page. P is a pair from model.pairs, with a and b the current names of P.k1 and P.k2. */
 function h2hPage(g, P, a, b, meta){
-  const n = P.n, first = P.meets[0], last = P.meets[n - 1];
+  /* The meetings counted, oldest first: the played ones and any awarded without being played. Abandoned matches are
+     listed among the results below and counted nowhere. */
+  const n = P.n, un = P.un || [], counted = P.meets.concat(un.filter(x => x.wo)).sort((x, y) => x.date.localeCompare(y.date));
+  const first = counted[0], last = counted[n - 1];
+  const extra = (P.nWo ? ` · ${P.nWo} awarded without being played` : '') + (P.nAb ? ` · ${P.nAb} abandoned, not counted` : '');
   const big = side => { let best = null; for (const x of P.meets){ const mg = side * (x.s1 - x.s2); if (mg > 0 && (!best || mg > best.mg)) best = {mg, x}; } return best; };
   const bA = big(1), bB = big(-1);
   const lead = P.w1 > P.w2 ? `${a} lead ${P.w1}–${P.w2}` : P.w2 > P.w1 ? `${b} lead ${P.w2}–${P.w1}` : `level at ${P.w1} wins each`;
-  const desc = n === 1 ? `${a} and ${b} have met once (${GAME[g]} national teams): ${first.home} ${first.hs}–${first.as} ${first.away} on ${shortDay(first.date)}.`
+  const desc = n === 1 ? `${a} and ${b} have met once (${GAME[g]} national teams): ${meetLine(first)} on ${shortDay(first.date)}.`
     : `${a} v ${b} head to head: ${n} ${GAME[g]} internationals since ${first.date.slice(0, 4)}. ${a} ${P.w1} wins, ${P.d} draws, ${b} ${P.w2} wins. Every result, with competition and venue.`;
   const next = meta.next ? `<div class="box"><b>Next meeting:</b> <a href="../../matches/${g}/${meta.next.slug}.html">${esc(meta.next.home)} v ${esc(meta.next.away)}, ${shortDay(meta.next.day || meta.next.date)}</a>
  <span class="muted">· ${esc(meta.next.comp)}</span>. See Formline's prediction.</div>` : '';
   let yr = null;
-  const rows = P.meets.slice().reverse().map(x => {
+  const rows = P.meets.concat(un).sort((x, y) => x.date.localeCompare(y.date)).reverse().map(x => {
     const y = x.date.slice(0, 4), hd = y !== yr ? `<tr><td class="yr" colspan="3">${y}</td></tr>` : ''; yr = y;
-    const w = winnerOf(x, a, b), v = venueTxt(x);
-    return hd + `<tr><td class="muted">${shortDay(x.date).replace(/ \d{4}$/, '')}</td><td>${scoreLine(x)}<br><span class="muted">${esc(x.tournament)}${v ? ' · ' + v : ''}${x.neutral ? ' (neutral)' : ''}</span></td>
-<td class="n">${w ? `<span class="${w === a ? 'W' : 'L'}">${esc(w)}</span>` : '<span class="D">Draw</span>'}</td></tr>`;
+    const w = winnerOf(x, a, b), v = venueTxt(x), note = awardNote(x);
+    const res = x.wo ? `<span class="${w === a ? 'W' : 'L'}">${esc(w)}</span> <span class="muted">awarded</span>` : x.ab ? '<span class="D">Abandoned</span>'
+      : w ? `<span class="${w === a ? 'W' : 'L'}">${esc(w)}</span>` : '<span class="D">Draw</span>';
+    return hd + `<tr><td class="muted">${shortDay(x.date).replace(/ \d{4}$/, '')}</td><td>${x.wo ? `${esc(x.home)} v ${esc(x.away)}` : scoreLine(x)}<br><span class="muted">${esc(x.tournament)}${v ? ' · ' + v : ''}${x.neutral ? ' (neutral)' : ''}${note ? '<br>' + note : ''}</span></td>
+<td class="n">${res}</td></tr>`;
   }).join('');
   const facts = [
-    n > 1 ? `The first meeting on record was on ${dayName(first.date)}: ${first.home} ${first.hs}–${first.as} ${first.away}${first.city ? ' in ' + esc(first.city) : ''}.` : '',
-    n > 1 ? `The most recent was on ${dayName(last.date)}: ${last.home} ${last.hs}–${last.as} ${last.away} (${esc(last.tournament)}).` : '',
+    n > 1 ? `The first meeting on record was on ${dayName(first.date)}: ${meetLine(first)}${first.city && !first.wo ? ' in ' + esc(first.city) : ''}.` : '',
+    n > 1 ? `The most recent was on ${dayName(last.date)}: ${meetLine(last)} (${esc(last.tournament)}).` : '',
     bA ? `${esc(a)}'s biggest win: ${bA.x.home} ${bA.x.hs}–${bA.x.as} ${bA.x.away}, ${bA.x.date.slice(0, 4)}.` : '',
     bB ? `${esc(b)}'s biggest win: ${bB.x.home} ${bB.x.hs}–${bB.x.as} ${bB.x.away}, ${bB.x.date.slice(0, 4)}.` : '',
     n > 1 ? `${P.comp} of the ${n} meetings were competitive matches and ${n - P.comp} were friendlies.` : ''
@@ -157,7 +169,7 @@ function h2hPage(g, P, a, b, meta){
 <p class="muted" style="margin:18px 0 0">Head to head · ${GAME[g][0].toUpperCase() + GAME[g].slice(1)} national teams</p>
 <h1>${esc(a)} v ${esc(b)}</h1>
 <p>${n === 1 ? `${esc(a)} and ${esc(b)} have met once.` : `${esc(a)} and ${esc(b)} have met ${n} times since ${first.date.slice(0, 4)}: ${esc(lead)}.`}</p>
-<div class="box">${recordBox(a, b, P.w1, P.d, P.w2, P.g1, P.g2, n)}</div>
+<div class="box">${recordBox(a, b, P.w1, P.d, P.w2, P.g1, P.g2, n, extra)}</div>
 ${next}
 ${facts ? `<ul>${facts}</ul>` : ''}
 <p><a class="btn" href="${h2hHref(g, a, b)}">Compare their ratings over time</a></p>
@@ -199,7 +211,7 @@ ${played ? `<div class="box"><b>Result:</b> <span class="big" style="font-size:3
 <p class="muted" style="margin:0">${(() => { const m = /^(\d+)\D+(\d+)$/.exec(String(x.likely || '')); return !m || (+m[1] > +m[2] ? 0 : +m[1] === +m[2] ? 1 : 2) === fav ? 'Predicted score' : 'Likeliest single score'; })()} ${esc(String(x.likely).replace('-', '–'))}${x.xg ? ` · expected goals ${x.xg[0].toFixed(1)}–${x.xg[1].toFixed(1)}` : ''}</p></div>
 ${meta.rh || meta.ra ? `<div class="box"><b>Ratings now</b><table>${team(x.home, meta.rh, meta.slugH)}${team(x.away, meta.ra, meta.slugA)}</table></div>` : ''}
 <h2>Head to head</h2>
-${P ? `<div class="box">${recordBox(x.home, x.away, rec.w, P.d, rec.l, rec.gh, rec.ga, P.n)}</div>
+${P ? `<div class="box">${recordBox(x.home, x.away, rec.w, P.d, rec.l, rec.gh, rec.ga, P.n, (P.nWo ? ` · ${P.nWo} awarded without being played` : '') + (P.nAb ? ` · ${P.nAb} abandoned, not counted` : ''))}</div>
 <table>${recent}</table>
 <p>${meta.h2hSlug ? `<a href="../../h2h/${g}/${meta.h2hSlug}.html">All ${P.n} meetings of ${esc(x.home)} and ${esc(x.away)}</a>` : ''}</p>` : `<p>No earlier meeting between ${esc(x.home)} and ${esc(x.away)} is on record.</p>`}
 <p><a class="btn" href="../../index.html#/fixtures${g === 'women' ? '?g=women' : ''}">See every upcoming match</a></p>

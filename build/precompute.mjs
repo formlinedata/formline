@@ -1209,7 +1209,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   /* Records and the teams' all-time history: kept while the archive and the model are unchanged. */
   for (const g of ['men', 'women']){
     const last = new Date(model.run(`state.bounds[${JSON.stringify(g)}].max`)).getUTCFullYear(), all = inputPrint(model, g, last, true);
-    for (const [name, make, mark] of [[`records-${g}.json`, recordsFile, 'v1:'], [`hist-${g}.json`, histFile, 'v2d:'], [`yearends-${g}.json`, yearEndsFile, 'v1:']]){
+    for (const [name, make, mark] of [[`records-${g}.json`, recordsFile, 'v2:'], [`hist-${g}.json`, histFile, 'v2d:'], [`yearends-${g}.json`, yearEndsFile, 'v1:']]){
       const file = path.join(OUT, name), print = mark + TIER_MARK + all;
       if (manifest[name] === print && fs.existsSync(file)){ console.log(`${name}: unchanged`); continue; }
       const t0 = Date.now(), R = make(model, g);

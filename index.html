@@ -4648,8 +4648,16 @@ function recordsData(g){
   const name = new Map();
   const closeRun = (k, R) => { if (R.w >= 5) streaks.push({k, nm:R.nm, kind:'w', n:R.w, from:R.wFrom, to:R.wTo});
     if (R.u >= 8) streaks.push({k, nm:R.nm, kind:'u', n:R.u, from:R.uFrom, to:R.uTo}); };
+  const runStep = (k, nm, gf, ga, ts) => { let R = runs.get(k); if (!R){ R = {w:0, u:0}; runs.set(k, R); }
+    R.nm = nm;
+    if (gf > ga){ if (!R.w) R.wFrom = ts; R.w++; R.wTo = ts; } else { if (R.w >= 5) streaks.push({k, nm, kind:'w', n:R.w, from:R.wFrom, to:R.wTo}); R.w = 0; }
+    if (gf >= ga){ if (!R.u) R.uFrom = ts; R.u++; R.uTo = ts; } else { if (R.u >= 8) streaks.push({k, nm, kind:'u', n:R.u, from:R.uFrom, to:R.uTo}); R.u = 0; } };
   for (const m of ms){
-    if (!includeMatch(m)) continue;
+    if (!includeMatch(m)){
+      /* A match awarded without being played: a win and a loss as far as runs go, as on a team's History, and nothing else. */
+      if (m.walkover && m.awarded && state.comps.has(m.cat)){ namesFor(m);
+        if (m._h && m._a){ runStep(m._h, m._hn, m.awarded[0], m.awarded[1], m.ts); runStep(m._a, m._an, m.awarded[1], m.awarded[0], m.ts); } }
+      continue; }
     const x = applyMatch(st, m, true), ref = poolRef(st, m.ts);
     const rec = {m, ts:m.ts, h:x.home, a:x.away, hn:m._hn, an:m._an, exp:x.expHome, hRd:x.A.rd, aRd:x.B.rd,
       hPre:x.A.r, aPre:x.B.r, hPost:x.nA.r, aPost:x.nB.r};
@@ -4661,10 +4669,7 @@ function recordsData(g){
       const pk = peak.get(k); if (!pk || p.r > pk.r) peak.set(k, {k, nm, r:p.r, band, ts:m.ts});
       series.push({k, nm, r:p.r, band, lo:p.r - band, ts:m.ts});
       const sv = surest.get(k); if (band < 200 && (!sv || p.r - band > sv.lo)) surest.set(k, {k, nm, r:p.r, band, lo:p.r - band, ts:m.ts});
-      let R = runs.get(k); if (!R){ R = {w:0, u:0}; runs.set(k, R); }
-      R.nm = nm;
-      if (gf > ga){ if (!R.w) R.wFrom = m.ts; R.w++; R.wTo = m.ts; } else { if (R.w >= 5) streaks.push({k, nm, kind:'w', n:R.w, from:R.wFrom, to:R.wTo}); R.w = 0; }
-      if (gf >= ga){ if (!R.u) R.uFrom = m.ts; R.u++; R.uTo = m.ts; } else { if (R.u >= 8) streaks.push({k, nm, kind:'u', n:R.u, from:R.uFrom, to:R.uTo}); R.u = 0; }
+      runStep(k, nm, gf, ga, m.ts);
       const y = new Date(m.ts).getUTCFullYear(); if (!yearEnd.has(y)) yearEnd.set(y, new Map());
       yearEnd.get(y).set(k, {k, nm, r:p.r, band, ts:m.ts});
     }
@@ -12103,8 +12108,8 @@ const CHANGELOG = [
   ['14 Nov 2026', ['Neutral ground is now recognised much more often. When the results feed gives no venue for a match, Formline reads it from Wikipedia: the competition\'s group pages and the two teams\' own pages. Until now such a match was taken to be a home match for the first-named team. Sudan v Senegal in Juba, Namibia v Cameroon in Gaborone and the women\'s World Cup play-offs in Sal&eacute; are now forecast as the neutral matches they are, and Kyrgyzstan v Vietnam as the Vietnam home match it is. The same goes for results already in: Palestine 0&ndash;2 Iran in Basra and Montserrat 1&ndash;2 Nicaragua in the Dominican Republic no longer count as home defeats. A venue that is still unknown is marked &ldquo;venue not confirmed&rdquo;, as before.',
     'Men\'s matches the results feed misses are now picked up from Wikipedia, as the women\'s already were: a finished match that both teams\' pages list is added and marked, and a fixture only Wikipedia lists is shown and forecast. Iraq 0&ndash;0 Lebanon in Basra (13 November) was the match that prompted it.',
     'Forty-four more men\'s matches the archive was missing are in, 1,956 in all. Each is in World Football Elo Ratings and on Wikipedia, this time on the competition\'s own page where the teams\' pages are silent: nine from the 2019 CECAFA Cup, thirteen from the COSAFA Cups of 2024 and 2025 (the 2024 final among them, Angola 5&ndash;0 Namibia), the 2017 Gold Cup play-off between Haiti and Nicaragua, four Africa Cup qualifiers that were played and then struck from the tables (Chad withdrew in 2016, Sierra Leone were disqualified in 2018), and recent friendlies such as Kenya 4&ndash;0 Lesotho (June 2026) and Yemen 2&ndash;1 Kuwait (September 2026). The last four are special cases: Kyrgyzstan 1&ndash;0 Afghanistan (2023), later recorded as 3&ndash;0, and three matches that were abandoned, which are shown but not rated: Montenegro v Russia (2015), French Guiana v Bermuda (2016) and the 2025 Arab Cup third-place match between Saudi Arabia and the United Arab Emirates. All count from the next nightly update.',
-    'Head to head now lists the matches between two teams that were abandoned or awarded without being played, each marked as such. An awarded match counts as a win for the side it was awarded to, with no goals; an abandoned one is shown and not counted. A team\'s longest winning and unbeaten runs on its History now count an awarded match as a win or a loss too.',
-    'Another 300 older matches are in, which makes 2,256 added in all. Each is in World Football Elo Ratings and on Wikipedia\'s page for the competition it was played in: 102 Olympic qualifiers and 72 All-Africa Games qualifiers, nearly all between African sides from 1959 to 1988, 43 matches at the Central American and Caribbean Games, 14 Africa Cup of Nations qualifiers, 11 from the CECAFA Cup and smaller numbers from the Pan Arab Games and the Caribbean Cup. Matches a team\'s own record leaves out, and Olympic matches involving European sides, are still held back. All of them are older than the twelve-year window, so today\'s table does not move; all-time tables and team histories gain them.']],
+    'Head to head now lists the matches between two teams that were abandoned or awarded without being played, each marked as such. An awarded match counts as a win for the side it was awarded to, with no goals; an abandoned one is shown and not counted. A team\'s longest winning and unbeaten runs on its History now count an awarded match as a win or a loss too, and so do the longest runs on Records. The plain head-to-head pages follow the same rules, and also note a result that was changed afterwards.',
+    'Another 300 older matches are in, which makes 2,256 added in all. Each is in World Football Elo Ratings and on Wikipedia\'s page for the competition it was played in: 102 Olympic qualifiers and 72 All-Africa Games qualifiers, nearly all between African sides from 1959 to 1988, 43 matches at the Central American and Caribbean Games, 14 Africa Cup of Nations qualifiers, 11 from the CECAFA Cup and smaller numbers from the Pan Arab Games and the Caribbean Cup. Matches a team\'s own record leaves out, and Olympic matches involving European sides, are still held back. All of them are older than the twelve-year window, so no team\'s own record in today\'s table changes; all-time tables and team histories gain them. They do reach today\'s table by one route: each confederation\'s starting level at the window\'s first day comes from the full history. Every rating moves by less than a point, and two pairs of teams that were all but level swap places.']],
   ['13 Nov 2026', ['The home page is now a front door to the whole site. It shows Formline\'s track record (how often the side it picked won, in the calls published so far and in every match since 2019), the next few matches a line each, and a way into every part of the site. The filters have moved off it; they are on Rankings.',
     'Tiers are a little finer. A team now leaves a tier once Formline is 80% sure the tier\'s leader is the stronger side, where it was 90%, so there are more tiers and each holds fewer teams (the men\'s table goes from 12 tiers to 17, the women\'s from 10 to 14). No rating or rank changes.',
     'Tiers and clusters are now defined where they are shown. A team page says what its tier rests on (the gap between two ratings and how wide the bands are) and that it is not the chance of winning a match, with an example from today\'s table. How it works has the longer account.',

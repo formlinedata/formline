@@ -592,6 +592,53 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   ok(r.n > 300 && r.bad === 0 && r.was > 0, 'predicted score always agrees with the pick, where the single likeliest score often did not');
   ok(r.a === 'likeliest single score' && r.b === 'predicted score' && r.c === 'predicted score', 'an old stored score that disagrees with the pick is named for what it was');
 }
+// --- matches awarded without being played, and abandoned ones, on the plain pages and in Records' runs (14 Nov 2026)
+{
+  const {loadModel} = await import('./lib/model.mjs');
+  const m = loadModel(path.join(HERE, '..', 'index.html'));
+  const row = (date, home, hs, as, away, tournament = 'Friendly') => ({date, home_team:home, away_team:away, home_score:String(hs), away_score:String(as), tournament, city:'', country:home, neutral:'FALSE'});
+  m.__rows = [
+    row('2006-06-26', 'Switzerland', 0, 0, 'Ukraine', 'FIFA World Cup'), row('2019-06-05', 'Romania', 2, 1, 'Switzerland'), row('2020-09-03', 'Ukraine', 2, 1, 'Switzerland', 'UEFA Nations League'),
+    row('2020-11-14', 'Switzerland', 1, 1, 'Spain', 'UEFA Nations League'), row('2020-11-17', 'Switzerland', 3, 0, 'Ukraine', 'UEFA Nations League'),
+    row('2021-03-25', 'Bulgaria', 1, 3, 'Switzerland', 'FIFA World Cup qualification'), row('2021-03-28', 'Switzerland', 1, 0, 'Lithuania', 'FIFA World Cup qualification'),
+    row('2021-03-31', 'Switzerland', 3, 2, 'Finland'), row('2021-05-30', 'Switzerland', 2, 1, 'United States'), row('2021-06-03', 'Switzerland', 7, 0, 'Liechtenstein'),
+    row('2021-06-12', 'Wales', 1, 1, 'Switzerland', 'UEFA Euro'),
+    row('2023-09-12', 'Romania', 2, 0, 'Kosovo', 'UEFA Euro qualification'), row('2024-11-15', 'Romania', 0, 0, 'Kosovo', 'UEFA Nations League')];
+  const out = (() => { const ctxRows = JSON.stringify(m.__rows);
+    m.run(`(() => { const g = 'men', ms = normalize(${ctxRows}, g);
+      state.eras[g] = setWeights(ms, g); state.matches[g] = ms; state.bounds[g] = {min:ms[0].ts, max:ms[ms.length - 1].ts};
+      state.dataInfo[g] = {source:'build', meta:{}}; state.upstreamNames[g] = 'unavailable'; state.former[g] = buildFormer([]); state.shootouts[g] = new Map(); })()`);
+    m.table('men');
+    const pairs = m.pairs('men', 1, []);
+    const streaks = m.run(`(() => { state.useTableFiles = false; state.recCache = {}; return recordsData('men').streaks.map(s => s.kind + s.n + ' ' + s.nm + ' ' + fmtDate(s.from) + ' ' + fmtDate(s.to)); })()`);
+    return {pairs, streaks, going:m.records('men', 5).winRuns}; })();
+  const pair = (a, b) => out.pairs.find(P => [P.k1, P.k2].sort().join() === [m.keyOf(a), m.keyOf(b)].sort().join());
+  const SU = pair('Switzerland', 'Ukraine'), sw = SU && (SU.k1 === m.keyOf('Switzerland') ? [SU.w1, SU.w2] : [SU.w2, SU.w1]);
+  ok(SU && SU.n === 3 && SU.meets.length === 2 && SU.nWo === 1 && SU.nAb === 0 && sw.join() === '1,1' && SU.d === 1 && SU.g1 + SU.g2 === 3 && SU.comp === 3
+    && SU.un.length === 1 && SU.un[0].wo && SU.un[0].award.to === 'Switzerland' && SU.un[0].award.score === '3–0',
+    'plain head to head: a match awarded without being played is a meeting and a win, with no goals');
+  const RK = pair('Romania', 'Kosovo');
+  ok(RK && RK.n === 1 && RK.nWo === 0 && RK.nAb === 1 && RK.w1 + RK.w2 === 1 && RK.d === 0 && RK.g1 + RK.g2 === 2 && RK.un[0].ab && !RK.un[0].wo && RK.un[0].award.to === 'Romania',
+    'plain head to head: an abandoned match is listed and not counted, even when it was awarded afterwards');
+  ok(out.streaks.includes('w6 Switzerland 2020-11-17 2021-06-03') && !out.streaks.some(s => s.startsWith('w5 Switzerland')),
+    'Records: a match awarded without being played extends a winning run, as on the team\'s History');
+  ok(out.streaks.includes('u8 Switzerland 2020-11-14 2021-06-12'), 'Records: and an unbeaten run');
+  { const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'formline-aw-')), {buildPages} = await import('./pages.mjs');
+    fs.copyFileSync(path.join(HERE, '..', 'index.html'), path.join(dir, 'index.html')); fs.mkdirSync(path.join(dir, 'data'));
+    const S = [], si = v => { let i = S.indexOf(v); if (i < 0){ i = S.length; S.push(v); } return i; }; let prev = 0;
+    const compact = {v:1, s:S, so:[], former:[], m:m.__rows.map(r => { const day = Date.parse(r.date + 'T00:00:00Z') / 864e5, d = day - prev; prev = day;
+      return [d, si(r.home_team), si(r.away_team), +r.home_score, +r.away_score, si(r.tournament), 0, si(r.city), si(r.country), 0]; })};
+    if (compact){ fs.writeFileSync(path.join(dir, 'data', 'men.json'), JSON.stringify(compact)); buildPages(dir, null);
+      const read = f => fs.readFileSync(path.join(dir, 'h2h', 'men', f), 'utf8').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+      const a = read('switzerland-vs-ukraine.html'), b = read('kosovo-vs-romania.html');
+      ok(a.includes('have met 3 times since 2006') && a.includes('3 meetings · 1 awarded without being played') && a.includes('Switzerland v Ukraine UEFA Nations League')
+        && a.includes('Not played; awarded 3–0 to Switzerland. Not rated') && a.includes('Switzerland awarded') && a.includes('The most recent was on Tuesday, 17 November 2020: Switzerland v Ukraine, not played and awarded to Switzerland'),
+        'plain head-to-head page: the awarded match is in the totals and in the list, marked');
+      ok(b.includes('have met once') && b.includes('1 meeting · 1 abandoned, not counted') && b.includes('Abandoned at this score; later awarded 3–0 to Romania. Not rated') && / Abandoned /.test(b),
+        'plain head-to-head page: the abandoned match is listed, marked, and left out of the totals'); }
+    else ok(false, 'plain head-to-head page: could not write test data');
+    fs.rmSync(dir, {recursive:true, force:true}); }
+}
 // --- the published folder (build/site.mjs): only what a browser needs, plus the ratings files
 {
   const {buildSite, isSiteFile} = await import('./site.mjs');

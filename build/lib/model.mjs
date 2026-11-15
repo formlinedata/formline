@@ -65,23 +65,30 @@ export function loadModel(htmlPath){
       })()`);
     },
     /* Every pair of teams that has met, all time, counted the way the site's Head to head page counts them: lineages
-       (West Germany is Germany), penalty shoot-outs as wins, every competition. Call table(g) first. Pairs with fewer
-       than min meetings are left out unless listed in keep (["keyA|keyB", ...], either order). */
+       (West Germany is Germany), penalty shoot-outs as wins, every competition. A match awarded without being played
+       is a meeting and a win for the side it was awarded to, with no goals; an abandoned match is listed (un) and
+       not counted. n is the meetings counted (played plus awarded), meets the played ones, un the unrated ones in
+       date order. Call table(g) first. Pairs with fewer than min meetings are left out unless listed in keep
+       (["keyA|keyB", ...], either order); a pair with no meeting counted is always left out. */
     pairs(g, min, keep){
       ctx.__g = g; ctx.__min = min; ctx.__keep = keep || [];
       return run(`(() => {
         const keep = new Set(__keep), ms = state.matches[__g] || [], P = new Map();
         for (const m of ms){
-          if (m.ts > state.asOf || !includeMatch(m)) continue;
+          if (m.ts > state.asOf || !state.comps.has(m.cat)) continue;   // unrated matches too: they are sorted out below
           namesFor(m);
           const h = m._h, a = m._a; if (!h || !a || h === a) continue;
           const [k1, k2] = h < a ? [h, a] : [a, h], id = k1+'|'+k2;
-          let p = P.get(id); if (!p){ p = {k1, k2, list:[]}; P.set(id, p); }
-          p.list.push(m);
+          let p = P.get(id); if (!p){ p = {k1, k2, list:[], un:[]}; P.set(id, p); }
+          (m.unrated ? p.un : p.list).push(m);
         }
+        const awardTo = m => m.awarded ? (m.awarded[0] > m.awarded[1] ? m._hn : m.awarded[1] > m.awarded[0] ? m._an : '') : '';
+        const award = m => m.awarded ? {score:Math.max(...m.awarded)+'–'+Math.min(...m.awarded), to:awardTo(m)} : null;
         const out = [];
         for (const p of P.values()){
-          if (p.list.length < __min && !keep.has(p.k1+'|'+p.k2) && !keep.has(p.k2+'|'+p.k1)) continue;
+          const wo = m => m.walkover && m.awarded && m.awarded[0] !== m.awarded[1] ? ((m.awarded[0] > m.awarded[1]) === (m._h === p.k1) ? 1 : -1) : 0;
+          const nWo = p.un.filter(wo).length, n = p.list.length + nWo;
+          if (!n || (n < __min && !keep.has(p.k1+'|'+p.k2) && !keep.has(p.k2+'|'+p.k1))) continue;
           let w1 = 0, w2 = 0, d = 0, g1 = 0, g2 = 0, comp = 0;
           const meets = p.list.map(m => {
             const oneHome = m._h === p.k1, s1 = oneHome ? m.hs : m.as, s2 = oneHome ? m.as : m.hs;
@@ -90,9 +97,14 @@ export function loadModel(htmlPath){
             if (r > 0) w1++; else if (r < 0) w2++; else d++;
             g1 += s1; g2 += s2; if (m.tournament !== 'Friendly') comp++;
             return {date:fmtDate(m.ts), home:m._hn, away:m._an, hs:m.hs, as:m.as, r, pen:!!pk, s1, s2,
-              tournament:compName(m.tournament), city:m.city, country:m.country, neutral:venueSide(m) === 0};
+              tournament:compName(m.tournament), city:m.city, country:m.country, neutral:venueSide(m) === 0, award:award(m)};
           });
-          out.push({k1:p.k1, k2:p.k2, n:meets.length, w1, w2, d, g1, g2, comp, meets});
+          const un = p.un.map(m => { const r = wo(m);
+            if (r > 0) w1++; else if (r < 0) w2++; if (r && m.tournament !== 'Friendly') comp++;
+            return {date:fmtDate(m.ts), home:m._hn, away:m._an, hs:m.hs, as:m.as, r, wo:!!r, ab:!!m.ab,
+              tournament:compName(m.tournament), city:m.city, country:m.country, neutral:venueSide(m) === 0, award:award(m)};
+          });
+          out.push({k1:p.k1, k2:p.k2, n, w1, w2, d, g1, g2, comp, meets, un, nWo, nAb:un.length - nWo});
         }
         return out;
       })()`);
@@ -154,6 +166,9 @@ export function loadModel(htmlPath){
           .sort((a, b) => b.d - a.d || b.top - a.top).slice(0, N)
           .map(u => ({date:iso(u.x.ts), w:nm(u.w), l:nm(u.l), wk:key(u.w), lk:key(u.l), s:u.s, comp:compName(u.x.m.tournament)}));
         const lastTs = new Map(); D.rows.forEach(x => { lastTs.set(x.h, x.ts); lastTs.set(x.a, x.ts); });
+        /* A match awarded without being played counts in the runs, so it can be a team's latest match there too. */
+        (state.matches[__g] || []).forEach(m => { if (!m.walkover || !m.awarded || !state.comps.has(m.cat)) return; namesFor(m);
+          for (const k of [m._h, m._a]) if (k && !(lastTs.get(k) > m.ts)) lastTs.set(k, m.ts); });
         const run = kind => D.streaks.filter(s => s.kind === kind).sort((a, b) => b.n - a.n || a.from - b.from).slice(0, N)
           .map(s => ({team:nm(s.nm), k:s.k, n:s.n, from:iso(s.from), to:iso(s.to), going:lastTs.get(s.k) === s.to}));
         const peaks = D.peak.slice().sort((a, b) => b.r - a.r).map(u => ({team:nm(u.nm), k:u.k, r:Math.round(u.r), date:iso(u.ts), year:new Date(u.ts).getUTCFullYear()}));
