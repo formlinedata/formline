@@ -101,6 +101,9 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   ok(W.boxTeam('Mexico {{#invoke:flag|deco|MEX}}') === 'MEX' && W.boxTeam('{{#invoke:flag|deco|JAM}}') === 'JAM', 'Wikipedia: teams written with flag modules');
   ok(W.boxTeam('{{fb|ESW}}') === 'SWZ' && W.boxTeam('{{fb-rt|SER}}') === 'SRB' && W.boxTeam('{{fb|FAR}}') === 'FRO' && W.boxTeam('{{fb|SXM}}') === 'SMA' && W.boxTeam('{{fb|BON}}') === 'BOE' && W.boxTeam('{{fb|SWZ}}') === 'SWZ',
     'Wikipedia: other codes its pages use for Eswatini, Serbia, the Faroe Islands, Sint Maarten and Bonaire');
+  { const kept = {pages:{A:{matches:[{t1:'FAR', t2:'MDA'}]}}, resultPages:{B:{results:[{t1:'SER', t2:'GRE'}], upcoming:[{t1:'SUR', t2:'ESW'}]}}}; W.recode(kept);
+    ok(kept.pages.A.matches[0].t1 === 'FRO' && kept.resultPages.B.results[0].t1 === 'SRB' && kept.resultPages.B.upcoming[0].t2 === 'SWZ' && kept.resultPages.B.upcoming[0].t1 === 'SUR',
+      'Wikipedia: pages kept from an earlier read take a code learnt since'); }
   ok(W.compTitles(['2026–27 CONCACAF Nations League A', '2026–27 CONCACAF Nations League B', "2026–27 CONCACAF W Championship", '2024–25 CONCACAF Nations League A', 'CONCACAF Nations League'],
     'CONCACAF Nations League', 2026, false).join() === '2026–27 CONCACAF Nations League A,2026–27 CONCACAF Nations League B', 'Wikipedia: season articles of the competition picked from a search');
   ok(W.compTitles(['2027 Africa Cup of Nations qualification', '2027 Africa Cup of Nations', '2026 Futsal Africa Cup of Nations qualification', '2026 U-17 Africa Cup of Nations qualification', '2025 Africa Cup of Nations qualification'], 'African Cup of Nations qualification', 2026, false).join() === '2027 Africa Cup of Nations qualification'

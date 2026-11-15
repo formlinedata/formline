@@ -6,7 +6,7 @@
 // and it is confirmed: listed on two different pages, or still listed two days after it was first seen. Wikipedia's
 // content is CC BY-SA 4.0, credited on Sources & thanks; each row records the page it came from. Never throws.
 import {codeOf} from './fifacodes.mjs';
-import {datedBoxes, boxTeam, boxPlace, compLink, plain, boxCountry, api, resolveTitles, pageMatches, findMatch} from './wikivenues.mjs';
+import {datedBoxes, boxTeam, boxPlace, compLink, plain, boxCountry, api, resolveTitles, pageMatches, findMatch, recode} from './wikivenues.mjs';
 
 const DAY = 864e5;
 const dayNum = d => Math.round(Date.parse(d + 'T00:00:00Z') / DAY);
@@ -96,6 +96,7 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
   cities, cityKey, toArchive = x => x, mapTournament, tournaments, pauseMs = 0, log = () => {}}){
   const stats = {asked:0, pages:0, candidates:0, added:0, errors:0, unconfirmed:0};
   if (!fetchImpl) return {rows:[], stats};
+  recode(cache);   // stored pages may hold codes learnt since they were read
   cache.titles = cache.titles || {}; cache.resultPages = cache.resultPages || {}; cache.resultSeen = cache.resultSeen || {};
   const t0 = dayNum(today), from = iso(t0 - windowDays), to = iso(t0 - 1), ahead = iso(t0 + 30);
   /* Teams that played in the last three years. */

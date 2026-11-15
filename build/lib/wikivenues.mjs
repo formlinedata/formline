@@ -297,9 +297,17 @@ export async function api(fetchImpl, q){
 }
 /* Looks up venues for fixtures still without one. cache: {titles:{'men|Japan': {title, checked}}, pages:{title: {fetched, matches}}}.
    Returns Map fixture api_id -> {city, country, stadium}. Never throws: Wikipedia trouble only means fewer venues. */
+/* Pages are kept as they were read, team codes included, for up to three days. A code learnt since (ESW for Eswatini,
+   15 November 2026) must count for the pages already kept, so every stored code is put through fifaCode again before use. */
+export function recode(cache){
+  const fix = m => { if (m){ if (m.t1) m.t1 = fifaCode(m.t1); if (m.t2) m.t2 = fifaCode(m.t2); } };
+  for (const P of Object.values((cache && cache.pages) || {})) (P.matches || []).forEach(fix);
+  for (const P of Object.values((cache && cache.resultPages) || {})){ (P.results || []).forEach(fix); (P.upcoming || []).forEach(fix); }
+  return cache;
+}
 export async function wikiVenues(fixtures, cache, {fetchImpl = globalThis.fetch, today, limit = 400, cities, cityKey, toArchive, log = () => {},
   all = fixtures, teams = null, horizonDays = 30} = {}){
-  cache.titles = cache.titles || {}; cache.pages = cache.pages || {};
+  cache.titles = cache.titles || {}; cache.pages = cache.pages || {}; recode(cache);
   const found = new Map(), stats = {asked:0, pages:0, matched:0, errors:0};
   const soon = fx => dayDiff(fx.date, today) <= 4;
   /* First the competition's own season articles ("2026–27 CONCACAF Nations League A"): they list every match with its
