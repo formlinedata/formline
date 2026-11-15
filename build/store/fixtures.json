@@ -3100,7 +3100,7 @@
   "home_team": "New Zealand",
   "away_team": "Philippines",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Porirua",
   "country": "New Zealand",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3110,8 +3110,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Porirua",
+   "country": "New Zealand",
+   "stadium": "Porirua Park"
+  },
+  "venue_src": "wiki"
  },
  "1647630": {
   "date": "2026-12-01",
@@ -3138,7 +3142,7 @@
   "home_team": "New Zealand",
   "away_team": "Philippines",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Porirua",
   "country": "New Zealand",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3148,8 +3152,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Porirua",
+   "country": "New Zealand",
+   "stadium": "Porirua Park"
+  },
+  "venue_src": "wiki"
  },
  "1647632": {
   "date": "2026-12-05",
@@ -3228,7 +3236,7 @@
   "home_team": "Peru",
   "away_team": "Dominican Republic",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Chincha Alta",
   "country": "Peru",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3238,8 +3246,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Chincha Alta",
+   "country": "Peru",
+   "stadium": "Videnita de Chincha"
+  },
+  "venue_src": "city"
  },
  "1648996": {
   "date": "2026-11-27",
@@ -3293,7 +3305,7 @@
   "home_team": "Peru",
   "away_team": "Dominican Republic",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Chincha Alta",
   "country": "Peru",
   "neutral": "FALSE",
   "venue_id": "",
@@ -3303,8 +3315,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Chincha Alta",
+   "country": "Peru",
+   "stadium": "Videnita de Chincha"
+  },
+  "venue_src": "city"
  },
  "1648999": {
   "date": "2026-11-29",

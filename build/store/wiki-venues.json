@@ -9625,112 +9625,416 @@
    "upcoming": []
   },
   "Malawi women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Malawi women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Malaysia women's national football team results (2020–present)": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "KSA",
+     "t2": "MAS",
+     "hs": 2,
+     "as": 0,
+     "so": 0,
+     "comp": "Friendly",
+     "link": "Exhibition match",
+     "stadium": "Aspire Academy Stadium",
+     "city": "Doha",
+     "country": "Qatar"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "KSA",
+     "t2": "MAS",
+     "hs": 0,
+     "as": 1,
+     "so": 0,
+     "comp": "Friendly",
+     "link": "Exhibition match",
+     "stadium": "Aspire Academy Stadium",
+     "city": "Doha",
+     "country": "Qatar"
+    }
+   ],
+   "upcoming": []
   },
   "Malaysia women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "KSA",
+     "t2": "MAS",
+     "hs": 2,
+     "as": 0,
+     "so": 0,
+     "comp": "Friendly",
+     "link": "Exhibition match",
+     "stadium": "Aspire Academy Stadium",
+     "city": "Doha",
+     "country": "Qatar"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "KSA",
+     "t2": "MAS",
+     "hs": 0,
+     "as": 1,
+     "so": 0,
+     "comp": "Friendly",
+     "link": "Exhibition match",
+     "stadium": "Aspire Academy Stadium",
+     "city": "Doha",
+     "country": "Qatar"
+    }
+   ],
+   "upcoming": []
   },
   "Maldives women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Maldives women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Mali women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-08",
+     "t1": "BEN",
+     "t2": "MLI",
+     "hs": 3,
+     "as": 1,
+     "so": 0,
+     "comp": "2028 Summer Olympic qualifying",
+     "link": "2028 CAF Women's Olympic qualifying tournament",
+     "stadium": "",
+     "city": "",
+     "country": ""
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "MLI",
+     "t2": "BEN",
+     "hs": 6,
+     "as": 2,
+     "so": 0,
+     "comp": "2028 Summer Olympic qualifying",
+     "link": "2028 CAF Women's Olympic qualifying tournament",
+     "stadium": "",
+     "city": "Bamako",
+     "country": "Mali"
+    }
+   ],
+   "upcoming": []
   },
   "Mali women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Malta women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "MLT",
+     "t2": "LUX",
+     "hs": 1,
+     "as": 0,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Centenary Stadium",
+     "city": "Ta' Qali",
+     "country": "Malta"
+    }
+   ],
+   "upcoming": []
   },
   "Martinique women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Mauritania women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Mauritania women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Mauritius women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Mauritius women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Mexico women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "MEX",
+     "t2": "JAM",
+     "hs": 3,
+     "as": 4,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Estadio Victoria",
+     "city": "Aguascalientes",
+     "country": "Mexico"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "MEX",
+     "t2": "JAM",
+     "hs": 3,
+     "as": 1,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Estadio Corregidora",
+     "city": "Querétaro",
+     "country": "Mexico"
+    }
+   ],
+   "upcoming": [
+    {
+     "date": "2026-11-28",
+     "t1": "MEX",
+     "t2": "HAI",
+     "kickoff": "2026-11-28T21:30:00+00:00",
+     "city": "Mansfield",
+     "country": "United States",
+     "stadium": "Texas Health Mansfield Stadium",
+     "comp": "2026 CONCACAF W Championship QF",
+     "link": "2026 CONCACAF W Championship",
+     "timed": 1
+    }
+   ]
   },
   "Moldova women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Mongolia women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Mongolia women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Montenegro women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Montenegro women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "MNE",
+     "t2": "BIH",
+     "hs": 3,
+     "as": 2,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "DG Arena",
+     "city": "Podgorica",
+     "country": "Montenegro"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "LUX",
+     "t2": "MNE",
+     "hs": 0,
+     "as": 4,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Stade Municipal",
+     "city": "Rumelange",
+     "country": "Luxembourg"
+    }
+   ],
+   "upcoming": []
   },
   "Morocco women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Morocco women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "MAR",
+     "t2": "UZB",
+     "hs": 3,
+     "as": 1,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Moulay El Hassan Stadium",
+     "city": "Rabat",
+     "country": "Morocco"
+    },
+    {
+     "date": "2026-10-12",
+     "t1": "MAR",
+     "t2": "UZB",
+     "hs": 0,
+     "as": 0,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Al Medina Stadium",
+     "city": "Rabat",
+     "country": "Morocco"
+    }
+   ],
+   "upcoming": [
+    {
+     "date": "2026-12-01",
+     "t1": "MAR",
+     "t2": "VEN",
+     "kickoff": "",
+     "city": "",
+     "country": "",
+     "stadium": "",
+     "comp": "Friendly"
+    },
+    {
+     "date": "2026-12-05",
+     "t1": "FRA",
+     "t2": "MAR",
+     "kickoff": "",
+     "city": "Montbéliard",
+     "country": "France",
+     "stadium": "Stade Auguste-Bonal",
+     "comp": "Friendly",
+     "timed": 1
+    }
+   ]
   },
   "Mozambique women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Myanmar women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-09-17",
+     "t1": "MYA",
+     "t2": "PRK",
+     "hs": 0,
+     "as": 8,
+     "so": 0,
+     "comp": "2026 Asian Games",
+     "stadium": "Nagai Stadium",
+     "city": "Osaka",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-21",
+     "t1": "BAN",
+     "t2": "MYA",
+     "hs": 0,
+     "as": 0,
+     "so": 0,
+     "comp": "2026 Asian Games",
+     "stadium": "Nagai Stadium",
+     "city": "Osaka",
+     "country": "Japan"
+    }
+   ],
+   "upcoming": []
   },
   "Myanmar women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-09-17",
+     "t1": "MYA",
+     "t2": "PRK",
+     "hs": 0,
+     "as": 8,
+     "so": 0,
+     "comp": "2026 Asian Games",
+     "stadium": "Nagai Stadium",
+     "city": "Osaka",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-21",
+     "t1": "BAN",
+     "t2": "MYA",
+     "hs": 0,
+     "as": 0,
+     "so": 0,
+     "comp": "2026 Asian Games",
+     "stadium": "Nagai Stadium",
+     "city": "Osaka",
+     "country": "Japan"
+    }
+   ],
+   "upcoming": []
   },
   "Namibia women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Namibia women's national football team": {
-   "fetched": "2026-11-14",
+   "fetched": "2026-11-15",
    "results": [
+    {
+     "date": "2026-09-26",
+     "t1": "BOT",
+     "t2": "NAM",
+     "hs": 1,
+     "as": 1,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "",
+     "city": "",
+     "country": ""
+    },
+    {
+     "date": "2026-09-29",
+     "t1": "BOT",
+     "t2": "NAM",
+     "hs": 4,
+     "as": 1,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "",
+     "city": "",
+     "country": ""
+    },
     {
      "date": "2026-10-09",
      "t1": "ANG",
@@ -9739,6 +10043,7 @@
      "as": 0,
      "so": 0,
      "comp": "2028 Olympic Qualification 2nd round",
+     "link": "2028 CAF Women's Olympic qualifying tournament",
      "stadium": "11 November Stadium",
      "city": "Talatona",
      "country": "Angola"
@@ -9751,22 +10056,26 @@
      "as": 2,
      "so": 0,
      "comp": "2028 Olympic Qualification 2nd round",
+     "link": "2028 CAF Women's Olympic qualifying tournament",
      "stadium": "11 November Stadium",
      "city": "Talatona",
      "country": "Angola"
     }
-   ]
+   ],
+   "upcoming": []
   },
   "Nepal women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Nepal women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Netherlands women's national football team": {
-   "fetched": "2026-11-14",
+   "fetched": "2026-11-15",
    "results": [
     {
      "date": "2026-10-09",
@@ -9776,38 +10085,98 @@
      "as": 8,
      "so": 0,
      "comp": "World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
      "stadium": "Pancho Aréna",
      "city": "Felcsút",
      "country": ""
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "NED",
+     "t2": "HUN",
+     "hs": 3,
+     "as": 0,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Koning Willem II Stadion",
+     "city": "Tilburg",
+     "country": ""
+    }
+   ],
+   "upcoming": [
+    {
+     "date": "2026-12-01",
+     "t1": "SVN",
+     "t2": "NED",
+     "kickoff": "",
+     "city": "Domžale",
+     "country": "",
+     "stadium": "Domžale Sports Park",
+     "comp": "2027 FIFA Women's World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs"
+    },
+    {
+     "date": "2026-12-05",
+     "t1": "NED",
+     "t2": "SVN",
+     "kickoff": "",
+     "city": "Utrecht",
+     "country": "",
+     "stadium": "Stadion Galgenwaard",
+     "comp": "2027 FIFA Women's World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs"
     }
    ]
   },
   "New Caledonia women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "New Zealand women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": [
+    {
+     "date": "2026-11-29",
+     "t1": "NZL",
+     "t2": "PHI",
+     "kickoff": "",
+     "city": "Porirua",
+     "country": "New Zealand",
+     "stadium": "Porirua Park",
+     "comp": "Friendly"
+    },
+    {
+     "date": "2026-12-04",
+     "t1": "NZL",
+     "t2": "PHI",
+     "kickoff": "",
+     "city": "Porirua",
+     "country": "New Zealand",
+     "stadium": "Porirua Park",
+     "comp": "Friendly"
+    }
+   ]
   },
   "Nicaragua women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Niger women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Niger women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Nigeria women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
-  },
-  "Nigeria women's national football team": {
-   "fetched": "2026-11-14",
+   "fetched": "2026-11-15",
    "results": [
     {
      "date": "2026-10-09",
@@ -9817,6 +10186,26 @@
      "as": 2,
      "so": 0,
      "comp": "2028 Summer Olympic qualifying",
+     "link": "2028 CAF Women's Olympic qualifying tournament",
+     "stadium": "Remo Stars Stadium",
+     "city": "Ikenne",
+     "country": "Nigeria"
+    }
+   ],
+   "upcoming": []
+  },
+  "Nigeria women's national football team": {
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "COM",
+     "t2": "NGA",
+     "hs": 0,
+     "as": 2,
+     "so": 0,
+     "comp": "2028 Summer Olympic qualifying",
+     "link": "2028 CAF Women's Olympic qualifying tournament",
      "stadium": "Remo Stars Stadium",
      "city": "Ikenne",
      "country": "Nigeria"
@@ -9829,26 +10218,153 @@
      "as": 0,
      "so": 0,
      "comp": "2028 Summer Olympic qualifying",
+     "link": "2028 CAF Women's Olympic qualifying tournament",
      "stadium": "Remo Stars Stadium",
      "city": "Ikenne",
      "country": "Nigeria"
     }
-   ]
+   ],
+   "upcoming": []
   },
   "North Korea women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-09-17",
+     "t1": "MYA",
+     "t2": "PRK",
+     "hs": 0,
+     "as": 8,
+     "so": 0,
+     "comp": "2026 Asian Games GS",
+     "stadium": "Nagai Stadium",
+     "city": "Osaka",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-21",
+     "t1": "KOR",
+     "t2": "PRK",
+     "hs": 1,
+     "as": 1,
+     "so": 0,
+     "comp": "2026 Asian Games GS",
+     "stadium": "Shizuoka Stadium",
+     "city": "Fukuroi",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-25",
+     "t1": "PRK",
+     "t2": "TPE",
+     "hs": 5,
+     "as": 1,
+     "so": 0,
+     "comp": "2026 Asian Games QF",
+     "stadium": "Shizuoka Stadium",
+     "city": "Fukuroi",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-29",
+     "t1": "PRK",
+     "t2": "CHN",
+     "hs": 2,
+     "as": 0,
+     "so": 0,
+     "comp": "2026 Asian Games SF",
+     "stadium": "Shizuoka Stadium",
+     "city": "Fukuroi",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-10-02",
+     "t1": "PRK",
+     "t2": "JPN",
+     "hs": 2,
+     "as": 2,
+     "so": 2,
+     "comp": "2026 Asian Games Final",
+     "stadium": "Shizuoka Stadium",
+     "city": "Fukuroi",
+     "country": "Japan"
+    }
+   ],
+   "upcoming": []
   },
   "North Korea women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-09-17",
+     "t1": "MYA",
+     "t2": "PRK",
+     "hs": 0,
+     "as": 8,
+     "so": 0,
+     "comp": "2026 Asian Games GS",
+     "stadium": "Nagai Stadium",
+     "city": "Osaka",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-21",
+     "t1": "KOR",
+     "t2": "PRK",
+     "hs": 1,
+     "as": 1,
+     "so": 0,
+     "comp": "2026 Asian Games GS",
+     "stadium": "Shizuoka Stadium",
+     "city": "Fukuroi",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-25",
+     "t1": "PRK",
+     "t2": "TPE",
+     "hs": 5,
+     "as": 1,
+     "so": 0,
+     "comp": "2026 Asian Games QF",
+     "stadium": "Shizuoka Stadium",
+     "city": "Fukuroi",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-29",
+     "t1": "PRK",
+     "t2": "CHN",
+     "hs": 2,
+     "as": 0,
+     "so": 0,
+     "comp": "2026 Asian Games SF",
+     "stadium": "Shizuoka Stadium",
+     "city": "Fukuroi",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-10-02",
+     "t1": "PRK",
+     "t2": "JPN",
+     "hs": 2,
+     "as": 2,
+     "so": 2,
+     "comp": "2026 Asian Games Final",
+     "stadium": "Shizuoka Stadium",
+     "city": "Fukuroi",
+     "country": "Japan"
+    }
+   ],
+   "upcoming": []
   },
   "North Macedonia women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Northern Ireland women's national football team": {
-   "fetched": "2026-11-14",
+   "fetched": "2026-11-15",
    "results": [
     {
      "date": "2026-10-09",
@@ -9858,6 +10374,7 @@
      "as": 4,
      "so": 0,
      "comp": "2027 FIFA Women's World Cup qualification",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
      "stadium": "Inver Park",
      "city": "Larne",
      "country": "Northern Ireland"
@@ -9870,30 +10387,109 @@
      "as": 1,
      "so": 0,
      "comp": "2027 FIFA Women's World Cup qualification",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
      "stadium": "Estádio Municipal de Portimão",
      "city": "Portimão",
      "country": ""
+    }
+   ],
+   "upcoming": [
+    {
+     "date": "2026-11-27",
+     "t1": "NIR",
+     "t2": "GRE",
+     "kickoff": "2026-11-27T19:00:00+00:00",
+     "city": "Larne",
+     "country": "Northern Ireland",
+     "stadium": "Inver Park",
+     "comp": "Friendly",
+     "timed": 1
+    },
+    {
+     "date": "2026-12-01",
+     "t1": "NIR",
+     "t2": "GRE",
+     "kickoff": "2026-12-01T16:00:00+00:00",
+     "city": "Larne",
+     "country": "Northern Ireland",
+     "stadium": "Inver Park",
+     "comp": "Friendly",
+     "timed": 1
     }
    ]
   },
   "Northern Mariana Islands women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Norway women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "ROU",
+     "t2": "NOR",
+     "hs": 0,
+     "as": 2,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Arcul de Triumf Stadium",
+     "city": "Bucharest",
+     "country": "Romania"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "NOR",
+     "t2": "ROU",
+     "hs": 6,
+     "as": 0,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Ullevaal Stadion",
+     "city": "Oslo",
+     "country": "Norway"
+    }
+   ],
+   "upcoming": [
+    {
+     "date": "2026-12-01",
+     "t1": "WAL",
+     "t2": "NOR",
+     "kickoff": "",
+     "city": "Wales",
+     "country": "",
+     "stadium": "",
+     "comp": "2027 FIFA Women's World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs"
+    },
+    {
+     "date": "2026-12-05",
+     "t1": "NOR",
+     "t2": "WAL",
+     "kickoff": "",
+     "city": "Norway",
+     "country": "",
+     "stadium": "",
+     "comp": "2027 FIFA Women's World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs"
+    }
+   ]
   },
   "Pakistan women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Pakistan women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Palestine women's national football team results": {
-   "fetched": "2026-11-14",
+   "fetched": "2026-11-15",
    "results": [
     {
      "date": "2026-10-10",
@@ -9919,10 +10515,11 @@
      "city": "Jounieh",
      "country": "Lebanon"
     }
-   ]
+   ],
+   "upcoming": []
   },
   "Palestine women's national football team": {
-   "fetched": "2026-11-14",
+   "fetched": "2026-11-15",
    "results": [
     {
      "date": "2026-10-10",
@@ -9948,42 +10545,292 @@
      "city": "Jounieh",
      "country": "Lebanon"
     }
-   ]
+   ],
+   "upcoming": []
   },
   "Panama women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": [
+    {
+     "date": "2026-11-28",
+     "t1": "CAN",
+     "t2": "PAN",
+     "kickoff": "2026-11-28T18:00:00+00:00",
+     "city": "Mansfield",
+     "country": "United States",
+     "stadium": "Texas Health Mansfield Stadium",
+     "comp": "2026 CONCACAF W Championship QF",
+     "link": "2026 CONCACAF W Championship",
+     "timed": 1
+    }
+   ]
   },
   "Papua New Guinea women's national soccer team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": [
+    {
+     "date": "2026-11-28",
+     "t1": "UZB",
+     "t2": "PNG",
+     "kickoff": "2026-11-28T16:30:00+00:00",
+     "city": "Salé",
+     "country": "Morocco",
+     "stadium": "Mohammed VI Football Academy",
+     "comp": "2027 FIFA Women's World Cup qualification",
+     "link": "2027 FIFA Women's World Cup qualification (inter-confederation play-offs)",
+     "timed": 1
+    },
+    {
+     "date": "2026-12-01",
+     "t1": "PNG",
+     "t2": "TPE",
+     "kickoff": "2026-12-01T14:00:00+00:00",
+     "city": "Salé",
+     "country": "Morocco",
+     "stadium": "Mohammed VI Football Academy",
+     "comp": "2027 FIFA Women's World Cup qualification",
+     "link": "2027 FIFA Women's World Cup qualification (inter-confederation play-offs)",
+     "timed": 1
+    },
+    {
+     "date": "2026-12-05",
+     "t1": "PNG",
+     "t2": "GHA",
+     "kickoff": "2026-12-05T17:00:00+00:00",
+     "city": "Salé",
+     "country": "Morocco",
+     "stadium": "Mohammed VI Football Academy",
+     "comp": "2027 FIFA Women's World Cup qualification",
+     "link": "2027 FIFA Women's World Cup qualification (inter-confederation play-offs)",
+     "timed": 1
+    }
+   ]
   },
   "Paraguay women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-10",
+     "t1": "SLV",
+     "t2": "PAR",
+     "hs": 1,
+     "as": 5,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Cuscatlán Stadium",
+     "city": "San Salvador",
+     "country": "El Salvador"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "SLV",
+     "t2": "PAR",
+     "hs": 2,
+     "as": 3,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Cuscatlán Stadium",
+     "city": "San Salvador",
+     "country": "El Salvador"
+    }
+   ],
+   "upcoming": []
   },
   "Peru women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "PER",
+     "t2": "PHI",
+     "hs": 2,
+     "as": 1,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Videnita de Chincha",
+     "city": "Chincha Alta",
+     "country": "Peru"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "PER",
+     "t2": "PHI",
+     "hs": 0,
+     "as": 2,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Videnita de Chincha",
+     "city": "Chincha Alta",
+     "country": "Peru"
+    }
+   ],
+   "upcoming": [
+    {
+     "date": "2026-11-27",
+     "t1": "PER",
+     "t2": "DOM",
+     "kickoff": "",
+     "city": "Chincha Alta",
+     "country": "Peru",
+     "stadium": "Videnita de Chincha",
+     "comp": "Friendly"
+    },
+    {
+     "date": "2026-11-29",
+     "t1": "PER",
+     "t2": "DOM",
+     "kickoff": "",
+     "city": "Chincha Alta",
+     "country": "Peru",
+     "stadium": "Videnita de Chincha",
+     "comp": "Friendly"
+    },
+    {
+     "date": "2026-12-04",
+     "t1": "GER",
+     "t2": "PER",
+     "kickoff": "2026-12-04T21:15:00+00:00",
+     "city": "Rio de Janeiro",
+     "country": "Brazil",
+     "stadium": "",
+     "comp": "Friendly",
+     "timed": 1
+    }
+   ]
   },
   "Philippines women's national football team results (2020–present)": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Philippines women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-09-17",
+     "t1": "HKG",
+     "t2": "PHI",
+     "hs": 0,
+     "as": 2,
+     "so": 0,
+     "comp": "2026 Asian Games GS",
+     "stadium": "Gifu Nagaragawa Stadium",
+     "city": "Gifu",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-21",
+     "t1": "CHN",
+     "t2": "PHI",
+     "hs": 5,
+     "as": 1,
+     "so": 0,
+     "comp": "2026 Asian Games GS",
+     "stadium": "Gifu Nagaragawa Stadium",
+     "city": "Gifu",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-09-25",
+     "t1": "JPN",
+     "t2": "PHI",
+     "hs": 4,
+     "as": 0,
+     "so": 0,
+     "comp": "2026 Asian Games QF",
+     "stadium": "Shizuoka Stadium ECOPA",
+     "city": "Fukuroi",
+     "country": "Japan"
+    },
+    {
+     "date": "2026-10-09",
+     "t1": "PER",
+     "t2": "PHI",
+     "hs": 2,
+     "as": 1,
+     "so": 0,
+     "comp": "Unofficial Friendly",
+     "stadium": "Videnita de Chincha",
+     "city": "Chincha Alta",
+     "country": "Peru"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "PER",
+     "t2": "PHI",
+     "hs": 0,
+     "as": 2,
+     "so": 0,
+     "comp": "Unofficial Friendly",
+     "stadium": "Videnita de Chincha",
+     "city": "Chincha Alta",
+     "country": "Peru"
+    }
+   ],
+   "upcoming": [
+    {
+     "date": "2026-11-29",
+     "t1": "NZL",
+     "t2": "PHI",
+     "kickoff": "",
+     "city": "Wellington",
+     "country": "New Zealand",
+     "stadium": "Porirua Park",
+     "comp": "Friendly"
+    },
+    {
+     "date": "2026-12-04",
+     "t1": "NZL",
+     "t2": "PHI",
+     "kickoff": "",
+     "city": "Wellington",
+     "country": "New Zealand",
+     "stadium": "Porirua Park",
+     "comp": "Friendly"
+    }
+   ]
   },
   "Poland women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "BEL",
+     "t2": "POL",
+     "hs": 1,
+     "as": 0,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup qualification",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Den Dreef",
+     "city": "Leuven",
+     "country": "Belgium"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "POL",
+     "t2": "BEL",
+     "hs": 3,
+     "as": 2,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup qualification",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Gdańsk Stadium",
+     "city": "Gdańsk",
+     "country": "Poland"
+    }
+   ],
+   "upcoming": []
   },
   "Portugal women's national football team results (2020–present)": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Portugal women's national football team": {
-   "fetched": "2026-11-14",
+   "fetched": "2026-11-15",
    "results": [
     {
      "date": "2026-10-09",
@@ -9993,6 +10840,7 @@
      "as": 4,
      "so": 0,
      "comp": "2027 FIFA Women's World Cup qualification",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
      "stadium": "Inver Park",
      "city": "Larne",
      "country": "Northern Ireland"
@@ -10005,51 +10853,194 @@
      "as": 1,
      "so": 0,
      "comp": "2027 FIFA Women's World Cup qualification",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
      "stadium": "Estádio Municipal de Portimão",
      "city": "Portimão",
      "country": ""
     }
-   ]
+   ],
+   "upcoming": []
   },
   "Puerto Rico women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Republic of Ireland women's national football team results (2020–present)": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "KAZ",
+     "t2": "IRL",
+     "hs": 0,
+     "as": 8,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup Qualifiers",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Astana Arena",
+     "city": "Astana",
+     "country": "Kazakhstan"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "IRL",
+     "t2": "KAZ",
+     "hs": 4,
+     "as": 0,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup Qualifiers",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Páirc Uí Chaoimh",
+     "city": "Cork",
+     "country": "Ireland"
+    }
+   ],
+   "upcoming": []
   },
   "Republic of Ireland women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "KAZ",
+     "t2": "IRL",
+     "hs": 0,
+     "as": 8,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup Qualifiers",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Astana Arena",
+     "city": "Astana",
+     "country": "Kazakhstan"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "IRL",
+     "t2": "KAZ",
+     "hs": 4,
+     "as": 0,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup Qualifiers",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Páirc Uí Chaoimh",
+     "city": "Cork",
+     "country": "Ireland"
+    }
+   ],
+   "upcoming": [
+    {
+     "date": "2026-12-01",
+     "t1": "POL",
+     "t2": "IRL",
+     "kickoff": "",
+     "city": "Gdańsk",
+     "country": "Poland",
+     "stadium": "Gdańsk Stadium",
+     "comp": "2027 FIFA Women's World Cup Qualifiers",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "timed": 1
+    },
+    {
+     "date": "2026-12-05",
+     "t1": "IRL",
+     "t2": "POL",
+     "kickoff": "",
+     "city": "Dublin",
+     "country": "Ireland",
+     "stadium": "Aviva Stadium",
+     "comp": "2027 FIFA Women's World Cup Qualifiers",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "timed": 1
+    }
+   ]
   },
   "Romania women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-09",
+     "t1": "ROU",
+     "t2": "NOR",
+     "hs": 0,
+     "as": 2,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Arcul de Triumf Stadium",
+     "city": "Bucharest",
+     "country": "Romania"
+    },
+    {
+     "date": "2026-10-13",
+     "t1": "NOR",
+     "t2": "ROU",
+     "hs": 6,
+     "as": 0,
+     "so": 0,
+     "comp": "2027 FIFA Women's World Cup play-offs",
+     "link": "2027 FIFA Women's World Cup qualification – UEFA play-offs",
+     "stadium": "Ullevaal Stadion",
+     "city": "Oslo",
+     "country": "Norway"
+    }
+   ],
+   "upcoming": []
   },
   "Russia women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [
+    {
+     "date": "2026-10-08",
+     "t1": "IND",
+     "t2": "RUS",
+     "hs": 0,
+     "as": 4,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Kishore Bharati Krirangan",
+     "city": "Kolkata",
+     "country": "India"
+    },
+    {
+     "date": "2026-10-11",
+     "t1": "IND",
+     "t2": "RUS",
+     "hs": 0,
+     "as": 8,
+     "so": 0,
+     "comp": "Friendly",
+     "stadium": "Kishore Bharati Krirangan",
+     "city": "Kolkata",
+     "country": "India"
+    }
+   ],
+   "upcoming": []
   },
   "Rwanda women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Rwanda women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Saint Kitts and Nevis women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Saint Lucia women's national football team results": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Saint Lucia women's national football team": {
-   "fetched": "2026-11-14",
-   "results": []
+   "fetched": "2026-11-15",
+   "results": [],
+   "upcoming": []
   },
   "Saint Vincent and the Grenadines women's national football team": {
    "fetched": "2026-11-15",
