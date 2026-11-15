@@ -424,6 +424,42 @@ ok(menMtime > 0, 'men.json written');
   const rep3 = {missing:C2.missing.slice(), diffs:C2.diffs.slice()}, S3 = await AU.sweep({client:{covers:() => true, fixturesOn: async () => []}, state:{done:'2026-11-15'}, report:rep3, held:H, today:'2026-11-16',
     end:'2026-10-06', from:'2014-11-01', perRun:1, mapFixture:fakeMap, settled:[{api_id:12, note:'the feed has the score after 90 minutes'}, {api_id:13, note:'the feed names the wrong team'}]});
   ok(rep3.missing.length === 0 && rep3.diffs.length === 0 && S3.settled === 2 && S3.open.missing === 0, 'cross-check: entries settled as the feed\'s mistake are left out and counted');
+  // 15 Nov 2026: each entry is looked up on the two teams' Wikipedia pages as they stood some weeks after the match
+  { const WC = await import('./lib/wikicheck.mjs');
+    const box = (date, t1, sc, t2, extra = '') => `{{football box collapsible|date=${date}|team1={{fbw-rt|${t1}}}|score=${sc}|team2={{fbw|${t2}}}${extra}}}\n`;
+    const pagesNow = {}, pagesThen = {
+      "Czech Republic women's national football team": '==Results and fixtures==\n===2023===\n' + box('14 July', 'CZE', '3–0', 'SVK', '|location=[[Opava]], Czech Republic|round=Friendly') + box('18 July', 'CZE', '1–1', 'POL'),
+      "Slovakia women's national football team": '===2023===\n' + box('14 July 2023', 'CZE', '3–0', 'SVK', '|stadium=Stadion|location=Opava, Czech Republic'),
+      "Chile women's national football team": '===2023===\n' + box('5 February', 'CHI', '4–0', 'PAN', '|round=Unofficial Friendly|location=Santiago, Chile'),
+      "Panama women's national football team": '===2023===\n' + box('5 February', 'CHI', '4–0', 'PAN', '|round=Unofficial Friendly') + box('16 February 2024', 'PAN', '2–0', 'PAR'),
+      "Paraguay women's national football team": '',
+      "Bangladesh women's national football team": '===2023===\n' + box('16 July', 'BAN', '0–0', 'NEP', '|penaltyscore=2–4|location=Dhaka, Bangladesh'),
+      "Nepal women's national football team": '===2023===\n' + box('13 July', 'BAN', '1–1', 'NEP')};
+    const asked = []; let fail = '';
+    const fetchW = async url => { const u = new URL(url), t = u.searchParams.get('titles'), then = u.searchParams.get('rvstart'); asked.push(t + (then ? ' @' + then.slice(0, 10) : ' @now'));
+      if (t === fail) return {ok:false, status:503, json: async () => ({})};
+      const text = (then ? pagesThen : pagesNow)[t];
+      return {ok:true, json: async () => ({query:{pages:[text === undefined ? {title:t, missing:true} : {title:t, revisions:[{slots:{main:{content:text}}}]}]}})}; };
+    const E = (date, home, score, away, extra = {}) => ({g:'women', date, home, away, score, api_id:date + home, ...extra});
+    const rep = {missing:[E('2023-07-14', 'Czech Republic', '3-0', 'Slovakia'), E('2023-02-05', 'Chile', '4-0', 'Panama'), E('2023-07-16', 'Bangladesh', '0-0', 'Nepal'), E('2023-07-05', 'Bangladesh', '2-0', 'Nepal'), E('2026-11-10', 'Chile', '1-0', 'Paraguay')],
+      diffs:[E('2024-02-16', 'Paraguay', '0-2', 'Panama', {held:'2-0', heldDate:'2024-02-16'})]};
+    const S = await WC.wikiCheck({report:rep, cache:{titles:{}}, fetchImpl:fetchW, today:'2026-11-15', pauseMs:0});
+    const w = (i, list = rep.missing) => list[i].wiki || {};
+    ok(S.checked === 6 && S.agree === 4 && S.none === 2 && w(0).found === 'agree' && w(0).pages === 'HA' && w(0).city === 'Opava' && w(0).country === 'Czech Republic' && w(0).date === '2023-07-14' && w(0).asOf === '2023-09-27',
+      'Wikipedia check: a match on both teams\' pages of the time is marked as agreed, with its place');
+    ok(w(1).found === 'agree' && /Unofficial/.test(w(1).lesser || '') && w(2).found === 'agree' && w(2).shootout === 'Nepal' && w(2).pages === 'H',
+      'Wikipedia check: a label such as "unofficial" is carried, and the winner of a shoot-out');
+    ok(w(3).found === 'none' && w(0, rep.diffs).found === 'agree' && w(0, rep.diffs).first === 'Panama' && w(0, rep.diffs).pages === 'A',
+      'Wikipedia check: nothing within three days is "none"; a match the page lists the other way round still agrees');
+    ok(asked.includes("Czech Republic women's national football team @2023-09-27") && asked.includes("Chile women's national football team @now") && asked.filter(t => t.startsWith('Bangladesh')).length === 1 && w(4).found === 'none' && !w(4).asOf,
+      'Wikipedia check: an old match is read on the page as it stood then, a recent one on the page as it is, and a team and month only once');
+    const rep2 = {missing:[E('2023-07-14', 'Czech Republic', '2-0', 'Slovakia'), E('2023-07-16', 'Bangladesh', '0-0', 'Nepal')], diffs:[]}; fail = "Nepal women's national football team";
+    const S2 = await WC.wikiCheck({report:rep2, cache:{titles:{'women|Slovakia':{main:"Slovakia women's national football team"}}}, fetchImpl:fetchW, today:'2026-11-15', pauseMs:0});
+    ok(rep2.missing[0].wiki.found === 'differ' && rep2.missing[0].wiki.others.join() === '2023-07-14 3-0' && !rep2.missing[1].wiki && S2.errors === 1 && S2.checked === 1,
+      'Wikipedia check: another score on the pages is "differ", and an entry whose page could not be read is left for the next run');
+    const rep3b = {missing:[E('2023-07-14', 'Czech Republic', '3-0', 'Slovakia'), E('2023-02-05', 'Chile', '4-0', 'Panama')], diffs:[]}; fail = '';
+    const S3b = await WC.wikiCheck({report:rep3b, cache:{}, fetchImpl:fetchW, today:'2026-11-15', pauseMs:0, limit:2});
+    ok(S3b.asked === 2 && S3b.checked === 1 && rep3b.missing[0].wiki && !rep3b.missing[1].wiki, 'Wikipedia check: it stops at its request limit and picks up next run'); }
 }
 // --- unit: Wikipedia's match boxes, November 2026: years from headings, sides not decided, group articles, venues from the teams' pages
 {

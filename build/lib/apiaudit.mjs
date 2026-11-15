@@ -15,6 +15,8 @@
 //   - an entry checked and found to be the feed's mistake, or a match left out on purpose (a B international), is noted
 //     in build/store/api-audit-settled.json
 //     ([{api_id, note}]) and left out from then on.
+//
+// After the sweep, lib/wikicheck.mjs looks each new entry up on Wikipedia and writes what it finds on the entry (`wiki`).
 const DAY = 864e5;
 const dayNum = d => Math.round(Date.parse(d + 'T00:00:00Z') / DAY);
 const iso = n => new Date(n * DAY).toISOString().slice(0, 10);

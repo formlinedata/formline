@@ -32,6 +32,7 @@ import {loadModel} from './lib/model.mjs';
 import {survey as clubSurvey} from './lib/clubsurvey.mjs';
 import {updateRecord} from './lib/forecasts.mjs';
 import {sweep as apiAudit, heldIndex} from './lib/apiaudit.mjs';
+import {wikiCheck} from './lib/wikicheck.mjs';
 
 /* Tournaments postponed by their organiser whose old dates API-Football still lists (checked by hand). The AFC moved the
    2027 Asian Cup from January 2027 to 23 December 2027 to 21 January 2028 (AFC announcement). */
@@ -419,6 +420,18 @@ export async function run(){
         status[key].shown = shown;
       } catch(e){ status[key] = {error:e.message}; }
     }
+  }
+  // the cross-check's list, looked up on Wikipedia: each entry is marked with what the two teams' pages said at the
+  // time (see lib/wikicheck.mjs). Still a report only; a fault here leaves the list as the cross-check wrote it.
+  if (mode === 'full' && status.apiAudit && !status.apiAudit.error && process.env.API_AUDIT_WIKI !== '0' && process.env.WIKI_FETCH !== 'off'){
+    try {
+      const report = readJSON(path.join(STORE, 'api-audit.json'), null);
+      if (report){
+        status.apiAudit.wiki = await wikiCheck({report, cache:wcache, today, limit:+(process.env.API_AUDIT_WIKI_LIMIT || 200), pauseMs:+(process.env.WIKI_PAUSE_MS || 400), log: m => console.log(m)});
+        writeJSON(path.join(STORE, 'api-audit.json'), report, true);
+        console.log('API cross-check, on Wikipedia: ' + JSON.stringify(status.apiAudit.wiki));
+      }
+    } catch(e){ status.apiAudit.wiki = {error:e.message}; }
   }
   writeJSON(path.join(STORE, 'wiki-venues.json'), wcache, true);
 
