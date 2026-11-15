@@ -12,7 +12,8 @@
 // Two things keep the list to what still needs looking at (15 November 2026, after the first real run):
 //   - the held matches carry the site's own corrections (CORRECTIONS in index.html), so a score the site has already put
 //     right is not listed again as a difference from the archive's wrong one;
-//   - an entry checked and found to be the feed's mistake is noted in build/store/api-audit-settled.json
+//   - an entry checked and found to be the feed's mistake, or a match left out on purpose (a B international), is noted
+//     in build/store/api-audit-settled.json
 //     ([{api_id, note}]) and left out from then on.
 const DAY = 864e5;
 const dayNum = d => Math.round(Date.parse(d + 'T00:00:00Z') / DAY);

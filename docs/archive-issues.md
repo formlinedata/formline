@@ -150,7 +150,7 @@ Notes:
 
 ### Matches the archive does not hold (updated 14 November 2026)
 
-World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record** (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository. 374 were played since November 2014. They are free to take.
+World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and one more match came from API-Football and Wikipedia, (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,257 rows). 375 were played since November 2014. They are free to take.
 
 Whole events among the recent ones:
 
@@ -169,7 +169,7 @@ Older ones (1,882 before November 2014, back to Ireland 4–3 Wales in 1893) inc
 
 Played and later struck from the tables, which the archive leaves out though the matches took place: Nigeria 2–0 Chad (2015-06-13), Chad 1–5 Egypt (2015-09-06) and Chad 0–1 Tanzania (2016-03-23), annulled when Chad withdrew; Sierra Leone 2–1 Kenya (2017-06-10) and Ethiopia 1–0 Sierra Leone (2018-09-09), annulled when Sierra Leone were disqualified.
 
-Abandoned matches that are not in the archive at all, though others like them are (Serbia v Albania 2014, Romania v Kosovo 2024): Montenegro v Russia (2015-03-27, abandoned at 0–0, awarded 0–3), French Guiana v Bermuda (2016-06-01, abandoned with Bermuda leading 1–0, replayed on 19 June), Saudi Arabia v United Arab Emirates (2025-12-18, Arab Cup third-place match, abandoned at half-time at 0–0). Also missing: Kyrgyzstan 1–0 Afghanistan (2023-06-10, CAFA Nations Cup, later recorded as 3–0).
+Abandoned matches that are not in the archive at all, though others like them are (Serbia v Albania 2014, Romania v Kosovo 2024): Montenegro v Russia (2015-03-27, abandoned at 0–0, awarded 0–3), French Guiana v Bermuda (2016-06-01, abandoned with Bermuda leading 1–0, replayed on 19 June), Saudi Arabia v United Arab Emirates (2025-12-18, Arab Cup third-place match, abandoned at half-time at 0–0), Fiji v Solomon Islands (2025-11-22, MSG Prime Minister's Cup third-place match in Port Moresby, abandoned at half-time at 1–1 in heavy rain; the archive holds the rest of that tournament). Also missing: Kyrgyzstan 1–0 Afghanistan (2023-06-10, CAFA Nations Cup, later recorded as 3–0).
 
 ### Awarded results (same check)
 
@@ -223,24 +223,28 @@ Home and away legs, in different cities, filed under one date, so one date in ea
 
 ## Women's archive (martj42/womens-international-results)
 
-### Wrong scores (found 13 November 2026 by checking against Wikipedia's results pages)
+### Wrong scores (found 13 and 14 November 2026 by checking against Wikipedia's results pages and API-Football)
 
-All three are in the archive as 0–0. Each was confirmed from the federation or a match report.
+The first three are in the archive as 0–0, and each was confirmed from the federation or a match report. The last two are scores on which API-Football and both teams' Wikipedia pages agree against the archive.
 
 | Date | Home | Archive | Away | Tournament | Should be | Sources |
 |---|---|---|---|---|---|---|
 | 2024-10-30 | United States | 0–0 | Argentina | Friendly | **3–0** (Louisville) | U.S. Soccer match report; both teams' Wikipedia pages |
 | 2024-10-29 | Brazil | 0–0 | Colombia | Friendly | **3–1** (Cariacica) | ESPN; both teams' Wikipedia pages |
 | 2018-03-26 | Australia | 0–0 | Thailand | Friendly | **5–0** (Perth) | Football Australia; both teams' Wikipedia pages |
+| 2026-02-13 | China | 1–0 | Vietnam | Friendly | **6–1** (Shenzhen) | API-Football; both teams' Wikipedia pages |
+| 2026-02-27 | Morocco | 3–0 | Burkina Faso | Friendly | **5–0** (Rabat) | API-Football; both teams' Wikipedia pages |
+
+A venue to look at: Cameroon 1–3 Nigeria (2026-03-03) is in the archive in Montpellier, France, as a neutral match; both teams' Wikipedia pages have it at the Stade Militaire in Yaoundé, three days after the first of the two matches there.
 
 ### Matches the archive does not hold (updated 14 November 2026)
 
-264 women's matches the archive lacks are in [`build/store/manual-women.csv`](../build/store/manual-women.csv), in the archive's own columns with a source for each. The latest 22 were found on 14 November 2026 by setting API-Football's results for March to October 2026 beside the archive, and each is also on Wikipedia:
+275 women's matches the archive lacks are in [`build/store/manual-women.csv`](../build/store/manual-women.csv), in the archive's own columns with a source for each. The latest 33 were found on 14 November 2026 by setting API-Football's results for September 2025 to October 2026 beside the archive, and each is also on Wikipedia:
 
 - **Central American and Caribbean Games 2026, all 16 matches** (29 July to 6 August, Moca and Santiago de los Caballeros; senior national teams). Final: Colombia 1–1 Mexico, Mexico 4–2 on penalties. Semi-finals: Venezuela 2–2 Colombia (Colombia 4–3 on penalties) and Mexico 4–1 El Salvador after extra time. The archive holds the 2010, 2014, 2018 and 2023 tournaments.
-- **Friendlies, the first of two matches in a window where the archive has only the second:** Nigeria 2–1 Senegal (5 June, Ikenne), Egypt 1–1 Tunisia (5 June, Cairo; Egypt 4–2 on penalties), Morocco 4–2 Benin (5 June, Rabat).
-- Nigeria 2–1 Tanzania (22 July, Casablanca).
-- Cook Islands 1–0 and 3–0 Afghanistan (4 and 8 June, Auckland). Afghanistan here is Afghan Women United, the side the archive lists as Afghanistan in the FIFA Unites Women's Series of 2025.
+- **Friendlies, the first of two matches where the archive has only the second:** Hong Kong 3–2 Malaysia (2025-10-22, Tseung Kwan O, behind closed doors), Uzbekistan 1–0 Iran (2025-12-02, Tashkent; the archive has the 2–0 of 29 November), Cameroon 1–0 Nigeria (2026-02-28, Yaoundé), Egypt 0–3 Algeria (2026-02-28, Cairo), Nigeria 2–1 Senegal (2026-06-05, Ikenne), Egypt 1–1 Tunisia (2026-06-05, Cairo; Egypt 4–2 on penalties), Morocco 4–2 Benin (2026-06-05, Rabat).
+- **Other friendlies:** Djibouti 4–1 Somalia (2025-10-24, Djibouti City), Eswatini 1–1 Lesotho (2025-11-22, Lobamba; Eswatini's page has 23 November), Tonga 4–1 Tahiti (2025-12-01, Avarua, Cook Islands), Fiji 2–1 American Samoa (2026-02-21, Ba), Kenya 0–2 Benin (2026-03-02, Abidjan), United Arab Emirates 0–0 Tajikistan (2026-03-05, Dubai), Morocco 3–0 Cape Verde (2026-03-07, Rabat), Nigeria 2–1 Tanzania (2026-07-22, Casablanca).
+- Cook Islands 1–0 and 3–0 Afghanistan (4 and 8 June 2026, Auckland). Afghanistan here is Afghan Women United, the side the archive lists as Afghanistan in the FIFA Unites Women's Series of 2025.
 
 ### Flagged neutral, but the venue is in the away side's country (6 rows)
 

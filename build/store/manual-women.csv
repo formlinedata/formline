@@ -1,4 +1,4 @@
-date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,shootout_winner,source
+date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,shootout_winner,source,separate
 2024-02-20,Mexico,Argentina,0,0,CONCACAF Gold Cup,Carson,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
 2024-02-20,United States,Dominican Republic,5,0,CONCACAF Gold Cup,Carson,United States,FALSE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
 2024-02-21,Panama,Colombia,0,6,CONCACAF Gold Cup,San Diego,United States,TRUE,,https://en.wikipedia.org/wiki/2024_CONCACAF_W_Gold_Cup
@@ -263,3 +263,14 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,s
 2026-08-04,Mexico,El Salvador,4,1,Central American and Caribbean Games,Moca,Dominican Republic,TRUE,,https://es.wikipedia.org/wiki/Anexo:Torneo_femenino_de_f%C3%BAtbol_en_los_Juegos_Centroamericanos_y_del_Caribe_de_2026; API-Football
 2026-08-06,Venezuela,El Salvador,1,2,Central American and Caribbean Games,Santiago de los Caballeros,Dominican Republic,TRUE,,https://es.wikipedia.org/wiki/Anexo:Torneo_femenino_de_f%C3%BAtbol_en_los_Juegos_Centroamericanos_y_del_Caribe_de_2026; API-Football
 2026-08-06,Colombia,Mexico,1,1,Central American and Caribbean Games,Santiago de los Caballeros,Dominican Republic,TRUE,Mexico,https://es.wikipedia.org/wiki/Anexo:Torneo_femenino_de_f%C3%BAtbol_en_los_Juegos_Centroamericanos_y_del_Caribe_de_2026; API-Football
+2025-10-22,Hong Kong,Malaysia,3,2,Friendly,Tseung Kwan O,Hong Kong,FALSE,,https://en.wikipedia.org/wiki/Hong_Kong_women%27s_national_football_team; API-Football fixture 1486669,
+2025-10-24,Djibouti,Somalia,4,1,Friendly,Djibouti City,Djibouti,FALSE,,https://en.wikipedia.org/wiki/Djibouti_women%27s_national_football_team; API-Football fixture 1486612,
+2025-11-22,Eswatini,Lesotho,1,1,Friendly,Lobamba,Eswatini,FALSE,,https://en.wikipedia.org/wiki/Lesotho_women%27s_national_football_team; API-Football fixture 1488180,
+2025-12-01,Tonga,Tahiti,4,1,Friendly,Avarua,Cook Islands,TRUE,,https://en.wikipedia.org/wiki/Tonga_women%27s_national_football_team; API-Football fixture 1488774,
+2025-12-02,Uzbekistan,Iran,1,0,Friendly,Tashkent,Uzbekistan,FALSE,,https://en.wikipedia.org/wiki/Uzbekistan_women%27s_national_football_team; API-Football fixture 1488775,
+2026-02-21,Fiji,American Samoa,2,1,Friendly,Ba,Fiji,FALSE,,https://en.wikipedia.org/wiki/American_Samoa_women%27s_national_football_team; API-Football fixture 1525766,
+2026-02-28,Cameroon,Nigeria,1,0,Friendly,Yaoundé,Cameroon,FALSE,,https://en.wikipedia.org/wiki/Cameroon_women%27s_national_football_team; API-Football fixture 1526958,
+2026-02-28,Egypt,Algeria,0,3,Friendly,Cairo,Egypt,FALSE,,https://en.wikipedia.org/wiki/Egypt_women%27s_national_football_team; API-Football fixture 1528259,TRUE
+2026-03-02,Kenya,Benin,0,2,Friendly,Abidjan,Ivory Coast,TRUE,,https://en.wikipedia.org/wiki/Kenya_women%27s_national_football_team; API-Football fixture 1526965,
+2026-03-05,United Arab Emirates,Tajikistan,0,0,Friendly,Dubai,United Arab Emirates,FALSE,,https://en.wikipedia.org/wiki/United_Arab_Emirates_women%27s_national_football_team; API-Football fixture 1529314,
+2026-03-07,Morocco,Cape Verde,3,0,Friendly,Rabat,Morocco,FALSE,,https://en.wikipedia.org/wiki/Morocco_women%27s_national_football_team; API-Football fixture 1533347,
