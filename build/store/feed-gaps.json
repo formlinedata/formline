@@ -1,0 +1,193 @@
+[
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-11-27",
+  "home": "Malta",
+  "away": "Kosovo",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Kosovo_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-11-27",
+  "home": "Cyprus",
+  "away": "Luxembourg",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Luxembourg_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-11-28",
+  "home": "China",
+  "away": "Thailand",
+  "comp": "Yongchuan International Tournament",
+  "source": "https://en.wikipedia.org/wiki/China_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-11-29",
+  "home": "Indonesia",
+  "away": "Bhutan",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Bhutan_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-11-30",
+  "home": "Cyprus",
+  "away": "Luxembourg",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Luxembourg_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-01",
+  "home": "Bangladesh",
+  "away": "Singapore",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Bangladesh_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-01",
+  "home": "China",
+  "away": "Albania",
+  "comp": "Yongchuan International Tournament",
+  "source": "https://en.wikipedia.org/wiki/China_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-04",
+  "home": "China",
+  "away": "Malawi",
+  "comp": "Yongchuan International Tournament",
+  "source": "https://en.wikipedia.org/wiki/China_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-05",
+  "home": "Bangladesh",
+  "away": "Singapore",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Bangladesh_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-05",
+  "home": "Indonesia",
+  "away": "Lebanon",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Indonesia_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-08",
+  "home": "Singapore",
+  "away": "Lebanon",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Lebanon_women's_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "result",
+  "g": "men",
+  "date": "2026-11-13",
+  "home": "Tahiti",
+  "away": "Cook Islands",
+  "score": "4-0",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Cook_Islands_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "men",
+  "date": "2026-11-16",
+  "home": "Tahiti",
+  "away": "Cook Islands",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Cook_Islands_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "men",
+  "date": "2026-11-17",
+  "home": "Oman",
+  "away": "Brunei",
+  "comp": "2026 King's Cup",
+  "source": "https://en.wikipedia.org/wiki/Brunei_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "men",
+  "date": "2026-11-17",
+  "home": "India",
+  "away": "Pakistan",
+  "comp": "2026 SAFF Championship",
+  "source": "https://en.wikipedia.org/wiki/India_national_football_team_results_(2020%E2%80%93present)",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "men",
+  "date": "2026-11-17",
+  "home": "Lebanon",
+  "away": "Palestine",
+  "comp": "2026 Basra Tournament",
+  "source": "https://en.wikipedia.org/wiki/Lebanon_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "men",
+  "date": "2026-11-17",
+  "home": "Tajikistan",
+  "away": "Thailand",
+  "comp": "King's Cup",
+  "source": "https://en.wikipedia.org/wiki/Tajikistan_national_football_team",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "men",
+  "date": "2026-12-09",
+  "home": "Peru",
+  "away": "Panama",
+  "comp": "Unofficial friendly",
+  "source": "https://en.wikipedia.org/wiki/Peru_national_football_team_results_(2020%E2%80%93present)",
+  "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "men",
+  "date": "2026-12-13",
+  "home": "United States",
+  "away": "Jamaica",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Jamaica_national_football_team",
+  "seen": "2026-11-15"
+ }
+]
