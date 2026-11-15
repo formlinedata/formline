@@ -2256,3 +2256,11 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,s
 2026-10-04,United States Virgin Islands,Bahamas,3,2,CONCACAF Nations League,Upper Bethlehem,United States Virgin Islands,FALSE,,World Football Elo Ratings (eloratings.net); Wikipedia (2026–27 CONCACAF Nations League C),
 2026-11-13,Iraq,Lebanon,0,0,Friendly,Basra,Iraq,FALSE,,Match reports of 13 November 2026 (Oz Arab Media; Africa Soccer); Basra International Tournament,
 2025-11-22,Fiji,Solomon Islands,1,1,MSG Prime Minister's Cup,Port Moresby,Papua New Guinea,TRUE,,Wikipedia (2025 MSG Prime Minister's Cup); PNG Facts match report; API-Football fixture 1491693,
+2025-04-17,Anguilla,British Virgin Islands,0,0,Friendly,The Valley,Anguilla,FALSE,,World Football Elo Ratings (eloratings.net); API-Football fixture 1371811,
+2025-04-20,Anguilla,British Virgin Islands,1,0,Friendly,The Valley,Anguilla,FALSE,,World Football Elo Ratings (eloratings.net); API-Football fixture 1371812,
+2025-07-06,Malawi,Botswana,1,1,Friendly,Lilongwe,Malawi,FALSE,,World Football Elo Ratings (eloratings.net); API-Football fixture 1400028,
+2025-11-21,Bahrain,Somalia,0,1,Friendly,,Bahrain,FALSE,,World Football Elo Ratings (eloratings.net); API-Football fixture 1491692,
+2024-08-27,Jordan,North Korea,0,0,Friendly,Amman,Jordan,FALSE,,Wikipedia (Jordan national football team results); API-Football fixture 1286335,TRUE
+2024-09-08,Hong Kong,Fiji,1,1,Friendly,Lautoka,Fiji,TRUE,,Wikipedia (Hong Kong national football team results); API-Football fixture 1234550,
+2024-12-17,Saudi Arabia,Trinidad and Tobago,3,1,Friendly,Riyadh,Saudi Arabia,FALSE,,World Football Elo Ratings (eloratings.net); API-Football fixture 1325294,
+2025-01-27,Uzbekistan,Jordan,0,0,Friendly,Doha,Qatar,TRUE,,Wikipedia (both teams' results pages); API-Football fixture 1332407,

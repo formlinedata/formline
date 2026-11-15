@@ -52,7 +52,10 @@ export function compareDay(list, held, {mapFixture, matchTeam, mapTournament}){
     out.results++;
     const r = x.row, d = dayNum(r.date), near = ((held[x.gender] && held[x.gender].get(pairKey(r.home_team, r.away_team))) || []).filter(h => Math.abs(h.d - d) <= 2);
     const base = {g:x.gender, date:r.date, home:r.home_team, away:r.away_team, score:r.home_score + '-' + r.away_score, tournament:r.tournament, league:r.league,
-      city:r.city || '', api_id:r.api_id, ...(r.shootout_winner ? {shootout:r.shootout_winner} : {})};
+      city:r.city || '', api_id:r.api_id, ...(r.shootout_winner ? {shootout:r.shootout_winner} : {}),
+      /* A match that went to extra time or penalties carries what the feed holds for each period: its plain score has
+         turned out to be the 90-minute one for some of them (Czech Republic v Denmark, March 2026). */
+      ...(f && f.fixture && f.fixture.status && /^(AET|PEN)$/.test(f.fixture.status.short || '') ? {st:f.fixture.status.short, sc:f.score || null} : {})};
     if (!near.length){ out.missing.push(base); continue; }
     const same = near.some(h => h.home === r.home_team ? (h.hs === +r.home_score && h.as === +r.away_score) : (h.as === +r.home_score && h.hs === +r.away_score));
     if (!same){ const h = near.sort((a, b) => Math.abs(a.d - d) - Math.abs(b.d - d))[0];

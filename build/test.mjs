@@ -99,6 +99,8 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
   ok(odd[0].city === 'Santiago' && odd[0].country === 'Dominican Republic' && odd[1].city === 'Kingstown' && odd[1].country === 'Saint Vincent and the Grenadines'
     && odd[2].city === 'Miami' && odd[2].country === 'United States' && odd[2].stadium === 'Nu Stadium', 'Wikipedia: a country after the city, or in brackets, read from the stadium field');
   ok(W.boxTeam('Mexico {{#invoke:flag|deco|MEX}}') === 'MEX' && W.boxTeam('{{#invoke:flag|deco|JAM}}') === 'JAM', 'Wikipedia: teams written with flag modules');
+  ok(W.boxTeam('{{fb|ESW}}') === 'SWZ' && W.boxTeam('{{fb-rt|SER}}') === 'SRB' && W.boxTeam('{{fb|FAR}}') === 'FRO' && W.boxTeam('{{fb|SXM}}') === 'SMA' && W.boxTeam('{{fb|BON}}') === 'BOE' && W.boxTeam('{{fb|SWZ}}') === 'SWZ',
+    'Wikipedia: other codes its pages use for Eswatini, Serbia, the Faroe Islands, Sint Maarten and Bonaire');
   ok(W.compTitles(['2026–27 CONCACAF Nations League A', '2026–27 CONCACAF Nations League B', "2026–27 CONCACAF W Championship", '2024–25 CONCACAF Nations League A', 'CONCACAF Nations League'],
     'CONCACAF Nations League', 2026, false).join() === '2026–27 CONCACAF Nations League A,2026–27 CONCACAF Nations League B', 'Wikipedia: season articles of the competition picked from a search');
   ok(W.compTitles(['2027 Africa Cup of Nations qualification', '2027 Africa Cup of Nations', '2026 Futsal Africa Cup of Nations qualification', '2026 U-17 Africa Cup of Nations qualification', '2025 Africa Cup of Nations qualification'], 'African Cup of Nations qualification', 2026, false).join() === '2027 Africa Cup of Nations qualification'
