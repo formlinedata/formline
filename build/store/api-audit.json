@@ -67,138 +67,6 @@
    "api_id": 1546555
   },
   {
-   "g": "women",
-   "date": "2026-03-07",
-   "home": "Morocco",
-   "away": "Cape Verde",
-   "score": "3-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1533347
-  },
-  {
-   "g": "women",
-   "date": "2026-03-05",
-   "home": "United Arab Emirates",
-   "away": "Tajikistan",
-   "score": "0-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1529314
-  },
-  {
-   "g": "women",
-   "date": "2026-03-02",
-   "home": "Kenya",
-   "away": "Benin",
-   "score": "0-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1526965
-  },
-  {
-   "g": "women",
-   "date": "2026-02-28",
-   "home": "Puerto Rico",
-   "away": "Barbados",
-   "score": "10-0",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Women - Qualification Concacaf",
-   "city": "",
-   "api_id": 1488288
-  },
-  {
-   "g": "women",
-   "date": "2026-02-28",
-   "home": "Cameroon",
-   "away": "Nigeria",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1526958
-  },
-  {
-   "g": "women",
-   "date": "2026-02-21",
-   "home": "Fiji",
-   "away": "American Samoa",
-   "score": "2-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1525766
-  },
-  {
-   "g": "men",
-   "date": "2026-01-18",
-   "home": "Canada",
-   "away": "Guatemala",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 1501808
-  },
-  {
-   "g": "women",
-   "date": "2025-12-02",
-   "home": "Tonga",
-   "away": "Tahiti",
-   "score": "4-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1488774
-  },
-  {
-   "g": "women",
-   "date": "2025-12-02",
-   "home": "Uzbekistan",
-   "away": "Iran",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1488775
-  },
-  {
-   "g": "women",
-   "date": "2025-11-29",
-   "home": "Barbados",
-   "away": "Mexico",
-   "score": "0-14",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Women - Qualification Concacaf",
-   "city": "Kingstown",
-   "api_id": 1488276
-  },
-  {
-   "g": "women",
-   "date": "2025-11-22",
-   "home": "Eswatini",
-   "away": "Lesotho",
-   "score": "1-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1488180
-  },
-  {
-   "g": "men",
-   "date": "2025-11-22",
-   "home": "Fiji",
-   "away": "Solomon Islands",
-   "score": "1-1",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 1491693
-  },
-  {
    "g": "men",
    "date": "2025-11-21",
    "home": "Bahrain",
@@ -208,50 +76,6 @@
    "league": "Friendlies",
    "city": "",
    "api_id": 1491692
-  },
-  {
-   "g": "women",
-   "date": "2025-10-24",
-   "home": "Djibouti",
-   "away": "Somalia",
-   "score": "4-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1486612
-  },
-  {
-   "g": "women",
-   "date": "2025-10-22",
-   "home": "Hong Kong",
-   "away": "Malaysia",
-   "score": "3-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1486669
-  },
-  {
-   "g": "men",
-   "date": "2025-09-09",
-   "home": "Egypt",
-   "away": "Tunisia",
-   "score": "3-0",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 1486475
-  },
-  {
-   "g": "men",
-   "date": "2025-09-06",
-   "home": "Egypt",
-   "away": "Tunisia",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 1486533
   },
   {
    "g": "women",
@@ -780,61 +604,97 @@
    "league": "Friendlies Women",
    "city": "Dubai",
    "api_id": 1355142
-  }
- ],
- "diffs": [
-  {
-   "g": "women",
-   "date": "2026-02-28",
-   "home": "Egypt",
-   "away": "Algeria",
-   "score": "0-3",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1528259,
-   "held": "2-3",
-   "heldDate": "2026-03-02"
-  },
-  {
-   "g": "women",
-   "date": "2026-02-27",
-   "home": "Morocco",
-   "away": "Burkina Faso",
-   "score": "5-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1529301,
-   "held": "3-0",
-   "heldDate": "2026-02-27"
-  },
-  {
-   "g": "women",
-   "date": "2026-02-13",
-   "home": "China",
-   "away": "Vietnam",
-   "score": "6-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "",
-   "api_id": 1521483,
-   "held": "1-0",
-   "heldDate": "2026-02-13"
   },
   {
    "g": "men",
-   "date": "2025-11-23",
-   "home": "Papua New Guinea",
-   "away": "Vanuatu",
+   "date": "2025-01-27",
+   "home": "Uzbekistan",
+   "away": "Jordan",
+   "score": "0-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "Doha",
+   "api_id": 1332407
+  },
+  {
+   "g": "men",
+   "date": "2024-12-17",
+   "home": "Saudi Arabia",
+   "away": "Trinidad and Tobago",
+   "score": "3-1",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "Riyadh",
+   "api_id": 1325294
+  },
+  {
+   "g": "women",
+   "date": "2024-11-30",
+   "home": "Mali",
+   "away": "Botswana",
+   "score": "0-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Tétouan",
+   "api_id": 1316510
+  },
+  {
+   "g": "women",
+   "date": "2024-10-26",
+   "home": "Myanmar",
+   "away": "Hong Kong",
+   "score": "4-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Yangon",
+   "api_id": 1308325
+  },
+  {
+   "g": "women",
+   "date": "2024-10-26",
+   "home": "Peru",
+   "away": "Bolivia",
+   "score": "1-0",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Lima",
+   "api_id": 1311814
+  },
+  {
+   "g": "men",
+   "date": "2024-09-08",
+   "home": "Hong Kong",
+   "away": "Fiji",
    "score": "1-1",
    "tournament": "Friendly",
    "league": "Friendlies",
-   "city": "",
-   "api_id": 1491696,
-   "held": "2-2",
-   "heldDate": "2025-11-23"
+   "city": "Lautoka",
+   "api_id": 1234550
   },
+  {
+   "g": "women",
+   "date": "2024-08-11",
+   "home": "Moldova",
+   "away": "Saudi Arabia",
+   "score": "1-0",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Mistelbach",
+   "api_id": 1282120
+  },
+  {
+   "g": "women",
+   "date": "2024-08-07",
+   "home": "Moldova",
+   "away": "Saudi Arabia",
+   "score": "1-0",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Znojmo",
+   "api_id": 1282119
+  }
+ ],
+ "diffs": [
   {
    "g": "men",
    "date": "2025-06-06",
@@ -860,9 +720,101 @@
    "api_id": 1366255,
    "held": "4-0",
    "heldDate": "2025-04-07"
+  },
+  {
+   "g": "men",
+   "date": "2024-11-15",
+   "home": "Romania",
+   "away": "Kosovo",
+   "score": "3-0",
+   "tournament": "UEFA Nations League",
+   "league": "UEFA Nations League",
+   "city": "Bucureşti",
+   "api_id": 1173017,
+   "held": "0-0",
+   "heldDate": "2024-11-15"
+  },
+  {
+   "g": "women",
+   "date": "2024-10-30",
+   "home": "Costa Rica",
+   "away": "Panama",
+   "score": "0-2",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "San Rafael de Alajuela",
+   "api_id": 1310775,
+   "held": "0-0",
+   "heldDate": "2024-10-30"
+  },
+  {
+   "g": "women",
+   "date": "2024-10-29",
+   "home": "Wales",
+   "away": "Slovakia",
+   "score": "1-0",
+   "tournament": "UEFA Euro qualification",
+   "league": "UEFA Championship - Women - Qualification",
+   "city": "Caerdydd",
+   "api_id": 1252912,
+   "held": "2-0",
+   "heldDate": "2024-10-29"
+  },
+  {
+   "g": "women",
+   "date": "2024-10-25",
+   "home": "Honduras",
+   "away": "Guatemala",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Comayagua",
+   "api_id": 1312362,
+   "held": "1-3",
+   "heldDate": "2024-10-27"
+  },
+  {
+   "g": "women",
+   "date": "2024-10-24",
+   "home": "Venezuela",
+   "away": "Thailand",
+   "score": "2-0",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "D.F.",
+   "api_id": 1311778,
+   "held": "0-2",
+   "heldDate": "2024-10-23"
+  },
+  {
+   "g": "men",
+   "date": "2024-09-10",
+   "home": "Cambodia",
+   "away": "Sri Lanka",
+   "score": "1-1",
+   "tournament": "AFC Asian Cup qualification",
+   "league": "Asian Cup - Qualification",
+   "city": "Phnom Penh",
+   "api_id": 1200269,
+   "shootout": "Sri Lanka",
+   "held": "2-2",
+   "heldDate": "2024-09-10"
+  },
+  {
+   "g": "men",
+   "date": "2024-08-27",
+   "home": "Jordan",
+   "away": "North Korea",
+   "score": "0-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "Amman",
+   "api_id": 1286335,
+   "held": "2-1",
+   "heldDate": "2024-08-29"
   }
  ],
- "days": 600,
+ "days": 800,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -903,10 +855,14 @@
   "Arminia Bielefeld": 1,
   "Fleetwood Town": 1,
   "Broadfields United": 1,
-  "Werder Bremen": 1
+  "Werder Bremen": 1,
+  "Barcelona": 1,
+  "Genoa": 1,
+  "Lleida Esportiu": 1,
+  "Süderelbe": 1
  },
  "updated": "2026-11-15",
- "cursor": "2025-02-13",
+ "cursor": "2024-07-28",
  "done": null,
  "from": "2014-11-01"
 }
