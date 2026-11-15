@@ -9,10 +9,20 @@
   "city": "Linz",
   "country": "Austria"
  },
+ "312": {
+  "name": "BMO Field",
+  "city": "Toronto, Ontario",
+  "country": "Canada"
+ },
  "391": {
   "name": "Stade des Martyrs",
   "city": "Kinshasa",
   "country": "Congo-DR"
+ },
+ "516": {
+  "name": "Cardiff City Stadium",
+  "city": "Caerdydd",
+  "country": "Wales"
  },
  "566": {
   "name": "The City Ground",
@@ -124,6 +134,11 @@
   "city": "Belfast",
   "country": "Northern-Ireland"
  },
+ "2186": {
+  "name": "Bilino Polje",
+  "city": "Zenica",
+  "country": "Bosnia"
+ },
  "2463": {
   "name": "Estadio El Trébol",
   "city": "Ciudad de Guatemala",
@@ -159,6 +174,11 @@
   "city": "Ndola",
   "country": "Zambia"
  },
+ "11600": {
+  "name": "Parken",
+  "city": "København",
+  "country": "Denmark"
+ },
  "11603": {
   "name": "Ullevaal Stadion",
   "city": "Oslo",
@@ -168,6 +188,11 @@
   "name": "PayPal Park",
   "city": "San Jose, California",
   "country": "USA"
+ },
+ "18628": {
+  "name": "Tarczyński Arena",
+  "city": "Wrocław",
+  "country": "Poland"
  },
  "18644": {
   "name": "Košická futbalová aréna",
