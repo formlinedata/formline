@@ -2219,30 +2219,6 @@
   },
   "venue_src": "city"
  },
- "1644696": {
-  "date": "2026-11-15",
-  "kickoff": "2026-11-15T23:00:00+00:00",
-  "home_team": "Panama",
-  "away_team": "Curaçao",
-  "tournament": "CONCACAF Nations League",
-  "city": "Panama City",
-  "country": "Panama",
-  "neutral": "FALSE",
-  "venue_id": 1207,
-  "api_id": 1644696,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Panama City",
-   "country": "Panama",
-   "stadium": "Estadio Rommel Fernández",
-   "boxDate": "2026-11-15"
-  },
-  "venue_src": "api"
- },
  "1644697": {
   "date": "2026-11-18",
   "kickoff": "2026-11-18T00:00:00+00:00",
