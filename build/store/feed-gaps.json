@@ -189,5 +189,15 @@
   "comp": "Friendly",
   "source": "https://en.wikipedia.org/wiki/Jamaica_national_football_team",
   "seen": "2026-11-15"
+ },
+ {
+  "kind": "fixture",
+  "g": "men",
+  "date": "2026-11-15",
+  "home": "Suriname",
+  "away": "Eswatini",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Eswatini_national_football_team",
+  "seen": "2026-11-15"
  }
 ]
