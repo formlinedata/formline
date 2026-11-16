@@ -1,53 +1,4 @@
 {
- "1528986": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T15:00:00+00:00",
-  "home_team": "Kazakhstan",
-  "away_team": "Slovakia",
-  "tournament": "UEFA Nations League",
-  "city": "Astana",
-  "country": "Kazakhstan",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1528986,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Astana",
-   "country": "Kazakhstan",
-   "stadium": "Astana Arena",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T15:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1528987": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T15:00:00+00:00",
-  "home_team": "Faroe Islands",
-  "away_team": "Moldova",
-  "tournament": "UEFA Nations League",
-  "city": "Torshavn",
-  "country": "Faroe Islands",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1528987,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Tórshavn",
-   "country": "Faroe Islands",
-   "stadium": "Tórsvøllur",
-   "boxDate": "2026-11-16"
-  },
-  "venue_src": "city"
- },
  "1528988": {
   "date": "2026-11-16",
   "kickoff": "2026-11-16T17:00:00+00:00",
@@ -488,30 +439,6 @@
   },
   "venue_src": "wiki"
  },
- "1545888": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T16:00:00+00:00",
-  "home_team": "Central African Republic",
-  "away_team": "Benin",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Douala",
-  "country": "Cameroon",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1545888,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Douala",
-   "country": "Cameroon",
-   "stadium": "Japoma Stadium",
-   "boxDate": "2026-11-16"
-  },
-  "venue_src": "wiki"
- },
  "1545889": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T19:00:00+00:00",
@@ -535,31 +462,6 @@
    "boxDate": "2026-11-17"
   },
   "venue_src": "wiki"
- },
- "1545890": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T16:00:00+00:00",
-  "home_team": "Eritrea",
-  "away_team": "Guinea",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Cairo",
-  "country": "Egypt",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1545890,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Cairo",
-   "country": "Egypt",
-   "stadium": "Al Salam Stadium",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T16:00:00+00:00"
-  },
-  "venue_src": "city"
  },
  "1545891": {
   "date": "2026-11-17",
@@ -853,31 +755,6 @@
    "stadium": "Ben M'Hamed El Abdi Stadium",
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T16:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1545904": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T15:00:00+00:00",
-  "home_team": "Somalia",
-  "away_team": "Ghana",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Accra",
-  "country": "Ghana",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545904,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Essipong",
-   "country": "Ghana",
-   "stadium": "Sekondi-Takoradi Stadium",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T15:00:00+00:00"
   },
   "venue_src": "city"
  },
