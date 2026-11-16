@@ -462,7 +462,7 @@
    "stadium": "Botswana National Stadium",
    "boxDate": "2026-11-15"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545887": {
   "date": "2026-11-17",
@@ -486,7 +486,7 @@
    "stadium": "Intwari Stadium",
    "boxDate": "2026-11-15"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545888": {
   "date": "2026-11-16",
@@ -534,7 +534,7 @@
    "stadium": "Stade Alphonse Massemba-Débat",
    "boxDate": "2026-11-15"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545890": {
   "date": "2026-11-16",
@@ -583,7 +583,7 @@
    "stadium": "Bahir Dar Stadium",
    "boxDate": "2026-11-15"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545892": {
   "date": "2026-11-17",
@@ -632,7 +632,7 @@
    "stadium": "Estádio 24 de Setembro",
    "boxDate": "2026-11-15"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545894": {
   "date": "2026-11-17",
@@ -706,7 +706,7 @@
    "stadium": "Samuel Kanyon Doe Sports Complex",
    "boxDate": "2026-11-15"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545897": {
   "date": "2026-11-17",
@@ -731,7 +731,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T16:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545898": {
   "date": "2026-11-17",
@@ -976,7 +976,7 @@
    "stadium": "Amaan Stadium",
    "boxDate": "2026-11-15"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545908": {
   "date": "2026-11-17",
@@ -1001,7 +1001,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T17:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1545909": {
   "date": "2026-11-16",
@@ -1996,7 +1996,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640088": {
@@ -2015,7 +2014,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640089": {
@@ -2034,7 +2032,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640519": {
@@ -2656,31 +2653,6 @@
   },
   "venue_src": "city"
  },
- "1647366": {
-  "date": "2026-11-15",
-  "kickoff": "2026-11-15T12:00:00+00:00",
-  "home_team": "Kyrgyzstan",
-  "away_team": "Vietnam",
-  "tournament": "Friendly",
-  "city": "Ninh Bình",
-  "country": "Vietnam",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647366,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Ninh Bình",
-   "country": "Vietnam",
-   "stadium": "Thiên Trường Stadium",
-   "boxDate": "2026-11-15",
-   "kickoff": "2026-11-15T12:00:00+00:00"
-  },
-  "venue_src": "wiki"
- },
  "1647367": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T06:00:00+00:00",
@@ -2720,7 +2692,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647369": {
@@ -2739,7 +2710,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647370": {
@@ -2765,7 +2735,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T15:30:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1647371": {
   "date": "2026-11-17",
@@ -2832,7 +2802,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647628": {
@@ -2992,7 +2961,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T23:30:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1648995": {
   "date": "2026-11-27",
@@ -3338,7 +3307,7 @@
    "stadium": "",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1650001": {
   "date": "2026-11-17",
@@ -3361,7 +3330,7 @@
    "country": "United Arab Emirates",
    "stadium": "Hazza bin Zayed Stadium"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "wiki:women|2026-11-27|Malta|Kosovo": {
   "date": "2026-11-27",
@@ -3673,118 +3642,6 @@
    "city": "Singapore",
    "country": "Singapore",
    "stadium": ""
-  },
-  "venue_src": "city"
- },
- "wiki:men|2026-11-17|Oman|Brunei": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T09:00:00+00:00",
-  "home_team": "Oman",
-  "away_team": "Brunei",
-  "tournament": "King's Cup",
-  "city": "Sisaket",
-  "country": "Thailand",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": "wiki:men|2026-11-17|Oman|Brunei",
-  "league": "King's Cup",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wikiOnly": 1,
-  "wikiSource": "Brunei national football team",
-  "pairDates": [
-   "2026-11-17"
-  ],
-  "wiki": {
-   "city": "Sisaket",
-   "country": "Thailand",
-   "stadium": "Sisaket Provincial Stadium"
-  },
-  "venue_src": "city"
- },
- "wiki:men|2026-11-17|India|Pakistan": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T14:00:00+00:00",
-  "home_team": "India",
-  "away_team": "Pakistan",
-  "tournament": "SAFF Cup",
-  "city": "Dhaka",
-  "country": "Bangladesh",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": "wiki:men|2026-11-17|India|Pakistan",
-  "league": "SAFF Cup",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wikiOnly": 1,
-  "wikiSource": "India national football team results (2020–present)",
-  "pairDates": [
-   "2026-11-17"
-  ],
-  "wiki": {
-   "city": "Dhaka",
-   "country": "Bangladesh",
-   "stadium": "National Stadium"
-  },
-  "venue_src": "city"
- },
- "wiki:men|2026-11-17|Lebanon|Palestine": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T13:00:00+00:00",
-  "home_team": "Lebanon",
-  "away_team": "Palestine",
-  "tournament": "Friendly",
-  "city": "Basra",
-  "country": "Iraq",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": "wiki:men|2026-11-17|Lebanon|Palestine",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wikiOnly": 1,
-  "wikiSource": "Lebanon national football team",
-  "pairDates": [
-   "2026-11-17"
-  ],
-  "wiki": {
-   "city": "Basra",
-   "country": "Iraq",
-   "stadium": "Basra International Stadium"
-  },
-  "venue_src": "city"
- },
- "wiki:men|2026-11-17|Tajikistan|Thailand": {
-  "date": "2026-11-17",
-  "kickoff": "",
-  "home_team": "Tajikistan",
-  "away_team": "Thailand",
-  "tournament": "King's Cup",
-  "city": "Sisaket",
-  "country": "Thailand",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:men|2026-11-17|Tajikistan|Thailand",
-  "league": "King's Cup",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": 1,
-  "gender": "men",
-  "wikiOnly": 1,
-  "wikiSource": "Tajikistan national football team",
-  "pairDates": [
-   "2026-11-17"
-  ],
-  "wiki": {
-   "city": "Sisaket",
-   "country": "Thailand",
-   "stadium": "Sisaket Province Stadium"
   },
   "venue_src": "city"
  },
