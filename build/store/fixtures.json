@@ -782,30 +782,6 @@
   },
   "venue_src": "city"
  },
- "1545900": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T13:00:00+00:00",
-  "home_team": "Namibia",
-  "away_team": "Cameroon",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Gaborone",
-  "country": "Botswana",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1545900,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Gaborone",
-   "country": "Botswana",
-   "stadium": "Botswana National Stadium",
-   "boxDate": "2026-11-16"
-  },
-  "venue_src": "wiki"
- },
  "1545901": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T20:00:00+00:00",
@@ -930,30 +906,6 @@
   },
   "venue_src": "city"
  },
- "1545906": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T13:00:00+00:00",
-  "home_team": "Sudan",
-  "away_team": "Senegal",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Juba",
-  "country": "South Sudan",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1545906,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Juba",
-   "country": "South Sudan",
-   "stadium": "Juba Stadium",
-   "boxDate": "2026-11-16"
-  },
-  "venue_src": "wiki"
- },
  "1545907": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T13:00:00+00:00",
@@ -1002,31 +954,6 @@
    "kickoff": "2026-11-17T17:00:00+00:00"
   },
   "venue_src": "wiki"
- },
- "1545909": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T13:00:00+00:00",
-  "home_team": "Zimbabwe",
-  "away_team": "Equatorial Guinea",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Harare",
-  "country": "Zimbabwe",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545909,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Harare",
-   "country": "Zimbabwe",
-   "stadium": "National Sports Stadium",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T13:00:00+00:00"
-  },
-  "venue_src": "city"
  },
  "1545958": {
   "date": "2027-01-07",
