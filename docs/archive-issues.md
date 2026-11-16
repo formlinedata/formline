@@ -105,7 +105,7 @@ Every row is a score on which the two other records agree against the archive; t
 | 1957-09-07 | Malaysia | 4–2 | Indonesia | Merdeka Tournament | **2–4** | Wikipedia and World Football Elo Ratings |
 | 1949-01-25 | Macau | 1–5 | South Korea | Friendly | **0–3** | Wikipedia and World Football Elo Ratings |
 
-### Dates that look wrong (28 rows; updated 15 November 2026)
+### Dates that look wrong (29 rows; updated 15 November 2026)
 
 Each was settled with two other records: World Football Elo Ratings and Wikipedia (API-Football for the match of 2025), and RSSSF for the matches of 1931, 1944, 1955, 1993 and 1994. Five have a wrong score as well.
 
@@ -113,6 +113,7 @@ Each was settled with two other records: World Football Elo Ratings and Wikipedi
 |---|---|---|---|---|---|
 | 2025-03-09 | Saint Vincent and the Grenadines | 1–1 | Grenada | **2025-03-06** | same |
 | 2024-05-21 | Basque Country | 1–1 | Uruguay | **2024-03-23** | same |
+| 2023-09-04 | Mozambique | 3–2 | Benin | **2023-09-09** | same |
 | 2019-08-30 | Belize | 1–0 | Saint Vincent and the Grenadines | **2019-09-01** | same |
 | 2019-08-28 | Belize | 1–1 | Saint Vincent and the Grenadines | **2019-08-30** | same |
 | 1994-09-14 | India | 0–1 | Yemen | **1994-09-23** | **0–2** |
@@ -152,7 +153,7 @@ Notes:
 
 ### Matches the archive does not hold (updated 14 November 2026)
 
-World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 18 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,274 rows). 392 were played since November 2014. They are free to take.
+World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 27 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,283 rows). 401 were played since November 2014. They are free to take.
 
 Whole events among the recent ones:
 
@@ -227,7 +228,7 @@ Home and away legs, in different cities, filed under one date, so one date in ea
 
 ### Wrong scores (found 13 and 14 November 2026 by checking against Wikipedia's results pages and API-Football)
 
-The first three are in the archive as 0–0, and each was confirmed from the federation or a match report. The last five are scores on which API-Football and Wikipedia agree against the archive.
+The first three are in the archive as 0–0, and each was confirmed from the federation or a match report. The last seven are scores on which API-Football and Wikipedia agree against the archive.
 
 | Date | Home | Archive | Away | Tournament | Should be | Sources |
 |---|---|---|---|---|---|---|
@@ -239,18 +240,21 @@ The first three are in the archive as 0–0, and each was confirmed from the fed
 | 2024-10-23 | Venezuela | 0–2 | Thailand | Friendly | **2–0** (Mexico City; the score is the wrong way round) | API-Football; Thailand's Wikipedia page |
 | 2024-02-16 | Panama | 0–2 | Paraguay | Friendly | **2–0** (the score is the wrong way round) | API-Football; both teams' Wikipedia pages |
 | 2023-09-26 | Chile | 1–0 | New Zealand | Friendly | **2–1** | API-Football; both teams' Wikipedia pages |
+| 2024-10-30 | Costa Rica | 0–0 | Panama | Friendly | **0–2** (Alajuela) | API-Football; both teams' Wikipedia pages |
+| 2022-11-11 | France | 1–2 | Norway | Friendly | **2–1** (La Nucia; the score is the wrong way round) | API-Football; both teams' Wikipedia pages |
 
 A venue to look at: Cameroon 1–3 Nigeria (2026-03-03) is in the archive in Montpellier, France, as a neutral match; both teams' Wikipedia pages have it at the Stade Militaire in Yaoundé, three days after the first of the two matches there.
 
 ### Matches the archive does not hold (updated 14 November 2026)
 
-388 women's matches the archive lacks are in [`build/store/manual-women.csv`](../build/store/manual-women.csv), in the archive's own columns with a source for each. The latest 146 were found on 14 and 15 November 2026 by setting API-Football's results for December 2022 to October 2026 beside the archive, and each is also on Wikipedia (for 2023 and early 2024, often on the teams' pages as they stood a few weeks after the match, since few women's teams have results pages):
+456 women's matches the archive lacks are in [`build/store/manual-women.csv`](../build/store/manual-women.csv), in the archive's own columns with a source for each. The latest 214 were found on 14 and 15 November 2026 by setting API-Football's results for May 2022 to October 2026 beside the archive, and each is also on Wikipedia (for 2023 and early 2024, often on the teams' pages as they stood a few weeks after the match, since few women's teams have results pages):
 
 - **EAFF E-1 Championship 2025, all six matches of the final tournament** (9 to 16 July, Suwon and Hwaseong): Japan 4–0 Taiwan, South Korea 2–2 China, Taiwan 2–4 China, Japan 1–1 South Korea, Japan 0–0 China, South Korea 2–0 Taiwan. The archive holds the 2022 tournament and the 2023 qualifying.
 - **Friendlies of 2025:** United Arab Emirates 3–1 Bangladesh twice (26 February and 2 March, Dubai), Lebanon 1–1 Comoros (5 April, Beirut; the archive has the 4–0 of 7 April), Senegal 0–1 Ghana (5 April, Thiès; the archive has the 1–0 of 8 April), Lebanon 2–1 Palestine (1 June, Jounieh), United Arab Emirates 2–2 Bahrain (2 June), Iran 8–0 and 7–0 Iraq (10 and 12 June, Tehran), Saudi Arabia 1–0 Bahrain (12 June, Taif), Morocco 1–0 Cape Verde (15 June, Salé), Morocco 4–2 Malawi (19 June, Kenitra), Ghana 3–1 Malawi (21 June, Benslimane), Uzbekistan 4–0 Palestine (24 June, Tashkent), Mali 1–1 Zambia (30 June, Mohammedia).
 - **Abandoned:** Singapore v Hong Kong (15 June 2025, Choa Chu Kang), stopped by the weather with Hong Kong leading 1–0.
 - **Friendlies of 2024:** Moldova 1–0 Saudi Arabia twice (7 August in the Czech Republic, 11 August in Austria), Mali 0–1 Botswana (30 November, Morocco).
-- **89 friendlies from December 2022 to July 2024**, the largest gap found so far; the rows are the last 89 of the file. Among them: Czech Republic 3–0 Slovakia, Slovenia 0–3 Serbia, Portugal 2–0 Ukraine, Hungary 1–0 Greece, Russia 2–0 Iran (18 July; the 4–0 of 14 July is left out, Iran's record calling it unofficial), Georgia 5–0 and 3–1 Armenia (all July 2023), Morocco 0–1 Jamaica (16 July 2023, Melbourne), Czech Republic 2–0 Morocco (6 April 2023), France 5–0 Uzbekistan (5 July 2024), Paraguay 0–3 and 1–1 Russia (30 November and 3 December 2023).
+- **68 more friendlies, May 2022 to October 2024** (the last 68 rows of the file), each on both teams' pages as they stood about ten weeks after the match. Among them: Poland 1–3 Iceland and Portugal 4–0 Greece (June 2022), Czech Republic 3–3 Hungary, Poland 4–0 Morocco and Belarus 0–2 and 2–2 Russia (October 2022), Portugal 5–0 Haiti, Serbia 1–0 and 0–1 Russia, Colombia 1–0 Zambia and Jamaica 1–0 and 1–2 Paraguay (November 2022), Luxembourg 5–5 and 2–1 Faroe Islands (April 2023).
+- **89 friendlies from December 2022 to July 2024**, the largest gap found so far; the rows are the 89 before those. Among them: Czech Republic 3–0 Slovakia, Slovenia 0–3 Serbia, Portugal 2–0 Ukraine, Hungary 1–0 Greece, Russia 2–0 Iran (18 July; the 4–0 of 14 July is left out, Iran's record calling it unofficial), Georgia 5–0 and 3–1 Armenia (all July 2023), Morocco 0–1 Jamaica (16 July 2023, Melbourne), Czech Republic 2–0 Morocco (6 April 2023), France 5–0 Uzbekistan (5 July 2024), Paraguay 0–3 and 1–1 Russia (30 November and 3 December 2023).
 - **Central American and Caribbean Games 2026, all 16 matches** (29 July to 6 August, Moca and Santiago de los Caballeros; senior national teams). Final: Colombia 1–1 Mexico, Mexico 4–2 on penalties. Semi-finals: Venezuela 2–2 Colombia (Colombia 4–3 on penalties) and Mexico 4–1 El Salvador after extra time. The archive holds the 2010, 2014, 2018 and 2023 tournaments.
 - **Friendlies, the first of two matches where the archive has only the second:** Hong Kong 3–2 Malaysia (2025-10-22, Tseung Kwan O, behind closed doors), Uzbekistan 1–0 Iran (2025-12-02, Tashkent; the archive has the 2–0 of 29 November), Cameroon 1–0 Nigeria (2026-02-28, Yaoundé), Egypt 0–3 Algeria (2026-02-28, Cairo), Nigeria 2–1 Senegal (2026-06-05, Ikenne), Egypt 1–1 Tunisia (2026-06-05, Cairo; Egypt 4–2 on penalties), Morocco 4–2 Benin (2026-06-05, Rabat).
 - **Other friendlies:** Djibouti 4–1 Somalia (2025-10-24, Djibouti City), Eswatini 1–1 Lesotho (2025-11-22, Lobamba; Eswatini's page has 23 November), Tonga 4–1 Tahiti (2025-12-01, Avarua, Cook Islands), Fiji 2–1 American Samoa (2026-02-21, Ba), Kenya 0–2 Benin (2026-03-02, Abidjan), United Arab Emirates 0–0 Tajikistan (2026-03-05, Dubai), Morocco 3–0 Cape Verde (2026-03-07, Rabat), Nigeria 2–1 Tanzania (2026-07-22, Casablanca).

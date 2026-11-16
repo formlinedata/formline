@@ -38,7 +38,8 @@ export async function pageAt(fetchImpl, title, asOf){
 
 /* What the two teams' pages say about one entry. lists: {H:[results], A:[results]} as pageResults gives them.
    found: 'agree' (a page has the match within a day at the feed's score), 'differ' (the pages have the pair within
-   three days, at another score or more than a day away), 'none'. pages: whose page agrees ('HA', 'H' or 'A'). */
+   three days, at another score or more than a day away), 'none'. pages: whose page agrees ('HA', 'H' or 'A').
+   otherLists (when only one page agrees): how many matches the other team's page lists within 60 days. */
 export function secondRecord(x, lists){
   const h = codeOf(x.home), a = codeOf(x.away), d = dayNum(x.date), [fh, fa] = String(x.score).split('-').map(Number);
   if (!h || !a) return {found:'none', note:'no code for a team'};
@@ -53,8 +54,11 @@ export function secondRecord(x, lists){
   const agree = hits.filter(t => t.same && Math.abs(t.off) <= 1).sort((p, q) => Math.abs(p.off) - Math.abs(q.off) || (p.side < q.side ? 1 : -1));
   const others = [...new Set(hits.filter(t => !agree.includes(t)).map(t => t.date + ' ' + t.score))];
   if (!agree.length) return hits.length ? {found:'differ', others} : {found:'none'};
-  const b = agree[0], lesser = agree.map(t => t.comp).find(c => LESSER.test(c));
-  return {found:'agree', pages:['H', 'A'].filter(s => agree.some(t => t.side === s)).join(''), date:b.date, first:b.first,
+  const b = agree[0], lesser = agree.map(t => t.comp).find(c => LESSER.test(c)), pages = ['H', 'A'].filter(s => agree.some(t => t.side === s)).join('');
+  /* Only one page agrees: how many matches the other page lists within 60 days. None means that page does not cover
+     the period, so its silence says nothing; several means the team's own record leaves this match out. */
+  const other = pages === 'H' ? 'A' : 'H', silent = pages.length === 1 ? {otherLists:(lists[other] || []).filter(m => Math.abs(dayNum(m.date) - d) <= 60).length} : {};
+  return {found:'agree', pages, ...silent, date:b.date, first:b.first,
     city:(agree.find(t => t.city) || b).city, country:(agree.find(t => t.country) || b).country, comp:(agree.find(t => t.comp) || b).comp,
     ...(agree.some(t => t.so) ? {shootout:agree.find(t => t.so).so} : {}), ...(lesser ? {lesser} : {}), ...(others.length ? {others} : {})};
 }

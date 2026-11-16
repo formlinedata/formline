@@ -447,7 +447,7 @@ ok(menMtime > 0, 'men.json written');
     const w = (i, list = rep.missing) => list[i].wiki || {};
     ok(S.checked === 6 && S.agree === 4 && S.none === 2 && w(0).found === 'agree' && w(0).pages === 'HA' && w(0).city === 'Opava' && w(0).country === 'Czech Republic' && w(0).date === '2023-07-14' && w(0).asOf === '2023-09-27',
       'Wikipedia check: a match on both teams\' pages of the time is marked as agreed, with its place');
-    ok(w(1).found === 'agree' && /Unofficial/.test(w(1).lesser || '') && w(2).found === 'agree' && w(2).shootout === 'Nepal' && w(2).pages === 'H',
+    ok(w(1).found === 'agree' && /Unofficial/.test(w(1).lesser || '') && w(2).found === 'agree' && w(2).shootout === 'Nepal' && w(2).pages === 'H' && w(2).otherLists === 1 && w(0).otherLists === undefined && w(0, rep.diffs).otherLists === 0,
       'Wikipedia check: a label such as "unofficial" is carried, and the winner of a shoot-out');
     ok(w(3).found === 'none' && w(0, rep.diffs).found === 'agree' && w(0, rep.diffs).first === 'Panama' && w(0, rep.diffs).pages === 'A',
       'Wikipedia check: nothing within three days is "none"; a match the page lists the other way round still agrees');
