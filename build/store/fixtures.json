@@ -1,53 +1,4 @@
 {
- "1528988": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T17:00:00+00:00",
-  "home_team": "Estonia",
-  "away_team": "Bulgaria",
-  "tournament": "UEFA Nations League",
-  "city": "Tallinn",
-  "country": "Estonia",
-  "neutral": "FALSE",
-  "venue_id": 605,
-  "api_id": 1528988,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Tallinn",
-   "country": "Estonia",
-   "stadium": "Lilleküla Stadium",
-   "boxDate": "2026-11-16"
-  },
-  "venue_src": "api"
- },
- "1528989": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T17:00:00+00:00",
-  "home_team": "Lithuania",
-  "away_team": "Liechtenstein",
-  "tournament": "UEFA Nations League",
-  "city": "Kaunas",
-  "country": "Lithuania",
-  "neutral": "FALSE",
-  "venue_id": 2612,
-  "api_id": 1528989,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Kaunas",
-   "country": "Lithuania",
-   "stadium": "Darius and Girėnas Stadium",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T17:00:00+00:00"
-  },
-  "venue_src": "api"
- },
  "1528990": {
   "date": "2026-11-16",
   "kickoff": "2026-11-16T19:45:00+00:00",
@@ -292,31 +243,6 @@
    "kickoff": "2026-11-17T18:45:00+00:00"
   },
   "venue_src": "api"
- },
- "1545617": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T17:00:00+00:00",
-  "home_team": "Iceland",
-  "away_team": "Luxembourg",
-  "tournament": "UEFA Nations League",
-  "city": "Reykjavik",
-  "country": "Iceland",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545617,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Reykjavík",
-   "country": "Iceland",
-   "stadium": "Laugardalsvöllur",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T17:00:00+00:00"
-  },
-  "venue_src": "city"
  },
  "1545618": {
   "date": "2026-11-16",
@@ -2493,6 +2419,29 @@
   },
   "venue_src": "city"
  },
+ "1647366": {
+  "date": "2026-11-17",
+  "kickoff": "2026-11-17T12:00:00+00:00",
+  "home_team": "Kyrgyzstan",
+  "away_team": "Vietnam",
+  "tournament": "Friendly",
+  "city": "Ninh Bình",
+  "country": "Vietnam",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1647366,
+  "league": "Friendlies",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": {
+   "city": "Ninh Bình",
+   "country": "Vietnam",
+   "stadium": "Thiên Trường Stadium"
+  },
+  "venue_src": "wiki"
+ },
  "1647367": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T06:00:00+00:00",
@@ -3197,6 +3146,52 @@
    "boxDate": "2026-11-17"
   },
   "venue_src": "city"
+ },
+ "1650377": {
+  "date": "2026-11-17",
+  "kickoff": "2026-11-17T09:00:00+00:00",
+  "home_team": "Oman",
+  "away_team": "Brunei",
+  "tournament": "King's Cup",
+  "city": "Sisaket",
+  "country": "Thailand",
+  "neutral": "TRUE",
+  "venue_id": "",
+  "api_id": 1650377,
+  "league": "King's Cup",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": {
+   "city": "Sisaket",
+   "country": "Thailand",
+   "stadium": "Sisaket Provincial Stadium"
+  },
+  "venue_src": "wiki"
+ },
+ "1650378": {
+  "date": "2026-11-17",
+  "kickoff": "2026-11-17T12:30:00+00:00",
+  "home_team": "Tajikistan",
+  "away_team": "Thailand",
+  "tournament": "King's Cup",
+  "city": "Sisaket",
+  "country": "Thailand",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1650378,
+  "league": "King's Cup",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": {
+   "city": "Sisaket",
+   "country": "Thailand",
+   "stadium": "Sisaket Province Stadium"
+  },
+  "venue_src": "wiki"
  },
  "wiki:women|2026-11-27|Malta|Kosovo": {
   "date": "2026-11-27",
