@@ -1,11 +1,11 @@
 {
- "built": "2026-11-16T21:37:39.442Z",
+ "built": "2026-11-16T22:33:49.544Z",
  "today": "2026-11-16",
  "mode": "light",
  "api": {
   "keyPresent": true,
   "used": 3,
-  "remaining": 7185,
+  "remaining": 7182,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 311,
+   "usedTodayBeforeRun": 314,
    "perMinute": 300
   },
   "paid": true,
@@ -28,12 +28,11 @@
   "domestic": 915,
   "clubs": 3,
   "youth": 100,
-  "not counted": 1,
-  "status 2H": 2
+  "not counted": 1
  },
  "seen": {
   "men": {
-   "results": 30,
+   "results": 32,
    "latest": "2026-11-16"
   },
   "women": {
@@ -46,13 +45,13 @@
   "results": 0
  },
  "men": {
-  "built": "2026-11-16T21:37:39.442Z",
+  "built": "2026-11-16T22:33:49.544Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
   },
   "gapfill": {
-   "rows": 125,
+   "rows": 127,
    "from": "2026-11-05",
    "to": "2026-11-16"
   },
@@ -66,7 +65,7 @@
   "fixtures": 59
  },
  "women": {
-  "built": "2026-11-16T21:37:39.442Z",
+  "built": "2026-11-16T22:33:49.544Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -97,10 +96,10 @@
  },
  "forecasts": {
   "total": 250,
-  "scored": 125,
+  "scored": 127,
   "newThisRun": 0,
   "updatedThisRun": 121,
-  "scoredThisRun": 6,
+  "scoredThisRun": 2,
   "droppedThisRun": 0
  }
 }
