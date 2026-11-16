@@ -24,30 +24,6 @@
   },
   "venue_src": "api"
  },
- "1528991": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T19:45:00+00:00",
-  "home_team": "Greece",
-  "away_team": "Serbia",
-  "tournament": "UEFA Nations League",
-  "city": "Volos",
-  "country": "Greece",
-  "neutral": "FALSE",
-  "venue_id": 1918,
-  "api_id": 1528991,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Piraeus",
-   "country": "Greece",
-   "stadium": "Karaiskakis Stadium",
-   "boxDate": "2026-11-16"
-  },
-  "venue_src": "api"
- },
  "1528992": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T19:45:00+00:00",
@@ -244,30 +220,6 @@
   },
   "venue_src": "api"
  },
- "1545618": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T19:45:00+00:00",
-  "home_team": "Gibraltar",
-  "away_team": "Malta",
-  "tournament": "UEFA Nations League",
-  "city": "Gibraltar",
-  "country": "Gibraltar",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545618,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Gibraltar",
-   "country": "Gibraltar",
-   "stadium": "Europa Sports Park",
-   "boxDate": "2026-11-16"
-  },
-  "venue_src": "city"
- },
  "1545652": {
   "date": "2026-11-16",
   "kickoff": "2026-11-16T19:45:00+00:00",
@@ -290,30 +242,6 @@
    "stadium": "Kybunpark",
    "boxDate": "2026-11-16",
    "kickoff": "2026-11-16T19:45:00+00:00"
-  },
-  "venue_src": "api"
- },
- "1545662": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T19:45:00+00:00",
-  "home_team": "North Macedonia",
-  "away_team": "Slovenia",
-  "tournament": "UEFA Nations League",
-  "city": "Skopje",
-  "country": "North Macedonia",
-  "neutral": "FALSE",
-  "venue_id": 1045,
-  "api_id": 1545662,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Skopje",
-   "country": "North Macedonia",
-   "stadium": "Toše Proeski Arena",
-   "boxDate": "2026-11-16"
   },
   "venue_src": "api"
  },
@@ -1510,30 +1438,6 @@
   },
   "venue_src": "city"
  },
- "1640009": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T19:00:00+00:00",
-  "home_team": "Cuba",
-  "away_team": "Grenada",
-  "tournament": "CONCACAF Nations League",
-  "city": "Havana",
-  "country": "Cuba",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1640009,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Havana",
-   "country": "Cuba",
-   "stadium": "Estadio La Polar",
-   "boxDate": "2026-11-16"
-  },
-  "venue_src": "city"
- },
  "1640010": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T19:00:00+00:00",
@@ -1581,56 +1485,6 @@
    "stadium": "Arnos Vale Stadium",
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-18T00:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1640013": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T19:00:00+00:00",
-  "home_team": "Guadeloupe",
-  "away_team": "Bermuda",
-  "tournament": "CONCACAF Nations League",
-  "city": "Guadalupe",
-  "country": "Mexico",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1640013,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Le Gosier",
-   "country": "Guadeloupe",
-   "stadium": "Stade Roger Zami",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T19:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1640014": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T19:00:00+00:00",
-  "home_team": "Guyana",
-  "away_team": "Puerto Rico",
-  "tournament": "CONCACAF Nations League",
-  "city": "Leonora",
-  "country": "Guyana",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1640014,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Georgetown",
-   "country": "Guyana",
-   "stadium": "Leonora National Track and Field Centre",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T19:00:00+00:00"
   },
   "venue_src": "city"
  },
