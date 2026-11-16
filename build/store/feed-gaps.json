@@ -208,5 +208,16 @@
   "away": "Vietnam",
   "source": "API-Football fixture 1647366",
   "seen": "2026-11-16"
+ },
+ {
+  "kind": "result",
+  "g": "men",
+  "date": "2026-11-15",
+  "home": "Suriname",
+  "away": "Eswatini",
+  "score": "4-0",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Eswatini_national_football_team",
+  "seen": "2026-11-16"
  }
 ]

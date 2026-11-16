@@ -184,6 +184,11 @@
   "city": "Oslo",
   "country": "Norway"
  },
+ "11905": {
+  "name": "Estadio BBVA",
+  "city": "Guadalupe",
+  "country": "Mexico"
+ },
  "11918": {
   "name": "PayPal Park",
   "city": "San Jose, California",
@@ -203,6 +208,11 @@
   "name": "Estádio Cívitas Metropolitano",
   "city": "Madrid",
   "country": "Spain"
+ },
+ "19229": {
+  "name": "TQL Stadium",
+  "city": "Cincinnati, Ohio",
+  "country": "USA"
  },
  "19513": {
   "name": "epet ARENA",
