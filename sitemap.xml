@@ -82,12 +82,12 @@
   <url><loc>https://formlinedata.com/teams/men/north-macedonia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/ghana.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/jamaica.html</loc></url>
+  <url><loc>https://formlinedata.com/teams/men/guinea.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/belarus.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/bolivia.html</loc></url>
-  <url><loc>https://formlinedata.com/teams/men/guinea.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/haiti.html</loc></url>
-  <url><loc>https://formlinedata.com/teams/men/gambia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/benin.html</loc></url>
+  <url><loc>https://formlinedata.com/teams/men/gambia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/zanzibar.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/new-zealand.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/uganda.html</loc></url>
@@ -119,7 +119,6 @@
   <url><loc>https://formlinedata.com/teams/men/vietnam.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/niger.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/kazakhstan.html</loc></url>
-  <url><loc>https://formlinedata.com/teams/men/eritrea.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/thailand.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/sudan.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/armenia.html</loc></url>
@@ -133,6 +132,7 @@
   <url><loc>https://formlinedata.com/teams/men/sierra-leone.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/bahrain.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/cyprus.html</loc></url>
+  <url><loc>https://formlinedata.com/teams/men/eritrea.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/ethiopia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/indonesia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/men/malawi.html</loc></url>
@@ -4584,7 +4584,6 @@
   <url><loc>https://formlinedata.com/h2h/men/comoros-vs-congo.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/el-salvador-vs-saint-martin.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/angola-vs-south-sudan.html</loc></url>
-  <url><loc>https://formlinedata.com/matches/men/2026-11-16-andorra-vs-azerbaijan.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-16-cuba-vs-grenada.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-16-guadeloupe-vs-bermuda.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-16-guyana-vs-puerto-rico.html</loc></url>
@@ -4763,6 +4762,8 @@
   <url><loc>https://formlinedata.com/matches/men/2026-11-16-kazakhstan-vs-slovakia.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-16-faroe-islands-vs-moldova.html</loc></url>
   <url><loc>https://formlinedata.com/matches/men/2026-11-16-somalia-vs-ghana.html</loc></url>
+  <url><loc>https://formlinedata.com/matches/men/2026-11-16-central-african-republic-vs-benin.html</loc></url>
+  <url><loc>https://formlinedata.com/matches/men/2026-11-16-eritrea-vs-guinea.html</loc></url>
   <url><loc>https://formlinedata.com/sim/afcon-2027-qualifiers.html</loc></url>
   <url><loc>https://formlinedata.com/sim/asian-cup-2027.html</loc></url>
   <url><loc>https://formlinedata.com/sim/saff-2026.html</loc></url>
