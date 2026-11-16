@@ -1,29 +1,4 @@
 {
- "1528990": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T19:45:00+00:00",
-  "home_team": "Germany",
-  "away_team": "Netherlands",
-  "tournament": "UEFA Nations League",
-  "city": "Berlin",
-  "country": "Germany",
-  "neutral": "FALSE",
-  "venue_id": 694,
-  "api_id": 1528990,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Berlin",
-   "country": "Germany",
-   "stadium": "Olympiastadion",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T19:45:00+00:00"
-  },
-  "venue_src": "api"
- },
  "1528992": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T19:45:00+00:00",
@@ -217,31 +192,6 @@
    "stadium": "Stadion Bilino Polje",
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-17T18:45:00+00:00"
-  },
-  "venue_src": "api"
- },
- "1545652": {
-  "date": "2026-11-16",
-  "kickoff": "2026-11-16T19:45:00+00:00",
-  "home_team": "Switzerland",
-  "away_team": "Scotland",
-  "tournament": "UEFA Nations League",
-  "city": "St.Gallen",
-  "country": "Switzerland",
-  "neutral": "FALSE",
-  "venue_id": 1543,
-  "api_id": 1545652,
-  "league": "UEFA Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "St.Gallen",
-   "country": "Switzerland",
-   "stadium": "Kybunpark",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-16T19:45:00+00:00"
   },
   "venue_src": "api"
  },
