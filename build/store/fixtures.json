@@ -1538,7 +1538,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 1)",
    "boxDate": "2026-11-28"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638242": {
   "date": "2026-11-28",
@@ -1562,7 +1562,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 3)",
    "boxDate": "2026-11-28"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638243": {
   "date": "2026-11-28",
@@ -1586,7 +1586,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 2)",
    "boxDate": "2026-11-28"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638244": {
   "date": "2026-12-01",
@@ -1610,7 +1610,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 3)",
    "boxDate": "2026-12-01"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638245": {
   "date": "2026-12-01",
@@ -1634,7 +1634,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 1)",
    "boxDate": "2026-12-01"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638246": {
   "date": "2026-12-01",
@@ -1658,7 +1658,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 2)",
    "boxDate": "2026-12-01"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638247": {
   "date": "2026-12-05",
@@ -1682,7 +1682,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 2)",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638248": {
   "date": "2026-12-05",
@@ -1706,7 +1706,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 1)",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638249": {
   "date": "2026-12-05",
@@ -1730,7 +1730,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 3)",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638588": {
   "date": "2026-11-28",
@@ -1753,7 +1753,7 @@
    "country": "Australia",
    "stadium": "GIO Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1638605": {
   "date": "2026-11-16",
@@ -2032,7 +2032,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640088": {
@@ -2051,7 +2050,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640089": {
@@ -2070,7 +2068,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640519": {
@@ -2118,7 +2115,7 @@
    "stadium": "JFE Harenokuni Stadium",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1641091": {
   "date": "2026-11-29",
@@ -2142,7 +2139,7 @@
    "stadium": "Edion Peace Wing Hiroshima",
    "boxDate": "2026-11-29"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1641698": {
   "date": "2026-11-28",
@@ -2203,7 +2200,7 @@
    "country": "Denmark",
    "stadium": "Esbjerg Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1644694": {
   "date": "2026-11-17",
@@ -2300,7 +2297,7 @@
    "country": "Australia",
    "stadium": "GMHBA Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646037": {
   "date": "2026-12-01",
@@ -2325,7 +2322,7 @@
    "boxDate": "2026-12-01",
    "kickoff": "2026-12-01T16:30:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646038": {
   "date": "2026-12-01",
@@ -2349,7 +2346,7 @@
    "stadium": "Gdańsk Stadium",
    "boxDate": "2026-12-01"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646039": {
   "date": "2026-12-01",
@@ -2374,7 +2371,7 @@
    "boxDate": "2026-12-01",
    "kickoff": "2026-12-01T17:00:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646040": {
   "date": "2026-12-01",
@@ -2399,7 +2396,7 @@
    "boxDate": "2026-12-01",
    "kickoff": "2026-12-01T19:25:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646041": {
   "date": "2026-12-01",
@@ -2423,7 +2420,7 @@
    "stadium": "Domžale Sports Park",
    "boxDate": "2026-12-01"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646042": {
   "date": "2026-12-01",
@@ -2447,7 +2444,7 @@
    "stadium": "Stadion Wankdorf",
    "boxDate": "2026-12-01"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646043": {
   "date": "2026-12-01",
@@ -2471,7 +2468,7 @@
    "stadium": "Pinatar Arena",
    "boxDate": "2026-12-01"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646044": {
   "date": "2026-12-01",
@@ -2496,7 +2493,7 @@
    "boxDate": "2026-12-01",
    "kickoff": "2026-12-01T19:15:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646045": {
   "date": "2026-12-05",
@@ -2520,7 +2517,7 @@
    "stadium": "Franz Horr Stadium",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646046": {
   "date": "2026-12-05",
@@ -2545,7 +2542,7 @@
    "boxDate": "2026-12-05",
    "kickoff": "2026-12-05T17:30:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646047": {
   "date": "2026-12-05",
@@ -2569,7 +2566,7 @@
    "stadium": "Laugardalsvöllur",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646048": {
   "date": "2026-12-05",
@@ -2594,7 +2591,7 @@
    "boxDate": "2026-12-05",
    "kickoff": "2026-12-05T17:00:00+00:00"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646049": {
   "date": "2026-12-05",
@@ -2618,7 +2615,7 @@
    "stadium": "Erasmo Iacovone",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646050": {
   "date": "2026-12-05",
@@ -2642,7 +2639,7 @@
    "stadium": "Stadion Galgenwaard",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646051": {
   "date": "2026-12-05",
@@ -2666,7 +2663,7 @@
    "stadium": "Ullevaal Stadion",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1646052": {
   "date": "2026-12-05",
@@ -2690,7 +2687,7 @@
    "stadium": "3Arena",
    "boxDate": "2026-12-05"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1647367": {
   "date": "2026-11-17",
@@ -2731,7 +2728,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647369": {
@@ -2750,7 +2746,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647370": {
@@ -2843,7 +2838,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "men",
-  "wiki": null,
   "venue_src": "city"
  },
  "1647628": {
@@ -2867,7 +2861,7 @@
    "country": "France",
    "stadium": "Stade Marcel Picot"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1647629": {
   "date": "2026-11-29",
@@ -2955,7 +2949,7 @@
    "country": "France",
    "stadium": "Stade Auguste-Bonal"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1647643": {
   "date": "2026-11-17",
@@ -3028,7 +3022,7 @@
    "country": "Peru",
    "stadium": "Videnita de Chincha"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1648996": {
   "date": "2026-11-27",
@@ -3051,7 +3045,7 @@
    "country": "Northern Ireland",
    "stadium": "Inver Park"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1648997": {
   "date": "2026-11-28",
@@ -3074,7 +3068,7 @@
    "country": "Mexico",
    "stadium": "Estadio Reino de León"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1648998": {
   "date": "2026-11-29",
@@ -3097,7 +3091,7 @@
    "country": "Peru",
    "stadium": "Videnita de Chincha"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1648999": {
   "date": "2026-11-29",
@@ -3120,7 +3114,7 @@
    "country": "Argentina",
    "stadium": "Estadio Único Diego Armando Maradona"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1649000": {
   "date": "2026-12-01",
@@ -3143,7 +3137,7 @@
    "country": "Northern Ireland",
    "stadium": "Inver Park"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1649001": {
   "date": "2026-12-02",
@@ -3185,7 +3179,7 @@
    "country": "Spain",
    "stadium": "Riazor"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1649003": {
   "date": "2026-12-04",
@@ -3208,7 +3202,7 @@
    "country": "Brazil",
    "stadium": ""
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1649004": {
   "date": "2026-12-05",
@@ -3426,7 +3420,7 @@
    "country": "Malta",
    "stadium": "Centenary Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:women|2026-11-27|Cyprus|Luxembourg": {
   "date": "2026-11-27",
@@ -3455,7 +3449,7 @@
    "country": "Cyprus",
    "stadium": "Dasaki Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:women|2026-11-28|China|Thailand": {
   "date": "2026-11-28",
@@ -3483,7 +3477,7 @@
    "country": "China",
    "stadium": "Yongchuan Sports Center"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:women|2026-11-29|Indonesia|Bhutan": {
   "date": "2026-11-29",
@@ -3540,7 +3534,7 @@
    "country": "Cyprus",
    "stadium": "Dasaki Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:women|2026-12-01|Bangladesh|Singapore": {
   "date": "2026-12-01",
@@ -3569,7 +3563,7 @@
    "country": "Singapore",
    "stadium": "Bishan Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:women|2026-12-01|China|Albania": {
   "date": "2026-12-01",
@@ -3597,7 +3591,7 @@
    "country": "China",
    "stadium": "Yongchuan Sports Center"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:women|2026-12-04|China|Malawi": {
   "date": "2026-12-04",
@@ -3625,7 +3619,7 @@
    "country": "China",
    "stadium": "Yongchuan Sports Center"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:women|2026-12-05|Bangladesh|Singapore": {
   "date": "2026-12-05",
@@ -3654,7 +3648,7 @@
    "country": "Singapore",
    "stadium": "Jalan Besar Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:women|2026-12-05|Indonesia|Lebanon": {
   "date": "2026-12-05",
@@ -3711,119 +3705,7 @@
    "country": "Singapore",
    "stadium": ""
   },
-  "venue_src": "wiki"
- },
- "wiki:men|2026-11-16|Tahiti|Cook Islands": {
-  "date": "2026-11-16",
-  "kickoff": "",
-  "home_team": "Tahiti",
-  "away_team": "Cook Islands",
-  "tournament": "Friendly",
-  "city": "Faʼaʼā",
-  "country": "Tahiti",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:men|2026-11-16|Tahiti|Cook Islands",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": 1,
-  "gender": "men",
-  "wikiOnly": 1,
-  "wikiSource": "Cook Islands national football team",
-  "pairDates": [
-   "2026-11-16"
-  ],
-  "wiki": {
-   "city": "Faʼaʼā",
-   "country": "Tahiti",
-   "stadium": "Stade Louis Ganivet"
-  },
-  "venue_src": "wiki"
- },
- "wiki:men|2026-11-17|Oman|Brunei": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T09:00:00+00:00",
-  "home_team": "Oman",
-  "away_team": "Brunei",
-  "tournament": "King's Cup",
-  "city": "Sisaket",
-  "country": "Thailand",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": "wiki:men|2026-11-17|Oman|Brunei",
-  "league": "King's Cup",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wikiOnly": 1,
-  "wikiSource": "Brunei national football team",
-  "pairDates": [
-   "2026-11-17"
-  ],
-  "wiki": {
-   "city": "Sisaket",
-   "country": "Thailand",
-   "stadium": "Sisaket Provincial Stadium"
-  },
-  "venue_src": "wiki"
- },
- "wiki:men|2026-11-17|Lebanon|Palestine": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T13:00:00+00:00",
-  "home_team": "Lebanon",
-  "away_team": "Palestine",
-  "tournament": "Friendly",
-  "city": "Basra",
-  "country": "Iraq",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": "wiki:men|2026-11-17|Lebanon|Palestine",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wikiOnly": 1,
-  "wikiSource": "Lebanon national football team",
-  "pairDates": [
-   "2026-11-17"
-  ],
-  "wiki": {
-   "city": "Basra",
-   "country": "Iraq",
-   "stadium": "Basra International Stadium"
-  },
-  "venue_src": "wiki"
- },
- "wiki:men|2026-11-17|Tajikistan|Thailand": {
-  "date": "2026-11-17",
-  "kickoff": "",
-  "home_team": "Tajikistan",
-  "away_team": "Thailand",
-  "tournament": "King's Cup",
-  "city": "Sisaket",
-  "country": "Thailand",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:men|2026-11-17|Tajikistan|Thailand",
-  "league": "King's Cup",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": 1,
-  "gender": "men",
-  "wikiOnly": 1,
-  "wikiSource": "Tajikistan national football team",
-  "pairDates": [
-   "2026-11-17"
-  ],
-  "wiki": {
-   "city": "Sisaket",
-   "country": "Thailand",
-   "stadium": "Sisaket Province Stadium"
-  },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:men|2026-12-09|Peru|Panama": {
   "date": "2026-12-09",
@@ -3851,7 +3733,7 @@
    "country": "Peru",
    "stadium": "Estadio Garcilaso"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "wiki:men|2026-12-13|United States|Jamaica": {
   "date": "2026-12-13",
@@ -3879,6 +3761,6 @@
    "country": "United States",
    "stadium": "Inter Miami CF Stadium"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  }
 }
