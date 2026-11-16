@@ -1,11 +1,11 @@
 {
- "built": "2026-11-16T02:40:25.635Z",
+ "built": "2026-11-16T03:51:32.534Z",
  "today": "2026-11-16",
  "mode": "light",
  "api": {
   "keyPresent": true,
   "used": 3,
-  "remaining": 7490,
+  "remaining": 7487,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 6,
+   "usedTodayBeforeRun": 9,
    "perMinute": 300
   },
   "paid": true,
@@ -45,7 +45,7 @@
   "results": 0
  },
  "men": {
-  "built": "2026-11-16T02:40:25.635Z",
+  "built": "2026-11-16T03:51:32.534Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
@@ -65,7 +65,7 @@
   "fixtures": 75
  },
  "women": {
-  "built": "2026-11-16T02:40:25.635Z",
+  "built": "2026-11-16T03:51:32.534Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
