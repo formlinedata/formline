@@ -1,5 +1,5 @@
 {
- "built": "2026-11-17T19:51:13.112Z",
+ "built": "2026-11-17T20:56:01.889Z",
  "today": "2026-11-17",
  "mode": "light",
  "api": {
@@ -27,14 +27,14 @@
  "skipped": {
   "domestic": 287,
   "youth": 96,
-  "status 1H": 9,
-  "status HT": 8,
+  "status 2H": 13,
+  "status HT": 1,
   "clubs": 3,
   "not counted": 4
  },
  "seen": {
   "men": {
-   "results": 49,
+   "results": 53,
    "latest": "2026-11-17"
   },
   "women": {
@@ -47,13 +47,13 @@
   "results": 0
  },
  "men": {
-  "built": "2026-11-17T19:51:13.112Z",
+  "built": "2026-11-17T20:56:01.889Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
   },
   "gapfill": {
-   "rows": 156,
+   "rows": 160,
    "from": "2026-11-05",
    "to": "2026-11-17"
   },
@@ -64,10 +64,10 @@
    "rows": 2,
    "latest": "2026-11-15"
   },
-  "fixtures": 13
+  "fixtures": 12
  },
  "women": {
-  "built": "2026-11-17T19:51:13.112Z",
+  "built": "2026-11-17T20:56:01.889Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -92,16 +92,16 @@
  },
  "venues": {
   "wiki": 10,
-  "city": 60,
+  "city": 59,
   "api": 3,
   "assumed": 7
  },
  "forecasts": {
   "total": 251,
-  "scored": 154,
+  "scored": 158,
   "newThisRun": 0,
-  "updatedThisRun": 77,
-  "scoredThisRun": 0,
+  "updatedThisRun": 76,
+  "scoredThisRun": 4,
   "droppedThisRun": 0
  }
 }

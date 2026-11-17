@@ -1,29 +1,4 @@
 {
- "1545901": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T20:00:00+00:00",
-  "home_team": "Niger",
-  "away_team": "Morocco",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Rabat",
-  "country": "Morocco",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545901,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Rabat",
-   "country": "Morocco",
-   "stadium": "Prince Moulay Abdellah Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T20:00:00+00:00"
-  },
-  "venue_src": "city"
- },
  "1545958": {
   "date": "2027-01-07",
   "kickoff": "2027-01-07T14:00:00+00:00",
