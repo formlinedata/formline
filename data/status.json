@@ -1,11 +1,11 @@
 {
- "built": "2026-11-17T05:01:40.827Z",
+ "built": "2026-11-17T06:03:00.527Z",
  "today": "2026-11-17",
  "mode": "light",
  "api": {
   "keyPresent": true,
   "used": 3,
-  "remaining": 7483,
+  "remaining": 7480,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 13,
+   "usedTodayBeforeRun": 16,
    "perMinute": 300
   },
   "paid": true,
@@ -45,7 +45,7 @@
   "results": 0
  },
  "men": {
-  "built": "2026-11-17T05:01:40.827Z",
+  "built": "2026-11-17T06:03:00.527Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
@@ -65,7 +65,7 @@
   "fixtures": 56
  },
  "women": {
-  "built": "2026-11-17T05:01:40.827Z",
+  "built": "2026-11-17T06:03:00.527Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -98,7 +98,7 @@
   "total": 250,
   "scored": 130,
   "newThisRun": 0,
-  "updatedThisRun": 118,
+  "updatedThisRun": 117,
   "scoredThisRun": 0,
   "droppedThisRun": 0
  }
