@@ -825,29 +825,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1640519": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T23:00:00+00:00",
-  "home_team": "Chile",
-  "away_team": "Colombia",
-  "tournament": "Friendly",
-  "city": "Santiago de Chile",
-  "country": "Chile",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1640519,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Santiago",
-   "country": "Chile",
-   "stadium": "Estadio Nacional Julio Martínez Prádanos"
-  },
-  "venue_src": "wiki"
- },
  "1641089": {
   "date": "2026-12-05",
   "kickoff": "2026-12-05T06:00:00+00:00",
@@ -1421,48 +1398,6 @@
   },
   "venue_src": "city"
  },
- "1647372": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T23:00:00+00:00",
-  "home_team": "Argentina",
-  "away_team": "Costa Rica",
-  "tournament": "Friendly",
-  "city": "Cordoba",
-  "country": "Argentina",
-  "neutral": "FALSE",
-  "venue_id": 110,
-  "api_id": 1647372,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Córdoba",
-   "country": "Argentina",
-   "stadium": "Estadio Mario Alberto Kempes",
-   "boxDate": "2026-11-17"
-  },
-  "venue_src": "api"
- },
- "1647373": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T23:30:00+00:00",
-  "home_team": "Ecuador",
-  "away_team": "Bolivia",
-  "tournament": "Friendly",
-  "city": "Quito",
-  "country": "Ecuador",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647373,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1647628": {
   "date": "2026-11-27",
   "kickoff": "2026-11-27T20:00:00+00:00",
@@ -1573,31 +1508,6 @@
    "stadium": "Stade Auguste-Bonal"
   },
   "venue_src": "city"
- },
- "1648287": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T23:30:00+00:00",
-  "home_team": "Uruguay",
-  "away_team": "Dominican Republic",
-  "tournament": "Friendly",
-  "city": "Maldonado",
-  "country": "Uruguay",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1648287,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Maldonado",
-   "country": "Uruguay",
-   "stadium": "Estadio Domingo Burgueño",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T23:30:00+00:00"
-  },
-  "venue_src": "wiki"
  },
  "1648995": {
   "date": "2026-11-27",
