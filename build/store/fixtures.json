@@ -2755,56 +2755,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1649033": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T00:00:00+00:00",
-  "home_team": "Martinique",
-  "away_team": "Aruba",
-  "tournament": "CONCACAF Nations League",
-  "city": "Fort-de-France",
-  "country": "Martinique",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1649033,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Fort-de-France",
-   "country": "Martinique",
-   "stadium": "Stade Pierre-Aliker",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-17T00:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1649034": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T00:00:00+00:00",
-  "home_team": "Trinidad and Tobago",
-  "away_team": "Antigua and Barbuda",
-  "tournament": "CONCACAF Nations League",
-  "city": "Port of Spain",
-  "country": "Trinidad And Tobago",
-  "neutral": "TRUE",
-  "venue_id": 3905,
-  "api_id": 1649034,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Port of Spain",
-   "country": "Trinidad and Tobago",
-   "stadium": "Hasely Crawford Stadium",
-   "boxDate": "2026-11-16",
-   "kickoff": "2026-11-17T00:00:00+00:00"
-  },
-  "venue_src": "api"
- },
  "1649035": {
   "date": "2026-11-18",
   "kickoff": "2026-11-18T01:00:00+00:00",
@@ -2839,7 +2789,7 @@
   "city": "Managua",
   "country": "Nicaragua",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 3501,
   "api_id": 1649036,
   "league": "CONCACAF Nations League",
   "unmapped_tournament": "",
@@ -2853,7 +2803,7 @@
    "boxDate": "2026-11-17",
    "kickoff": "2026-11-18T03:00:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1649550": {
   "date": "2026-11-17",
