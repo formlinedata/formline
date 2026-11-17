@@ -464,30 +464,6 @@
   },
   "venue_src": "city"
  },
- "1545907": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T13:00:00+00:00",
-  "home_team": "Tanzania",
-  "away_team": "Nigeria",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Zanzibar",
-  "country": "Tanzania",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545907,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Zanzibar City",
-   "country": "Zanzibar",
-   "stadium": "Amaan Stadium",
-   "boxDate": "2026-11-17"
-  },
-  "venue_src": "city"
- },
  "1545908": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T16:00:00+00:00",
@@ -1439,24 +1415,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1640088": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T13:10:00+00:00",
-  "home_team": "Japan",
-  "away_team": "Paraguay",
-  "tournament": "Friendly",
-  "city": "Kallang",
-  "country": "Singapore",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1640088,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1640089": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T16:00:00+00:00",
@@ -2071,24 +2029,6 @@
   },
   "venue_src": "city"
  },
- "1647369": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T14:00:00+00:00",
-  "home_team": "Qatar",
-  "away_team": "South Korea",
-  "tournament": "Friendly",
-  "city": "Doha",
-  "country": "Qatar",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647369,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1647370": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T15:30:00+00:00",
@@ -2637,47 +2577,6 @@
    "boxDate": "2026-11-17"
   },
   "venue_src": "wiki"
- },
- "1650001": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T14:10:00+00:00",
-  "home_team": "United Arab Emirates",
-  "away_team": "Syria",
-  "tournament": "Friendly",
-  "city": "Al Ain",
-  "country": "United Arab Emirates",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1650001,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Al Ain",
-   "country": "United Arab Emirates",
-   "stadium": "Hazza bin Zayed Stadium"
-  },
-  "venue_src": "wiki"
- },
- "1650172": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T14:00:00+00:00",
-  "home_team": "India",
-  "away_team": "Pakistan",
-  "tournament": "SAFF Cup",
-  "city": "Dhaka",
-  "country": "Bangladesh",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1650172,
-  "league": "SAFF Championship",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
  },
  "1650377": {
   "date": "2026-11-17",
