@@ -219,30 +219,6 @@
   },
   "venue_src": "wiki"
  },
- "1545887": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T13:00:00+00:00",
-  "home_team": "Burundi",
-  "away_team": "Zambia",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Bujumbura",
-  "country": "Burundi",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545887,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Bujumbura",
-   "country": "Burundi",
-   "stadium": "Intwari Stadium",
-   "boxDate": "2026-11-17"
-  },
-  "venue_src": "wiki"
- },
  "1545889": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T19:00:00+00:00",
@@ -263,30 +239,6 @@
    "city": "Brazzaville",
    "country": "Congo",
    "stadium": "Stade Alphonse Massemba-Débat",
-   "boxDate": "2026-11-17"
-  },
-  "venue_src": "wiki"
- },
- "1545891": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T13:00:00+00:00",
-  "home_team": "Ethiopia",
-  "away_team": "Mozambique",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Bahir Dar",
-  "country": "Ethiopia",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545891,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Bahir Dar",
-   "country": "Ethiopia",
-   "stadium": "Bahir Dar Stadium",
    "boxDate": "2026-11-17"
   },
   "venue_src": "wiki"
@@ -365,31 +317,6 @@
   },
   "venue_src": "city"
  },
- "1545895": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T13:00:00+00:00",
-  "home_team": "Lesotho",
-  "away_team": "Gabon",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Polokwane",
-  "country": "South Africa",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1545895,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Polokwane",
-   "country": "South Africa",
-   "stadium": "Peter Mokaba Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T13:00:00+00:00"
-  },
-  "venue_src": "city"
- },
  "1545896": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T19:00:00+00:00",
@@ -438,31 +365,6 @@
    "kickoff": "2026-11-17T16:00:00+00:00"
   },
   "venue_src": "wiki"
- },
- "1545898": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T13:00:00+00:00",
-  "home_team": "Malawi",
-  "away_team": "Egypt",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Lilongwe",
-  "country": "Malawi",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545898,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Lilongwe",
-   "country": "Malawi",
-   "stadium": "Bingu National Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T13:00:00+00:00"
-  },
-  "venue_src": "city"
  },
  "1545899": {
   "date": "2026-11-17",
@@ -562,38 +464,13 @@
   },
   "venue_src": "city"
  },
- "1545905": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T13:00:00+00:00",
-  "home_team": "South Sudan",
-  "away_team": "Angola",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Juba",
-  "country": "South Sudan",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545905,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Juba",
-   "country": "South Sudan",
-   "stadium": "Juba Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T13:00:00+00:00"
-  },
-  "venue_src": "city"
- },
  "1545907": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T13:00:00+00:00",
   "home_team": "Tanzania",
   "away_team": "Nigeria",
   "tournament": "African Cup of Nations qualification",
-  "city": "Zanzibar City",
+  "city": "Zanzibar",
   "country": "Tanzania",
   "neutral": "FALSE",
   "venue_id": "",
@@ -609,7 +486,7 @@
    "stadium": "Amaan Stadium",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1545908": {
   "date": "2026-11-17",
@@ -2193,52 +2070,6 @@
    "boxDate": "2026-12-05"
   },
   "venue_src": "city"
- },
- "1647366": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T12:00:00+00:00",
-  "home_team": "Kyrgyzstan",
-  "away_team": "Vietnam",
-  "tournament": "Friendly",
-  "city": "Ninh Bình",
-  "country": "Vietnam",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647366,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Ninh Bình",
-   "country": "Vietnam",
-   "stadium": "Thiên Trường Stadium"
-  },
-  "venue_src": "wiki"
- },
- "1647368": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T12:00:00+00:00",
-  "home_team": "China",
-  "away_team": "Bahrain",
-  "tournament": "Friendly",
-  "city": "Zhaoqing",
-  "country": "China",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647368,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Zhaoqing",
-   "country": "China",
-   "stadium": "Zhaoqing New District Sports Center Stadium"
-  },
-  "venue_src": "wiki"
  },
  "1647369": {
   "date": "2026-11-17",
