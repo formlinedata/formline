@@ -219,5 +219,65 @@
   "comp": "Friendly",
   "source": "https://en.wikipedia.org/wiki/Eswatini_national_football_team",
   "seen": "2026-11-16"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-11-28",
+  "home": "Malawi",
+  "away": "Albania",
+  "comp": "Yongchuan International Tournament",
+  "source": "https://en.wikipedia.org/wiki/Albania_women's_national_football_team",
+  "seen": "2026-11-17"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-01",
+  "home": "Myanmar",
+  "away": "Hong Kong",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Hong_Kong_women's_national_football_team",
+  "seen": "2026-11-17"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-01",
+  "home": "Thailand",
+  "away": "Malawi",
+  "comp": "Yongchuan International Tournament",
+  "source": "https://en.wikipedia.org/wiki/Malawi_women's_national_football_team",
+  "seen": "2026-11-17"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-04",
+  "home": "Albania",
+  "away": "Thailand",
+  "comp": "Yongchuan International Tournament",
+  "source": "https://en.wikipedia.org/wiki/Albania_women's_national_football_team",
+  "seen": "2026-11-17"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-04",
+  "home": "Myanmar",
+  "away": "Hong Kong",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Hong_Kong_women's_national_football_team",
+  "seen": "2026-11-17"
+ },
+ {
+  "kind": "fixture",
+  "g": "men",
+  "date": "2026-11-17",
+  "home": "Malaysia",
+  "away": "Yemen",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Malaysia_national_football_team",
+  "seen": "2026-11-17"
  }
 ]
