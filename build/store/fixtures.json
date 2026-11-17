@@ -243,80 +243,6 @@
   },
   "venue_src": "wiki"
  },
- "1545892": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:00:00+00:00",
-  "home_team": "Gambia",
-  "away_team": "Ivory Coast",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Bakau",
-  "country": "Gambia",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545892,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Bakau",
-   "country": "Gambia",
-   "stadium": "Independence Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T16:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1545893": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:00:00+00:00",
-  "home_team": "Guinea-Bissau",
-  "away_team": "Madagascar",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Bissau",
-  "country": "Guinea-Bissau",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545893,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Bissau",
-   "country": "Guinea-Bissau",
-   "stadium": "Estádio 24 de Setembro",
-   "boxDate": "2026-11-17"
-  },
-  "venue_src": "wiki"
- },
- "1545894": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:00:00+00:00",
-  "home_team": "Kenya",
-  "away_team": "South Africa",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Nairobi",
-  "country": "Kenya",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545894,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Nairobi",
-   "country": "Kenya",
-   "stadium": "Nyayo National Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T16:00:00+00:00"
-  },
-  "venue_src": "city"
- },
  "1545896": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T19:00:00+00:00",
@@ -338,31 +264,6 @@
    "country": "Liberia",
    "stadium": "Samuel Kanyon Doe Sports Complex",
    "boxDate": "2026-11-17"
-  },
-  "venue_src": "wiki"
- },
- "1545897": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:00:00+00:00",
-  "home_team": "Libya",
-  "away_team": "Tunisia",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Tripoli",
-  "country": "Libya",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545897,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Tripoli",
-   "country": "Libya",
-   "stadium": "Tripoli Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T16:00:00+00:00"
   },
   "venue_src": "wiki"
  },
@@ -438,56 +339,6 @@
    "boxDate": "2026-11-17"
   },
   "venue_src": "city"
- },
- "1545903": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:00:00+00:00",
-  "home_team": "Sierra Leone",
-  "away_team": "DR Congo",
-  "tournament": "African Cup of Nations qualification",
-  "city": "El Jadida",
-  "country": "Morocco",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1545903,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "El Jadida",
-   "country": "Morocco",
-   "stadium": "Ben M'Hamed El Abdi Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T16:00:00+00:00"
-  },
-  "venue_src": "city"
- },
- "1545908": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:00:00+00:00",
-  "home_team": "Togo",
-  "away_team": "Algeria",
-  "tournament": "African Cup of Nations qualification",
-  "city": "Lomé",
-  "country": "Togo",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1545908,
-  "league": "Africa Cup of Nations - Qualification",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Lomé",
-   "country": "Togo",
-   "stadium": "Kégué Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T17:00:00+00:00"
-  },
-  "venue_src": "wiki"
  },
  "1545958": {
   "date": "2027-01-07",
@@ -1415,24 +1266,6 @@
   "wiki": null,
   "venue_src": "assumed"
  },
- "1640089": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:00:00+00:00",
-  "home_team": "Jordan",
-  "away_team": "Australia",
-  "tournament": "Friendly",
-  "city": "Amman",
-  "country": "Jordan",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1640089,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "venue_src": "city"
- },
  "1640519": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T23:00:00+00:00",
@@ -2029,56 +1862,6 @@
   },
   "venue_src": "city"
  },
- "1647370": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T15:30:00+00:00",
-  "home_team": "Saudi Arabia",
-  "away_team": "Uzbekistan",
-  "tournament": "Friendly",
-  "city": "Doha",
-  "country": "Qatar",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1647370,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Doha",
-   "country": "Qatar",
-   "stadium": "Jassim bin Hamad Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T15:30:00+00:00"
-  },
-  "venue_src": "wiki"
- },
- "1647371": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:00:00+00:00",
-  "home_team": "Russia",
-  "away_team": "Venezuela",
-  "tournament": "Friendly",
-  "city": "Krasnodar",
-  "country": "Russia",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647371,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Krasnodar",
-   "country": "Russia",
-   "stadium": "Krasnodar Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T17:00:00+00:00"
-  },
-  "venue_src": "city"
- },
  "1647372": {
   "date": "2026-11-17",
   "kickoff": "2026-11-17T23:00:00+00:00",
@@ -2231,31 +2014,6 @@
    "stadium": "Stade Auguste-Bonal"
   },
   "venue_src": "city"
- },
- "1647643": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:30:00+00:00",
-  "home_team": "Kuwait",
-  "away_team": "Honduras",
-  "tournament": "Friendly",
-  "city": "Kuwait",
-  "country": "Kuwait",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1647643,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Kuwait City",
-   "country": "Kuwait",
-   "stadium": "Al-Sadaqua Walsalam Stadium",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-17T16:30:00+00:00"
-  },
-  "venue_src": "wiki"
  },
  "1648287": {
   "date": "2026-11-17",
@@ -2553,30 +2311,6 @@
    "kickoff": "2026-11-18T03:00:00+00:00"
   },
   "venue_src": "api"
- },
- "1649550": {
-  "date": "2026-11-17",
-  "kickoff": "2026-11-17T16:15:00+00:00",
-  "home_team": "Iraq",
-  "away_team": "Iran",
-  "tournament": "Friendly",
-  "city": "Basra",
-  "country": "Iraq",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1649550,
-  "league": "Friendlies",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Basra",
-   "country": "Iraq",
-   "stadium": "",
-   "boxDate": "2026-11-17"
-  },
-  "venue_src": "wiki"
  },
  "1650377": {
   "date": "2026-11-17",
