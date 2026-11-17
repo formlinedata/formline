@@ -1,11 +1,11 @@
 {
- "built": "2026-11-17T18:42:22.919Z",
+ "built": "2026-11-17T19:51:13.112Z",
  "today": "2026-11-17",
  "mode": "light",
  "api": {
   "keyPresent": true,
-  "used": 4,
-  "remaining": 7181,
+  "used": 3,
+  "remaining": 7178,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 314,
+   "usedTodayBeforeRun": 318,
    "perMinute": 300
   },
   "paid": true,
@@ -27,6 +27,8 @@
  "skipped": {
   "domestic": 287,
   "youth": 96,
+  "status 1H": 9,
+  "status HT": 8,
   "clubs": 3,
   "not counted": 4
  },
@@ -42,10 +44,10 @@
  },
  "wikiTeamVenues": {
   "fixtures": 0,
-  "results": 2
+  "results": 0
  },
  "men": {
-  "built": "2026-11-17T18:42:22.919Z",
+  "built": "2026-11-17T19:51:13.112Z",
   "archive": {
    "end": "2026-10-06",
    "rows": 49940
@@ -62,10 +64,10 @@
    "rows": 2,
    "latest": "2026-11-15"
   },
-  "fixtures": 30
+  "fixtures": 13
  },
  "women": {
-  "built": "2026-11-17T18:42:22.919Z",
+  "built": "2026-11-17T19:51:13.112Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -89,17 +91,17 @@
   "held": 28
  },
  "venues": {
-  "wiki": 13,
-  "city": 68,
-  "api": 9,
+  "wiki": 10,
+  "city": 60,
+  "api": 3,
   "assumed": 7
  },
  "forecasts": {
   "total": 251,
   "scored": 154,
   "newThisRun": 0,
-  "updatedThisRun": 94,
-  "scoredThisRun": 9,
+  "updatedThisRun": 77,
+  "scoredThisRun": 0,
   "droppedThisRun": 0
  }
 }
