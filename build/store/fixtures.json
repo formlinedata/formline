@@ -1430,7 +1430,7 @@
   "city": "Cordoba",
   "country": "Argentina",
   "neutral": "FALSE",
-  "venue_id": "",
+  "venue_id": 110,
   "api_id": 1647372,
   "league": "Friendlies",
   "unmapped_tournament": "",
@@ -1443,7 +1443,7 @@
    "stadium": "Estadio Mario Alberto Kempes",
    "boxDate": "2026-11-17"
   },
-  "venue_src": "city"
+  "venue_src": "api"
  },
  "1647373": {
   "date": "2026-11-17",
