@@ -1,3 +1,6 @@
 date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,shootout_winner,source,found
 2026-11-13,Tahiti,Cook Islands,4,0,Friendly,Faʼaʼā,Tahiti,FALSE,,https://en.wikipedia.org/wiki/Cook_Islands_national_football_team,2026-11-15
 2026-11-15,Suriname,Eswatini,4,0,Friendly,'s-Hertogenbosch,Netherlands,TRUE,,https://en.wikipedia.org/wiki/Eswatini_national_football_team,2026-11-16
+2026-11-16,Tahiti,Cook Islands,3,3,Friendly,Faʼaʼā,Tahiti,FALSE,,https://en.wikipedia.org/wiki/Cook_Islands_national_football_team,2026-11-18
+2026-11-17,Lebanon,Palestine,0,0,Friendly,Basra,Iraq,TRUE,,https://en.wikipedia.org/wiki/Lebanon_national_football_team_results_(2020%E2%80%93present),2026-11-18
+2026-11-17,Tajikistan,Thailand,0,3,King's Cup,Sisaket,Thailand,FALSE,,https://en.wikipedia.org/wiki/Tajikistan_national_football_team,2026-11-18
