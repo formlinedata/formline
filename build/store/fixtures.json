@@ -911,31 +911,6 @@
   },
   "venue_src": "city"
  },
- "1644695": {
-  "date": "2026-11-18",
-  "kickoff": "2026-11-18T02:30:00+00:00",
-  "home_team": "Mexico",
-  "away_team": "Jamaica",
-  "tournament": "CONCACAF Nations League",
-  "city": "Monterrey",
-  "country": "Mexico",
-  "neutral": "FALSE",
-  "venue_id": 11905,
-  "api_id": 1644695,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Guadalupe",
-   "country": "Mexico",
-   "stadium": "Estadio BBVA",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-18T02:30:00+00:00"
-  },
-  "venue_src": "api"
- },
  "1645470": {
   "date": "2026-12-02",
   "kickoff": "2026-12-02T08:35:00+00:00",
@@ -1681,31 +1656,6 @@
   "gender": "women",
   "wiki": null,
   "venue_src": "assumed"
- },
- "1649036": {
-  "date": "2026-11-18",
-  "kickoff": "2026-11-18T03:00:00+00:00",
-  "home_team": "Nicaragua",
-  "away_team": "Montserrat",
-  "tournament": "CONCACAF Nations League",
-  "city": "Managua",
-  "country": "Nicaragua",
-  "neutral": "FALSE",
-  "venue_id": 3501,
-  "api_id": 1649036,
-  "league": "CONCACAF Nations League",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wiki": {
-   "city": "Managua",
-   "country": "Nicaragua",
-   "stadium": "Estadio Nacional",
-   "boxDate": "2026-11-17",
-   "kickoff": "2026-11-18T03:00:00+00:00"
-  },
-  "venue_src": "api"
  },
  "wiki:women|2026-11-27|Malta|Kosovo": {
   "date": "2026-11-27",
