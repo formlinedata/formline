@@ -321,5 +321,15 @@
   "comp": "King's Cup",
   "source": "https://en.wikipedia.org/wiki/Tajikistan_national_football_team",
   "seen": "2026-11-18"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-01",
+  "home": "Belgium",
+  "away": "South Korea",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Belgium_women's_national_football_team",
+  "seen": "2026-11-19"
  }
 ]
