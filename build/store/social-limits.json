@@ -1,0 +1,6 @@
+{
+ "oneADay": true,
+ "stories": false,
+ "since": "2026-11-18",
+ "why": "Bluesky removed the account on 16 Nov 2026 for spam-like automation, and Meta restricted the Formline business account on 18 Nov 2026 for automation. One post a day and no Stories until things settle (Seb, 18 Nov). Set oneADay to false and stories to true to go back to the window-day schedule."
+}

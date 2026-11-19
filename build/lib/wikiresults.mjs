@@ -108,7 +108,10 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
      read longest ago go first; each at most every `everyDays` days. */
   const pages = new Set(), owner = new Map();   // owner: the team each page belongs to (a team's two pages are one voice, not two)
   for (const k of keys){ const T = cache.titles[k]; if (!T) continue; for (const p of [T.title, T.main]) if (p){ pages.add(p); owner.set(p, k); } }
-  const due = [...pages].filter(p => { const P = cache.resultPages[p]; return !P || t0 - dayNum(P.fetched) >= everyDays; })
+  /* Also a page kept from before the reader learnt to read "19:30 UTC−10": one with a fixture whose time it could not
+     use and did not keep (no `tm`) is read again, once. */
+  const unread = P => (P.upcoming || []).some(m => m.timed && !m.kickoff && m.tm === undefined && m.date >= today);
+  const due = [...pages].filter(p => { const P = cache.resultPages[p]; return !P || t0 - dayNum(P.fetched) >= everyDays || unread(P); })
     .sort((a, b) => ((cache.resultPages[a] || {}).fetched || '') < ((cache.resultPages[b] || {}).fetched || '') ? -1 : 1);
   for (const title of due){
     if (stats.asked >= limit) break;
@@ -120,7 +123,7 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
       const text = j.parse && (typeof j.parse.wikitext === 'string' ? j.parse.wikitext : j.parse.wikitext && j.parse.wikitext['*']);
       /* Also the boxes for the next 30 days: fixtures on a team's own page that the feed may not have (see `upcoming`). */
       cache.resultPages[title] = {fetched:today, results:text ? pageResults(text, from, to) : [],
-        upcoming:text ? pageMatches(text, today).filter(m => m.date >= today && m.date <= ahead).map(m => ({date:m.date, t1:m.t1, t2:m.t2, kickoff:m.kickoff || '', city:m.city, country:m.country, stadium:m.stadium, comp:m.comp || '', ...(m.link ? {link:m.link} : {}), ...(m.timed ? {timed:1} : {})})) : []};
+        upcoming:text ? pageMatches(text, today).filter(m => m.date >= today && m.date <= ahead).map(m => ({date:m.date, t1:m.t1, t2:m.t2, kickoff:m.kickoff || '', city:m.city, country:m.country, stadium:m.stadium, comp:m.comp || '', ...(m.link ? {link:m.link} : {}), ...(m.timed ? {timed:1} : {}), ...(m.tm ? {tm:m.tm} : {})})) : []};
       stats.pages++;
     } catch(e){ stats.errors++; log('Wikipedia results: ' + title + ': ' + e.message); if (stats.errors >= 5) break; }
   }
@@ -172,7 +175,7 @@ export async function wikiResults({g = 'women', known, teams, cache, fetchImpl =
       const k = m.date + '|' + pairKey(home, away);
       /* the days this same page gives the pair: two boxes on one page are two matches (see feedHas) */
       const days = (P.upcoming || []).filter(o => (o.t1 === m.t1 && o.t2 === m.t2) || (o.t1 === m.t2 && o.t2 === m.t1)).map(o => o.date);
-      if (seenUp.has(k)){ const y = seenUp.get(k); y.owners.add(owner.get(title) || title); for (const d of days) if (!y.pairDates.includes(d)) y.pairDates.push(d); continue; }
+      if (seenUp.has(k)){ const y = seenUp.get(k); y.owners.add(owner.get(title) || title); if (!y.kickoff && m.kickoff) y.kickoff = m.kickoff; for (const d of days) if (!y.pairDates.includes(d)) y.pairDates.push(d); continue; }
       const x = {id:g + '|' + m.date + '|' + home + '|' + away, gender:g, date:m.date, kickoff:m.kickoff || null, home_team:home, away_team:away, comp:m.comp || '', link:m.link || '', pairDates:[...new Set(days)],
         city:m.city, stadium:m.stadium, country:boxCountry(m, cities, cityKey, toArchive, teams) || '', source:title, owners:new Set([owner.get(title) || title])};
       seenUp.set(k, x); upcoming.push(x);

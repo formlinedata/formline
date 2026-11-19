@@ -101,6 +101,10 @@ if (process.argv.includes('--refresh')){
 /* The review issue for today. */
 /* On international-window days: SOCIAL_SLOT=b, the 6 pm post; SOCIAL_SLOT=c, the 8 am results roundup. */
 const slot = (process.env.SOCIAL_SLOT || '').trim(), key = date + (slot ? '-' + slot : ''), label = `Post for ${date}${slot === 'c' ? ' (results)' : slot ? ' (evening)' : ''}:`;
+/* build/store/social-limits.json (18 Nov 2026, after Bluesky's removal and Meta's restriction): with oneADay, only the
+   main daily post goes out; an extra already prepared is left unposted. With stories false, no Story. */
+let limits = {}; try { limits = JSON.parse(fs.readFileSync(new URL('./store/social-limits.json', import.meta.url), 'utf8')); } catch(e){}
+if (slot && limits.oneADay){ note(`Not posted: one post a day for now (build/store/social-limits.json). The ${slot === 'c' ? 'results roundup' : 'evening post'} for ${date} stays in its issue if you want it by hand.`, 'notice'); process.exit(0); }
 const issues = await gh(`/issues?labels=social-post&state=all&per_page=30&sort=created&direction=desc`);
 const issue = issues.find(i => i.title.startsWith(label));
 if (!issue){ note(slot ? `No ${slot === 'c' ? 'results roundup' : 'evening post'} for ${date} (only made in international windows).` : `No post was prepared for ${date}.`, slot ? 'notice' : 'warning'); process.exit(0); }
@@ -149,7 +153,7 @@ if (igMediaId && meta.question && !done.has('commented')){
   catch(e){ lines.push(`The question comment didn't go on: ${e.message}${/permission|scope|\(#10\)|\(#200\)/i.test(e.message) ? '. The token needs three permissions for comments: instagram_manage_comments, pages_read_engagement and ads_read.' : ''}\n\nTo add it by hand, comment on the post with: ${meta.question}`); note('Instagram comment failed: ' + e.message, 'warning'); }
 }
 /* Window days: today's matches as an Instagram Story, after the feed post. A failure here never fails the run. */
-if (IG_USER_ID && IG_TOKEN && meta.story && done.has('posted') && !done.has('story')){
+if (IG_USER_ID && IG_TOKEN && meta.story && limits.stories !== false && done.has('posted') && !done.has('story')){
   try {
     const id = (await ig(`/${IG_USER_ID}/media`, {image_url:base + meta.story, media_type:'STORIES'})).id;
     for (let i = 0; i < 20; i++){ const st = await ig(`/${id}`, {fields:'status_code'}, 'GET'); if (st.status_code === 'FINISHED') break;
@@ -163,8 +167,10 @@ if (lines.length){
   lines.push("The X version above is yours to post by hand.");
   await comment(issue.number, lines.join('\n\n'));
 }
-/* Close the issue once every connected channel has it; while Instagram isn't connected, it stays open as a to-do. */
-const allDone = IG_USER_ID && done.has('posted') && (!BSKY_HANDLE || done.has('bluesky'));
+/* Close the issue once every connected channel has it; while Instagram isn't connected, it stays open as a to-do.
+   Bluesky counts as connected only with both its secrets (the app password was removed on 18 Nov 2026, after the
+   account was suspended). */
+const allDone = IG_USER_ID && done.has('posted') && (!(BSKY_HANDLE && BSKY_APP_PASSWORD) || done.has('bluesky'));
 await gh(`/issues/${issue.number}`, {method:'PATCH', body:JSON.stringify({labels:[...done], ...(allDone && !failed ? {state:'closed'} : {})})});
 if (failed) process.exit(1);
 

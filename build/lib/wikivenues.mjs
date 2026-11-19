@@ -100,11 +100,26 @@ export function boxTeam(s){
 /* Kick-off in UTC when the box gives a time with its offset, {{UTZ|20:00|-5}}; otherwise null (a bare time's zone is
    unknown). */
 export function boxKickoff(date, time){
-  const m = String(time || '').match(/\{\{\s*UTZ\s*\|\s*(\d{1,2}):(\d{2})\s*\|\s*([+\-−]?\d{1,2})(?::?(\d{2}))?/i);
-  if (!m || !date) return null;
-  const sign = /^[\-−]/.test(m[3]) ? -1 : 1, off = sign * (Math.abs(parseInt(m[3].replace('−', '-'), 10)) * 60 + (m[4] ? +m[4] : 0));
-  const t = Date.parse(date + 'T' + pad(m[1]) + ':' + m[2] + ':00Z') - off * 6e4;
-  return isNaN(t) ? null : new Date(t).toISOString().replace('.000Z', '+00:00');
+  if (!date) return null;
+  const at = (hh, mm, off) => { const t = Date.parse(date + 'T' + pad(hh) + ':' + mm + ':00Z') - off * 6e4; return isNaN(t) ? null : new Date(t).toISOString().replace('.000Z', '+00:00'); };
+  const raw = String(time || '').replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/gi, '');
+  const m = raw.match(/\{\{\s*UTZ\s*\|\s*(\d{1,2}):(\d{2})\s*\|\s*([+\-−]?\d{1,2})(?::?(\d{2}))?/i);
+  if (m){
+    const sign = /^[\-−]/.test(m[3]) ? -1 : 1, off = sign * (Math.abs(parseInt(m[3].replace('−', '-'), 10)) * 60 + (m[4] ? +m[4] : 0));
+    return at(m[1], m[2], off);
+  }
+  /* The other common way of writing it: "19:30 [[UTC−10:00|UTC−10]]", "20:00 CET (UTC+1)", "16:00 GMT". One time and
+     one offset, or nothing: "19:30 local (05:30 UTC)" has two times and is left alone. */
+  const offs = new Set(); let rest = raw.replace(/\b(?:UTC|GMT)\s*(?:([+\-−])\s*(\d{1,2})(?::?(\d{2}))?|±\s*0{1,2}(?::?00)?)?/g, (all, sg, h, mi) => {
+    offs.add(sg ? (sg === '+' ? 1 : -1) * (+h * 60 + (mi ? +mi : 0)) : 0); return ' '; });
+  if (offs.size !== 1) return null;
+  const off = [...offs][0]; if (Math.abs(off) > 14 * 60) return null;
+  const times = [...rest.matchAll(/(?<![\d:.])(\d{1,2})[:.](\d{2})(?![\d:])(?:\s*([ap])\.?m\b\.?)?/gi)];
+  if (times.length !== 1) return null;
+  let hh = +times[0][1]; const mm = times[0][2], ap = (times[0][3] || '').toLowerCase();
+  if (ap){ if (hh < 1 || hh > 12) return null; hh = hh % 12 + (ap === 'p' ? 12 : 0); }
+  if (hh > 23 || +mm > 59) return null;
+  return at(hh, mm, off);
 }
 /* Wiki markup to plain text: links to their text, templates and references out. */
 export const plain = s => String(s || '').replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/gi, '').replace(/\{\{[^{}]*\}\}/g, '')
@@ -161,8 +176,10 @@ export function pageMatches(wikitext, today, year){
     if (!date || !t1 || !t2) continue;
     /* timed: a kick-off time is given, with or without its zone ("19:30 SGT"). A box with none has a provisional date. */
     const timed = /\d{1,2}[:.]\d{2}/.test(String(P.time || '').replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/gi, ''));
-    const link = compLink(P);
-    out.push({date, t1, t2, ...boxPlace(P), kickoff:boxKickoff(date, P.time), comp:plain(P.round || P.event || P.title || ''), ...(link ? {link} : {}), ...(timed ? {timed:1} : {})});
+    const link = compLink(P), kickoff = boxKickoff(date, P.time);
+    /* tm: a time the reader could not turn into a kick-off, as the page words it ("19:30 TAHT"): kept to learn from. */
+    out.push({date, t1, t2, ...boxPlace(P), kickoff, comp:plain(P.round || P.event || P.title || ''), ...(link ? {link} : {}), ...(timed ? {timed:1} : {}),
+      ...(timed && !kickoff ? {tm:plain(P.time).slice(0, 40)} : {})});
   }
   return out;
 }

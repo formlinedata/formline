@@ -278,7 +278,10 @@ export async function run(){
       if (list === null) break;
       if (list.outside || list.failed) continue;
       const wikiKept = {};   // what Wikipedia found (venue, or the real date) survives the day being asked about again
-      for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].date === date){ if (fixturesStore[k].wiki) wikiKept[k] = fixturesStore[k].wiki; delete fixturesStore[k]; }
+      /* A match only Wikipedia lists stays: the feed's answer for the day says nothing about it. (Until 16 Nov 2026 it
+         went here, on the first match-day run after each full run, and its forecast with it: Tahiti v Cook Islands.)
+         Step 3 drops it once the feed has the match. */
+      for (const k of Object.keys(fixturesStore)) if (fixturesStore[k].date === date && !fixturesStore[k].wikiOnly){ if (fixturesStore[k].wiki) wikiKept[k] = fixturesStore[k].wiki; delete fixturesStore[k]; }
       delete state.watch[date];
       let unknownHere = false;
       for (const f of list){
@@ -457,6 +460,9 @@ export async function run(){
 
   // 3. Merge, write
   const fixtures = {built, men:[], women:[]}, expired = [], merged = {};
+  /* Results held for the last few days, to tell a fixture with no kick-off time that has been played from one still to come. */
+  const lately = {}; for (const g of ['men', 'women']) lately[g] = A[g].concat(gap[g], manualOf(g), wikiFill[g] || []).filter(x => dayNum(x.date) >= dayNum(today) - 3);
+  const playedNear = (r, day) => (lately[r.gender] || []).some(x => ((x.home_team === r.home_team && x.away_team === r.away_team) || (x.home_team === r.away_team && x.away_team === r.home_team)) && Math.abs(dayNum(x.date) - dayNum(day)) <= 1);
   for (const r of Object.values(fixturesStore)){
     /* Tournaments moved by their organiser while the API still lists the old dates: left out until the API catches up. */
     if (POSTPONED.some(x => x.tournament.test(r.tournament || '') && r.date < x.before)) continue;
@@ -468,7 +474,13 @@ export async function run(){
     const w = r.wiki || {};
     const wk = w.kickoff && (!r.kickoff || Math.abs(Date.parse(w.kickoff) - Date.parse(r.kickoff)) >= 36e5) ? w.kickoff : null;
     const moved = w.date && w.date !== r.date ? w.date : (wk && w.boxDate && w.boxDate !== r.date ? w.boxDate : null);
-    if ((moved || r.date) < today){ expired.push({...r, date:moved || r.date}); delete fixturesStore[r.api_id]; continue; }
+    /* Over when its day has passed. The day is the kick-off's own (UTC) where the time is known: a box dated 16 Nov,
+       19:30 in Tahiti, kicks off on 17 Nov by UTC. With no time known the box's day is local and may run into the next
+       UTC day, so the fixture stays one day more, unless the result is already held. */
+    const ko = wk || (moved ? '' : r.kickoff) || '', koDay = ko && !isNaN(Date.parse(ko)) ? new Date(Date.parse(ko)).toISOString().slice(0, 10) : '';
+    const boxDay = moved || r.date, lastDay = koDay && koDay > boxDay ? koDay : boxDay;
+    const over = lastDay < today && (koDay || dayNum(lastDay) < dayNum(today) - 1 || playedNear(r, boxDay));
+    if (over){ expired.push({...r, date:boxDay}); delete fixturesStore[r.api_id]; continue; }
     /* A Wikipedia-only match the API has since added (a light run can add it before the next full run): the API's wins. */
     if (r.wikiOnly && feedHas(r.date, Object.values(fixturesStore).filter(f => !f.wikiOnly && f.gender === r.gender &&
       ((f.home_team === r.home_team && f.away_team === r.away_team) || (f.home_team === r.away_team && f.away_team === r.home_team))).map(f => f.date), r.pairDates || [])){ delete fixturesStore[r.api_id]; continue; }
@@ -521,13 +533,20 @@ export async function run(){
   const record = readJSON(recFile, {entries:[]});
   if (fixtures.men.length || fixtures.women.length || record.entries.some(e => !e.result && !e.void)){
     const model = loadModel(process.env.SITE_HTML || path.join(ROOT, 'index.html'));
-    const now = process.env.NOW ? Date.parse(process.env.NOW) : Date.now(), merged = {};
+    const now = process.env.NOW ? Date.parse(process.env.NOW) : Date.now(), played = {};
     for (const g of ['men', 'women']){
       model.load(g, readJSON(path.join(DATA, g + '.json'), null));
-      merged[g] = A[g].concat(gap[g]).filter(r => r.date >= iso(now - 60 * DAY));
+      /* Every result the site holds, hand-added and Wikipedia ones too: until 17 Nov 2026 only the archive's and the
+         feed's were looked at, so a forecast for a match only Wikipedia had could never be scored. */
+      played[g] = (merged[g] || A[g].concat(gap[g])).filter(r => r.date >= iso(now - 60 * DAY));
     }
+    /* Forecasts that were published before kick-off and then lost to a fault (build/store/forecast-restore.json, each
+       as last published, with a note): put back once their kick-off has passed, and scored like any other. */
+    const have = new Set(record.entries.map(e => e.id));
+    for (const e of readJSON(path.join(STORE, 'forecast-restore.json'), []))
+      if (!have.has(e.id) && Date.parse(e.kickoff || (e.date + 'T23:59:00Z')) <= now) record.entries.push({...e});
     const known = {men:fixtures.men.filter(f => !f.tbd), women:fixtures.women.filter(f => !f.tbd)};   // no forecast until both sides are known
-    const u = updateRecord(record.entries, known, (g, list) => model.forecast(g, list), merged, now, built);
+    const u = updateRecord(record.entries, known, (g, list) => model.forecast(g, list), played, now, built);
     writeJSON(recFile, {built, entries:u.list});
     status.forecasts = {total:u.list.length, scored:u.list.filter(e => e.result).length, newThisRun:u.made, updatedThisRun:u.updated, scoredThisRun:u.scored, droppedThisRun:u.dropped || 0};
   }

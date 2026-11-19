@@ -707,8 +707,9 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     for (const t of order){ if (data) break; try { data = await run(t, extraOf(t)); } catch(e){ console.log(`${t}: ${e.message.split('\n')[0]}`); } }
     if (!data) throw new Error('No post could be made today');
     /* Gathered now, while the site page is still loaded (drawing the slides navigates away from it). */
-    let storyData = null;
-    if (!slot && !type){ try { const w = await page.evaluate(now => window.FL_SOCIAL.windowOn({now}), now);
+    let storyData = null, noStories = false;
+    try { noStories = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'store', 'social-limits.json'), 'utf8')).stories === false; } catch(e){}
+    if (!slot && !type && !noStories){ try { const w = await page.evaluate(now => window.FL_SOCIAL.windowOn({now}), now);
       if (w && w.on) storyData = await run('storyToday'); } catch(e){ console.log('story: ' + e.message.split('\n')[0]); } }
     const post = BUILD[data.type](data);
     const key = date + (slot ? '-' + slot : ''), dir = path.join(out, key); fs.rmSync(dir, {recursive:true, force:true}); fs.mkdirSync(dir, {recursive:true});
@@ -770,6 +771,9 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   let used = [], recentTypes = [];
   try { const u = JSON.parse(fs.readFileSync(process.env.SOCIAL_USED || path.join(OUT, 'used.json'), 'utf8')); used = u.ids || []; recentTypes = u.recentTypes || []; } catch(e){}
   let meta = null;
+  /* build/store/social-limits.json: with oneADay, the window-day extras (results roundup, evening post) are not made. */
+  let limits = {}; try { limits = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'store', 'social-limits.json'), 'utf8')); } catch(e){}
+  if (process.env.SOCIAL_SLOT && limits.oneADay){ console.log('No extra post: one post a day for now (build/store/social-limits.json).'); if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, 'title=\n'); process.exit(0); }
   try { meta = await makePost({used, recentTypes}); }
   catch(e){ if (!process.env.SOCIAL_SLOT) throw e; console.log(`No evening post: ${e.message}`); }   // the evening post is a bonus: never fail the run for it
   if (!meta){ if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, 'title=\n'); process.exit(0); }

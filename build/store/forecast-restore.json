@@ -1,0 +1,68 @@
+[
+ {
+  "id": "men|2026-11-16|Tahiti|Cook Islands",
+  "g": "men",
+  "date": "2026-11-16",
+  "kickoff": "2026-11-16T12:00:00+00:00",
+  "home": "Tahiti",
+  "away": "Cook Islands",
+  "tournament": "Friendly",
+  "made": "2026-11-16T08:54:51.402Z",
+  "updated": "2026-11-16T08:54:51.402Z",
+  "p": [
+   0.9364,
+   0.0475,
+   0.0161
+  ],
+  "xg": [
+   3.94,
+   0.3
+  ],
+  "likely": "4-0",
+  "side": 1,
+  "ratings": [
+   1111,
+   592
+  ],
+  "bands": [
+   236,
+   316
+  ],
+  "asOf": "2026-11-15",
+  "result": null,
+  "restored": "Published from 15 Nov (this version from the nightly run of 16 Nov, commit 234c9a17, before kick-off) and dropped by a match-day run when the fixture was wrongly removed; put back 17 Nov 2026"
+ },
+ {
+  "id": "men|2026-11-17|Lebanon|Palestine",
+  "g": "men",
+  "date": "2026-11-17",
+  "kickoff": "2026-11-17T13:00:00+00:00",
+  "home": "Lebanon",
+  "away": "Palestine",
+  "tournament": "Friendly",
+  "made": "2026-11-17T07:29:05.875Z",
+  "updated": "2026-11-17T07:29:05.875Z",
+  "p": [
+   0.2056,
+   0.2806,
+   0.5138
+  ],
+  "xg": [
+   0.77,
+   1.35
+  ],
+  "likely": "0-1",
+  "side": 0,
+  "ratings": [
+   1339,
+   1494
+  ],
+  "bands": [
+   165,
+   156
+  ],
+  "asOf": "2026-11-17",
+  "result": null,
+  "restored": "Published from 15 Nov (this version from the nightly run of 17 Nov, commit dda49b8b, 07:42 UTC, before the 13:00 UTC kick-off) and dropped by the 08:41 UTC match-day run when the fixture was wrongly removed; put back 17 Nov 2026"
+ }
+]

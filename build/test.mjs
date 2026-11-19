@@ -93,6 +93,13 @@ const ok = (cond, label) => { assert.ok(cond, label); passed++; console.log('  o
     'Wikipedia: Taiwan found under its Wikipedia name, Chinese Taipei');
   // the competition's own season article: Curaçao v Panama, listed in the API on a placeholder date
   ok(W.boxKickoff('2026-11-14', '{{UTZ|20:00|-5}}') === '2026-11-15T01:00:00+00:00' && W.boxKickoff('2026-11-15', '18:00') === null, 'Wikipedia: kick-off from a time with its UTC offset only');
+  ok(W.boxKickoff('2026-11-16', '19:30 [[UTC−10:00|UTC−10]]') === '2026-11-17T05:30:00+00:00' && W.boxKickoff('2026-11-15', '20:00 [[Central European Time|CET]] ([[UTC+01:00|UTC+1]])') === '2026-11-15T19:00:00+00:00' &&
+    W.boxKickoff('2026-11-15', '17:30 [[UTC+05:30|UTC+5:30]]') === '2026-11-15T12:00:00+00:00' && W.boxKickoff('2026-11-15', '16:00 [[Greenwich Mean Time|GMT]]') === '2026-11-15T16:00:00+00:00' &&
+    W.boxKickoff('2026-11-15', '7:30 pm UTC-4') === '2026-11-15T23:30:00+00:00', 'Wikipedia: kick-off from a time written with its zone as text (19:30 UTC−10 on 16 Nov is 05:30 UTC on the 17th)');
+  ok(W.boxKickoff('2026-11-15', '19:30 local (05:30 UTC)') === null && W.boxKickoff('2026-11-15', '20:00 [[UTC+2]] / 19:00 [[UTC+1]]') === null && W.boxKickoff('2026-11-15', '19:30 [[Tahiti Time|TAHT]]') === null,
+    'Wikipedia: two times, two offsets or a zone by name only: no kick-off taken');
+  { const tb = W.pageMatches("{{Football box collapsible |date={{Start date|2026|11|16}} |time=19:30 [[Tahiti Time|TAHT]] |team1={{fb-rt|TAH}} |team2={{fb|COK}} |stadium=[[Stade Louis Ganivet]] |location=[[Faʼaʼā]], Tahiti }}", '2026-11-01')[0];
+    ok(tb && tb.timed === 1 && !tb.kickoff && tb.tm === '19:30 TAHT', 'Wikipedia: a time the reader cannot use is kept as the page words it'); }
   const odd = W.pageMatches("{{Football box |date={{Start date|2026|11|13}} |team1={{fb-rt|MSR}} |team2={{fb|NCA}} |stadium=[[Estadio Cibao FC]], [[Santiago de los Caballeros|Santiago]], Dominican Republic }}" +
     "{{Football box |date={{Start date|2026|11|17}} |team1={{fb-rt|BLZ}} |team2={{fb|SMA}} |stadium=[[Arnos Vale Stadium]], [[Kingstown]] (Saint Vincent and the Grenadines) }}" +
     "{{Football box |date={{Start date|2026|11|14}} |team1={{fb-rt|HAI}} |team2={{fb|USA}} |stadium=[[Nu Stadium]], [[Miami]], (United States){{refn|group=note|Haiti played at home in Miami}} }}");
@@ -363,8 +370,35 @@ ok(planDates('2026-09-26', '2026-09-20', {}, 'light').join() === '2026-09-25,202
   ok(sl.idle && asked.length === 0 && fs.statSync(path.join(root, 'data/status.json')).mtimeMs === sm, 'light run with no match near: no requests, no files');
   // light run with a fixture tomorrow: only three days asked
   process.env.TODAY = '2026-10-08';
+  /* Three matches only Wikipedia lists sit in the store: one today with no time, one dated yesterday whose kick-off is
+     today by UTC (an evening match in the Pacific), one dated yesterday with no time, and one two days old. */
+  { const sf = path.join(root, 'build/store/fixtures.json'), S = JSON.parse(fs.readFileSync(sf, 'utf8'));
+    const wk = (date, kickoff, h, a) => ({date, kickoff, home_team:h, away_team:a, tournament:'Friendly', city:'', country:'', neutral:'', venue_id:'', api_id:'wiki:men|' + date + '|' + h + '|' + a,
+      league:'Friendly', unmapped_tournament:'', tbd:'', tbc:kickoff ? '' : 1, gender:'men', wikiOnly:1, wikiSource:'X', pairDates:[date], wiki:{city:'', country:'', stadium:''}});
+    for (const r of [wk('2026-10-08', '', 'Gambia', 'Zambia'), wk('2026-10-07', '2026-10-08T05:30:00+00:00', 'Zambia', 'Argentina'), wk('2026-10-07', '', 'Gambia', 'Argentina'), wk('2026-10-06', '', 'Argentina', 'Zambia')]) S[r.api_id] = r;
+    fs.writeFileSync(sf, JSON.stringify(S)); }
   const sl2 = await run();
   ok(!sl2.idle && sl2.mode === 'light' && asked.filter(a => a === '/fixtures').length === 3 && sl2.api.budget === 60, 'light run on a match day asks about three days');
+  { const F = JSON.parse(fs.readFileSync(path.join(root, 'data/fixtures.json'), 'utf8')).men.filter(x => x.src === 'wiki').map(x => x.date + ' ' + x.home + ' v ' + x.away + (x.tbc ? ' tbc' : '')).sort().join('; ');
+    ok(F === '2026-10-07 Gambia v Argentina tbc; 2026-10-07 Zambia v Argentina; 2026-10-08 Gambia v Zambia tbc',
+      'a match only Wikipedia lists survives the match-day runs: kept on its day, on the day its kick-off falls by UTC, and one day more with no time known (' + F + ')');
+    const sf = path.join(root, 'build/store/fixtures.json'), S = JSON.parse(fs.readFileSync(sf, 'utf8'));
+    for (const k of Object.keys(S)) if (S[k].wikiOnly) delete S[k];
+    fs.writeFileSync(sf, JSON.stringify(S)); }
+  /* A forecast lost to that fault is put back from build/store/forecast-restore.json once its kick-off has passed, and
+     scored against a result held by hand (or from Wikipedia), which the record used not to look at. */
+  { const mf = path.join(root, 'build/store/manual-men.csv'), had = fs.existsSync(mf) ? fs.readFileSync(mf, 'utf8') : null;
+    fs.writeFileSync(mf, 'date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,shootout_winner,source,separate\n2026-10-06,Argentina,Zambia,2,1,Friendly,Buenos Aires,Argentina,FALSE,,test,\n');
+    const rf = path.join(root, 'build/store/forecast-restore.json');
+    fs.writeFileSync(rf, JSON.stringify([{id:'men|2026-10-06|Argentina|Zambia', g:'men', date:'2026-10-06', kickoff:'2026-10-06T18:00:00+00:00', home:'Argentina', away:'Zambia', tournament:'Friendly',
+      made:'2026-10-05T06:00:00Z', updated:'2026-10-05T06:00:00Z', p:[0.7, 0.2, 0.1], xg:[2, 0.5], likely:'2-0', side:1, ratings:[1, 2], bands:[1, 1], asOf:'2026-10-05', result:null, restored:'test'},
+      {id:'men|2026-12-01|Argentina|Gambia', g:'men', date:'2026-12-01', kickoff:'2026-12-01T18:00:00+00:00', home:'Argentina', away:'Gambia', p:[0.5, 0.3, 0.2], result:null, restored:'not yet'}]));
+    process.env.NOW = '2026-10-08T12:00:00Z'; await run(); delete process.env.NOW;
+    const R = JSON.parse(fs.readFileSync(path.join(root, 'data/forecasts.json'), 'utf8')).entries, e = R.find(x => x.id === 'men|2026-10-06|Argentina|Zambia');
+    ok(e && e.restored === 'test' && e.result && e.result.join() === '2,1' && e.outcome === 0 && !R.some(x => x.id === 'men|2026-12-01|Argentina|Gambia'),
+      'a forecast lost to a fault is put back after kick-off and scored against a hand-added result; one not yet kicked off is left alone');
+    fs.unlinkSync(rf); if (had === null) fs.unlinkSync(mf); else fs.writeFileSync(mf, had);
+    const ff = path.join(root, 'data/forecasts.json'); fs.writeFileSync(ff, JSON.stringify({built:'x', entries:R.filter(x => !x.restored)})); }
   delete process.env.RUN_MODE; process.env.TODAY = '2026-09-26';
 }
 ok(menMtime > 0, 'men.json written');
