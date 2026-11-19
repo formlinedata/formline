@@ -1045,6 +1045,371 @@
     "country": "Estonia",
     "comp": "Friendly"
    }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-10",
+   "home": "Belarus",
+   "away": "Serbia",
+   "score": "0-5",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Antalya",
+   "api_id": 595991,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-24",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-10",
+   "home": "Austria",
+   "away": "Switzerland",
+   "score": "1-2",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Marbella",
+   "api_id": 595992,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-24",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-09",
+   "home": "Faroe Islands",
+   "away": "Estonia",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Tórshavn, Streymoy",
+   "api_id": 595972,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-23",
+    "found": "agree",
+    "pages": "A",
+    "otherLists": 0,
+    "date": "2020-03-09",
+    "first": "Faroe Islands",
+    "city": "Tórshavn",
+    "country": "Faroe Islands",
+    "comp": "Friendly"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-08",
+   "home": "South Africa",
+   "away": "Lesotho",
+   "score": "3-0",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Brakpan",
+   "api_id": 595975,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-22",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-06",
+   "home": "Armenia",
+   "away": "Lithuania",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Yerevan",
+   "api_id": 595982,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-20",
+    "found": "agree",
+    "pages": "H",
+    "otherLists": 0,
+    "date": "2020-03-06",
+    "first": "Armenia",
+    "city": "",
+    "country": "",
+    "comp": "Friendly",
+    "others": [
+     "2020-03-04 0-1"
+    ]
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-06",
+   "home": "Switzerland",
+   "away": "Austria",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Marbella",
+   "api_id": 595989,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-20",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-04",
+   "home": "Armenia",
+   "away": "Lithuania",
+   "score": "0-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Yerevan",
+   "api_id": 595981,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-18",
+    "found": "agree",
+    "pages": "H",
+    "otherLists": 0,
+    "date": "2020-03-04",
+    "first": "Armenia",
+    "city": "Yerevan",
+    "country": "Armenia",
+    "comp": "Friendly",
+    "others": [
+     "2020-03-06 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2020-02-28",
+   "home": "Rwanda",
+   "away": "Congo",
+   "score": "0-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "Kigali",
+   "api_id": 323226,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-13",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2020-02-24",
+   "home": "Cameroon",
+   "away": "Rwanda",
+   "score": "0-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 323216,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-09",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2020-02-20",
+   "home": "Congo",
+   "away": "Cameroon",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 324086,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-05",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2020-02-16",
+   "home": "DR Congo",
+   "away": "Cameroon",
+   "score": "0-1",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 324087,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-01",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-31",
+   "home": "Morocco",
+   "away": "Tunisia",
+   "score": "6-3",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Témara",
+   "api_id": 595988,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-15",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-28",
+   "home": "Myanmar",
+   "away": "Thailand",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Mandalay",
+   "api_id": 595980,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-12",
+    "found": "agree",
+    "pages": "HA",
+    "date": "2020-01-28",
+    "first": "Myanmar",
+    "city": "Mandalay",
+    "country": "Myanmar",
+    "comp": "Friendly",
+    "others": [
+     "2020-01-25 1-2"
+    ]
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-28",
+   "home": "Morocco",
+   "away": "Tunisia",
+   "score": "2-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Salé",
+   "api_id": 595987,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-12",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-25",
+   "home": "Myanmar",
+   "away": "Thailand",
+   "score": "1-2",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Mandalay",
+   "api_id": 595979,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-09",
+    "found": "agree",
+    "pages": "HA",
+    "date": "2020-01-25",
+    "first": "Myanmar",
+    "city": "Mandalay",
+    "country": "Myanmar",
+    "comp": "Friendly",
+    "others": [
+     "2020-01-28 1-1"
+    ]
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-22",
+   "home": "Montenegro",
+   "away": "Bosnia and Herzegovina",
+   "score": "2-3",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Podgorica",
+   "api_id": 595978,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-06",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-20",
+   "home": "Canada",
+   "away": "Haiti",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Austin",
+   "api_id": 595977,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-04",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-17",
+   "home": "Malta",
+   "away": "Turkey",
+   "score": "1-2",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Ta'Qali",
+   "api_id": 595986,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-01",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-14",
+   "home": "Malta",
+   "away": "Switzerland",
+   "score": "2-2",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Ta'Qali",
+   "api_id": 595985,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-03-29",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-11-19",
+   "home": "Morocco",
+   "away": "Guinea",
+   "score": "3-1",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 291076,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-02-02",
+    "found": "none"
+   }
   }
  ],
  "diffs": [
@@ -1097,7 +1462,7 @@
    "heldDate": "2021-10-21"
   }
  ],
- "days": 2400,
+ "days": 2600,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -1176,7 +1541,7 @@
   "Standard Liege": 1
  },
  "updated": "2026-11-19",
- "cursor": "2020-03-11",
+ "cursor": "2019-08-24",
  "done": null,
  "from": "2014-11-01"
 }
