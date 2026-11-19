@@ -1,4 +1,9 @@
 {
+ "110": {
+  "name": "Estadio Mario Alberto Kempes",
+  "city": "Ciudad de Córdoba, Provincia de Córdoba",
+  "country": "Argentina"
+ },
  "121": {
   "name": "Vazgen Sargsyan anvan Hanrapetakan Marzadasht",
   "city": "Yerevan",
@@ -13,6 +18,11 @@
   "name": "BMO Field",
   "city": "Toronto, Ontario",
   "country": "Canada"
+ },
+ "390": {
+  "name": "Stade Alphonse Massamba-Débat",
+  "city": "Brazzaville",
+  "country": "Congo"
  },
  "391": {
   "name": "Stade des Martyrs",
@@ -74,6 +84,11 @@
   "city": "Milano",
   "country": "Italy"
  },
+ "992": {
+  "name": "Nyayo National Stadium",
+  "city": "Nairobi",
+  "country": "Kenya"
+ },
  "1045": {
   "name": "Toše Proeski Arena",
   "city": "Skopje",
@@ -124,6 +139,11 @@
   "city": "Vaduz",
   "country": "Liechtenstein"
  },
+ "1689": {
+  "name": "National Sports Stadium",
+  "city": "Harare",
+  "country": "Zimbabwe"
+ },
  "1918": {
   "name": "Panthessaliko Stadio",
   "city": "Volos",
@@ -169,10 +189,30 @@
   "city": "Andorra la Vella",
   "country": "Andorra"
  },
+ "3149": {
+  "name": "Bahir Dar Stadium",
+  "city": "Bahir Dar",
+  "country": "Ethiopia"
+ },
+ "3501": {
+  "name": "Estadio Nacional de Fútbol (UNAN)",
+  "city": "Managua",
+  "country": "Nicaragua"
+ },
+ "3905": {
+  "name": "Hasely Crawford Stadium",
+  "city": "Port of Spain",
+  "country": "Trinidad-And-Tobago"
+ },
  "3930": {
   "name": "Levy Mwanawasa Stadium",
   "city": "Ndola",
   "country": "Zambia"
+ },
+ "10635": {
+  "name": "WE Al-Ahly Stadium",
+  "city": "Cairo",
+  "country": "Egypt"
  },
  "11600": {
   "name": "Parken",
@@ -183,6 +223,11 @@
   "name": "Ullevaal Stadion",
   "city": "Oslo",
   "country": "Norway"
+ },
+ "11905": {
+  "name": "Estadio BBVA",
+  "city": "Guadalupe",
+  "country": "Mexico"
  },
  "11918": {
   "name": "PayPal Park",
@@ -203,6 +248,11 @@
   "name": "Estádio Cívitas Metropolitano",
   "city": "Madrid",
   "country": "Spain"
+ },
+ "19229": {
+  "name": "TQL Stadium",
+  "city": "Cincinnati, Ohio",
+  "country": "USA"
  },
  "19513": {
   "name": "epet ARENA",
