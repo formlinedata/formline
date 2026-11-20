@@ -322,7 +322,7 @@
   details.comp-row[open] > summary .comp-name::before{transform:rotate(90deg);} details.comp-row[open] > .ed-chips{margin-top:8px;}
   .comp-latest{flex:none;font-size:12.5px;text-decoration:none;} details.comp-cat > summary{cursor:pointer;list-style:none;} details.comp-cat > summary::-webkit-details-marker{display:none;}
   .ed-div{flex-basis:100%;font-size:12.5px;font-weight:600;color:var(--dim);margin:6px 0 2px;padding-top:6px;border-top:1px dashed var(--line);} .ed-div:first-child{border-top:0;margin-top:0;padding-top:0;}
-  .comp-tools{margin:0 0 12px;} .wc-today td{vertical-align:top;} .wct-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} .wct-po{margin-top:4px;padding-top:4px;border-top:1px dashed var(--line);} .cp-pick{font:inherit;font-size:12.5px;margin-left:8px;padding:2px 6px;border:1px solid var(--line-strong);border-radius:6px;background:var(--panel);color:var(--chalk);}
+  .comp-tools{margin:0 0 12px;} .wc-today td{vertical-align:top;} tr.hl td{background:var(--panel-2);font-weight:600;} .ed-groups td{vertical-align:top;} .wct-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} .wct-po{margin-top:4px;padding-top:4px;border-top:1px dashed var(--line);} .cp-pick{font:inherit;font-size:12.5px;margin-left:8px;padding:2px 6px;border:1px solid var(--line-strong);border-radius:6px;background:var(--panel);color:var(--chalk);}
   table.sd-t{width:100%;font-size:13.5px;} table.sd-t th{text-align:left;font-size:12.5px;color:var(--dim);padding:6px 8px;white-space:nowrap;vertical-align:top;} table.sd-t td{padding:6px 8px;border-top:1px solid var(--line);vertical-align:top;}
   span.sd-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} span.sd-diff{font-weight:600;}
   @media (max-width:560px){ table.sd-t{table-layout:fixed;font-size:13px;} table.sd-t th{padding:6px 4px;white-space:normal;} table.sd-t tr:first-child > :first-child{width:44px;} table.sd-t td{padding:6px 4px;overflow-wrap:anywhere;} span.sd-t{white-space:normal;margin-right:4px;} }
@@ -4954,7 +4954,7 @@ function viewSources(){
       ['Results newer than the archives, and upcoming fixtures', a('https://www.api-football.com', 'API-Football'), 'Used under the site\'s paid plan'],
       ['Venues and kick-off times API-Football does not have yet', a('https://en.wikipedia.org', 'Wikipedia')+'\'s results and competition articles', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Men\'s results missing from the archive, added by hand (2,283 matches, each found in two other records); scores corrected where two other records agree against the archive; and the score on the pitch for results awarded afterwards', a('https://www.eloratings.net/', 'World Football Elo Ratings')+' and '+a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team results pages, with '+a('https://www.rsssf.org', 'RSSSF')+' as the third record for some older matches. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')+' (Wikipedia)'],
-      ['Women\'s results missing from the archives and API-Football, added by hand (548 matches: five 2026 tournaments, the 2025 East Asian championship, the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, missing qualifiers and recent friendlies); and a few scores and dates corrected', a('https://en.wikipedia.org', 'Wikipedia')+'\'s tournament and national-team articles. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
+      ['Women\'s results missing from the archives and API-Football, added by hand (551 matches: five 2026 tournaments, the 2025 East Asian championship, the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, missing qualifiers and recent friendlies); and a few scores and dates corrected', a('https://en.wikipedia.org', 'Wikipedia')+'\'s tournament and national-team articles. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Women\'s results neither the archives nor API-Football have, found each night', a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team articles, kept when two pages agree or the result stays up for two days. Marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Historical results and tables', a('https://www.rsssf.org', 'RSSSF')+' (the Rec.Sport.Soccer Statistics Foundation), through the archives above. '+
         'It will be the main source for Formline\'s club history, with credit to the author of each page used, by kind permission of Karel Stokkermans. Already used for the organiser\'s seeding at the 1998 African Cup of Nations.', 'Used with permission'],
@@ -6000,6 +6000,7 @@ function viewTeam(){
         'Each dot is the published rating after one of its matches in the last two years; before that the line takes a point <span id="teamChartStep">every four months</span>.</p>'+
       '</div></div>'+
     historySection(key)+
+    teamRunsSection()+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Matches <span class="muted" style="font-weight:400;">'+h.length+'</span><span class="aside">ratings as published at the time of each one'+
       ' <span class="chips hv-chips" id="rkChips" title="Rank just after each match">Rank: <button class="chip'+(rkConf ? '' : ' on')+'" data-rk="world">World</button>'+
       '<button class="chip'+(rkConf ? ' on' : '')+'" data-rk="conf">Confederation</button></span></span></div>'+
@@ -6042,6 +6043,7 @@ function viewTeam(){
   document.querySelectorAll('#hvChips [data-hv]').forEach(b => b.addEventListener('click', () => go({hv:b.dataset.hv === 'win' ? 'win' : undefined, rk:state.params.rk})));
   document.querySelectorAll('#rkChips [data-rk]').forEach(b => b.addEventListener('click', () => go({rk:b.dataset.rk === 'conf' ? 'conf' : undefined, hv:state.params.hv})));
   fillHistory(key);
+  bindTeamRuns(key);
   document.querySelectorAll('.tm-list').forEach(l => { const m = l.querySelector('.me'); if (m) l.scrollTop = Math.max(0, m.offsetTop - l.offsetTop - l.clientHeight/2 + m.offsetHeight/2); });
   teamChartLater(key, team);
   loadBadges();
@@ -11011,7 +11013,32 @@ const EDITION_ABSENT = {
   'men|FIFA World Cup|1994':{Serbia:'Yugoslavia was excluded from qualifying under United Nations sanctions'},
   'men|FIFA World Cup|2022':{Russia:'banned: suspended by FIFA and UEFA in February 2022, before its play-off'},
   'men|FIFA World Cup|2026':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
-  'women|FIFA World Cup|2023':{Russia:'banned: suspended by FIFA and UEFA since February 2022'}};
+  'women|FIFA World Cup|2023':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
+  /* Continental championships (19 Nov 2026), from each edition's Wikipedia page, the team's "at the …" record page and RSSSF. */
+  'men|AFC Asian Cup|1968':{China:'not a FIFA member: the People\'s Republic left in 1958 and returned in 1979'},
+  'men|AFC Asian Cup|1972':{Israel:'withdrew: it had qualified as hosts, then pulled out, and Thailand staged the finals'},
+  'men|AFC Asian Cup|1980':{Iraq:'withdrew'}, 'men|AFC Asian Cup|1984':{Iraq:'withdrew'}, 'men|AFC Asian Cup|1988':{Iraq:'withdrew'},
+  'men|AFC Asian Cup|1992':{Iraq:'banned after the Gulf War'},
+  'men|African Cup of Nations|1965':{Egypt:'withdrew after qualifying, in a diplomatic dispute with the hosts, Tunisia'},
+  'men|African Cup of Nations|1998':{Nigeria:'banned by the African confederation after pulling out of the 1996 finals'},
+  'men|CONCACAF Championship|Feb 1985':{Mexico:'did not take part: this was the 1986 World Cup\'s qualifying, and Mexico were in as hosts'},
+  'men|CONCACAF Championship|Aug 1985':{Mexico:'did not take part: this was the 1986 World Cup\'s qualifying, and Mexico were in as hosts'},
+  'men|CONCACAF Championship|1989':{Mexico:'banned by FIFA for fielding over-age players in a 1988 youth qualifying tournament'},
+  'men|Copa América|1925':{Uruguay:'withdrew, in a dispute inside its own association'},
+  'men|Copa América|1939':{Argentina:'withdrew', Brazil:'withdrew'},
+  'men|Copa América|1947':{Brazil:'withdrew'},
+  'men|Copa América|1949':{Argentina:'withdrew'},
+  'men|Copa América|1955':{Brazil:'did not take part'},
+  'men|Copa América|1967':{Brazil:'withdrew'},
+  'men|Copa América|2001':{Argentina:'withdrew'},
+  'men|Gold Cup|2002':{Honduras:'out in qualifying: the 2001 UNCAF Nations Cup, Central America\'s qualifying tournament, which it hosted'},
+  'men|Oceania Nations Cup|1973':{Australia:'not a member: it left the Oceania confederation in 1972 and returned in 1978'},
+  'men|UEFA Euro|1996':{Serbia:'Yugoslavia was excluded from qualifying under United Nations sanctions'},
+  'women|AFC Asian Cup|2014':{'North Korea':'banned: FIFA barred it from the 2015 World Cup, for which this was the qualifying, after doping cases at the 2011 finals'},
+  'women|FIFA World Cup|2015':{'North Korea':'banned by FIFA after doping cases at the 2011 finals'},
+  'women|CONCACAF Championship|1998':{'United States':'did not take part: this was the 1999 World Cup\'s qualifying, and the United States were in as hosts'},
+  'women|OFC Nations Cup|2022':{'New Zealand':'did not take part: this was the 2023 World Cup\'s qualifying, and New Zealand were in as co-hosts'},
+  'women|OFC Nations Cup|2025':{'New Zealand':'did not take part'}};
 const absentWhy = (e, key) => (EDITION_ABSENT[state.gender+'|'+e.tournament+'|'+e.label] || {})[key] || '';
 function editionMissedPanel(e, run, tHref){
   const M = editionMissed(e, run);
@@ -11053,6 +11080,187 @@ function editionMissedPanel(e, run, tHref){
 }
 /* Upsets: every win the model gave the winner less than a one-in-four chance before kick-off. */
 const UPSET_P = 0.25;
+/* Across editions, a world rank is compared only where at least this many teams were ranked in the world the day before:
+   with a handful ranked (the 1910s and 20s, the first women's tournaments) a rank says little. */
+const RANK_POOL_MIN = 30;
+/* Groups and paths (Seb, 18 Nov 2026): how hard each group was by the ratings going in, and how strong the opponents each
+   team actually met were. It uses only what an edition's run holds (the teams' ratings and ranks the day before, and the
+   matches), so it works from the build's edition files as well as from the model.
+   edPathStats(e, run): groups of the first group stage, hardest first, and every team's run. */
+function edPathStats(e, run){
+  const fmt = editionFormat(e), byKey = new Map(run.teams.map(T => [T.key, T]));
+  const avg = xs => xs.length ? xs.reduce((s, x) => s + x, 0)/xs.length : null;
+  /* World rank the day before. A team too uncertain to be ranked then (a wide band: common just after the wars and for
+     sides that seldom played) is placed where its rating alone would put it among the ranked teams, so that one such
+     opponent does not take a whole tournament out of the comparison (the 1950 World Cup, for one). */
+  const tops = (run.preTop || []).map(x => x.r).sort((a, b) => b - a);
+  const place = r => { let lo = 0, hi = tops.length; while (lo < hi){ const mid = (lo + hi) >> 1; if (tops[mid] > r) lo = mid + 1; else hi = mid; } return lo + 1; };
+  const rankOf = (T, r) => T && T.preRank ? T.preRank : !tops.length ? null : T && T.pre ? place(T.pre.r) : r !== undefined ? place(r) : null;
+  let placed = 0;
+  const groups = (fmt.ok && fmt.groups && fmt.groups.length > 1 ? fmt.groups : []).map(keys => {
+    const Ts = keys.map(k => byKey.get(k)).filter(Boolean), rated = Ts.filter(T => T.pre).sort((a, b) => b.pre.r - a.pre.r);
+    const ranked = rated.filter(T => rankOf(T) !== null);
+    return {Ts, rated, avgR:avg(rated.map(T => T.pre.r)), avgRank:ranked.length === Ts.length ? avg(ranked.map(T => rankOf(T))) : null,
+      gap:rated.length > 1 ? rated[0].pre.r - rated[rated.length - 1].pre.r : null};
+  }).filter(g => g.rated.length >= 2).sort((a, b) => b.avgR - a.avgR);
+  /* Each team's opponents, as they were rated just before each match; a match awarded without being played is not one. */
+  const met = new Map(run.teams.map(T => [T.key, []]));
+  for (const r of run.rows){ if (r.m.walkover) continue;
+    if (met.has(r.home)) met.get(r.home).push({k:r.away, nm:r.an, r:r.aPre.r});
+    if (met.has(r.away)) met.get(r.away).push({k:r.home, nm:r.hn, r:r.hPre.r}); }
+  const paths = run.teams.map(T => { const L = met.get(T.key) || [], rk = L.map(o => { const O = byKey.get(o.k); if (!(O && O.preRank)) placed++; return rankOf(O, o.r); }).filter(Boolean);
+    const top = L.slice().sort((a, b) => b.r - a.r)[0] || null;
+    return {T, n:L.length, avgR:avg(L.map(o => o.r)), avgRank:rk.length === L.length ? avg(rk) : null, top, finish:fmt.ok ? fmt.finish.get(T.key) || '' : ''};
+  }).filter(p => p.n > 0).sort((a, b) => b.avgR - a.avgR);
+  /* "Hardest" and "easiest" run: among teams that played at least three matches, or as many as most teams did. */
+  const ns = paths.map(p => p.n).sort((a, b) => a - b), need = Math.min(3, ns[Math.floor(ns.length/2)] || 1);
+  return {fmt, groups, paths, need, placed, rankOf, pool:tops.length, champ:fmt.ok ? paths.find(p => p.T.key === fmt.champion) || null : null};
+}
+function editionPaths(e, run, tHref){
+  const S = edPathStats(e, run);
+  if (S.paths.length < 3) return '';
+  const nm = T => '<a href="'+tHref(T.team)+'">'+withFlag(T.team)+'</a>', rk = T => T.preRank ? ' <span class="muted">#'+T.preRank+'</span>' : '';
+  const r0 = x => x === null ? '&mdash;' : Math.round(x).toLocaleString(), r1 = x => x === null ? '&mdash;' : (Math.round(x*10)/10).toFixed(1);
+  const long = S.paths.filter(p => p.n >= S.need), hard = long[0], easy = long[long.length - 1];
+  const tiles = '<div class="fr-hero">'+
+    (S.groups.length ? frTile('Hardest group', r0(S.groups[0].avgR), S.groups[0].rated.map(T => esc(dn(T.team))).join(', ')+': average rating going in') : '')+
+    (hard ? frTile('Hardest run', r0(hard.avgR), esc(dn(hard.T.team))+': average rating of its '+hard.n+' opponents') : '')+
+    (easy && easy !== hard ? frTile('Easiest run', r0(easy.avgR), esc(dn(easy.T.team))+': average rating of its '+easy.n+' opponents') : '')+
+    (S.champ ? frTile('The winners\' run', ordinal(long.indexOf(S.champ) + 1)+'<small> of '+long.length+'</small>', esc(dn(S.champ.T.team))+': '+ordinal(long.indexOf(S.champ) + 1)+' hardest run; opponents averaged '+r0(S.champ.avgR)) : '')+'</div>';
+  const groupsHtml = S.groups.length ? '<h3 class="fr-h" style="padding:0 15px;">Groups, hardest first <span class="muted">by the average rating of their teams the day before kick-off</span></h3>'+
+    '<div class="table-wrap"><table class="ed-groups"><thead><tr><th class="num">#</th><th>Teams, strongest first</th><th class="num" title="Average rating of the group\'s teams">Average rating</th>'+
+    '<th class="num hide-sm" title="Average world rank of the group\'s teams">Average rank</th><th class="num hide-sm" title="Rating points between the strongest and the weakest team">Top to bottom</th></tr></thead><tbody>'+
+    S.groups.map((g, i) => '<tr data-gk="'+esc(g.Ts.map(T => T.key).sort().join('|'))+'"><td class="num muted">'+(i + 1)+'</td><td>'+g.Ts.slice().sort((a, b) => (b.pre ? b.pre.r : -1e9) - (a.pre ? a.pre.r : -1e9))
+        .map(T => '<span class="wct-t">'+nm(T)+(T.pre ? rk(T) : ' <span class="muted">no rating</span>')+(S.fmt.finish.get(T.key) && S.fmt.finish.get(T.key) !== 'GS' ? ' <span class="field-actual">'+esc(S.fmt.finish.get(T.key))+'</span>' : '')+'</span>').join(' ')+
+      '<div class="muted ed-gh" style="font-size:12px;"></div></td>'+
+      '<td class="num rating">'+r0(g.avgR)+'</td><td class="num hide-sm">'+r1(g.avgRank)+'</td><td class="num muted hide-sm">'+r0(g.gap)+'</td></tr>').join('')+'</tbody></table></div>' : '';
+  /* A big field (a whole qualifying competition): the fifteen hardest runs and the ten easiest. */
+  const cut = S.paths.length > 48;
+  const pathsHtml = '<h3 class="fr-h" style="padding:0 15px;">'+(cut ? 'The hardest and easiest runs' : 'Every team\'s run')+' <span class="muted">the opponents it met, as each was rated just before the match'+(cut ? '; '+S.paths.length+' teams' : '')+'</span></h3>'+
+    '<div class="table-wrap"><table class="ed-paths"><thead><tr><th class="num">#</th><th>Team</th><th class="num hide-sm">Played</th>'+
+    '<th class="num" title="Average rating of the opponents it met">Opponents\' average</th><th class="num hide-sm" title="Average world rank, the day before kick-off, of the opponents it met">Their average rank</th>'+
+    '<th class="hide-sm">Strongest opponent</th></tr></thead><tbody>'+
+    S.paths.map((p, i) => [p, i]).filter(([p, i]) => !cut || i < 15 || i >= S.paths.length - 10 || S.champ === p).map(([p, i], k, L) => (k > 0 && i - L[k - 1][1] > 1 ? '<tr class="dayrow"><td colspan="6">&hellip;</td></tr>' : '')+
+      '<tr'+(S.champ === p ? ' class="hl"' : '')+'><td class="num muted">'+(i + 1)+'</td><td>'+nm(p.T)+rk(p.T)+(p.finish ? ' <span class="field-actual">'+esc(p.finish)+'</span>' : '')+'</td>'+
+      '<td class="num muted hide-sm">'+p.n+'</td><td class="num rating">'+r0(p.avgR)+'</td><td class="num hide-sm">'+r1(p.avgRank)+'</td>'+
+      '<td class="hide-sm">'+(p.top ? esc(dn(p.top.nm))+' <span class="muted">'+r0(p.top.r)+'</span>' : '')+'</td></tr>').join('')+'</tbody></table></div>';
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Groups and runs<span class="aside">who had it hardest</span></div>'+
+    '<div class="panel-body">'+tiles+'</div>'+groupsHtml+pathsHtml+
+    '<div id="edHist" data-ed="'+esc(e.id)+'"></div>'+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">A group\'s figure is the average rating of its teams the day before the tournament began. A team\'s run is the average rating of the opponents it actually met, '+
+      'each as rated just before that match, so a side that went further met more, and usually stronger, opponents. Where a match was played is left out of this: a host\'s opponents count the same as anyone\'s. '+
+      'In amber, how far a team went.'+(S.placed ? ' A team too uncertain to be ranked the day before counts, in the average ranks, at the place its rating alone would have given it.' : '')+'</p></div>';
+}
+/* The same measures across every edition of the tournament, worked out after the page is drawn: where this edition's
+   groups and its winners' run stand in the tournament's history. Ratings drift over the decades, so editions are set
+   beside each other by world rank, not by rating. */
+async function edHistory(e){
+  const g = state.gender, key = [g, e.tournament, state.windowYears, [...state.comps].sort().join(','), state.maxBand].join('|');
+  if (state.edHist && state.edHist.key === key) return state.edHist.data;
+  const T = getEditions().tournaments.find(t => t.name === e.tournament), eds = (T ? T.editions : []).filter(x => !x.qualLike);
+  if (eds.length < 3) return null;
+  const keep = state.edCache, groups = [], champs = [];
+  for (let i = 0; i < eds.length; i++){ const x = eds[i];
+    if (state.useTableFiles) await loadEdFile(g, x);
+    let run = null; try { run = editionRun(x); } catch(err){}
+    if (run && run.teams){ const S = edPathStats(x, run);
+      if (S.pool >= RANK_POOL_MIN){ S.groups.forEach(G => { if (G.avgRank !== null && G.Ts.length >= 3) groups.push({ed:x, gk:G.Ts.map(t => t.key).sort().join('|'), teams:G.rated.map(t => ({team:t.team, rank:t.preRank, at:t.preRank ? null : S.rankOf(t)})), avgRank:G.avgRank}); });
+      if (S.champ && S.champ.avgRank !== null && S.champ.n >= 3) champs.push({ed:x, team:S.champ.T.team, n:S.champ.n, avgRank:S.champ.avgRank}); } }
+    if (i % 4 === 3) await new Promise(r => setTimeout(r, 0)); }
+  state.edCache = keep;
+  groups.sort((a, b) => a.avgRank - b.avgRank); champs.sort((a, b) => a.avgRank - b.avgRank);
+  const data = {groups, champs, n:eds.length};
+  state.edHist = {key, data};
+  return data;
+}
+function edHistoryHtml(e, H){
+  if (!H || (H.groups.length < 6 && H.champs.length < 4)) return '';
+  const r1 = x => (Math.round(x*10)/10).toFixed(1), name = compName(e.tournament);
+  const edA = x => '<a href="'+editionHref(x)+'">'+esc(x.label)+'</a>';
+  const gRows = (list, off) => list.map((G, i) => '<tr'+(G.ed === e ? ' class="hl"' : '')+'><td class="num muted">'+(off + i + 1)+'</td><td>'+edA(G.ed)+'</td>'+
+    '<td>'+G.teams.map(t => esc(dn(t.team))+' <span class="muted">'+(t.rank ? '#'+t.rank : '(#'+t.at+')')+'</span>').join(', ')+'</td><td class="num rating">'+r1(G.avgRank)+'</td></tr>').join('');
+  const mineG = H.groups.map((G, i) => [G, i]).filter(([G]) => G.ed === e), topG = H.groups.slice(0, 8);
+  const extraG = mineG.filter(([, i]) => i >= 8).slice(0, 1);
+  const cRow = (C, i) => '<tr'+(C.ed === e ? ' class="hl"' : '')+'><td class="num muted">'+(i + 1)+'</td><td>'+edA(C.ed)+'</td><td>'+esc(dn(C.team))+'</td>'+
+    '<td class="num muted hide-sm">'+C.n+'</td><td class="num rating">'+r1(C.avgRank)+'</td></tr>';
+  const mineC = H.champs.findIndex(C => C.ed === e), nC = H.champs.length;
+  const cList = H.champs.map((C, i) => [C, i]).filter(([, i]) => i < 5 || i >= nC - 3 || i === mineC);
+  return (H.groups.length >= 6 ? '<h3 class="fr-h" style="padding:0 15px;">The hardest groups in the '+esc(name)+'\'s history <span class="muted">by average world rank; '+H.groups.length+' groups</span></h3>'+
+      '<div class="table-wrap"><table><thead><tr><th class="num">#</th><th>Edition</th><th>Teams and world ranks</th><th class="num" title="Average world rank of the group\'s teams the day before kick-off">Avg. rank</th></tr></thead><tbody>'+
+      gRows(topG, 0)+extraG.map(([G, i]) => '<tr class="dayrow"><td colspan="4">This edition\'s hardest by world rank</td></tr>'+gRows([G], i)).join('')+'</tbody></table></div>' : '')+
+    (nC >= 4 ? '<h3 class="fr-h" style="padding:0 15px;">The winners\' runs <span class="muted">hardest and easiest, by the average world rank of the opponents they met; '+nC+' editions</span></h3>'+
+      '<div class="table-wrap"><table><thead><tr><th class="num">#</th><th>Edition</th><th>Winners</th><th class="num hide-sm">Played</th><th class="num" title="Average world rank, the day before kick-off, of the opponents the winners met">Opponents\' avg. rank</th></tr></thead><tbody>'+
+      cList.map(([C, i], k) => (k > 0 && i - cList[k - 1][1] > 1 ? '<tr class="dayrow"><td colspan="5">&hellip;</td></tr>' : '')+cRow(C, i)).join('')+'</tbody></table></div>' : '')+
+    '<p class="chart-note" style="padding:8px 15px 0;margin:0;">Across editions, groups and runs are compared by world rank the day before each tournament, because rating points are not on the same footing in 1930 and today. '+
+      'A group counts when it had at least three teams and each had a rating. Editions from before '+RANK_POOL_MIN+' teams were ranked in the world are left out, since a rank said little then. A team too uncertain to be ranked is placed where its rating alone would put it, shown in brackets.</p>';
+}
+/* A team's tournaments by how strong its opponents were (Seb, 18 Nov 2026: "who had the most difficult or easiest
+   tournament"): every final tournament in which it played at least three matches, by the average world rank, the day
+   before kick-off, of the opponents it met there. Worked out when the section is opened: one edition's run each. */
+async function teamRuns(key, onStep){
+  const g = state.gender, ck = [g, key, state.windowYears, [...state.comps].sort().join(','), state.maxBand, state.historicalNames].join('|');
+  if (state.teamRuns && state.teamRuns.key === ck) return state.teamRuns.data;
+  getEditions(g);
+  const count = new Map();
+  for (const m of state.matches[g]){ if (!m._ed || m._ed.qualLike || m.walkover) continue; namesFor(m);
+    if (m._h === key || m._a === key) count.set(m._ed, (count.get(m._ed) || 0) + 1); }
+  const eds = [...count].filter(([e, n]) => n >= 3 && e.teams.size >= 4).map(([e]) => e).sort((a, b) => a.start - b.start);   // a two- or three-team series is not a tournament here
+  const keep = state.edCache, out = []; let early = 0;
+  for (let i = 0; i < eds.length; i++){ const e = eds[i];
+    if (state.useTableFiles) await loadEdFile(g, e);
+    let run = null; try { run = editionRun(e); } catch(err){}
+    if (run && run.teams){ const S = edPathStats(e, run), p = S.paths.find(x => x.T.key === key);
+      if (p && p.n >= 3 && p.avgRank !== null && S.pool < RANK_POOL_MIN) early++;
+      else if (p && p.n >= 3 && p.avgRank !== null) out.push({e, team:p.T.team, n:p.n, w:p.T.w, d:p.T.d, l:p.T.l, avgRank:p.avgRank, avgR:p.avgR, finish:p.finish, rank:p.T.preRank || null,
+        place:S.paths.filter(x => x.n >= S.need).indexOf(p) + 1, of:S.paths.filter(x => x.n >= S.need).length}); }
+    if (i % 4 === 3){ if (onStep) onStep(i + 1, eds.length); await new Promise(r => setTimeout(r, 0)); } }
+  state.edCache = keep;
+  const data = {list:out, asked:eds.length, early};
+  state.teamRuns = {key:ck, data};
+  return data;
+}
+function teamRunsHtml(key, D, major){
+  const MAJOR = new Set(['wc', 'cont']), all = D.list, maj = all.filter(x => MAJOR.has(x.e.cat));
+  const L = (major && maj.length >= 4 ? maj : all).slice().sort((a, b) => a.avgRank - b.avgRank), isMaj = major && maj.length >= 4;
+  if (L.length < 2) return '<div class="panel-body muted">Not enough tournaments on record with every opponent ranked.</div>';
+  const r1 = x => (Math.round(x*10)/10).toFixed(1);
+  const row = x => '<tr><td><a href="'+editionHref(x.e)+'">'+esc(compName(x.e.tournament))+' '+esc(x.e.label)+'</a>'+(x.finish ? ' <span class="field-actual">'+esc(x.finish)+'</span>' : '')+
+      '<div class="muted" style="font-size:12px;">'+[x.rank ? 'went in ranked #'+x.rank : '', x.place && x.of >= 4 ? (x.place === 1 ? 'the hardest run of '+x.of+' there' : x.place === x.of ? 'the easiest run of '+x.of+' there' : ordinal(x.place)+' hardest run of '+x.of+' there') : ''].filter(Boolean).join(' &middot; ')+'</div></td>'+
+    '<td class="num muted hide-sm">'+x.n+'</td><td class="num mono hide-sm">'+x.w+'&ndash;'+x.d+'&ndash;'+x.l+'</td>'+
+    '<td class="num rating">'+r1(x.avgRank)+'</td><td class="num muted hide-sm">'+Math.round(x.avgR).toLocaleString()+'</td></tr>';
+  const head = '<thead><tr><th>Tournament</th><th class="num hide-sm">Played</th><th class="num hide-sm">W&ndash;D&ndash;L</th>'+
+    '<th class="num" title="Average world rank, the day before kick-off, of the opponents it met">Opponents\' avg. rank</th><th class="num hide-sm" title="Average rating of those opponents, each just before the match">Their avg. rating</th></tr></thead>';
+  const nH = Math.min(6, Math.ceil(L.length/2)), nE = Math.min(6, Math.floor(L.length/2));
+  const won = L.filter(x => x.finish === 'Winner' || x.finish === '1st');
+  return '<div class="panel-body" style="padding-bottom:0;"><div class="chips" id="trChips"><button type="button" class="chip'+(isMaj ? ' on' : '')+'" data-tr="major"'+(maj.length >= 4 ? '' : ' disabled')+'>World Cups and continental finals <span class="muted">'+maj.length+'</span></button>'+
+      '<button type="button" class="chip'+(isMaj ? '' : ' on')+'" data-tr="all">Every tournament <span class="muted">'+all.length+'</span></button></div></div>'+
+    '<h3 class="fr-h" style="padding:0 15px;">Hardest <span class="muted">the strongest opponents it has met at one tournament</span></h3>'+
+    '<div class="table-wrap"><table>'+head+'<tbody>'+L.slice(0, nH).map(row).join('')+'</tbody></table></div>'+
+    '<h3 class="fr-h" style="padding:0 15px;">Easiest</h3>'+
+    '<div class="table-wrap"><table>'+head+'<tbody>'+L.slice(-nE).reverse().map(row).join('')+'</tbody></table></div>'+
+    (won.length >= 2 ? '<p class="chart-note" style="padding:8px 15px 0;margin:0;">Of the '+won.length+' it won here, the hardest was <a href="'+editionHref(won[0].e)+'">'+esc(compName(won[0].e.tournament))+' '+esc(won[0].e.label)+'</a> (opponents\' average rank '+r1(won[0].avgRank)+
+      ') and the easiest <a href="'+editionHref(won[won.length - 1].e)+'">'+esc(compName(won[won.length - 1].e.tournament))+' '+esc(won[won.length - 1].e.label)+'</a> ('+r1(won[won.length - 1].avgRank)+').</p>' : '')+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">Final tournaments of four teams or more in which '+esc(dn(key))+' played at least three matches, by the average world rank, the day before kick-off, of the opponents it actually met; a lower figure is a harder run. '+
+      'World rank is used because rating points are not on the same footing across the decades. An opponent too uncertain to be ranked counts at the place its rating alone would have given it'+
+      (D.early ? '. Its '+D.early+' tournament'+(D.early === 1 ? '' : 's')+' from before '+RANK_POOL_MIN+' teams were ranked in the world '+(D.early === 1 ? 'is' : 'are')+' left out, since a rank said little then' : '')+
+      '. Where a match was played is not counted. Each tournament\'s own page has the full list under <b>Groups and runs</b>.</p>';
+}
+function teamRunsSection(){
+  return '<details class="panel ed-sec" id="teamRuns" style="margin-bottom:20px;"><summary class="panel-head">Hardest and easiest tournaments<span class="aside">by the opponents it met</span></summary>'+
+    '<div class="ed-sec-b" id="teamRunsBody"><div class="panel-body muted">Open to work this out.</div></div></details>';
+}
+function bindTeamRuns(key){
+  const sec = document.getElementById('teamRuns'), body = document.getElementById('teamRunsBody'); if (!sec || !body) return;
+  const gen = state.renderGen; let asked = false, major = true;
+  const draw = D => { body.innerHTML = teamRunsHtml(key, D, major);
+    body.querySelectorAll('#trChips [data-tr]').forEach(b => b.addEventListener('click', () => { major = b.dataset.tr === 'major'; draw(D); })); };
+  const once = () => { if (!sec.open || asked) return; asked = true;
+    body.innerHTML = '<div class="panel-body muted">Going through every tournament it has played&hellip; <span id="trProg"></span></div>';
+    teamRuns(key, (i, n) => { const p = document.getElementById('trProg'); if (p && gen === state.renderGen) p.textContent = i+' of '+n; })
+      .then(D => { if (gen === state.renderGen && document.getElementById('teamRunsBody') === body) draw(D); })
+      .catch(() => { body.innerHTML = '<div class="panel-body muted">This could not be worked out just now.</div>'; }); };
+  sec.addEventListener('toggle', once); once();
+}
 function editionUpsets(run, tHref, e){
   const stages = e ? matchStages(e) : new Map();
   const list = run.rows.filter(r => r.m.hs !== r.m.as).map(r => { const p = probsFromE(r.exp), homeWon = r.m.hs > r.m.as;
@@ -11173,6 +11381,7 @@ function viewEdition(){
         '<div class="ed-team-pick" id="edTeamPick" hidden></div><div class="chart-box tall"><canvas id="edChart" role="img" aria-label="Ratings of the leading teams through '+esc(compName(e.tournament))+' '+e.label+'"></canvas></div>'+
         '<p class="chart-note">From the tournament\'s own matches. Each team keeps one colour; past sixteen teams the colours repeat with dashed, then dotted, lines.</p></div>', {short:'Rating chart'})+
     fromPanel('sec-field', editionField(run, tHref, e), 'Field by rating')+
+    fromPanel('sec-paths', editionPaths(e, run, tHref), 'Groups and runs')+
     fromPanel('sec-missed', editionMissedPanel(e, run, tHref), 'Missed out')+
     sec('sec-upsets', 'Upsets <span class="muted" style="font-weight:400;">'+nUp+'</span>', unpanel(upsetsHtml).body, {short:'Upsets', aside:'<span class="aside">wins the model gave less than a 25% chance</span>'});
 
@@ -11256,6 +11465,16 @@ function viewEdition(){
   const chartSec = document.getElementById('sec-chart');
   if (chartSec){ let drawn = false; const once = () => { if (chartSec.open && !drawn){ drawn = true; draw(ranked.slice(0, 8)); } };
     if (chartSec.addEventListener) chartSec.addEventListener('toggle', once); once(); }
+  /* Groups and runs across the tournament's history: worked out once the section is opened. */
+  const pathSec = document.getElementById('sec-paths'), histBox = document.getElementById('edHist');
+  if (pathSec && histBox){ let asked = false; const once = () => { if (!pathSec.open || asked) return; asked = true;
+      histBox.innerHTML = '<p class="chart-note" style="padding:8px 15px 0;margin:0;">Setting this edition beside every other one&hellip;</p>';
+      edHistory(e).then(H => { const box = document.getElementById('edHist'); if (!box || box.dataset.ed !== e.id) return;
+        box.innerHTML = edHistoryHtml(e, H);
+        if (H) document.querySelectorAll('#sec-paths tr[data-gk]').forEach(tr => { const i = H.groups.findIndex(G => G.ed === e && G.gk === tr.dataset.gk), d = tr.querySelector('.ed-gh');
+          if (i >= 0 && d) d.textContent = ordinal(i + 1)+' hardest of '+H.groups.length+' groups in the tournament\'s history, by world rank'; });
+      }).catch(() => { const box = document.getElementById('edHist'); if (box) box.innerHTML = ''; }); };
+    if (pathSec.addEventListener) pathSec.addEventListener('toggle', once); once(); }
   loadBadges();
 }
 
@@ -12216,6 +12435,9 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['19 Nov 2026', ['Every tournament page has a new section, <b>Groups and runs</b>: who had it hardest. It ranks the groups by the average rating of their teams the day before kick-off, and lists every team\'s run: the average rating of the opponents it actually met, its strongest opponent, and how far it went. Four figures lead the section: the hardest group, the hardest and the easiest run, and where the winners\' run stood. Opening the section also sets the edition beside every other edition of the same tournament: the hardest groups in its history and the winners\' hardest and easiest runs, compared by world rank because rating points are not on the same footing across the decades.',
+    'Every team page has a new section too, <b>Hardest and easiest tournaments</b>: the final tournaments where the team met its strongest and its weakest opponents, with how far it went, and the hardest and easiest of the ones it won. It can be narrowed to World Cups and continental finals.',
+    '&ldquo;Strong teams that missed out&rdquo; now gives the reason at the continental championships too, as it has for World Cups since yesterday: Iraq withdrawing from three Asian Cups and banned from a fourth after the Gulf War, Israel pulling out as hosts in 1972, Egypt in 1965 and Nigeria in 1998 at the African Cup of Nations, Brazil and Argentina staying away from seven South American Championships between them, Yugoslavia shut out of Euro 1996, North Korea\'s women banned for doping, and hosts who skipped a tournament that was only a World Cup qualifier for everyone else (Mexico in 1985, the United States\' women in 1998, New Zealand\'s in 2022).']],
   ['18 Nov 2026', ['Confederations &rarr; World Cup places has a new choice in its menu: <b>If it were played today</b>. It fills the next World Cup\'s format (48 teams for the men, 32 for the women) from today\'s ratings: the hosts, each confederation\'s best-rated sides in its direct places, and the next best in the inter-confederation play-off, where the best-rated go through. It also names the strong sides who would miss out on their confederation\'s share. Russia is left out, as FIFA and UEFA have suspended its teams since February 2022.',
     'The forecast score is no longer shown &ldquo;out of 100&rdquo;. On that scale even the betting market, the best forecaster there is, scores only in the low 20s for men\'s football, so a score of 23 read like a failed test when it is close to the best possible. It now appears beside World Elo\'s and the market\'s, and the Forecast record leads with how many years Formline beat World Elo. The live record adds a plain check: how often its 60&ndash;80% favourites actually won.',
     'On each World Cup\'s page, &ldquo;Strong teams that missed out&rdquo; now says why where a team did not play the qualifiers: not a FIFA member (the British associations between 1928 and 1946, China from 1958 to 1979), stayed away (Uruguay 1934), withdrew (Argentina 1950, the African boycott of 1966), banned (Mexico 1990, Yugoslavia 1994, Russia since 2022) or did not enter. Three teams that did play qualifying were wrongly shown as not having done so: Costa Rica (1974), Canada (1990) and New Zealand (2006), whose qualifiers the archive files under their regional championships.',
@@ -12227,7 +12449,7 @@ const CHANGELOG = [
     'Forty-four more men\'s matches the archive was missing are in, 1,956 in all. Each is in World Football Elo Ratings and on Wikipedia, this time on the competition\'s own page where the teams\' pages are silent: nine from the 2019 CECAFA Cup, thirteen from the COSAFA Cups of 2024 and 2025 (the 2024 final among them, Angola 5&ndash;0 Namibia), the 2017 Gold Cup play-off between Haiti and Nicaragua, four Africa Cup qualifiers that were played and then struck from the tables (Chad withdrew in 2016, Sierra Leone were disqualified in 2018), and recent friendlies such as Kenya 4&ndash;0 Lesotho (June 2026) and Yemen 2&ndash;1 Kuwait (September 2026). The last four are special cases: Kyrgyzstan 1&ndash;0 Afghanistan (2023), later recorded as 3&ndash;0, and three matches that were abandoned, which are shown but not rated: Montenegro v Russia (2015), French Guiana v Bermuda (2016) and the 2025 Arab Cup third-place match between Saudi Arabia and the United Arab Emirates. All count from the next nightly update.',
     'Head to head now lists the matches between two teams that were abandoned or awarded without being played, each marked as such. An awarded match counts as a win for the side it was awarded to, with no goals; an abandoned one is shown and not counted. A team\'s longest winning and unbeaten runs on its History now count an awarded match as a win or a loss too, and so do the longest runs on Records. The plain head-to-head pages follow the same rules, and also note a result that was changed afterwards.',
     'Another 300 older matches are in, which makes 2,256 added in all. Each is in World Football Elo Ratings and on Wikipedia\'s page for the competition it was played in: 102 Olympic qualifiers and 72 All-Africa Games qualifiers, nearly all between African sides from 1959 to 1988, 43 matches at the Central American and Caribbean Games, 14 Africa Cup of Nations qualifiers, 11 from the CECAFA Cup and smaller numbers from the Pan Arab Games and the Caribbean Cup. Matches a team\'s own record leaves out, and Olympic matches involving European sides, are still held back. All of them are older than the twelve-year window, so no team\'s own record in today\'s table changes; all-time tables and team histories gain them. They do reach today\'s table by one route: each confederation\'s starting level at the window\'s first day comes from the full history. Every rating moves by less than a point, and two pairs of teams that were all but level swap places.',
-    'The results feed is now checked against Formline\'s own records every night, working back through the years, and since 15 November each match it turns up is looked up by itself on both teams\' Wikipedia pages as they stood at the time. The first passes cover late September 2020 to October 2026. So far 305 women\'s matches the archive lacks are in, each also found on Wikipedia: all 16 of the 2026 Central American and Caribbean Games (Mexico beat Colombia on penalties in the final), all six of the 2025 East Asian championship, Cook Islands\' two wins over Afghanistan in Auckland, and 281 friendlies. Most of those are from late 2020 to the middle of 2024, where the archive is thinnest: Czech Republic 3&ndash;0 Slovakia, Portugal 2&ndash;0 Ukraine, Poland 1&ndash;3 Iceland, Portugal 5&ndash;0 Haiti, Colombia 1&ndash;0 Zambia and Morocco 0&ndash;1 Jamaica before the 2023 World Cup, Iceland 3&ndash;2 and 2&ndash;0 Republic of Ireland and Ethiopia 11&ndash;0 South Sudan (2021) are among them. One more is shown and not rated: Singapore v Hong Kong (15 June 2025), abandoned in bad weather. Eight women\'s scores are corrected where the feed and Wikipedia agree against the archive: China 6&ndash;1 Vietnam (13 February 2026), Morocco 5&ndash;0 Burkina Faso (27 February 2026), Costa Rica 0&ndash;2 Panama (30 October 2024), Venezuela 2&ndash;0 Thailand (23 October 2024), Panama 2&ndash;0 Paraguay (16 February 2024), Chile 2&ndash;1 New Zealand (26 September 2023) France 2&ndash;1 Norway (11 November 2022) and Trinidad and Tobago 1&ndash;1 Panama (25 October 2021). For the men 26 friendlies are in, each in the feed and in World Football Elo Ratings or on Wikipedia (Saudi Arabia 3&ndash;1 Trinidad and Tobago, United Arab Emirates 1&ndash;0 Kuwait, Qatar 2&ndash;1 Ghana, Uzbekistan 0&ndash;0 Jordan and Bahrain 0&ndash;1 Somalia among them). Three dates are corrected: Saint Vincent and the Grenadines 1&ndash;1 Grenada was on 6 March 2025, not the 9th; Basque Country 1&ndash;1 Uruguay on 23 March 2024, not 21 May; and Mozambique 3&ndash;2 Benin on 9 September 2023, not the 4th. The third-place match of the 2025 MSG Prime Minister\'s Cup, Fiji v Solomon Islands, is shown, marked and not rated: it was abandoned at half-time at 1&ndash;1 in heavy rain. Fifty-six matches are held back until a second record turns up or a disagreement is settled. Where the men\'s scores differed, Formline had either corrected the archive already or the feed was wrong: it sometimes keeps the score after 90 minutes for a match that went to extra time, and sometimes names the wrong team.']],
+    'The results feed is now checked against Formline\'s own records every night, working back through the years, and since 15 November each match it turns up is looked up by itself on both teams\' Wikipedia pages as they stood at the time. The first passes cover late August 2019 to October 2026. So far 308 women\'s matches the archive lacks are in, each also found on Wikipedia: all 16 of the 2026 Central American and Caribbean Games (Mexico beat Colombia on penalties in the final), all six of the 2025 East Asian championship, Cook Islands\' two wins over Afghanistan in Auckland, and 284 friendlies. Most of those are from late 2020 to the middle of 2024, where the archive is thinnest: Czech Republic 3&ndash;0 Slovakia, Portugal 2&ndash;0 Ukraine, Poland 1&ndash;3 Iceland, Portugal 5&ndash;0 Haiti, Colombia 1&ndash;0 Zambia and Morocco 0&ndash;1 Jamaica before the 2023 World Cup, Iceland 3&ndash;2 and 2&ndash;0 Republic of Ireland and Ethiopia 11&ndash;0 South Sudan (2021) are among them. One more is shown and not rated: Singapore v Hong Kong (15 June 2025), abandoned in bad weather. Eight women\'s scores are corrected where the feed and Wikipedia agree against the archive: China 6&ndash;1 Vietnam (13 February 2026), Morocco 5&ndash;0 Burkina Faso (27 February 2026), Costa Rica 0&ndash;2 Panama (30 October 2024), Venezuela 2&ndash;0 Thailand (23 October 2024), Panama 2&ndash;0 Paraguay (16 February 2024), Chile 2&ndash;1 New Zealand (26 September 2023) France 2&ndash;1 Norway (11 November 2022) and Trinidad and Tobago 1&ndash;1 Panama (25 October 2021). For the men 26 friendlies are in, each in the feed and in World Football Elo Ratings or on Wikipedia (Saudi Arabia 3&ndash;1 Trinidad and Tobago, United Arab Emirates 1&ndash;0 Kuwait, Qatar 2&ndash;1 Ghana, Uzbekistan 0&ndash;0 Jordan and Bahrain 0&ndash;1 Somalia among them). Three dates are corrected: Saint Vincent and the Grenadines 1&ndash;1 Grenada was on 6 March 2025, not the 9th; Basque Country 1&ndash;1 Uruguay on 23 March 2024, not 21 May; and Mozambique 3&ndash;2 Benin on 9 September 2023, not the 4th. The third-place match of the 2025 MSG Prime Minister\'s Cup, Fiji v Solomon Islands, is shown, marked and not rated: it was abandoned at half-time at 1&ndash;1 in heavy rain. Seventy-five matches are held back until a second record turns up or a disagreement is settled. Where the men\'s scores differed, Formline had either corrected the archive already or the feed was wrong: it sometimes keeps the score after 90 minutes for a match that went to extra time, and sometimes names the wrong team.']],
   ['13 Nov 2026', ['The home page is now a front door to the whole site. It shows Formline\'s track record (how often the side it picked won, in the calls published so far and in every match since 2019), the next few matches a line each, and a way into every part of the site. The filters have moved off it; they are on Rankings.',
     'Tiers are a little finer. A team now leaves a tier once Formline is 80% sure the tier\'s leader is the stronger side, where it was 90%, so there are more tiers and each holds fewer teams (the men\'s table goes from 12 tiers to 17, the women\'s from 10 to 14). No rating or rank changes.',
     'Tiers and clusters are now defined where they are shown. A team page says what its tier rests on (the gap between two ratings and how wide the bands are) and that it is not the chance of winning a match, with an example from today\'s table. How it works has the longer account.',

@@ -1155,6 +1155,23 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
           ok(deepN > 0 && eb.bent && eb.odd && eb.v3, 'edition pages: under every other band limit an edition ranked again from its file has the model\'s ranks and tiers (' + deepN + ' values); a changed rank shows, and an unlisted limit is worked out on the page ' + JSON.stringify(eb)); }
         ok(EL.length > 0 && new Set(EL.map(e => e.name)).size === EL.length && EL.every(e => /^[A-Za-z0-9-]+$/.test(e.name)) && n > 50 && bad.length === 0,
           'edition pages: every edition read back from its file equals the page\'s, field by field (' + EL.length + ' editions, ' + n + ' values)' + (bad.length ? ' (' + bad[0] + ')' : ''));
+        /* Groups and runs (19 Nov 2026): the same figures whether the page works them out from the model's run or from
+           the edition's file; groups come hardest first; no team has more opponents than matches. */
+        { model.run(`__allEd = ${JSON.stringify(JSON.stringify(files))}`);
+          const gr = model.run(`(() => { state.gender = 'women'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames; state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy;
+            const files = JSON.parse(__allEd), bad = []; let n = 0, withG = 0, shown = 0; const near = (a, b) => (a === null || b === null) ? a === b : Math.abs(a - b) < 0.05;
+            for (const id of Object.keys(files)){ const e = getEditions().byId.get(id); state.edCache = null; const A = editionRun(e), C = edFromFile(e, files[id]); state.edCache = null;
+              if (!C){ bad.push(id + ': file not read'); continue; }
+              const SA = edPathStats(e, A), SC = edPathStats(e, C); n++; if (SA.groups.length) withG++; if (editionPaths(e, C, t => '#')) shown++;
+              if (SA.groups.length !== SC.groups.length || SA.paths.length !== SC.paths.length){ bad.push(id + ': sizes'); continue; }
+              SA.groups.forEach((G, i) => { const H = SC.groups[i]; if (G.Ts.map(t => t.key).join() !== H.Ts.map(t => t.key).join() || !near(G.avgR, H.avgR) || !near(G.avgRank, H.avgRank)) bad.push(id + ': group ' + i);
+                if (i && G.avgR > SA.groups[i - 1].avgR) bad.push(id + ': groups out of order'); });
+              const byA = new Map(SA.paths.map(p => [p.T.key, p]));
+              for (const q of SC.paths){ const p = byA.get(q.T.key); if (!p || p.n !== q.n || !near(p.avgR, q.avgR) || !near(p.avgRank, q.avgRank) || p.finish !== q.finish) bad.push(id + ': run of ' + q.T.key);
+                if (p && p.n > p.T.p) bad.push(id + ': more opponents than matches'); } }
+            return {n, withG, shown, bad}; })()`);
+          ok(gr.n === EL.length && gr.n > 0 && gr.bad.length === 0,
+            'edition pages: Groups and runs gives the same figures from the model and from each edition\'s file (' + gr.n + ' editions, ' + gr.withG + ' with groups, ' + gr.shown + ' shown)' + (gr.bad.length ? ' (' + gr.bad[0] + ')' : '')); }
         { const ELA = editionList(model, 'women', true); let nA = 0; const badA = [], filesA = {};
           for (const e of ELA){ const R = editionFile(model, 'women', e.id, true); nA += R.n; if (R.bad.length) badA.push(e.id + ': ' + R.bad[0]); filesA[e.id] = JSON.parse(JSON.stringify(R.file)); }
           const one = ELA.map(e => filesA[e.id]).sort((a, b) => b.rows.length - a.rows.length)[0];
