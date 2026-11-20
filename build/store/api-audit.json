@@ -1026,28 +1026,6 @@
   },
   {
    "g": "women",
-   "date": "2020-08-12",
-   "home": "Estonia",
-   "away": "Latvia",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Tallinn",
-   "api_id": 595976,
-   "wiki": {
-    "checked": "2026-11-19",
-    "asOf": "2020-10-26",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2020-08-12",
-    "first": "Estonia",
-    "city": "Tallinn",
-    "country": "Estonia",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
    "date": "2020-03-10",
    "home": "Belarus",
    "away": "Serbia",
@@ -1268,31 +1246,6 @@
   {
    "g": "women",
    "date": "2020-01-28",
-   "home": "Myanmar",
-   "away": "Thailand",
-   "score": "1-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Mandalay",
-   "api_id": 595980,
-   "wiki": {
-    "checked": "2026-11-19",
-    "asOf": "2020-04-12",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2020-01-28",
-    "first": "Myanmar",
-    "city": "Mandalay",
-    "country": "Myanmar",
-    "comp": "Friendly",
-    "others": [
-     "2020-01-25 1-2"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2020-01-28",
    "home": "Morocco",
    "away": "Tunisia",
    "score": "2-1",
@@ -1304,31 +1257,6 @@
     "checked": "2026-11-19",
     "asOf": "2020-04-12",
     "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2020-01-25",
-   "home": "Myanmar",
-   "away": "Thailand",
-   "score": "1-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Mandalay",
-   "api_id": 595979,
-   "wiki": {
-    "checked": "2026-11-19",
-    "asOf": "2020-04-09",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2020-01-25",
-    "first": "Myanmar",
-    "city": "Mandalay",
-    "country": "Myanmar",
-    "comp": "Friendly",
-    "others": [
-     "2020-01-28 1-1"
-    ]
    }
   },
   {
@@ -1573,8 +1501,6 @@
    "league": "Pacific Games",
    "city": "Apia",
    "api_id": 667933,
-   "held": "1-1",
-   "heldDate": "2019-07-20",
    "wiki": {
     "checked": "2026-11-20",
     "asOf": "2019-10-02",
@@ -1582,7 +1508,9 @@
     "others": [
      "2019-07-20 1-1"
     ]
-   }
+   },
+   "held": "1-1",
+   "heldDate": "2019-07-20"
   },
   {
    "g": "men",
@@ -1614,8 +1542,6 @@
      "away": 4
     }
    },
-   "held": "1-1",
-   "heldDate": "2019-07-11",
    "wiki": {
     "checked": "2026-11-20",
     "asOf": "2019-09-24",
@@ -1623,7 +1549,9 @@
     "others": [
      "2019-07-11 1-1"
     ]
-   }
+   },
+   "held": "1-1",
+   "heldDate": "2019-07-11"
   },
   {
    "g": "men",
@@ -1655,8 +1583,6 @@
      "away": 5
     }
    },
-   "held": "1-1",
-   "heldDate": "2019-07-08",
    "wiki": {
     "checked": "2026-11-20",
     "asOf": "2019-09-21",
@@ -1664,7 +1590,9 @@
     "others": [
      "2019-07-08 1-1"
     ]
-   }
+   },
+   "held": "1-1",
+   "heldDate": "2019-07-08"
   },
   {
    "g": "men",
@@ -1696,8 +1624,6 @@
      "away": 2
     }
    },
-   "held": "2-2",
-   "heldDate": "2019-07-07",
    "wiki": {
     "checked": "2026-11-20",
     "asOf": "2019-09-20",
@@ -1705,7 +1631,9 @@
     "others": [
      "2019-07-07 2-2"
     ]
-   }
+   },
+   "held": "2-2",
+   "heldDate": "2019-07-07"
   },
   {
    "g": "men",
@@ -1737,8 +1665,6 @@
      "away": 4
     }
    },
-   "held": "1-1",
-   "heldDate": "2019-07-05",
    "wiki": {
     "checked": "2026-11-20",
     "asOf": "2019-09-18",
@@ -1746,7 +1672,9 @@
     "others": [
      "2019-07-05 1-1"
     ]
-   }
+   },
+   "held": "1-1",
+   "heldDate": "2019-07-05"
   },
   {
    "g": "women",
@@ -1778,8 +1706,6 @@
      "away": 1
     }
    },
-   "held": "1-1",
-   "heldDate": "2019-06-22",
    "wiki": {
     "checked": "2026-11-20",
     "asOf": "2019-09-05",
@@ -1787,7 +1713,9 @@
     "others": [
      "2019-06-22 1-1"
     ]
-   }
+   },
+   "held": "1-1",
+   "heldDate": "2019-06-22"
   },
   {
    "g": "men",
@@ -1799,8 +1727,6 @@
    "league": "Friendlies",
    "city": "",
    "api_id": 218368,
-   "held": "1-1",
-   "heldDate": "2019-06-11",
    "wiki": {
     "checked": "2026-11-20",
     "asOf": "2019-08-25",
@@ -1808,10 +1734,75 @@
     "others": [
      "2019-06-11 1-1"
     ]
+   },
+   "held": "1-1",
+   "heldDate": "2019-06-11"
+  },
+  {
+   "g": "men",
+   "date": "2019-01-20",
+   "home": "Jordan",
+   "away": "Vietnam",
+   "score": "2-2",
+   "tournament": "AFC Asian Cup",
+   "league": "Asian Cup",
+   "city": "Dubai",
+   "api_id": 118083,
+   "shootout": "Vietnam",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 1,
+     "away": 0
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 2,
+     "away": 4
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2019-01-20",
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-04-05",
+    "found": "differ",
+    "others": [
+     "2019-01-20 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2018-09-06",
+   "home": "Guyana",
+   "away": "Barbados",
+   "score": "3-0",
+   "tournament": "CONCACAF Nations League",
+   "league": "CONCACAF Nations League - Qualification",
+   "city": "Leonora",
+   "api_id": 672422,
+   "held": "2-2",
+   "heldDate": "2018-09-06",
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2018-11-20",
+    "found": "differ",
+    "others": [
+     "2018-09-06 2-2",
+     "2018-09-08 2-2"
+    ]
    }
   }
  ],
- "days": 2800,
+ "days": 3000,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -1890,7 +1881,7 @@
   "Standard Liege": 1
  },
  "updated": "2026-11-20",
- "cursor": "2019-02-05",
+ "cursor": "2018-07-20",
  "done": null,
  "from": "2014-11-01"
 }
