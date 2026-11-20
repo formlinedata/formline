@@ -361,5 +361,15 @@
   "comp": "Friendly",
   "source": "https://en.wikipedia.org/wiki/Malta_women's_national_football_team",
   "seen": "2026-11-20"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-11-28",
+  "home": "Catalonia",
+  "away": "South Korea",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/South_Korea_women's_national_football_team",
+  "seen": "2026-11-20"
  }
 ]

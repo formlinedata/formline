@@ -2125,6 +2125,34 @@
   },
   "venue_src": "wiki"
  },
+ "wiki:women|2026-11-28|Catalonia|South Korea": {
+  "date": "2026-11-28",
+  "kickoff": "",
+  "home_team": "Catalonia",
+  "away_team": "South Korea",
+  "tournament": "Friendly",
+  "city": "Barcelona",
+  "country": "Spain",
+  "neutral": "TRUE",
+  "venue_id": "",
+  "api_id": "wiki:women|2026-11-28|Catalonia|South Korea",
+  "league": "Friendly",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": 1,
+  "gender": "women",
+  "wikiOnly": 1,
+  "wikiSource": "South Korea women's national football team",
+  "pairDates": [
+   "2026-11-28"
+  ],
+  "wiki": {
+   "city": "Barcelona",
+   "country": "Spain",
+   "stadium": "Camp Municipal Narcís Sala"
+  },
+  "venue_src": "wiki"
+ },
  "wiki:women|2026-11-29|Indonesia|Bhutan": {
   "date": "2026-11-29",
   "kickoff": "",
