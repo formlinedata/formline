@@ -331,5 +331,35 @@
   "comp": "Friendly",
   "source": "https://en.wikipedia.org/wiki/Belgium_women's_national_football_team",
   "seen": "2026-11-19"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-11-29",
+  "home": "Malta",
+  "away": "Kosovo",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Malta_women's_national_football_team",
+  "seen": "2026-11-20"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-02",
+  "home": "Indonesia",
+  "away": "Bhutan",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Indonesia_women's_national_football_team",
+  "seen": "2026-11-20"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-05",
+  "home": "Malta",
+  "away": "Israel",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Malta_women's_national_football_team",
+  "seen": "2026-11-20"
  }
 ]
