@@ -153,7 +153,7 @@ Notes:
 
 ### Matches the archive does not hold (updated 14 November 2026)
 
-World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 27 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,283 rows). 401 were played since November 2014. They are free to take.
+World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 28 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,284 rows). 402 were played since November 2014. They are free to take.
 
 Whole events among the recent ones:
 
@@ -166,7 +166,7 @@ Whole events among the recent ones:
 - Copa Centroamericana 2017: Panama 2–1 Nicaragua and Panama 1–0 El Salvador. The 2017 Gold Cup play-off, Haiti 3–1 Nicaragua and Nicaragua 3–0 Haiti.
 - Four-nations tournaments in Malawi and Madagascar, March 2024.
 
-Single matches: Russia 4–0 Serbia (2024-03-21), Mali 2–0 Nigeria (2024-03-26), Egypt 2–1 Nigeria (2025-12-16), Kenya 4–0 Lesotho (2026-06-07), Yemen 2–1 Kuwait (2026-09-18), Japan 3–1 Uruguay (2026-09-24, confirmed from the Japan FA's own report), US Virgin Islands 3–2 Bahamas (2026-10-04, CONCACAF Nations League C).
+Single matches: Guyana 1–3 Haiti (2019-06-11, a friendly in Alajuela, Costa Rica, before the Gold Cup), Russia 4–0 Serbia (2024-03-21), Mali 2–0 Nigeria (2024-03-26), Egypt 2–1 Nigeria (2025-12-16), Kenya 4–0 Lesotho (2026-06-07), Yemen 2–1 Kuwait (2026-09-18), Japan 3–1 Uruguay (2026-09-24, confirmed from the Japan FA's own report), US Virgin Islands 3–2 Bahamas (2026-10-04, CONCACAF Nations League C).
 
 Older ones (1,882 before November 2014, back to Ireland 4–3 Wales in 1893) include the Olympic Games after 1928, Olympic qualifiers and the Pan Arab Games, which the archive may leave out on purpose; matches against amateur or B sides are not in the list.
 

@@ -640,6 +640,14 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
   ok(mvd.dropped === 1 && mvd.made === 1 && mvd.list.length === 1 && mvd.list[0].date === '2026-11-14', 'moved fixture: stale forecast dropped, new date forecast');
   const kept = updateRecord(mvd.list, {men:[], women:[]}, pred, {men:[], women:[]}, Date.parse('2026-11-02T06:00:00Z'), 'r3');
   ok(kept.dropped === 0 && kept.list.length === 1, 'an empty fixture list never wipes open forecasts');
+  // a fixture moved by two days after its first kick-off time passed (Morocco v Niger, 11 → 13 November 2026): the old forecast goes
+  { const mn = (d, made, res) => ({id:'men|' + d + '|Morocco|Niger', g:'men', date:d, kickoff:d + 'T12:00:00+00:00', home:'Morocco', away:'Niger', made, p:[0.8, 0.15, 0.05], result:res || null});
+    const rowsMN = {men:[{date:'2026-11-13', home_team:'Morocco', away_team:'Niger', home_score:'5', away_score:'1'}], women:[]};
+    const mv2 = updateRecord([mn('2026-11-11', '2026-11-10T07:00:00Z'), mn('2026-11-13', '2026-11-12T01:00:00Z')], {men:[], women:[]}, pred, rowsMN, Date.parse('2026-11-14T06:00:00Z'), 'r');
+    /* two real matches three days apart, both listed before the first kicked off, the first with no result yet: both stay */
+    const real2 = updateRecord([mn('2026-11-11', '2026-11-08T07:00:00Z'), mn('2026-11-13', '2026-11-08T07:00:00Z')], {men:[], women:[]}, pred, rowsMN, Date.parse('2026-11-14T06:00:00Z'), 'r');
+    ok(mv2.list.length === 1 && mv2.list[0].date === '2026-11-13' && mv2.list[0].result.join() === '5,1' && mv2.dropped === 1 && real2.list.length === 2 && real2.dropped === 0,
+      'a fixture moved two days after its kick-off time had passed: the old forecast goes, the new one is scored; two real matches three days apart both stay'); }
   // a fixture whose date moves after its first kick-off time has passed: one match, one scored forecast
   const tk = d => ({id:'men|' + d + '|Taiwan|Kyrgyzstan', g:'men', date:d, kickoff:d + 'T12:00:00+00:00', home:'Taiwan', away:'Kyrgyzstan', p:[0.08, 0.17, 0.75], result:null});
   const played = {men:[{date:'2026-11-14', home_team:'Taiwan', away_team:'Kyrgyzstan', home_score:'0', away_score:'2'}], women:[]};

@@ -72,6 +72,19 @@ export function updateRecord(entries, fixtures, predict, rows, now, built){
     if (!e.result){ e.result = resultOf(r, e); Object.assign(e, scoreForecast(e.p, e.result[0], e.result[1])); scored++; }
     for (const x of es.slice(1)){ byId.delete(x.id); dropped++; }
   }
+  /* A fixture moved by two or three days after its first kick-off time had passed leaves a forecast with no match:
+     Morocco v Niger was listed for 11 November 2026 and played on the 13th; Kyrgyzstan v Vietnam for the 15th and
+     played on the 17th. The forecast under the new date is the one scored. The old one goes when a forecast for the
+     same two teams, within three days, has its result and was first made only after this one's kick-off time: the
+     fixture's new date appeared when the old one had already passed. Two real matches a few days apart are both
+     listed before the first kicks off, so neither is touched. */
+  const pair = e => e.g + '|' + [e.home, e.away].sort().join('|');
+  const scoredNow = [...byId.values()].filter(x => x.result && x.made);
+  for (const e of [...byId.values()]){
+    if (e.result || e.void) continue;
+    const ko = Date.parse(e.kickoff || (e.date + 'T23:59:00Z')); if (!(ko <= now)) continue;
+    if (scoredNow.some(x => x !== e && pair(x) === pair(e) && Math.abs(dayNum(x.date) - dayNum(e.date)) <= 3 && Date.parse(x.made) > ko)){ byId.delete(e.id); dropped++; }
+  }
   const list = [...byId.values()].sort((a, b) => (a.kickoff || a.date) < (b.kickoff || b.date) ? -1 : 1);
   return {list, made, updated, scored, dropped};
 }

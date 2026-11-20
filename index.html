@@ -2661,6 +2661,25 @@ async function ensureData(){
    grouped by calendar year instead.
    ============================================================ */
 const isQualLike = t => /qualif|nations league|pre-olympic/i.test(t);
+/* Tournaments played over many months. A break of more than 60 days normally starts a new edition; for these it does
+   not, or the 1996 Oceania Nations Cup (a semi-final in November 1995, the final a year later) shows as three editions
+   and its winners as a team that "did not play". Keyed gender|tournament|date of the first match; gap is the longest
+   break allowed inside the edition, in days; label is the edition's usual name. (20 Nov 2026) */
+const EDITION_JOIN = {
+  'men|CONCACAF Championship|1985-02-24':{gap:100, label:'1985'},
+  'men|Oceania Nations Cup|1995-11-17':{gap:200, label:'1996'},
+  'men|Oceania Nations Cup|2004-05-29':{gap:150, label:'2004'},
+  'men|Oceania Nations Cup|2007-10-17':{gap:230, label:'2008'},
+  'women|UEFA Euro|1994-12-11':{gap:100, label:'1995'},
+  'women|African Championship|1991-02-16':{gap:100, label:'1991'}};
+/* An edition by its address. An address made before pieces were joined (the date of a later piece's first match) leads
+   to the edition that now holds that date. */
+function findEdition(tName, key, g){
+  const E = getEditions(g), e = E.byId.get(tName + '|' + key); if (e) return e;
+  const ts = Date.parse(key + 'T00:00:00Z'); if (isNaN(ts)) return undefined;
+  const T = E.tournaments.find(t => t.name === tName);
+  return (T && T.editions.find(x => x.start <= ts && ts <= x.end + DAY)) || undefined;
+}
 function getEditions(g){
   g = g || state.gender;
   if (state.editions[g]) return state.editions[g];
@@ -2676,7 +2695,8 @@ function getEditions(g){
     let cur = null;
     for (const m of ms){
       const year = new Date(m.ts).getUTCFullYear();
-      const split = !cur || (isQualLike(t) ? year !== cur.year : m.ts - cur.end > 60*DAY);
+      const J = cur && EDITION_JOIN[g + '|' + t + '|' + fmtDate(cur.start)];
+      const split = !cur || (isQualLike(t) ? year !== cur.year : m.ts - cur.end > (J ? J.gap : 60)*DAY);
       if (split){ cur = {tournament:t, start:m.ts, end:m.ts, year, matches:[]}; eds.push(cur); }
       cur.matches.push(m); cur.end = m.ts;
     }
@@ -2685,6 +2705,7 @@ function getEditions(g){
       e.id = t + '|' + e.key;
       const y0 = new Date(e.start).getUTCFullYear(), y1 = new Date(e.end).getUTCFullYear();
       e.label = y0 === y1 ? String(y0) : y0 + '–' + String(y1).slice(-2);
+      if (EDITION_JOIN[g + '|' + e.id]) e.label = EDITION_JOIN[g + '|' + e.id].label;
       const cc = {}; e.matches.forEach(m => cc[m.cat] = (cc[m.cat]||0)+1);
       e.cat = Object.keys(cc).sort((a,b) => cc[b]-cc[a])[0];
       e.teams = new Set(); e.matches.forEach(m => { e.teams.add(m.home); e.teams.add(m.away); m._ed = e; });
@@ -4372,7 +4393,7 @@ async function render(){
   if (state.useTableFiles){
     const g = state.gender, want = [];
     try {
-      if (p.route === 'competition'){ const e = getEditions().byId.get(state.arg+'|'+state.arg2), S = e && seedFor(e);
+      if (p.route === 'competition'){ const e = findEdition(state.arg, state.arg2), S = e && seedFor(e);
         if (e) want.push(S && S.draw ? Date.parse(S.draw+'T12:00:00Z') : e.start - 150*DAY); }
       else if (p.route === 'confederations' && state.params.wcp){ const e = getEditions().list.find(x => x.tournament === 'FIFA World Cup' && !x.qualLike && x.label === state.params.wcp); if (e) want.push(e.start - DAY); }
       else if (p.route === 'method') want.push(Date.parse((g === 'men' ? 1910 : 1985)+'-07-01T00:00:00Z'));
@@ -4394,7 +4415,7 @@ async function render(){
   if (state.useTableFiles && p.route === 'team'){ await Promise.all([loadHistFile(state.gender), state.maxBand !== DEFAULTS.maxBand ? loadHistRanks(state.gender) : null, state.windowYears === 0 ? loadHistW(state.gender) : null]); if (gen !== state.renderGen) return; }
   /* An edition's page reads its figures from the edition's own file (stage 3). */
   if (chartOk() && p.route === 'competition'){
-    let e = null; try { e = getEditions().byId.get(state.arg+'|'+state.arg2); } catch(e2){}
+    let e = null; try { e = findEdition(state.arg, state.arg2); } catch(e2){}
     if (e){ await loadEdFile(state.gender, e); if (gen !== state.renderGen) return; }
   }
   /* On a past date the goals figures come from that year's file (stage 4). */
@@ -4953,7 +4974,7 @@ function viewSources(){
         '. They are compiled from Wikipedia, RSSSF and football association sources.', 'CC0 (public domain)'],
       ['Results newer than the archives, and upcoming fixtures', a('https://www.api-football.com', 'API-Football'), 'Used under the site\'s paid plan'],
       ['Venues and kick-off times API-Football does not have yet', a('https://en.wikipedia.org', 'Wikipedia')+'\'s results and competition articles', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
-      ['Men\'s results missing from the archive, added by hand (2,283 matches, each found in two other records); scores corrected where two other records agree against the archive; and the score on the pitch for results awarded afterwards', a('https://www.eloratings.net/', 'World Football Elo Ratings')+' and '+a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team results pages, with '+a('https://www.rsssf.org', 'RSSSF')+' as the third record for some older matches. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')+' (Wikipedia)'],
+      ['Men\'s results missing from the archive, added by hand (2,284 matches, each found in two other records); scores corrected where two other records agree against the archive; and the score on the pitch for results awarded afterwards', a('https://www.eloratings.net/', 'World Football Elo Ratings')+' and '+a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team results pages, with '+a('https://www.rsssf.org', 'RSSSF')+' as the third record for some older matches. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')+' (Wikipedia)'],
       ['Women\'s results missing from the archives and API-Football, added by hand (551 matches: five 2026 tournaments, the 2025 East Asian championship, the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, missing qualifiers and recent friendlies); and a few scores and dates corrected', a('https://en.wikipedia.org', 'Wikipedia')+'\'s tournament and national-team articles. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Women\'s results neither the archives nor API-Football have, found each night', a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team articles, kept when two pages agree or the result stays up for two days. Marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Historical results and tables', a('https://www.rsssf.org', 'RSSSF')+' (the Rec.Sport.Soccer Statistics Foundation), through the archives above. '+
@@ -11021,8 +11042,7 @@ const EDITION_ABSENT = {
   'men|AFC Asian Cup|1992':{Iraq:'banned after the Gulf War'},
   'men|African Cup of Nations|1965':{Egypt:'withdrew after qualifying, in a diplomatic dispute with the hosts, Tunisia'},
   'men|African Cup of Nations|1998':{Nigeria:'banned by the African confederation after pulling out of the 1996 finals'},
-  'men|CONCACAF Championship|Feb 1985':{Mexico:'did not take part: this was the 1986 World Cup\'s qualifying, and Mexico were in as hosts'},
-  'men|CONCACAF Championship|Aug 1985':{Mexico:'did not take part: this was the 1986 World Cup\'s qualifying, and Mexico were in as hosts'},
+  'men|CONCACAF Championship|1985':{Mexico:'did not take part: this was the 1986 World Cup\'s qualifying, and Mexico were in as hosts'},
   'men|CONCACAF Championship|1989':{Mexico:'banned by FIFA for fielding over-age players in a 1988 youth qualifying tournament'},
   'men|Copa América|1925':{Uruguay:'withdrew, in a dispute inside its own association'},
   'men|Copa América|1939':{Argentina:'withdrew', Brazil:'withdrew'},
@@ -11279,7 +11299,7 @@ function editionUpsets(run, tHref, e){
 function viewEdition(){
   const E = getEditions();
   const tName = state.arg, key = state.arg2;
-  const e = E.byId.get(tName + '|' + key);
+  const e = findEdition(tName, key);
   const app = document.getElementById('app');
   if (!e){ app.innerHTML = '<div class="wrap"><div class="status">That edition is not in the '+
     (state.gender==='men'?"men's":"women's")+' archive. <a href="#/competitions">Browse all competitions</a>.</div></div>'; return; }
@@ -12435,6 +12455,8 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['20 Nov 2026', ['Six tournaments that were played over many months each showed as two, three or four separate editions, because a break of more than 60 days started a new one. They are single editions now, under their usual names: the 1985 CONCACAF Championship, the Oceania Nations Cups of 1996, 2004 and 2008, the women\'s Euro 1995 and the 1991 African Women\'s Championship. Among other things this had Australia, who won the 1996 Oceania Nations Cup, listed on two of its pieces as a strong team that did not play. Old addresses for the pieces lead to the joined edition.',
+    'Two forecasts were left without a match when their fixtures moved two days after the first kick-off time had passed: Morocco v Niger (listed for 11 November, played on the 13th) and Kyrgyzstan v Vietnam (listed for the 15th, played on the 17th). Each match already had its forecast scored under the right date, so the two left-over entries are removed and will not sit in the record as &ldquo;no result&rdquo;.']],
   ['19 Nov 2026', ['Every tournament page has a new section, <b>Groups and runs</b>: who had it hardest. It ranks the groups by the average rating of their teams the day before kick-off, and lists every team\'s run: the average rating of the opponents it actually met, its strongest opponent, and how far it went. Four figures lead the section: the hardest group, the hardest and the easiest run, and where the winners\' run stood. Opening the section also sets the edition beside every other edition of the same tournament: the hardest groups in its history and the winners\' hardest and easiest runs, compared by world rank because rating points are not on the same footing across the decades.',
     'Every team page has a new section too, <b>Hardest and easiest tournaments</b>: the final tournaments where the team met its strongest and its weakest opponents, with how far it went, and the hardest and easiest of the ones it won. It can be narrowed to World Cups and continental finals.',
     '&ldquo;Strong teams that missed out&rdquo; now gives the reason at the continental championships too, as it has for World Cups since yesterday: Iraq withdrawing from three Asian Cups and banned from a fourth after the Gulf War, Israel pulling out as hosts in 1972, Egypt in 1965 and Nigeria in 1998 at the African Cup of Nations, Brazil and Argentina staying away from seven South American Championships between them, Yugoslavia shut out of Euro 1996, North Korea\'s women banned for doping, and hosts who skipped a tournament that was only a World Cup qualifier for everyone else (Mexico in 1985, the United States\' women in 1998, New Zealand\'s in 2022).']],
@@ -12449,7 +12471,7 @@ const CHANGELOG = [
     'Forty-four more men\'s matches the archive was missing are in, 1,956 in all. Each is in World Football Elo Ratings and on Wikipedia, this time on the competition\'s own page where the teams\' pages are silent: nine from the 2019 CECAFA Cup, thirteen from the COSAFA Cups of 2024 and 2025 (the 2024 final among them, Angola 5&ndash;0 Namibia), the 2017 Gold Cup play-off between Haiti and Nicaragua, four Africa Cup qualifiers that were played and then struck from the tables (Chad withdrew in 2016, Sierra Leone were disqualified in 2018), and recent friendlies such as Kenya 4&ndash;0 Lesotho (June 2026) and Yemen 2&ndash;1 Kuwait (September 2026). The last four are special cases: Kyrgyzstan 1&ndash;0 Afghanistan (2023), later recorded as 3&ndash;0, and three matches that were abandoned, which are shown but not rated: Montenegro v Russia (2015), French Guiana v Bermuda (2016) and the 2025 Arab Cup third-place match between Saudi Arabia and the United Arab Emirates. All count from the next nightly update.',
     'Head to head now lists the matches between two teams that were abandoned or awarded without being played, each marked as such. An awarded match counts as a win for the side it was awarded to, with no goals; an abandoned one is shown and not counted. A team\'s longest winning and unbeaten runs on its History now count an awarded match as a win or a loss too, and so do the longest runs on Records. The plain head-to-head pages follow the same rules, and also note a result that was changed afterwards.',
     'Another 300 older matches are in, which makes 2,256 added in all. Each is in World Football Elo Ratings and on Wikipedia\'s page for the competition it was played in: 102 Olympic qualifiers and 72 All-Africa Games qualifiers, nearly all between African sides from 1959 to 1988, 43 matches at the Central American and Caribbean Games, 14 Africa Cup of Nations qualifiers, 11 from the CECAFA Cup and smaller numbers from the Pan Arab Games and the Caribbean Cup. Matches a team\'s own record leaves out, and Olympic matches involving European sides, are still held back. All of them are older than the twelve-year window, so no team\'s own record in today\'s table changes; all-time tables and team histories gain them. They do reach today\'s table by one route: each confederation\'s starting level at the window\'s first day comes from the full history. Every rating moves by less than a point, and two pairs of teams that were all but level swap places.',
-    'The results feed is now checked against Formline\'s own records every night, working back through the years, and since 15 November each match it turns up is looked up by itself on both teams\' Wikipedia pages as they stood at the time. The first passes cover late August 2019 to October 2026. So far 308 women\'s matches the archive lacks are in, each also found on Wikipedia: all 16 of the 2026 Central American and Caribbean Games (Mexico beat Colombia on penalties in the final), all six of the 2025 East Asian championship, Cook Islands\' two wins over Afghanistan in Auckland, and 284 friendlies. Most of those are from late 2020 to the middle of 2024, where the archive is thinnest: Czech Republic 3&ndash;0 Slovakia, Portugal 2&ndash;0 Ukraine, Poland 1&ndash;3 Iceland, Portugal 5&ndash;0 Haiti, Colombia 1&ndash;0 Zambia and Morocco 0&ndash;1 Jamaica before the 2023 World Cup, Iceland 3&ndash;2 and 2&ndash;0 Republic of Ireland and Ethiopia 11&ndash;0 South Sudan (2021) are among them. One more is shown and not rated: Singapore v Hong Kong (15 June 2025), abandoned in bad weather. Eight women\'s scores are corrected where the feed and Wikipedia agree against the archive: China 6&ndash;1 Vietnam (13 February 2026), Morocco 5&ndash;0 Burkina Faso (27 February 2026), Costa Rica 0&ndash;2 Panama (30 October 2024), Venezuela 2&ndash;0 Thailand (23 October 2024), Panama 2&ndash;0 Paraguay (16 February 2024), Chile 2&ndash;1 New Zealand (26 September 2023) France 2&ndash;1 Norway (11 November 2022) and Trinidad and Tobago 1&ndash;1 Panama (25 October 2021). For the men 26 friendlies are in, each in the feed and in World Football Elo Ratings or on Wikipedia (Saudi Arabia 3&ndash;1 Trinidad and Tobago, United Arab Emirates 1&ndash;0 Kuwait, Qatar 2&ndash;1 Ghana, Uzbekistan 0&ndash;0 Jordan and Bahrain 0&ndash;1 Somalia among them). Three dates are corrected: Saint Vincent and the Grenadines 1&ndash;1 Grenada was on 6 March 2025, not the 9th; Basque Country 1&ndash;1 Uruguay on 23 March 2024, not 21 May; and Mozambique 3&ndash;2 Benin on 9 September 2023, not the 4th. The third-place match of the 2025 MSG Prime Minister\'s Cup, Fiji v Solomon Islands, is shown, marked and not rated: it was abandoned at half-time at 1&ndash;1 in heavy rain. Seventy-five matches are held back until a second record turns up or a disagreement is settled. Where the men\'s scores differed, Formline had either corrected the archive already or the feed was wrong: it sometimes keeps the score after 90 minutes for a match that went to extra time, and sometimes names the wrong team.']],
+    'The results feed is now checked against Formline\'s own records every night, working back through the years, and since 15 November each match it turns up is looked up by itself on both teams\' Wikipedia pages as they stood at the time. The first passes cover late July 2018 to October 2026. So far 308 women\'s matches the archive lacks are in, each also found on Wikipedia: all 16 of the 2026 Central American and Caribbean Games (Mexico beat Colombia on penalties in the final), all six of the 2025 East Asian championship, Cook Islands\' two wins over Afghanistan in Auckland, and 284 friendlies. Most of those are from late 2020 to the middle of 2024, where the archive is thinnest: Czech Republic 3&ndash;0 Slovakia, Portugal 2&ndash;0 Ukraine, Poland 1&ndash;3 Iceland, Portugal 5&ndash;0 Haiti, Colombia 1&ndash;0 Zambia and Morocco 0&ndash;1 Jamaica before the 2023 World Cup, Iceland 3&ndash;2 and 2&ndash;0 Republic of Ireland and Ethiopia 11&ndash;0 South Sudan (2021) are among them. One more is shown and not rated: Singapore v Hong Kong (15 June 2025), abandoned in bad weather. Eight women\'s scores are corrected where the feed and Wikipedia agree against the archive: China 6&ndash;1 Vietnam (13 February 2026), Morocco 5&ndash;0 Burkina Faso (27 February 2026), Costa Rica 0&ndash;2 Panama (30 October 2024), Venezuela 2&ndash;0 Thailand (23 October 2024), Panama 2&ndash;0 Paraguay (16 February 2024), Chile 2&ndash;1 New Zealand (26 September 2023) France 2&ndash;1 Norway (11 November 2022) and Trinidad and Tobago 1&ndash;1 Panama (25 October 2021). For the men 27 friendlies are in, each in the feed and in World Football Elo Ratings or on Wikipedia (Saudi Arabia 3&ndash;1 Trinidad and Tobago, United Arab Emirates 1&ndash;0 Kuwait, Qatar 2&ndash;1 Ghana, Uzbekistan 0&ndash;0 Jordan and Bahrain 0&ndash;1 Somalia among them). Three dates are corrected: Saint Vincent and the Grenadines 1&ndash;1 Grenada was on 6 March 2025, not the 9th; Basque Country 1&ndash;1 Uruguay on 23 March 2024, not 21 May; and Mozambique 3&ndash;2 Benin on 9 September 2023, not the 4th. The third-place match of the 2025 MSG Prime Minister\'s Cup, Fiji v Solomon Islands, is shown, marked and not rated: it was abandoned at half-time at 1&ndash;1 in heavy rain. Eighty matches are held back until a second record turns up or a disagreement is settled. Where the men\'s scores differed, Formline had either corrected the archive already or the feed was wrong: it sometimes keeps the score after 90 minutes for a match that went to extra time, sometimes counts such a score twice (four 2019 African Cup of Nations shoot-outs appear as 2&ndash;2 or 4&ndash;4), and sometimes names the wrong team.']],
   ['13 Nov 2026', ['The home page is now a front door to the whole site. It shows Formline\'s track record (how often the side it picked won, in the calls published so far and in every match since 2019), the next few matches a line each, and a way into every part of the site. The filters have moved off it; they are on Rankings.',
     'Tiers are a little finer. A team now leaves a tier once Formline is 80% sure the tier\'s leader is the stronger side, where it was 90%, so there are more tiers and each holds fewer teams (the men\'s table goes from 12 tiers to 17, the women\'s from 10 to 14). No rating or rank changes.',
     'Tiers and clusters are now defined where they are shown. A team page says what its tier rests on (the gap between two ratings and how wide the bands are) and that it is not the chance of winning a match, with an example from today\'s table. How it works has the longer account.',
@@ -12668,7 +12690,7 @@ function csvFor(kind){
     return {name:'formline-'+badgeSlug(dn(key))+'-'+fileStamp()+'.csv', text:csvText(['Date','Opponent','Venue','Competition','Goals for','Goals against','Result','Win %','Draw %','Loss %','Rating before','Rating after','Change'], rows)};
   }
   if (kind === 'edition'){
-    const e = getEditions().byId.get(state.arg+'|'+state.arg2); if (!e) return null;
+    const e = findEdition(state.arg, state.arg2); if (!e) return null;
     const run = editionRun(e);
     const rows = run.rows.map(r => { const p = r.exp !== undefined ? probsFromE(r.exp) : null, pen = shootoutWinner(r.m);
       return [fmtDate(r.m.ts), dn(r.hn), r.m.hs, r.m.as, dn(r.an), pen ? dn(pen) : '', r.m.city, r.m.neutral ? 'neutral' : '',
