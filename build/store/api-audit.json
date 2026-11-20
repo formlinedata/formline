@@ -565,320 +565,6 @@
   },
   {
    "g": "women",
-   "date": "2022-04-30",
-   "home": "Tonga",
-   "away": "Philippines",
-   "score": "0-5",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Glenwood",
-   "api_id": 941461,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-07-14",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-30",
-    "first": "Tonga",
-    "city": "Sydney",
-    "country": "Australia",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-29",
-   "home": "Zambia",
-   "away": "Botswana",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Lusaka",
-   "api_id": 863669,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-07-13",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-29",
-    "first": "Zambia",
-    "city": "Lusaka",
-    "country": "Zambia",
-    "comp": "Friendly",
-    "others": [
-     "2022-05-02 1-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-22",
-   "home": "Philippines",
-   "away": "Tonga",
-   "score": "16-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Sydney",
-   "api_id": 941460,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-07-06",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-22",
-    "first": "Philippines",
-    "city": "Sydney",
-    "country": "Australia",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-12",
-   "home": "Honduras",
-   "away": "Barbados",
-   "score": "2-1",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Women - Qualification Concacaf",
-   "city": "San Pedro Sula",
-   "api_id": 884252,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-26",
-    "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-12",
-   "home": "Colombia",
-   "away": "Venezuela",
-   "score": "0-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Santiago de Cali",
-   "api_id": 856924,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-26",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-12",
-    "first": "Colombia",
-    "city": "Cali",
-    "country": "Colombia",
-    "comp": "Friendly",
-    "others": [
-     "2022-04-09 2-2"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-12",
-   "home": "Ecuador",
-   "away": "Paraguay",
-   "score": "1-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Sangolquí",
-   "api_id": 856925,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-26",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-12",
-    "first": "Ecuador",
-    "city": "",
-    "country": "",
-    "comp": "Friendly",
-    "others": [
-     "2022-04-09 0-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-12",
-   "home": "Morocco",
-   "away": "Ghana",
-   "score": "2-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Rabat",
-   "api_id": 856926,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-26",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-12",
-    "first": "Morocco",
-    "city": "",
-    "country": "",
-    "comp": "International Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-11",
-   "home": "Fiji",
-   "away": "Philippines",
-   "score": "0-8",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Sydney",
-   "api_id": 941449,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-25",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-11",
-    "first": "Fiji",
-    "city": "Sydney",
-    "country": "Australia",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-11",
-   "home": "Singapore",
-   "away": "Papua New Guinea",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Singapore",
-   "api_id": 941459,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-25",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-11",
-    "first": "Singapore",
-    "city": "Jalan Besar",
-    "country": "Singapore",
-    "comp": "2022 FAS Tri-Nations Series"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-11",
-   "home": "Jordan",
-   "away": "Egypt",
-   "score": "0-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Zarqa",
-   "api_id": 941450,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-25",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-11",
-    "first": "Jordan",
-    "city": "Zarqa",
-    "country": "Jordan",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-09",
-   "home": "Colombia",
-   "away": "Venezuela",
-   "score": "2-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Santiago de Cali",
-   "api_id": 856923,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-23",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-09",
-    "first": "Colombia",
-    "city": "Cali",
-    "country": "Colombia",
-    "comp": "Friendly",
-    "others": [
-     "2022-04-12 0-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-08",
-   "home": "Seychelles",
-   "away": "Papua New Guinea",
-   "score": "0-9",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Singapore",
-   "api_id": 941458,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-22",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-08",
-    "first": "Seychelles",
-    "city": "Kallang",
-    "country": "Singapore",
-    "comp": "2022 FAS Tri-Nations Series"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-08",
-   "home": "Jordan",
-   "away": "India",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Zarqa",
-   "api_id": 856921,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-22",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-08",
-    "first": "Jordan",
-    "city": "Zarqa",
-    "country": "Jordan",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-07",
-   "home": "Philippines",
-   "away": "Fiji",
-   "score": "7-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Sydney",
-   "api_id": 941447,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-21",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-07",
-    "first": "Philippines",
-    "city": "Sydney",
-    "country": "Australia",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
    "date": "2022-04-07",
    "home": "Morocco",
    "away": "Gambia",
@@ -898,113 +584,6 @@
     "city": "",
     "country": "",
     "comp": "International Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-06",
-   "home": "Barbados",
-   "away": "British Virgin Islands",
-   "score": "5-1",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Women - Qualification Concacaf",
-   "city": "Kingstown",
-   "api_id": 884280,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-20",
-    "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-05",
-   "home": "India",
-   "away": "Egypt",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Zarqa",
-   "api_id": 941446,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-19",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-05",
-    "first": "India",
-    "city": "Zarqa",
-    "country": "Jordan",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-04-04",
-   "home": "Singapore",
-   "away": "Seychelles",
-   "score": "6-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Singapore",
-   "api_id": 941457,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-18",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-04-04",
-    "first": "Singapore",
-    "city": "Jalan Besar",
-    "country": "Singapore",
-    "comp": "2022 FAS Tri-Nations Series"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-23",
-   "home": "Azerbaijan",
-   "away": "United Arab Emirates",
-   "score": "2-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Baku",
-   "api_id": 841778,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-09",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-23",
-    "first": "Azerbaijan",
-    "city": "Baku",
-    "country": "",
-    "comp": "International friendly",
-    "others": [
-     "2022-02-20 4-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-23",
-   "home": "Switzerland",
-   "away": "Austria",
-   "score": "0-3",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "San Pedro de Alcántara",
-   "api_id": 822159,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-09",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-23",
-    "first": "Switzerland",
-    "city": "Marbella",
-    "country": "Spain",
-    "comp": "Friendly"
    }
   },
   {
@@ -1032,815 +611,6 @@
   },
   {
    "g": "women",
-   "date": "2022-02-22",
-   "home": "Paraguay",
-   "away": "Uruguay",
-   "score": "2-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "San Lorenzo",
-   "api_id": 838623,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-08",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-22",
-    "first": "Paraguay",
-    "city": "Asunción",
-    "country": "Paraguay",
-    "comp": "Friendly",
-    "others": [
-     "2022-02-19 1-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-21",
-   "home": "Greece",
-   "away": "Israel",
-   "score": "2-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Patras",
-   "api_id": 840859,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-07",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-21",
-    "first": "Greece",
-    "city": "Patras",
-    "country": "Greece",
-    "comp": "Friendly",
-    "others": [
-     "2022-02-19 1-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-20",
-   "home": "Barbados",
-   "away": "Haiti",
-   "score": "0-11",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Women - Qualification Concacaf",
-   "city": "Santiago de Cuba",
-   "api_id": 884246,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-06",
-    "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-20",
-   "home": "Gibraltar",
-   "away": "Faroe Islands",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Gibraltar",
-   "api_id": 838621,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-06",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-20",
-    "first": "Gibraltar",
-    "city": "Gibraltar",
-    "country": "",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-20",
-   "home": "Azerbaijan",
-   "away": "United Arab Emirates",
-   "score": "4-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Baku",
-   "api_id": 841777,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-06",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-20",
-    "first": "Azerbaijan",
-    "city": "Baku",
-    "country": "",
-    "comp": "International friendly",
-    "others": [
-     "2022-02-23 2-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-20",
-   "home": "Romania",
-   "away": "Austria",
-   "score": "1-6",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "San Pedro de Alcántara",
-   "api_id": 838622,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-06",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-20",
-    "first": "Austria",
-    "city": "Marbella",
-    "country": "Spain",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-19",
-   "home": "Greece",
-   "away": "Israel",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Patras",
-   "api_id": 840857,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-05",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-19",
-    "first": "Greece",
-    "city": "Patras",
-    "country": "Greece",
-    "comp": "Friendly",
-    "others": [
-     "2022-02-21 2-2"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-19",
-   "home": "Slovenia",
-   "away": "Croatia",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Ploče",
-   "api_id": 839026,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-05",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-19",
-    "first": "Slovenia",
-    "city": "Poreč",
-    "country": "",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-19",
-   "home": "Tahiti",
-   "away": "Luxembourg",
-   "score": "0-11",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Molsheim",
-   "api_id": 839474,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-05",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-19",
-    "first": "Tahiti",
-    "city": "Molsheim",
-    "country": "France",
-    "comp": "International Friendly",
-    "others": [
-     "2022-02-16 0-5"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-19",
-   "home": "Paraguay",
-   "away": "Uruguay",
-   "score": "1-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "San Lorenzo",
-   "api_id": 838620,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-05",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-19",
-    "first": "Paraguay",
-    "city": "San Lorenzo",
-    "country": "Paraguay",
-    "comp": "Friendly",
-    "others": [
-     "2022-02-22 2-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-17",
-   "home": "Bosnia and Herzegovina",
-   "away": "Serbia",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "TBC",
-   "api_id": 841635,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-03",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-17",
-    "first": "Bosnia and Herzegovina",
-    "city": "Belek",
-    "country": "Turkey",
-    "comp": "International Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-16",
-   "home": "Cuba",
-   "away": "Barbados",
-   "score": "3-0",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Women - Qualification Concacaf",
-   "city": "Santiago de Cuba",
-   "api_id": 884259,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-02",
-    "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-16",
-   "home": "Andorra",
-   "away": "Gibraltar",
-   "score": "4-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Andorra la Vella",
-   "api_id": 839012,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-02",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-16",
-    "first": "Andorra",
-    "city": "Andorra la Vella",
-    "country": "Andorra",
-    "comp": "International friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-16",
-   "home": "Luxembourg",
-   "away": "Tahiti",
-   "score": "5-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Mamer",
-   "api_id": 839473,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-05-02",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-16",
-    "first": "Luxembourg",
-    "city": "Mamer",
-    "country": "Luxembourg",
-    "comp": "International Friendly",
-    "others": [
-     "2022-02-19 11-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-12",
-   "home": "Zambia",
-   "away": "South Africa",
-   "score": "3-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Lusaka",
-   "api_id": 838619,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-04-28",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-11",
-    "first": "Zambia",
-    "city": "Lusaka",
-    "country": "Zambia",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-12",
-   "home": "United States Virgin Islands",
-   "away": "Antigua and Barbuda",
-   "score": "1-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Christiansted",
-   "api_id": 839879,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-04-28",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-13",
-    "first": "United States Virgin Islands",
-    "city": "Christiansted",
-    "country": "U.S. Virgin Islands",
-    "comp": "Friendly",
-    "others": [
-     "2022-02-10 0-4"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-02-09",
-   "home": "United States Virgin Islands",
-   "away": "Antigua and Barbuda",
-   "score": "0-4",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Christiansted",
-   "api_id": 839878,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-04-25",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-02-10",
-    "first": "United States Virgin Islands",
-    "city": "Christiansted",
-    "country": "U.S. Virgin Islands",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-01-30",
-   "home": "Suriname",
-   "away": "Barbados",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Paramaribo",
-   "api_id": 839011,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-04-15",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-01-30",
-    "first": "Suriname",
-    "city": "Paramaribo",
-    "country": "Suriname",
-    "comp": "Friendly",
-    "others": [
-     "2022-01-28 1-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2022-01-28",
-   "home": "Suriname",
-   "away": "Barbados",
-   "score": "1-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Paramaribo",
-   "api_id": 839010,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-04-13",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2022-01-28",
-    "first": "Suriname",
-    "city": "Paramaribo",
-    "country": "Suriname",
-    "comp": "Friendly",
-    "others": [
-     "2022-01-30 0-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-12-18",
-   "home": "Montenegro",
-   "away": "Bosnia and Herzegovina",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Bar",
-   "api_id": 816633,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-03-03",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-12-18",
-    "first": "Montenegro",
-    "city": "",
-    "country": "",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-11-30",
-   "home": "Morocco",
-   "away": "Senegal",
-   "score": "2-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Rabat",
-   "api_id": 814057,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-02-13",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-11-30",
-    "first": "Morocco",
-    "city": "",
-    "country": "",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-11-30",
-   "home": "Paraguay",
-   "away": "Peru",
-   "score": "4-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "San Lorenzo",
-   "api_id": 814058,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-02-13",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-11-30",
-    "first": "Paraguay",
-    "city": "San Lorenzo",
-    "country": "Paraguay",
-    "comp": "Friendly",
-    "others": [
-     "2021-11-27 1-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-11-30",
-   "home": "Dominican Republic",
-   "away": "Trinidad and Tobago",
-   "score": "1-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "San Cristóbal",
-   "api_id": 814059,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-02-13",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-11-30",
-    "first": "Dominican Republic",
-    "city": "",
-    "country": "",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-11-29",
-   "home": "Gibraltar",
-   "away": "Liechtenstein",
-   "score": "2-3",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Gibraltar",
-   "api_id": 803746,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-02-12",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-11-29",
-    "first": "Gibraltar",
-    "city": "Gibraltar",
-    "country": "",
-    "comp": "Friendly",
-    "others": [
-     "2021-11-26 1-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-11-26",
-   "home": "Gibraltar",
-   "away": "Liechtenstein",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Gibraltar",
-   "api_id": 803745,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-02-09",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-11-26",
-    "first": "Gibraltar",
-    "city": "Gibraltar",
-    "country": "",
-    "comp": "Friendly",
-    "others": [
-     "2021-11-29 2-3"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-11-26",
-   "home": "Dominican Republic",
-   "away": "Trinidad and Tobago",
-   "score": "2-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "San Cristóbal",
-   "api_id": 814054,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-02-09",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-11-26",
-    "first": "Dominican Republic",
-    "city": "",
-    "country": "",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-11-25",
-   "home": "Tunisia",
-   "away": "Algeria",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Ariana",
-   "api_id": 814053,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-02-08",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-11-25",
-    "first": "Tunisia",
-    "city": "Ariana",
-    "country": "Tunisia",
-    "comp": "Friendly",
-    "others": [
-     "2021-11-28 2-4"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-11-19",
-   "home": "El Salvador",
-   "away": "Honduras",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "San Salvador",
-   "api_id": 814052,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-02-02",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-11-19",
-    "first": "El Salvador",
-    "city": "El Salvador",
-    "country": "",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-10-23",
-   "home": "Puerto Rico",
-   "away": "Guyana",
-   "score": "2-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Mayagüez",
-   "api_id": 814048,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2022-01-06",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-10-23",
-    "first": "Puerto Rico",
-    "city": "Mayagüez",
-    "country": "Puerto Rico",
-    "comp": "International friendly",
-    "others": [
-     "2021-10-20 6-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-10-22",
-   "home": "Dominican Republic",
-   "away": "Bolivia",
-   "score": "3-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Santiago De Los Caballeros",
-   "api_id": 803743,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2022-01-05",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-10-22",
-    "first": "Dominican Republic",
-    "city": "",
-    "country": "",
-    "comp": "Friendly",
-    "others": [
-     "2021-10-25 1-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-10-20",
-   "home": "Puerto Rico",
-   "away": "Guyana",
-   "score": "6-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Bayamón",
-   "api_id": 814046,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2022-01-03",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-10-20",
-    "first": "Puerto Rico",
-    "city": "Bayamón",
-    "country": "Puerto Rico",
-    "comp": "International friendly",
-    "others": [
-     "2021-10-23 2-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-10-13",
-   "home": "India",
-   "away": "Taiwan",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Hamad Town",
-   "api_id": 803742,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-12-27",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-10-13",
-    "first": "India",
-    "city": "Hamad Town",
-    "country": "Bahrain",
-    "comp": "International Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-10-10",
-   "home": "Bahrain",
-   "away": "India",
-   "score": "0-5",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Hamad Town",
-   "api_id": 814045,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-12-24",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-10-10",
-    "first": "Bahrain",
-    "city": "Hamad Town",
-    "country": "Bahrain",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-10-04",
-   "home": "India",
-   "away": "Tunisia",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Dubai",
-   "api_id": 803741,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-12-18",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-10-04",
-    "first": "India",
-    "city": "Dubai",
-    "country": "United Arab Emirates",
-    "comp": "International Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-10-02",
-   "home": "United Arab Emirates",
-   "away": "India",
-   "score": "1-4",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Dubai",
-   "api_id": 803740,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-12-16",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-10-02",
-    "first": "United Arab Emirates",
-    "city": "Dubai",
-    "country": "United Arab Emirates",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
    "date": "2021-09-26",
    "home": "Bangladesh",
    "away": "Hong Kong",
@@ -1860,78 +630,6 @@
     "city": "Tashkent",
     "country": "Uzbekistan",
     "comp": "FIFA Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-09-21",
-   "home": "Ukraine",
-   "away": "Turkey",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Kiev",
-   "api_id": 800266,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-12-05",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-09-21",
-    "first": "Ukraine",
-    "city": "Kyiv",
-    "country": "Ukraine",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-09-21",
-   "home": "Ecuador",
-   "away": "Peru",
-   "score": "0-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Sangolquí",
-   "api_id": 814044,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-12-05",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-09-21",
-    "first": "Ecuador",
-    "city": "Sangolquí",
-    "country": "Ecuador",
-    "comp": "Friendly",
-    "others": [
-     "2021-09-18 1-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-09-09",
-   "home": "Nepal",
-   "away": "Bangladesh",
-   "score": "2-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Kathmandu",
-   "api_id": 800264,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-11-23",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-09-09",
-    "first": "Nepal",
-    "city": "Kathmandu",
-    "country": "Nepal",
-    "comp": "FIFA Friendly",
-    "others": [
-     "2021-09-12 0-0"
-    ]
    }
   },
   {
@@ -2045,125 +743,6 @@
    }
   },
   {
-   "g": "women",
-   "date": "2021-07-15",
-   "home": "Albania",
-   "away": "Turkey",
-   "score": "1-4",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Tirana",
-   "api_id": 729608,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-09-28",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-07-15",
-    "first": "Albania",
-    "city": "Tirana",
-    "country": "Albania",
-    "comp": "Friendly",
-    "others": [
-     "2021-07-12 1-2"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-07-10",
-   "home": "Panama",
-   "away": "Dominican Republic",
-   "score": "5-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Ciudad de Panamá",
-   "api_id": 729660,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-09-23",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-07-10",
-    "first": "Panama",
-    "city": "Panama City",
-    "country": "Panama",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-07-07",
-   "home": "Nicaragua",
-   "away": "Dominican Republic",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Ciudad de Panamá",
-   "api_id": 729659,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-09-20",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-07-07",
-    "first": "Nicaragua",
-    "city": "",
-    "country": "",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-27",
-   "home": "Liechtenstein",
-   "away": "Gibraltar",
-   "score": "2-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Ruggell",
-   "api_id": 729657,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-09-10",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-27",
-    "first": "Liechtenstein",
-    "city": "Ruggell",
-    "country": "Liechtenstein",
-    "comp": "International friendly",
-    "others": [
-     "2021-06-24 4-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-24",
-   "home": "Liechtenstein",
-   "away": "Gibraltar",
-   "score": "4-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Ruggell",
-   "api_id": 729656,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-09-07",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-24",
-    "first": "Liechtenstein",
-    "city": "Ruggell",
-    "country": "Liechtenstein",
-    "comp": "International friendly",
-    "others": [
-     "2021-06-27 2-1"
-    ]
-   }
-  },
-  {
    "g": "men",
    "date": "2021-06-21",
    "home": "Jordan",
@@ -2177,100 +756,6 @@
     "checked": "2026-11-17",
     "asOf": "2021-09-04",
     "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-15",
-   "home": "Armenia",
-   "away": "Kazakhstan",
-   "score": "0-3",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Yerevan",
-   "api_id": 729606,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-29",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-15",
-    "first": "Armenia",
-    "city": "Yerevan",
-    "country": "Armenia",
-    "comp": "Friendly",
-    "others": [
-     "2021-06-12 2-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-15",
-   "home": "Iceland",
-   "away": "Republic of Ireland",
-   "score": "2-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Reykjavík",
-   "api_id": 706807,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-29",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-15",
-    "first": "Iceland",
-    "city": "Reykjavik",
-    "country": "Iceland",
-    "comp": "International friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-15",
-   "home": "Uruguay",
-   "away": "Puerto Rico",
-   "score": "3-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Montevideo",
-   "api_id": 729655,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-29",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-15",
-    "first": "Uruguay",
-    "city": "Montevideo",
-    "country": "Uruguay",
-    "comp": "Friendly",
-    "others": [
-     "2021-06-12 5-1"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-14",
-   "home": "Morocco",
-   "away": "Mali",
-   "score": "3-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Rabat",
-   "api_id": 729653,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-28",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-13",
-    "first": "Morocco",
-    "city": "Rabat",
-    "country": "Morocco",
-    "comp": "International Friendly"
    }
   },
   {
@@ -2290,78 +775,6 @@
     "others": [
      "2021-06-10 1-2",
      "2021-06-13 0-2"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-13",
-   "home": "Malta",
-   "away": "Montenegro",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Ta'Qali",
-   "api_id": 706801,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-27",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-13",
-    "first": "Malta",
-    "city": "Ta' Qali",
-    "country": "",
-    "comp": "Friendly",
-    "others": [
-     "2021-06-10 1-2"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-13",
-   "home": "Portugal",
-   "away": "Nigeria",
-   "score": "3-3",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Houston, Texas",
-   "api_id": 706803,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-27",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-13",
-    "first": "Portugal",
-    "city": "Houston",
-    "country": "United States",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-12",
-   "home": "Armenia",
-   "away": "Kazakhstan",
-   "score": "2-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Yerevan",
-   "api_id": 729603,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-26",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-12",
-    "first": "Armenia",
-    "city": "Yerevan",
-    "country": "Armenia",
-    "comp": "Friendly",
-    "others": [
-     "2021-06-15 0-3"
     ]
    }
   },
@@ -2390,329 +803,6 @@
   },
   {
    "g": "women",
-   "date": "2021-06-12",
-   "home": "Uruguay",
-   "away": "Puerto Rico",
-   "score": "5-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Montevideo",
-   "api_id": 729649,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-26",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-12",
-    "first": "Uruguay",
-    "city": "Maldonado",
-    "country": "Uruguay",
-    "comp": "Friendly",
-    "others": [
-     "2021-06-15 3-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-11",
-   "home": "Georgia",
-   "away": "Azerbaijan",
-   "score": "3-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Tbilisi",
-   "api_id": 729601,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-25",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-11",
-    "first": "Georgia",
-    "city": "Tbilisi",
-    "country": "Georgia",
-    "comp": "International friendly",
-    "others": [
-     "2021-06-14 0-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-11",
-   "home": "Bulgaria",
-   "away": "Bosnia and Herzegovina",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Sofia",
-   "api_id": 729602,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-25",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-11",
-    "first": "Bulgaria",
-    "city": "Sofia",
-    "country": "Bulgaria",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-11",
-   "home": "Uzbekistan",
-   "away": "Iran",
-   "score": "5-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Minsk",
-   "api_id": 729648,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-25",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-11",
-    "first": "Uzbekistan",
-    "city": "Minsk",
-    "country": "Belarus",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-11",
-   "home": "Iceland",
-   "away": "Republic of Ireland",
-   "score": "3-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Reykjavík",
-   "api_id": 706800,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-25",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-11",
-    "first": "Iceland",
-    "city": "Reykjavik",
-    "country": "Iceland",
-    "comp": "International friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-10",
-   "home": "Jordan",
-   "away": "Tunisia",
-   "score": "1-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Amman",
-   "api_id": 729646,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-24",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-10",
-    "first": "Jordan",
-    "city": "Amman",
-    "country": "Jordan",
-    "comp": "Friendly",
-    "others": [
-     "2021-06-13 0-2"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-10",
-   "home": "Malta",
-   "away": "Montenegro",
-   "score": "1-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Ta'Qali",
-   "api_id": 706797,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-24",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-10",
-    "first": "Malta",
-    "city": "Ta' Qali",
-    "country": "",
-    "comp": "Friendly",
-    "others": [
-     "2021-06-13 1-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-10",
-   "home": "Hungary",
-   "away": "Serbia",
-   "score": "4-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Szeged",
-   "api_id": 706798,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-24",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-10",
-    "first": "Hungary",
-    "city": "Szeged",
-    "country": "Hungary",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-10",
-   "home": "Jamaica",
-   "away": "Nigeria",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Houston, Texas",
-   "api_id": 706799,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-24",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-10",
-    "first": "Jamaica",
-    "city": "Houston",
-    "country": "United States",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-06-08",
-   "home": "Belarus",
-   "away": "Iran",
-   "score": "6-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Mogilev",
-   "api_id": 729645,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2021-08-22",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-06-08",
-    "first": "Belarus",
-    "city": "Mogilev",
-    "country": "Belarus",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-13",
-   "home": "Slovenia",
-   "away": "Slovakia",
-   "score": "5-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Čatež ob Savi",
-   "api_id": 693008,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-27",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-13",
-    "first": "Slovenia",
-    "city": "Čatež ob Savi",
-    "country": "Slovenia",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-13",
-   "home": "Hungary",
-   "away": "Bosnia and Herzegovina",
-   "score": "0-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Telki",
-   "api_id": 693007,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-27",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-13",
-    "first": "Hungary",
-    "city": "Telki",
-    "country": "Hungary",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-13",
-   "home": "Ethiopia",
-   "away": "South Sudan",
-   "score": "3-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Addis Ababa",
-   "api_id": 729642,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-27",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-13",
-    "first": "Ethiopia",
-    "city": "Addis Ababa",
-    "country": "Ethiopia",
-    "comp": "Friendly",
-    "others": [
-     "2021-04-10 11-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-12",
-   "home": "El Salvador",
-   "away": "Nicaragua",
-   "score": "1-3",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "San Salvador",
-   "api_id": 729640,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-26",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-11",
-    "first": "El Salvador",
-    "city": "San Salvador",
-    "country": "El Salvador",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
    "date": "2021-04-11",
    "home": "North Macedonia",
    "away": "Kosovo",
@@ -2725,50 +815,6 @@
     "checked": "2026-11-18",
     "asOf": "2021-06-25",
     "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-11",
-   "home": "Liechtenstein",
-   "away": "Luxembourg",
-   "score": "1-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Eschen",
-   "api_id": 729639,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-25",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-11",
-    "first": "Liechtenstein",
-    "city": "Eschen",
-    "country": "Liechtenstein",
-    "comp": "International friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-10",
-   "home": "South Africa",
-   "away": "Zambia",
-   "score": "3-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Johannesburg, GA",
-   "api_id": 698007,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-24",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-10",
-    "first": "South Africa",
-    "city": "Johannesburg",
-    "country": "South Africa",
-    "comp": "Friendly"
    }
   },
   {
@@ -2799,78 +845,6 @@
   },
   {
    "g": "women",
-   "date": "2021-04-10",
-   "home": "Ethiopia",
-   "away": "South Sudan",
-   "score": "11-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Addis Ababa",
-   "api_id": 729637,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-24",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-10",
-    "first": "Ethiopia",
-    "city": "Addis Ababa",
-    "country": "Ethiopia",
-    "comp": "Friendly",
-    "others": [
-     "2021-04-13 3-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-10",
-   "home": "Ecuador",
-   "away": "Colombia",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Quito",
-   "api_id": 684435,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-24",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-09",
-    "first": "Ecuador",
-    "city": "Quito",
-    "country": "Ecuador",
-    "comp": "Friendly",
-    "others": [
-     "2021-04-12 0-4"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-09",
-   "home": "Bosnia and Herzegovina",
-   "away": "Albania",
-   "score": "0-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Zenica",
-   "api_id": 693006,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-23",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-09",
-    "first": "Bosnia and Herzegovina",
-    "city": "Zenica",
-    "country": "Bosnia and Herzegovina",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
    "date": "2021-04-08",
    "home": "North Macedonia",
    "away": "Kosovo",
@@ -2883,56 +857,6 @@
     "checked": "2026-11-18",
     "asOf": "2021-06-22",
     "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-08",
-   "home": "El Salvador",
-   "away": "Nicaragua",
-   "score": "0-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Santa Ana",
-   "api_id": 729633,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-22",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-08",
-    "first": "El Salvador",
-    "city": "Santa Ana",
-    "country": "El Salvador",
-    "comp": "Friendly",
-    "others": [
-     "2021-04-11 1-3"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-04-07",
-   "home": "Namibia",
-   "away": "Angola",
-   "score": "4-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Windhoek",
-   "api_id": 729630,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-06-21",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-04-07",
-    "first": "Namibia",
-    "city": "Windhoek",
-    "country": "Namibia",
-    "comp": "Friendly",
-    "others": [
-     "2021-04-10 1-0"
-    ]
    }
   },
   {
@@ -2949,56 +873,6 @@
     "checked": "2026-11-18",
     "asOf": "2021-06-09",
     "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-02-24",
-   "home": "Ecuador",
-   "away": "Bolivia",
-   "score": "3-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Quito",
-   "api_id": 729599,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-05-10",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-02-24",
-    "first": "Ecuador",
-    "city": "Quito",
-    "country": "Ecuador",
-    "comp": "Friendly",
-    "others": [
-     "2021-02-21 3-0"
-    ]
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-02-22",
-   "home": "Ecuador",
-   "away": "Bolivia",
-   "score": "3-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Quito",
-   "api_id": 729597,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-05-08",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-02-21",
-    "first": "Ecuador",
-    "city": "Quito",
-    "country": "Ecuador",
-    "comp": "Friendly",
-    "others": [
-     "2021-02-24 3-0"
-    ]
    }
   },
   {
@@ -3022,31 +896,6 @@
     "city": "Podgorica",
     "country": "",
     "comp": "Friendly"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2021-02-21",
-   "home": "Dominican Republic",
-   "away": "Puerto Rico",
-   "score": "0-2",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Santo Domingo",
-   "api_id": 729627,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-05-07",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-02-21",
-    "first": "Dominican Republic",
-    "city": "Santo Domingo",
-    "country": "Dominican Republic",
-    "comp": "Friendly",
-    "others": [
-     "2021-02-18 1-1"
-    ]
    }
   },
   {
@@ -3090,31 +939,6 @@
   },
   {
    "g": "women",
-   "date": "2021-02-18",
-   "home": "Dominican Republic",
-   "away": "Puerto Rico",
-   "score": "1-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Santo Domingo",
-   "api_id": 729624,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-05-04",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-02-18",
-    "first": "Dominican Republic",
-    "city": "Santo Domingo",
-    "country": "Dominican Republic",
-    "comp": "Friendly",
-    "others": [
-     "2021-02-21 0-2"
-    ]
-   }
-  },
-  {
-   "g": "women",
    "date": "2021-02-16",
    "home": "Guatemala",
    "away": "Panama",
@@ -3143,28 +967,6 @@
     "checked": "2026-11-18",
     "asOf": "2021-02-13",
     "found": "none"
-   }
-  },
-  {
-   "g": "women",
-   "date": "2020-11-26",
-   "home": "Ghana",
-   "away": "Morocco",
-   "score": "3-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Accra",
-   "api_id": 651229,
-   "wiki": {
-    "checked": "2026-11-18",
-    "asOf": "2021-02-09",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2020-11-26",
-    "first": "Ghana",
-    "city": "Accra",
-    "country": "Ghana",
-    "comp": "Friendly"
    }
   },
   {
@@ -3198,6 +1000,518 @@
     "asOf": "2020-12-23",
     "found": "none"
    }
+  },
+  {
+   "g": "women",
+   "date": "2020-09-20",
+   "home": "Luxembourg",
+   "away": "Bulgaria",
+   "score": "0-3",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Luxembourg",
+   "api_id": 635074,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-12-04",
+    "found": "agree",
+    "pages": "H",
+    "otherLists": 0,
+    "date": "2020-09-20",
+    "first": "Luxembourg",
+    "city": "Beggen",
+    "country": "Luxembourg",
+    "comp": "Friendly"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-08-12",
+   "home": "Estonia",
+   "away": "Latvia",
+   "score": "1-0",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Tallinn",
+   "api_id": 595976,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-10-26",
+    "found": "agree",
+    "pages": "HA",
+    "date": "2020-08-12",
+    "first": "Estonia",
+    "city": "Tallinn",
+    "country": "Estonia",
+    "comp": "Friendly"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-10",
+   "home": "Belarus",
+   "away": "Serbia",
+   "score": "0-5",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Antalya",
+   "api_id": 595991,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-24",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-10",
+   "home": "Austria",
+   "away": "Switzerland",
+   "score": "1-2",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Marbella",
+   "api_id": 595992,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-24",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-09",
+   "home": "Faroe Islands",
+   "away": "Estonia",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Tórshavn, Streymoy",
+   "api_id": 595972,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-23",
+    "found": "agree",
+    "pages": "A",
+    "otherLists": 0,
+    "date": "2020-03-09",
+    "first": "Faroe Islands",
+    "city": "Tórshavn",
+    "country": "Faroe Islands",
+    "comp": "Friendly"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-08",
+   "home": "South Africa",
+   "away": "Lesotho",
+   "score": "3-0",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Brakpan",
+   "api_id": 595975,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-22",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-06",
+   "home": "Armenia",
+   "away": "Lithuania",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Yerevan",
+   "api_id": 595982,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-20",
+    "found": "agree",
+    "pages": "H",
+    "otherLists": 0,
+    "date": "2020-03-06",
+    "first": "Armenia",
+    "city": "",
+    "country": "",
+    "comp": "Friendly",
+    "others": [
+     "2020-03-04 0-1"
+    ]
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-06",
+   "home": "Switzerland",
+   "away": "Austria",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Marbella",
+   "api_id": 595989,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-20",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-03-04",
+   "home": "Armenia",
+   "away": "Lithuania",
+   "score": "0-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Yerevan",
+   "api_id": 595981,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-18",
+    "found": "agree",
+    "pages": "H",
+    "otherLists": 0,
+    "date": "2020-03-04",
+    "first": "Armenia",
+    "city": "Yerevan",
+    "country": "Armenia",
+    "comp": "Friendly",
+    "others": [
+     "2020-03-06 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2020-02-28",
+   "home": "Rwanda",
+   "away": "Congo",
+   "score": "0-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "Kigali",
+   "api_id": 323226,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-13",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2020-02-24",
+   "home": "Cameroon",
+   "away": "Rwanda",
+   "score": "0-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 323216,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-09",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2020-02-20",
+   "home": "Congo",
+   "away": "Cameroon",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 324086,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-05",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2020-02-16",
+   "home": "DR Congo",
+   "away": "Cameroon",
+   "score": "0-1",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 324087,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-05-01",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-31",
+   "home": "Morocco",
+   "away": "Tunisia",
+   "score": "6-3",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Témara",
+   "api_id": 595988,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-15",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-28",
+   "home": "Myanmar",
+   "away": "Thailand",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Mandalay",
+   "api_id": 595980,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-12",
+    "found": "agree",
+    "pages": "HA",
+    "date": "2020-01-28",
+    "first": "Myanmar",
+    "city": "Mandalay",
+    "country": "Myanmar",
+    "comp": "Friendly",
+    "others": [
+     "2020-01-25 1-2"
+    ]
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-28",
+   "home": "Morocco",
+   "away": "Tunisia",
+   "score": "2-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Salé",
+   "api_id": 595987,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-12",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-25",
+   "home": "Myanmar",
+   "away": "Thailand",
+   "score": "1-2",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Mandalay",
+   "api_id": 595979,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-09",
+    "found": "agree",
+    "pages": "HA",
+    "date": "2020-01-25",
+    "first": "Myanmar",
+    "city": "Mandalay",
+    "country": "Myanmar",
+    "comp": "Friendly",
+    "others": [
+     "2020-01-28 1-1"
+    ]
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-22",
+   "home": "Montenegro",
+   "away": "Bosnia and Herzegovina",
+   "score": "2-3",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Podgorica",
+   "api_id": 595978,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-06",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-20",
+   "home": "Canada",
+   "away": "Haiti",
+   "score": "1-1",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Austin",
+   "api_id": 595977,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-04",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-17",
+   "home": "Malta",
+   "away": "Turkey",
+   "score": "1-2",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Ta'Qali",
+   "api_id": 595986,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-04-01",
+    "found": "none"
+   }
+  },
+  {
+   "g": "women",
+   "date": "2020-01-14",
+   "home": "Malta",
+   "away": "Switzerland",
+   "score": "2-2",
+   "tournament": "Friendly",
+   "league": "Friendlies Women",
+   "city": "Ta'Qali",
+   "api_id": 595985,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-03-29",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-11-19",
+   "home": "Morocco",
+   "away": "Guinea",
+   "score": "3-1",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 291076,
+   "wiki": {
+    "checked": "2026-11-19",
+    "asOf": "2020-02-02",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-07-19",
+   "home": "New Zealand",
+   "away": "New Caledonia",
+   "score": "2-1",
+   "tournament": "Pacific Games",
+   "league": "Pacific Games",
+   "city": "Apia",
+   "api_id": 667934,
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-10-02",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-07-14",
+   "home": "New Zealand",
+   "away": "Papua New Guinea",
+   "score": "2-0",
+   "tournament": "Pacific Games",
+   "league": "Pacific Games",
+   "city": "Apia",
+   "api_id": 667951,
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-09-27",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-07-12",
+   "home": "Vanuatu",
+   "away": "New Zealand",
+   "score": "0-0",
+   "tournament": "Pacific Games",
+   "league": "Pacific Games",
+   "city": "Apia",
+   "api_id": 667948,
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-09-25",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-07-10",
+   "home": "New Zealand",
+   "away": "Samoa",
+   "score": "5-1",
+   "tournament": "Pacific Games",
+   "league": "Pacific Games",
+   "city": "Apia",
+   "api_id": 667943,
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-09-23",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-07-08",
+   "home": "Tonga",
+   "away": "New Zealand",
+   "score": "0-13",
+   "tournament": "Pacific Games",
+   "league": "Pacific Games",
+   "city": "Apia",
+   "api_id": 667938,
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-09-21",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-06-11",
+   "home": "Guyana",
+   "away": "Haiti",
+   "score": "1-3",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 218369,
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-08-25",
+    "found": "agree",
+    "pages": "HA",
+    "date": "2019-06-11",
+    "first": "Guyana",
+    "city": "Alajuela",
+    "country": "Costa Rica",
+    "comp": "Friendly"
+   }
   }
  ],
  "diffs": [
@@ -3229,99 +1543,6 @@
    "heldDate": "2023-08-11"
   },
   {
-   "g": "men",
-   "date": "2022-03-26",
-   "home": "Guinea-Bissau",
-   "away": "Angola",
-   "score": "3-2",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "Rio Maior",
-   "api_id": 852226,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-06-09",
-    "found": "differ",
-    "others": [
-     "2022-03-26 2-3"
-    ]
-   },
-   "held": "2-3",
-   "heldDate": "2022-03-26"
-  },
-  {
-   "g": "women",
-   "date": "2021-11-30",
-   "home": "Colombia",
-   "away": "Uruguay",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Palmira",
-   "api_id": 814042,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-02-13",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-11-30",
-    "first": "Colombia",
-    "city": "Palmira",
-    "country": "Colombia",
-    "comp": "Friendly",
-    "others": [
-     "2021-11-28 3-2"
-    ]
-   },
-   "held": "3-2",
-   "heldDate": "2021-11-28"
-  },
-  {
-   "g": "men",
-   "date": "2021-11-14",
-   "home": "Republic of Ireland",
-   "away": "Luxembourg",
-   "score": "0-3",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 349614,
-   "wiki": {
-    "checked": "2026-11-16",
-    "asOf": "2022-01-28",
-    "found": "differ",
-    "others": [
-     "2021-11-14 3-0"
-    ]
-   },
-   "held": "3-0",
-   "heldDate": "2021-11-14"
-  },
-  {
-   "g": "women",
-   "date": "2021-10-25",
-   "home": "Trinidad and Tobago",
-   "away": "Panama",
-   "score": "1-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Couva, San Fernando",
-   "api_id": 814050,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2022-01-08",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2021-10-25",
-    "first": "Trinidad and Tobago",
-    "city": "Couva",
-    "country": "Trinidad and Tobago",
-    "comp": "Friendly"
-   },
-   "held": "1-0",
-   "heldDate": "2021-10-25"
-  },
-  {
    "g": "women",
    "date": "2021-10-21",
    "home": "Costa Rica",
@@ -3341,9 +1562,256 @@
    },
    "held": "0-0",
    "heldDate": "2021-10-21"
+  },
+  {
+   "g": "men",
+   "date": "2019-07-19",
+   "home": "Papua New Guinea",
+   "away": "Fiji",
+   "score": "0-0",
+   "tournament": "Pacific Games",
+   "league": "Pacific Games",
+   "city": "Apia",
+   "api_id": 667933,
+   "held": "1-1",
+   "heldDate": "2019-07-20",
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-10-02",
+    "found": "differ",
+    "others": [
+     "2019-07-20 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-07-11",
+   "home": "Ivory Coast",
+   "away": "Algeria",
+   "score": "2-2",
+   "tournament": "African Cup of Nations",
+   "league": "Africa Cup of Nations",
+   "city": "Suez",
+   "api_id": 205617,
+   "shootout": "Algeria",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 1
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 3,
+     "away": 4
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2019-07-11",
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-09-24",
+    "found": "differ",
+    "others": [
+     "2019-07-11 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-07-08",
+   "home": "Ghana",
+   "away": "Tunisia",
+   "score": "2-2",
+   "tournament": "African Cup of Nations",
+   "league": "Africa Cup of Nations",
+   "city": "Ismailia",
+   "api_id": 171223,
+   "shootout": "Tunisia",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 0
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 4,
+     "away": 5
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2019-07-08",
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-09-21",
+    "found": "differ",
+    "others": [
+     "2019-07-08 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-07-07",
+   "home": "Madagascar",
+   "away": "DR Congo",
+   "score": "4-4",
+   "tournament": "African Cup of Nations",
+   "league": "Africa Cup of Nations",
+   "city": "Alexandria",
+   "api_id": 171220,
+   "shootout": "Madagascar",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 1,
+     "away": 1
+    },
+    "fulltime": {
+     "home": 2,
+     "away": 2
+    },
+    "extratime": {
+     "home": 2,
+     "away": 2
+    },
+    "penalty": {
+     "home": 4,
+     "away": 2
+    }
+   },
+   "held": "2-2",
+   "heldDate": "2019-07-07",
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-09-20",
+    "found": "differ",
+    "others": [
+     "2019-07-07 2-2"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-07-05",
+   "home": "Morocco",
+   "away": "Benin",
+   "score": "2-2",
+   "tournament": "African Cup of Nations",
+   "league": "Africa Cup of Nations",
+   "city": "Cairo",
+   "api_id": 171216,
+   "shootout": "Benin",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 0
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 1,
+     "away": 4
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2019-07-05",
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-09-18",
+    "found": "differ",
+    "others": [
+     "2019-07-05 1-1"
+    ]
+   }
+  },
+  {
+   "g": "women",
+   "date": "2019-06-22",
+   "home": "Norway",
+   "away": "Australia",
+   "score": "2-2",
+   "tournament": "FIFA World Cup",
+   "league": "World Cup - Women",
+   "city": "Nice",
+   "api_id": 159735,
+   "shootout": "Norway",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 1,
+     "away": 0
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 4,
+     "away": 1
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2019-06-22",
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-09-05",
+    "found": "differ",
+    "others": [
+     "2019-06-22 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2019-06-11",
+   "home": "Algeria",
+   "away": "Burundi",
+   "score": "1-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 218368,
+   "held": "1-1",
+   "heldDate": "2019-06-11",
+   "wiki": {
+    "checked": "2026-11-20",
+    "asOf": "2019-08-25",
+    "found": "differ",
+    "others": [
+     "2019-06-11 1-1"
+    ]
+   }
   }
  ],
- "days": 2200,
+ "days": 2800,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -3351,7 +1819,7 @@
   "Coventry": 1,
   "Liverpool": 1,
   "Getafe": 1,
-  "Cercle Brugge": 7,
+  "Cercle Brugge": 8,
   "Louisville City": 1,
   "Podlasie Biała Podlaska": 1,
   "Shrewsbury": 1,
@@ -3410,16 +1878,19 @@
   "Altrincham": 1,
   "Portimonense": 1,
   "Austria Vienna": 1,
-  "Mariehamn": 1,
+  "Mariehamn": 2,
   "Sabadell": 1,
   "L'Hospitalet": 1,
   "Villarreal II": 1,
   "VfL Wolfsburg": 1,
   "Antwerp": 1,
-  "Red Bull Salzburg": 1
+  "Red Bull Salzburg": 1,
+  "AZ Alkmaar": 1,
+  "Eintracht Frankfurt": 1,
+  "Standard Liege": 1
  },
- "updated": "2026-11-18",
- "cursor": "2020-09-27",
+ "updated": "2026-11-20",
+ "cursor": "2019-02-05",
  "done": null,
  "from": "2014-11-01"
 }
