@@ -1617,37 +1617,19 @@
   },
   {
    "g": "men",
-   "date": "2015-09-08",
-   "home": "Malaysia",
-   "away": "Saudi Arabia",
-   "score": "0-3",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Qualification Asia",
+   "date": "2015-01-23",
+   "home": "Iran",
+   "away": "Iraq",
+   "score": "4-4",
+   "tournament": "AFC Asian Cup",
+   "league": "Asian Cup",
    "city": "",
-   "api_id": 257030,
-   "held": "1-2",
-   "heldDate": "2015-09-08",
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2015-11-22",
-    "found": "none"
-   }
-  },
-  {
-   "g": "men",
-   "date": "2015-07-25",
-   "home": "United States",
-   "away": "Panama",
-   "score": "2-2",
-   "tournament": "Gold Cup",
-   "league": "CONCACAF Gold Cup",
-   "city": "",
-   "api_id": 255440,
-   "shootout": "Panama",
+   "api_id": 152481,
+   "shootout": "Iraq",
    "st": "PEN",
    "sc": {
     "halftime": {
-     "home": 0,
+     "home": 1,
      "away": 0
     },
     "fulltime": {
@@ -1655,36 +1637,33 @@
      "away": 1
     },
     "extratime": {
-     "home": 1,
-     "away": 1
+     "home": 3,
+     "away": 3
     },
     "penalty": {
-     "home": 2,
-     "away": 3
+     "home": 6,
+     "away": 7
     }
    },
-   "held": "1-1",
-   "heldDate": "2015-07-25",
+   "held": "3-3",
+   "heldDate": "2015-01-23",
    "wiki": {
     "checked": "2026-11-21",
-    "asOf": "2015-10-08",
-    "found": "differ",
-    "others": [
-     "2015-07-25 1-1"
-    ]
+    "asOf": "2015-04-08",
+    "found": "none"
    }
   },
   {
    "g": "men",
-   "date": "2015-07-19",
-   "home": "Trinidad and Tobago",
-   "away": "Panama",
+   "date": "2015-01-23",
+   "home": "Japan",
+   "away": "United Arab Emirates",
    "score": "2-2",
-   "tournament": "Gold Cup",
-   "league": "CONCACAF Gold Cup",
+   "tournament": "AFC Asian Cup",
+   "league": "Asian Cup",
    "city": "",
-   "api_id": 255436,
-   "shootout": "Panama",
+   "api_id": 152482,
+   "shootout": "United Arab Emirates",
    "st": "PEN",
    "sc": {
     "halftime": {
@@ -1700,41 +1679,23 @@
      "away": 1
     },
     "penalty": {
-     "home": 5,
-     "away": 6
+     "home": 4,
+     "away": 5
     }
    },
    "held": "1-1",
-   "heldDate": "2015-07-19",
+   "heldDate": "2015-01-23",
    "wiki": {
     "checked": "2026-11-21",
-    "asOf": "2015-10-02",
+    "asOf": "2015-04-08",
     "found": "differ",
     "others": [
-     "2015-07-19 1-1"
+     "2015-01-23 1-1"
     ]
-   }
-  },
-  {
-   "g": "men",
-   "date": "2015-06-14",
-   "home": "Barbados",
-   "away": "Aruba",
-   "score": "0-3",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Qualification CONCACAF",
-   "city": "Bridgetown",
-   "api_id": 256362,
-   "held": "1-0",
-   "heldDate": "2015-06-14",
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2015-08-28",
-    "found": "none"
    }
   }
  ],
- "days": 4200,
+ "days": 4358,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -1816,7 +1777,7 @@
   "Qarabag": 2
  },
  "updated": "2026-11-21",
- "cursor": "2015-04-07",
- "done": null,
+ "cursor": "2014-10-31",
+ "done": "2026-11-21",
  "from": "2014-11-01"
 }
