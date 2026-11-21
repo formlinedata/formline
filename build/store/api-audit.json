@@ -1418,6 +1418,22 @@
     "asOf": "2019-09-21",
     "found": "none"
    }
+  },
+  {
+   "g": "men",
+   "date": "2017-09-02",
+   "home": "Hong Kong",
+   "away": "Macau",
+   "score": "4-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 226014,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-11-16",
+    "found": "none"
+   }
   }
  ],
  "diffs": [
@@ -1468,9 +1484,86 @@
    },
    "held": "0-0",
    "heldDate": "2021-10-21"
+  },
+  {
+   "g": "men",
+   "date": "2017-12-17",
+   "home": "Kenya",
+   "away": "Zanzibar",
+   "score": "3-3",
+   "tournament": "CECAFA Cup",
+   "league": "CECAFA Senior Challenge Cup",
+   "city": "Machakos",
+   "api_id": 362533,
+   "shootout": "Kenya",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": null,
+     "away": null
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 2,
+     "away": 2
+    },
+    "penalty": {
+     "home": 3,
+     "away": 2
+    }
+   },
+   "held": "2-2",
+   "heldDate": "2017-12-17",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2018-03-02",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-12-04",
+   "home": "Brunei",
+   "away": "Kyrgyzstan",
+   "score": "4-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 226046,
+   "held": "0-4",
+   "heldDate": "2017-12-04",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2018-02-17",
+    "found": "differ",
+    "others": [
+     "2017-12-04 0-4"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-12-03",
+   "home": "Saint Kitts and Nevis",
+   "away": "Grenada",
+   "score": "1-9",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 226043,
+   "held": "1-0",
+   "heldDate": "2017-12-03",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2018-02-16",
+    "found": "none"
+   }
   }
  ],
- "days": 3200,
+ "days": 3400,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -1548,8 +1641,8 @@
   "Eintracht Frankfurt": 1,
   "Standard Liege": 1
  },
- "updated": "2026-11-20",
- "cursor": "2018-01-01",
+ "updated": "2026-11-21",
+ "cursor": "2017-06-15",
  "done": null,
  "from": "2014-11-01"
 }
