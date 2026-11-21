@@ -738,5 +738,45 @@
   "right": "2-2 on the pitch",
   "note": "the feed has the result FIFA awarded afterwards (Burundi fielded an ineligible player); Formline shows the score on the pitch with a note",
   "checked": "2026-11-21"
+ },
+ {
+  "api_id": 255436,
+  "g": "men",
+  "date": "2015-07-19",
+  "match": "Trinidad and Tobago v Panama",
+  "feed": "2-2",
+  "right": "1-1 after extra time, Panama won 6-5 on penalties (Gold Cup quarter-final)",
+  "note": "the feed adds its 90-minute score (1-1) to its extra-time score (1-1); the archive and Wikipedia have 1-1",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 255440,
+  "g": "men",
+  "date": "2015-07-25",
+  "match": "United States v Panama",
+  "feed": "2-2",
+  "right": "1-1 after extra time, Panama won 3-2 on penalties (Gold Cup third-place match)",
+  "note": "the feed adds its 90-minute score (1-1) to its extra-time score (1-1); the archive and Wikipedia have 1-1",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 256362,
+  "g": "men",
+  "date": "2015-06-14",
+  "match": "Barbados v Aruba",
+  "feed": "0-3",
+  "right": "1-0 on the pitch",
+  "note": "the feed has the result FIFA awarded afterwards (Barbados fielded an ineligible player); Formline shows the score on the pitch with a note",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 257030,
+  "g": "men",
+  "date": "2015-09-08",
+  "match": "Malaysia v Saudi Arabia",
+  "feed": "0-3",
+  "right": "abandoned at 1-2",
+  "note": "the feed has the result FIFA awarded afterwards; Formline shows the match as abandoned with Saudi Arabia leading 2-1, marked and not rated, with a note",
+  "checked": "2026-11-21"
  }
 ]
