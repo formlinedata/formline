@@ -1,11 +1,11 @@
 {
- "built": "2026-11-21T21:50:44.405Z",
+ "built": "2026-11-21T22:09:49.488Z",
  "today": "2026-11-21",
  "mode": "full",
  "api": {
   "keyPresent": true,
-  "used": 222,
-  "remaining": 6107,
+  "used": 74,
+  "remaining": 5908,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 1321,
+   "usedTodayBeforeRun": 1543,
    "perMinute": 300
   },
   "paid": true,
@@ -25,7 +25,7 @@
  "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 16809,
+  "domestic": 16811,
   "youth": 172,
   "clubs": 154,
   "not counted": 194
@@ -41,23 +41,23 @@
   }
  },
  "apiAudit": {
-  "asked": 158,
-  "results": 128,
+  "asked": 10,
+  "results": 171,
   "missing": 0,
-  "diffs": 2,
+  "diffs": 0,
   "cursor": "2014-10-31",
   "done": "2026-11-21",
   "open": {
    "missing": 84,
-   "diffs": 6
+   "diffs": 4
   },
-  "settled": 4,
+  "settled": 2,
   "wiki": {
-   "asked": 4,
-   "checked": 2,
+   "asked": 0,
+   "checked": 0,
    "agree": 0,
-   "differ": 1,
-   "none": 1,
+   "differ": 0,
+   "none": 0,
    "errors": 0
   }
  },
@@ -97,7 +97,7 @@
   "results": 0
  },
  "men": {
-  "built": "2026-11-21T21:50:44.405Z",
+  "built": "2026-11-21T22:09:49.488Z",
   "archive": {
    "end": "2026-11-17",
    "rows": 50099
@@ -117,7 +117,7 @@
   "fixtures": 2
  },
  "women": {
-  "built": "2026-11-21T21:50:44.405Z",
+  "built": "2026-11-21T22:09:49.488Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
