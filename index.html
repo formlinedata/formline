@@ -11214,7 +11214,13 @@ const EDITION_ABSENT = {
   'men|FIFA World Cup|2022':{Russia:'banned: suspended by FIFA and UEFA in February 2022, before its play-off'},
   'men|FIFA World Cup|2026':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
   'men|UEFA Euro|2024':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
-  'women|FIFA World Cup|2023':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
+  'men|UEFA Euro|2008':{Gibraltar:'not yet a UEFA member (it joined on 24 May 2013)', Kosovo:'not yet a UEFA member (it joined on 3 May 2016)'},
+  'men|UEFA Euro|2012':{Gibraltar:'not yet a UEFA member (it joined on 24 May 2013)', Kosovo:'not yet a UEFA member (it joined on 3 May 2016)'},
+  'men|UEFA Euro|2016':{Kosovo:'not yet a UEFA member (it joined on 3 May 2016)'},
+  'women|FIFA World Cup|2023':{Russia:'banned: suspended by FIFA and UEFA since February 2022',
+    India:'out of the 2022 Asian Cup, which was the qualifying and which it was hosting: a COVID-19 outbreak left it unable to field a team, and its matches were annulled',
+    'North Korea':'withdrew from the 2022 Asian Cup, which was the qualifying, before its qualifiers'},
+  'women|AFC Asian Cup|2022':{'North Korea':'withdrew before the qualifiers', India:'the hosts; withdrawn after a COVID-19 outbreak left it unable to field a team, and its one match was annulled'},
   'women|UEFA Euro|2022':{Russia:'qualified, then banned: suspended by FIFA and UEFA in February 2022'},
   'women|UEFA Euro|2025':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
   /* Continental championships (19 Nov 2026), from each edition's Wikipedia page, the team's "at the …" record page and RSSSF. */
@@ -11407,10 +11413,21 @@ function editionPaths(e, run, tHref){
 /* The same measures across every edition of the tournament, worked out after the page is drawn: where this edition's
    groups and its winners' run stand in the tournament's history. Ratings drift over the decades, so editions are set
    beside each other by world rank, not by rating. */
+/* One championship under two names: its editions are set beside each other whatever it was called that year. The women's
+   CONCACAF Gold Cups of 2000 to 2010 were the CONCACAF championship; the one of 2024 is a new, separate competition and
+   stands alone. */
+const COMP_SERIES = {men:[['CONCACAF Championship', 'Gold Cup']],
+  women:[['African Championship', 'Africa Cup of Nations'], ['OFC Championship', 'OFC Nations Cup'], ['CONCACAF Championship', 'CONCACAF Gold Cup']]};
+const seriesAlone = (g, x) => g === 'women' && x.tournament === 'CONCACAF Gold Cup' && parseInt(x.label, 10) >= 2024;
+function seriesEditions(g, e){
+  const names = seriesAlone(g, e) ? [e.tournament] : (COMP_SERIES[g] || []).find(S => S.includes(e.tournament)) || [e.tournament];
+  return getEditions().tournaments.filter(t => names.includes(t.name)).flatMap(t => t.editions)
+    .filter(x => !x.qualLike && seriesAlone(g, x) === seriesAlone(g, e)).sort((a, b) => a.start - b.start);
+}
 async function edHistory(e){
-  const g = state.gender, key = [g, e.tournament, state.windowYears, [...state.comps].sort().join(','), state.maxBand].join('|');
+  const g = state.gender, eds = seriesEditions(g, e);
+  const key = [g, eds.length ? eds[0].id : e.tournament, eds.length, state.windowYears, [...state.comps].sort().join(','), state.maxBand].join('|');
   if (state.edHist && state.edHist.key === key) return state.edHist.data;
-  const T = getEditions().tournaments.find(t => t.name === e.tournament), eds = (T ? T.editions : []).filter(x => !x.qualLike);
   if (eds.length < 3) return null;
   const keep = state.edCache, groups = [], champs = [];
   for (let i = 0; i < eds.length; i++){ const x = eds[i];
@@ -11422,7 +11439,9 @@ async function edHistory(e){
     if (i % 4 === 3) await new Promise(r => setTimeout(r, 0)); }
   state.edCache = keep;
   groups.sort((a, b) => a.avgRank - b.avgRank); champs.sort((a, b) => a.avgRank - b.avgRank);
-  const data = {groups, champs, n:eds.length};
+  /* Its years under another name, for the note: [name, first label, last label]. */
+  const also = [...new Set(eds.filter(x => x.tournament !== e.tournament).map(x => x.tournament))].map(t => { const L = eds.filter(x => x.tournament === t); return [t, L[0].label, L[L.length - 1].label]; });
+  const data = {groups, champs, n:eds.length, also};
   state.edHist = {key, data};
   return data;
 }
@@ -11444,7 +11463,8 @@ function edHistoryHtml(e, H){
     (nC >= 4 ? '<h3 class="fr-h" style="padding:0 15px;">The winners\' runs <span class="muted">hardest and easiest, by the average world rank of the opponents they met; '+nC+' editions</span></h3>'+
       '<div class="table-wrap"><table><thead><tr><th class="num">#</th><th>Edition</th><th>Winners</th><th class="num hide-sm">Played</th><th class="num" title="Average world rank, the day before kick-off, of the opponents the winners met">Opponents\' avg. rank</th></tr></thead><tbody>'+
       cList.map(([C, i], k) => (k > 0 && i - cList[k - 1][1] > 1 ? '<tr class="dayrow"><td colspan="5">&hellip;</td></tr>' : '')+cRow(C, i)).join('')+'</tbody></table></div>' : '')+
-    '<p class="chart-note" style="padding:8px 15px 0;margin:0;">Across editions, groups and runs are compared by world rank the day before each tournament, because rating points are not on the same footing in 1930 and today. '+
+    '<p class="chart-note" style="padding:8px 15px 0;margin:0;">'+((H.also || []).length ? 'The same championship under its other name is counted too: '+H.also.map(a => esc(compName(a[0]))+' ('+esc(a[1])+(a[2] !== a[1] ? ' to '+esc(a[2]) : '')+')').join(', ')+'. ' : '')+
+      'Across editions, groups and runs are compared by world rank the day before each tournament, because rating points are not on the same footing in 1930 and today. '+
       'A group counts when it had at least three teams and each had a rating. Editions from before '+RANK_POOL_MIN+' teams were ranked in the world are left out, since a rank said little then. A team too uncertain to be ranked is placed where its rating alone would put it, shown in brackets.</p>';
 }
 /* A team's tournaments by how strong its opponents were (Seb, 18 Nov 2026: "who had the most difficult or easiest
@@ -11537,7 +11557,9 @@ const contViaOther = (e, m) => {
   if (e.tournament === 'African Cup of Nations') return (y === 2006 || y === 2010) && m.cat === 'wcq';
   return false;
 };
-const QUAL_EARLY = {'African Cup of Nations|2013':Date.UTC(2012, 0, 1)};
+/* The women's Africa Cup of Nations of 2026 is the other: its first round was played in February 2025, five months before
+   the delayed 2024 tournament (the edition of 2025) began. */
+const QUAL_EARLY = {'African Cup of Nations|2013':Date.UTC(2012, 0, 1), 'Africa Cup of Nations|2026':Date.UTC(2025, 0, 1)};
 function majorEditions(){
   const g = state.gender, E = getEditions(g); if (E._majors) return E._majors;
   const ms = state.matches[g], list = E.list.filter(e => !e.qualLike && (e.cat === 'wc' || e.cat === 'cont') && e.teams.size >= 3).sort((a, b) => a.start - b.start), lastOf = {};
@@ -11555,9 +11577,10 @@ function majorEditions(){
     for (let i = firstIndexAt(ms, far); i < ms.length && ms[i].ts < until; i++){ const m = ms[i];
       const viaCont = wcViaCont(e, m, g);
       let hit = m.tournament === qName && m.ts >= from, real = hit;
-      if (!hit && m.ts >= from && (e.cat === 'wc' ? m.cat === 'wcq' : m.cat === 'contq' || contViaOther(e, m))){ namesFor(m); hit = real = e.cat === 'wc' || m._ph === e._conf || m._pa === e._conf; }
+      /* An Olympic qualifying tournament is filed with the continental qualifiers, but it is not a championship's qualifying. */
+      if (!hit && m.ts >= from && (e.cat === 'wc' ? m.cat === 'wcq' : (m.cat === 'contq' && !/Olympic/.test(m.tournament)) || contViaOther(e, m))){ namesFor(m); hit = real = e.cat === 'wc' || m._ph === e._conf || m._pa === e._conf; }
       /* The women's continental championships outside Europe are the World Cup's qualifying, so their own qualifiers count for it too. */
-      if (!hit && !viaCont && g === 'women' && e.cat === 'wc' && m.cat === 'contq' && m.ts >= e.start - 3*365.25*DAY){ namesFor(m); hit = m._ph !== 'UEFA' && m._pa !== 'UEFA'; }
+      if (!hit && !viaCont && g === 'women' && e.cat === 'wc' && m.cat === 'contq' && !/Olympic/.test(m.tournament) && m.ts >= e.start - 3*365.25*DAY){ namesFor(m); hit = m._ph !== 'UEFA' && m._pa !== 'UEFA'; }
       if (hit || viaCont){ namesFor(m); q.add(m._h); q.add(m._a); if (real) e._hasQ = true; } }
     e._qk = q; }
   return (E._majors = list);
@@ -12783,8 +12806,10 @@ const CHANGELOG = [
     'The nightly check against the results feed has reached back to late November 2016. Two men\'s friendlies the archive lacks are in, each on both teams\' Wikipedia pages: Kenya 0&ndash;0 Malawi (18 April 2017) and Liberia 1&ndash;0 Sierra Leone (5 June 2017). One archive row is taken out: it had Egypt beating Libya 1&ndash;0 on 13 May 2017, but Egypt\'s opponent that day was Yemen, in an unofficial friendly played by Egypt\'s home-based team; the real Egypt v Libya match, on 5 June 2017, stays. Two matches the feed lists are left out on purpose, because one side was a home-based (A&prime;) team: Morocco v Burkina Faso (4 January 2017) and that Egypt v Yemen match.',
     'Later the same day the check reached back to October 2015. Kuwait\'s last two 2018 World Cup qualifiers, at home to Laos (24 March 2016) and away to South Korea (29 March 2016), are now shown: neither was played, Kuwait being suspended by FIFA, and both were awarded 3&ndash;0 against it. Like every match awarded without being played, they are marked and never rated. Kuwait\'s page gives the suspension as the reason it missed the 2018 World Cup and the 2019 Asian Cup, and World Cup places on a past date leave Kuwait out for its length, 16 October 2015 to 6 December 2017. Six more reasons are in as well: FIFA rejected the entries of South Korea and Ethiopia for the 1958 World Cup, and of Guinea, DR Congo, Cuba and Albania for 1970.',
     'About 180 more &ldquo;Did not play qualifying&rdquo; lines on men\'s team pages now give a reason. Sixty-odd are sides that entered a World Cup\'s qualifying between 1934 and 1998 and withdrew without playing, taken from RSSSF\'s page for each World Cup (Austria and Belgium in 1950, Poland in 1954, Romania in 1962, a dozen African sides in 1994). Croatia, Slovakia, Estonia, Latvia and Lithuania say they had no team of their own from 1946 to 1992, being part of Yugoslavia, Czechoslovakia or the Soviet Union. And fourteen new countries are explained for 1994: they were not yet FIFA members when qualifying was drawn on 8 December 1991, and FIFA turned down late applications from Ukraine, Georgia and Croatia.',
-    'Two more mistakes corrected in who is shown as &ldquo;Out in qualifying&rdquo; for a continental championship. For championships held every two years, a side that had played only the previous edition\'s qualifying was marked as out in qualifying for the next one as well: about 120 men\'s and 60 women\'s lines now read &ldquo;Did not play qualifying&rdquo; instead. And where another competition was the qualifying, sides that played it are now counted: the CONCACAF Nations League for the Gold Cup since 2019, World Cup qualifying for the Asian Cup since 2019 and for the African Cups of Nations of 2006 and 2010, and the Melanesia Cup and World Cup qualifying for the Oceania Nations Cup. Tournament pages and team pages now use the same list of who played qualifying.',
+    'Two more mistakes corrected in who is shown as &ldquo;Out in qualifying&rdquo; for a continental championship. For championships held every two years, a side that had played only the previous edition\'s qualifying was marked as out in qualifying for the next one as well: about 120 men\'s and 60 women\'s lines now read &ldquo;Did not play qualifying&rdquo; instead. And where another competition was the qualifying, sides that played it are now counted: the CONCACAF Nations League for the Gold Cup since 2019, World Cup qualifying for the Asian Cup since 2019 and for the African Cups of Nations of 2006 and 2010, and the Melanesia Cup and World Cup qualifying for the Oceania Nations Cup. Tournament pages and team pages now use the same list of who played qualifying. Two more of the same kind on the women\'s side: Olympic qualifying tournaments were being counted as qualifying for the continental championships and the World Cup, and the first round of qualifying for the 2026 Africa Cup of Nations (February 2025) was credited to the tournament before it. About 50 women\'s lines are corrected.',
     'For the African Cup of Nations from 1962 to 2002, 67 sides that entered qualifying and did not play (they withdrew, or their opponent went through by walkover) now say so, from RSSSF\'s page for each edition. The same for the Asian Cup from 1956 to 2007 (40 sides; and North Korea, Saudi Arabia and Thailand, who qualified for 1976 and then withdrew). A few more from the pages for the Euros and the CONCACAF Championship (Greece withdrew in 1964; Honduras and El Salvador were disqualified in 1969 because of the war between them). Belarus, Ukraine, Moldova, Armenia, Azerbaijan, Georgia, Slovenia and Montenegro join the sides that say they were part of a larger country. Also from those pages: five sides suspended by the African confederation for 1998, Madagascar disqualified in 1990 over unpaid fees, Guinea excluded in 2002, and Kenya giving up the 1996 tournament as hosts.',
+    'Groups and runs on a tournament page now set an edition beside the championship\'s whole history even where its name changed: the Gold Cup with the CONCACAF Championship before it (1963 to 1989), and on the women\'s side the Africa Cup of Nations with the African Championship, the OFC Nations Cup with the OFC Championship, and the CONCACAF Championship with the Gold Cups of 2000 to 2010 that were the same competition. The 2024 CONCACAF W Gold Cup, a new competition, stands alone.',
+    'A few more reasons, each read from a report of the day: India and North Korea at the 2023 Women\'s World Cup (India, hosting the Asian Cup that was the qualifying, was withdrawn when a COVID-19 outbreak left it unable to field a team; North Korea pulled out before the qualifiers), and Gibraltar and Kosovo at the Euros before they joined UEFA, on 24 May 2013 and 3 May 2016.',
     'Nine more reasons on team and tournament pages, each from Wikipedia\'s or RSSSF\'s qualifying pages: Argentina at the 1938 World Cup (withdrew, was let back in, withdrew again), Egypt in 1958 and 1962 and Sudan in 1962 (withdrew), Iran, Ghana and Uganda in 1982 (withdrew), Iran in 1986 (disqualified for refusing to play its home matches on neutral ground) and Guinea in 2002 (expelled from qualifying when FIFA suspended its association).']],
   ['20 Nov 2026', ['Six tournaments that were played over many months each showed as two, three or four separate editions, because a break of more than 60 days started a new one. They are single editions now, under their usual names: the 1985 CONCACAF Championship, the Oceania Nations Cups of 1996, 2004 and 2008, the women\'s Euro 1995 and the 1991 African Women\'s Championship. Among other things this had Australia, who won the 1996 Oceania Nations Cup, listed on two of its pieces as a strong team that did not play. Old addresses for the pieces lead to the joined edition.',
     'Two forecasts were left without a match when their fixtures moved two days after the first kick-off time had passed: Morocco v Niger (listed for 11 November, played on the 13th) and Kyrgyzstan v Vietnam (listed for the 15th, played on the 17th). Each match already had its forecast scored under the right date, so the two left-over entries are removed and will not sit in the record as &ldquo;no result&rdquo;.',
