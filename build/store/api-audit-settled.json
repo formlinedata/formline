@@ -778,5 +778,25 @@
   "right": "abandoned at 1-2",
   "note": "the feed has the result FIFA awarded afterwards; Formline shows the match as abandoned with Saudi Arabia leading 2-1, marked and not rated, with a note",
   "checked": "2026-11-21"
+ },
+ {
+  "api_id": 152481,
+  "g": "men",
+  "date": "2015-01-23",
+  "match": "Iran v Iraq",
+  "feed": "4-4",
+  "right": "3-3 after extra time, Iraq won 7-6 on penalties (Asian Cup quarter-final)",
+  "note": "the feed adds its 90-minute score (1-1) to its extra-time score (3-3); the archive has 3-3",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 152482,
+  "g": "men",
+  "date": "2015-01-23",
+  "match": "Japan v United Arab Emirates",
+  "feed": "2-2",
+  "right": "1-1 after extra time, United Arab Emirates won 5-4 on penalties (Asian Cup quarter-final)",
+  "note": "the feed adds its 90-minute score (1-1) to its extra-time score (1-1); the archive and Wikipedia have 1-1",
+  "checked": "2026-11-21"
  }
 ]
