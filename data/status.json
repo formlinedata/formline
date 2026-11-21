@@ -1,11 +1,11 @@
 {
- "built": "2026-11-21T01:10:07.923Z",
+ "built": "2026-11-21T07:18:17.599Z",
  "today": "2026-11-21",
  "mode": "full",
  "api": {
   "keyPresent": true,
-  "used": 265,
-  "remaining": 7364,
+  "used": 264,
+  "remaining": 6857,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 0,
+   "usedTodayBeforeRun": 529,
    "perMinute": 300
   },
   "paid": true,
@@ -25,7 +25,7 @@
  "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 16817,
+  "domestic": 16811,
   "youth": 172,
   "clubs": 154,
   "not counted": 194
@@ -42,46 +42,38 @@
  },
  "apiAudit": {
   "asked": 200,
-  "results": 473,
-  "missing": 1,
-  "diffs": 3,
-  "cursor": "2017-06-15",
+  "results": 406,
+  "missing": 0,
+  "diffs": 5,
+  "cursor": "2016-05-11",
   "done": null,
   "open": {
-   "missing": 79,
-   "diffs": 5
+   "missing": 88,
+   "diffs": 13
   },
   "wiki": {
    "asked": 8,
-   "checked": 4,
+   "checked": 5,
    "agree": 0,
-   "differ": 1,
-   "none": 3,
+   "differ": 3,
+   "none": 2,
    "errors": 0
   }
  },
  "clubs": {
-  "checked": "2026-11-21",
-  "competitions": 1179,
-  "leagues": 790,
-  "cups": 389,
-  "women": 63,
-  "countries": 171,
-  "seasons": 8586,
-  "earliest": 2010,
-  "withEvents": 1045
+  "checked": "2026-11-21"
  },
  "wiki": {
   "open": 64,
-  "asked": 32,
-  "pages": 32,
+  "asked": 0,
+  "pages": 0,
   "matched": 33,
   "errors": 0,
   "extra": 0
  },
  "wikiResults": {
-  "asked": 240,
-  "pages": 240,
+  "asked": 0,
+  "pages": 0,
   "candidates": 109,
   "added": 0,
   "errors": 0,
@@ -90,8 +82,8 @@
   "shown": 11
  },
  "wikiResultsMen": {
-  "asked": 436,
-  "pages": 436,
+  "asked": 0,
+  "pages": 0,
   "candidates": 512,
   "added": 0,
   "errors": 0,
@@ -104,7 +96,7 @@
   "results": 0
  },
  "men": {
-  "built": "2026-11-21T01:10:07.923Z",
+  "built": "2026-11-21T07:18:17.599Z",
   "archive": {
    "end": "2026-11-17",
    "rows": 50099
@@ -124,7 +116,7 @@
   "fixtures": 2
  },
  "women": {
-  "built": "2026-11-21T01:10:07.923Z",
+  "built": "2026-11-21T07:18:17.599Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816

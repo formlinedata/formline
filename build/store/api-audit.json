@@ -1434,6 +1434,182 @@
     "asOf": "2017-11-16",
     "found": "none"
    }
+  },
+  {
+   "g": "men",
+   "date": "2017-06-04",
+   "home": "Liberia",
+   "away": "Sierra Leone",
+   "score": "1-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225985,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-08-18",
+    "found": "agree",
+    "pages": "HA",
+    "date": "2017-06-05",
+    "first": "Liberia",
+    "city": "Monrovia",
+    "country": "Liberia",
+    "comp": "Friendly"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-05-13",
+   "home": "Egypt",
+   "away": "Yemen",
+   "score": "1-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225775,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-07-27",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-04-29",
+   "home": "Grenada",
+   "away": "Trinidad and Tobago",
+   "score": "2-2",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225900,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-07-13",
+    "found": "agree",
+    "pages": "A",
+    "otherLists": 0,
+    "date": "2017-04-29",
+    "first": "Grenada",
+    "city": "St. George's",
+    "country": "Grenada",
+    "comp": "Friendly"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-04-18",
+   "home": "Kenya",
+   "away": "Malawi",
+   "score": "0-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225774,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-07-02",
+    "found": "agree",
+    "pages": "HA",
+    "date": "2017-04-18",
+    "first": "Kenya",
+    "city": "Machakos",
+    "country": "Kenya",
+    "comp": "Friendly"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-01-13",
+   "home": "Slovenia",
+   "away": "Finland",
+   "score": "2-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225737,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-03-29",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-01-12",
+   "home": "Sweden",
+   "away": "Slovakia",
+   "score": "6-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225736,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-03-28",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-01-10",
+   "home": "Saudi Arabia",
+   "away": "Slovenia",
+   "score": "0-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225733,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-03-26",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-01-08",
+   "home": "Slovakia",
+   "away": "Uganda",
+   "score": "1-3",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225730,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-03-24",
+    "found": "agree",
+    "pages": "A",
+    "otherLists": 0,
+    "date": "2017-01-08",
+    "first": "Uganda",
+    "city": "Abu Dhabi",
+    "country": "United Arab Emirates",
+    "comp": "Friendly"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2017-01-04",
+   "home": "Morocco",
+   "away": "Burkina Faso",
+   "score": "1-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225947,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-03-20",
+    "found": "agree",
+    "pages": "HA",
+    "date": "2017-01-04",
+    "first": "Morocco",
+    "city": "Rabat",
+    "country": "Morocco",
+    "comp": "Friendly"
+   }
   }
  ],
  "diffs": [
@@ -1515,13 +1691,13 @@
      "away": 2
     }
    },
-   "held": "2-2",
-   "heldDate": "2017-12-17",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2018-03-02",
     "found": "none"
-   }
+   },
+   "held": "2-2",
+   "heldDate": "2017-12-17"
   },
   {
    "g": "men",
@@ -1533,8 +1709,6 @@
    "league": "Friendlies",
    "city": "",
    "api_id": 226046,
-   "held": "0-4",
-   "heldDate": "2017-12-04",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2018-02-17",
@@ -1542,7 +1716,9 @@
     "others": [
      "2017-12-04 0-4"
     ]
-   }
+   },
+   "held": "0-4",
+   "heldDate": "2017-12-04"
   },
   {
    "g": "men",
@@ -1554,16 +1730,293 @@
    "league": "Friendlies",
    "city": "",
    "api_id": 226043,
-   "held": "1-0",
-   "heldDate": "2017-12-03",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2018-02-16",
     "found": "none"
+   },
+   "held": "1-0",
+   "heldDate": "2017-12-03"
+  },
+  {
+   "g": "men",
+   "date": "2017-06-10",
+   "home": "Grenada",
+   "away": "Bermuda",
+   "score": "1-0",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225911,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-08-24",
+    "found": "none"
+   },
+   "held": "1-2",
+   "heldDate": "2017-06-10"
+  },
+  {
+   "g": "men",
+   "date": "2017-02-01",
+   "home": "Burkina Faso",
+   "away": "Egypt",
+   "score": "2-2",
+   "tournament": "African Cup of Nations",
+   "league": "Africa Cup of Nations",
+   "city": "",
+   "api_id": 152419,
+   "shootout": "Egypt",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 0
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 3,
+     "away": 4
+    }
+   },
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-04-17",
+    "found": "differ",
+    "others": [
+     "2017-02-01 1-1"
+    ]
+   },
+   "held": "1-1",
+   "heldDate": "2017-02-01"
+  },
+  {
+   "g": "men",
+   "date": "2017-01-07",
+   "home": "Mali",
+   "away": "Burkina Faso",
+   "score": "2-1",
+   "tournament": "Friendly",
+   "league": "Friendlies",
+   "city": "",
+   "api_id": 225949,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2017-03-23",
+    "found": "differ",
+    "others": [
+     "2017-01-07 1-2"
+    ]
+   },
+   "held": "1-2",
+   "heldDate": "2017-01-07"
+  },
+  {
+   "g": "men",
+   "date": "2016-07-02",
+   "home": "Germany",
+   "away": "Italy",
+   "score": "2-2",
+   "tournament": "UEFA Euro",
+   "league": "Euro Championship",
+   "city": "Bordeaux",
+   "api_id": 152579,
+   "shootout": "Germany",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 0
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 6,
+     "away": 5
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2016-07-02",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-09-15",
+    "found": "differ",
+    "others": [
+     "2016-07-02 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2016-06-30",
+   "home": "Poland",
+   "away": "Portugal",
+   "score": "2-2",
+   "tournament": "UEFA Euro",
+   "league": "Euro Championship",
+   "city": "Marseille",
+   "api_id": 152577,
+   "shootout": "Portugal",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 1,
+     "away": 1
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 3,
+     "away": 5
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2016-06-30",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-09-13",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2016-06-25",
+   "home": "Switzerland",
+   "away": "Poland",
+   "score": "2-2",
+   "tournament": "UEFA Euro",
+   "league": "Euro Championship",
+   "city": "Saint Etienne",
+   "api_id": 152569,
+   "shootout": "Poland",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 1
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 4,
+     "away": 5
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2016-06-25",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-09-08",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2016-06-04",
+   "home": "Puerto Rico",
+   "away": "Antigua and Barbuda",
+   "score": "0-0",
+   "tournament": "Caribbean Cup",
+   "league": "Caribbean Cup",
+   "city": "Bayamón",
+   "api_id": 672158,
+   "st": "AET",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 0
+    },
+    "fulltime": {
+     "home": null,
+     "away": null
+    },
+    "extratime": {
+     "home": 0,
+     "away": 0
+    },
+    "penalty": {
+     "home": null,
+     "away": null
+    }
+   },
+   "held": "2-1",
+   "heldDate": "2016-06-04",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-08-18",
+    "found": "differ",
+    "others": [
+     "2016-06-04 2-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2016-06-02",
+   "home": "Grenada",
+   "away": "Puerto Rico",
+   "score": "0-0",
+   "tournament": "Caribbean Cup",
+   "league": "Caribbean Cup",
+   "city": "St. George's",
+   "api_id": 672151,
+   "st": "AET",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 0
+    },
+    "fulltime": {
+     "home": null,
+     "away": null
+    },
+    "extratime": {
+     "home": 0,
+     "away": 0
+    },
+    "penalty": {
+     "home": null,
+     "away": null
+    }
+   },
+   "held": "3-3",
+   "heldDate": "2016-06-01",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-08-16",
+    "found": "differ",
+    "others": [
+     "2016-06-01 3-3"
+    ]
    }
   }
  ],
- "days": 3400,
+ "days": 3800,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -1642,7 +2095,7 @@
   "Standard Liege": 1
  },
  "updated": "2026-11-21",
- "cursor": "2017-06-15",
+ "cursor": "2016-05-11",
  "done": null,
  "from": "2014-11-01"
 }
