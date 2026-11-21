@@ -322,7 +322,7 @@
   details.comp-row[open] > summary .comp-name::before{transform:rotate(90deg);} details.comp-row[open] > .ed-chips{margin-top:8px;}
   .comp-latest{flex:none;font-size:12.5px;text-decoration:none;} details.comp-cat > summary{cursor:pointer;list-style:none;} details.comp-cat > summary::-webkit-details-marker{display:none;}
   .ed-div{flex-basis:100%;font-size:12.5px;font-weight:600;color:var(--dim);margin:6px 0 2px;padding-top:6px;border-top:1px dashed var(--line);} .ed-div:first-child{border-top:0;margin-top:0;padding-top:0;}
-  .comp-tools{margin:0 0 12px;} .wc-today{width:100%;} .wc-today td{vertical-align:top;white-space:normal;} .wc-today td:first-child{white-space:nowrap;width:1%;} @media(max-width:640px){.wc-today .wct-t{white-space:normal;} .wc-today td{padding-left:10px;padding-right:10px;}} tr.hl td{background:var(--panel-2);font-weight:600;} .ed-groups td{vertical-align:top;} .wct-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} .wct-po{margin-top:4px;padding-top:4px;border-top:1px dashed var(--line);} .cp-pick{font:inherit;font-size:12.5px;margin-left:8px;padding:2px 6px;border:1px solid var(--line-strong);border-radius:6px;background:var(--panel);color:var(--chalk);}
+  .comp-tools{margin:0 0 12px;} .tmj-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;padding:0 15px;} .tmj-grid .fr-h{padding:0;} .tmj{width:100%;} .tmj td{white-space:normal;vertical-align:top;} .tmj td:first-child{white-space:nowrap;width:1%;} .tmj-why{color:var(--chalk);} .tmj-list{margin:0 0 6px;padding-left:18px;font-size:14.5px;line-height:1.55;} .tmj-list li{margin:2px 0;} @media(max-width:760px){.tmj-grid{grid-template-columns:1fr;}} .wc-today{width:100%;} .wc-today td{vertical-align:top;white-space:normal;} .wc-today td:first-child{white-space:nowrap;width:1%;} @media(max-width:640px){.wc-today .wct-t{white-space:normal;} .wc-today td{padding-left:10px;padding-right:10px;}} tr.hl td{background:var(--panel-2);font-weight:600;} .ed-groups td{vertical-align:top;} .wct-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} .wct-po{margin-top:4px;padding-top:4px;border-top:1px dashed var(--line);} .cp-pick{font:inherit;font-size:12.5px;margin-left:8px;padding:2px 6px;border:1px solid var(--line-strong);border-radius:6px;background:var(--panel);color:var(--chalk);}
   table.sd-t{width:100%;font-size:13.5px;} table.sd-t th{text-align:left;font-size:12.5px;color:var(--dim);padding:6px 8px;white-space:nowrap;vertical-align:top;} table.sd-t td{padding:6px 8px;border-top:1px solid var(--line);vertical-align:top;}
   span.sd-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} span.sd-diff{font-weight:600;}
   @media (max-width:560px){ table.sd-t{table-layout:fixed;font-size:13px;} table.sd-t th{padding:6px 4px;white-space:normal;} table.sd-t tr:first-child > :first-child{width:44px;} table.sd-t td{padding:6px 4px;overflow-wrap:anywhere;} span.sd-t{white-space:normal;margin-right:4px;} }
@@ -2028,7 +2028,13 @@ const CORRECTIONS = {
   men: [
     {date:'1974-02-17', home:'Tahiti', away:'New Caledonia', score:'2-1', drop:'listed twice with opposite scores; neither can be trusted'},
     {date:'1974-02-17', home:'Tahiti', away:'New Caledonia', score:'1-2', drop:'listed twice with opposite scores; neither can be trusted'},
+    {date:'2017-05-13', home:'Egypt', away:'Libya', score:'1-0', drop:'Egypt\'s opponent in Cairo that day was Yemen, in an unofficial friendly played by Egypt\'s home-based team (ESPN; Wikipedia); Egypt v Libya was played once, on 5 June 2017, and that match stays'},
     {date:'1979-07-25', home:'Belarus', away:'Russia', set:{country:'Belarus'}, note:'Minsk; a Soviet Spartakiad match, so Belarus was at home'},
+    /* The semi-final of the 1996 Oceania Nations Cup, which was also the 1995 Trans-Tasman Cup; the archive files the two
+       legs under the lesser name. Filed under the Nations Cup, which also gives them a continental final's weight
+       (Seb, 20 Nov 2026; Wikipedia's 1996 OFC Nations Cup page and RSSSF's table of it). */
+    {date:'1995-11-10', home:'New Zealand', away:'Australia', score:'0-0', set:{tournament:'Oceania Nations Cup'}, note:'the 1996 Oceania Nations Cup semi-final, first leg; the archive files it as the Trans-Tasman Cup, which it also was'},
+    {date:'1995-11-15', home:'Australia', away:'New Zealand', score:'3-0', set:{tournament:'Oceania Nations Cup'}, note:'the 1996 Oceania Nations Cup semi-final, second leg; the archive files it as the Trans-Tasman Cup, which it also was'},
     /* Found by the check against Wikipedia's results pages, 13 November 2026 (claude/data-audit.md); each confirmed from
        a source outside Wikipedia too. Each applies only while the archive still has the wrong score. */
     {date:'2026-06-06', home:'Bermuda', away:'Cape Verde', score:'3-0', set:{hs:0, as:3}, note:'Cape Verde won 3-0 in East Hartford; the archive has the score the wrong way round (Bernews, 6 June 2026; both teams\' Wikipedia pages)'},
@@ -2224,6 +2230,7 @@ function normalize(rows, g){
     if (cs){
       const c = cs.find(c => !c.score || c.score === hs+'-'+as);
       if (c){ applied++; if (c.drop) continue; Object.assign(m, c.set || {}); m.corrected = c.note || true;
+        if (c.set && c.set.tournament) m.cat = categorize(m.tournament, m.ts, g);   // a match filed under another competition takes that competition's kind
         if (c.awarded){ m.awarded = c.awarded; if (c.late) m.awardLate = 1; }
         if (c.ab){ m.ab = 1; m.unrated = 1; } if (c.walkover){ m.walkover = 1; m.unrated = 1; } }
     }
@@ -2667,7 +2674,7 @@ const isQualLike = t => /qualif|nations league|pre-olympic/i.test(t);
    break allowed inside the edition, in days; label is the edition's usual name. (20 Nov 2026) */
 const EDITION_JOIN = {
   'men|CONCACAF Championship|1985-02-24':{gap:100, label:'1985'},
-  'men|Oceania Nations Cup|1995-11-17':{gap:200, label:'1996'},
+  'men|Oceania Nations Cup|1995-11-10':{gap:200, label:'1996'},
   'men|Oceania Nations Cup|2004-05-29':{gap:150, label:'2004'},
   'men|Oceania Nations Cup|2007-10-17':{gap:230, label:'2008'},
   'women|UEFA Euro|1994-12-11':{gap:100, label:'1995'},
@@ -4975,9 +4982,10 @@ function viewSources(){
         '. They are compiled from Wikipedia, RSSSF and football association sources.', 'CC0 (public domain)'],
       ['Results newer than the archives, and upcoming fixtures', a('https://www.api-football.com', 'API-Football'), 'Used under the site\'s paid plan'],
       ['Venues and kick-off times API-Football does not have yet', a('https://en.wikipedia.org', 'Wikipedia')+'\'s results and competition articles', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
-      ['Men\'s results missing from the archive, added by hand (2,284 matches, each found in two other records); scores corrected where two other records agree against the archive; and the score on the pitch for results awarded afterwards', a('https://www.eloratings.net/', 'World Football Elo Ratings')+' and '+a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team results pages, with '+a('https://www.rsssf.org', 'RSSSF')+' as the third record for some older matches. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')+' (Wikipedia)'],
+      ['Men\'s results missing from the archive, added by hand (2,286 matches, each found in two other records); scores corrected where two other records agree against the archive; and the score on the pitch for results awarded afterwards', a('https://www.eloratings.net/', 'World Football Elo Ratings')+' and '+a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team results pages, with '+a('https://www.rsssf.org', 'RSSSF')+' as the third record for some older matches. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')+' (Wikipedia)'],
       ['Women\'s results missing from the archives and API-Football, added by hand (551 matches: five 2026 tournaments, the 2025 East Asian championship, the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, missing qualifiers and recent friendlies); and a few scores and dates corrected', a('https://en.wikipedia.org', 'Wikipedia')+'\'s tournament and national-team articles. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Women\'s results neither the archives nor API-Football have, found each night', a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team articles, kept when two pages agree or the result stays up for two days. Marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
+      ['Why a side was not at a tournament (bans, withdrawals, boycotts), and the year each association joined FIFA', a('https://en.wikipedia.org', 'Wikipedia')+': each edition\'s qualification article, the member tables of the six confederations, and the German edition\'s list of FIFA members; with '+a('https://www.rsssf.org', 'RSSSF')+'\'s World Cup qualifying tables. Where two lists give different joining years, the earlier is used and both are shown if they are close.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Historical results and tables', a('https://www.rsssf.org', 'RSSSF')+' (the Rec.Sport.Soccer Statistics Foundation), through the archives above. '+
         'It will be the main source for Formline\'s club history, with credit to the author of each page used, by kind permission of Karel Stokkermans. Already used for the organiser\'s seeding at the 1998 African Cup of Nations.', 'Used with permission'],
     ])+
@@ -6023,6 +6031,7 @@ function viewTeam(){
       '</div></div>'+
     historySection(key)+
     teamRunsSection()+
+    teamMajorsSection(key)+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Matches <span class="muted" style="font-weight:400;">'+h.length+'</span><span class="aside">ratings as published at the time of each one'+
       ' <span class="chips hv-chips" id="rkChips" title="Rank just after each match">Rank: <button class="chip'+(rkConf ? '' : ' on')+'" data-rk="world">World</button>'+
       '<button class="chip'+(rkConf ? ' on' : '')+'" data-rk="conf">Confederation</button></span></span></div>'+
@@ -6364,8 +6373,15 @@ const WC_HOSTS = {men:['United States', 'Mexico', 'Canada'], women:['Brazil']};
    A suspension of an association bars all its teams. Bans from one World Cup (Chile 1994, North Korea's women 2015) run
    to that World Cup's final. */
 const WC_BARRED = [
+  /* The four British associations were outside FIFA twice. The first spell ran from April 1920 to 1924 and the second from
+     17 February 1928 to 1946; where only the month or the year is on record, the whole years inside the spell are used. */
+  ...['England', 'Scotland', 'Wales', 'Northern Ireland'].flatMap(k => [
+    [k, '1921-01-01', '1923-12-31', 'the four British associations were outside FIFA from April 1920 until 1924'],
+    [k, '1928-02-17', '1945-12-31', 'the four British associations were outside FIFA from 17 February 1928 until 1946']]),
   ['Germany', '1945-11-01', '1950-09-22', 'barred by FIFA after the Second World War, from November 1945 to September 1950'],
   ['Japan', '1945-11-01', '1950-09-22', 'barred by FIFA after the Second World War, from November 1945 to September 1950'],
+  ['South Africa', '1961-09-26', '1963-01-31', 'suspended by FIFA over apartheid on 26 September 1961; the suspension was lifted in January 1963'],
+  ['South Africa', '1964-10-08', '1992-07-02', 'suspended by FIFA over apartheid on 8 October 1964, expelled in 1976 and readmitted on 3 July 1992'],
   ['Mexico', '1988-04-25', '1990-07-01', 'banned by FIFA from all international competition for two years, to July 1990, for fielding over-age players in a youth tournament'],
   ['Chile', '1989-12-08', '1994-07-17', 'banned by FIFA from the 1994 World Cup after its team walked off at the Maracanã in September 1989'],
   ['Serbia', '1992-06-01', '1994-10-04', 'barred from international football under United Nations sanctions, June 1992 to October 1994'],
@@ -6382,24 +6398,33 @@ const wcBarred = (key, ts) => { const d = fmtDate(ts), b = WC_BARRED.find(x => x
 /* The confederation whose World Cup places a side played for on a date. As poolOf, except Israel between leaving the
    AFC (1974) and joining UEFA (1994): it played its qualifying in the Asian and Oceanian zone for 1978, in Europe for
    1982, in Oceania for 1986 and 1990, and in Europe again for 1994. Each spell runs to the final of its World Cup. */
+/* Not yet a FIFA member on a date: before the earlier of the two joining years on record (see FIFA_JOINED_LIST). Before
+   FIFA itself was founded, on 21 May 1904, the question does not arise and every side counts. */
+const FIFA_FOUNDED = Date.UTC(1904, 4, 21);
+const wcNotYet = (key, ts) => { if (ts < FIFA_FOUNDED) return null; const J = fifaJoined(key); return J && new Date(ts).getUTCFullYear() < J.lo ? 'not yet a FIFA member'+(J.yr ? ' (it joined in '+J.yr+')' : '') : null; };
 const wcPool = (k, t) => k !== 'Israel' ? poolOf(k, t) : t <= Date.UTC(1978, 5, 25) ? 'AFC' : t <= Date.UTC(1982, 6, 11) ? 'UEFA' : t <= Date.UTC(1990, 6, 8) ? 'OFC' : 'UEFA';
 const WC_THEN = 'Confederations as they stood then: Australia in OFC until 2006, Kazakhstan in AFC until 2002, Israel in AFC until 1974, then in the Asian and Oceanian qualifying for 1978, the European for 1982 and 1994 and the Oceanian for 1986 and 1990; sides from before their confederation existed count where they would belong.';
 /* A side that no longer existed on a date: one of the defunct teams with its own record (East Germany, South Vietnam,
    Saarland) whose last match was already behind it. Its rating stays in the table for years, but it could not enter. */
 const wcLast = {};
+/* The first and the last match every side played: [first, last]. */
+function keySpan(key){
+  const g = state.gender, ms = state.matches[g]; let C = wcLast[g];
+  if (!C || C.src !== ms){ const map = new Map(); for (const m of ms) for (const k of [keyOfName(m.home), keyOfName(m.away)]){ const x = map.get(k); if (x) x[1] = m.ts; else map.set(k, [m.ts, m.ts]); } C = wcLast[g] = {src:ms, map}; }
+  return C.map.get(key) || null;
+}
 function wcGone(key, ts){
   if (!infoFor(key).defunct) return false;
-  const g = state.gender, ms = state.matches[g]; let C = wcLast[g];
-  if (!C || C.src !== ms){ const map = new Map(); for (const m of ms){ map.set(keyOfName(m.home), m.ts); map.set(keyOfName(m.away), m.ts); } C = wcLast[g] = {src:ms, map}; }
-  return (C.map.get(key) || 0) < ts;
+  const sp = keySpan(key); return (sp ? sp[1] : 0) < ts;
 }
 function wcOn(c, picker, ts){
   const g = state.gender, men = g === 'men', P = men ? WC26_PLACES : WWC27_PLACES, N = men ? 48 : 32, poIn = men ? 2 : 3, hosts = WC_HOSTS[g];
   const past = ts !== null && ts < state.bounds[g].max, at = past ? ts : state.bounds[g].max;
   const T = past ? atDefaults(c2 => c2.table.map(r => ({team:r.team, key:r.key, rank:r.rank, rating:r.rating, status:r.status, conf:wcPool(r.key, at)})), at, true) : c.table;
   if (!T) return '';
-  const all = T.filter(r => r.status !== 'assoc' && (past ? !wcGone(r.key, at) : !r.defunct)), barred = all.filter(r => wcBarred(r.key, at));
-  const fifa = all.filter(r => !barred.includes(r)), pool = [], by = {};
+  const all = T.filter(r => r.status !== 'assoc' && (past ? !wcGone(r.key, at) : !r.defunct));
+  const notYet = past ? all.filter(r => wcNotYet(r.key, at)) : [], barred = all.filter(r => !notYet.includes(r) && wcBarred(r.key, at));
+  const fifa = all.filter(r => !barred.includes(r) && !notYet.includes(r)), pool = [], by = {};
   for (const k of CONF_ORDER){
     const mine = fifa.filter(r => r.conf === k), [d, po] = P[k];
     const h = mine.filter(r => hosts.includes(r.team) || hosts.includes(r.key)), rest = mine.filter(r => !h.includes(r));
@@ -6409,7 +6434,7 @@ function wcOn(c, picker, ts){
   const through = new Set(pool.slice().sort((a, b) => b.rating - a.rating).slice(0, poIn));
   const team = (r, tag) => '<span class="wct-t"><a href="'+teamHref(r.team)+'">'+withFlag(r.team)+'</a> <span class="muted">#'+r.rank+(tag ? ' &middot; '+tag : '')+'</span></span>';
   const inAll = CONF_ORDER.reduce((t, k) => t + by[k].direct.length, 0) + through.size;
-  const missed = all.slice(0, N).filter(r => !barred.includes(r)).filter(r => !CONF_ORDER.some(k => by[k].direct.some(x => x.r === r)) && !through.has(r));
+  const missed = all.slice(0, N).filter(r => !barred.includes(r) && !notYet.includes(r)).filter(r => !CONF_ORDER.some(k => by[k].direct.some(x => x.r === r)) && !through.has(r));
   const cup = men ? '2026 World Cup' : '2027 Women\'s World Cup', day = fmtDay(at);
   return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">If the World Cup were played '+(past ? 'on '+day : 'today')+'<span class="aside">'+(men ? '2026' : '2027')+' format &middot; '+N+' teams '+picker+'</span></div>'+
     '<div class="table-wrap"><table class="conf-places wc-today"><thead><tr><th>Confederation</th><th>In</th></tr></thead><tbody>'+
@@ -6422,9 +6447,11 @@ function wcOn(c, picker, ts){
       'each confederation\'s places go to its best-rated sides'+(men ? ', the three hosts first' : ', hosts Brazil first')+', and the next best go to the inter-confederation play-off ('+
       (men ? 'six sides for two places' : 'ten sides for three')+'), where the best-rated go through. Real qualifying is played over months in groups, so this shows who '+(past ? 'was strong enough that day, not who would have qualified' : 'is strong enough today, not who will qualify')+'. '+
       (past ? (inAll < N ? 'Only '+inAll+' of the '+N+' places can be filled: too few sides were ranked that day. ' : '')+
-        'The format, its places and its hosts are today\'s; the teams and the confederations are those of the day (Australia in Oceania until 2006, for one). Today\'s FIFA members and the sides they succeeded all count, whether or not they were members that day. ' : '')+
+        'The format, its places and its hosts are today\'s; the teams and the confederations are those of the day (Australia in Oceania until 2006, for one). '+(at < FIFA_FOUNDED ? 'FIFA was founded on 21 May 1904, so on this day every side counts. ' : 'A side counts from the year it joined FIFA, as far as that is on record (the earlier year where the records differ). ') : '')+
       (missed.length ? 'Among the world\'s '+N+' best-rated sides, '+missed.length+' would miss out on their confederation\'s share: '+missed.slice(0, 8).map(r => esc(dn(r.team))+' (#'+r.rank+')').join(', ')+(missed.length > 8 ? ' and '+(missed.length - 8)+' more' : '')+'. ' : '')+
-      barred.filter(r => r.rank <= 2*N).map(r => esc(dn(r.team))+' (#'+r.rank+') is left out: '+wcBarred(r.key, at)+'.').join(' ')+'</p></div>';
+      [...barred.filter(r => r.rank <= 2*N).reduce((G, r) => { const w = wcBarred(r.key, at); G.set(w, (G.get(w) || []).concat(r)); return G; }, new Map())]
+        .map(([w, L]) => { const n = L.map(r => esc(dn(r.team))+' (#'+r.rank+')'); return (n.length > 1 ? n.slice(0, -1).join(', ')+' and '+n[n.length - 1]+' are' : n[0]+' is')+' left out: '+w+'.'; }).join(' ')+
+      (notYet.some(r => r.rank <= 2*N) ? ' Not yet FIFA members that day, so left out: '+notYet.filter(r => r.rank <= 2*N).map(r => esc(dn(r.team))+' (#'+r.rank+')').join(', ')+'.' : '')+'</p></div>';
 }
 /* Results between confederations: in the window shown, or at World Cups since 1930. */
 function confMeetings(c, mode){
@@ -8309,8 +8336,11 @@ const WWC27 = {
     ['Morocco', 'CAF', 'WAFCON semi-finalists', '2026-08-08'], ['Algeria', 'CAF', 'WAFCON semi-finalists', '2026-08-08'],
     ['Cameroon', 'CAF', 'WAFCON semi-finalists', '2026-08-10'], ['Malawi', 'CAF', 'WAFCON semi-finalists', '2026-08-10']],
   concacaf:['United States', 'Canada', 'Mexico', 'Jamaica', 'Haiti', 'Panama', 'Costa Rica', 'El Salvador'],
+  /* The W Championship's quarter-finals, 27 and 28 November 2026 (the fixture list, 20 Nov 2026): each winner qualifies,
+     and the hub reads each result from the match data as it comes in. */
+  concacafQF:[['Jamaica', 'Costa Rica'], ['United States', 'El Salvador'], ['Canada', 'Panama'], ['Mexico', 'Haiti']],
   playoffR1:['Uzbekistan', 'Chinese Taipei', 'Ecuador', 'Papua New Guinea', 'Ghana', 'South Africa'], playoffBye:['Venezuela'],
-  /* UEFA play-offs: round 1 ties (October 2026), then round 2 pairs them up (26 November to 5 December 2026). */
+  /* UEFA play-offs: round 1 ties (October 2026), then round 2 pairs them up (legs on 1 and 5 December 2026). */
   uefaR1:[['Lithuania', 'Sweden'], ['Romania', 'Norway'], ['Greece', 'England'], ['Croatia', 'Iceland'], ['Kazakhstan', 'Republic of Ireland'],
     ['Kosovo', 'Austria'], ['Hungary', 'Netherlands'], ['Belarus', 'Italy'], ['Albania', 'Wales'], ['Turkey', 'Slovenia'], ['Slovakia', 'Ukraine'],
     ['Belgium', 'Poland'], ['Israel', 'Switzerland'], ['Czech Republic', 'Scotland'], ['Northern Ireland', 'Portugal'], ['Finland', 'Serbia']],
@@ -8326,6 +8356,16 @@ function tieWinner(c, a, b, from, to){
   const last = legs[legs.length - 1], so = state.shootouts.women && state.shootouts.women.get(fmtDate(last.ts)+'|'+last.home+'|'+last.away);
   return so ? {key:c.resolve(so), agg:[ga, gb], pens:true} : {key:null, agg:[ga, gb]};
 }
+/* A single match from the match data: its winner (after a shoot-out if level), or null until it has been played. */
+function matchWinner(c, a, b, from, to){
+  const ka = c.resolve(a), kb = c.resolve(b), ms = state.matches.women || [];
+  const m = ms.find(m => m.ts >= from && m.ts < to && (namesFor(m), (m._h === ka && m._a === kb) || (m._h === kb && m._a === ka)));
+  if (!m) return null;
+  const sc = m._h === ka ? [m.hs, m.as] : [m.as, m.hs];
+  if (m.hs !== m.as) return {key:m.hs > m.as ? m._h : m._a, score:sc, ts:m.ts};
+  const so = state.shootouts.women && state.shootouts.women.get(fmtDate(m.ts)+'|'+m.home+'|'+m.away);
+  return so ? {key:c.resolve(so), score:sc, ts:m.ts, pens:true} : {key:null, score:sc, ts:m.ts};
+}
 function viewWWC2027(){
   const app = document.getElementById('app');
   if (state.gender !== 'women'){ state.gender = 'women'; return go({}, 'wwc2027'); }
@@ -8334,8 +8374,12 @@ function viewWWC2027(){
   const rt = t => { const r = row(t); return r ? '<span class="rating">'+fmtR(r.rating)+'</span>'+(r.rank ? ' <span class="muted">#'+r.rank+'</span>' : '') : '<span class="muted">&ndash;</span>'; };
   const days = Math.max(0, Math.ceil((Date.parse(W.start+'T00:00:00Z') - Date.now())/DAYMS));
   const tile = (big, lab) => '<div class="win-tile"><b>'+big+'</b><span>'+lab+'</span></div>';
-  const qKeys = new Set(W.q.map(x => c.resolve(x[0])));
-  const qRows = W.q.slice().sort((a, b) => ((row(b[0]) || {}).rating || 0) - ((row(a[0]) || {}).rating || 0));
+  /* The CONCACAF quarter-finals from the data: a winner is in, with the day it won. */
+  const QF = (W.concacafQF || []).map(([a, b]) => ({a, b, w:matchWinner(c, a, b, Date.UTC(2026, 10, 25), Date.UTC(2026, 11, 1))}));
+  const qAll = W.q.concat(QF.filter(x => x.w && x.w.key).map(x => [c.resolve(x.a) === x.w.key ? x.a : x.b, 'CONCACAF', 'W Championship quarter-final win', fmtDate(x.w.ts)]));
+  const qfLost = new Set(QF.filter(x => x.w && x.w.key).map(x => c.resolve(x.a) === x.w.key ? c.resolve(x.b) : c.resolve(x.a)));
+  const qKeys = new Set(qAll.map(x => c.resolve(x[0])));
+  const qRows = qAll.slice().sort((a, b) => ((row(b[0]) || {}).rating || 0) - ((row(a[0]) || {}).rating || 0));
   /* UEFA play-offs from the data: round 1 winners, then the round 2 ties. */
   const R1 = W.uefaR1.map(([a, b]) => ({a, b, w:tieWinner(c, a, b, Date.UTC(2026, 9, 1), Date.UTC(2026, 9, 20))}));
   const side = i => { const t = R1[i]; return t.w && t.w.key ? (c.byKey.get(t.w.key) || {team:t.w.key}).team : null; };
@@ -8343,37 +8387,48 @@ function viewWWC2027(){
   const undecided = t => esc(t.a)+' or '+esc(t.b);
   const fav = (A, B) => { const a = row(A), b = row(B); if (!a || !b) return ''; const p = fixtureLikeChance(c, a, b);
     return '<span class="muted">Formline favours '+esc(dn((p >= 0.5 ? a : b).team))+(Math.abs(p - 0.5) < 0.05 ? ', just' : '')+'</span>'; };
+  /* A single match still to come: the pick of its published forecast, so the hub and Matchday say the same thing. */
+  const favPub = (A, B) => { const ka = c.resolve(A), kb = c.resolve(B);
+    const e = ((state.record && state.record.entries) || []).find(e => e.g === 'women' && e.p && !e.result && !e.void && ((c.resolve(e.home) === ka && c.resolve(e.away) === kb) || (c.resolve(e.home) === kb && c.resolve(e.away) === ka)));
+    if (!e) return fav(A, B);
+    const i = e.p.indexOf(Math.max(...e.p)), top = e.p.slice().sort((x, y) => y - x);
+    if (i === 1) return '<span class="muted">Formline has it too close to call</span>';
+    const w = row(i === 0 ? e.home : e.away); return '<span class="muted">Formline favours '+esc(dn(w ? w.team : (i === 0 ? e.home : e.away)))+(top[0] - top[1] < 0.05 ? ', just' : '')+'</span>'; };
   const r2Rows = r2.map(x => '<tr><td class="ml-cell">'+(x.A ? flagT(x.A) : undecided(x.ti))+' <span class="muted">v</span> '+(x.B ? flagT(x.B) : undecided(x.tj))+'</td>'+
     '<td>'+(x.w && x.w.key ? '<b>'+esc(dn((c.byKey.get(x.w.key) || {team:x.w.key}).team))+'</b> through, '+x.w.agg.join('&ndash;')+' on aggregate'+(x.w.pens ? ', on penalties' : '') : x.A && x.B ? fav(x.A, x.B) : '')+'</td></tr>').join('');
   const strongest = c.table.filter(r => r.status !== 'assoc' && !r.defunct).slice(0, 24);
   const stat = r => qKeys.has(r.key) ? '<span class="wq-chip wq-in">Qualified</span>'
+    : qfLost.has(r.key) ? '<span class="wq-chip">Play-off place still open</span>'
     : W.concacaf.some(t => c.resolve(t) === r.key) ? '<span class="wq-chip">W Championship, 27 Nov</span>'
     : W.playoffR1.concat(W.playoffBye).some(t => c.resolve(t) === r.key) ? '<span class="wq-chip">Play-offs</span>'
-    : r2.some(x => [x.A, x.B].some(t => t && c.resolve(t) === r.key)) ? '<span class="wq-chip">UEFA play-off, 26 Nov</span>'
+    : r2.some(x => [x.A, x.B].some(t => t && c.resolve(t) === r.key)) ? '<span class="wq-chip">UEFA play-off, 1 Dec</span>'
     : '<span class="wq-chip wq-out">Out</span>';
   app.innerHTML = '<div class="wrap"><h1 class="page-title">Women\'s World Cup 2027</h1>'+
     '<p class="page-sub">Brazil hosts the tenth Women\'s World Cup, the first in South America: 32 teams in eight stadiums, 24 June to 25 July 2027, '+
       'with the final at the Maracan&atilde;. Who\'s in, who\'s still fighting for a place, and how strong they all are on Formline\'s ratings.</p>'+
-    '<div class="win-tiles">'+tile(days, 'days to kick-off')+tile(W.q.length+'<small> of 32</small>', 'places decided')+tile('11 Dec', 'the draw, 2026')+
+    '<div class="win-tiles">'+tile(days, 'days to kick-off')+tile(qAll.length+'<small> of 32</small>', 'places decided')+tile('11 Dec', 'the draw, 2026')+
       tile('25 Jul', 'the final, Maracan&atilde;')+tile('8', 'host cities')+'</div>'+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Qualified<span class="aside">strongest first, on today\'s ratings</span></div>'+
       '<div class="table-wrap"><table class="kv-table words"><thead><tr><th>Team</th><th>Confederation</th><th class="hide-sm">How</th><th class="hide-sm">When</th><th class="num">Rating</th></tr></thead><tbody>'+
       qRows.map(x => '<tr><td>'+flagT(x[0])+'</td><td>'+confLabel(x[1])+'</td><td class="hide-sm">'+esc(x[2])+'</td><td class="hide-sm muted">'+fmtDay(Date.parse(x[3]+'T00:00:00Z'))+'</td><td class="num">'+rt(x[0])+'</td></tr>').join('')+
       '</tbody></table></div></div>'+
-    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Still to be decided<span class="aside">14 places</span></div><div class="panel-body wq-left">'+
-      '<h3>UEFA play-offs, round 2 <span class="muted">26 November to 5 December 2026 &middot; 7 places</span></h3>'+
+    '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Still to be decided<span class="aside">'+(32 - qAll.length)+' places</span></div><div class="panel-body wq-left">'+
+      '<h3>UEFA play-offs, round 2 <span class="muted">1 and 5 December 2026 &middot; 7 places</span></h3>'+
       '<p class="muted">The eight winners go through; the seven with the best league-phase records qualify, the eighth goes to the inter-confederation play-offs.</p>'+
       '<div class="table-wrap"><table class="kv-table words"><tbody>'+r2Rows+'</tbody></table></div>'+
       '<h3>CONCACAF W Championship <span class="muted">27 November to 5 December 2026, United States &middot; 4 places</span></h3>'+
       '<p class="muted">The four quarter-final winners qualify; two more go to the inter-confederation play-offs.</p>'+
-      '<p class="wq-teams">'+W.concacaf.slice().sort((a, b) => ((row(b) || {}).rating || 0) - ((row(a) || {}).rating || 0)).map(t => '<span class="nowrap">'+flagT(t)+' '+rt(t)+'</span>').join('')+'</p>'+
+      '<div class="table-wrap"><table class="kv-table words"><tbody>'+QF.map(x => { const wonA = x.w && x.w.key === c.resolve(x.a), W1 = x.w && x.w.key ? (wonA ? x.a : x.b) : null;
+          return '<tr><td class="ml-cell">'+flagT(x.a)+' <span class="muted">v</span> '+flagT(x.b)+'</td><td>'+
+            (W1 ? '<b>'+esc(dn((row(W1) || {team:W1}).team))+'</b> qualified, '+(wonA ? x.w.score : x.w.score.slice().reverse()).join('&ndash;')+(x.w.pens ? ' and penalties' : '')
+              : x.w ? x.w.score.join('&ndash;')+', shoot-out result to come' : favPub(x.a, x.b))+'</td></tr>'; }).join('')+'</tbody></table></div>'+
       '<h3>Inter-confederation play-offs <span class="muted">3 places</span></h3>'+
       '<p class="muted">Round 1 (November and December 2026): two of these six go through. Round 2 (February 2027): three ties with Venezuela, two CONCACAF sides and one UEFA side.</p>'+
       '<p class="wq-teams">'+W.playoffR1.concat(W.playoffBye).map(t => '<span class="nowrap">'+flagT(t)+' '+rt(t)+'</span>').join('')+'</p></div></div>'+
     '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">The strongest teams now<span class="aside">and where each stands</span></div>'+
       '<div class="table-wrap"><table class="kv-table words"><tbody>'+strongest.map(r => '<tr><td class="muted">'+r.rank+'</td><td>'+flagT(r.team)+'</td><td class="num">'+fmtR(r.rating)+'</td><td>'+stat(r)+'</td></tr>').join('')+
       '</tbody></table></div></div>'+
-    '<p class="chart-note">Places decided as of '+W.asOf+'; UEFA play-off results come from the match data and update with every result. '+
+    '<p class="chart-note">Places decided as of '+W.asOf+'; the UEFA play-off ties and the CONCACAF quarter-finals come from the match data and update with every result. '+
       'The groups and title chances arrive on the <a href="#/simulate">Simulator</a> after the draw on 11 December. '+
       'Sources: Wikipedia\'s qualification articles, FIFA and news reports. <a href="#/confederations">Places against strength, by confederation</a>.</p></div>';
 }
@@ -11044,6 +11099,20 @@ function editionField(run, tHref, e){
    also continental championships in the two years before, which often doubled as qualifying (the women's continental
    finals; the men's CONCACAF Championship of the 1970s and 80s). */
 const GIANT_SHARE = 0.10;
+/* A continental championship that was itself World Cup qualifying. Women's: any within two years of the World Cup (outside
+   Europe they are the qualifying). Men's: only the CONCACAF Championships of 1973 to 1989, with their own preliminaries (the
+   archive files those under "CONCACAF Championship qualification"), and the Oceania Nations Cups of 2004 to 2016; the 2004 one
+   ended two years and three days before the 2006 World Cup began, hence 2.1 years for Oceania. Before 21 Nov 2026 every men's
+   continental finals counted, which showed sides such as Peru in 1938 and Tahiti in 1974 as "out in qualifying" for World
+   Cups whose qualifying they never played. */
+const wcViaCont = (e, m, g) => {
+  if (e.cat !== 'wc' || !(m.cat === 'cont' || m.tournament === 'CONCACAF Championship qualification')) return false;
+  const oc = m.tournament === 'Oceania Nations Cup';
+  if (m.ts < e.start - (oc ? 2.1 : 2)*365.25*DAY) return false;
+  if (g !== 'men') return true;
+  const y = new Date(e.start).getUTCFullYear();
+  return oc ? y >= 2006 && y <= 2018 : /^CONCACAF Championship/.test(m.tournament) && y >= 1974 && y <= 1990;
+};
 function editionMissed(e, run){
   if (e.qualLike || !(e.cat === 'wc' || e.cat === 'cont') || !run.preTop || !run.preTop.length) return null;
   const inField = new Set(run.teams.map(T => T.key));
@@ -11052,10 +11121,7 @@ function editionMissed(e, run){
   const qName = e.tournament+' qualification', from = e.start - 4*365.25*DAY;
   const ms = state.matches[state.gender], qPlayed = new Map();
   for (let i = firstIndexAt(ms, from); i < ms.length && ms[i].ts < e.start; i++){ const m = ms[i];
-    /* The continental championship that served as qualifying (and its own preliminaries, which the archive files under
-       "CONCACAF Championship qualification" for 1974 and 1990); the Oceania Nations Cup of 2004 ended two years and three
-       days before the 2006 World Cup began, hence 2.1 years for it alone. */
-    const viaCont = e.cat === 'wc' && (m.cat === 'cont' || m.tournament === 'CONCACAF Championship qualification') && m.ts >= e.start - (m.tournament === 'Oceania Nations Cup' ? 2.1 : 2)*365.25*DAY;
+    const viaCont = wcViaCont(e, m, state.gender);
     if (m.tournament !== qName && !viaCont) continue; namesFor(m); [m._h, m._a].forEach(k => qPlayed.set(k, (qPlayed.get(k) || 0) + 1)); }
   const rated = run.teams.filter(T => T.pre);
   const fieldAvg = rated.length ? rated.reduce((a, T) => a + T.pre.r, 0)/rated.length : null;
@@ -11074,18 +11140,62 @@ function editionMissed(e, run){
    teams that did not enter should be said). Keyed gender|tournament|edition|team key; each from the edition's Wikipedia
    qualification page and RSSSF's World Cup qualifying tables. */
 const NOT_THERE_UK = 'not a FIFA member: the British associations left FIFA in 1928 and rejoined in 1946';
+const WAR_BAN = 'barred by FIFA after the Second World War; readmitted in September 1950, after the finals';
+/* The fifteen African entrants who withdrew from the 1966 World Cup's qualifying (Egypt as the United Arab Republic). */
+const BOYCOTT_1966 = ['Algeria', 'Cameroon', 'Egypt', 'Ethiopia', 'Gabon', 'Ghana', 'Guinea', 'Liberia', 'Libya', 'Mali', 'Morocco', 'Nigeria', 'Senegal', 'Sudan', 'Tunisia'];
+/* The four British associations were outside FIFA for the first three World Cups. */
+const UK_OUT = new Set(['England', 'Scotland', 'Wales', 'Northern Ireland']);
+/* The year each association joined FIFA, by FIFA code (Seb, 20 Nov 2026: say why a side was not at a World Cup). First the
+   year in English Wikipedia's member tables for the six confederations; after a slash, the year in German Wikipedia's "Liste
+   der FIFA-Mitglieder" where it differs. The two disagree for 67 of the 211, mostly by a year or two, so a side is called
+   "not yet a member" only for a World Cup held before BOTH years; the year is shown where the two agree, both years where
+   they are one or two apart, and no year where they are further apart. */
+const FIFA_JOINED_LIST = 'AFG=1948;AIA=1996;ALB=1932/1930;ALG=1963;AND=1996;ANG=1980;ARG=1912;ARM=1992;ARU=1988;ASA=1998;ATG=1972/1970;AUS=1963;AUT=1905;AZE=1994;BAH=1968;BAN=1976/1974;BDI=1972;BEL=1904;BEN=1962/1969;BER=1962;BFA=1964;BHR=1968/1966;BHU=2000;BIH=1996;BLR=1992;BLZ=1986;BOL=1926;BOT=1978/1976;BRA=1923/1917;BRB=1968;BRU=1972/1969;BUL=1924;CAM=1954/1953;CAN=1913/1912;CAY=1992;CGO=1966/1962;CHA=1964;CHI=1913/1912;CHN=1931;CIV=1964/1960;CMR=1962;COD=1964/1962;COK=1994;COL=1936;COM=2005;CPV=1986;CRC=1927/1921;CRO=1992/1941;CTA=1964/1963;CUB=1929/1932;CUW=1932;CYP=1948;CZE=1907;DEN=1904;DJI=1994/1958;DMA=1994/1993;DOM=1958;ECU=1926;EGY=1923;ENG=1905;EQG=1986;ERI=1998;ESP=1904;EST=1923;ETH=1952/1953;FIJ=1964/1963;FIN=1908;FRA=1904;FRO=1988;GAB=1966/1963;GAM=1968/1966;GEO=1992;GER=1904;GHA=1958;GIB=2016;GNB=1986;GRE=1927;GRN=1978/1976;GUA=1946/1933;GUI=1962/1961;GUM=1996;GUY=1970/1968;HAI=1934/1937;HKG=1954;HON=1946/1951;HUN=1906/1907;IDN=1952;IND=1948;IRL=1923;IRN=1948;IRQ=1950;ISL=1947/1929;ISR=1929;ITA=1905;JAM=1962;JOR=1956/1958;JPN=1921/1929;KAZ=1994;KEN=1960;KGZ=1994;KOR=1948;KOS=2016;KSA=1956/1959;KUW=1964/1962;LAO=1952;LBN=1936/1935;LBR=1964/1962;LBY=1964/1963;LCA=1988;LES=1964;LIE=1974;LTU=1923;LUX=1910;LVA=1922/1923;MAC=1978/1976;MAD=1964/1962;MAR=1960/1956;MAS=1954/1956;MDA=1994;MDV=1986;MEX=1929;MKD=1994;MLI=1963/1962;MLT=1959;MNE=2007;MNG=1998;MOZ=1980;MRI=1964/1962;MSR=1996;MTN=1970/1964;MWI=1968/1967;MYA=1948/1957;NAM=1992;NCA=1950;NCL=2004/1998;NED=1904;NEP=1972/1970;NGA=1960;NIG=1967;NIR=1911;NOR=1908;NZL=1948;OMA=1980;PAK=1948;PAN=1938;PAR=1925/1921;PER=1924;PHI=1930/1928;PLE=1998;PNG=1966;POL=1923;POR=1923;PRK=1958;PUR=1960;QAT=1972/1970;ROU=1923;RSA=1992;RUS=1912;RWA=1978/1976;SAM=1986;SCO=1910;SDN=1948;SEN=1964/1962;SEY=1986;SGP=1952;SKN=1992;SLE=1960/1967;SLV=1938;SMR=1988;SOL=1988;SOM=1962/1960;SRB=1921/1919;SRI=1952/1950;SSD=2012;STP=1986;SUI=1904;SUR=1929;SVK=1994/1993;SVN=1992;SWE=1904;SWZ=1978/1976;SYR=1937;TAH=1990;TAN=1964;TCA=1998;TGA=1994;THA=1925;TJK=1994;TKM=1994;TLS=2005;TOG=1962;TPE=1954;TRI=1964/1963;TUN=1960;TUR=1923;UAE=1974/1972;UGA=1960/1959;UKR=1992;URU=1923;USA=1914/1913;UZB=1994;VAN=1988;VEN=1952;VGB=1996;VIE=1952/1964;VIN=1988;VIR=1998;WAL=1910;YEM=1980;ZAM=1964;ZIM=1965';
+/* Lines that were in FIFA under an earlier body before the year listed (South Africa from 1910, wartime Slovakia, the Dutch
+   East Indies), where "not yet a member" would be wrong: no rule for them. */
+const FIFA_EARLIER = new Set(['South Africa', 'Slovakia', 'Indonesia']);
+let fifaJoinedIdx = null;
+function fifaJoined(key){
+  if (!fifaJoinedIdx){ fifaJoinedIdx = new Map();
+    for (const p of FIFA_JOINED_LIST.split(';')){ const [c, y] = p.split('='), [a, b] = y.split('/').map(Number); fifaJoinedIdx.set(c, {lo:Math.min(a, b || a), yr:!b ? String(a) : Math.abs(a - b) <= 2 ? Math.min(a, b)+' or '+Math.max(a, b) : ''}); } }
+  if (FIFA_EARLIER.has(key)) return null;
+  const C = fifaCodes(), code = C.now.get(key) || C.now.get(dn(key));
+  return code ? fifaJoinedIdx.get(code) || null : null;
+}
+/* Why a side could not have been at a World Cup: it has never been a FIFA member (whatever continental matches it played
+   that doubled as qualifying for the others), or it played no qualifying and had not joined yet. */
+const fifaWhy = (e, key, played) => {
+  if (e.tournament !== 'FIFA World Cup') return '';
+  if (infoFor(key).status === 'assoc') return 'not a FIFA member, so it cannot enter the World Cup';
+  const J = played ? null : fifaJoined(key);
+  return J && new Date(e.start).getUTCFullYear() < J.lo ? 'not yet a FIFA member'+(J.yr ? ' (it joined in '+J.yr+')' : '') : '';
+};
+const SA_SUSPENDED = 'suspended by FIFA over apartheid, from October 1964', SA_EXPELLED = 'expelled by FIFA in 1976 over apartheid; readmitted in July 1992';
+const SA_CAF = 'expelled from the African confederation in 1958 over apartheid; readmitted in 1992';
 const EDITION_ABSENT = {
   'men|FIFA World Cup|1930':{Scotland:NOT_THERE_UK, Spain:'did not enter: there was no qualifying, and most of Europe turned down the voyage to Uruguay', Italy:'did not enter: there was no qualifying, and most of Europe turned down the voyage to Uruguay'},
-  'men|FIFA World Cup|1934':{Uruguay:'did not enter: the holders stayed away, in return for Europe\'s absence in 1930', England:NOT_THERE_UK, 'Trinidad and Tobago':'not yet a FIFA member (it joined in 1964)'},
-  'men|FIFA World Cup|1938':{Scotland:NOT_THERE_UK, England:NOT_THERE_UK+'; offered Austria\'s place, it declined', 'Trinidad and Tobago':'not yet a FIFA member (it joined in 1964)'},
-  'men|FIFA World Cup|1950':{Argentina:'withdrew from qualifying, in a dispute with the Brazilian federation', Hungary:'did not enter', 'Costa Rica':'did not enter'},
+  'men|FIFA World Cup|1934':{Uruguay:'did not enter: the holders stayed away, in return for Europe\'s absence in 1930', England:NOT_THERE_UK},
+  'men|FIFA World Cup|1938':{Scotland:NOT_THERE_UK, England:NOT_THERE_UK+'; offered Austria\'s place, it declined',
+    Austria:'qualified, then withdrew: Austria was absorbed into Germany in March 1938',
+    Argentina:'withdrew from qualifying; let back in to play Central America\'s winner for a place, it withdrew again'},
+  'men|FIFA World Cup|1950':{Argentina:'withdrew from qualifying, in a dispute with the Brazilian federation', Hungary:'did not enter', 'Costa Rica':'did not enter',
+    Scotland:'qualified, then withdrew: it had said it would go only as British champions, and it finished second to England', Turkey:'qualified, then withdrew',
+    India:'qualified when its opponents withdrew, then withdrew itself', France:'out in qualifying; offered a place when others withdrew, it accepted and then withdrew too',
+    Germany:WAR_BAN, Japan:WAR_BAN},
   'men|FIFA World Cup|1954':{'Curaçao':'did not enter'},
-  'men|FIFA World Cup|1966':{Egypt:'withdrew with the African boycott: CAF\'s entrants pulled out because Africa, Asia and Oceania were given a single place between them', China:'not a FIFA member: the People\'s Republic left in 1958 and returned in 1979'},
-  'men|FIFA World Cup|1970':{Iran:'did not enter'},
-  'men|FIFA World Cup|1974':{China:'not a FIFA member: the People\'s Republic left in 1958 and returned in 1979'},
-  'men|FIFA World Cup|1982':{Tahiti:'did not enter'},
-  'men|FIFA World Cup|1990':{Mexico:'banned by FIFA for fielding over-age players in a 1988 youth qualifying tournament'},
-  'men|FIFA World Cup|1994':{Serbia:'Yugoslavia was excluded from qualifying under United Nations sanctions'},
+  'men|FIFA World Cup|1958':{Egypt:'given a walkover in the first round, then withdrew in the second'},
+  'men|FIFA World Cup|1962':{Egypt:'withdrew', Sudan:'withdrew'},
+  'men|FIFA World Cup|1966':{...Object.fromEntries(BOYCOTT_1966.map(k => [k, 'withdrew with the African boycott: CAF\'s fifteen entrants pulled out because Africa, Asia and Oceania were given a single place between them'])),
+    'South Africa':'disqualified: suspended by FIFA over apartheid', 'South Korea':'withdrew', Syria:'withdrew in support of the African boycott', China:'not a FIFA member: the People\'s Republic left in 1958 and returned in 1979'},
+  'men|FIFA World Cup|1970':{Iran:'did not enter', 'South Africa':SA_SUSPENDED},
+  'men|FIFA World Cup|1974':{China:'not a FIFA member: the People\'s Republic left in 1958 and returned in 1979', 'South Africa':SA_SUSPENDED},
+  'men|FIFA World Cup|1978':{'South Africa':SA_EXPELLED},
+  'men|FIFA World Cup|1982':{'South Africa':SA_EXPELLED, Iran:'withdrew before the qualifying draw', Ghana:'withdrew after the qualifying draw', Uganda:'withdrew after the qualifying draw'},
+  'men|FIFA World Cup|1986':{'South Africa':SA_EXPELLED, Iran:'disqualified: told to play its home matches on neutral ground because of the war with Iraq, it refused'},
+  'men|FIFA World Cup|1990':{Mexico:'banned by FIFA for fielding over-age players in a 1988 youth qualifying tournament', 'South Africa':SA_EXPELLED},
+  'men|FIFA World Cup|1994':{Serbia:'Yugoslavia was excluded from qualifying under United Nations sanctions', Chile:'banned by FIFA after its team walked off at the Maracan\u00e3 in a 1989 qualifier'},
+  'men|FIFA World Cup|2002':{Guinea:'expelled from qualifying in March 2001: FIFA had suspended its association on 2 March, after the sports ministry dissolved its board'},
+  'men|FIFA World Cup|2018':{Zimbabwe:'expelled from qualifying by FIFA in March 2015, over an unpaid debt to a former coach', Indonesia:'disqualified before playing: its association had been suspended by FIFA'},
   'men|FIFA World Cup|2022':{Russia:'banned: suspended by FIFA and UEFA in February 2022, before its play-off'},
   'men|FIFA World Cup|2026':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
   'women|FIFA World Cup|2023':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
@@ -11094,7 +11204,9 @@ const EDITION_ABSENT = {
   'men|AFC Asian Cup|1972':{Israel:'withdrew: it had qualified as hosts, then pulled out, and Thailand staged the finals'},
   'men|AFC Asian Cup|1980':{Iraq:'withdrew'}, 'men|AFC Asian Cup|1984':{Iraq:'withdrew'}, 'men|AFC Asian Cup|1988':{Iraq:'withdrew'},
   'men|AFC Asian Cup|1992':{Iraq:'banned after the Gulf War'},
-  'men|African Cup of Nations|1965':{Egypt:'withdrew after qualifying, in a diplomatic dispute with the hosts, Tunisia'},
+  'men|African Cup of Nations|1957':{'South Africa':'drawn to play, then left out: it would send only an all-white or an all-black team (disqualified by most accounts; some say it withdrew)'},
+  ...Object.fromEntries(['1959', '1962', '1963', '1968', '1970', '1972', '1974', '1976', '1978', '1980', '1982', '1984', '1986', '1988', '1990', '1992'].map(y => ['men|African Cup of Nations|'+y, {'South Africa':SA_CAF}])),
+  'men|African Cup of Nations|1965':{Egypt:'withdrew after qualifying, in a diplomatic dispute with the hosts, Tunisia', 'South Africa':SA_CAF},
   'men|African Cup of Nations|1998':{Nigeria:'banned by the African confederation after pulling out of the 1996 finals'},
   'men|CONCACAF Championship|1985':{Mexico:'did not take part: this was the 1986 World Cup\'s qualifying, and Mexico were in as hosts'},
   'men|CONCACAF Championship|1989':{Mexico:'banned by FIFA for fielding over-age players in a 1988 youth qualifying tournament'},
@@ -11108,17 +11220,21 @@ const EDITION_ABSENT = {
   'men|Gold Cup|2002':{Honduras:'out in qualifying: the 2001 UNCAF Nations Cup, Central America\'s qualifying tournament, which it hosted'},
   'men|Oceania Nations Cup|1973':{Australia:'not a member: it left the Oceania confederation in 1972 and returned in 1978'},
   'men|UEFA Euro|1996':{Serbia:'Yugoslavia was excluded from qualifying under United Nations sanctions'},
+  ...Object.fromEntries(['1976', '1980', '1984', '1988', '1992'].map(y => ['men|UEFA Euro|'+y, {Israel:'belonged to no confederation: it left the Asian confederation in 1974 and became a full UEFA member in 1994'}])),
+  'women|CONCACAF Championship|2014':{Canada:'did not take part: this was the 2015 World Cup\'s qualifying, and Canada were in as hosts'},
   'women|AFC Asian Cup|2014':{'North Korea':'banned: FIFA barred it from the 2015 World Cup, for which this was the qualifying, after doping cases at the 2011 finals'},
   'women|FIFA World Cup|2015':{'North Korea':'banned by FIFA after doping cases at the 2011 finals'},
   'women|CONCACAF Championship|1998':{'United States':'did not take part: this was the 1999 World Cup\'s qualifying, and the United States were in as hosts'},
   'women|OFC Nations Cup|2022':{'New Zealand':'did not take part: this was the 2023 World Cup\'s qualifying, and New Zealand were in as co-hosts'},
   'women|OFC Nations Cup|2025':{'New Zealand':'did not take part'}};
-const absentWhy = (e, key) => (EDITION_ABSENT[state.gender+'|'+e.tournament+'|'+e.label] || {})[key] || '';
+const absentWhy = (e, key) => (EDITION_ABSENT[state.gender+'|'+e.tournament+'|'+e.label] || {})[key]
+  || (state.gender === 'men' && e.tournament === 'FIFA World Cup' && ['1930', '1934', '1938'].includes(e.label) && UK_OUT.has(key) ? NOT_THERE_UK : '');
 function editionMissedPanel(e, run, tHref){
   const M = editionMissed(e, run);
   if (!M) return '';
   const nm = k => dn(state.historicalNames ? resolveName(archiveName(k), e.start) : k);
-  const how = x => absentWhy(e, x.key) ? '<span class="muted">'+esc(absentWhy(e, x.key)).replace(/^./, c => c.toUpperCase())+'</span>'
+  const why = x => absentWhy(e, x.key) || fifaWhy(e, x.key, M.qPlayed.has(x.key));
+  const how = x => why(x) ? '<span class="muted">'+esc(why(x)).replace(/^./, c => c.toUpperCase())+'</span>'
     : M.qPlayed.has(x.key) ? '<span class="down">Out in qualifying</span>'
     : '<span class="muted" title="No qualifying matches in the data: the team did not enter, withdrew, was banned, or there was no qualifying for this edition">Did not play qualifying</span>';
   const scope = M.conf ? ' '+confLabel(M.conf) : '';
@@ -11135,7 +11251,7 @@ function editionMissedPanel(e, run, tHref){
         '<p class="muted">its giants: top '+M.confN(c)+' of '+M.confCount.get(c)+'</p>'+
         L.map(x => '<div class="mo-row"><div class="mo-team"><a href="'+tHref(nm(x.key))+'">'+withFlag(nm(x.key))+'</a> <span class="rating" style="font-size:13px;">'+fmtR(x.r)+'</span></div>'+
           '<div class="mo-meta"><span class="muted">world #'+x.rank+' &middot; '+confLabel(c)+' #'+x.confRank+'</span> '+tag(x)+' '+
-          (absentWhy(e, x.key) ? '<span class="muted">'+esc(absentWhy(e, x.key))+'</span>' : M.qPlayed.has(x.key) ? '<span class="down">out in qualifying</span>' : '<span class="muted">did not play qualifying</span>')+'</div></div>').join('')+'</div>'; }).join('')+'</div>'
+          (why(x) ? '<span class="muted">'+esc(why(x))+'</span>' : M.qPlayed.has(x.key) ? '<span class="down">out in qualifying</span>' : '<span class="muted">did not play qualifying</span>')+'</div></div>').join('')+'</div>'; }).join('')+'</div>'
     : '<div class="panel-body muted">No world giant and no confederation giant'+(M.conf ? ' from '+confLabel(M.conf) : '')+' missed out.</div>';
   const total = new Set(M.giants.concat(M.byConf).map(x => x.key)).size;
   return '<div class="panel field-panel tmode-a"><div class="panel-head">Strong teams that missed out <span class="muted" style="font-weight:400;">'+total+'</span>'+
@@ -11334,6 +11450,74 @@ function bindTeamRuns(key){
       .then(D => { if (gen === state.renderGen && document.getElementById('teamRunsBody') === body) draw(D); })
       .catch(() => { body.innerHTML = '<div class="panel-body muted">This could not be worked out just now.</div>'; }); };
   sec.addEventListener('toggle', once); once();
+}
+/* A team's record at the World Cup and at its own continental championship, edition by edition (Seb, 18 Nov 2026: bans,
+   withdrawals and teams that did not enter should be said on the team's page too). Everything is read from the matches:
+   whether it was at the finals and how far it went (editionFormat), whether it played the qualifying, and, where neither,
+   the reason on record in EDITION_ABSENT.
+   majorEditions: every World Cup and continental finals of three sides or more, each with its field, the confederation
+   most of the field came from, and the sides that played its qualifying: the matches filed as its qualification (and the
+   continental finals that doubled as World Cup qualifying, as in editionMissed), plus any match of the qualifying kind
+   since the edition before (World Cup qualifying; continental qualifying involving a side of that confederation), which
+   catches the British Home Championships and the Caribbean and Central American cups that served as qualifying. */
+function majorEditions(){
+  const g = state.gender, E = getEditions(g); if (E._majors) return E._majors;
+  const ms = state.matches[g], list = E.list.filter(e => !e.qualLike && (e.cat === 'wc' || e.cat === 'cont') && e.teams.size >= 3).sort((a, b) => a.start - b.start), lastOf = {};
+  for (const e of list){
+    e._keys = new Set(); for (const m of e.matches){ namesFor(m); e._keys.add(m._h); e._keys.add(m._a); }
+    const n = new Map(); for (const k of e._keys){ const c = poolOf(k, e.start); n.set(c, (n.get(c) || 0) + 1); }
+    e._conf = e.cat === 'cont' ? [...n].sort((a, b) => b[1] - a[1])[0][0] : null;
+    const fam = e.cat === 'wc' ? 'wc' : e._conf, prev = lastOf[fam]; lastOf[fam] = e;
+    const far = e.start - 4*365.25*DAY, from = Math.max(far, prev ? prev.start : -Infinity), qName = e.tournament+' qualification', q = new Set();
+    for (let i = firstIndexAt(ms, far); i < ms.length && ms[i].ts < e.start; i++){ const m = ms[i];
+      const viaCont = wcViaCont(e, m, g);
+      let hit = m.tournament === qName, real = hit;
+      if (!hit && m.ts >= from && (e.cat === 'wc' ? m.cat === 'wcq' : m.cat === 'contq')){ namesFor(m); hit = real = e.cat === 'wc' || m._ph === e._conf || m._pa === e._conf; }
+      /* The women's continental championships outside Europe are the World Cup's qualifying, so their own qualifiers count for it too. */
+      if (!hit && !viaCont && g === 'women' && e.cat === 'wc' && m.cat === 'contq' && m.ts >= e.start - 3*365.25*DAY){ namesFor(m); hit = m._ph !== 'UEFA' && m._pa !== 'UEFA'; }
+      if (hit || viaCont){ namesFor(m); q.add(m._h); q.add(m._a); if (real) e._hasQ = true; } }
+    e._qk = q; }
+  return (E._majors = list);
+}
+function teamMajors(key){
+  const sp = keySpan(key), rows = []; if (!sp) return rows;
+  for (const e of majorEditions()){
+    if (sp[0] > e.end || wcGone(key, e.start)) continue;                       // before its first match, or after its last as a side that is gone
+    const inField = e._keys.has(key);
+    if (e.cat === 'cont' && !inField && poolOf(key, e.start) !== e._conf) continue;   // another confederation's championship
+    const f = inField ? editionFormat(e) : null, why = inField ? '' : absentWhy(e, key) || fifaWhy(e, key, e._qk.has(key));
+    rows.push({e, st:inField ? 'in' : why ? 'why' : e._qk.has(key) ? 'q' : e._hasQ ? 'noq' : 'none', fin:f && f.ok ? f.finish.get(key) || '' : '', why});
+  }
+  return rows;
+}
+function teamMajorsSection(key){
+  let rows = []; try { rows = teamMajors(key); } catch(err){ rows = []; }
+  if (!rows.length) return '';
+  const up = t => t.replace(/^./, c => c.toUpperCase());
+  const cell = r => r.st === 'in' ? '<b>At the finals</b>'+(r.fin ? ' <span class="field-actual">'+esc(r.fin)+'</span>' : '')
+    : r.st === 'why' ? '<span class="tmj-why">'+up(esc(r.why))+'</span>'
+    : r.st === 'q' ? '<span class="down">Out in qualifying</span>'
+    : r.st === 'noq' ? '<span class="muted" title="No qualifying match on record: it did not enter, withdrew before playing, or was barred">Did not play qualifying</span>'
+    : '<span class="muted" title="This edition had no qualifying, and it was not in the field">Did not take part</span>';
+  const won = r => r.fin === 'Winner' || r.fin === '1st';
+  const block = (title, L) => { if (!L.length) return '';
+    const inN = L.filter(r => r.st === 'in').length, w = L.filter(won).length, why = L.filter(r => r.st === 'why').length;
+    return '<div class="tmj-col"><h3 class="fr-h">'+title+' <span class="muted">at '+inN+' of '+L.length+(w ? ', won '+w : '')+(why ? ' &middot; '+why+' with a note' : '')+'</span></h3>'+
+      '<div class="table-wrap lock" style="max-height:430px;"><table class="tmj"><thead><tr><th>Edition</th><th>What happened</th></tr></thead><tbody>'+
+      L.slice().reverse().map(r => '<tr><td><a href="'+editionHref(r.e)+'">'+(title === 'World Cup' ? '' : esc(compName(r.e.tournament))+' ')+esc(r.e.label)+'</a></td><td>'+cell(r)+'</td></tr>').join('')+
+      '</tbody></table></div></div>'; };
+  const wc = rows.filter(r => r.e.cat === 'wc'), ct = rows.filter(r => r.e.cat === 'cont'), nWhy = rows.filter(r => r.st === 'why').length;
+  /* The notes, newest first; editions of one competition that share a reason share a line (a side outside FIFA for six World Cups says so once). */
+  const notes = []; for (const r of rows.filter(r => r.st === 'why').reverse()){ const G = notes.find(G => G[0].e.tournament === r.e.tournament && G[0].why === r.why); if (G) G.push(r); else notes.push([r]); }
+  return '<details class="panel ed-sec" id="teamMajors" style="margin-bottom:20px;"'+(nWhy ? ' open' : '')+'><summary class="panel-head">World Cups and continental finals<span class="aside">edition by edition'+(nWhy ? ' &middot; '+nWhy+' with a note on record' : '')+'</span></summary>'+
+    '<div class="ed-sec-b">'+
+    (nWhy ? '<div class="panel-body" style="padding-bottom:4px;"><h3 class="fr-h">Bans, withdrawals and other notes on record</h3><ul class="tmj-list">'+
+      notes.map(G => '<li>'+esc(compName(G[0].e.tournament))+' '+G.map(r => '<a href="'+editionHref(r.e)+'">'+esc(r.e.label)+'</a>').join(', ')+': '+esc(G[0].why)+'.</li>').join('')+'</ul></div>' : '')+
+    '<div class="tmj-grid">'+block('World Cup', wc)+block('Continental championship', ct)+'</div>'+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">Every World Cup and every finals of its own confederation\'s championship since '+esc(dn(key))+'\'s first match on record, newest first; a championship of another confederation is listed when it played there. '+
+      'In amber, how far it went (GS group stage, R2 second round, FR final round, R16 round of 16, QF, SF, Final, Winner; a place such as 2nd where the finals were a league). '+
+      '<b>Out in qualifying</b>: it played qualifying matches and was not at the finals. <b>Did not play qualifying</b>: no qualifying match on record, so it did not enter, withdrew before playing, or was barred. '+
+      'Where the reason is on record here (a ban, a withdrawal, a boycott, not being a member) it is given in words; the list of reasons is being filled in, strongest sides first.</p></div></details>';
 }
 function editionUpsets(run, tHref, e){
   const stages = e ? matchStages(e) : new Map();
@@ -12509,10 +12693,20 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['21 Nov 2026', ['Team pages now say when a side missed a World Cup because it was not yet a FIFA member, with the year it joined, or because it has never been one: Martinique, Guadeloupe and nine other sides belong to their confederation but not to FIFA, and cannot enter. About 600 lines that read &ldquo;Did not play qualifying&rdquo; give that reason now (Jamaica before 1962 and Tahiti before 1990, for two). The joining years come from two lists that disagree for 67 of the 211 associations, mostly by a year or two, so the reason is given only for World Cups held before both years; the year is shown where the lists agree, both years where they are close, and none where they are far apart.',
+    'A mistake corrected on team and tournament pages: a side that played in a continental championship in the two years before a men\'s World Cup was marked &ldquo;Out in qualifying&rdquo; for that World Cup, even when it never played its qualifying. Fifty lines were wrong, among them Argentina, Chile and Peru in 1938, Egypt in 1958, Tahiti and New Caledonia in 1974 and Iran in 1982 and 1986. Only the championships that really were the World Cup\'s qualifying count now: CONCACAF\'s of 1973 to 1989 and Oceania\'s of 2004 to 2016.',
+    'South Africa\'s page gives the reason for every World Cup and African Cup of Nations it missed under apartheid: left out of the first Cup of Nations in 1957, expelled by the African confederation in 1958, suspended by FIFA from October 1964, expelled in 1976 and readmitted in 1992.',
+    '<a href="#/confederations?pv=places">World Cup places</a> on a past date leave a side out before the year it joined FIFA, and name the ones that would otherwise have been close. South Africa is left out through its two suspensions, from 26 September 1961 to January 1963 and from 8 October 1964 to 3 July 1992, and England, Scotland, Wales and Northern Ireland through their two spells outside FIFA (1920 to 1924, and 17 February 1928 to 1946).',
+    'The nightly check against the results feed has reached back to late November 2016. Two men\'s friendlies the archive lacks are in, each on both teams\' Wikipedia pages: Kenya 0&ndash;0 Malawi (18 April 2017) and Liberia 1&ndash;0 Sierra Leone (5 June 2017). One archive row is taken out: it had Egypt beating Libya 1&ndash;0 on 13 May 2017, but Egypt\'s opponent that day was Yemen, in an unofficial friendly played by Egypt\'s home-based team; the real Egypt v Libya match, on 5 June 2017, stays. Two matches the feed lists are left out on purpose, because one side was a home-based (A&prime;) team: Morocco v Burkina Faso (4 January 2017) and that Egypt v Yemen match.',
+    'Nine more reasons on team and tournament pages, each from Wikipedia\'s or RSSSF\'s qualifying pages: Argentina at the 1938 World Cup (withdrew, was let back in, withdrew again), Egypt in 1958 and 1962 and Sudan in 1962 (withdrew), Iran, Ghana and Uganda in 1982 (withdrew), Iran in 1986 (disqualified for refusing to play its home matches on neutral ground) and Guinea in 2002 (expelled from qualifying when FIFA suspended its association).']],
   ['20 Nov 2026', ['Six tournaments that were played over many months each showed as two, three or four separate editions, because a break of more than 60 days started a new one. They are single editions now, under their usual names: the 1985 CONCACAF Championship, the Oceania Nations Cups of 1996, 2004 and 2008, the women\'s Euro 1995 and the 1991 African Women\'s Championship. Among other things this had Australia, who won the 1996 Oceania Nations Cup, listed on two of its pieces as a strong team that did not play. Old addresses for the pieces lead to the joined edition.',
     'Two forecasts were left without a match when their fixtures moved two days after the first kick-off time had passed: Morocco v Niger (listed for 11 November, played on the 13th) and Kyrgyzstan v Vietnam (listed for the 15th, played on the 17th). Each match already had its forecast scored under the right date, so the two left-over entries are removed and will not sit in the record as &ldquo;no result&rdquo;.',
     '<a href="#/confederations?pv=places">World Cup places</a> on the Confederations page can now be worked out for <b>any date</b>: choose &ldquo;If it were played on a date&rdquo; and pick the day, and the page fills the next World Cup\'s format from that day\'s ratings, with the confederations as they stood then. Teams that were barred by FIFA on the day are left out with the reason: Germany and Japan after the Second World War, Mexico from 1988 to 1990, Chile for the 1994 World Cup, Yugoslavia from 1992 to 1994, North Korea\'s women for 2015, Russia since 2022, and the short suspensions of Greece, Iran, Iraq, Nigeria and Cameroon. A side that no longer existed, such as East Germany after 1990, is left out too; that also corrects the 1994 World Cup\'s row, where East Germany had been counted among Europe\'s sides in the world top 24. The panel now stays on its own tab, and its list of teams wraps on a phone instead of running off the side.',
-    'The Confederations page\'s <a href="#/confederations?pv=time">Strength over time</a> chart now runs back to 1904 for men (it began in 1960) and to 1983 for women (it began in 1991). Football was played long before the confederations existed, so a line is <b>dashed</b> until its confederation was founded: Europe\'s until UEFA began in 1954, North and Central America\'s until CONCACAF began in 1961. For those years the line is worked out from the sides that later became members. A line begins once the region has ranked teams: South America\'s in 1924, the year Uruguay went to the Olympic Games in Paris.']],
+    'The Confederations page\'s <a href="#/confederations?pv=time">Strength over time</a> chart now runs back to 1904 for men (it began in 1960) and to 1983 for women (it began in 1991). Football was played long before the confederations existed, so a line is <b>dashed</b> until its confederation was founded: Europe\'s until UEFA began in 1954, North and Central America\'s until CONCACAF began in 1961. For those years the line is worked out from the sides that later became members. A line begins once the region has ranked teams: South America\'s in 1924, the year Uruguay went to the Olympic Games in Paris.',
+    'Every team page has a new section, <b>World Cups and continental finals</b>: the team\'s record edition by edition, at every World Cup and every finals of its own confederation\'s championship since its first match. Each line says whether it was at the finals and how far it went, went out in qualifying, or did not play the qualifying at all. Where a team was banned, withdrew, boycotted or was not a member, the reason is given in words and listed first; the section opens by itself on a page that has one. Scotland\'s page, for example, shows the three World Cups the British associations spent outside FIFA and the place it turned down in 1950; Mexico\'s shows its ban from the 1990 World Cup.',
+    'More reasons are on record, each checked: the fifteen African sides who withdrew from the 1966 World Cup\'s qualifying in protest at being given no place of their own, with South Africa (disqualified), South Korea and Syria; Scotland, Turkey and India, who qualified for 1950 and withdrew, and Germany and Japan, who were barred from it; Austria in 1938; Chile, banned from the 1994 World Cup; Zimbabwe and Indonesia, removed from the 2018 qualifying; Israel\'s years outside any confederation; and Canada\'s women, hosts of 2015. All four British sides now show as outside FIFA for 1930, 1934 and 1938, where only some did. The same reasons appear on the tournament pages.',
+    'New Zealand v Australia on 10 and 15 November 1995 was the semi-final of the 1996 Oceania Nations Cup and also that year\'s Trans-Tasman Cup; the results archive files the two matches under the second name only. They are now part of the Nations Cup here, so that edition has all six of its matches and New Zealand shows as beaten semi-finalists, and they carry a continental final\'s weight in the ratings. No rank changes today; the two sides\' ranks in the late 1990s move a little.',
+    'Ahead of the women\'s international window (27 November to 5 December): the <a href="#/wwc2027">Women\'s World Cup 2027 hub</a> now reads the four CONCACAF quarter-finals from the results as they come in, so a winner shows as qualified the same night, and its count of places decided moves with them. Before each one it gives the pick from the published forecast. The UEFA play-off dates are corrected to 1 and 5 December.']],
   ['19 Nov 2026', ['Every tournament page has a new section, <b>Groups and runs</b>: who had it hardest. It ranks the groups by the average rating of their teams the day before kick-off, and lists every team\'s run: the average rating of the opponents it actually met, its strongest opponent, and how far it went. Four figures lead the section: the hardest group, the hardest and the easiest run, and where the winners\' run stood. Opening the section also sets the edition beside every other edition of the same tournament: the hardest groups in its history and the winners\' hardest and easiest runs, compared by world rank because rating points are not on the same footing across the decades.',
     'Every team page has a new section too, <b>Hardest and easiest tournaments</b>: the final tournaments where the team met its strongest and its weakest opponents, with how far it went, and the hardest and easiest of the ones it won. It can be narrowed to World Cups and continental finals.',
     '&ldquo;Strong teams that missed out&rdquo; now gives the reason at the continental championships too, as it has for World Cups since yesterday: Iraq withdrawing from three Asian Cups and banned from a fourth after the Gulf War, Israel pulling out as hosts in 1972, Egypt in 1965 and Nigeria in 1998 at the African Cup of Nations, Brazil and Argentina staying away from seven South American Championships between them, Yugoslavia shut out of Euro 1996, North Korea\'s women banned for doping, and hosts who skipped a tournament that was only a World Cup qualifier for everyone else (Mexico in 1985, the United States\' women in 1998, New Zealand\'s in 2022).']],

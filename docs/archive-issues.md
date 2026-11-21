@@ -153,7 +153,7 @@ Notes:
 
 ### Matches the archive does not hold (updated 14 November 2026)
 
-World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 28 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,284 rows). 402 were played since November 2014. They are free to take.
+World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 30 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,286 rows). 404 were played since November 2014. They are free to take.
 
 Whole events among the recent ones:
 
@@ -196,6 +196,14 @@ In about 35 competitive matches the archive holds a 3–0 that was awarded after
 | 1982-02-19 | Bangladesh | 1–3 | Oman | Friendly | Karachi, Pakistan | TRUE |
 
 China v Japan 1925 and Japan v Philippines 1921 each appear once as a Friendly and once as a Far Eastern Championship Games match on the same day; the three 1982 Karachi matches appear once as Friendlies and once as Quaid-e-Azam International Tournament matches; Tahiti v New Caledonia 1974 appears twice with opposite scores.
+
+### A row with the wrong opponent (found 21 November 2026)
+
+| Date | Home | Score | Away | Tournament | Venue |
+|---|---|---|---|---|---|
+| 2017-05-13 | Egypt | 1–0 | Libya | Friendly | Cairo, Egypt |
+
+Egypt's opponent in Cairo on 13 May 2017 was Yemen, not Libya (ESPN's match page, with Hesham Mohamed's goal; API-Football fixture 225775). It was played by Egypt's home-based team, and Wikipedia (Hesham Mohamed's page) calls it an unofficial friendly. Egypt v Libya, also 1–0, was played on 5 June 2017 and is in the archive on that date as well. Formline leaves the 13 May row out.
 
 ### Both legs of a tie on the same date (10 pairs)
 

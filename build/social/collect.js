@@ -77,9 +77,12 @@ function predictFx(c, fx){
 const fxSlugDate = x => x.date;
 
 /* 1. Upcoming match: the biggest match kicking off between 8 and 56 hours from now. */
-S.match = async ({now, used = []}) => {
+/* A window that is one game's (the women's window of late November, say) asks the day's post for that game first:
+   only = 'men' or 'women' keeps a collector to it; without it both are looked at, as before. */
+const gamesOf = only => only === 'men' || only === 'women' ? [only] : ['men', 'women'];
+S.match = async ({now, used = [], only}) => {
   const out = [], done = new Set(used);   // a match already previewed (say, this morning) isn't picked again
-  for (const g of ['men', 'women']){
+  for (const g of gamesOf(only)){
     const c = await useG(g);
     for (const x of nextFixtures(g)){
       const ko = Date.parse(x.kickoff || (x.date + 'T12:00:00Z')), h = (ko - now) / 36e5;
@@ -108,10 +111,10 @@ S.match = async ({now, used = []}) => {
 };
 
 /* 2. Team spotlight: a team with a match this week, else the next in a rotation down the table. */
-S.spotlight = async ({now, used}) => {
+S.spotlight = async ({now, used, only}) => {
   const recent = new Set(used.filter(u => u.startsWith('spotlight|')));
   const cands = [];
-  for (const g of ['men', 'women']){
+  for (const g of gamesOf(only)){
     const c = await useG(g);
     const soon = new Set(nextFixtures(g).filter(x => Date.parse(x.date + 'T12:00:00Z') - now < 7 * 864e5).flatMap(x => [keyOfName(x.home), keyOfName(x.away)]));
     c.table.forEach(r => { if (recent.has('spotlight|' + g + '|' + r.key)) return;
@@ -184,9 +187,9 @@ S.onThisDay = async ({now, used}) => {
 
 /* 3b. Tie-in (international windows): a match coming up in the next three days, told through the most memorable earlier
    meeting of the same two sides: a big-tournament knockout, a shock, a rout. Drawn in the on-this-day style. */
-S.tieIn = async ({now, used}) => {
+S.tieIn = async ({now, used, only}) => {
   const recent = new Set(used), cands = [];
-  for (const g of ['men', 'women']){
+  for (const g of gamesOf(only)){
     const c = await useG(g); getEditions(g);
     for (const fx of nextFixtures(g)){
       const ko = Date.parse(fx.kickoff || (fx.date + 'T12:00:00Z')), hrs = (ko - now) / 36e5;
@@ -225,13 +228,15 @@ S.tieIn = async ({now, used}) => {
 
 /* Is an international window on? Many national-team fixtures in the next few days, or results in the last two. */
 S.windowOn = async ({now}) => {
-  let n = 0;
+  let n = 0; const by = {men:0, women:0};
   for (const g of ['men', 'women']){
     await useG(g);
-    n += ((state.fixtures && state.fixtures[g]) || []).filter(x => { const t = Date.parse(x.kickoff || (x.date + 'T12:00:00Z')); return t > now - 2 * 864e5 && t < now + 4 * 864e5; }).length;
-    n += state.matches[g].filter(m => m.ts > now - 2 * 864e5 && m.ts <= now).length;
+    by[g] += ((state.fixtures && state.fixtures[g]) || []).filter(x => { const t = Date.parse(x.kickoff || (x.date + 'T12:00:00Z')); return t > now - 2 * 864e5 && t < now + 4 * 864e5; }).length;
+    by[g] += state.matches[g].filter(m => m.ts > now - 2 * 864e5 && m.ts <= now).length;
+    n += by[g];
   }
-  return {on:n >= 25, n};
+  /* Whose window it is: the game with at least four in five of the matches around today, or neither. */
+  return {on:n >= 25, n, by, g:n && by.women >= 0.8 * n ? 'women' : n && by.men >= 0.8 * n ? 'men' : ''};
 };
 
 
@@ -387,10 +392,10 @@ function pastContext(g, m){
 }
 
 /* 4. Rivalry: a pair meeting soon, else the next of the most-played pairs. */
-S.rivalry = async ({now, used}) => {
+S.rivalry = async ({now, used, only}) => {
   const recent = new Set(used.filter(u => u.startsWith('rivalry|')));
   let pick = null;
-  for (const g of ['men', 'women']){
+  for (const g of gamesOf(only)){
     const c = await useG(g);
     for (const x of nextFixtures(g)){
       if (Date.parse(x.date + 'T12:00:00Z') - now > 10 * 864e5) continue;
@@ -437,9 +442,9 @@ S.rivalry = async ({now, used}) => {
 };
 
 /* 5. Tournament: chances from the Simulator for a tournament in progress or coming up (one with a knockout stage). */
-S.tournament = async ({now, used}) => {
+S.tournament = async ({now, used, only}) => {
   const last = new Map(); used.forEach((u, i) => { if (u.startsWith('tournament|')) last.set(u.split('|')[1], i); });
-  const list = TOURNAMENTS.filter(T => T.status !== 'rewind' && T.knockout && T.knockout.length && (!T.end || Date.parse(T.end + 'T23:59:59Z') > now))
+  const list = TOURNAMENTS.filter(T => T.status !== 'rewind' && T.knockout && T.knockout.length && (!T.end || Date.parse(T.end + 'T23:59:59Z') > now) && (!only || T.gender === only))
     .sort((a, b) => (last.has(a.id) ? last.get(a.id) + 1 : 0) - (last.has(b.id) ? last.get(b.id) + 1 : 0) || (a.start || '').localeCompare(b.start || ''));
   if (!list.length) return null;
   const T = list[0]; const c = await useG(T.gender);
@@ -557,8 +562,8 @@ S.pastTournament = async ({now, used}) => {
 };
 
 /* 7. Rankings: the top ten (men and women in alternate weeks) and the month's biggest movers in the top 60. */
-S.rankings = async ({now}) => {
-  const g = Math.floor(now / (7 * 864e5)) % 2 ? 'women' : 'men', c = await useG(g);
+S.rankings = async ({now, only}) => {
+  const g = only === 'men' || only === 'women' ? only : Math.floor(now / (7 * 864e5)) % 2 ? 'women' : 'men', c = await useG(g);
   const monthAgo = state.asOf - 30 * 864e5;
   const moves = c.table.slice(0, 60).map(r => { const h = c.history.get(r.key) || [], b = h.filter(x => x.ts <= monthAgo).pop();
     return {team:r.team, flag:flagSrc(r.team), d:b ? Math.round(r.rating - b.rating) : 0}; }).filter(x => x.d);

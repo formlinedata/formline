@@ -608,5 +608,65 @@
   "right": "2-2 on the pitch, later awarded 3-0 to Guyana by CONCACAF",
   "note": "the feed has the awarded score; Formline rates the 2-2 played and notes the award (the archive also has 3-0, corrected on the site)",
   "checked": "2026-11-20"
+ },
+ {
+  "api_id": 362533,
+  "g": "men",
+  "date": "2017-12-17",
+  "match": "Kenya v Zanzibar",
+  "feed": "3-3",
+  "right": "2-2 after extra time, Kenya won 3-2 on penalties (CECAFA Cup final)",
+  "note": "the feed adds its 90-minute score (1-1) to its extra-time score (2-2); the archive has 2-2",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 226046,
+  "g": "men",
+  "date": "2017-12-04",
+  "match": "Brunei v Kyrgyzstan",
+  "feed": "4-0",
+  "right": "0-4",
+  "note": "the feed has the score the wrong way round; the archive and Wikipedia (a team's page as it stood on 2018-02-17) have Kyrgyzstan winning 4-0",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 225949,
+  "g": "men",
+  "date": "2017-01-07",
+  "match": "Mali v Burkina Faso",
+  "feed": "Mali 2-1",
+  "right": "Burkina Faso 2-1 Mali, in Marrakesh",
+  "note": "the feed has the score the wrong way round; the archive, Wikipedia (a team's page as it stood on 2017-03-23) and ESPN's scorers (Zongo, B. Traoré; Yatabaré) have Burkina Faso winning 2-1",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 152419,
+  "g": "men",
+  "date": "2017-02-01",
+  "match": "Burkina Faso v Egypt",
+  "feed": "2-2",
+  "right": "1-1 after extra time, Egypt won 4-3 on penalties (Africa Cup of Nations semi-final)",
+  "note": "the feed adds its 90-minute score (1-1) to its extra-time score (1-1); the archive and Wikipedia have 1-1",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 225947,
+  "g": "men",
+  "date": "2017-01-04",
+  "match": "Morocco v Burkina Faso",
+  "feed": "1-0",
+  "right": "left out on purpose: not a full international",
+  "note": "Morocco fielded its home-based (A') team in Marrakesh (Burkina24 and Afrik-Foot, 4 January 2017); RSSSF's list of Morocco's 2017 internationals does not have it, though both teams' Wikipedia pages do",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 225775,
+  "g": "men",
+  "date": "2017-05-13",
+  "match": "Egypt v Yemen",
+  "feed": "1-0",
+  "right": "left out on purpose: not a full international",
+  "note": "Egypt's home-based team; Wikipedia (Hesham Mohamed's page) calls it an unofficial friendly. The archive lists the day's match as Egypt 1-0 Libya, which Formline now leaves out",
+  "checked": "2026-11-21"
  }
 ]

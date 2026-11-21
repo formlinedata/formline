@@ -1206,6 +1206,60 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
             return out; })()`);
           ok(wc.same && Object.values(wc.fill).every(Boolean) && wc.past && wc.today && wc.bans === '100110' && wc.bansMen === '0101' && wc.israel === 'AFC,AFC,UEFA,OFC,UEFA,UEFA' && wc.aus === 'OFC,AFC' && wc.gone === 'true,false',
             'confederations: the World Cup filled from any date\'s ratings: hosts first, the play-off, a barred side left out; the latest date equals today, a past date is labelled, bans and old confederations follow their dates ' + JSON.stringify({fill:wc.fill, bans:wc.bans, men:wc.bansMen, israel:wc.israel})); }
+        /* Team pages, World Cups and continental finals edition by edition (20 Nov 2026): a row says "at the finals"
+           exactly when the side played there, a finish is given only then, and the reasons on record follow their rules. */
+        { const tm = model.run(`(() => { state.gender = 'women'; const bad = [], keys = new Set(); let n = 0, ins = 0, withRows = 0;
+            for (const m of state.matches.women){ namesFor(m); keys.add(m._h); keys.add(m._a); }
+            for (const k of keys){ const R = teamMajors(k), html = teamMajorsSection(k); if (R.length) withRows++;
+              for (const r of R){ n++; if (!['in', 'why', 'q', 'noq', 'none'].includes(r.st)) bad.push(k + ': status'); if ((r.st === 'in') !== r.e._keys.has(k)) bad.push(k + ': field');
+                if (r.st === 'in') ins++; else if (r.fin) bad.push(k + ': finish without playing'); if ((r.st === 'why') !== !!r.why) bad.push(k + ': reason'); }
+              if (!!R.length !== (html.indexOf('World Cups and continental finals') >= 0)) bad.push(k + ': section'); }
+            const E = (t, l) => ({tournament:t, label:l}), W = 'FIFA World Cup', has = (x, t) => x.indexOf(t) >= 0;
+            const women = absentWhy(E(W, '1934'), 'Wales') === '' && has(absentWhy(E('CONCACAF Championship', '2014'), 'Canada'), 'hosts');
+            state.gender = 'men';
+            const men = [has(absentWhy(E(W, '1934'), 'Wales'), 'not a FIFA member'), has(absentWhy(E(W, '1930'), 'Northern Ireland'), 'not a FIFA member'), absentWhy(E(W, '1954'), 'Wales') === '',
+              has(absentWhy(E(W, '1966'), 'Ghana'), 'African boycott'), has(absentWhy(E(W, '1966'), 'Egypt'), 'African boycott'), absentWhy(E(W, '1966'), 'Kenya') === '', has(absentWhy(E(W, '1966'), 'South Africa'), 'disqualified'),
+              has(absentWhy(E('UEFA Euro', '1980'), 'Israel'), 'no confederation'), absentWhy(E('UEFA Euro', '1996'), 'Israel') === '', has(absentWhy(E(W, '1950'), 'Germany'), 'Second World War'),
+              has(absentWhy(E(W, '1950'), 'Scotland'), 'withdrew'), has(absentWhy(E(W, '1994'), 'Chile'), 'banned'), has(absentWhy(E(W, '2018'), 'Zimbabwe'), 'expelled')].map(x => x ? 1 : 0).join('');
+            state.gender = 'women';
+            return {n, ins, withRows, teams:keys.size, bad, women, men}; })()`);
+          ok(tm.bad.length === 0 && tm.women && tm.men === '1111111111111',
+            'team pages: World Cups and continental finals, edition by edition: at the finals exactly when it played there, a finish only then, and the reasons on record by their rules (' + tm.n + ' rows for ' + tm.withRows + ' of ' + tm.teams + ' teams, ' + tm.ins + ' at the finals)' + (tm.bad.length ? ' (' + tm.bad[0] + ')' : '') + ' ' + tm.men); }
+        /* Sides outside FIFA (21 Nov 2026): the joining-year table reads cleanly; a side is "not yet a member" only before
+           both years on record, and never once it has played that World Cup's qualifying; the three lines with an earlier
+           membership get no rule; a side that has never been a member is said so; South Africa's years out carry their
+           reasons; and of the men's continental finals only CONCACAF's of 1973 to 1989 and Oceania's of 2004 to 2016 count
+           as World Cup qualifying. */
+        { const fj = model.run(`(() => { const E = (y, extra) => Object.assign({tournament:'FIFA World Cup', cat:'wc', label:String(y), start:Date.UTC(y, 5, 10)}, extra || {}), has = (x, t) => x.indexOf(t) >= 0;
+            const parts = FIFA_JOINED_LIST.split(';'), okList = parts.length === 211 && parts.every(p => /^[A-Z]{3}=(19|20)[0-9]{2}([/](19|20)[0-9]{2})?$/.test(p)) && new Set(parts.map(p => p.slice(0, 3))).size === 211;
+            const why = [fifaWhy(E(1958), 'Jamaica') === 'not yet a FIFA member (it joined in 1962)', fifaWhy(E(1962), 'Jamaica') === '', fifaWhy(E(1958), 'Jamaica', true) === '',
+              fifaWhy(E(1958), 'Trinidad and Tobago') === 'not yet a FIFA member (it joined in 1963 or 1964)', fifaWhy(E(1994), 'New Caledonia') === 'not yet a FIFA member', fifaWhy(E(1998), 'New Caledonia') === '',
+              fifaWhy(E(1950), 'South Africa') === '', fifaWhy(E(1950), 'Slovakia') === '', fifaWhy(E(1950), 'Indonesia') === '', has(fifaWhy(E(2022), 'Martinique'), 'not a FIFA member'), has(fifaWhy(E(2022), 'Martinique', true), 'not a FIFA member'),
+              fifaWhy(E(1958, {tournament:'CONCACAF Championship'}), 'Jamaica') === '', fifaWhy(E(1930), 'England') === ''].map(x => x ? 1 : 0).join('');
+            const M = (t, y, mo) => ({tournament:t, cat:t.indexOf('qualification') >= 0 ? 'contq' : 'cont', ts:Date.UTC(y, mo, 1)});
+            const via = [wcViaCont(E(1974), M('CONCACAF Championship', 1973, 11), 'men'), wcViaCont(E(1974), M('CONCACAF Championship qualification', 1972, 11), 'men'), !wcViaCont(E(1966), M('CONCACAF Championship', 1965, 3), 'men'),
+              !wcViaCont(E(1974), M('Oceania Nations Cup', 1973, 1), 'men'), wcViaCont(E(2006), M('Oceania Nations Cup', 2004, 5), 'men'), !wcViaCont(E(1938), M('Copa América', 1937, 0), 'men'),
+              !wcViaCont(E(1970), M('African Cup of Nations', 1970, 1), 'men'), wcViaCont(E(2023), M('AFC Asian Cup', 2022, 0), 'women'), !wcViaCont(E(2023), M('AFC Asian Cup', 2019, 0), 'women')].map(x => x ? 1 : 0).join('');
+            state.gender = 'men'; const A = 'African Cup of Nations';
+            const sa = [has(absentWhy(E(1974), 'South Africa'), 'suspended'), has(absentWhy(E(1986), 'South Africa'), 'expelled by FIFA'), has(absentWhy({tournament:A, label:'1972'}, 'South Africa'), 'expelled from the African'),
+              has(absentWhy({tournament:A, label:'1965'}, 'South Africa'), 'expelled from the African'), has(absentWhy({tournament:A, label:'1965'}, 'Egypt'), 'withdrew'), has(absentWhy({tournament:A, label:'1957'}, 'South Africa'), 'left out'), absentWhy({tournament:A, label:'1994'}, 'South Africa') === ''].map(x => x ? 1 : 0).join('');
+            const bar = [wcBarred('South Africa', Date.UTC(1962, 0, 1)), wcBarred('South Africa', Date.UTC(1964, 0, 1)), wcBarred('South Africa', Date.UTC(1964, 9, 8)), wcBarred('South Africa', Date.UTC(1992, 6, 2)), wcBarred('South Africa', Date.UTC(1992, 6, 3))].map(x => x ? 1 : 0).join('');
+            const uk = [wcBarred('England', Date.UTC(1928, 1, 16)), wcBarred('England', Date.UTC(1928, 1, 17)), wcBarred('Scotland', Date.UTC(1938, 5, 1)), wcBarred('Wales', Date.UTC(1946, 0, 1)), wcBarred('Northern Ireland', Date.UTC(1922, 5, 1)), wcBarred('England', Date.UTC(1925, 5, 1))].map(x => x ? 1 : 0).join('');
+            const ny = [wcNotYet('Jamaica', Date.UTC(1961, 11, 31)), wcNotYet('Jamaica', Date.UTC(1962, 0, 1)), wcNotYet('South Africa', Date.UTC(1950, 0, 1)), wcNotYet('England', Date.UTC(1900, 0, 1)), wcNotYet('England', Date.UTC(1904, 11, 31))].map(x => x ? 1 : 0).join('');
+            state.gender = 'women'; return {okList, why, via, sa, bar, ny, uk}; })()`);
+          ok(fj.okList && fj.why === '1111111111111' && fj.via === '111111111' && fj.sa === '1111111' && fj.bar === '10110' && fj.ny === '10001' && fj.uk === '011010',
+            'sides outside FIFA: 211 joining years; "not yet a member" only before both years on record and only without qualifying, never-members said so, South Africa\'s years out, and only the real qualifying championships count for a men\'s World Cup ' + JSON.stringify(fj)); }
+        /* The Women's World Cup hub (20 Nov 2026): a single match read from the data gives its winner, a level one waits
+           for its shoot-out, and a match not yet played gives nothing. */
+        { const mw = model.run(`(() => { state.gender = 'women'; const c = getRatings(), ms = state.matches.women, n0 = ms.length, T = [...new Set(ms.flatMap(m => [m.home, m.away]))].slice(0, 4);
+            const mk = (d, home, away, hs, as) => ({ts:Date.parse(d + 'T00:00:00Z'), home, away, hs, as, tournament:'FIFA World Cup qualification', cat:'wcq'}), from = Date.UTC(2030, 11, 1), to = Date.UTC(2031, 1, 1);
+            ms.push(mk('2031-01-01', T[0], T[1], 1, 2), mk('2031-01-02', T[2], T[3], 1, 1));
+            if (!state.shootouts.women) state.shootouts.women = new Map();
+            const a = matchWinner(c, T[0], T[1], from, to), b0 = matchWinner(c, T[2], T[3], from, to); state.shootouts.women.set('2031-01-02|' + T[2] + '|' + T[3], T[3]);
+            const b1 = matchWinner(c, T[3], T[2], from, to), none = matchWinner(c, T[0], T[2], from, to);
+            ms.length = n0; state.shootouts.women.delete('2031-01-02|' + T[2] + '|' + T[3]);
+            return {teams:T.length, a:!!a && a.key === c.resolve(T[1]) && a.score.join() === '1,2', b0:!!b0 && b0.key === null, b1:!!b1 && b1.key === c.resolve(T[3]) && b1.pens === true && b1.score.join() === '1,1', none:none === null, back:ms.length === n0}; })()`);
+          ok(mw.teams === 4 && mw.a && mw.b0 && mw.b1 && mw.none && mw.back, 'world cup hub: a single match from the data gives its winner, waits for a shoot-out when level, and gives nothing before it is played ' + JSON.stringify(mw)); }
         { const ELA = editionList(model, 'women', true); let nA = 0; const badA = [], filesA = {};
           for (const e of ELA){ const R = editionFile(model, 'women', e.id, true); nA += R.n; if (R.bad.length) badA.push(e.id + ': ' + R.bad[0]); filesA[e.id] = JSON.parse(JSON.stringify(R.file)); }
           const one = ELA.map(e => filesA[e.id]).sort((a, b) => b.rows.length - a.rows.length)[0];
@@ -1471,6 +1525,36 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
       && dl({draws:5, close:2}) === '5 draws, 2 of which Formline had as toss-ups' && dl({draws:1, close:1}) === '1 draw, which Formline had as a toss-up' && dl({draws:0, close:0}) === 'no draws',
       'draws: a drawn toss-up is called close, any other draw is wrong, and the site and the static pages agree');
   }
+  { /* Women's windows (20 Nov 2026): a day of one game says whose matches they are, a mixed day marks each row, competition
+       names are short enough for a row, and with one post a day yesterday's results ride along as the last slide. */
+    const {gameOf, slideComp} = await import('./social.mjs');
+    const r = (g, i, comp) => ({g, home:'Home ' + i, away:'Away ' + i, hf:null, af:null, p:[60, 25, 15], call:0, kickoff:'2026-11-27T19:00:00+00:00', comp, top:i});
+    const day = (gs, extra) => SB.today({type:'today', day:'2026-11-27', dayTxt:'Friday 27 November', n:5, list:gs.map((g, i) => r(g, i, i ? 'Friendly' : g === 'women' ? "FIFA Women's World Cup qualification" : 'FIFA World Cup qualification')), ...extra});
+    const W = day(['women', 'women', 'women', 'women', 'women']), M = day(['men', 'men', 'men', 'men', 'men']), X = day(['women', 'men', 'women', 'men', 'men']);
+    ok(gameOf([{g:'women'}, {g:'women'}]) === "Women's" && gameOf([{g:'men'}]) === "Men's" && gameOf([{g:'women'}, {g:'men'}]) === '' && gameOf([]) === ''
+      && slideComp("FIFA Women's World Cup qualification", "Women's") === 'World Cup qualifying' && slideComp("FIFA Women's World Cup qualification", '') === "Women's World Cup qualifying"
+      && slideComp("UEFA Women's Nations League", "Women's") === 'UEFA Nations League' && slideComp('FIFA World Cup qualification', "Men's") === 'World Cup qualifying' && slideComp('Friendly', '') === 'Friendly',
+      'social posts: whose matches a day covers, and competition names short enough for a row');
+    ok(/Women's matchday · Friday 27 November · 5 matches/.test(W.slides[0]) && /World Cup qualifying/.test(W.slides[0]) && !/FIFA/.test(W.slides[0]) && /^Women's international football today/.test(W.caption) && /biggest women's matches/.test(W.xText) && /^Women's international matches today/.test(W.alts[0])
+      && /Men's matchday · Friday/.test(M.slides[0]) && /^Men's international football today/.test(M.caption) && !/women/i.test(M.caption.split('#')[0]),
+      'social posts: a women\'s day says so on the slide, in the caption, in the X post and in the alt text; a men\'s day likewise');
+    ok(/>Matchday · Friday 27 November/.test(X.slides[0]) && /Women · /.test(X.slides[0]) && /Men · /.test(X.slides[0]) && /Women's World Cup qualifying/.test(X.slides[0]) && /Home 0 v Away 0 \(women\)/.test(X.caption) && !/Home 1 v Away 1 \(women\)/.test(X.caption) && /^International football today/.test(X.caption),
+      'social posts: a day with both games marks each row and each caption line instead');
+    const res = (i, hit) => ({g:'women', home:'Home ' + i, away:'Away ' + i, hs:hit ? 2 : 0, as:hit ? 0 : 1, comp:'Friendly', hf:null, af:null, p:[60, 25, 15], call:0, o:hit ? 0 : 2, hit, v:hit ? 'right' : 'wrong', top:i});
+    const yd = {type:'roundup', g:'women', day:'2026-11-26', dayTxt:'Thursday 26 November', n:5, hits:4, tally:{n:5, dec:5, won:4, draws:0, close:0}, list:[0, 1, 2, 3, 4].map(i => res(i, i < 4)), ups:[], big:null, win:{n:5, hits:4, dec:5, won:4, draws:0, close:0}, cmp:null};
+    const WY = day(['women', 'women', 'women', 'women', 'women'], {yday:yd}), RY = SB.roundup(yd);
+    ok(WY.slides.length === W.slides.length + 1 && WY.slides[WY.slides.length - 1] === RY.slides[0] && /Women's results · Thursday 26 November/.test(RY.slides[0]) && /^Women's international football results/.test(RY.caption)
+      && /Yesterday, Thursday 26 November: Formline picked the winner in 4 of the 5 matches that had one; no draws\. The results are on the last slide\./.test(WY.caption) && WY.alts.length === W.alts.length + 1 && !/Yesterday/.test(W.caption),
+      'social posts: with one post a day, yesterday\'s results are the last slide of today\'s matches and a line in the caption');
+  }
+  /* A window that is one game's asks the day's post for that game first (21 Nov 2026): the collectors that pick a match,
+     a meeting, a tournament or the movers can be kept to one game, and the window says whose it is. */
+  { const src = fs.readFileSync(path.join(HERE, 'social', 'collect.js'), 'utf8'), post = fs.readFileSync(path.join(HERE, 'social.mjs'), 'utf8');
+    const gamesOf = new Function(src.match(/const gamesOf = [^\n]+/)[0] + ' return gamesOf;')();
+    ok(gamesOf('women').join() === 'women' && gamesOf('men').join() === 'men' && gamesOf().join() === 'men,women' && gamesOf('x').join() === 'men,women'
+      && ['match', 'spotlight', 'tieIn', 'rivalry', 'tournament', 'rankings'].every(t => new RegExp('S\\.' + t + ' = async \\(\\{[^}]*\\bonly\\b').test(src))
+      && /by\.women >= 0\.8 \* n \? 'women'/.test(src) && /only:win\.g/.test(post) && /d1\.g === win\.g/.test(post),
+      'social posts: in a window that is one game\'s, a thin day looks for a post about that game first'); }
   ok(koText('2026-11-12T19:45:00+00:00', '2026-11-12') === '2:45 PM ET · 7:45 PM UK', 'social posts: a kick-off is given in Toronto and UK time');
   ok(koText('2026-11-13T00:30:00+00:00', '2026-11-12') === '7:30 PM ET · 12:30 AM UK (Fri)', 'social posts: a zone where the match is on another day says which day');
   ok(koText('2026-06-11T19:00:00+00:00', '2026-06-11') === '3:00 PM ET · 8:00 PM UK' && koText('', '2026-06-11') === '', 'social posts: summer time in both zones, and no text without a kick-off');
