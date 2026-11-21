@@ -1528,38 +1528,6 @@
     "country": "United Arab Emirates",
     "comp": "Friendly"
    }
-  },
-  {
-   "g": "men",
-   "date": "2016-03-29",
-   "home": "South Korea",
-   "away": "Kuwait",
-   "score": "3-0",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Qualification Asia",
-   "city": "",
-   "api_id": 257115,
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2016-06-12",
-    "found": "none"
-   }
-  },
-  {
-   "g": "men",
-   "date": "2016-03-24",
-   "home": "Kuwait",
-   "away": "Laos",
-   "score": "0-3",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Qualification Asia",
-   "city": "",
-   "api_id": 257108,
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2016-06-07",
-    "found": "none"
-   }
   }
  ],
  "diffs": [
@@ -1649,259 +1617,124 @@
   },
   {
    "g": "men",
-   "date": "2016-07-02",
-   "home": "Germany",
-   "away": "Italy",
-   "score": "2-2",
-   "tournament": "UEFA Euro",
-   "league": "Euro Championship",
-   "city": "Bordeaux",
-   "api_id": 152579,
-   "shootout": "Germany",
-   "st": "PEN",
-   "sc": {
-    "halftime": {
-     "home": 0,
-     "away": 0
-    },
-    "fulltime": {
-     "home": 1,
-     "away": 1
-    },
-    "extratime": {
-     "home": 1,
-     "away": 1
-    },
-    "penalty": {
-     "home": 6,
-     "away": 5
-    }
-   },
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2016-09-15",
-    "found": "differ",
-    "others": [
-     "2016-07-02 1-1"
-    ]
-   },
-   "held": "1-1",
-   "heldDate": "2016-07-02"
-  },
-  {
-   "g": "men",
-   "date": "2016-06-30",
-   "home": "Poland",
-   "away": "Portugal",
-   "score": "2-2",
-   "tournament": "UEFA Euro",
-   "league": "Euro Championship",
-   "city": "Marseille",
-   "api_id": 152577,
-   "shootout": "Portugal",
-   "st": "PEN",
-   "sc": {
-    "halftime": {
-     "home": 1,
-     "away": 1
-    },
-    "fulltime": {
-     "home": 1,
-     "away": 1
-    },
-    "extratime": {
-     "home": 1,
-     "away": 1
-    },
-    "penalty": {
-     "home": 3,
-     "away": 5
-    }
-   },
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2016-09-13",
-    "found": "none"
-   },
-   "held": "1-1",
-   "heldDate": "2016-06-30"
-  },
-  {
-   "g": "men",
-   "date": "2016-06-25",
-   "home": "Switzerland",
-   "away": "Poland",
-   "score": "2-2",
-   "tournament": "UEFA Euro",
-   "league": "Euro Championship",
-   "city": "Saint Etienne",
-   "api_id": 152569,
-   "shootout": "Poland",
-   "st": "PEN",
-   "sc": {
-    "halftime": {
-     "home": 0,
-     "away": 1
-    },
-    "fulltime": {
-     "home": 1,
-     "away": 1
-    },
-    "extratime": {
-     "home": 1,
-     "away": 1
-    },
-    "penalty": {
-     "home": 4,
-     "away": 5
-    }
-   },
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2016-09-08",
-    "found": "none"
-   },
-   "held": "1-1",
-   "heldDate": "2016-06-25"
-  },
-  {
-   "g": "men",
-   "date": "2016-06-04",
-   "home": "Puerto Rico",
-   "away": "Antigua and Barbuda",
-   "score": "0-0",
-   "tournament": "Caribbean Cup",
-   "league": "Caribbean Cup",
-   "city": "Bayamón",
-   "api_id": 672158,
-   "st": "AET",
-   "sc": {
-    "halftime": {
-     "home": 0,
-     "away": 0
-    },
-    "fulltime": {
-     "home": null,
-     "away": null
-    },
-    "extratime": {
-     "home": 0,
-     "away": 0
-    },
-    "penalty": {
-     "home": null,
-     "away": null
-    }
-   },
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2016-08-18",
-    "found": "differ",
-    "others": [
-     "2016-06-04 2-1"
-    ]
-   },
-   "held": "2-1",
-   "heldDate": "2016-06-04"
-  },
-  {
-   "g": "men",
-   "date": "2016-06-02",
-   "home": "Grenada",
-   "away": "Puerto Rico",
-   "score": "0-0",
-   "tournament": "Caribbean Cup",
-   "league": "Caribbean Cup",
-   "city": "St. George's",
-   "api_id": 672151,
-   "st": "AET",
-   "sc": {
-    "halftime": {
-     "home": 0,
-     "away": 0
-    },
-    "fulltime": {
-     "home": null,
-     "away": null
-    },
-    "extratime": {
-     "home": 0,
-     "away": 0
-    },
-    "penalty": {
-     "home": null,
-     "away": null
-    }
-   },
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2016-08-16",
-    "found": "differ",
-    "others": [
-     "2016-06-01 3-3"
-    ]
-   },
-   "held": "3-3",
-   "heldDate": "2016-06-01"
-  },
-  {
-   "g": "men",
-   "date": "2015-11-15",
-   "home": "DR Congo",
-   "away": "Burundi",
-   "score": "3-0",
+   "date": "2015-09-08",
+   "home": "Malaysia",
+   "away": "Saudi Arabia",
+   "score": "0-3",
    "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Qualification Africa",
+   "league": "World Cup - Qualification Asia",
    "city": "",
-   "api_id": 256852,
-   "held": "2-2",
-   "heldDate": "2015-11-15",
+   "api_id": 257030,
+   "held": "1-2",
+   "heldDate": "2015-09-08",
    "wiki": {
     "checked": "2026-11-21",
-    "asOf": "2016-01-29",
+    "asOf": "2015-11-22",
     "found": "none"
    }
   },
   {
    "g": "men",
-   "date": "2015-11-14",
-   "home": "Gabon",
-   "away": "Mozambique",
-   "score": "2-0",
-   "tournament": "FIFA World Cup qualification",
-   "league": "World Cup - Qualification Africa",
+   "date": "2015-07-25",
+   "home": "United States",
+   "away": "Panama",
+   "score": "2-2",
+   "tournament": "Gold Cup",
+   "league": "CONCACAF Gold Cup",
    "city": "",
-   "api_id": 256848,
-   "shootout": "Gabon",
+   "api_id": 255440,
+   "shootout": "Panama",
    "st": "PEN",
    "sc": {
     "halftime": {
-     "home": 1,
+     "home": 0,
      "away": 0
     },
     "fulltime": {
      "home": 1,
-     "away": 0
+     "away": 1
     },
     "extratime": {
      "home": 1,
-     "away": 0
+     "away": 1
     },
     "penalty": {
-     "home": 4,
+     "home": 2,
      "away": 3
     }
    },
-   "held": "1-0",
-   "heldDate": "2015-11-14",
+   "held": "1-1",
+   "heldDate": "2015-07-25",
    "wiki": {
     "checked": "2026-11-21",
-    "asOf": "2016-01-28",
+    "asOf": "2015-10-08",
+    "found": "differ",
+    "others": [
+     "2015-07-25 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2015-07-19",
+   "home": "Trinidad and Tobago",
+   "away": "Panama",
+   "score": "2-2",
+   "tournament": "Gold Cup",
+   "league": "CONCACAF Gold Cup",
+   "city": "",
+   "api_id": 255436,
+   "shootout": "Panama",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 1
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 5,
+     "away": 6
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2015-07-19",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2015-10-02",
+    "found": "differ",
+    "others": [
+     "2015-07-19 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2015-06-14",
+   "home": "Barbados",
+   "away": "Aruba",
+   "score": "0-3",
+   "tournament": "FIFA World Cup qualification",
+   "league": "World Cup - Qualification CONCACAF",
+   "city": "Bridgetown",
+   "api_id": 256362,
+   "held": "1-0",
+   "heldDate": "2015-06-14",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2015-08-28",
     "found": "none"
    }
   }
  ],
- "days": 4000,
+ "days": 4200,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -1978,12 +1811,12 @@
   "AZ Alkmaar": 1,
   "Eintracht Frankfurt": 1,
   "Standard Liege": 1,
-  "Tottenham": 1,
-  "Anderlecht": 1,
-  "Qarabag": 1
+  "Tottenham": 2,
+  "Anderlecht": 2,
+  "Qarabag": 2
  },
  "updated": "2026-11-21",
- "cursor": "2015-10-24",
+ "cursor": "2015-04-07",
  "done": null,
  "from": "2014-11-01"
 }
