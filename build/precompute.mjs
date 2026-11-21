@@ -1161,13 +1161,13 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       console.log(`${kind}/${g}: ${done} year${done === 1 ? '' : 's'} worked out in ${((Date.now() - t0) / 1000).toFixed(0)} s (${kb(bytes)}, ${kb(gz)} gzipped), ${kept} unchanged` + (kind === 'matches' && done ? `; old ranks ${kb(rBytes)}; ${checked} years read back, ${cN} values equal to the page's` : ''));
     }
   }
-  /* The Confederations page's history: every year end from 1960 (men) or 1991 (women) to last year. A year whose
-     matches have not changed keeps its figures. */
+  /* The Confederations page's history: every year end from the page's first year (CONF_HIST_FIRST: 1904 for men, 1983
+     for women) to last year. A year whose matches have not changed keeps its figures. */
   for (const g of ['men', 'women']){
     const t0 = Date.now(), name = `conf-${g}.json`, file = path.join(OUT, name), old = fs.existsSync(file) ? new Map((JSON.parse(fs.readFileSync(file, 'utf8')).years || []).map(p => [p.y, p.v])) : new Map();
     const last = new Date(model.run(`state.bounds[${JSON.stringify(g)}].max`)).getUTCFullYear(), years = [];
     let done = 0;
-    for (let y = g === 'men' ? 1960 : 1991; y < last; y++){ const key = `conf/${g}/${y}`, print = 'v1:' + inputPrint(model, g, y, false);
+    for (let y = model.run(`CONF_HIST_FIRST[${JSON.stringify(g)}]`); y < last; y++){ const key = `conf/${g}/${y}`, print = 'v1:' + inputPrint(model, g, y, false);
       if (manifest[key] === print && old.has(y)) years.push({y, v:old.get(y)}); else { years.push({y, v:confYear(model, g, y)}); manifest[key] = print; done++; } }
     fs.writeFileSync(file, JSON.stringify({built, print:model.run(`matchListPrint(state.matches[${JSON.stringify(g)}])`), years}) + '\n');
     fs.writeFileSync(mfile, JSON.stringify(manifest, null, 1) + '\n');

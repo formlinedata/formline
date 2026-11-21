@@ -6453,6 +6453,10 @@ function confMeetings(c, mode){
 }
 /* Each confederation's level over time, worked out a few years at a time so the page stays quick. */
 const confHistCache = {};
+/* The first year end on the history chart: the first with a ranked team. The chart runs back past the founding of the
+   confederations; a line is dashed until its confederation was founded, worked out from the sides that later became its
+   members, who are rated as one group throughout (Seb, 20 Nov 2026). The build's conf-<g>.json starts at the same year. */
+const CONF_HIST_FIRST = {men:1904, women:1983};
 function confHistPanel(){
   return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">Strength over time'+
     '<span class="aside chips"><button type="button" class="chip on" data-ch="level">Regional level</button><button type="button" class="chip" data-ch="top10">Top-10 average</button></span></div>'+
@@ -6460,19 +6464,24 @@ function confHistPanel(){
     '<p class="chart-note" id="confHistNote" style="margin:8px 0 0;">Working it out&hellip;</p></div></div>';
 }
 function confHistStart(){
-  const g = state.gender, first = g === 'men' ? 1960 : 1991, last = new Date(state.bounds[g].max).getUTCFullYear(), key = g+'|'+last;
+  const g = state.gender, first = CONF_HIST_FIRST[g], last = new Date(state.bounds[g].max).getUTCFullYear(), key = g+'|'+last;
   let mode = 'level';
   const draw = () => {
     const D = confHistCache[key]; if (!D || !document.getElementById('confHist')) return;
     const old = state.charts.find(ch => ch.canvas && ch.canvas.id === 'confHist');
     if (old){ old.destroy(); state.charts = state.charts.filter(ch => ch !== old); }
+    const born = k => CONF_FOUNDED[k] ? Date.parse(CONF_FOUNDED[k]+'T00:00:00Z') : -Infinity;
     const ds = CONF_ORDER.map(k => ({label:CONF[k] && CONF[k].short || k, borderColor:confColor(k), backgroundColor:confColor(k), borderWidth:2, pointRadius:0, tension:0.25,
-      spanGaps:true, data:D.pts.map(p => ({x:p.ts, y:p.v[k] ? Math.round(p.v[k][mode]) : null}))}));
+      spanGaps:true, segment:{borderDash:ctx => ctx.p1 && ctx.p1.parsed.x < born(k) ? [5, 4] : undefined}, data:D.pts.map(p => ({x:p.ts, y:p.v[k] ? Math.round(p.v[k][mode]) : null}))}));
     lineChart('confHist', ds, null, {time:true});
+    /* Which lines have a dashed stretch: a figure at a year end before the confederation was founded. */
+    const early = CONF_ORDER.filter(k => D.pts.some(p => p.v[k] && p.ts < born(k)));
     const n = document.getElementById('confHistNote');
     if (n) n.innerHTML = (mode === 'level' ? '<b>Regional level</b>: the model\'s level for each confederation as a whole, against the average ranked team, '
       : '<b>Top-10 average</b>: the average rating of each confederation\'s ten best teams, ')+
-      'at the end of every other year from '+first+', each from the twelve years of results before it. A confederation appears once it has ranked teams.';
+      'at the end of every other year from '+first+', each from the twelve years of results before it. A confederation appears once it has ranked teams.'+
+      (early.length ? ' <b>Dashed</b>: before the confederation was founded ('+early.map(k => (CONF[k] && CONF[k].short || k)+' '+CONF_FOUNDED[k].slice(0, 4)).join(', ')+
+        '). There was no such body yet, so the line is worked out from the sides that later became its members, wherever they then played.' : '');
   };
   document.querySelectorAll('[data-ch]').forEach(b => b.addEventListener('click', () => {
     mode = b.dataset.ch; document.querySelectorAll('[data-ch]').forEach(x => x.classList.toggle('on', x === b)); draw(); }));
@@ -12502,7 +12511,8 @@ function viewSupport(){
 const CHANGELOG = [
   ['20 Nov 2026', ['Six tournaments that were played over many months each showed as two, three or four separate editions, because a break of more than 60 days started a new one. They are single editions now, under their usual names: the 1985 CONCACAF Championship, the Oceania Nations Cups of 1996, 2004 and 2008, the women\'s Euro 1995 and the 1991 African Women\'s Championship. Among other things this had Australia, who won the 1996 Oceania Nations Cup, listed on two of its pieces as a strong team that did not play. Old addresses for the pieces lead to the joined edition.',
     'Two forecasts were left without a match when their fixtures moved two days after the first kick-off time had passed: Morocco v Niger (listed for 11 November, played on the 13th) and Kyrgyzstan v Vietnam (listed for the 15th, played on the 17th). Each match already had its forecast scored under the right date, so the two left-over entries are removed and will not sit in the record as &ldquo;no result&rdquo;.',
-    '<a href="#/confederations?pv=places">World Cup places</a> on the Confederations page can now be worked out for <b>any date</b>: choose &ldquo;If it were played on a date&rdquo; and pick the day, and the page fills the next World Cup\'s format from that day\'s ratings, with the confederations as they stood then. Teams that were barred by FIFA on the day are left out with the reason: Germany and Japan after the Second World War, Mexico from 1988 to 1990, Chile for the 1994 World Cup, Yugoslavia from 1992 to 1994, North Korea\'s women for 2015, Russia since 2022, and the short suspensions of Greece, Iran, Iraq, Nigeria and Cameroon. A side that no longer existed, such as East Germany after 1990, is left out too; that also corrects the 1994 World Cup\'s row, where East Germany had been counted among Europe\'s sides in the world top 24. The panel now stays on its own tab, and its list of teams wraps on a phone instead of running off the side.']],
+    '<a href="#/confederations?pv=places">World Cup places</a> on the Confederations page can now be worked out for <b>any date</b>: choose &ldquo;If it were played on a date&rdquo; and pick the day, and the page fills the next World Cup\'s format from that day\'s ratings, with the confederations as they stood then. Teams that were barred by FIFA on the day are left out with the reason: Germany and Japan after the Second World War, Mexico from 1988 to 1990, Chile for the 1994 World Cup, Yugoslavia from 1992 to 1994, North Korea\'s women for 2015, Russia since 2022, and the short suspensions of Greece, Iran, Iraq, Nigeria and Cameroon. A side that no longer existed, such as East Germany after 1990, is left out too; that also corrects the 1994 World Cup\'s row, where East Germany had been counted among Europe\'s sides in the world top 24. The panel now stays on its own tab, and its list of teams wraps on a phone instead of running off the side.',
+    'The Confederations page\'s <a href="#/confederations?pv=time">Strength over time</a> chart now runs back to 1904 for men (it began in 1960) and to 1983 for women (it began in 1991). Football was played long before the confederations existed, so a line is <b>dashed</b> until its confederation was founded: Europe\'s until UEFA began in 1954, North and Central America\'s until CONCACAF began in 1961. For those years the line is worked out from the sides that later became members. A line begins once the region has ranked teams: South America\'s in 1924, the year Uruguay went to the Olympic Games in Paris.']],
   ['19 Nov 2026', ['Every tournament page has a new section, <b>Groups and runs</b>: who had it hardest. It ranks the groups by the average rating of their teams the day before kick-off, and lists every team\'s run: the average rating of the opponents it actually met, its strongest opponent, and how far it went. Four figures lead the section: the hardest group, the hardest and the easiest run, and where the winners\' run stood. Opening the section also sets the edition beside every other edition of the same tournament: the hardest groups in its history and the winners\' hardest and easiest runs, compared by world rank because rating points are not on the same footing across the decades.',
     'Every team page has a new section too, <b>Hardest and easiest tournaments</b>: the final tournaments where the team met its strongest and its weakest opponents, with how far it went, and the hardest and easiest of the ones it won. It can be narrowed to World Cups and continental finals.',
     '&ldquo;Strong teams that missed out&rdquo; now gives the reason at the continental championships too, as it has for World Cups since yesterday: Iraq withdrawing from three Asian Cups and banned from a fourth after the Gulf War, Israel pulling out as hosts in 1972, Egypt in 1965 and Nigeria in 1998 at the African Cup of Nations, Brazil and Argentina staying away from seven South American Championships between them, Yugoslavia shut out of Euro 1996, North Korea\'s women banned for doping, and hosts who skipped a tournament that was only a World Cup qualifier for everyone else (Mexico in 1985, the United States\' women in 1998, New Zealand\'s in 2022).']],
@@ -12577,7 +12587,7 @@ const CHANGELOG = [
     'Predict: dream matches. Pick any side from any year against any other, each as it stood at the end of its year, on neutral ground. A bit of fun rather than a measurement, and the page says why.',
     'Simulator: build your own now has 12, 24 and 48-team formats with the best third-placed teams going through (the 24-team one follows Euro 2024\'s bracket and the 48-team one the 2026 World Cup\'s), and a 32-team knockout. Up to three co-hosts, who head the first groups, and a random draw from pots that keeps teams from the same confederation apart where it can.',
     'Simulator: three new rewinds: World Cup 2026, Euro 2024 and Copa América 2024, each played from the ratings the day before kick-off and compared with what happened.',
-    'Confederations: a card for each confederation (best team, biggest riser and faller), each one\'s strength over time since 1960 (1991 for women), every ranked team on one rating line per confederation, World Cup places against how many teams each has in the world\'s top 48, and every confederation\'s record against each other, in the window or at World Cups.',
+    'Confederations: a card for each confederation (best team, biggest riser and faller), each one\'s strength over time since 1904 (1983 for women), dashed before a confederation was founded, every ranked team on one rating line per confederation, World Cup places against how many teams each has in the world\'s top 48, and every confederation\'s record against each other, in the window or at World Cups.',
     'About: a line on who built Formline.',
     'The welcome tour now closes when you leave the page it started on.']],
   ['7 Nov 2026', ['Formline has its own email address: hello@formlinedata.com.',
