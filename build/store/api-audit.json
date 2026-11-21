@@ -1748,13 +1748,13 @@
    "league": "Friendlies",
    "city": "",
    "api_id": 225911,
-   "held": "1-2",
-   "heldDate": "2017-06-10",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2017-08-24",
     "found": "none"
-   }
+   },
+   "held": "1-2",
+   "heldDate": "2017-06-10"
   },
   {
    "g": "men",
@@ -1786,8 +1786,6 @@
      "away": 4
     }
    },
-   "held": "1-1",
-   "heldDate": "2017-02-01",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2017-04-17",
@@ -1795,7 +1793,9 @@
     "others": [
      "2017-02-01 1-1"
     ]
-   }
+   },
+   "held": "1-1",
+   "heldDate": "2017-02-01"
   },
   {
    "g": "men",
@@ -1807,8 +1807,6 @@
    "league": "Friendlies",
    "city": "",
    "api_id": 225949,
-   "held": "1-2",
-   "heldDate": "2017-01-07",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2017-03-23",
@@ -1816,10 +1814,209 @@
     "others": [
      "2017-01-07 1-2"
     ]
+   },
+   "held": "1-2",
+   "heldDate": "2017-01-07"
+  },
+  {
+   "g": "men",
+   "date": "2016-07-02",
+   "home": "Germany",
+   "away": "Italy",
+   "score": "2-2",
+   "tournament": "UEFA Euro",
+   "league": "Euro Championship",
+   "city": "Bordeaux",
+   "api_id": 152579,
+   "shootout": "Germany",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 0
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 6,
+     "away": 5
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2016-07-02",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-09-15",
+    "found": "differ",
+    "others": [
+     "2016-07-02 1-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2016-06-30",
+   "home": "Poland",
+   "away": "Portugal",
+   "score": "2-2",
+   "tournament": "UEFA Euro",
+   "league": "Euro Championship",
+   "city": "Marseille",
+   "api_id": 152577,
+   "shootout": "Portugal",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 1,
+     "away": 1
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 3,
+     "away": 5
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2016-06-30",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-09-13",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2016-06-25",
+   "home": "Switzerland",
+   "away": "Poland",
+   "score": "2-2",
+   "tournament": "UEFA Euro",
+   "league": "Euro Championship",
+   "city": "Saint Etienne",
+   "api_id": 152569,
+   "shootout": "Poland",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 1
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 1
+    },
+    "extratime": {
+     "home": 1,
+     "away": 1
+    },
+    "penalty": {
+     "home": 4,
+     "away": 5
+    }
+   },
+   "held": "1-1",
+   "heldDate": "2016-06-25",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-09-08",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2016-06-04",
+   "home": "Puerto Rico",
+   "away": "Antigua and Barbuda",
+   "score": "0-0",
+   "tournament": "Caribbean Cup",
+   "league": "Caribbean Cup",
+   "city": "Bayamón",
+   "api_id": 672158,
+   "st": "AET",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 0
+    },
+    "fulltime": {
+     "home": null,
+     "away": null
+    },
+    "extratime": {
+     "home": 0,
+     "away": 0
+    },
+    "penalty": {
+     "home": null,
+     "away": null
+    }
+   },
+   "held": "2-1",
+   "heldDate": "2016-06-04",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-08-18",
+    "found": "differ",
+    "others": [
+     "2016-06-04 2-1"
+    ]
+   }
+  },
+  {
+   "g": "men",
+   "date": "2016-06-02",
+   "home": "Grenada",
+   "away": "Puerto Rico",
+   "score": "0-0",
+   "tournament": "Caribbean Cup",
+   "league": "Caribbean Cup",
+   "city": "St. George's",
+   "api_id": 672151,
+   "st": "AET",
+   "sc": {
+    "halftime": {
+     "home": 0,
+     "away": 0
+    },
+    "fulltime": {
+     "home": null,
+     "away": null
+    },
+    "extratime": {
+     "home": 0,
+     "away": 0
+    },
+    "penalty": {
+     "home": null,
+     "away": null
+    }
+   },
+   "held": "3-3",
+   "heldDate": "2016-06-01",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-08-16",
+    "found": "differ",
+    "others": [
+     "2016-06-01 3-3"
+    ]
    }
   }
  ],
- "days": 3600,
+ "days": 3800,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -1898,7 +2095,7 @@
   "Standard Liege": 1
  },
  "updated": "2026-11-21",
- "cursor": "2016-11-27",
+ "cursor": "2016-05-11",
  "done": null,
  "from": "2014-11-01"
 }
