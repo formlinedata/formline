@@ -322,7 +322,7 @@
   details.comp-row[open] > summary .comp-name::before{transform:rotate(90deg);} details.comp-row[open] > .ed-chips{margin-top:8px;}
   .comp-latest{flex:none;font-size:12.5px;text-decoration:none;} details.comp-cat > summary{cursor:pointer;list-style:none;} details.comp-cat > summary::-webkit-details-marker{display:none;}
   .ed-div{flex-basis:100%;font-size:12.5px;font-weight:600;color:var(--dim);margin:6px 0 2px;padding-top:6px;border-top:1px dashed var(--line);} .ed-div:first-child{border-top:0;margin-top:0;padding-top:0;}
-  .comp-tools{margin:0 0 12px;} .wc-today td{vertical-align:top;} tr.hl td{background:var(--panel-2);font-weight:600;} .ed-groups td{vertical-align:top;} .wct-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} .wct-po{margin-top:4px;padding-top:4px;border-top:1px dashed var(--line);} .cp-pick{font:inherit;font-size:12.5px;margin-left:8px;padding:2px 6px;border:1px solid var(--line-strong);border-radius:6px;background:var(--panel);color:var(--chalk);}
+  .comp-tools{margin:0 0 12px;} .wc-today{width:100%;} .wc-today td{vertical-align:top;white-space:normal;} .wc-today td:first-child{white-space:nowrap;width:1%;} @media(max-width:640px){.wc-today .wct-t{white-space:normal;} .wc-today td{padding-left:10px;padding-right:10px;}} tr.hl td{background:var(--panel-2);font-weight:600;} .ed-groups td{vertical-align:top;} .wct-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} .wct-po{margin-top:4px;padding-top:4px;border-top:1px dashed var(--line);} .cp-pick{font:inherit;font-size:12.5px;margin-left:8px;padding:2px 6px;border:1px solid var(--line-strong);border-radius:6px;background:var(--panel);color:var(--chalk);}
   table.sd-t{width:100%;font-size:13.5px;} table.sd-t th{text-align:left;font-size:12.5px;color:var(--dim);padding:6px 8px;white-space:nowrap;vertical-align:top;} table.sd-t td{padding:6px 8px;border-top:1px solid var(--line);vertical-align:top;}
   span.sd-t{display:inline-block;margin:0 10px 4px 0;white-space:nowrap;} span.sd-diff{font-weight:600;}
   @media (max-width:560px){ table.sd-t{table-layout:fixed;font-size:13px;} table.sd-t th{padding:6px 4px;white-space:normal;} table.sd-t tr:first-child > :first-child{width:44px;} table.sd-t td{padding:6px 4px;overflow-wrap:anywhere;} span.sd-t{white-space:normal;margin-right:4px;} }
@@ -4395,7 +4395,8 @@ async function render(){
     try {
       if (p.route === 'competition'){ const e = findEdition(state.arg, state.arg2), S = e && seedFor(e);
         if (e) want.push(S && S.draw ? Date.parse(S.draw+'T12:00:00Z') : e.start - 150*DAY); }
-      else if (p.route === 'confederations' && state.params.wcp){ const e = getEditions().list.find(x => x.tournament === 'FIFA World Cup' && !x.qualLike && x.label === state.params.wcp); if (e) want.push(e.start - DAY); }
+      else if (p.route === 'confederations' && state.params.wcp){ const e = getEditions().list.find(x => x.tournament === 'FIFA World Cup' && !x.qualLike && x.label === state.params.wcp); if (e) want.push(e.start - DAY);
+        else if (/^\d{4}-\d\d-\d\d$/.test(state.params.wcp)){ const t = Date.parse(state.params.wcp+'T00:00:00Z'); if (isFinite(t)) want.push(t); } }
       else if (p.route === 'method') want.push(Date.parse((g === 'men' ? 1910 : 1985)+'-07-01T00:00:00Z'));
     } catch(e){}
     if (want.length){ await Promise.all(want.map(t => loadDaysFor(g, Math.min(Math.max(t, state.bounds[g].min), state.bounds[g].max))));
@@ -4919,7 +4920,7 @@ const PAGE_TABS = {
       return e.id === 'teamHist' ? 'history' : /^Matches/.test(h) ? 'matches' : /^Record by opponent/.test(h) ? 'opponents' : 'overview'; }},
   confederations:{label:'Confederations', tabs:[['overview', 'Overview'], ['time', 'Over time'], ['depth', 'Depth'], ['places', 'World Cup places'], ['meet', 'Confederation v confederation'], ['teams', 'Every team']],
     of:e => { const h = headText(e); return e.classList.contains('conf-cards') || /^How strong/.test(h) ? 'overview' : /^Strength over time/.test(h) ? 'time' : /^Depth/.test(h) ? 'depth'
-      : /^World Cup places/.test(h) ? 'places' : e.id === 'confMeetBox' ? 'meet' : e.id === 'conf-teams' || e.classList.contains('conf-list') ? 'teams' : null; }},
+      : /^(World Cup places|If the World Cup were played)/.test(h) ? 'places' : e.id === 'confMeetBox' ? 'meet' : e.id === 'conf-teams' || e.classList.contains('conf-list') ? 'teams' : null; }},
   method:{label:'How it works', root:'.prose', tabs:[['basics', 'The basics'], ['matches', 'Matches'], ['confs', 'Confederations'], ['predict', 'Predictions and tests']],
     of:e => METHOD_TAB[e.id] || null},
   /* Records: the panels of the grid by kind, for all time and for a single year alike. */
@@ -6301,21 +6302,24 @@ function confDepth(c){
 function confPlaces(c){
   const men = state.gender === 'men', P = men ? WC26_PLACES : WWC27_PLACES, N = men ? 48 : 32, share = men ? 1/3 : 3/10;
   const wcs = getEditions().list.filter(e => e.tournament === 'FIFA World Cup' && !e.qualLike).sort((a, b) => b.start - a.start);
-  const next = men ? '2026' : '2027', pick = wcs.find(e => e.label === state.params.wcp && e.label !== '2026') || null, today = state.params.wcp === 'today';
+  const B = state.bounds[state.gender], wcp = state.params.wcp || '', today = wcp === 'today';
+  /* A date in the address (wcp=1990-06-07): the next World Cup's format filled from that day's ratings (Seb, 18 Nov 2026). */
+  const onTs = /^\d{4}-\d\d-\d\d$/.test(wcp) && isFinite(Date.parse(wcp+'T00:00:00Z')) ? Math.min(Math.max(Date.parse(wcp+'T00:00:00Z'), B.min), B.max) : null, onDate = onTs !== null;
+  const next = men ? '2026' : '2027', pick = onDate ? null : wcs.find(e => e.label === wcp && e.label !== '2026') || null;
   const picker = '<select class="cp-pick" aria-label="World Cup" onchange="go({...state.params, wcp:this.value || undefined})"><option value="">'+(men ? '2026 places' : '2027 places')+'</option>'+
     '<option value="today"'+(today ? ' selected' : '')+'>If it were played today</option>'+
-    wcs.filter(e => e.label !== '2026').map(e => '<option value="'+e.label+'"'+(pick === e ? ' selected' : '')+'>'+e.label+'</option>').join('')+'</select>';
-  if (today) return wcToday(c, picker);
+    '<option value="'+(onDate ? fmtDate(onTs) : fmtDate(B.max - 3652*DAY))+'"'+(onDate ? ' selected' : '')+'>If it were played on a date\u2026</option>'+
+    wcs.filter(e => e.label !== '2026').map(e => '<option value="'+e.label+'"'+(pick === e ? ' selected' : '')+'>'+e.label+'</option>').join('')+'</select>'+
+    (onDate ? ' <input type="date" class="cp-pick" aria-label="Date" value="'+fmtDate(onTs)+'" min="'+fmtDate(B.min)+'" max="'+fmtDate(B.max)+'" onchange="if (this.value) go({...state.params, wcp:this.value})">' : '');
+  if (today || onDate) return wcOn(c, picker, onDate ? onTs : null);
   let rows, Nn = N, title, note, top16 = null;
   if (pick){
-    /* Israel, between leaving the AFC (1974) and joining UEFA (1994), played its World Cup qualifying in Europe for 1978,
-       1982 and 1994 and in Oceania for 1986 and 1990. */
-    const poolOf2 = (k, t) => k === 'Israel' && t >= Date.UTC(1985, 0, 1) && t < Date.UTC(1991, 0, 1) ? 'OFC' : poolOf(k, t);
+    const poolOf2 = wcPool;
     const ts = pick.start - DAY, field = [...pick.teams]; Nn = field.length;
     const got = {}; CONF_ORDER.forEach(k => got[k] = 0); field.forEach(k => { const pl = poolOf2(k, ts); if (got[pl] !== undefined) got[pl]++; });
     /* Fields smaller than the planned 16 (1930: 13, 1938: 15, 1950: 13) also get the world top 16 beside the top N (Seb, 18 Nov 2026). */
     const count = (c2, n0) => { const n = {}; CONF_ORDER.forEach(k => n[k] = 0);
-      c2.table.filter(r => r.status !== 'assoc').slice(0, n0).forEach(r => { const pl = poolOf2(r.key, ts); if (n[pl] !== undefined) n[pl]++; }); return n; };
+      c2.table.filter(r => r.status !== 'assoc' && !wcGone(r.key, ts)).slice(0, n0).forEach(r => { const pl = poolOf2(r.key, ts); if (n[pl] !== undefined) n[pl]++; }); return n; };
     const both = atDefaults(c2 => ({top:count(c2, Nn), t16:Nn < 16 ? count(c2, 16) : null}), ts, true) || {}, top = both.top || {};
     if (both.t16) top16 = both.t16;
     rows = CONF_ORDER.map(k => ({k, d:got[k], po:0, top:top[k] || 0, t16:top16 ? top16[k] || 0 : null, diff:(top[k] || 0) - got[k]}));
@@ -6324,7 +6328,7 @@ function confPlaces(c){
       '1938':'France 1938 had 16 qualified teams until Austria, absorbed into Germany in March 1938, withdrew; Sweden got a bye, so 15 played.',
       '1950':'Brazil 1950 had 16 places; India, Scotland and Turkey withdrew after qualifying, and France, offered one of their places, withdrew too, so 13 played.'};
     note = (top16 && SHORT[pick.label] ? SHORT[pick.label]+' The world top 16 is shown as well as the top '+Nn+'. ' : '')+'Teams at the '+pick.label+' finals by confederation, against each confederation\'s teams among the world\'s '+Nn+' best-rated sides the day before it began. '+
-      'Confederations as they stood then: Australia in OFC until 2006, Kazakhstan in AFC until 2002, Israel in AFC until 1974, then in the European qualifying for 1978, 1982 and 1994 and the Oceanian for 1986 and 1990; sides from before their confederation existed count where they would belong. ';
+      WC_THEN+' ';
   } else {
     const fifa = c.table.filter(r => r.status !== 'assoc' && !r.defunct).slice(0, N), n = {};
     CONF_ORDER.forEach(k => n[k] = 0); fifa.forEach(r => { if (n[r.conf] !== undefined) n[r.conf]++; });
@@ -6346,17 +6350,55 @@ function confPlaces(c){
     '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">'+note+'On '+(pick ? 'the ratings of the day' : 'today\'s ratings')+', '+confLabel(under.k)+' had the most good sides for its places and '+
       confLabel(over.k)+' the fewest. Places are set by FIFA for many reasons besides strength.</p></div>';
 }
-/* "If it were played today": the next World Cup's format (FIFA's places for each confederation, the hosts in their own
-   confederation's share) filled from today's ratings. Each confederation's best-rated FIFA members take its direct
-   places, hosts first; the next best go to the inter-confederation play-off, where the best-rated of the pool go through.
-   A sketch of who is strong enough today, not a forecast of qualifying, which is played over years and in groups. */
+/* "If it were played today", or on any date: the next World Cup's format (FIFA's places for each confederation, the
+   hosts in their own confederation's share) filled from that day's ratings. Each confederation's best-rated FIFA members
+   take its direct places, hosts first; the next best go to the inter-confederation play-off, where the best-rated of the
+   pool go through. A sketch of who was strong enough on the day, not a forecast of qualifying, which is played over years
+   and in groups. */
 const WC_HOSTS = {men:['United States', 'Mexico', 'Canada'], women:['Brazil']};
-/* Teams FIFA has barred from its competitions as things stand (checked 18 Nov 2026): Russia, suspended by FIFA and UEFA
-   since 28 February 2022. They are left out of "today", with a line saying so. */
-const WC_BARRED = {Russia:'suspended by FIFA and UEFA since February 2022'};
-function wcToday(c, picker){
-  const men = state.gender === 'men', P = men ? WC26_PLACES : WWC27_PLACES, N = men ? 48 : 32, poIn = men ? 2 : 3, hosts = WC_HOSTS[men ? 'men' : 'women'];
-  const all = c.table.filter(r => r.status !== 'assoc' && !r.defunct), barred = all.filter(r => WC_BARRED[r.team] || WC_BARRED[r.key]);
+/* Teams barred from FIFA's competitions on a date: [team, from, until (null: still barred), what to say, 'men' or
+   'women' when the ban was on one team only]. The list holds the bans that change who would be there on some date; every
+   known suspension was tried (20 Nov 2026) and the others fall on sides too low to be in, or with no rating at the time
+   (South Africa 1961 to 1992, Kuwait, Indonesia, Guatemala, Pakistan, Zimbabwe, Kenya and the rest). Dates were checked
+   against FIFA's statements and press reports of the day; a ban lifted on a day ends the day before.
+   A suspension of an association bars all its teams. Bans from one World Cup (Chile 1994, North Korea's women 2015) run
+   to that World Cup's final. */
+const WC_BARRED = [
+  ['Germany', '1945-11-01', '1950-09-22', 'barred by FIFA after the Second World War, from November 1945 to September 1950'],
+  ['Japan', '1945-11-01', '1950-09-22', 'barred by FIFA after the Second World War, from November 1945 to September 1950'],
+  ['Mexico', '1988-04-25', '1990-07-01', 'banned by FIFA from all international competition for two years, to July 1990, for fielding over-age players in a youth tournament'],
+  ['Chile', '1989-12-08', '1994-07-17', 'banned by FIFA from the 1994 World Cup after its team walked off at the Maracanã in September 1989'],
+  ['Serbia', '1992-06-01', '1994-10-04', 'barred from international football under United Nations sanctions, June 1992 to October 1994'],
+  ['Greece', '2006-07-03', '2006-07-11', 'suspended by FIFA from 3 to 12 July 2006'],
+  ['Iran', '2006-11-23', '2006-12-17', 'suspended by FIFA from 23 November to 18 December 2006'],
+  ['Iraq', '2008-05-26', '2008-05-28', 'suspended by FIFA from 26 to 29 May 2008'],
+  ['Iraq', '2009-11-20', '2010-03-18', 'suspended by FIFA from 20 November 2009 to 19 March 2010'],
+  ['Nigeria', '2010-10-04', '2010-10-07', 'suspended by FIFA from 4 to 8 October 2010'],
+  ['North Korea', '2011-08-25', '2015-07-05', 'banned by FIFA from the 2015 Women\'s World Cup after five players failed drug tests at the 2011 finals', 'women'],
+  ['Cameroon', '2013-07-04', '2013-07-21', 'suspended by FIFA from 4 to 22 July 2013'],
+  ['Nigeria', '2014-07-09', '2014-07-17', 'suspended by FIFA from 9 to 18 July 2014'],
+  ['Russia', '2022-02-28', null, 'suspended by FIFA and UEFA since February 2022']];
+const wcBarred = (key, ts) => { const d = fmtDate(ts), b = WC_BARRED.find(x => x[0] === key && d >= x[1] && (!x[2] || d <= x[2]) && (!x[4] || x[4] === state.gender)); return b ? b[3] : null; };
+/* The confederation whose World Cup places a side played for on a date. As poolOf, except Israel between leaving the
+   AFC (1974) and joining UEFA (1994): it played its qualifying in the Asian and Oceanian zone for 1978, in Europe for
+   1982, in Oceania for 1986 and 1990, and in Europe again for 1994. Each spell runs to the final of its World Cup. */
+const wcPool = (k, t) => k !== 'Israel' ? poolOf(k, t) : t <= Date.UTC(1978, 5, 25) ? 'AFC' : t <= Date.UTC(1982, 6, 11) ? 'UEFA' : t <= Date.UTC(1990, 6, 8) ? 'OFC' : 'UEFA';
+const WC_THEN = 'Confederations as they stood then: Australia in OFC until 2006, Kazakhstan in AFC until 2002, Israel in AFC until 1974, then in the Asian and Oceanian qualifying for 1978, the European for 1982 and 1994 and the Oceanian for 1986 and 1990; sides from before their confederation existed count where they would belong.';
+/* A side that no longer existed on a date: one of the defunct teams with its own record (East Germany, South Vietnam,
+   Saarland) whose last match was already behind it. Its rating stays in the table for years, but it could not enter. */
+const wcLast = {};
+function wcGone(key, ts){
+  if (!infoFor(key).defunct) return false;
+  const g = state.gender, ms = state.matches[g]; let C = wcLast[g];
+  if (!C || C.src !== ms){ const map = new Map(); for (const m of ms){ map.set(keyOfName(m.home), m.ts); map.set(keyOfName(m.away), m.ts); } C = wcLast[g] = {src:ms, map}; }
+  return (C.map.get(key) || 0) < ts;
+}
+function wcOn(c, picker, ts){
+  const g = state.gender, men = g === 'men', P = men ? WC26_PLACES : WWC27_PLACES, N = men ? 48 : 32, poIn = men ? 2 : 3, hosts = WC_HOSTS[g];
+  const past = ts !== null && ts < state.bounds[g].max, at = past ? ts : state.bounds[g].max;
+  const T = past ? atDefaults(c2 => c2.table.map(r => ({team:r.team, key:r.key, rank:r.rank, rating:r.rating, status:r.status, conf:wcPool(r.key, at)})), at, true) : c.table;
+  if (!T) return '';
+  const all = T.filter(r => r.status !== 'assoc' && (past ? !wcGone(r.key, at) : !r.defunct)), barred = all.filter(r => wcBarred(r.key, at));
   const fifa = all.filter(r => !barred.includes(r)), pool = [], by = {};
   for (const k of CONF_ORDER){
     const mine = fifa.filter(r => r.conf === k), [d, po] = P[k];
@@ -6368,18 +6410,21 @@ function wcToday(c, picker){
   const team = (r, tag) => '<span class="wct-t"><a href="'+teamHref(r.team)+'">'+withFlag(r.team)+'</a> <span class="muted">#'+r.rank+(tag ? ' &middot; '+tag : '')+'</span></span>';
   const inAll = CONF_ORDER.reduce((t, k) => t + by[k].direct.length, 0) + through.size;
   const missed = all.slice(0, N).filter(r => !barred.includes(r)).filter(r => !CONF_ORDER.some(k => by[k].direct.some(x => x.r === r)) && !through.has(r));
-  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">If the World Cup were played today<span class="aside">'+(men ? '2026' : '2027')+' format &middot; '+N+' teams '+picker+'</span></div>'+
+  const cup = men ? '2026 World Cup' : '2027 Women\'s World Cup', day = fmtDay(at);
+  return '<div class="panel" style="margin-bottom:20px;"><div class="panel-head">If the World Cup were played '+(past ? 'on '+day : 'today')+'<span class="aside">'+(men ? '2026' : '2027')+' format &middot; '+N+' teams '+picker+'</span></div>'+
     '<div class="table-wrap"><table class="conf-places wc-today"><thead><tr><th>Confederation</th><th>In</th></tr></thead><tbody>'+
     CONF_ORDER.map(k => { const B = by[k];
       return '<tr><td><b>'+confLabel(k)+'</b><br><span class="muted">'+P[k][0]+(P[k][1] ? ' + '+P[k][1]+' play-off' : '')+'</span></td><td>'+
-        B.direct.map(x => team(x.r, x.host ? 'host' : '')).join(' ')+
+        (B.direct.length ? B.direct.map(x => team(x.r, x.host ? 'host' : '')).join(' ') : '<span class="muted">No ranked side yet</span>')+
         (B.po.length ? '<div class="wct-po">'+B.po.map(r => team(r, through.has(r) ? 'through the play-off' : 'out in the play-off')).join(' ')+'</div>' : '')+'</td></tr>'; }).join('')+
     '</tbody></table></div>'+
-    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">The '+inAll+' teams who would be there if the '+(men ? '2026 World Cup' : '2027 Women\'s World Cup')+'\'s format were filled from today\'s ratings: '+
+    '<p class="chart-note" style="padding:8px 15px 12px;margin:0;">The '+inAll+' teams who would be there if the '+cup+'\'s format were filled from '+(past ? 'the ratings of '+day : 'today\'s ratings')+': '+
       'each confederation\'s places go to its best-rated sides'+(men ? ', the three hosts first' : ', hosts Brazil first')+', and the next best go to the inter-confederation play-off ('+
-      (men ? 'six sides for two places' : 'ten sides for three')+'), where the best-rated go through. Real qualifying is played over months in groups, so this shows who is strong enough today, not who will qualify. '+
+      (men ? 'six sides for two places' : 'ten sides for three')+'), where the best-rated go through. Real qualifying is played over months in groups, so this shows who '+(past ? 'was strong enough that day, not who would have qualified' : 'is strong enough today, not who will qualify')+'. '+
+      (past ? (inAll < N ? 'Only '+inAll+' of the '+N+' places can be filled: too few sides were ranked that day. ' : '')+
+        'The format, its places and its hosts are today\'s; the teams and the confederations are those of the day (Australia in Oceania until 2006, for one). Today\'s FIFA members and the sides they succeeded all count, whether or not they were members that day. ' : '')+
       (missed.length ? 'Among the world\'s '+N+' best-rated sides, '+missed.length+' would miss out on their confederation\'s share: '+missed.slice(0, 8).map(r => esc(dn(r.team))+' (#'+r.rank+')').join(', ')+(missed.length > 8 ? ' and '+(missed.length - 8)+' more' : '')+'. ' : '')+
-      barred.filter(r => r.rank <= 2*N).map(r => esc(dn(r.team))+' (#'+r.rank+') is left out: '+(WC_BARRED[r.team] || WC_BARRED[r.key])+'.').join(' ')+'</p></div>';
+      barred.filter(r => r.rank <= 2*N).map(r => esc(dn(r.team))+' (#'+r.rank+') is left out: '+wcBarred(r.key, at)+'.').join(' ')+'</p></div>';
 }
 /* Results between confederations: in the window shown, or at World Cups since 1930. */
 function confMeetings(c, mode){
@@ -12456,7 +12501,8 @@ function viewSupport(){
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
   ['20 Nov 2026', ['Six tournaments that were played over many months each showed as two, three or four separate editions, because a break of more than 60 days started a new one. They are single editions now, under their usual names: the 1985 CONCACAF Championship, the Oceania Nations Cups of 1996, 2004 and 2008, the women\'s Euro 1995 and the 1991 African Women\'s Championship. Among other things this had Australia, who won the 1996 Oceania Nations Cup, listed on two of its pieces as a strong team that did not play. Old addresses for the pieces lead to the joined edition.',
-    'Two forecasts were left without a match when their fixtures moved two days after the first kick-off time had passed: Morocco v Niger (listed for 11 November, played on the 13th) and Kyrgyzstan v Vietnam (listed for the 15th, played on the 17th). Each match already had its forecast scored under the right date, so the two left-over entries are removed and will not sit in the record as &ldquo;no result&rdquo;.']],
+    'Two forecasts were left without a match when their fixtures moved two days after the first kick-off time had passed: Morocco v Niger (listed for 11 November, played on the 13th) and Kyrgyzstan v Vietnam (listed for the 15th, played on the 17th). Each match already had its forecast scored under the right date, so the two left-over entries are removed and will not sit in the record as &ldquo;no result&rdquo;.',
+    '<a href="#/confederations?pv=places">World Cup places</a> on the Confederations page can now be worked out for <b>any date</b>: choose &ldquo;If it were played on a date&rdquo; and pick the day, and the page fills the next World Cup\'s format from that day\'s ratings, with the confederations as they stood then. Teams that were barred by FIFA on the day are left out with the reason: Germany and Japan after the Second World War, Mexico from 1988 to 1990, Chile for the 1994 World Cup, Yugoslavia from 1992 to 1994, North Korea\'s women for 2015, Russia since 2022, and the short suspensions of Greece, Iran, Iraq, Nigeria and Cameroon. A side that no longer existed, such as East Germany after 1990, is left out too; that also corrects the 1994 World Cup\'s row, where East Germany had been counted among Europe\'s sides in the world top 24. The panel now stays on its own tab, and its list of teams wraps on a phone instead of running off the side.']],
   ['19 Nov 2026', ['Every tournament page has a new section, <b>Groups and runs</b>: who had it hardest. It ranks the groups by the average rating of their teams the day before kick-off, and lists every team\'s run: the average rating of the opponents it actually met, its strongest opponent, and how far it went. Four figures lead the section: the hardest group, the hardest and the easiest run, and where the winners\' run stood. Opening the section also sets the edition beside every other edition of the same tournament: the hardest groups in its history and the winners\' hardest and easiest runs, compared by world rank because rating points are not on the same footing across the decades.',
     'Every team page has a new section too, <b>Hardest and easiest tournaments</b>: the final tournaments where the team met its strongest and its weakest opponents, with how far it went, and the hardest and easiest of the ones it won. It can be narrowed to World Cups and continental finals.',
     '&ldquo;Strong teams that missed out&rdquo; now gives the reason at the continental championships too, as it has for World Cups since yesterday: Iraq withdrawing from three Asian Cups and banned from a fourth after the Gulf War, Israel pulling out as hosts in 1972, Egypt in 1965 and Nigeria in 1998 at the African Cup of Nations, Brazil and Argentina staying away from seven South American Championships between them, Yugoslavia shut out of Euro 1996, North Korea\'s women banned for doping, and hosts who skipped a tournament that was only a World Cup qualifier for everyone else (Mexico in 1985, the United States\' women in 1998, New Zealand\'s in 2022).']],

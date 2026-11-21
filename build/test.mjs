@@ -1180,6 +1180,32 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
             return {n, withG, shown, bad}; })()`);
           ok(gr.n === EL.length && gr.n > 0 && gr.bad.length === 0,
             'edition pages: Groups and runs gives the same figures from the model and from each edition\'s file (' + gr.n + ' editions, ' + gr.withG + ' with groups, ' + gr.shown + ' shown)' + (gr.bad.length ? ' (' + gr.bad[0] + ')' : '')); }
+        /* World Cup places on any date (20 Nov 2026): the latest date gives the same teams as "today"; a past date is
+           labelled with its day; a side that no longer existed is left out; bans and Israel's zones follow their dates. */
+        { const wc = model.run(`(() => { state.gender = 'women'; state.route = 'confederations'; state.windowYears = DEFAULTS.windowYears; state.comps = new Set(COMP_ORDER); state.historicalNames = DEFAULTS.historicalNames; state.maxBand = DEFAULTS.maxBand; state.rankBy = DEFAULTS.rankBy; state.asOf = state.bounds.women.max; state.cache = {key:null};
+            const c = getRatings(), B = state.bounds.women, names = h => (h.match(/class="wct-t">.*?<[/]span><[/]span>/g) || []).map(x => x.replace(/<[^>]+>/g, '')).join('|');
+            state.params = {wcp:'today'}; const today = confPlaces(c); state.params = {wcp:fmtDate(B.max)}; const last = confPlaces(c);
+            const mid = B.min + Math.floor((B.max - B.min)*0.6/DAY)*DAY; state.params = {wcp:fmtDate(mid)}; const past = confPlaces(c); state.params = {};
+            const D = s => Date.parse(s + 'T00:00:00Z'), out = {same:names(today) === names(last), n:(today.match(/class="wct-t"/g) || []).length,
+              past:past.indexOf('If the World Cup were played on ' + fmtDay(mid)) >= 0 && /type="date"/.test(past) && past.indexOf('value="' + fmtDate(mid) + '"') >= 0, today:/If the World Cup were played today/.test(today) && !/type="date"/.test(today)};
+            out.bans = [wcBarred('Serbia', D('1993-06-01')), wcBarred('Serbia', D('1994-10-05')), wcBarred('Russia', D('2022-02-27')), wcBarred('Russia', D('2022-02-28')), wcBarred('North Korea', D('2013-01-01')), wcBarred('Nigeria', D('2014-07-18'))].map(x => x ? 1 : 0).join('');
+            state.gender = 'men'; out.bansMen = [wcBarred('North Korea', D('2013-01-01')), wcBarred('Mexico', D('1989-06-01')), wcBarred('Chile', D('1994-07-18')), wcBarred('Germany', D('1947-06-01'))].map(x => x ? 1 : 0).join(''); state.gender = 'women';
+            out.israel = ['1973-06-01', '1977-03-01', '1981-06-01', '1989-06-01', '1993-06-01', '2020-01-01'].map(d => wcPool('Israel', D(d))).join();
+            out.aus = wcPool('Australia', D('2005-06-01')) + ',' + wcPool('Australia', D('2007-06-01'));
+            out.gone = [wcGone('German DR', D('1991-01-01')), wcGone('Germany', D('1991-01-01'))].join();
+            /* The fill itself, on a made-up table: hosts first, the next best to the play-off, a barred side left out. */
+            { state.gender = 'men'; const L = {UEFA:['Spain', 'Russia', 'France', 'England', 'Portugal', 'Belgium', 'Netherlands', 'Germany', 'Italy', 'Croatia', 'Denmark', 'Norway', 'Austria', 'Greece', 'Sweden', 'Poland', 'Hungary', 'Ukraine', 'Scotland'],
+                CONMEBOL:['Argentina', 'Brazil', 'Colombia', 'Uruguay', 'Ecuador', 'Paraguay', 'Chile', 'Peru'], CONCACAF:['Panama', 'Costa Rica', 'Jamaica', 'Mexico', 'United States', 'Haiti', 'Canada', 'Honduras', 'Guatemala', 'Cuba'],
+                CAF:['Morocco', 'Senegal', 'Algeria', 'Egypt', 'Nigeria', 'Mali', 'Cameroon', 'Tunisia', 'Ghana', 'South Africa', 'Gabon'], AFC:['Japan', 'Iran', 'Australia', 'South Korea', 'Uzbekistan', 'Saudi Arabia', 'Jordan', 'Qatar', 'Iraq', 'Oman'], OFC:['New Zealand', 'Fiji', 'Tahiti']};
+              const rows = []; let more = true; for (let i = 0; more; i++){ more = false; for (const k of Object.keys(L)) if (L[k][i]){ more = true; rows.push({team:L[k][i], key:L[k][i], conf:k, status:'fifa', defunct:false}); } }
+              rows.forEach((r, i) => { r.rank = i + 1; r.rating = 2000 - i; });
+              const h = wcOn({table:rows}, '', null), txt = h.replace(/<[^>]+>/g, ' ').replace(/&middot;/g, '·').replace(/\\s+/g, ' '), row = k => { const a = txt.indexOf(' ' + k + ' '), nx = Object.keys(L).map(x => txt.indexOf(' ' + x + ' ', a + 3)).filter(x => x > a); return txt.slice(a, nx.length ? Math.min(...nx) : txt.indexOf('The 48 teams')); };
+              out.fill = {n:/The 48 teams who would be there/.test(txt), hosts:/Mexico #\\d+ · host USA #\\d+ · host Canada #\\d+ · host/.test(row('CONCACAF')) || (row('CONCACAF').match(/· host/g) || []).length === 3,
+                concacaf:(row('CONCACAF').match(/#\\d+/g) || []).length === 8 && !/Guatemala|Cuba/.test(row('CONCACAF')), uefa:(row('UEFA').match(/#\\d+/g) || []).length === 16 && !/Russia/.test(row('UEFA')) && /Hungary/.test(row('UEFA')) && !/Ukraine/.test(row('UEFA')),
+                po:(txt.match(/through the play-off/g) || []).length === 2 && (txt.match(/out in the play-off/g) || []).length === 4, barred:/Russia \\(#\\d+\\) is left out: suspended by FIFA and UEFA/.test(txt)}; state.gender = 'women'; }
+            return out; })()`);
+          ok(wc.same && Object.values(wc.fill).every(Boolean) && wc.past && wc.today && wc.bans === '100110' && wc.bansMen === '0101' && wc.israel === 'AFC,AFC,UEFA,OFC,UEFA,UEFA' && wc.aus === 'OFC,AFC' && wc.gone === 'true,false',
+            'confederations: the World Cup filled from any date\'s ratings: hosts first, the play-off, a barred side left out; the latest date equals today, a past date is labelled, bans and old confederations follow their dates ' + JSON.stringify({fill:wc.fill, bans:wc.bans, men:wc.bansMen, israel:wc.israel})); }
         { const ELA = editionList(model, 'women', true); let nA = 0; const badA = [], filesA = {};
           for (const e of ELA){ const R = editionFile(model, 'women', e.id, true); nA += R.n; if (R.bad.length) badA.push(e.id + ': ' + R.bad[0]); filesA[e.id] = JSON.parse(JSON.stringify(R.file)); }
           const one = ELA.map(e => filesA[e.id]).sort((a, b) => b.rows.length - a.rows.length)[0];
