@@ -1,11 +1,11 @@
 {
- "built": "2026-11-20T23:03:40.232Z",
+ "built": "2026-11-20T23:36:42.079Z",
  "today": "2026-11-20",
  "mode": "full",
  "api": {
   "keyPresent": true,
   "used": 264,
-  "remaining": 7122,
+  "remaining": 6858,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 264,
+   "usedTodayBeforeRun": 528,
    "perMinute": 300
   },
   "paid": true,
@@ -25,7 +25,7 @@
  "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 16813,
+  "domestic": 16812,
   "youth": 255,
   "clubs": 154,
   "not counted": 185
@@ -42,20 +42,21 @@
  },
  "apiAudit": {
   "asked": 200,
-  "results": 579,
+  "results": 305,
   "missing": 0,
-  "diffs": 2,
-  "cursor": "2018-07-20",
+  "diffs": 0,
+  "cursor": "2018-01-01",
   "done": null,
   "open": {
-   "missing": 79,
-   "diffs": 11
+   "missing": 78,
+   "diffs": 2
   },
+  "settled": 9,
   "wiki": {
-   "asked": 4,
-   "checked": 2,
+   "asked": 0,
+   "checked": 0,
    "agree": 0,
-   "differ": 2,
+   "differ": 0,
    "none": 0,
    "errors": 0
   }
@@ -72,8 +73,8 @@
   "extra": 0
  },
  "wikiResults": {
-  "asked": 66,
-  "pages": 66,
+  "asked": 0,
+  "pages": 0,
   "candidates": 115,
   "added": 0,
   "errors": 0,
@@ -96,7 +97,7 @@
   "results": 7
  },
  "men": {
-  "built": "2026-11-20T23:03:40.232Z",
+  "built": "2026-11-20T23:36:42.079Z",
   "archive": {
    "end": "2026-11-17",
    "rows": 50099
@@ -107,7 +108,7 @@
    "to": "2026-11-18"
   },
   "manual": {
-   "rows": 2282
+   "rows": 2283
   },
   "wiki": {
    "rows": 0,
@@ -116,7 +117,7 @@
   "fixtures": 2
  },
  "women": {
-  "built": "2026-11-20T23:03:40.232Z",
+  "built": "2026-11-20T23:36:42.079Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -136,7 +137,7 @@
   "fixtures": 74
  },
  "feedGaps": {
-  "new": 1,
+  "new": 0,
   "held": 37
  },
  "venues": {
@@ -144,11 +145,11 @@
   "assumed": 6
  },
  "forecasts": {
-  "total": 259,
+  "total": 257,
   "scored": 184,
   "newThisRun": 0,
   "updatedThisRun": 73,
   "scoredThisRun": 0,
-  "droppedThisRun": 0
+  "droppedThisRun": 2
  }
 }
