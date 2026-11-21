@@ -668,5 +668,75 @@
   "right": "left out on purpose: not a full international",
   "note": "Egypt's home-based team; Wikipedia (Hesham Mohamed's page) calls it an unofficial friendly. The archive lists the day's match as Egypt 1-0 Libya, which Formline now leaves out",
   "checked": "2026-11-21"
+ },
+ {
+  "api_id": 152569,
+  "g": "men",
+  "date": "2016-06-25",
+  "match": "Switzerland v Poland",
+  "feed": "2-2",
+  "right": "1-1 after extra time, Poland won 5-4 on penalties (UEFA Euro, round of 16)",
+  "note": "the feed adds its 90-minute score (1-1) to its extra-time score (1-1); the archive has 1-1",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 152577,
+  "g": "men",
+  "date": "2016-06-30",
+  "match": "Poland v Portugal",
+  "feed": "2-2",
+  "right": "1-1 after extra time, Portugal won 5-3 on penalties (UEFA Euro, quarter-final)",
+  "note": "the feed adds its 90-minute score (1-1) to its extra-time score (1-1); the archive has 1-1",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 152579,
+  "g": "men",
+  "date": "2016-07-02",
+  "match": "Germany v Italy",
+  "feed": "2-2",
+  "right": "1-1 after extra time, Germany won 6-5 on penalties (UEFA Euro, quarter-final)",
+  "note": "the feed adds its 90-minute score (1-1) to its extra-time score (1-1); the archive and Wikipedia have 1-1",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 672151,
+  "g": "men",
+  "date": "2016-06-02",
+  "match": "Grenada v Puerto Rico",
+  "feed": "0-0",
+  "right": "3-3 after extra time, on 1 June 2016 (Caribbean Cup qualifying)",
+  "note": "the feed has no full-time score and shows 0-0; the archive and Wikipedia (a team's page as it stood on 2016-08-16) have 3-3",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 672158,
+  "g": "men",
+  "date": "2016-06-04",
+  "match": "Puerto Rico v Antigua and Barbuda",
+  "feed": "0-0",
+  "right": "2-1 after extra time (Caribbean Cup qualifying)",
+  "note": "the feed has no full-time score and shows 0-0; the archive and Wikipedia (a team's page as it stood on 2016-08-18) have 2-1",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 256848,
+  "g": "men",
+  "date": "2015-11-14",
+  "match": "Gabon v Mozambique",
+  "feed": "2-0",
+  "right": "1-0 after extra time, Gabon won 4-3 on penalties (World Cup qualifying)",
+  "note": "the feed adds its 90-minute score (1-0) to its extra-time score (1-0); the archive has 1-0",
+  "checked": "2026-11-21"
+ },
+ {
+  "api_id": 256852,
+  "g": "men",
+  "date": "2015-11-15",
+  "match": "DR Congo v Burundi",
+  "feed": "3-0",
+  "right": "2-2 on the pitch",
+  "note": "the feed has the result FIFA awarded afterwards (Burundi fielded an ineligible player); Formline shows the score on the pitch with a note",
+  "checked": "2026-11-21"
  }
 ]

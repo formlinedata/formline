@@ -153,7 +153,7 @@ Notes:
 
 ### Matches the archive does not hold (updated 14 November 2026)
 
-World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 30 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,286 rows). 404 were played since November 2014. They are free to take.
+World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 30 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,288 rows; two of them are Kuwait's 2018 World Cup qualifiers of 24 and 29 March 2016, awarded 3–0 against it without being played, which the archive lacks though it has the Myanmar v Kuwait one of 17 November 2015). 404 were played since November 2014. They are free to take.
 
 Whole events among the recent ones:
 

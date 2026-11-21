@@ -2285,3 +2285,5 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,s
 2019-06-11,Guyana,Haiti,1,3,Friendly,Alajuela,Costa Rica,TRUE,,Wikipedia (both teams' pages as they stood on 2019-08-25); API-Football fixture 218369,
 2017-04-18,Kenya,Malawi,0,0,Friendly,Machakos,Kenya,FALSE,,Wikipedia (both teams' pages as they stood on 2017-07-02); API-Football fixture 225774,
 2017-06-05,Liberia,Sierra Leone,1,0,Friendly,Monrovia,Liberia,FALSE,,"Wikipedia (both teams' pages as they stood on 2017-08-18); ESPN and press reports of the day, which give Monday 5 June (API-Football fixture 225985 has 4 June)",
+2016-03-24,Kuwait,Laos,0,3,FIFA World Cup qualification,,Kuwait,FALSE,,"Not played: awarded 0-3 by FIFA, Kuwait being suspended (FIFA media release, 6 April 2016; Wikipedia, 2018 FIFA World Cup qualification, AFC second round); API-Football fixture 257108",
+2016-03-29,South Korea,Kuwait,3,0,FIFA World Cup qualification,,South Korea,FALSE,,"Not played: awarded 3-0 by FIFA, Kuwait being suspended (FIFA media release, 6 April 2016; Wikipedia, 2018 FIFA World Cup qualification, AFC second round); API-Football fixture 257115",
