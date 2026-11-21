@@ -1437,44 +1437,6 @@
   },
   {
    "g": "men",
-   "date": "2017-06-04",
-   "home": "Liberia",
-   "away": "Sierra Leone",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 225985,
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2017-08-18",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2017-06-05",
-    "first": "Liberia",
-    "city": "Monrovia",
-    "country": "Liberia",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "men",
-   "date": "2017-05-13",
-   "home": "Egypt",
-   "away": "Yemen",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 225775,
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2017-07-27",
-    "found": "none"
-   }
-  },
-  {
-   "g": "men",
    "date": "2017-04-29",
    "home": "Grenada",
    "away": "Trinidad and Tobago",
@@ -1493,28 +1455,6 @@
     "first": "Grenada",
     "city": "St. George's",
     "country": "Grenada",
-    "comp": "Friendly"
-   }
-  },
-  {
-   "g": "men",
-   "date": "2017-04-18",
-   "home": "Kenya",
-   "away": "Malawi",
-   "score": "0-0",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 225774,
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2017-07-02",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2017-04-18",
-    "first": "Kenya",
-    "city": "Machakos",
-    "country": "Kenya",
     "comp": "Friendly"
    }
   },
@@ -1591,24 +1531,34 @@
   },
   {
    "g": "men",
-   "date": "2017-01-04",
-   "home": "Morocco",
-   "away": "Burkina Faso",
-   "score": "1-0",
-   "tournament": "Friendly",
-   "league": "Friendlies",
+   "date": "2016-03-29",
+   "home": "South Korea",
+   "away": "Kuwait",
+   "score": "3-0",
+   "tournament": "FIFA World Cup qualification",
+   "league": "World Cup - Qualification Asia",
    "city": "",
-   "api_id": 225947,
+   "api_id": 257115,
    "wiki": {
     "checked": "2026-11-21",
-    "asOf": "2017-03-20",
-    "found": "agree",
-    "pages": "HA",
-    "date": "2017-01-04",
-    "first": "Morocco",
-    "city": "Rabat",
-    "country": "Morocco",
-    "comp": "Friendly"
+    "asOf": "2016-06-12",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2016-03-24",
+   "home": "Kuwait",
+   "away": "Laos",
+   "score": "0-3",
+   "tournament": "FIFA World Cup qualification",
+   "league": "World Cup - Qualification Asia",
+   "city": "",
+   "api_id": 257108,
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-06-07",
+    "found": "none"
    }
   }
  ],
@@ -1663,65 +1613,6 @@
   },
   {
    "g": "men",
-   "date": "2017-12-17",
-   "home": "Kenya",
-   "away": "Zanzibar",
-   "score": "3-3",
-   "tournament": "CECAFA Cup",
-   "league": "CECAFA Senior Challenge Cup",
-   "city": "Machakos",
-   "api_id": 362533,
-   "shootout": "Kenya",
-   "st": "PEN",
-   "sc": {
-    "halftime": {
-     "home": null,
-     "away": null
-    },
-    "fulltime": {
-     "home": 1,
-     "away": 1
-    },
-    "extratime": {
-     "home": 2,
-     "away": 2
-    },
-    "penalty": {
-     "home": 3,
-     "away": 2
-    }
-   },
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2018-03-02",
-    "found": "none"
-   },
-   "held": "2-2",
-   "heldDate": "2017-12-17"
-  },
-  {
-   "g": "men",
-   "date": "2017-12-04",
-   "home": "Brunei",
-   "away": "Kyrgyzstan",
-   "score": "4-0",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 226046,
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2018-02-17",
-    "found": "differ",
-    "others": [
-     "2017-12-04 0-4"
-    ]
-   },
-   "held": "0-4",
-   "heldDate": "2017-12-04"
-  },
-  {
-   "g": "men",
    "date": "2017-12-03",
    "home": "Saint Kitts and Nevis",
    "away": "Grenada",
@@ -1758,68 +1649,6 @@
   },
   {
    "g": "men",
-   "date": "2017-02-01",
-   "home": "Burkina Faso",
-   "away": "Egypt",
-   "score": "2-2",
-   "tournament": "African Cup of Nations",
-   "league": "Africa Cup of Nations",
-   "city": "",
-   "api_id": 152419,
-   "shootout": "Egypt",
-   "st": "PEN",
-   "sc": {
-    "halftime": {
-     "home": 0,
-     "away": 0
-    },
-    "fulltime": {
-     "home": 1,
-     "away": 1
-    },
-    "extratime": {
-     "home": 1,
-     "away": 1
-    },
-    "penalty": {
-     "home": 3,
-     "away": 4
-    }
-   },
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2017-04-17",
-    "found": "differ",
-    "others": [
-     "2017-02-01 1-1"
-    ]
-   },
-   "held": "1-1",
-   "heldDate": "2017-02-01"
-  },
-  {
-   "g": "men",
-   "date": "2017-01-07",
-   "home": "Mali",
-   "away": "Burkina Faso",
-   "score": "2-1",
-   "tournament": "Friendly",
-   "league": "Friendlies",
-   "city": "",
-   "api_id": 225949,
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2017-03-23",
-    "found": "differ",
-    "others": [
-     "2017-01-07 1-2"
-    ]
-   },
-   "held": "1-2",
-   "heldDate": "2017-01-07"
-  },
-  {
-   "g": "men",
    "date": "2016-07-02",
    "home": "Germany",
    "away": "Italy",
@@ -1848,8 +1677,6 @@
      "away": 5
     }
    },
-   "held": "1-1",
-   "heldDate": "2016-07-02",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2016-09-15",
@@ -1857,7 +1684,9 @@
     "others": [
      "2016-07-02 1-1"
     ]
-   }
+   },
+   "held": "1-1",
+   "heldDate": "2016-07-02"
   },
   {
    "g": "men",
@@ -1889,13 +1718,13 @@
      "away": 5
     }
    },
-   "held": "1-1",
-   "heldDate": "2016-06-30",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2016-09-13",
     "found": "none"
-   }
+   },
+   "held": "1-1",
+   "heldDate": "2016-06-30"
   },
   {
    "g": "men",
@@ -1927,13 +1756,13 @@
      "away": 5
     }
    },
-   "held": "1-1",
-   "heldDate": "2016-06-25",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2016-09-08",
     "found": "none"
-   }
+   },
+   "held": "1-1",
+   "heldDate": "2016-06-25"
   },
   {
    "g": "men",
@@ -1964,8 +1793,6 @@
      "away": null
     }
    },
-   "held": "2-1",
-   "heldDate": "2016-06-04",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2016-08-18",
@@ -1973,7 +1800,9 @@
     "others": [
      "2016-06-04 2-1"
     ]
-   }
+   },
+   "held": "2-1",
+   "heldDate": "2016-06-04"
   },
   {
    "g": "men",
@@ -2004,8 +1833,6 @@
      "away": null
     }
    },
-   "held": "3-3",
-   "heldDate": "2016-06-01",
    "wiki": {
     "checked": "2026-11-21",
     "asOf": "2016-08-16",
@@ -2013,10 +1840,68 @@
     "others": [
      "2016-06-01 3-3"
     ]
+   },
+   "held": "3-3",
+   "heldDate": "2016-06-01"
+  },
+  {
+   "g": "men",
+   "date": "2015-11-15",
+   "home": "DR Congo",
+   "away": "Burundi",
+   "score": "3-0",
+   "tournament": "FIFA World Cup qualification",
+   "league": "World Cup - Qualification Africa",
+   "city": "",
+   "api_id": 256852,
+   "held": "2-2",
+   "heldDate": "2015-11-15",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-01-29",
+    "found": "none"
+   }
+  },
+  {
+   "g": "men",
+   "date": "2015-11-14",
+   "home": "Gabon",
+   "away": "Mozambique",
+   "score": "2-0",
+   "tournament": "FIFA World Cup qualification",
+   "league": "World Cup - Qualification Africa",
+   "city": "",
+   "api_id": 256848,
+   "shootout": "Gabon",
+   "st": "PEN",
+   "sc": {
+    "halftime": {
+     "home": 1,
+     "away": 0
+    },
+    "fulltime": {
+     "home": 1,
+     "away": 0
+    },
+    "extratime": {
+     "home": 1,
+     "away": 0
+    },
+    "penalty": {
+     "home": 4,
+     "away": 3
+    }
+   },
+   "held": "1-0",
+   "heldDate": "2015-11-14",
+   "wiki": {
+    "checked": "2026-11-21",
+    "asOf": "2016-01-28",
+    "found": "none"
    }
   }
  ],
- "days": 3800,
+ "days": 4000,
  "unmatched": {
   "Pisa": 1,
   "Konyaspor": 1,
@@ -2092,10 +1977,13 @@
   "Red Bull Salzburg": 1,
   "AZ Alkmaar": 1,
   "Eintracht Frankfurt": 1,
-  "Standard Liege": 1
+  "Standard Liege": 1,
+  "Tottenham": 1,
+  "Anderlecht": 1,
+  "Qarabag": 1
  },
  "updated": "2026-11-21",
- "cursor": "2016-05-11",
+ "cursor": "2015-10-24",
  "done": null,
  "from": "2014-11-01"
 }
