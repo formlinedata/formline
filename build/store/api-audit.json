@@ -1614,91 +1614,12 @@
    },
    "held": "1-2",
    "heldDate": "2017-06-10"
-  },
-  {
-   "g": "men",
-   "date": "2015-01-23",
-   "home": "Iran",
-   "away": "Iraq",
-   "score": "4-4",
-   "tournament": "AFC Asian Cup",
-   "league": "Asian Cup",
-   "city": "",
-   "api_id": 152481,
-   "shootout": "Iraq",
-   "st": "PEN",
-   "sc": {
-    "halftime": {
-     "home": 1,
-     "away": 0
-    },
-    "fulltime": {
-     "home": 1,
-     "away": 1
-    },
-    "extratime": {
-     "home": 3,
-     "away": 3
-    },
-    "penalty": {
-     "home": 6,
-     "away": 7
-    }
-   },
-   "held": "3-3",
-   "heldDate": "2015-01-23",
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2015-04-08",
-    "found": "none"
-   }
-  },
-  {
-   "g": "men",
-   "date": "2015-01-23",
-   "home": "Japan",
-   "away": "United Arab Emirates",
-   "score": "2-2",
-   "tournament": "AFC Asian Cup",
-   "league": "Asian Cup",
-   "city": "",
-   "api_id": 152482,
-   "shootout": "United Arab Emirates",
-   "st": "PEN",
-   "sc": {
-    "halftime": {
-     "home": 0,
-     "away": 1
-    },
-    "fulltime": {
-     "home": 1,
-     "away": 1
-    },
-    "extratime": {
-     "home": 1,
-     "away": 1
-    },
-    "penalty": {
-     "home": 4,
-     "away": 5
-    }
-   },
-   "held": "1-1",
-   "heldDate": "2015-01-23",
-   "wiki": {
-    "checked": "2026-11-21",
-    "asOf": "2015-04-08",
-    "found": "differ",
-    "others": [
-     "2015-01-23 1-1"
-    ]
-   }
   }
  ],
- "days": 4358,
+ "days": 4378,
  "unmatched": {
-  "Pisa": 1,
-  "Konyaspor": 1,
+  "Pisa": 2,
+  "Konyaspor": 2,
   "Gornik Zabrze": 2,
   "Coventry": 1,
   "Liverpool": 1,
@@ -1776,7 +1697,7 @@
   "Anderlecht": 2,
   "Qarabag": 2
  },
- "updated": "2026-11-21",
+ "updated": "2026-11-22",
  "cursor": "2014-10-31",
  "done": "2026-11-21",
  "from": "2014-11-01"
