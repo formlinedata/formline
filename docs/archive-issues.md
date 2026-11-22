@@ -153,7 +153,7 @@ Notes:
 
 ### Matches the archive does not hold (updated 14 November 2026)
 
-World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 30 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,289 rows; one is Argentina v Uruguay of 28 September 1924, abandoned within minutes at 0–0 and played again on 2 October, which RSSSF counts as official match 81 of the series; two of them are Kuwait's 2018 World Cup qualifiers of 24 and 29 March 2016, awarded 3–0 against it without being played, which the archive lacks though it has the Myanmar v Kuwait one of 17 November 2015). 404 were played since November 2014. They are free to take.
+World Football Elo Ratings lists about 4,650 men's matches that are not in the archive. **2,256 of them have been confirmed in a second record**, and 30 more matches came from API-Football with a second record (World Football Elo Ratings or Wikipedia), (a Wikipedia page of one or both teams, or the competition's own page; a few from RSSSF or a federation's report) and are listed, in the archive's own columns plus a source for each, in [`build/store/manual-men.csv`](../build/store/manual-men.csv) in this repository (2,304 rows; thirteen were added on 22 November 2026 when the big rival pairs were checked against outside lists, and are set out under "Rival pairs checked against outside lists" below; one is Argentina v Uruguay of 28 September 1924, abandoned within minutes at 0–0 and played again on 2 October, which RSSSF counts as official match 81 of the series; four are the Argentina v Brazil matches of the Superclásico de las Américas of 2011 and 2012 (14 and 28 September 2011, 19 September and 21 November 2012), official matches 897, 898, 909 and 913 in RSSSF's Argentina archive, which the archive lacks though it has the later editions; one is Brazil v Argentina of 5 September 2021, suspended after five minutes and never replayed; two of them are Kuwait's 2018 World Cup qualifiers of 24 and 29 March 2016, awarded 3–0 against it without being played, which the archive lacks though it has the Myanmar v Kuwait one of 17 November 2015). 404 were played since November 2014. They are free to take.
 
 Whole events among the recent ones:
 
@@ -224,6 +224,55 @@ England, Wales and Ireland count none of the Victory Internationals as full inte
 The England 2–2 Scotland row is the Bolton Disaster Fund match at Maine Road, which was played on 24 August 1946, not 24 April (RSSSF, "Scotland Unofficial Matches 1946–1959"; London Hearts' Scotland records). 11v11 carries the same April date as the archive.
 
 Formline leaves all nine out, as it leaves out matches against England's amateur side: with them, England v Scotland comes to 118 meetings against the official 116, England v Wales to 106 against 105, and England v Northern Ireland to 99 against 98.
+
+### Rival pairs checked against outside lists (22 November 2026)
+
+Each pair's matches were set beside RSSSF's list for the pair (or for each country), World Football Elo Ratings and, where its pages could be seen, 11v11. Formline counts a match only when both associations count it as a full international, and adds or changes nothing on one record's word alone.
+
+No difference in which matches are held: Scotland v Wales (107), Scotland v Northern Ireland (96), Wales v Northern Ireland (97), Finland v Sweden (91), Argentina v Paraguay (107), Argentina v Chile (93) and Chile v Peru (88). RSSSF dates a few of these one day apart from the archive (Paraguay v Argentina 20 May 1919, 28 October 1923 and 12 October 1967; Chile v Peru 16 July 1975); the archive's dates stand until a second record is seen. RSSSF does not number Chile 0–2 Argentina of 21 September 1913 in its list for the pair, though its Chile list does; it stays.
+
+Rows in the archive that only one association counts, or neither (left out by Formline):
+
+| Date | Home | Score | Away | Venue | Why |
+|---|---|---|---|---|---|
+| 1950-06-25 | Denmark | 1–4 | Norway | Aarhus | official for Denmark only (RSSSF; 11v11 has it as unofficial for Norway) |
+| 1957-07-12 | Denmark | 1–3 | Norway | Reykjavík | official for neither (RSSSF); Norway won 3–1 |
+| 1981-02-28 | Norway | 2–4 | Sweden | Lahti (indoor) | official for Sweden only (RSSSF); 11v11 dates it 13 February |
+| 2018-01-11 | Denmark | 0–1 | Sweden | Abu Dhabi | official for Sweden only: Denmark fielded its League XI (RSSSF) |
+| 1983-09-03 | Malaysia | 0–0 | Singapore | Kuala Lumpur | Singapore's Olympic side (RSSSF, Santokh Singh's appearances) |
+| 1983-09-10 | Singapore | 0–1 | Malaysia | Singapore | Singapore's Olympic side (same) |
+
+Three rows of Formline's own hand-added list were taken out for the same reason: Sweden 1–0 Denmark (31 January 2000), Norway 4–2 Denmark (2 February 2000) and Finland 2–1 Denmark (4 February 2000), Nordic Championship matches at La Manga in which Denmark fielded its League XI. World Football Elo Ratings counts them; RSSSF marks them official for Denmark's opponents only.
+
+Matches the archive lacks (added to `build/store/manual-men.csv`):
+
+| Date | Home | Score | Away | Competition, venue | Records |
+|---|---|---|---|---|---|
+| 1970-09-13 | Norway | 2–4 | Sweden | Nordic Championship, Oslo | RSSSF (official match 81 of the series), Elo, 11v11 |
+| 1983-05-19 | Denmark | 2–2 | Norway | Olympic qualifier, Aarhus | RSSSF (official match 75), Wikipedia (Norway's match 434), RSSSF Norway; Elo and 11v11 leave it out |
+| 1983-08-17 | Norway | 1–1 | Denmark | Olympic qualifier, Oslo | RSSSF (official match 76), Wikipedia (Norway's match 439); Elo and 11v11 leave it out |
+| 1971-08-20 | Malaysia | 4–2 | Singapore | Merdeka Tournament fifth-place match, Kuala Lumpur | RSSSF (tournament page and the pair's list), Wikipedia, 11v11 |
+| 1978-05-05 | Malaysia | 3–2 | Singapore | King's Cup final, Bangkok | RSSSF (the pair's list), Elo, 11v11 |
+| 1965-02-27 | Kenya | 3–0 | Uganda | African Cup of Nations qualifier | Elo; RSSSF's Kenya and Uganda lists (28 February) |
+| 1965-03-13 | Uganda | 3–1 | Kenya | African Cup of Nations qualifier | Elo; RSSSF's Kenya and Uganda lists |
+| 1972-10-08 | Uganda | 2–0 | Kenya | Friendly | same |
+| 1981-07-25 | Kenya | 0–0 | Uganda | Friendly | same |
+| 1986-12-12 | Kenya | 3–0 | Uganda | Jamhuri (independence day) match | same |
+| 1991-06-27 | Uganda | 0–0 | Kenya | Friendly | same |
+| 1996-05-05 | Kenya | 2–1 | Uganda | Friendly | same |
+| 1996-05-07 | Kenya | 1–0 | Uganda | Friendly | same |
+
+A wrong score and wrong dates:
+
+- 1971-08-23 Singapore 2–4 Malaysia (Kallang): the match that day was 2–2 in the Pesta Sukan Cup, Malaysia winning 5–4 on penalties (RSSSF's list for the pair; 11v11). 2–4 is the Merdeka Tournament score of three days earlier, turned round. RSSSF's Pesta Sukan page says Malaysia may have used players who had not appeared in the Merdeka Tournament.
+- 1971-10-30 Malaysia 1–1 Singapore (Saigon): played 31 October (RSSSF; 11v11).
+- Kenya v Uganda, Gossage Cup: 1932-08-25 Uganda 13–1 Kenya was played 14 December 1932; 1938-10-10 Kenya 1–3 Uganda on 26 March 1938; 1939-11-28 Uganda 5–2 Kenya on 25 March 1939; 1944-11-07 Kenya 2–1 Uganda on 25 March 1944 (RSSSF and Elo agree on each). 1935-05-11 Kenya 1–3 Uganda is the 1936 match (Elo: 28 March 1936; RSSSF has it in 1936 without a day). 1966-11-30 Uganda 1–2 Kenya was played 8 October 1966, for Uganda's independence anniversary (Elo; RSSSF's Kenya list; RSSSF's Uganda list says 8 November).
+
+Not settled, because the outside lists disagree with each other (nothing changed):
+
+- **Malaysia v Singapore.** After the changes above the archive and RSSSF's list for the pair both have 81 matches from 1958 to 2024, Malaysia 32 wins, 27 draws, Singapore 22, but two matches differ: the archive has Singapore 3–1 Malaysia of 10 November 1982, which no RSSSF list has; RSSSF's list for the pair has Singapore 4–0 Malaysia of 26 August 1986 (Merlion Cup), which RSSSF's Malaysia list marks as probably a B or youth side and Elo leaves out. RSSSF has 0–0 for 18 August 1984 where the archive has 1–1, 14 December 1985 where the archive has the 15th, and 23 May 1989 where the archive and RSSSF's older lists have the 25th. Elo alone has friendlies on 29 September 1985 (1–1) and 6 October 1985 (Singapore 2–1), and five Sportsman's Trophy matches from 1949 to 1956.
+- **Malaysia v Thailand** (105 in the archive with Formline's additions, the same matches as Elo). There is no list for the pair. RSSSF's Malaysia list (to 2000) has four the archive lacks: 3–3 in the President's Cup of May 1975, Thailand 1–0 in the King's Cup on 19 November 1980 (11v11 has it too), 0–0 in an Olympic qualifier in Singapore in April 1984, and two Olympic qualifiers of 1987 or 1988 (Thailand 1–0, then 2–2). Elo leaves out Thailand's Olympic qualifiers of 1984, though it has the other sides' from the same group. The archive has several that RSSSF's list lacks (27 October 1962, 31 October 1970, 15 May 1971, 29 August 1980), and RSSSF's Singapore list calls Malaysia's side at the 1972 King's Cup a B team. 11v11's own two pages for the pair give different totals (105 and 108).
+- **Kenya v Uganda** (120 with Formline's additions). RSSSF's Kenya list has 120 it counts as full internationals. Still different: RSSSF has Uganda 0–0 Kenya of 1 September 1963, which Elo lacks; Elo has Uganda 0–0 Kenya of 4 April 1999, which RSSSF lacks; the archive has CECAFA Cup matches of 24 November 1981 (Kenya 3–1) and 27 November 1996 (Uganda 2–0) that RSSSF's lists lack; RSSSF has Kenya winning 3–2 on 28 September 1965 where the archive has 2–2; the two RSSSF lists both claim a 2–0 win for their own side on 2 December 1949. The Gossage Cup dates before 1946 that are not listed above rest on one record each.
 
 ### Both legs of a tie on the same date (10 pairs)
 
