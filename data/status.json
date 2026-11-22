@@ -1,11 +1,11 @@
 {
- "built": "2026-11-21T22:09:49.488Z",
- "today": "2026-11-21",
+ "built": "2026-11-22T07:18:27.055Z",
+ "today": "2026-11-22",
  "mode": "full",
  "api": {
   "keyPresent": true,
   "used": 74,
-  "remaining": 5908,
+  "remaining": 7425,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 1543,
+   "usedTodayBeforeRun": 0,
    "perMinute": 300
   },
   "paid": true,
@@ -25,15 +25,15 @@
  "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 16811,
+  "domestic": 16700,
   "youth": 172,
-  "clubs": 154,
-  "not counted": 194
+  "not counted": 190,
+  "clubs": 169
  },
  "seen": {
   "men": {
-   "results": 5,
-   "latest": "2026-11-18"
+   "results": 0,
+   "latest": null
   },
   "women": {
    "results": 0,
@@ -42,7 +42,7 @@
  },
  "apiAudit": {
   "asked": 10,
-  "results": 171,
+  "results": 271,
   "missing": 0,
   "diffs": 0,
   "cursor": "2014-10-31",
@@ -51,7 +51,6 @@
    "missing": 84,
    "diffs": 4
   },
-  "settled": 2,
   "wiki": {
    "asked": 0,
    "checked": 0,
@@ -66,15 +65,15 @@
  },
  "wiki": {
   "open": 64,
-  "asked": 0,
-  "pages": 0,
+  "asked": 1,
+  "pages": 1,
   "matched": 33,
   "errors": 0,
   "extra": 0
  },
  "wikiResults": {
-  "asked": 0,
-  "pages": 0,
+  "asked": 240,
+  "pages": 240,
   "candidates": 109,
   "added": 0,
   "errors": 0,
@@ -83,9 +82,9 @@
   "shown": 11
  },
  "wikiResultsMen": {
-  "asked": 0,
-  "pages": 0,
-  "candidates": 512,
+  "asked": 436,
+  "pages": 436,
+  "candidates": 513,
   "added": 0,
   "errors": 0,
   "unconfirmed": 0,
@@ -97,7 +96,7 @@
   "results": 0
  },
  "men": {
-  "built": "2026-11-21T22:09:49.488Z",
+  "built": "2026-11-22T07:18:27.055Z",
   "archive": {
    "end": "2026-11-17",
    "rows": 50099
@@ -117,7 +116,7 @@
   "fixtures": 2
  },
  "women": {
-  "built": "2026-11-21T22:09:49.488Z",
+  "built": "2026-11-22T07:18:27.055Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
