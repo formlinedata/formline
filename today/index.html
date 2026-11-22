@@ -93,17 +93,27 @@ async function main(){
   if ($('igBtn')) $('igBtn').onclick = e => copy(post.caption, e.target);
   if ($('xBtn')) $('xBtn').onclick = e => copy(post.xText, e.target);
   /* Save all at once: the phone's own share sheet, where it can take files ("Save 5 images"). The slides are fetched
-     first, so the tap itself only opens the sheet. */
-  const all = $('all');
+     first, so the tap itself only opens the sheet. Where the browser cannot share files (some in-app browsers, Firefox),
+     the button downloads them one after another instead, and where even the fetch fails it says so and stays put:
+     it never just disappears. */
+  const all = $('all'), hold = 'Press and hold each slide below and choose "Save".';
+  const say = t => { all.disabled = true; all.className = 'quiet'; all.textContent = t; };
+  let files = null;
   try {
-    const files = await Promise.all(slides.map(async (f, i) => { const r = await fetch(base + f); if (!r.ok) throw new Error(f);
+    files = await Promise.all(slides.map(async (f, i) => { const r = await fetch(base + f); if (!r.ok) throw new Error(f);
       const b = await r.blob(), ext = (f.split('.').pop() || 'jpg').toLowerCase();
       return new File([b], 'formline-' + d + '-' + (i + 1) + '.' + ext, {type:b.type && b.type.startsWith('image/') ? b.type : (ext === 'png' ? 'image/png' : 'image/jpeg')}); }));
-    if (navigator.canShare && navigator.canShare({files})){
-      all.disabled = false; all.textContent = 'Save all ' + files.length + ' slides';
-      all.onclick = async () => { try { await navigator.share({files}); } catch (e){ if (e && e.name !== 'AbortError'){ all.textContent = 'That did not work here: press and hold each slide'; all.disabled = true; } } };
-    } else all.remove();
-  } catch (e){ all.remove(); }
+  } catch (e){ say('Saving all at once is not possible here. ' + hold); return; }
+  let canFiles = false; try { canFiles = !!(navigator.share && navigator.canShare && navigator.canShare({files})); } catch (e){}
+  const download = () => { files.forEach((f, i) => setTimeout(() => { const a = document.createElement('a'), u = URL.createObjectURL(f); a.href = u; a.download = f.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 20000); }, i*350));
+    setTimeout(() => { $('allNote').textContent = 'If nothing was saved: ' + hold; }, files.length*350 + 400); };
+  all.insertAdjacentHTML('afterend', '<p class="mut" id="allNote"></p>');
+  all.disabled = false; all.textContent = 'Save all ' + files.length + ' slides';
+  all.onclick = async () => {
+    if (!canFiles){ download(); return; }
+    try { await navigator.share({files}); }
+    catch (e){ if (e && e.name !== 'AbortError'){ canFiles = false; download(); } } };
+  if (!canFiles) $('allNote').textContent = 'This browser cannot hand pictures to the phone\'s photo app in one go, so the button downloads them as files. In Safari or Chrome it opens the share sheet instead.';
 }
 main().catch(() => { $('sub').textContent = 'The post could not be loaded. Check the connection and reload.'; });
 </script>
