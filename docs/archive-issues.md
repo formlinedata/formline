@@ -205,6 +205,26 @@ China v Japan 1925 and Japan v Philippines 1921 each appear once as a Friendly a
 
 Egypt's opponent in Cairo on 13 May 2017 was Yemen, not Libya (ESPN's match page, with Hesham Mohamed's goal; API-Football fixture 225775). It was played by Egypt's home-based team, and Wikipedia (Hesham Mohamed's page) calls it an unofficial friendly. Egypt v Libya, also 1–0, was played on 5 June 2017 and is in the archive on that date as well. Formline leaves the 13 May row out.
 
+### Victory Internationals of 1945–46 filed as friendlies (9 rows; found 22 November 2026)
+
+| Date | Home | Score | Away | Venue | Counted as a full international by |
+|---|---|---|---|---|---|
+| 1945-05-26 | England | 2–2 | France | London | France only |
+| 1945-07-21 | Switzerland | 3–1 | England | Bern | Switzerland only |
+| 1945-09-15 | Northern Ireland | 0–1 | England | Belfast | neither |
+| 1945-10-20 | England | 0–1 | Wales | Birmingham (West Bromwich) | neither |
+| 1946-01-19 | England | 2–0 | Belgium | London | Belgium only |
+| 1946-04-13 | Scotland | 1–0 | England | Glasgow | neither |
+| 1946-04-24 | England | 2–2 | Scotland | Manchester | neither |
+| 1946-05-11 | England | 4–1 | Switzerland | London | Switzerland only |
+| 1946-05-19 | France | 2–1 | England | Colombes | France only |
+
+England, Wales and Ireland count none of the Victory Internationals as full internationals; France, Belgium and Switzerland count theirs; Scotland counts only its matches with Belgium (23 January 1946) and Switzerland (15 May 1946), which are also in the archive and are full internationals for both sides (Wikipedia, "Victory International"; RSSSF, "England – War-Time/Victory Internationals", headed "All matches are unofficial", and "Scotland – Unofficial Matches"; RSSSF's England–France list marks both matches "official for France but not" for England). The archive holds these nine but not the other three of the series (Scotland 2–0 Wales, 10 November 1945; Ireland 2–3 Scotland, 2 February 1946; Wales 0–1 Ireland, 4 May 1946).
+
+The England 2–2 Scotland row is the Bolton Disaster Fund match at Maine Road, which was played on 24 August 1946, not 24 April (RSSSF, "Scotland Unofficial Matches 1946–1959"; London Hearts' Scotland records). 11v11 carries the same April date as the archive.
+
+Formline leaves all nine out, as it leaves out matches against England's amateur side: with them, England v Scotland comes to 118 meetings against the official 116, England v Wales to 106 against 105, and England v Northern Ireland to 99 against 98.
+
 ### Both legs of a tie on the same date (10 pairs)
 
 Home and away legs, in different cities, filed under one date, so one date in each pair is probably wrong. (The Argentina v Uruguay double-headers of 1916–29 are left out: those were real, with two teams playing in two cities on the same day.)

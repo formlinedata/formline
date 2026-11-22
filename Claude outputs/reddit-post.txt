@@ -1,0 +1,20 @@
+WHERE: r/dataisbeautiful   (image post: rivalries-oc.png)
+
+TITLE (copy exactly):
+[OC] The 20 most-played rivalries in men's international football, 1872–2026, with each side's wins, draws and losses
+
+FIRST COMMENT (post it straight after, as a top-level comment):
+Source: Mart Jürisoo's "International football results from 1872" archive (CC0), plus about 2,300 matches I have added to it from RSSSF, Wikipedia and API-Football for my own site.
+Tool: Python (matplotlib).
+
+How it is counted: full men's internationals only, up to 18 November 2026. The winner of a penalty shoot-out counts as winning the meeting. Abandoned matches are left out. West Germany's matches count as Germany's.
+
+A few things that surprised me:
+
+- Argentina v Uruguay is far out in front: 193 meetings, 56 more than any other pair.
+- Kenya v Uganda (112) is fifth, ahead of every Scandinavian pair, thanks largely to East Africa's regional cup.
+- Brazil v Argentina is almost level after 106 meetings: 43 wins to 41.
+- Malaysia v Thailand (105) and Malaysia v Singapore (86) are the only Asian pairs in the top 20.
+
+Every result for each pair is on my site, if you want to check one: https://formlinedata.com/h2h/
+Happy to answer questions about the data.

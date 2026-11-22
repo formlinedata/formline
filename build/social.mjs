@@ -30,6 +30,8 @@ const DATE = process.env.SOCIAL_DATE || torontoDate();
 const WEEK = ['pastTournament', 'rankings', 'spotlight', 'onThisDay', 'tournament', 'rivalry', 'match'];   // Sun … Sat
 const FALLBACK = ['match', 'spotlight', 'rivalry', 'pastTournament', 'rankings'];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[c]));
+/* "a 12% chance" but "an 8% chance": eight, eleven, eighteen and the eighties take "an". */
+export const aPct = n => (/^(8|11|18|8\d)$/.test(String(n)) ? 'an ' : 'a ') + n + '%';
 const GAME = {men:"Men's", women:"Women's"};
 /* Whose matches a day's post covers: "Women's" or "Men's" when every match is from one game, '' when the day mixes both
    (Seb's women's window, Nov 2026: a slide of women's matches has to say so). */
@@ -51,10 +53,12 @@ export function koText(iso, refDay){
     return `${time} ${lab}${other ? ` (${new Date(t).toLocaleDateString('en-GB', {weekday:'short', timeZone:tz})})` : ''}`; };
   return part('America/Toronto', 'ET') + ' · ' + part('Europe/London', 'UK');
 }
-const utcDay = iso => new Date(Date.parse(iso)).toISOString().slice(0, 10);
+/* The day in Toronto that a kick-off falls on: the day a post names for a coming match (build/social/collect.js, fxDayTxt),
+   so the other zone is the one marked when its day differs. */
+const torDay = iso => new Date(Date.parse(iso)).toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
 /* A post's "next match" (spotlight, rivalry, tie-in): its kick-off as a line under the chances on a slide, and its day with
    the kick-off for captions and alt text ("Saturday 14 November, 2:45 PM ET / 7:45 PM UK"). */
-const nextKo = N => N && N.kickoff ? koText(N.kickoff, utcDay(N.kickoff)) : '';
+const nextKo = N => N && N.kickoff ? koText(N.kickoff, torDay(N.kickoff)) : '';
 const koLine = N => nextKo(N) ? `<div class="body dim" style="font-size:22px;margin-top:14px">Kick-off ${nextKo(N)}</div>` : '';
 const whenTxt = N => N.day + (nextKo(N) ? ', ' + nextKo(N).replace(' · ', ' / ') : '');
 /* The largest type (px, between min and max) at which a row's longest line of text still fits: chars is its length, room
@@ -181,7 +185,7 @@ const pickPage = inner => page(1080, 1350, inner, {right:'Formline\'s pick and i
 /* A team's flag as an emoji for the post text, with a space after it (nothing when there's no emoji for that flag). */
 const fe = f => f && f.emo ? f.emo + ' ' : '';
 const STAGE_SHORT = st => String(st || '').replace(/^Group stage$/, 'Group').replace(/^Round of (\d+)/, 'R$1').replace(/^Quarter-final/, 'QF')
-  .replace(/^Semi-final/, 'SF').replace(/^Third place$/, '3rd place').replace(/, 1st leg$/, ' (1st leg)').replace(/, 2nd leg$/, ' (2nd leg)');
+  .replace(/^Semi-final/, 'SF').replace(/^Third place$/, '3rd place').replace(/, 1st leg$/, ' (1st leg)').replace(/, 2nd leg$/, ' (2nd leg)').replace(/, play-off$/, ' (play-off)');
 /* Rating over time as an SVG line, with the peak and the low marked. */
 function ratingChart(ch, W = 896, H = 560){
   const P = {l:80, r:24, t:30, b:56}, w = W - P.l - P.r, h = H - P.t - P.b;
@@ -211,7 +215,7 @@ const BUILD = {
     const eA = fe(d.home.flag), eB = fe(d.away.flag);
     const pf = Math.max(d.pr.p[0], d.pr.p[2]), favT = d.pr.p[0] >= d.pr.p[2] ? A : B, dogT = favT === A ? B : A;
     const hk = top !== 1 && pf >= 55 ? `Can ${esc(dogT)} stop <em>${esc(favT)}</em>?` : `${esc(A)} v ${esc(B)}: <em>too close to call?</em>`;
-    const ko = d.kickoff ? koText(d.kickoff, utcDay(d.kickoff)) : '';
+    const ko = d.kickoff ? koText(d.kickoff, torDay(d.kickoff)) : '';
     const s1 = slide(`${hook(hk)}<div class="kick">${esc(d.comp)} · ${esc(d.day)}</div>${ko ? `<div class="body dim" style="font-size:26px;margin-top:8px">Kick-off ${esc(ko)}</div>` : ''}
 <div class="match"><div class="side">${flagImg(d.home.flag, 120)}${esc(A)}<small>${d.home.rank ? 'Ranked ' + ord(d.home.rank) : ''}</small></div><div class="vs">v</div>
 <div class="side">${flagImg(d.away.flag, 120)}${esc(B)}<small>${d.away.rank ? 'Ranked ' + ord(d.away.rank) : ''}</small></div></div>
@@ -275,14 +279,14 @@ ${d.next && d.next.pr ? `<div class="box" style="margin-top:20px"><div class="la
     const eH = fe(d.home.flag), eA = fe(d.away.flag), C = d.ctx || {};
     const kick1 = tie ? `Before they meet again · ${esc(N.day)}` : `On this day · ${d.yearsAgo} years ago${d.g === 'women' ? " · Women's" : ''}`;
     const loser = winner ? (winner === H ? A : H) : '';
-    const hk = tie ? `Before they meet again: <em>remember ${d.year}?</em>` : wp != null && wp < 35 ? `${esc(winner)} had a ${wp}% chance. <em>They won.</em>`
+    const hk = tie ? `Before they meet again: <em>remember ${d.year}?</em>` : wp != null && wp < 35 ? `${esc(winner)} had ${aPct(wp)} chance. <em>They won.</em>`
       : winner ? `The day ${esc(winner)} beat <em>${esc(loser)}</em>` : `${esc(H)} v ${esc(A)}: <em>honours even</em>`;
     const s1 = slide(`${hook(hk)}<div class="kick">${kick1}</div><h2 style="margin-top:16px">${tie ? `${d.year}: ` : ''}${esc(what)}</h2>
 <div class="match"><div class="side">${flagImg(d.home.flag, 120)}${esc(H)}</div><div class="score">${d.hs}–${d.as}</div><div class="side">${flagImg(d.away.flag, 120)}${esc(A)}</div></div>
 <p class="body" style="margin-top:30px;text-align:center">${esc(shortDay(d.date))}${venue(d) ? ' · ' + esc(venue(d)) : ''}${d.pen ? `<br>${esc(d.pen)} won on penalties` : ''}</p>`);
     const s2 = slide(`<div class="kick">${esc(H)} v ${esc(A)}, ${d.year}</div>
 ${d.p ? `<div class="box"><div class="lab">Chances before kick-off</div>${pickBar(d.p, H, A)}</div>
-<p class="body" style="margin-top:26px">${wp != null && wp < 35 ? `<b>${esc(winner)}</b> were given just a <b>${wp}%</b> chance of winning, going by the ratings at the time.` : winner ? `<b>${esc(winner)}</b> were ${wp != null && wp >= 50 ? 'the favourites' : 'given a ' + wp + '% chance'} going in.` : 'Honours even.'}</p>` : ''}
+<p class="body" style="margin-top:26px">${wp != null && wp < 35 ? `<b>${esc(winner)}</b> were given just a <b>${wp}%</b> chance of winning, going by the ratings at the time.` : winner ? `<b>${esc(winner)}</b> were ${wp != null && wp >= 50 ? 'the favourites' : 'given ' + aPct(wp) + ' chance'} going in.` : 'Honours even.'}</p>` : ''}
 ${d.h2h.n > 1 ? `<div class="box"><div class="lab">All-time between them</div>${recBlock(d.home.modern, d.away.modern, d.h2h.w, d.h2h.d, d.h2h.l, d.h2h.n)}<div class="body dim" style="font-size:24px">${d.h2h.n} meetings</div></div>` : ''}`);
     /* How the tournament ended, and its biggest shock */
     const E = C.ended, U = C.upset;
@@ -307,7 +311,7 @@ ${S.last.map(m => `<div class="body" style="font-size:23px">${m.year}: ${esc(m.h
 ${tie && N && N.pr ? `<div class="box" style="margin-top:20px"><div class="lab">Next: ${esc(N.home)} v ${esc(N.away)}, ${esc(N.day)}</div>${pickBar(N.pr.p, N.home, N.away)}${koLine(N)}</div>` : ''}`) : null;
     const x = wide(`<div class="kick" style="font-size:20px">${tie ? `Before they meet again · ${d.year}` : `On this day, ${d.year}`} · ${esc(what)}</div>
 <div class="match" style="margin-top:20px"><div class="side" style="font-size:34px;gap:10px">${flagImg(d.home.flag, 80)}${esc(H)}</div><div class="score" style="font-size:96px">${d.hs}–${d.as}</div><div class="side" style="font-size:34px;gap:10px">${flagImg(d.away.flag, 80)}${esc(A)}</div></div>
-${wp != null && wp < 35 ? `<p class="body" style="text-align:center;margin-top:18px">${esc(winner)} had a ${wp}% chance going in</p>` : ''}`);
+${wp != null && wp < 35 ? `<p class="body" style="text-align:center;margin-top:18px">${esc(winner)} had ${aPct(wp)} chance going in</p>` : ''}`);
     const alts = [`${tie ? `Before ${N.home} v ${N.away} on ${whenTxt(N)}, a look back` : `On this day ${d.yearsAgo} years ago`}: ${what}, ${H} ${d.hs}–${d.as} ${A}, ${shortDay(d.date)}${venue(d) ? `, in ${venue(d)}` : ''}.${d.pen ? ` ${d.pen} won on penalties.` : ''}`,
       `${H} v ${A}, ${d.year}.${d.p ? ` Chances before kick-off, from the ratings at the time: ${H} ${d.p[0]}%, draw ${d.p[1]}%, ${A} ${d.p[2]}%.` : ''}${d.h2h.n > 1 ? ` All-time between them: ${d.home.modern} ${d.h2h.w} wins, ${d.h2h.d} draws, ${d.away.modern} ${d.h2h.l} wins, ${d.h2h.n} meetings.` : ''}`];
     if (s3) alts.push(`${d.comp} ${d.edition}.${E ? ` Champions: ${E.champ}${E.final ? `, final ${E.final.home} ${E.final.hs}–${E.final.as} ${E.final.away}${E.final.pen ? ` (${E.final.pen} on penalties)` : ''}` : ''}.${E.home ? ` ${d.home.modern} ${E.home}.` : ''}${E.away ? ` ${d.away.modern} ${E.away}.` : ''}` : ''}${U ? ` Biggest upset: ${U.home} ${U.hs}–${U.as} ${U.away}, ${U.winner} given ${U.wp}%.` : ''}`);
@@ -320,8 +324,8 @@ ${wp != null && wp < 35 ? `<p class="body" style="text-align:center;margin-top:1
     const emo = tie ? `${(fe(N.homeFlag) + fe(N.awayFlag)).trim()}${fe(N.homeFlag) || fe(N.awayFlag) ? ' ' : ''}⏪` : `${(eH + eA).trim()}${eH || eA ? ' ' : ''}🗓️`;
     const head = `${core} ${emo}`;
     return {title:tie ? `Before ${N.home} v ${N.away}: ${d.year}` : `On this day: ${H} ${d.hs}–${d.as} ${A}`, slides:[s1, s2, s3, s4].filter(Boolean), x, alts,
-      caption:`${core}${d.pen ? ` (${d.pen} won on penalties)` : ''}, ${what}${d.city ? `, in ${d.city}` : ''}. ${emo}${wp != null && wp < 35 ? `\n\n😱 Going by the ratings at the time, ${winner} had just a ${wp}% chance of winning.` : ''}${endLine}${rankLine}${sinceLine}${nextLine}\n\n${tie ? 'Who takes this one? 👇 The full preview is on Formline (link in bio).' : 'Do you remember this one? 👇 Swipe for how it ended and where both teams stand now.'}\n\n${hashtags(d.g, [d.home.modern, d.away.modern], tie && N ? N.comp : d.comp, tie ? 'match' : 'onthisday')}`,
-      xText:`${head}\n${what}${wp != null && wp < 35 ? `\n\n😱 ${winner} had a ${wp}% chance going in.` : ''}${tie && N && N.pr ? `\n\n🗓️ Next: ${N.day}, ${N.home} ${N.pr.p[0]}% · ${N.away} ${N.pr.p[2]}%` : ''}\n\n${tie && N ? `${BASE}matches/${d.g}/${N.date}-${slugify(N.home)}-vs-${slugify(N.away)}.html` : BASE}`};
+      caption:`${core}${d.pen ? ` (${d.pen} won on penalties)` : ''}, ${what}${d.city ? `, in ${d.city}` : ''}. ${emo}${wp != null && wp < 35 ? `\n\n😱 Going by the ratings at the time, ${winner} had just ${aPct(wp)} chance of winning.` : ''}${endLine}${rankLine}${sinceLine}${nextLine}\n\n${tie ? 'Who takes this one? 👇 The full preview is on Formline (link in bio).' : 'Do you remember this one? 👇 Swipe for how it ended and where both teams stand now.'}\n\n${hashtags(d.g, [d.home.modern, d.away.modern], tie && N ? N.comp : d.comp, tie ? 'match' : 'onthisday')}`,
+      xText:`${head}\n${what}${wp != null && wp < 35 ? `\n\n😱 ${winner} had ${aPct(wp)} chance going in.` : ''}${tie && N && N.pr ? `\n\n🗓️ Next: ${N.day}, ${N.home} ${N.pr.p[0]}% · ${N.away} ${N.pr.p[2]}%` : ''}\n\n${tie && N ? `${BASE}matches/${d.g}/${N.date}-${slugify(N.home)}-vs-${slugify(N.away)}.html` : BASE}`};
   },
   rivalry(d){
     const A = d.a.team, B = d.b.team, url = `${BASE}h2h/${d.g}/${[slugify(A), slugify(B)].sort().join('-vs-')}.html`;
@@ -383,7 +387,7 @@ ${rows.map(r => `<div class="row" style="grid-template-columns:1fr 150px 150px">
     const L = d.toPlay ? d.toPlay.list : [];
     if (L.length >= 3){
       const fs3 = fitFs(Math.max(...L.map(x => `${x.home} v ${x.away}`.length)), L.length <= 5 ? 38 : 32, 26, 650, 3), more = d.toPlay.n - L.length;
-      const when = x => [x.day, x.kickoff ? koText(x.kickoff, utcDay(x.kickoff)) : '', G.length ? 'Group ' + x.group : ''].filter(Boolean).join(' · ');
+      const when = x => [x.day, x.kickoff ? koText(x.kickoff, torDay(x.kickoff)) : '', G.length ? 'Group ' + x.group : ''].filter(Boolean).join(' · ');
       s3 = pickPage(`<div class="kick">${esc(d.short)} · still to play</div><h2>${d.toPlay.n} group match${d.toPlay.n === 1 ? '' : 'es'} left</h2>
 <div style="margin-top:16px">${L.map(x => pickRow(x, fs3, when(x))).join('')}</div>${more > 0 ? `<p class="body dim" style="font-size:22px;margin-top:10px">+ ${more} more after these</p>` : ''}`);
       alts.push(`Still to play in ${d.short}, with Formline's pick and its chance: ${L.map(x => `${x.day}, ${x.home} v ${x.away}, ${x.call === 1 ? 'draw' : (x.call === 0 ? x.home : x.away)} ${x.p[x.call]}%`).join('; ')}${more > 0 ? `; and ${more} more` : ''}.`);
@@ -430,7 +434,7 @@ ${d.byConf.map(c => `<div class="lab" style="margin-top:22px">${esc(c.conf)}</di
       : `The ${d.teams} teams at the ${title}: ${d.byConf.map(c => `${c.conf}: ${c.teams.map(t => t.name).join(', ')}`).join('. ')}.`);
     const roadTxt = road.length && road.length <= 8 ? `\n\n🛣️ The road: ${road.map(m => `${STAGE_SHORT(m.stage) ? STAGE_SHORT(m.stage) + ' ' : ''}${m.gf}–${m.ga} v ${m.oppEmo ? m.oppEmo + ' ' : ''}${m.opp}${m.pen ? ' (pens)' : ''}`).join(' · ')}` : '';
     return {title:`${title}: ${C}`, slides:[s1, s2, s3, s4].filter(Boolean), x, alts,
-      caption:`${title}: ${C} were champions${d.host ? `, in ${d.host}` : ''} ${eC}🏆\n\n⚽ The final: ${f.home} ${f.hs}–${f.as} ${f.away}${f.pen ? ` (${f.pen} won on penalties)` : ''}. ${C}'s record: won ${d.record.w}, drew ${d.record.d}, lost ${d.record.l}.${roadTxt}${d.upset ? `\n\n😱 Biggest upset: ${d.upset.home} ${d.upset.hs}–${d.upset.as} ${d.upset.away}. ${d.upset.winEmo ? d.upset.winEmo + ' ' : ''}${d.upset.winner} had a ${d.upset.wp}% chance going in.` : ''}\n\n🌍 ${d.teams} teams took part. Swipe for the road to the title, the shocks and every group ➡️\n\nEvery edition of every tournament is on Formline (link in bio) 👆\n\n${hashtags(d.g, [C], d.tournament, 'past')}`,
+      caption:`${title}: ${C} were champions${d.host ? `, in ${d.host}` : ''} ${eC}🏆\n\n⚽ The final: ${f.home} ${f.hs}–${f.as} ${f.away}${f.pen ? ` (${f.pen} won on penalties)` : ''}. ${C}'s record: won ${d.record.w}, drew ${d.record.d}, lost ${d.record.l}.${roadTxt}${d.upset ? `\n\n😱 Biggest upset: ${d.upset.home} ${d.upset.hs}–${d.upset.as} ${d.upset.away}. ${d.upset.winEmo ? d.upset.winEmo + ' ' : ''}${d.upset.winner} had ${aPct(d.upset.wp)} chance going in.` : ''}\n\n🌍 ${d.teams} teams took part. Swipe for the road to the title, the shocks and every group ➡️\n\nEvery edition of every tournament is on Formline (link in bio) 👆\n\n${hashtags(d.g, [C], d.tournament, 'past')}`,
       xText:`🏆 ${title}: ${eC}${C} were champions\n\n⚽ Final: ${f.home} ${f.hs}–${f.as} ${f.away}${f.pen ? ` (${f.pen} on pens)` : ''}${d.upset ? `\n😱 Biggest upset: ${d.upset.winner}, ${d.upset.wp}% going in` : ''}\n\n${BASE}`};
   },
   rankings(d){

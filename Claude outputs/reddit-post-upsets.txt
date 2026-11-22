@@ -1,0 +1,22 @@
+WHERE: r/dataisbeautiful   (image post: world-cup-upsets-oc.png)
+
+TITLE (copy exactly):
+[OC] The 20 biggest upsets at the men's World Cup, 1930–2026, ranked by the winner's chance of winning before kick-off
+
+FIRST COMMENT (post it straight after, as a top-level comment):
+Source: match results from Mart Jürisoo's "International football results from 1872" archive (CC0). I checked all 1,068 World Cup finals matches against a second list (the jfjelstul/worldcup database for 1930 to 2022, openfootball for 2026): every date, pairing and score agrees.
+Tools: the ratings are from my own Elo-style model, run once through the whole archive from 1872. Chart made with Python (matplotlib).
+
+How to read it: each bar is the chance the model gave the eventual winner before kick-off, using only results from before that match. It is a three-way chance (win, draw or lose). A match that went to penalties counts as a draw, so shoot-out shocks are not on the list.
+
+Is the model any good? Over every World Cup match, sides it gave 10 to 15% won 13% of the time, and sides it gave 15 to 25% won 20%. At the very bottom it is too harsh: sides given under 5% won 5 times out of 53. So read 1.1% for USA v England as "the least likely result on record", not as a true one in ninety.
+
+A few things I noticed:
+
+- Three of the 20 come from one tournament, 2022: Cameroon v Brazil, Saudi Arabia v Argentina and Tunisia v France. Brazil and France had already qualified for the last 16 and fielded much-changed teams, which the model cannot see.
+- Uruguay 2–1 Brazil in 1950 is the only one where the losing side was at home.
+- Nothing from 2026 comes close. Its biggest was South Africa 1–0 South Korea, at 17.5%.
+- The dagger marks matches where one or both sides had played very little before, so the ratings were less sure.
+
+The all-time records for every competition, with the same pre-match chances, are on my site: https://formlinedata.com/#/records
+Happy to answer questions about the data or the model.

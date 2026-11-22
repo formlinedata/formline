@@ -2028,6 +2028,17 @@ const CORRECTIONS = {
   men: [
     {date:'1974-02-17', home:'Tahiti', away:'New Caledonia', score:'2-1', drop:'listed twice with opposite scores; neither can be trusted'},
     {date:'1974-02-17', home:'Tahiti', away:'New Caledonia', score:'1-2', drop:'listed twice with opposite scores; neither can be trusted'},
+    /* The Victory Internationals of 1945\u201346 (22 Nov 2026). The archive holds nine of them as friendlies. England, Wales and
+       Ireland count none as full internationals; Scotland counts only its matches with Belgium and Switzerland, which stay. */
+    {date:'1945-05-26', home:'England', away:'France', score:'2-2', drop:'a Victory International of 1945\u201346: a full international for France but not for England, whose association counts none of them (RSSSF; Wikipedia, Victory International). Left out like the matches against England\'s amateur side'},
+    {date:'1945-07-21', home:'Switzerland', away:'England', score:'3-1', drop:'a Victory International of 1945\u201346: a full international for Switzerland but not for England, whose association counts none of them (RSSSF; Wikipedia, Victory International). Left out like the matches against England\'s amateur side'},
+    {date:'1945-09-15', home:'Northern Ireland', away:'England', score:'0-1', drop:'a Victory International of 1945\u201346, which neither association counts as a full international (RSSSF, "all matches are unofficial"; Wikipedia, Victory International)'},
+    {date:'1945-10-20', home:'England', away:'Wales', score:'0-1', drop:'a Victory International of 1945\u201346, which neither association counts as a full international (RSSSF, "all matches are unofficial"; Wikipedia, Victory International)'},
+    {date:'1946-01-19', home:'England', away:'Belgium', score:'2-0', drop:'a Victory International of 1945\u201346: a full international for Belgium but not for England, whose association counts none of them (RSSSF; Wikipedia, Victory International). Left out like the matches against England\'s amateur side'},
+    {date:'1946-04-13', home:'Scotland', away:'England', score:'1-0', drop:'a Victory International of 1945\u201346, which neither association counts as a full international (RSSSF, "all matches are unofficial"; Wikipedia, Victory International)'},
+    {date:'1946-04-24', home:'England', away:'Scotland', score:'2-2', drop:'the Bolton Disaster Fund match, not a full international, and played on 24 August 1946, not in April (RSSSF, Scotland unofficial matches; London Hearts)'},
+    {date:'1946-05-11', home:'England', away:'Switzerland', score:'4-1', drop:'a Victory International of 1945\u201346: a full international for Switzerland but not for England, whose association counts none of them (RSSSF; Wikipedia, Victory International). Left out like the matches against England\'s amateur side'},
+    {date:'1946-05-19', home:'France', away:'England', score:'2-1', drop:'a Victory International of 1945\u201346: a full international for France but not for England, whose association counts none of them (RSSSF; Wikipedia, Victory International). Left out like the matches against England\'s amateur side'},
     {date:'2017-05-13', home:'Egypt', away:'Libya', score:'1-0', drop:'Egypt\'s opponent in Cairo that day was Yemen, in an unofficial friendly played by Egypt\'s home-based team (ESPN; Wikipedia); Egypt v Libya was played once, on 5 June 2017, and that match stays'},
     {date:'1979-07-25', home:'Belarus', away:'Russia', set:{country:'Belarus'}, note:'Minsk; a Soviet Spartakiad match, so Belarus was at home'},
     /* The semi-final of the 1996 Oceania Nations Cup, which was also the 1995 Trans-Tasman Cup; the archive files the two
@@ -4987,7 +4998,7 @@ function viewSources(){
       ['Men\'s results missing from the archive, added by hand (2,288 matches, each found in two other records); scores corrected where two other records agree against the archive; and the score on the pitch for results awarded afterwards', a('https://www.eloratings.net/', 'World Football Elo Ratings')+' and '+a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team results pages, with '+a('https://www.rsssf.org', 'RSSSF')+' as the third record for some older matches. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')+' (Wikipedia)'],
       ['Women\'s results missing from the archives and API-Football, added by hand (551 matches: five 2026 tournaments, the 2025 East Asian championship, the 2014 Copa Am&eacute;rica Femenina, the 2024 CONCACAF W Gold Cup, missing qualifiers and recent friendlies); and a few scores and dates corrected', a('https://en.wikipedia.org', 'Wikipedia')+'\'s tournament and national-team articles. Added matches are marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Women\'s results neither the archives nor API-Football have, found each night', a('https://en.wikipedia.org', 'Wikipedia')+'\'s national-team articles, kept when two pages agree or the result stays up for two days. Marked &Dagger; in match lists.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
-      ['Why a side was not at a tournament (bans, withdrawals, boycotts), and the year each association joined FIFA', a('https://en.wikipedia.org', 'Wikipedia')+': each edition\'s qualification article, the member tables of the six confederations, and the German edition\'s list of FIFA members; with '+a('https://www.rsssf.org', 'RSSSF')+'\'s World Cup qualifying tables. Where two lists give different joining years, the earlier is used and both are shown if they are close.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
+      ['Why a side was not at a tournament (bans, withdrawals, boycotts), and the year each association joined FIFA', a('https://en.wikipedia.org', 'Wikipedia')+': each edition\'s qualification article, the member tables of the six confederations, and the German edition\'s list of FIFA members; with '+a('https://www.rsssf.org', 'RSSSF')+'\'s World Cup qualifying tables; and, for bans, withdrawals and late admissions since 1996, the announcements of FIFA, UEFA and the African confederation and news reports of them. Where two lists give different joining years, the earlier is used and both are shown if they are close.', a('https://creativecommons.org/licenses/by-sa/4.0/', 'CC BY-SA 4.0')],
       ['Historical results and tables', a('https://www.rsssf.org', 'RSSSF')+' (the Rec.Sport.Soccer Statistics Foundation), through the archives above. '+
         'It will be the main source for Formline\'s club history, with credit to the author of each page used, by kind permission of Karel Stokkermans. Already used for the organiser\'s seeding at the 1998 African Cup of Nations.', 'Used with permission'],
     ])+
@@ -10841,8 +10852,9 @@ function matchStages(e){
       (fmt.phases || []).forEach((ph, k) => ph.all.forEach(m => out.set(m, k ? fmt.stages[k - 1].name : 'Group stage')));
       const one = n => n === 2 ? 'Final' : n === 4 ? 'Semi-final' : n === 8 ? 'Quarter-final' : 'Round of '+n;
       fmt.rounds.forEach((r, i) => r.ties.forEach(t => {
-        const L = t.list, legs = L.length === 2 && L[1]._h === L[0]._a && venueSide(L[0]) !== 0 && venueSide(L[1]) !== 0;
-        L.forEach((m, j) => out.set(m, one(fmt.sizes[i])+(L.length < 2 ? '' : legs ? (j === 0 ? ', 1st leg' : ', 2nd leg') : j > 0 ? ', replay' : '')));
+        /* Two legs, home and away; a third match after them is the play-off (the Copa América finals of 1975 and 1979). */
+        const L = t.list, legs = L.length >= 2 && L.length <= 3 && L[1]._h === L[0]._a && venueSide(L[0]) !== 0 && venueSide(L[1]) !== 0;
+        L.forEach((m, j) => out.set(m, one(fmt.sizes[i])+(L.length < 2 ? '' : legs ? (j === 0 ? ', 1st leg' : j === 1 ? ', 2nd leg' : ', play-off') : j > 0 ? ', replay' : '')));
       }));
       if (fmt.third) fmt.third.list.forEach(m => out.set(m, 'Third place'));
     }
@@ -11109,6 +11121,8 @@ const GIANT_SHARE = 0.10;
    continental finals counted, which showed sides such as Peru in 1938 and Tahiti in 1974 as "out in qualifying" for World
    Cups whose qualifying they never played. */
 const wcViaCont = (e, m, g) => {
+  /* The football tournament of the 2007 South Pacific Games was the first stage of Oceania's qualifying for the 2010 World Cup. */
+  if (g === 'men' && e.cat === 'wc' && e.label === '2010' && m.tournament === 'South Pacific Games' && new Date(m.ts).getUTCFullYear() === 2007) return true;
   if (e.cat !== 'wc' || !(m.cat === 'cont' || m.tournament === 'CONCACAF Championship qualification')) return false;
   const oc = m.tournament === 'Oceania Nations Cup';
   if (m.ts < e.start - (oc ? 2.1 : 2)*365.25*DAY) return false;
@@ -11211,10 +11225,14 @@ const EDITION_ABSENT = {
   'men|CONCACAF Championship|1967':{'Costa Rica':'withdrew from the Central American qualifying tournament in a dispute with Guatemala\'s federation', 'El Salvador':'withdrew from the Central American qualifying tournament in a dispute with Guatemala\'s federation'},
   'men|CONCACAF Championship|1969':{Honduras:'disqualified, with El Salvador, because of the war between the two countries that summer', 'El Salvador':'disqualified, with Honduras, because of the war between the two countries that summer'},
   'men|AFC Asian Cup|1976':Object.fromEntries(['North Korea', 'Saudi Arabia', 'Thailand'].map(k => [k, 'qualified, then withdrew before the finals'])),
-  'men|FIFA World Cup|2022':{Russia:'banned: suspended by FIFA and UEFA in February 2022, before its play-off'},
+  'men|FIFA World Cup|2022':{Russia:'banned: suspended by FIFA and UEFA in February 2022, before its play-off',
+    'American Samoa':'withdrew before Oceania\'s qualifying tournament was drawn, in November 2021', Samoa:'withdrew before Oceania\'s qualifying tournament was drawn, in November 2021',
+    Tonga:'withdrew in January 2022, after the Hunga Tonga volcanic eruption and tsunami; its opponent, Cook Islands, went through',
+    Vanuatu:'withdrew at Oceania\'s qualifying tournament in Qatar in March 2022 without playing: most of its squad had tested positive for COVID-19'},
   'men|FIFA World Cup|2026':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
   'men|UEFA Euro|2024':{Russia:'banned: suspended by FIFA and UEFA since February 2022'},
-  'men|UEFA Euro|2008':{Gibraltar:'not yet a UEFA member (it joined on 24 May 2013)', Kosovo:'not yet a UEFA member (it joined on 3 May 2016)'},
+  'men|UEFA Euro|2008':{Gibraltar:'not yet a UEFA member (it joined on 24 May 2013)', Kosovo:'not yet a UEFA member (it joined on 3 May 2016)',
+    Montenegro:'became independent in June 2006 and joined UEFA on 26 January 2007, after qualifying had begun'},
   'men|UEFA Euro|2012':{Gibraltar:'not yet a UEFA member (it joined on 24 May 2013)', Kosovo:'not yet a UEFA member (it joined on 3 May 2016)'},
   'men|UEFA Euro|2016':{Kosovo:'not yet a UEFA member (it joined on 3 May 2016)'},
   'women|FIFA World Cup|2023':{Russia:'banned: suspended by FIFA and UEFA since February 2022',
@@ -11227,8 +11245,13 @@ const EDITION_ABSENT = {
   'men|AFC Asian Cup|1968':{China:'not a FIFA member: the People\'s Republic left in 1958 and returned in 1979'},
   'men|AFC Asian Cup|1972':{Israel:'withdrew: it had qualified as hosts, then pulled out, and Thailand staged the finals'},
   'men|AFC Asian Cup|1980':{Iraq:'withdrew'}, 'men|AFC Asian Cup|1984':{Iraq:'withdrew'}, 'men|AFC Asian Cup|1988':{Iraq:'withdrew'},
-  'men|AFC Asian Cup|1992':{Iraq:'banned after the Gulf War'},
+  'men|AFC Asian Cup|1992':{Iraq:'banned after the Gulf War',
+    ...Object.fromEntries(['Kazakhstan', 'Kyrgyzstan', 'Tajikistan', 'Turkmenistan', 'Uzbekistan'].map(k => [k, 'newly independent of the Soviet Union, and not yet a member of the Asian confederation']))},
   'men|African Cup of Nations|2002':{Guinea:'excluded from qualifying on 19 March 2001, its association being suspended by FIFA'},
+  'men|African Cup of Nations|2015':{Morocco:'the intended host: it asked for a postponement over the Ebola epidemic, and on 11 November 2014 the African confederation took the tournament away and expelled its team',
+    Gambia:'banned by the African confederation in May 2014 for fielding five over-age players in an under-20 qualifier; its first-round opponent, Seychelles, went through'},
+  'men|African Cup of Nations|2019':{Chad:'barred by the African confederation after pulling out of qualifying for the 2017 edition in March 2016'},
+  'men|African Cup of Nations|2024':Object.fromEntries(['Kenya', 'Zimbabwe'].map(k => [k, 'suspended by FIFA in February 2022 over government interference; drawn into a qualifying group on condition the suspension was lifted in time, it was removed in May 2022'])),
   'men|African Cup of Nations|1957':{'South Africa':'drawn to play, then left out: it would send only an all-white or an all-black team (disqualified by most accounts; some say it withdrew)'},
   ...Object.fromEntries(['1959', '1962', '1963', '1968', '1970', '1972', '1974', '1976', '1978', '1980', '1982', '1984', '1986', '1988', '1990', '1992'].map(y => ['men|African Cup of Nations|'+y, {'South Africa':SA_CAF}])),
   'men|African Cup of Nations|1965':{Egypt:'withdrew after qualifying, in a diplomatic dispute with the hosts, Tunisia', 'South Africa':SA_CAF},
@@ -11247,7 +11270,9 @@ const EDITION_ABSENT = {
   'men|Copa América|2001':{Argentina:'withdrew'},
   'men|Gold Cup|2002':{Honduras:'out in qualifying: the 2001 UNCAF Nations Cup, Central America\'s qualifying tournament, which it hosted'},
   'men|Oceania Nations Cup|1973':{Australia:'not a member: it left the Oceania confederation in 1972 and returned in 1978'},
-  'men|UEFA Euro|1996':{Serbia:'Yugoslavia was excluded from qualifying under United Nations sanctions'},
+  'men|UEFA Euro|1996':{Serbia:'Yugoslavia was excluded from qualifying under United Nations sanctions',
+    'Bosnia and Herzegovina':'not yet a member: at war from 1992 to 1995, its association joined FIFA in 1996 and UEFA in 1998'},
+  'men|UEFA Euro|2004':{Kazakhstan:'left the Asian confederation in 2001 and joined UEFA on 25 April 2002, after the qualifying groups had been drawn'},
   ...Object.fromEntries(['1976', '1980', '1984', '1988', '1992'].map(y => ['men|UEFA Euro|'+y, {Israel:'belonged to no confederation: it left the Asian confederation in 1974 and became a full UEFA member in 1994'}])),
   'women|CONCACAF Championship|2014':{Canada:'did not take part: this was the 2015 World Cup\'s qualifying, and Canada were in as hosts'},
   'women|AFC Asian Cup|2014':{'North Korea':'banned: FIFA barred it from the 2015 World Cup, for which this was the qualifying, after doping cases at the 2011 finals'},
@@ -11290,14 +11315,22 @@ const contWithdrew = (e, key) => { const o = state.gender === 'men' && CONT_WITH
   return !o ? '' : (o.w || []).includes(key) ? 'withdrew from qualifying without playing' : (o.x || []).includes(key) ? 'did not play its qualifying tie: the opponent went through by walkover' : ''; };
 /* Sides with matches of their own before and after, but none while they were part of a larger country (1946 to 1992). */
 const PART_OF = {Croatia:'Yugoslavia', Slovenia:'Yugoslavia', Montenegro:'Yugoslavia', Slovakia:'Czechoslovakia',
-  ...Object.fromEntries(['Estonia', 'Latvia', 'Lithuania', 'Belarus', 'Ukraine', 'Moldova', 'Armenia', 'Azerbaijan', 'Georgia'].map(k => [k, 'the Soviet Union']))};
+  ...Object.fromEntries(['Estonia', 'Latvia', 'Lithuania', 'Belarus', 'Ukraine', 'Moldova', 'Armenia', 'Azerbaijan', 'Georgia',
+    'Kazakhstan', 'Kyrgyzstan', 'Tajikistan', 'Turkmenistan', 'Uzbekistan'].map(k => [k, 'the Soviet Union']))};
+/* Sides that play internationals but cannot enter the African championship: only full members of the confederation can.
+   Zanzibar is part of Tanzania (union of April 1964) and an associate member; it was a full member only from March to
+   July 2017, after the 2019 qualifying draw. R\u00e9union is a French overseas department and an associate member (never a full one). */
+const ASSOC_ONLY = {Zanzibar:'cannot enter: Zanzibar is part of Tanzania, and apart from four months in 2017 it has only been an associate member of the African confederation',
+  'R\u00e9union':'cannot enter: R\u00e9union is a French overseas department, and has never been a full member of the African confederation'};
+const assocWhy = (e, key) => e.tournament === 'African Cup of Nations' && ASSOC_ONLY[key]
+  && (key !== 'Zanzibar' || new Date(e.start).getUTCFullYear() >= 1965) ? ASSOC_ONLY[key] : '';
 const partOfWhy = (e, key) => { const y = PART_OF[key] ? new Date(e.start).getUTCFullYear() : 0;
   return y >= 1946 && y <= 1992 ? 'had no team of its own: it was part of '+PART_OF[key]
     : key === 'Montenegro' && y >= 1993 && y <= 2006 ? 'had no team of its own: it played as part of Yugoslavia, from 2003 called Serbia and Montenegro' : ''; };
 const absentWhy = (e, key) => (EDITION_ABSENT[state.gender+'|'+e.tournament+'|'+e.label] || {})[key]
   || (state.gender === 'men' && e.tournament === 'FIFA World Cup' && ['1930', '1934', '1938'].includes(e.label) && UK_OUT.has(key) ? NOT_THERE_UK : '')
   || (state.gender === 'men' && e.tournament === 'FIFA World Cup' && (WC_WITHDREW[e.label] || []).includes(key) ? 'withdrew from qualifying without playing' : '')
-  || contWithdrew(e, key) || partOfWhy(e, key);
+  || contWithdrew(e, key) || partOfWhy(e, key) || assocWhy(e, key);
 function editionMissedPanel(e, run, tHref){
   const M = editionMissed(e, run);
   if (!M) return '';
@@ -11559,7 +11592,11 @@ const contViaOther = (e, m) => {
 };
 /* The women's Africa Cup of Nations of 2026 is the other: its first round was played in February 2025, five months before
    the delayed 2024 tournament (the edition of 2025) began. */
-const QUAL_EARLY = {'African Cup of Nations|2013':Date.UTC(2012, 0, 1), 'Africa Cup of Nations|2026':Date.UTC(2025, 0, 1)};
+/* Two more, both joint qualifying with the World Cup, whose preliminary round was played before the previous Cup of
+   Nations began: the 2006 edition's in October and November 2003, the 2010 edition's in October and November 2007 (the
+   window opens on 1 November 2007, clear of the last 2008 qualifiers of 13 October). */
+const QUAL_EARLY = {'African Cup of Nations|2013':Date.UTC(2012, 0, 1), 'Africa Cup of Nations|2026':Date.UTC(2025, 0, 1),
+  'African Cup of Nations|2006':Date.UTC(2003, 9, 1), 'African Cup of Nations|2010':Date.UTC(2007, 10, 1)};
 function majorEditions(){
   const g = state.gender, E = getEditions(g); if (E._majors) return E._majors;
   const ms = state.matches[g], list = E.list.filter(e => !e.qualLike && (e.cat === 'wc' || e.cat === 'cont') && e.teams.size >= 3).sort((a, b) => a.start - b.start), lastOf = {};
@@ -12799,6 +12836,8 @@ function viewSupport(){
 
 /* What changed, in plain words, newest first. */
 const CHANGELOG = [
+  ['22 Nov 2026', ['Nine matches of 1945 and 1946 no longer count: the Victory Internationals that England played against Wales, Northern Ireland, Scotland, France, Belgium and Switzerland at the end of the war, and the Bolton Disaster Fund match with Scotland. England&rsquo;s association counts none of them as full internationals, so they are out of the ratings and the head-to-head records, as matches against England&rsquo;s amateur side already were. England v Scotland now stands at 116 meetings, the official figure. Scotland&rsquo;s two Victory matches with Belgium and Switzerland stay: both sides count them.',
+    'Tournament pages now name the matches of a final played over two legs and a decider as &ldquo;1st leg&rdquo;, &ldquo;2nd leg&rdquo; and &ldquo;play-off&rdquo; (the Copa Am&eacute;rica finals of 1975 and 1979). They read &ldquo;Final&rdquo; and &ldquo;replay&rdquo; before.']],
   ['21 Nov 2026', ['Team pages now say when a side missed a World Cup because it was not yet a FIFA member, with the year it joined, or because it has never been one: Martinique, Guadeloupe and nine other sides belong to their confederation but not to FIFA, and cannot enter. About 600 lines that read &ldquo;Did not play qualifying&rdquo; give that reason now (Jamaica before 1962 and Tahiti before 1990, for two). The joining years come from two lists that disagree for 67 of the 211 associations, mostly by a year or two, so the reason is given only for World Cups held before both years; the year is shown where the lists agree, both years where they are close, and none where they are far apart.',
     'A mistake corrected on team and tournament pages: a side that played in a continental championship in the two years before a men\'s World Cup was marked &ldquo;Out in qualifying&rdquo; for that World Cup, even when it never played its qualifying. Fifty lines were wrong, among them Argentina, Chile and Peru in 1938, Egypt in 1958, Tahiti and New Caledonia in 1974 and Iran in 1982 and 1986. Only the championships that really were the World Cup\'s qualifying count now: CONCACAF\'s of 1973 to 1989 and Oceania\'s of 2004 to 2016.',
     'South Africa\'s page gives the reason for every World Cup and African Cup of Nations it missed under apartheid: left out of the first Cup of Nations in 1957, expelled by the African confederation in 1958, suspended by FIFA from October 1964, expelled in 1976 and readmitted in 1992.',
@@ -12810,7 +12849,9 @@ const CHANGELOG = [
     'For the African Cup of Nations from 1962 to 2002, 67 sides that entered qualifying and did not play (they withdrew, or their opponent went through by walkover) now say so, from RSSSF\'s page for each edition. The same for the Asian Cup from 1956 to 2007 (40 sides; and North Korea, Saudi Arabia and Thailand, who qualified for 1976 and then withdrew). A few more from the pages for the Euros and the CONCACAF Championship (Greece withdrew in 1964; Honduras and El Salvador were disqualified in 1969 because of the war between them). Belarus, Ukraine, Moldova, Armenia, Azerbaijan, Georgia, Slovenia and Montenegro join the sides that say they were part of a larger country. Also from those pages: five sides suspended by the African confederation for 1998, Madagascar disqualified in 1990 over unpaid fees, Guinea excluded in 2002, and Kenya giving up the 1996 tournament as hosts.',
     'Groups and runs on a tournament page now set an edition beside the championship\'s whole history even where its name changed: the Gold Cup with the CONCACAF Championship before it (1963 to 1989), and on the women\'s side the Africa Cup of Nations with the African Championship, the OFC Nations Cup with the OFC Championship, and the CONCACAF Championship with the Gold Cups of 2000 to 2010 that were the same competition. The 2024 CONCACAF W Gold Cup, a new competition, stands alone.',
     'A few more reasons, each read from a report of the day: India and North Korea at the 2023 Women\'s World Cup (India, hosting the Asian Cup that was the qualifying, was withdrawn when a COVID-19 outbreak left it unable to field a team; North Korea pulled out before the qualifiers), and Gibraltar and Kosovo at the Euros before they joined UEFA, on 24 May 2013 and 3 May 2016.',
-    'Nine more reasons on team and tournament pages, each from Wikipedia\'s or RSSSF\'s qualifying pages: Argentina at the 1938 World Cup (withdrew, was let back in, withdrew again), Egypt in 1958 and 1962 and Sudan in 1962 (withdrew), Iran, Ghana and Uganda in 1982 (withdrew), Iran in 1986 (disqualified for refusing to play its home matches on neutral ground) and Guinea in 2002 (expelled from qualifying when FIFA suspended its association).']],
+    'Nine more reasons on team and tournament pages, each from Wikipedia\'s or RSSSF\'s qualifying pages: Argentina at the 1938 World Cup (withdrew, was let back in, withdrew again), Egypt in 1958 and 1962 and Sudan in 1962 (withdrew), Iran, Ghana and Uganda in 1982 (withdrew), Iran in 1986 (disqualified for refusing to play its home matches on neutral ground) and Guinea in 2002 (expelled from qualifying when FIFA suspended its association).',
+    'More reasons on team pages, about a hundred lines: Kazakhstan, Kyrgyzstan, Tajikistan, Turkmenistan and Uzbekistan were part of the Soviet Union until 1991 and had not yet joined the Asian confederation for the 1992 Asian Cup; Kazakhstan moved to UEFA on 25 April 2002, after Euro 2004 qualifying had been drawn; Bosnia and Herzegovina joined UEFA only in 1998, and Montenegro on 26 January 2007, after Euro 2008 qualifying had begun. In Africa: Morocco, due to host in 2015, was expelled after asking for a postponement over Ebola; Gambia was banned in 2014 for over-age players; Chad was barred from the 2019 edition for pulling out of the one before; Kenya and Zimbabwe were removed from 2023 qualifying while suspended by FIFA. Zanzibar and R&eacute;union play internationals but cannot enter the Cup of Nations, and their pages say so. For the 2022 World Cup: American Samoa, Samoa, Tonga and Vanuatu all withdrew, Tonga after the volcanic eruption, Vanuatu with most of its squad down with COVID-19.',
+    'A mistake corrected: about thirty lines read &ldquo;Did not play qualifying&rdquo; for sides that did. Africa&rsquo;s joint qualifying for the 2006 and 2010 World Cups and Cups of Nations began with a preliminary round played before the previous Cup of Nations (in late 2003 and late 2007), and the 2007 South Pacific Games were the first stage of Oceania&rsquo;s qualifying for the 2010 World Cup. Chad and Gambia in 2006, Comoros in 2010 and Samoa, Tonga and Tahiti in 2010 now read &ldquo;Out in qualifying&rdquo;.']],
   ['20 Nov 2026', ['Six tournaments that were played over many months each showed as two, three or four separate editions, because a break of more than 60 days started a new one. They are single editions now, under their usual names: the 1985 CONCACAF Championship, the Oceania Nations Cups of 1996, 2004 and 2008, the women\'s Euro 1995 and the 1991 African Women\'s Championship. Among other things this had Australia, who won the 1996 Oceania Nations Cup, listed on two of its pieces as a strong team that did not play. Old addresses for the pieces lead to the joined edition.',
     'Two forecasts were left without a match when their fixtures moved two days after the first kick-off time had passed: Morocco v Niger (listed for 11 November, played on the 13th) and Kyrgyzstan v Vietnam (listed for the 15th, played on the 17th). Each match already had its forecast scored under the right date, so the two left-over entries are removed and will not sit in the record as &ldquo;no result&rdquo;.',
     '<a href="#/confederations?pv=places">World Cup places</a> on the Confederations page can now be worked out for <b>any date</b>: choose &ldquo;If it were played on a date&rdquo; and pick the day, and the page fills the next World Cup\'s format from that day\'s ratings, with the confederations as they stood then. Teams that were barred by FIFA on the day are left out with the reason: Germany and Japan after the Second World War, Mexico from 1988 to 1990, Chile for the 1994 World Cup, Yugoslavia from 1992 to 1994, North Korea\'s women for 2015, Russia since 2022, and the short suspensions of Greece, Iran, Iraq, Nigeria and Cameroon. A side that no longer existed, such as East Germany after 1990, is left out too; that also corrects the 1994 World Cup\'s row, where East Germany had been counted among Europe\'s sides in the world top 24. The panel now stays on its own tab, and its list of teams wraps on a phone instead of running off the side.',

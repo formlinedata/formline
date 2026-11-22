@@ -45,6 +45,11 @@ async function useG(g){
 const res = (gf, ga) => gf > ga ? 'W' : gf < ga ? 'L' : 'D';
 const confName = k => CONF[k] ? CONF[k].name : '';
 const dayTxt = ts => new Date(ts).toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'});
+/* The day of a coming match as a post names it. With a kick-off time it is the day in Toronto, the zone the post gives
+   first ("Friday 27 November, 8:30 PM ET / 1:30 AM UK (Sat)"), as the day's own match lists already do; without a
+   time it is the fixture's date. */
+const fxDayTxt = fx => fx.kickoff && !isNaN(Date.parse(fx.kickoff)) ? new Date(Date.parse(fx.kickoff)).toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'America/Toronto'})
+  : dayTxt(Date.parse(fx.date + 'T12:00:00Z'));
 
 /* All-time record of two lineages, counted as the Head to head page counts it (shoot-outs as wins). */
 function pairRecord(g, ka, kb){
@@ -106,7 +111,7 @@ S.match = async ({now, used = [], only}) => {
   t.A.form = form(t.kh); t.B.form = form(t.ka); t.A.change = chg(t.kh); t.B.change = chg(t.ka);
   return {type:'match', g:t.g, id:'match|' + t.g + '|' + t.fx.date + '|' + t.fx.home + '|' + t.fx.away,
     home:t.A, away:t.B, comp:compName(t.fx.tournament), date:t.fx.date, kickoff:t.fx.kickoff, city:t.fx.city, country:t.fx.country,
-    neutral:t.fx.neutral, day:dayTxt(Date.parse(t.fx.kickoff || t.fx.date + 'T12:00:00Z')), pr:t.pr,
+    neutral:t.fx.neutral, day:fxDayTxt(t.fx), pr:t.pr,
     h2h:{n:rec.n, w:rec.w, d:rec.d, l:rec.l, gf:rec.gf, ga:rec.ga, last:rec.meets.slice(-3).reverse()}};
 };
 
@@ -134,7 +139,7 @@ S.spotlight = async ({now, used, only}) => {
   const rivalKey = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
   const rival = rivalKey ? Object.assign({opp:dn(rivalKey[0]), oppFlag:flagSrc(rivalKey[0])}, (({n, w, d, l}) => ({n, w, d, l}))(pairRecord(pick.g, pick.key, rivalKey[0]))) : null;
   const nf = nextFixtures(pick.g).find(x => keyOfName(x.home) === pick.key || keyOfName(x.away) === pick.key);
-  const next = nf ? {home:dn(nf.home), away:dn(nf.away), comp:compName(nf.tournament), day:dayTxt(Date.parse(nf.kickoff || nf.date + 'T12:00:00Z')), date:nf.date, kickoff:nf.kickoff || '', pr:predictFx(c, nf)} : null;
+  const next = nf ? {home:dn(nf.home), away:dn(nf.away), comp:compName(nf.tournament), day:fxDayTxt(nf), date:nf.date, kickoff:nf.kickoff || '', pr:predictFx(c, nf)} : null;
   /* Rating over time, one point a month (the last rating in each month), for the chart slide. It starts five years into
      the rating window: every team starts the window level, so the first years are still settling (the top twenty's
      average only steadies about five years in). */
@@ -223,7 +228,7 @@ S.tieIn = async ({now, used, only}) => {
     city:m.city, country:m.country, p:p ? [p.home, p.draw, p.away].map(pct) : null,
     h2h:{n:later.n, w:later.w, d:later.d, l:later.l}, ctx:pastContext(t.g, m),
     next:{home:dn(nf.home), away:dn(nf.away), homeFlag:flagSrc(nf.home), awayFlag:flagSrc(nf.away), comp:compName(nf.tournament),
-      day:dayTxt(Date.parse(nf.kickoff || nf.date + 'T12:00:00Z')), date:nf.date, kickoff:nf.kickoff || '', pr:predictFx(c, nf)}};
+      day:fxDayTxt(nf), date:nf.date, kickoff:nf.kickoff || '', pr:predictFx(c, nf)}};
 };
 
 /* Is an international window on? Many national-team fixtures in the next few days, or results in the last two. */
@@ -437,7 +442,7 @@ S.rivalry = async ({now, used, only}) => {
   return {type:'rivalry', g:pick.g, id:pick.id, a:teamInfo(c, pick.kh, pick.g) || {team:dn(pick.kh), flag:flagSrc(pick.kh)},
     b:teamInfo(c, pick.ka, pick.g) || {team:dn(pick.ka), flag:flagSrc(pick.ka)},
     n:r.n, w:r.w, d:r.d, l:r.l, gf:r.gf, ga:r.ga, decades:[...dec.values()].sort((a, b) => a.dec - b.dec), finals, first:r.meets[0], last:r.meets[r.n - 1], bigA:big(1), bigB:big(-1),
-    next:pick.fx ? {home:dn(pick.fx.home), away:dn(pick.fx.away), kickoff:pick.fx.kickoff || '', day:dayTxt(Date.parse(pick.fx.kickoff || pick.fx.date + 'T12:00:00Z')),
+    next:pick.fx ? {home:dn(pick.fx.home), away:dn(pick.fx.away), kickoff:pick.fx.kickoff || '', day:fxDayTxt(pick.fx),
       comp:compName(pick.fx.tournament), date:pick.fx.date, pr:predictFx(c, pick.fx)} : null};
 };
 
@@ -485,7 +490,7 @@ S.tournament = async ({now, used, only}) => {
     const pr = predictFx(c, x); if (!pr) continue;
     const xh = keyOfName(x.home), xa = keyOfName(x.away), ko = Date.parse(x.kickoff || (x.date + 'T12:00:00Z'));
     left.push({group:f.g, home:dn(xh || x.home), away:dn(xa || x.away), hf:flagSrc(dn(xh || x.home)), af:flagSrc(dn(xa || x.away)), kickoff:x.kickoff || '', date:x.date, ko,
-      day:new Date(ko).toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short', timeZone:'UTC'}), p:pr.p, call:pr.p.indexOf(Math.max(...pr.p))});
+      day:new Date(ko).toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short', timeZone:x.kickoff ? 'America/Toronto' : 'UTC'}), p:pr.p, call:pr.p.indexOf(Math.max(...pr.p))});
   }
   left.sort((a, b) => a.ko - b.ko || a.home.localeCompare(b.home));
   return {type:'tournament', g:T.gender, id:'tournament|' + T.id, name:T.name, short:T.short, where:T.where, status:T.status, start:T.start, end:T.end,
@@ -503,7 +508,10 @@ S.pastTournament = async ({now, used}) => {
     for (const e of E.list){
       if (!MAJOR.includes(e.tournament) || e.qualLike) continue;
       const id = 'past|' + e.id; if (recent.has(id)) continue;
-      const st = matchStages(e), fin = e.matches.filter(m => st.get(m) === 'Final').pop(); if (!fin) continue;
+      /* Only editions settled by one final. A final over two legs, or with a replay or a play-off, is left out: the
+         post names one match as "the final" and takes the champion from it, which would be wrong there (the 1975 Copa
+         América went to the side that lost the first leg). */
+      const st = matchStages(e), fins = e.matches.filter(m => /^Final/.test(st.get(m) || '')), fin = fins.length === 1 && st.get(fins[0]) === 'Final' ? fins[0] : null; if (!fin) continue;
       const ahead = (doy(fin.ts) - doy(now) + 365) % 365;
       cands.push({g, e, fin, id, w:ahead <= 6 ? ahead : 100 + ((e.start / 864e5 + Math.floor(now / 864e5) * 7919) % 997)});
     }
@@ -553,7 +561,12 @@ S.pastTournament = async ({now, used}) => {
     for (const k of new Set([...nameAt.keys()])){ const i0 = infoFor(k), cf = confName(i0.conf === 'UNKNOWN' ? '' : poolOf(k, e.start)) || 'Other'; if (!C.has(cf)) C.set(cf, []); C.get(cf).push(tm(k)); }
     byConf = [...C.entries()].sort((a, b) => b[1].length - a[1].length).map(([conf, teams]) => ({conf, teams:teams.sort((a, b) => a.name.localeCompare(b.name))})); }
   const hostCount = {}; e.matches.forEach(m => { if (m.country) hostCount[m.country] = (hostCount[m.country] || 0) + 1; });
-  const host = Object.keys(hostCount).sort((a, b) => hostCount[b] - hostCount[a])[0] || '';
+  /* The host: the fewest countries that staged nine matches in ten between them, when that is four at most. An edition
+     played home and away across the continent (the Copa América of 1975 to 1983) has no host and gets none. */
+  const host = (() => { const cs = Object.keys(hostCount).sort((a, b) => hostCount[b] - hostCount[a]), all = cs.reduce((n, c) => n + hostCount[c], 0); let n = 0, k = 0;
+    while (k < cs.length && n < 0.9*all) n += hostCount[cs[k++]];
+    /* Several "hosts" for few teams is home and away again (the four-team Oceania Nations Cups of 1996 and 2008). */
+    return !all || k > 4 || (k > 1 && k*2 > e.teams.size) ? '' : k === 1 ? cs[0] : cs.slice(0, k - 1).join(', ') + ' and ' + cs[k - 1]; })();
   return {type:'past', g:t.g, id:t.id, tournament:compName(e.tournament), label:e.label, host, teams:e.teams.size,
     champ:{name:dn(champ), flag:flagSrc(champ, fin.ts)}, final:{home:fin._hn, away:fin._an, hs:fin.hs, as:fin.as, pen:pen ? dn(pen) : null,
       city:fin.city, date:fmtDate(fin.ts), homeFlag:flagSrc(fin.home, fin.ts), awayFlag:flagSrc(fin.away, fin.ts)},

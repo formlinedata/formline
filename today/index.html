@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Today's post – Formline</title>
+<link rel="icon" href="../apple-touch-icon.png">
+<!--
+  Today's post, for posting by hand (TikTok, X). Seb, 22 Nov 2026.
+  The daily post's slides and caption are put on the repository's social-queue branch each morning by the "Daily social
+  post" job, for Instagram to fetch. This page only shows them: the slides to save to a phone, the caption to copy.
+  Nothing here posts anything, and nothing on the site links to this page.
+    ?d=2026-11-27     another day's post
+-->
+<style>
+  :root { color-scheme: dark; --bg:#0f1419; --panel:#161d25; --line:#263241; --fg:#e8edf2; --mut:#8b98a5; --acc:#f59e0b; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width:560px; margin:0 auto; padding:18px 14px 60px; }
+  h1 { font-size:22px; margin:0 0 2px; }
+  h2 { font-size:17px; margin:26px 0 8px; }
+  p { margin:6px 0; }
+  .mut { color:var(--mut); font-size:14px; }
+  .note { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:12px 0; }
+  .nav { display:flex; justify-content:space-between; gap:10px; margin:12px 0 4px; font-size:15px; }
+  a { color:var(--acc); }
+  button { font:inherit; font-weight:600; color:#111827; background:var(--acc); border:0; border-radius:10px; padding:11px 16px; width:100%; margin:8px 0; }
+  button.quiet { background:transparent; color:var(--acc); border:1px solid var(--line); }
+  button:disabled { opacity:.55; }
+  figure { margin:14px 0; }
+  figure img { display:block; width:100%; height:auto; border-radius:10px; border:1px solid var(--line); background:var(--panel); -webkit-touch-callout:default; }
+  figcaption { color:var(--mut); font-size:13px; margin-top:4px; }
+  pre { white-space:pre-wrap; word-break:break-word; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px; margin:8px 0; font:15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  details { margin-top:26px; } summary { font-weight:600; cursor:pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Today's post</h1>
+  <p class="mut" id="sub">Loading…</p>
+  <div class="nav"><a id="prev" href="#">← Day before</a><a id="next" href="#">Day after →</a></div>
+  <div id="out"></div>
+</main>
+<script>
+'use strict';
+const QUEUE = 'https://raw.githubusercontent.com/formlinedata/formline/social-queue/';
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[c]));
+/* The day in Toronto, where the post's day is counted. */
+const torontoDay = t => new Intl.DateTimeFormat('en-CA', {timeZone:'America/Toronto', year:'numeric', month:'2-digit', day:'2-digit'}).format(t);
+const shift = (d, n) => { const t = new Date(d + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
+const nice = d => new Date(d + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
+/* The Instagram caption sends people to the link in the bio. Elsewhere there may be no such link, so the address is written out. */
+function captionElsewhere(c){
+  return String(c).replace(/formlinedata\.com \(link in bio\)/g, 'formlinedata.com')
+    .replace(/on Formline \(link in bio\)(\s*\u{1F446})?/gu, 'on formlinedata.com')
+    .replace(/ \(link in bio\)(\s*\u{1F446})?/gu, ' at formlinedata.com');
+}
+async function copy(text, btn){
+  let ok = false;
+  try { await navigator.clipboard.writeText(text); ok = true; }
+  catch (e){ const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+    try { ok = document.execCommand('copy'); } catch (e2){} ta.remove(); }
+  const was = btn.textContent; btn.textContent = ok ? 'Copied' : 'Could not copy: press and hold the text instead'; setTimeout(() => { btn.textContent = was; }, 2200);
+}
+async function getPost(d){
+  const r = await fetch(QUEUE + d + '/post.json', {cache:'no-store'});
+  if (!r.ok) return null;
+  try { return await r.json(); } catch (e){ return null; }
+}
+async function main(){
+  const asked = new URLSearchParams(location.search).get('d'), today = torontoDay(new Date());
+  let d = /^\d{4}-\d{2}-\d{2}$/.test(asked || '') ? asked : today, note = '';
+  let post = await getPost(d);
+  if (!post && !asked){ const y = shift(d, -1), p2 = await getPost(y);
+    if (p2){ post = p2; note = 'Today\'s post is not ready yet (it is made early each morning). This is yesterday\'s.'; d = y; } }
+  $('prev').href = '?d=' + shift(d, -1);
+  if (d >= today || note) $('next').style.visibility = 'hidden'; else $('next').href = '?d=' + shift(d, 1);
+  if (!post){ $('sub').textContent = nice(d); $('out').innerHTML = '<div class="note">There is no post for this day.</div>'; return; }
+  const base = QUEUE + (post.key || d) + '/', slides = (post.igSlides && post.igSlides.length ? post.igSlides : post.slides) || [], alts = post.alts || [];
+  const cap = captionElsewhere(post.caption || '');
+  $('sub').textContent = nice(d) + ' · ' + (post.title || '');
+  $('out').innerHTML = (note ? '<div class="note">' + esc(note) + '</div>' : '') +
+    '<h2>1. Save the slides</h2><p class="mut">' + slides.length + ' slides, in this order. Press and hold a slide to save it, or save them all at once.</p>' +
+    '<button id="all" disabled>Getting the slides ready…</button>' +
+    slides.map((f, i) => '<figure><img src="' + esc(base + f) + '" alt="' + esc(alts[i] || 'Slide ' + (i + 1)) + '" loading="' + (i ? 'lazy' : 'eager') + '"><figcaption>Slide ' + (i + 1) + ' of ' + slides.length + '</figcaption></figure>').join('') +
+    '<h2>2. Copy the caption</h2><p class="mut">The Instagram caption, with the site\'s address written out in place of "link in bio".</p>' +
+    '<pre id="cap">' + esc(cap) + '</pre><button id="capBtn">Copy the caption</button>' +
+    (post.caption && post.caption !== cap ? '<button class="quiet" id="igBtn">Copy the Instagram wording instead</button>' : '') +
+    (post.x && post.xText ? '<details><summary>The X version (one image, shorter text)</summary><figure><img src="' + esc(base + post.x) + '" alt="The image for X" loading="lazy"></figure><pre>' + esc(post.xText) + '</pre><button id="xBtn">Copy the X text</button></details>' : '');
+  $('capBtn').onclick = e => copy(cap, e.target);
+  if ($('igBtn')) $('igBtn').onclick = e => copy(post.caption, e.target);
+  if ($('xBtn')) $('xBtn').onclick = e => copy(post.xText, e.target);
+  /* Save all at once: the phone's own share sheet, where it can take files ("Save 5 images"). The slides are fetched
+     first, so the tap itself only opens the sheet. */
+  const all = $('all');
+  try {
+    const files = await Promise.all(slides.map(async (f, i) => { const r = await fetch(base + f); if (!r.ok) throw new Error(f);
+      const b = await r.blob(), ext = (f.split('.').pop() || 'jpg').toLowerCase();
+      return new File([b], 'formline-' + d + '-' + (i + 1) + '.' + ext, {type:b.type && b.type.startsWith('image/') ? b.type : (ext === 'png' ? 'image/png' : 'image/jpeg')}); }));
+    if (navigator.canShare && navigator.canShare({files})){
+      all.disabled = false; all.textContent = 'Save all ' + files.length + ' slides';
+      all.onclick = async () => { try { await navigator.share({files}); } catch (e){ if (e && e.name !== 'AbortError'){ all.textContent = 'That did not work here: press and hold each slide'; all.disabled = true; } } };
+    } else all.remove();
+  } catch (e){ all.remove(); }
+}
+main().catch(() => { $('sub').textContent = 'The post could not be loaded. Check the connection and reload.'; });
+</script>
+</body>
+</html>
