@@ -1939,7 +1939,7 @@
   "home_team": "Algeria",
   "away_team": "Nigeria",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Algiers",
   "country": "Algeria",
   "neutral": "FALSE",
   "venue_id": "",
@@ -1949,8 +1949,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Algiers",
+   "country": "Algeria",
+   "stadium": "Stade du 5 Juillet"
+  },
+  "venue_src": "wiki"
  },
  "1650867": {
   "date": "2026-12-01",
@@ -2079,7 +2083,7 @@
   "home_team": "Algeria",
   "away_team": "Nigeria",
   "tournament": "Friendly",
-  "city": "",
+  "city": "Tizi Ouzou",
   "country": "Algeria",
   "neutral": "FALSE",
   "venue_id": "",
@@ -2089,8 +2093,12 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
-  "venue_src": "assumed"
+  "wiki": {
+   "city": "Tizi Ouzou",
+   "country": "Algeria",
+   "stadium": "Hocine Aït Ahmed Stadium"
+  },
+  "venue_src": "wiki"
  },
  "1650873": {
   "date": "2026-12-05",

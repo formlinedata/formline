@@ -1,11 +1,11 @@
 {
- "built": "2026-11-22T16:30:19.127Z",
- "today": "2026-11-22",
+ "built": "2026-11-23T07:46:05.747Z",
+ "today": "2026-11-23",
  "mode": "full",
  "api": {
   "keyPresent": true,
   "used": 74,
-  "remaining": 7203,
+  "remaining": 7425,
   "stopped": null,
   "planWindow": null,
   "failed": [],
@@ -15,7 +15,7 @@
    "end": "2027-01-24T23:26:28+00:00",
    "active": true,
    "limitDay": 7500,
-   "usedTodayBeforeRun": 222,
+   "usedTodayBeforeRun": 0,
    "perMinute": 300
   },
   "paid": true,
@@ -25,10 +25,10 @@
  "unmatched": {},
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 16710,
-  "youth": 172,
-  "not counted": 190,
-  "clubs": 169
+  "domestic": 16738,
+  "youth": 163,
+  "not counted": 185,
+  "clubs": 167
  },
  "seen": {
   "men": {
@@ -42,14 +42,14 @@
  },
  "apiAudit": {
   "asked": 10,
-  "results": 1,
+  "results": 7,
   "missing": 0,
   "diffs": 0,
   "cursor": "2014-10-31",
   "done": "2026-11-21",
   "open": {
    "missing": 84,
-   "diffs": 4
+   "diffs": 3
   },
   "wiki": {
    "asked": 0,
@@ -65,26 +65,26 @@
  },
  "wiki": {
   "open": 64,
-  "asked": 0,
-  "pages": 0,
+  "asked": 23,
+  "pages": 23,
   "matched": 33,
   "errors": 0,
   "extra": 0
  },
  "wikiResults": {
-  "asked": 0,
-  "pages": 0,
-  "candidates": 109,
+  "asked": 240,
+  "pages": 240,
+  "candidates": 111,
   "added": 0,
   "errors": 0,
   "unconfirmed": 0,
-  "upcoming": 66,
+  "upcoming": 68,
   "shown": 11
  },
  "wikiResultsMen": {
-  "asked": 0,
-  "pages": 0,
-  "candidates": 513,
+  "asked": 436,
+  "pages": 436,
+  "candidates": 504,
   "added": 0,
   "errors": 0,
   "unconfirmed": 0,
@@ -92,14 +92,14 @@
   "shown": 1
  },
  "wikiTeamVenues": {
-  "fixtures": 25,
+  "fixtures": 27,
   "results": 0
  },
  "men": {
-  "built": "2026-11-22T16:30:19.127Z",
+  "built": "2026-11-23T07:46:05.747Z",
   "archive": {
    "end": "2026-11-17",
-   "rows": 50099
+   "rows": 50093
   },
   "gapfill": {
    "rows": 10,
@@ -107,7 +107,7 @@
    "to": "2026-11-18"
   },
   "manual": {
-   "rows": 2303
+   "rows": 2301
   },
   "wiki": {
    "rows": 0,
@@ -116,7 +116,7 @@
   "fixtures": 2
  },
  "women": {
-  "built": "2026-11-22T16:30:19.127Z",
+  "built": "2026-11-23T07:46:05.747Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -140,8 +140,8 @@
   "held": 37
  },
  "venues": {
-  "wiki": 70,
-  "assumed": 6
+  "wiki": 72,
+  "assumed": 4
  },
  "forecasts": {
   "total": 257,
