@@ -1,6 +1,6 @@
 {
- "built": "2026-11-23T07:46:05.747Z",
- "today": "2026-11-23",
+ "built": "2026-11-24T07:28:13.350Z",
+ "today": "2026-11-24",
  "mode": "full",
  "api": {
   "keyPresent": true,
@@ -22,13 +22,15 @@
   "budget": 1500,
   "notice": null
  },
- "unmatched": {},
+ "unmatched": {
+  "Catalonia Selection": 1
+ },
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 16738,
-  "youth": 163,
-  "not counted": 185,
-  "clubs": 167
+  "domestic": 17240,
+  "youth": 153,
+  "not counted": 193,
+  "clubs": 166
  },
  "seen": {
   "men": {
@@ -42,7 +44,7 @@
  },
  "apiAudit": {
   "asked": 10,
-  "results": 7,
+  "results": 19,
   "missing": 0,
   "diffs": 0,
   "cursor": "2014-10-31",
@@ -64,39 +66,39 @@
   "checked": "2026-11-21"
  },
  "wiki": {
-  "open": 64,
-  "asked": 23,
-  "pages": 23,
-  "matched": 33,
+  "open": 72,
+  "asked": 43,
+  "pages": 43,
+  "matched": 34,
   "errors": 0,
   "extra": 0
  },
  "wikiResults": {
   "asked": 240,
   "pages": 240,
-  "candidates": 111,
+  "candidates": 113,
   "added": 0,
   "errors": 0,
   "unconfirmed": 0,
   "upcoming": 68,
-  "shown": 11
+  "shown": 5
  },
  "wikiResultsMen": {
   "asked": 436,
   "pages": 436,
-  "candidates": 504,
+  "candidates": 474,
   "added": 0,
   "errors": 0,
   "unconfirmed": 0,
   "upcoming": 2,
-  "shown": 1
+  "shown": 0
  },
  "wikiTeamVenues": {
-  "fixtures": 27,
+  "fixtures": 30,
   "results": 0
  },
  "men": {
-  "built": "2026-11-23T07:46:05.747Z",
+  "built": "2026-11-24T07:28:13.350Z",
   "archive": {
    "end": "2026-11-17",
    "rows": 50093
@@ -116,7 +118,7 @@
   "fixtures": 2
  },
  "women": {
-  "built": "2026-11-23T07:46:05.747Z",
+  "built": "2026-11-24T07:28:13.350Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -133,22 +135,23 @@
    "rows": 0,
    "latest": null
   },
-  "fixtures": 74
+  "fixtures": 78
  },
  "feedGaps": {
   "new": 0,
   "held": 37
  },
  "venues": {
-  "wiki": 72,
-  "assumed": 4
+  "wiki": 68,
+  "assumed": 9,
+  "city": 3
  },
  "forecasts": {
-  "total": 257,
+  "total": 261,
   "scored": 184,
-  "newThisRun": 0,
-  "updatedThisRun": 73,
+  "newThisRun": 6,
+  "updatedThisRun": 71,
   "scoredThisRun": 0,
-  "droppedThisRun": 0
+  "droppedThisRun": 2
  }
 }

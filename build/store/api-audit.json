@@ -1595,14 +1595,14 @@
    "heldDate": "2017-06-10"
   }
  ],
- "days": 4418,
+ "days": 4428,
  "unmatched": {
   "Pisa": 2,
   "Konyaspor": 2,
   "Gornik Zabrze": 4,
-  "Coventry": 1,
-  "Liverpool": 1,
-  "Getafe": 1,
+  "Coventry": 2,
+  "Liverpool": 2,
+  "Getafe": 2,
   "Cercle Brugge": 8,
   "Louisville City": 1,
   "Podlasie Biała Podlaska": 1,
@@ -1676,7 +1676,7 @@
   "Anderlecht": 2,
   "Qarabag": 2
  },
- "updated": "2026-11-23",
+ "updated": "2026-11-24",
  "cursor": "2014-10-31",
  "done": "2026-11-21",
  "from": "2014-11-01"

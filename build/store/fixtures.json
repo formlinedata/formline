@@ -971,12 +971,8 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": {
-   "city": "Canberra",
-   "country": "Australia",
-   "stadium": "GIO Stadium"
-  },
-  "venue_src": "wiki"
+  "wiki": null,
+  "venue_src": "city"
  },
  "1640031": {
   "date": "2026-11-28",
@@ -1062,7 +1058,7 @@
    "stadium": "Edion Peace Wing Hiroshima",
    "boxDate": "2026-11-29"
   },
-  "venue_src": "wiki"
+  "venue_src": "city"
  },
  "1641698": {
   "date": "2026-11-28",
@@ -1546,7 +1542,7 @@
   "home_team": "France",
   "away_team": "Venezuela",
   "tournament": "Friendly",
-  "city": "Tomblaine",
+  "city": "Nancy",
   "country": "France",
   "neutral": "FALSE",
   "venue_id": "",
@@ -1588,7 +1584,7 @@
  },
  "1647630": {
   "date": "2026-12-01",
-  "kickoff": "2026-12-01T13:00:00+00:00",
+  "kickoff": "2026-12-01T19:30:00+00:00",
   "home_team": "Morocco",
   "away_team": "Venezuela",
   "tournament": "Friendly",
@@ -1694,12 +1690,8 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": {
-   "city": "Larne",
-   "country": "Northern Ireland",
-   "stadium": "Inver Park"
-  },
-  "venue_src": "wiki"
+  "wiki": null,
+  "venue_src": "city"
  },
  "1648997": {
   "date": "2026-11-28",
@@ -1795,7 +1787,7 @@
  },
  "1649001": {
   "date": "2026-12-02",
-  "kickoff": "2026-12-02T13:00:00+00:00",
+  "kickoff": "2026-12-02T12:00:00+00:00",
   "home_team": "Montenegro",
   "away_team": "Moldova",
   "tournament": "Friendly",
@@ -1864,7 +1856,7 @@
  },
  "1649004": {
   "date": "2026-12-05",
-  "kickoff": "2026-12-05T13:00:00+00:00",
+  "kickoff": "2026-12-05T12:00:00+00:00",
   "home_team": "Montenegro",
   "away_team": "Moldova",
   "tournament": "Friendly",
@@ -2148,9 +2140,9 @@
   },
   "venue_src": "wiki"
  },
- "wiki:women|2026-11-27|Cyprus|Luxembourg": {
+ "1651389": {
   "date": "2026-11-27",
-  "kickoff": "",
+  "kickoff": "2026-11-27T09:00:00+00:00",
   "home_team": "Cyprus",
   "away_team": "Luxembourg",
   "tournament": "Friendly",
@@ -2158,18 +2150,12 @@
   "country": "Cyprus",
   "neutral": "FALSE",
   "venue_id": "",
-  "api_id": "wiki:women|2026-11-27|Cyprus|Luxembourg",
-  "league": "Friendly",
+  "api_id": 1651389,
+  "league": "Friendlies Women",
   "unmapped_tournament": "",
   "tbd": "",
-  "tbc": 1,
+  "tbc": "",
   "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Cyprus women's national football team",
-  "pairDates": [
-   "2026-11-27",
-   "2026-11-30"
-  ],
   "wiki": {
    "city": "Dasaki Achnas",
    "country": "Cyprus",
@@ -2177,31 +2163,215 @@
   },
   "venue_src": "wiki"
  },
- "wiki:women|2026-11-27|Malta|Kosovo": {
+ "1651391": {
   "date": "2026-11-27",
-  "kickoff": "",
+  "kickoff": "2026-11-27T16:00:00+00:00",
+  "home_team": "Ivory Coast",
+  "away_team": "Senegal",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Ivory Coast",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1651391,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1651393": {
+  "date": "2026-11-29",
+  "kickoff": "2026-11-29T18:00:00+00:00",
   "home_team": "Malta",
   "away_team": "Kosovo",
   "tournament": "Friendly",
-  "city": "Ta' Qali",
+  "city": "Ta'Qali",
   "country": "Malta",
   "neutral": "FALSE",
   "venue_id": "",
-  "api_id": "wiki:women|2026-11-27|Malta|Kosovo",
-  "league": "Friendly",
+  "api_id": 1651393,
+  "league": "Friendlies Women",
   "unmapped_tournament": "",
   "tbd": "",
-  "tbc": 1,
+  "tbc": "",
   "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Kosovo women's national football team",
-  "pairDates": [
-   "2026-11-27"
-  ],
   "wiki": {
-   "city": "Ta' Qali",
+   "city": "Ta'Qali",
    "country": "Malta",
-   "stadium": "Centenary Stadium"
+   "stadium": "National Football Centre"
+  },
+  "venue_src": "wiki"
+ },
+ "1651394": {
+  "date": "2026-11-30",
+  "kickoff": "2026-11-30T09:00:00+00:00",
+  "home_team": "Cyprus",
+  "away_team": "Luxembourg",
+  "tournament": "Friendly",
+  "city": "Dasaki Achnas",
+  "country": "Cyprus",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1651394,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": {
+   "city": "Dasaki Achnas",
+   "country": "Cyprus",
+   "stadium": "Dasaki Stadium"
+  },
+  "venue_src": "wiki"
+ },
+ "1651401": {
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T13:00:00+00:00",
+  "home_team": "Turkey",
+  "away_team": "Cameroon",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Turkey",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1651401,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1651402": {
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T15:00:00+00:00",
+  "home_team": "South Korea",
+  "away_team": "Belgium",
+  "tournament": "Friendly",
+  "city": "Girona",
+  "country": "Spain",
+  "neutral": "TRUE",
+  "venue_id": "",
+  "api_id": 1651402,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": {
+   "city": "Girona",
+   "country": "Spain",
+   "stadium": ""
+  },
+  "venue_src": "wiki"
+ },
+ "1651403": {
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T16:00:00+00:00",
+  "home_team": "Ivory Coast",
+  "away_team": "Senegal",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Ivory Coast",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1651403,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1651407": {
+  "date": "2026-12-04",
+  "kickoff": "2026-12-04T13:00:00+00:00",
+  "home_team": "Turkey",
+  "away_team": "Cameroon",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Turkey",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1651407,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1651410": {
+  "date": "2026-12-04",
+  "kickoff": "2026-12-04T16:00:00+00:00",
+  "home_team": "Ivory Coast",
+  "away_team": "Senegal",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Ivory Coast",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1651410,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1651413": {
+  "date": "2026-12-05",
+  "kickoff": "2026-12-05T18:00:00+00:00",
+  "home_team": "Malta",
+  "away_team": "Israel",
+  "tournament": "Friendly",
+  "city": "Ta'Qali",
+  "country": "Malta",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1651413,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": {
+   "city": "Ta'Qali",
+   "country": "Malta",
+   "stadium": "National Football Centre"
+  },
+  "venue_src": "wiki"
+ },
+ "1651624": {
+  "date": "2026-12-09",
+  "kickoff": "2026-12-09T23:00:00+00:00",
+  "home_team": "Peru",
+  "away_team": "Panama",
+  "tournament": "Friendly",
+  "city": "Cusco",
+  "country": "Peru",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1651624,
+  "league": "Friendlies",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "men",
+  "wiki": {
+   "city": "Cusco",
+   "country": "Peru",
+   "stadium": "Estadio Garcilaso",
+   "boxDate": "2026-12-09",
+   "kickoff": "2026-12-09T23:00:00+00:00"
   },
   "venue_src": "wiki"
  },
@@ -2259,91 +2429,6 @@
    "city": "Kudus",
    "country": "Indonesia",
    "stadium": "Wergu Wetan Stadium"
-  },
-  "venue_src": "wiki"
- },
- "wiki:women|2026-11-29|Malta|Kosovo": {
-  "date": "2026-11-29",
-  "kickoff": "",
-  "home_team": "Malta",
-  "away_team": "Kosovo",
-  "tournament": "Friendly",
-  "city": "Ta'Qali",
-  "country": "Malta",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:women|2026-11-29|Malta|Kosovo",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": 1,
-  "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Malta women's national football team",
-  "pairDates": [
-   "2026-11-29"
-  ],
-  "wiki": {
-   "city": "Ta'Qali",
-   "country": "Malta",
-   "stadium": "National Football Centre"
-  },
-  "venue_src": "wiki"
- },
- "wiki:women|2026-11-30|Cyprus|Luxembourg": {
-  "date": "2026-11-30",
-  "kickoff": "",
-  "home_team": "Cyprus",
-  "away_team": "Luxembourg",
-  "tournament": "Friendly",
-  "city": "Dasaki Achnas",
-  "country": "Cyprus",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:women|2026-11-30|Cyprus|Luxembourg",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": 1,
-  "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Cyprus women's national football team",
-  "pairDates": [
-   "2026-11-27",
-   "2026-11-30"
-  ],
-  "wiki": {
-   "city": "Dasaki Achnas",
-   "country": "Cyprus",
-   "stadium": "Dasaki Stadium"
-  },
-  "venue_src": "wiki"
- },
- "wiki:women|2026-12-01|Belgium|South Korea": {
-  "date": "2026-12-01",
-  "kickoff": "",
-  "home_team": "Belgium",
-  "away_team": "South Korea",
-  "tournament": "Friendly",
-  "city": "Girona",
-  "country": "Spain",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": "wiki:women|2026-12-01|Belgium|South Korea",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": 1,
-  "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Belgium women's national football team",
-  "pairDates": [
-   "2026-12-01"
-  ],
-  "wiki": {
-   "city": "Girona",
-   "country": "Spain",
-   "stadium": ""
   },
   "venue_src": "wiki"
  },
@@ -2431,62 +2516,6 @@
    "city": "Yangon",
    "country": "Myanmar",
    "stadium": "Thuwunna Stadium"
-  },
-  "venue_src": "wiki"
- },
- "wiki:women|2026-12-05|Malta|Israel": {
-  "date": "2026-12-05",
-  "kickoff": "",
-  "home_team": "Malta",
-  "away_team": "Israel",
-  "tournament": "Friendly",
-  "city": "Ta'Qali",
-  "country": "Malta",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:women|2026-12-05|Malta|Israel",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": 1,
-  "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Malta women's national football team",
-  "pairDates": [
-   "2026-12-05"
-  ],
-  "wiki": {
-   "city": "Ta'Qali",
-   "country": "Malta",
-   "stadium": "National Football Centre"
-  },
-  "venue_src": "wiki"
- },
- "wiki:men|2026-12-09|Peru|Panama": {
-  "date": "2026-12-09",
-  "kickoff": "2026-12-09T23:00:00+00:00",
-  "home_team": "Peru",
-  "away_team": "Panama",
-  "tournament": "Friendly",
-  "city": "Cusco",
-  "country": "Peru",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:men|2026-12-09|Peru|Panama",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "men",
-  "wikiOnly": 1,
-  "wikiSource": "Panama national football team",
-  "pairDates": [
-   "2026-12-09"
-  ],
-  "wiki": {
-   "city": "Cusco",
-   "country": "Peru",
-   "stadium": "Estadio Garcilaso"
   },
   "venue_src": "wiki"
  }
