@@ -371,5 +371,25 @@
   "comp": "Friendly",
   "source": "https://en.wikipedia.org/wiki/South_Korea_women's_national_football_team",
   "seen": "2026-11-20"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-02",
+  "home": "Azerbaijan",
+  "away": "Saudi Arabia",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Azerbaijan_women's_national_football_team",
+  "seen": "2026-11-25"
+ },
+ {
+  "kind": "fixture",
+  "g": "women",
+  "date": "2026-12-05",
+  "home": "Azerbaijan",
+  "away": "Saudi Arabia",
+  "comp": "Friendly",
+  "source": "https://en.wikipedia.org/wiki/Azerbaijan_women's_national_football_team",
+  "seen": "2026-11-25"
  }
 ]

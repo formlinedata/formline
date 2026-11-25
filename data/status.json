@@ -1,6 +1,6 @@
 {
- "built": "2026-11-24T07:28:13.350Z",
- "today": "2026-11-24",
+ "built": "2026-11-25T17:12:28.408Z",
+ "today": "2026-11-25",
  "mode": "full",
  "api": {
   "keyPresent": true,
@@ -27,10 +27,10 @@
  },
  "unmappedTournaments": {},
  "skipped": {
-  "domestic": 17240,
-  "youth": 153,
-  "not counted": 193,
-  "clubs": 166
+  "domestic": 16910,
+  "not counted": 192,
+  "youth": 145,
+  "clubs": 169
  },
  "seen": {
   "men": {
@@ -44,7 +44,7 @@
  },
  "apiAudit": {
   "asked": 10,
-  "results": 19,
+  "results": 45,
   "missing": 0,
   "diffs": 0,
   "cursor": "2014-10-31",
@@ -67,8 +67,8 @@
  },
  "wiki": {
   "open": 72,
-  "asked": 43,
-  "pages": 43,
+  "asked": 29,
+  "pages": 29,
   "matched": 34,
   "errors": 0,
   "extra": 0
@@ -76,17 +76,17 @@
  "wikiResults": {
   "asked": 240,
   "pages": 240,
-  "candidates": 113,
+  "candidates": 109,
   "added": 0,
   "errors": 0,
   "unconfirmed": 0,
-  "upcoming": 68,
-  "shown": 5
+  "upcoming": 72,
+  "shown": 7
  },
  "wikiResultsMen": {
   "asked": 436,
   "pages": 436,
-  "candidates": 474,
+  "candidates": 443,
   "added": 0,
   "errors": 0,
   "unconfirmed": 0,
@@ -94,11 +94,11 @@
   "shown": 0
  },
  "wikiTeamVenues": {
-  "fixtures": 30,
+  "fixtures": 32,
   "results": 0
  },
  "men": {
-  "built": "2026-11-24T07:28:13.350Z",
+  "built": "2026-11-25T17:12:28.408Z",
   "archive": {
    "end": "2026-11-17",
    "rows": 50093
@@ -118,7 +118,7 @@
   "fixtures": 2
  },
  "women": {
-  "built": "2026-11-24T07:28:13.350Z",
+  "built": "2026-11-25T17:12:28.408Z",
   "archive": {
    "end": "2026-10-13",
    "rows": 11816
@@ -135,23 +135,23 @@
    "rows": 0,
    "latest": null
   },
-  "fixtures": 78
+  "fixtures": 80
  },
  "feedGaps": {
-  "new": 0,
-  "held": 37
+  "new": 2,
+  "held": 39
  },
  "venues": {
-  "wiki": 68,
-  "assumed": 9,
+  "wiki": 72,
+  "assumed": 7,
   "city": 3
  },
  "forecasts": {
-  "total": 261,
+  "total": 263,
   "scored": 184,
-  "newThisRun": 6,
-  "updatedThisRun": 71,
+  "newThisRun": 2,
+  "updatedThisRun": 77,
   "scoredThisRun": 0,
-  "droppedThisRun": 2
+  "droppedThisRun": 0
  }
 }
