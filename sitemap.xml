@@ -1071,6 +1071,7 @@
   <url><loc>https://formlinedata.com/h2h/men/portugal-vs-sweden.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/portugal-vs-turkiye.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/curacao-vs-martinique.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/egypt-vs-ethiopia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/hungary-vs-turkiye.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/korea-republic-vs-philippines.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/argentina-vs-costa-rica.html</loc></url>
@@ -1106,7 +1107,6 @@
   <url><loc>https://formlinedata.com/h2h/men/northern-ireland-vs-portugal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/india-vs-singapore.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/egypt-vs-sudan.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/egypt-vs-ethiopia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/india-vs-malaysia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/austria-vs-malta.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/sudan-vs-syria.html</loc></url>
@@ -1284,10 +1284,13 @@
   <url><loc>https://formlinedata.com/h2h/men/benin-vs-mauritania.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-liberia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-gabon.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/chad-vs-congo.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/burkina-faso-vs-central-african-republic.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/benin-vs-madagascar.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/burkina-faso-vs-liberia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/central-african-republic-vs-cote-d-ivoire.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-senegal.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/congo-vs-niger.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/ethiopia-vs-kenya.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/benin-vs-senegal.html</loc></url>
@@ -1413,7 +1416,8 @@
   <url><loc>https://formlinedata.com/h2h/men/indonesia-vs-sri-lanka.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/lebanon-vs-libya.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/libya-vs-malta.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/chad-vs-congo.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-senegal.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/congo-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/northern-ireland-vs-uruguay.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/ethiopia-vs-morocco.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/albania-vs-netherlands.html</loc></url>
@@ -1421,6 +1425,9 @@
   <url><loc>https://formlinedata.com/h2h/men/congo-vs-guinea.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/russia-vs-spain.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/tanzania-vs-zambia.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/chad-vs-gabon.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/central-african-republic-vs-congo-dr.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-gabon.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/bermuda-vs-iceland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/congo-vs-mali.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cambodia-vs-chinese-taipei.html</loc></url>
@@ -1436,6 +1443,8 @@
   <url><loc>https://formlinedata.com/h2h/men/iraq-vs-kuwait.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/denmark-vs-israel.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/niger-vs-togo.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-ghana.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-ghana.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-togo.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/israel-vs-netherlands.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/costa-rica-vs-suriname.html</loc></url>
@@ -1447,9 +1456,10 @@
   <url><loc>https://formlinedata.com/h2h/men/israel-vs-switzerland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/egypt-vs-kenya.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/albania-vs-switzerland.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-ghana.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-chad.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/italy-vs-poland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cyprus-vs-germany.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/chad-vs-togo.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/italy-vs-wales.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cyprus-vs-sweden.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/albania-vs-northern-ireland.html</loc></url>
@@ -1489,7 +1499,6 @@
   <url><loc>https://formlinedata.com/h2h/men/egypt-vs-iraq.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/palestine-vs-sudan.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/congo-vs-ghana.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-ghana.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/australia-vs-korea-dpr.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/australia-vs-hong-kong-china.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/australia-vs-chinese-taipei.html</loc></url>
@@ -1529,9 +1538,9 @@
   <url><loc>https://formlinedata.com/h2h/men/argentina-vs-switzerland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/china-pr-vs-syria.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/portugal-vs-russia.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/central-african-republic-vs-congo-dr.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-togo.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/luxembourg-vs-poland.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/lesotho-vs-malawi.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/finland-vs-greece.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-nigeria.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/liberia-vs-sierra-leone.html</loc></url>
@@ -1539,7 +1548,7 @@
   <url><loc>https://formlinedata.com/h2h/men/china-pr-vs-palestine.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cambodia-vs-yemen.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/korea-dpr-vs-yemen.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-gabon.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/central-african-republic-vs-gabon.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cyprus-vs-romania.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/china-pr-vs-yemen.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/israel-vs-romania.html</loc></url>
@@ -1555,7 +1564,6 @@
   <url><loc>https://formlinedata.com/h2h/men/french-guiana-vs-martinique.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/argentina-vs-venezuela.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/burkina-faso-vs-niger.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/congo-vs-niger.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/paraguay-vs-venezuela.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-tunisia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/algeria-vs-burkina-faso.html</loc></url>
@@ -1609,10 +1617,8 @@
   <url><loc>https://formlinedata.com/h2h/men/laos-vs-myanmar.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/ghana-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/algeria-vs-uganda.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/congo-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-ethiopia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/iraq-vs-thailand.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/algeria-vs-ethiopia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-uganda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/indonesia-vs-iraq.html</loc></url>
@@ -1690,6 +1696,7 @@
   <url><loc>https://formlinedata.com/h2h/men/czechia-vs-peru.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-cote-d-ivoire.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/egypt-vs-guinea.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-ethiopia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-sudan.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-sudan.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-egypt.html</loc></url>
@@ -1714,7 +1721,6 @@
   <url><loc>https://formlinedata.com/h2h/men/germany-vs-peru.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/malawi-vs-mauritius.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/lebanon-vs-sudan.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/lesotho-vs-malawi.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/czechia-vs-finland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/greece-vs-malta.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/finland-vs-romania.html</loc></url>
@@ -1799,6 +1805,7 @@
   <url><loc>https://formlinedata.com/h2h/men/peru-vs-scotland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/lesotho-vs-zambia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/mali-vs-morocco.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/central-african-republic-vs-chad.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/netherlands-vs-peru.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cambodia-vs-ir-iran.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/iraq-vs-korea-republic.html</loc></url>
@@ -1822,13 +1829,9 @@
   <url><loc>https://formlinedata.com/h2h/men/nigeria-vs-tanzania.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/faroe-islands-vs-iceland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/japan-vs-sri-lanka.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/central-african-republic-vs-chad.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-chad.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/central-african-republic-vs-gabon.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/philippines-vs-sri-lanka.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/central-african-republic-vs-congo.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cambodia-vs-sri-lanka.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/chad-vs-gabon.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/canada-vs-guatemala.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/china-pr-vs-sri-lanka.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-sierra-leone.html</loc></url>
@@ -2014,8 +2017,12 @@
   <url><loc>https://formlinedata.com/h2h/men/finland-vs-switzerland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cyprus-vs-denmark.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/china-pr-vs-ir-iran.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/burundi-vs-gabon.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-rwanda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/congo-vs-sao-tome-and-principe.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-rwanda.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/burundi-vs-cameroon.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/gabon-vs-rwanda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/burundi-vs-congo-dr.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/malawi-vs-sierra-leone.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/afghanistan-vs-pakistan.html</loc></url>
@@ -2075,8 +2082,6 @@
   <url><loc>https://formlinedata.com/h2h/men/brunei-darussalam-vs-philippines.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/burundi-vs-congo.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/equatorial-guinea-vs-gabon.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-rwanda.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/burundi-vs-gabon.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/congo-vs-equatorial-guinea.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/gambia-vs-ghana.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/eswatini-vs-zambia.html</loc></url>
@@ -2138,7 +2143,6 @@
   <url><loc>https://formlinedata.com/h2h/men/korea-dpr-vs-korea-republic.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/china-pr-vs-macau.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cabo-verde-vs-senegal.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/gabon-vs-rwanda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/guinea-bissau-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-gambia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/gambia-vs-togo.html</loc></url>
@@ -2267,6 +2271,7 @@
   <url><loc>https://formlinedata.com/h2h/men/dominica-vs-guadeloupe.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/angola-vs-zimbabwe.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/spain-vs-venezuela.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/madagascar-vs-mozambique.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/colombia-vs-spain.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/malawi-vs-mozambique.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/samoa-vs-vanuatu.html</loc></url>
@@ -2337,6 +2342,7 @@
   <url><loc>https://formlinedata.com/h2h/men/austria-vs-northern-ireland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/korea-republic-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/senegal-vs-united-arab-emirates.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/ghana-vs-korea-republic.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/burundi-vs-rwanda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/rwanda-vs-somalia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/finland-vs-portugal.html</loc></url>
@@ -2366,6 +2372,7 @@
   <url><loc>https://formlinedata.com/h2h/men/libya-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/rwanda-vs-tunisia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/guinea-bissau-vs-togo.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/gabon-vs-tunisia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/bulgaria-vs-wales.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/kenya-vs-libya.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/malta-vs-spain.html</loc></url>
@@ -2373,7 +2380,6 @@
   <url><loc>https://formlinedata.com/h2h/men/antigua-and-barbuda-vs-guyana.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/brunei-darussalam-vs-myanmar.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/korea-republic-vs-nigeria.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/ghana-vs-korea-republic.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/mauritania-vs-niger.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/qatar-vs-sudan.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/mauritania-vs-sierra-leone.html</loc></url>
@@ -2386,6 +2392,7 @@
   <url><loc>https://formlinedata.com/h2h/men/samoa-vs-tonga.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/american-samoa-vs-tonga.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/malaysia-vs-nepal.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/ethiopia-vs-zimbabwe.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/somalia-vs-zimbabwe.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/martinique-vs-mexico.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/algeria-vs-switzerland.html</loc></url>
@@ -2401,7 +2408,6 @@
   <url><loc>https://formlinedata.com/h2h/men/finland-vs-northern-ireland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/austria-vs-liechtenstein.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/india-vs-trinidad-and-tobago.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/ethiopia-vs-zimbabwe.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/morocco-vs-sierra-leone.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/angola-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/philippines-vs-syria.html</loc></url>
@@ -2476,6 +2482,7 @@
   <url><loc>https://formlinedata.com/h2h/men/barbados-vs-guadeloupe.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/congo-dr-vs-malawi.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cabo-verde-vs-mozambique.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/guinea-bissau-vs-mozambique.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/angola-vs-guinea-bissau.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/senegal-vs-zimbabwe.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/libya-vs-mozambique.html</loc></url>
@@ -2522,6 +2529,7 @@
   <url><loc>https://formlinedata.com/h2h/men/indonesia-vs-qatar.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/thailand-vs-united-arab-emirates.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/oman-vs-thailand.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/malawi-vs-rwanda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/kenya-vs-rwanda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/albania-vs-spain.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/italy-vs-malta.html</loc></url>
@@ -2536,6 +2544,7 @@
   <url><loc>https://formlinedata.com/h2h/men/japan-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/guadeloupe-vs-reunion.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/australia-vs-egypt.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/mozambique-vs-uganda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/burundi-vs-malawi.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/guinea-bissau-vs-sao-tome-and-principe.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/kenya-vs-tunisia.html</loc></url>
@@ -2595,6 +2604,7 @@
   <url><loc>https://formlinedata.com/h2h/men/hungary-vs-northern-ireland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cyprus-vs-norway.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/albania-vs-sweden.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/gabon-vs-mali.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/ir-iran-vs-qatar.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/oman-vs-singapore.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/liberia-vs-tunisia.html</loc></url>
@@ -2680,7 +2690,6 @@
   <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-colombia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-england.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/grenada-vs-jamaica.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/gabon-vs-mali.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/eswatini-vs-mozambique.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/mozambique-vs-sudan.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/morocco-vs-niger.html</loc></url>
@@ -2734,6 +2743,7 @@
   <url><loc>https://formlinedata.com/h2h/men/cyprus-vs-iceland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/indonesia-vs-vietnam.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/malaysia-vs-vietnam.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/cote-d-ivoire-vs-kenya.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/qatar-vs-thailand.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/australia-vs-sweden.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/italy-vs-san-marino.html</loc></url>
@@ -2789,6 +2799,7 @@
   <url><loc>https://formlinedata.com/h2h/men/burundi-vs-guinea.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/gabon-vs-niger.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/south-africa-vs-zambia.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/liberia-vs-tanzania.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/australia-vs-solomon-islands.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/latvia-vs-republic-of-ireland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/norway-vs-san-marino.html</loc></url>
@@ -2896,7 +2907,6 @@
   <url><loc>https://formlinedata.com/h2h/men/mexico-vs-south-africa.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/north-macedonia-vs-slovenia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/estonia-vs-liechtenstein.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/gabon-vs-tunisia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/slovakia-vs-slovenia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/papua-new-guinea-vs-tonga.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/new-caledonia-vs-tonga.html</loc></url>
@@ -2969,6 +2979,7 @@
   <url><loc>https://formlinedata.com/h2h/men/croatia-vs-estonia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/mali-vs-mozambique.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/madagascar-vs-south-africa.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/men/congo-vs-gambia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/switzerland-vs-united-arab-emirates.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/armenia-vs-belgium.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/faroe-islands-vs-greece.html</loc></url>
@@ -3475,7 +3486,6 @@
   <url><loc>https://formlinedata.com/h2h/men/turkmenistan-vs-united-arab-emirates.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/libya-vs-togo.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/bangladesh-vs-uzbekistan.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/malawi-vs-rwanda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/greece-vs-moldova.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/estonia-vs-greece.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/gabon-vs-libya.html</loc></url>
@@ -3730,7 +3740,6 @@
   <url><loc>https://formlinedata.com/h2h/men/england-vs-slovakia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/greece-vs-ukraine.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/benin-vs-zambia.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/burkina-faso-vs-central-african-republic.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/botswana-vs-congo-dr.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/ghana-vs-rwanda.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/equatorial-guinea-vs-morocco.html</loc></url>
@@ -3855,7 +3864,6 @@
   <url><loc>https://formlinedata.com/h2h/men/bahrain-vs-tajikistan.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/indonesia-vs-turkmenistan.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/lebanon-vs-vietnam.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/madagascar-vs-mozambique.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/bosnia-and-herzegovina-vs-finland.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/azerbaijan-vs-kazakhstan.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cuba-vs-grenada.html</loc></url>
@@ -4464,7 +4472,6 @@
   <url><loc>https://formlinedata.com/h2h/men/equatorial-guinea-vs-sudan.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/cameroon-vs-comoros.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/el-salvador-vs-montserrat.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/guinea-bissau-vs-mozambique.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/ethiopia-vs-sierra-leone.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/lithuania-vs-montenegro.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/haiti-vs-sint-maarten.html</loc></url>
@@ -4506,7 +4513,6 @@
   <url><loc>https://formlinedata.com/h2h/men/gibraltar-vs-san-marino.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/greece-vs-kosovo.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/georgia-vs-north-macedonia.html</loc></url>
-  <url><loc>https://formlinedata.com/h2h/men/congo-vs-gambia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/bosnia-and-herzegovina-vs-netherlands.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/kosovo-vs-slovenia.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/men/sudan-vs-togo.html</loc></url>
@@ -6142,10 +6148,10 @@
   <url><loc>https://formlinedata.com/h2h/women/cyprus-vs-luxembourg.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/women/albania-vs-wales.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-27-cyprus-vs-luxembourg.html</loc></url>
-  <url><loc>https://formlinedata.com/matches/women/2026-11-27-peru-vs-dominican-republic.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-27-cote-d-ivoire-vs-senegal.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-27-northern-ireland-vs-greece.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-27-france-vs-venezuela.html</loc></url>
+  <url><loc>https://formlinedata.com/matches/women/2026-11-27-peru-vs-dominican-republic.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-27-jamaica-vs-costa-rica.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-28-usa-vs-el-salvador.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-28-malawi-vs-albania.html</loc></url>
@@ -6162,8 +6168,8 @@
   <url><loc>https://formlinedata.com/matches/women/2026-11-29-new-zealand-vs-philippines.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-29-japan-vs-brazil.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-29-indonesia-vs-bhutan.html</loc></url>
-  <url><loc>https://formlinedata.com/matches/women/2026-11-29-malta-vs-kosovo.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-29-peru-vs-dominican-republic.html</loc></url>
+  <url><loc>https://formlinedata.com/matches/women/2026-11-29-malta-vs-kosovo.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-29-argentina-vs-germany.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-30-cyprus-vs-luxembourg.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-30-algeria-vs-nigeria.html</loc></url>

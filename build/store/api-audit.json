@@ -11,7 +11,7 @@
    "city": "",
    "api_id": 1604187,
    "wiki": {
-    "checked": "2026-11-15",
+    "checked": "2026-11-26",
     "asOf": "2026-10-04",
     "found": "none"
    }
@@ -27,7 +27,7 @@
    "city": "",
    "api_id": 1604183,
    "wiki": {
-    "checked": "2026-11-15",
+    "checked": "2026-11-26",
     "asOf": "2026-10-03",
     "found": "none"
    }
@@ -43,7 +43,7 @@
    "city": "",
    "api_id": 1604184,
    "wiki": {
-    "checked": "2026-11-15",
+    "checked": "2026-11-26",
     "asOf": "2026-10-03",
     "found": "none"
    }
@@ -1595,7 +1595,7 @@
    "heldDate": "2017-06-10"
   }
  ],
- "days": 4438,
+ "days": 4448,
  "unmatched": {
   "Pisa": 2,
   "Konyaspor": 2,
@@ -1605,9 +1605,9 @@
   "Getafe": 2,
   "Cercle Brugge": 9,
   "Louisville City": 2,
-  "Podlasie Biała Podlaska": 1,
-  "Shrewsbury": 1,
-  "Saint-Priest": 1,
+  "Podlasie Biała Podlaska": 2,
+  "Shrewsbury": 2,
+  "Saint-Priest": 2,
   "DC United": 1,
   "Yongin City": 1,
   "Siheung Citizen": 1,
@@ -1676,7 +1676,7 @@
   "Anderlecht": 2,
   "Qarabag": 2
  },
- "updated": "2026-11-25",
+ "updated": "2026-11-26",
  "cursor": "2014-10-31",
  "done": "2026-11-21",
  "from": "2014-11-01"
