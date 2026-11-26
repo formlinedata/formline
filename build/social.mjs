@@ -549,7 +549,7 @@ BUILD.today = function(d){
   const yTxt = Y ? `\n\n📋 Yesterday, ${d.yday.dayTxt}: ${String(Y.caption.split('\n\n')[1] || '').replace(/\.$/, '')}. The results are on the last slide.` : '';
   if (Y){ alts.push(Y.alts[0]); }
   return {title:`Today's matches, ${d.dayTxt}`, slides:[s1, ...rest, ...(Y ? [Y.slides[0]] : [])], x, alts,
-    caption:`${G1 ? G1 + ' international' : 'International'} football today, ${d.dayTxt}: Formline's predictions for ${d.n} matches ⚽\n\n${d.list.slice(0, 6).map(line).join('\n')}${d.n > 6 ? `\n…and ${d.n - 6} more in the slides` : ''}\n\n⏰ Kick-off times are Toronto (ET) and UK.${yTxt}\n\nWhich favourite slips up today? 👇 Make your own picks on Formline's Matchday (link in bio).\n\n${hashtags(top.g, [top.home, top.away], top.comp, 'today')}`,
+    caption:`${G1 ? G1 + ' international' : 'International'} football today${d.overnight ? ' and overnight' : ''}, ${d.dayTxt}: Formline's predictions for ${d.n} matches ⚽\n\n${d.list.slice(0, 6).map(line).join('\n')}${d.n > 6 ? `\n…and ${d.n - 6} more in the slides` : ''}\n\n⏰ Kick-off times are Toronto (ET) and UK.${yTxt}\n\nWhich favourite slips up today? 👇 Make your own picks on Formline's Matchday (link in bio).\n\n${hashtags(top.g, [top.home, top.away], top.comp, 'today')}`,
     xText:`⚽ Today's biggest ${G1 ? G1.toLowerCase() + ' ' : ''}matches, and who Formline picks:\n\n${d.list.slice(0, 4).map(r => `${fe(r.hf)}${r.home} v ${r.away}${r.af && r.af.emo ? ' ' + r.af.emo : ''}${wTag(r)}: ${pick(r)}`).join('\n')}\n\n${BASE}#/matchday`};
 };
 

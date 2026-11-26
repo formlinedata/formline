@@ -1601,6 +1601,62 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
       && koText('2026-11-28T01:30:00+00:00', torDay('2026-11-28T01:30:00+00:00')) === '8:30 PM ET · 1:30 AM UK (Sat)'
       && (src.match(/day:fxDayTxt\(/g) || []).length === 4 && !/day:dayTxt\(Date\.parse\(/.test(src) && !/utcDay/.test(post),
       'social posts: a coming match is named by its day in Toronto, and the UK time says when it falls on the next day'); }
+  /* The Victory Internationals of 1945–46 (22 Nov 2026): the nine the archive holds are left out, each with its reason, and
+     Scotland's two with Belgium and Switzerland, full internationals for both sides, are not touched. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8');
+    const rows = [...pg.matchAll(/\{date:'(194[56]-\d\d-\d\d)', home:'([^']+)', away:'([^']+)', score:'(\d+-\d+)', drop:'((?:[^'\\]|\\.)*)'\}/g)].map(m => m.slice(1));
+    const key = rows.map(r => r.slice(0, 4).join('|')).sort().join(';');
+    ok(rows.length === 9 && key === ['1945-05-26|England|France|2-2', '1945-07-21|Switzerland|England|3-1', '1945-09-15|Northern Ireland|England|0-1', '1945-10-20|England|Wales|0-1', '1946-01-19|England|Belgium|2-0',
+        '1946-04-13|Scotland|England|1-0', '1946-04-24|England|Scotland|2-2', '1946-05-11|England|Switzerland|4-1', '1946-05-19|France|England|2-1'].sort().join(';')
+      && rows.every(r => /Victory International|Bolton Disaster Fund/.test(r[4]) && /RSSSF/.test(r[4])) && !/date:'1946-01-23'|date:'1946-05-15'/.test(pg),
+      'the Victory Internationals of 1945–46: nine left out with their reason; Scotland\'s two full internationals stay'); }
+  /* The rival pairs checked against outside lists (22 Nov 2026): six archive rows that only one association counts are
+     left out with their reason, the three La Manga rows of 2000 are gone from the hand-added list, and the thirteen
+     matches found in two records are in it, each naming its records. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const drop = (d, h, a, sc) => new RegExp("\\{date:'" + d + "', home:'" + h + "', away:'" + a + "', score:'" + sc + "', drop:'[^\\n]*RSSSF").test(pg);
+    const set = (d, h, a, sc, what) => new RegExp("\\{date:'" + d + "', home:'" + h + "', away:'" + a + "', score:'" + sc + "', set:\\{" + what + "\\}, note:'[^\\n]*RSSSF").test(pg);
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1970-09-13,Norway,Sweden,2,4,Nordic Championship,', '1983-05-19,Denmark,Norway,2,2,Olympic Games qualification,', '1983-08-17,Norway,Denmark,1,1,Olympic Games qualification,',
+      '1971-08-20,Malaysia,Singapore,4,2,Merdeka Tournament,', "1978-05-05,Malaysia,Singapore,3,2,King's Cup,", '1965-02-27,Kenya,Uganda,3,0,African Cup of Nations qualification,',
+      '1965-03-13,Uganda,Kenya,3,1,African Cup of Nations qualification,', '1972-10-08,Uganda,Kenya,2,0,Friendly,', '1981-07-25,Kenya,Uganda,0,0,Friendly,', '1986-12-12,Kenya,Uganda,3,0,Friendly,',
+      '1991-06-27,Uganda,Kenya,0,0,Friendly,', '1996-05-05,Kenya,Uganda,2,1,Friendly,', '1996-05-07,Kenya,Uganda,1,0,Friendly,'];
+    ok(drop('2018-01-11', 'Denmark', 'Sweden', '0-1') && drop('1981-02-28', 'Norway', 'Sweden', '2-4') && drop('1950-06-25', 'Denmark', 'Norway', '1-4') && drop('1957-07-12', 'Denmark', 'Norway', '1-3')
+      && drop('1983-09-03', 'Malaysia', 'Singapore', '0-0') && drop('1983-09-10', 'Singapore', 'Malaysia', '0-1')
+      && set('1971-08-23', 'Singapore', 'Malaysia', '2-4', 'hs:2, as:2') && set('1971-10-30', 'Malaysia', 'Singapore', '1-1', 'ts:Date\\.UTC\\(1971, 9, 31\\)')
+      && set('1932-08-25', 'Uganda', 'Kenya', '13-1', 'ts:Date\\.UTC\\(1932, 11, 14\\)') && set('1935-05-11', 'Kenya', 'Uganda', '1-3', 'ts:Date\\.UTC\\(1936, 2, 28\\)')
+      && set('1938-10-10', 'Kenya', 'Uganda', '1-3', 'ts:Date\\.UTC\\(1938, 2, 26\\)') && set('1939-11-28', 'Uganda', 'Kenya', '5-2', 'ts:Date\\.UTC\\(1939, 2, 25\\)')
+      && set('1944-11-07', 'Kenya', 'Uganda', '2-1', 'ts:Date\\.UTC\\(1944, 2, 25\\)') && set('1966-11-30', 'Uganda', 'Kenya', '1-2', 'ts:Date\\.UTC\\(1966, 9, 8\\)')
+      && !mf.some(l => /^2000-0[12]-\d\d,(Sweden|Norway|Finland),Denmark,/.test(l))
+      && added.every(a => { const r = row(a); return r.length === 1 && /RSSSF/.test(r[0]) && /World Football Elo Ratings|Wikipedia/.test(r[0]); }),
+      'rival pairs checked against outside lists: one-sided matches left out, wrong dates and a score put right, and thirteen missing matches added with two records each'); }
+  /* The country-by-country check of older matches (begun 22 Nov 2026): Kenya and Uganda. Each added row names Elo and
+     RSSSF's list for the country; the row two days after an archive match of the same two teams is marked separate;
+     matches RSSSF marks as doubtful are not in the list. */
+  { const mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1963-11-10,Ethiopia,Kenya,7,1,Olympic Games qualification,', '1965-02-14,Kenya,Ethiopia,3,2,African Cup of Nations qualification,', '1965-04-04,Ethiopia,Kenya,2,1,', '1965-04-11,Sudan,Kenya,4,2,',
+      '1965-04-25,Kenya,Sudan,1,1,', '1967-12-19,Kenya,Zambia,3,4,', '1974-10-26,Tanzania,Kenya,0,0,CECAFA Cup,', '1976-07-02,Kenya,Mauritius,4,3,', '1987-06-27,Egypt,Kenya,4,0,Olympic Games qualification,',
+      '1987-11-15,Zambia,Uganda,5,0,Olympic Games qualification,', '1996-11-14,Uganda,Rwanda,3,2,', '1997-01-05,Kenya,Malawi,0,0,', '1999-04-04,Uganda,Kenya,0,0,', '2003-05-28,Uganda,Tanzania,3,1,'];
+    ok(added.every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \((Kenya|Uganda) international matches\)/.test(r[0]); })
+      && /,TRUE$/.test(row('1967-12-19,Kenya,Zambia,3,4,')[0] || '')
+      && !['1965-04-12,Sudan,Kenya', '1973-12-15,Kenya,Lesotho', '1991-11-11,Tanzania,Kenya', '2008-07-06,Malawi,Kenya', '1972-10-29,Uganda,Libya'].some(a => row(a).length),
+      'older matches, Kenya and Uganda: added rows name both records, the second Jamhuri match is marked separate, and doubtful matches stay out'); }
+  /* The same check for Tanzania, Ethiopia, Zambia and Malawi: rows name Elo and an RSSSF list, annulled qualifiers say
+     so, asterisked and Southern Rhodesian matches stay out, and two archive dates are moved. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1956-01-29,Ethiopia,Egypt,1,4,Olympic Games qualification,', '1973-07-07,Tanzania,Ethiopia,3,0,', '1974-10-30,Tanzania,Zambia,1,0,CECAFA Cup,', '1976-03-28,Zambia,Sudan,2,2,Olympic Games qualification,',
+      '1983-10-02,Zimbabwe,Ethiopia,3,2,', '1988-01-31,Ghana,Zambia,1,0,', '1996-12-21,Zimbabwe,Zambia,2,2,', '2003-03-26,Ethiopia,Benin,3,0,', '2010-12-04,Tanzania,Burundi,2,0,CECAFA Cup,', '2013-07-06,Malawi,Mozambique,0,1,'];
+    const annulled = ['1992-08-15,Tanzania,Ghana,2,2,', '1992-08-30,Liberia,Tanzania,1,1,', '1995-01-22,Lesotho,Malawi,0,2,', '2000-09-02,Uganda,Guinea,3,1,', '2008-05-31,Morocco,Ethiopia,3,0,', '2008-06-08,Ethiopia,Rwanda,1,2,', '2008-06-13,Mauritania,Ethiopia,0,1,', '2008-06-22,Ethiopia,Mauritania,6,1,'];
+    ok(added.concat(annulled).every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \(/.test(r[0]); })
+      && annulled.every(a => /annulled/.test(row(a)[0]))
+      && !['1967-03-25,Malawi,Zimbabwe', '1969-05-04,Zimbabwe,Malawi', '1964-07-20,Zambia,Malawi', '1975-06-07,Tanzania,Congo', '1974-12-08,Ethiopia,China', '1976-03-02,Malawi,Lesotho'].some(a => row(a).length)
+      && /\{date:'1976-02-08', home:'Malawi', away:'Lesotho', score:'4-1', set:\{ts:Date\.UTC\(1976, 1, 28\)\}/.test(pg) && /\{date:'1989-12-01', home:'Botswana', away:'Zambia', score:'2-1', set:\{ts:Date\.UTC\(1989, 9, 1\)\}/.test(pg),
+      'older matches, Tanzania, Ethiopia, Zambia and Malawi: added rows name both records, annulled qualifiers say so, doubtful matches stay out, two dates moved'); }
+  /* What's new is drawn as plain text, so an HTML entity typed into an item would show as typed ("1&ndash;1"). None may be there. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), a = pg.indexOf('const CHANGELOG'), b = pg.indexOf('\n];', a);
+    ok(a > 0 && b > a && !/&[a-zA-Z]+;/.test(pg.slice(a, b)), "What's new: no HTML entities in the items, which are shown as plain text"); }
   /* The page for posting by hand (22 Nov 2026): on the site, kept out of search, and its caption never says "link in
      bio": every wording the post builder uses comes out with the site's address written once. */
   { const tp = path.join(HERE, '..', 'today', 'index.html'), th = fs.existsSync(tp) ? fs.readFileSync(tp, 'utf8') : '', post = fs.readFileSync(path.join(HERE, 'social.mjs'), 'utf8');

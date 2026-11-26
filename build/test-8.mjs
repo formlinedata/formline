@@ -1259,6 +1259,21 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
             state.gender = 'women'; return {okList, why, via, sa, bar, ny, uk, wd, co}; })()`);
           ok(fj.okList && fj.why === '1111111111111' && fj.via === '111111111' && fj.sa === '1111111' && fj.bar === '10110' && fj.ny === '10001' && fj.uk === '01101010' && fj.wd === '1111111111' && fj.co === '1111111111111111111',
             'sides outside FIFA: 211 joining years; "not yet a member" only before both years on record and only without qualifying, never-members said so, South Africa\'s years out, and only the real qualifying championships count for a men\'s World Cup ' + JSON.stringify(fj)); }
+        /* More reasons for a missed tournament (21 Nov 2026, evening): the Central Asian republics before and just after the
+           Soviet Union broke up, sides that changed confederation or joined late, bans and expulsions, the two African sides
+           that cannot enter, and two qualifying routes that were not being counted (Africa's preliminary rounds of 2003 and
+           2007, and the 2007 South Pacific Games for the 2010 World Cup). */
+        { const mr = model.run(`(() => { state.gender = 'men'; const has = (x, w) => (x || '').indexOf(w) >= 0 ? 1 : 0, A = 'African Cup of Nations';
+            const E = y => ({cat:'wc', tournament:'FIFA World Cup', label:String(y), start:Date.UTC(y, 5, 10)}), C = (t, y, mo) => ({cat:'cont', tournament:t, label:String(y), start:Date.UTC(y, mo || 0, 15)});
+            const out = [has(absentWhy(C('AFC Asian Cup', 1988, 11), 'Kazakhstan'), 'part of the Soviet Union'), has(absentWhy(C('AFC Asian Cup', 1992, 9), 'Kazakhstan'), 'newly independent'), has(absentWhy(C('UEFA Euro', 2004, 5), 'Kazakhstan'), '25 April 2002'),
+              has(absentWhy(C('AFC Asian Cup', 1992, 9), 'Uzbekistan'), 'newly independent'), absentWhy(C('AFC Asian Cup', 1996, 11), 'Uzbekistan') === '' ? 1 : 0, has(absentWhy(C('UEFA Euro', 1996, 5), 'Bosnia and Herzegovina'), 'UEFA in 1998'), has(absentWhy(C('UEFA Euro', 2008, 5), 'Montenegro'), '26 January 2007'),
+              absentWhy(C(A, 1963, 10), 'Zanzibar') === '' ? 1 : 0, has(absentWhy(C(A, 1965, 10), 'Zanzibar'), 'cannot enter'), has(absentWhy(C(A, 2024), 'R\\u00e9union'), 'never been a full member'), absentWhy(C('AFC Asian Cup', 2024), 'Zanzibar') === '' ? 1 : 0,
+              has(absentWhy(C(A, 2015), 'Morocco'), 'intended host'), has(absentWhy(C(A, 2015), 'Gambia'), 'over-age'), has(absentWhy(C(A, 2019, 5), 'Chad'), 'barred'), has(absentWhy(C(A, 2024), 'Kenya'), 'suspended by FIFA'), has(absentWhy(C(A, 2024), 'Zimbabwe'), 'suspended by FIFA'), absentWhy(C(A, 2022), 'Kenya') === '' ? 1 : 0,
+              QUAL_EARLY[A+'|2006'] === Date.UTC(2003, 9, 1) ? 1 : 0, QUAL_EARLY[A+'|2010'] === Date.UTC(2007, 10, 1) ? 1 : 0,
+              wcViaCont(E(2010), {tournament:'South Pacific Games', cat:'games', ts:Date.UTC(2007, 7, 27)}, 'men') ? 1 : 0, !wcViaCont(E(2014), {tournament:'South Pacific Games', cat:'games', ts:Date.UTC(2011, 7, 27)}, 'men') ? 1 : 0, !wcViaCont(E(2010), {tournament:'South Pacific Games', cat:'games', ts:Date.UTC(2007, 7, 27)}, 'women') ? 1 : 0,
+              has(absentWhy(E(2022), 'Samoa'), 'withdrew before'), has(absentWhy(E(2022), 'Tonga'), 'tsunami'), has(absentWhy(E(2022), 'Vanuatu'), 'COVID-19')].join('');
+            state.gender = 'women'; return out; })()`);
+          ok(mr === '1'.repeat(25), 'more reasons for a missed tournament: Central Asia, late joiners, bans, the two African associate members, and the qualifying routes of 2003, 2007 and the South Pacific Games ' + mr); }
         /* The Women's World Cup hub (20 Nov 2026): a single match read from the data gives its winner, a level one waits
            for its shoot-out, and a match not yet played gives nothing. */
         { const mw = model.run(`(() => { state.gender = 'women'; const c = getRatings(), ms = state.matches.women, n0 = ms.length, T = [...new Set(ms.flatMap(m => [m.home, m.away]))].slice(0, 4);
@@ -1565,6 +1580,107 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
       && ['match', 'spotlight', 'tieIn', 'rivalry', 'tournament', 'rankings'].every(t => new RegExp('S\\.' + t + ' = async \\(\\{[^}]*\\bonly\\b').test(src))
       && /by\.women >= 0\.8 \* n \? 'women'/.test(src) && /only:win\.g/.test(post) && /d1\.g === win\.g/.test(post),
       'social posts: in a window that is one game\'s, a thin day looks for a post about that game first'); }
+  /* 22 Nov 2026, after the Copa América 1979 post said "in Chile" and "a 8% chance": the past-tournament post takes only
+     editions settled by one final and names a host only where there was one; "an" before 8, 11, 18 and the eighties;
+     two legs and a third match are "1st leg", "2nd leg", "play-off" on the page. */
+  { const src = fs.readFileSync(path.join(HERE, 'social', 'collect.js'), 'utf8'), post = fs.readFileSync(path.join(HERE, 'social.mjs'), 'utf8'), pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8');
+    const {aPct} = await import('./social.mjs');
+    ok(aPct(8) === 'an 8%' && aPct(11) === 'an 11%' && aPct(18) === 'an 18%' && aPct(80) === 'an 80%' && aPct(85) === 'an 85%' && aPct(7) === 'a 7%' && aPct(12) === 'a 12%' && aPct(81) === 'an 81%' && aPct(28) === 'a 28%' && aPct(1) === 'a 1%'
+      && !/had (just )?a \$\{/.test(post) && !/'given a '/.test(post), 'social posts: "an 8% chance", "a 12% chance"');
+    ok(/fins\.length === 1 && st\.get\(fins\[0\]\) === 'Final' \? fins\[0\] : null; if \(!fin\) continue;/.test(src) && /k > 4 \|\| \(k > 1 && k\*2 > e\.teams\.size\) \? ''/.test(src) && /n < 0\.9\*all/.test(src)
+      && /j === 0 \? ', 1st leg' : j === 1 \? ', 2nd leg' : ', play-off'/.test(pg) && /, play-off\$\/, ' \(play-off\)'/.test(post),
+      'social posts: a past tournament is posted only if one final settled it, and it has a host only where there was one; a third match after two legs is the play-off'); }
+  /* A coming match's day is the day in Toronto, where a kick-off time is known (22 Nov 2026): USA v El Salvador at 01:30
+     UTC on Saturday 28 November is "Friday 27 November, 8:30 PM ET / 1:30 AM UK (Sat)", not "Saturday ..., 8:30 PM ET (Fri)". */
+  { const src = fs.readFileSync(path.join(HERE, 'social', 'collect.js'), 'utf8'), post = fs.readFileSync(path.join(HERE, 'social.mjs'), 'utf8');
+    const dayTxt = new Function(src.match(/const dayTxt = [^\n]+/)[0] + ' return dayTxt;')();
+    const fxDayTxt = new Function('dayTxt', src.match(/const fxDayTxt = [^\n]+\n[^\n]+/)[0] + ' return fxDayTxt;')(dayTxt);
+    const torDay = new Function(post.match(/const torDay = [^\n]+/)[0] + ' return torDay;')();
+    ok(fxDayTxt({kickoff:'2026-11-28T01:30:00+00:00', date:'2026-11-28'}) === 'Friday 27 November' && fxDayTxt({kickoff:'', date:'2026-11-28'}) === 'Saturday 28 November'
+      && fxDayTxt({kickoff:'2026-11-14T19:45:00+00:00', date:'2026-11-14'}) === 'Saturday 14 November' && torDay('2026-11-28T01:30:00+00:00') === '2026-11-27'
+      && koText('2026-11-28T01:30:00+00:00', torDay('2026-11-28T01:30:00+00:00')) === '8:30 PM ET · 1:30 AM UK (Sat)'
+      && (src.match(/day:fxDayTxt\(/g) || []).length === 4 && !/day:dayTxt\(Date\.parse\(/.test(src) && !/utcDay/.test(post),
+      'social posts: a coming match is named by its day in Toronto, and the UK time says when it falls on the next day'); }
+  /* The Victory Internationals of 1945–46 (22 Nov 2026): the nine the archive holds are left out, each with its reason, and
+     Scotland's two with Belgium and Switzerland, full internationals for both sides, are not touched. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8');
+    const rows = [...pg.matchAll(/\{date:'(194[56]-\d\d-\d\d)', home:'([^']+)', away:'([^']+)', score:'(\d+-\d+)', drop:'((?:[^'\\]|\\.)*)'\}/g)].map(m => m.slice(1));
+    const key = rows.map(r => r.slice(0, 4).join('|')).sort().join(';');
+    ok(rows.length === 9 && key === ['1945-05-26|England|France|2-2', '1945-07-21|Switzerland|England|3-1', '1945-09-15|Northern Ireland|England|0-1', '1945-10-20|England|Wales|0-1', '1946-01-19|England|Belgium|2-0',
+        '1946-04-13|Scotland|England|1-0', '1946-04-24|England|Scotland|2-2', '1946-05-11|England|Switzerland|4-1', '1946-05-19|France|England|2-1'].sort().join(';')
+      && rows.every(r => /Victory International|Bolton Disaster Fund/.test(r[4]) && /RSSSF/.test(r[4])) && !/date:'1946-01-23'|date:'1946-05-15'/.test(pg),
+      'the Victory Internationals of 1945–46: nine left out with their reason; Scotland\'s two full internationals stay'); }
+  /* The rival pairs checked against outside lists (22 Nov 2026): six archive rows that only one association counts are
+     left out with their reason, the three La Manga rows of 2000 are gone from the hand-added list, and the thirteen
+     matches found in two records are in it, each naming its records. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const drop = (d, h, a, sc) => new RegExp("\\{date:'" + d + "', home:'" + h + "', away:'" + a + "', score:'" + sc + "', drop:'[^\\n]*RSSSF").test(pg);
+    const set = (d, h, a, sc, what) => new RegExp("\\{date:'" + d + "', home:'" + h + "', away:'" + a + "', score:'" + sc + "', set:\\{" + what + "\\}, note:'[^\\n]*RSSSF").test(pg);
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1970-09-13,Norway,Sweden,2,4,Nordic Championship,', '1983-05-19,Denmark,Norway,2,2,Olympic Games qualification,', '1983-08-17,Norway,Denmark,1,1,Olympic Games qualification,',
+      '1971-08-20,Malaysia,Singapore,4,2,Merdeka Tournament,', "1978-05-05,Malaysia,Singapore,3,2,King's Cup,", '1965-02-27,Kenya,Uganda,3,0,African Cup of Nations qualification,',
+      '1965-03-13,Uganda,Kenya,3,1,African Cup of Nations qualification,', '1972-10-08,Uganda,Kenya,2,0,Friendly,', '1981-07-25,Kenya,Uganda,0,0,Friendly,', '1986-12-12,Kenya,Uganda,3,0,Friendly,',
+      '1991-06-27,Uganda,Kenya,0,0,Friendly,', '1996-05-05,Kenya,Uganda,2,1,Friendly,', '1996-05-07,Kenya,Uganda,1,0,Friendly,'];
+    ok(drop('2018-01-11', 'Denmark', 'Sweden', '0-1') && drop('1981-02-28', 'Norway', 'Sweden', '2-4') && drop('1950-06-25', 'Denmark', 'Norway', '1-4') && drop('1957-07-12', 'Denmark', 'Norway', '1-3')
+      && drop('1983-09-03', 'Malaysia', 'Singapore', '0-0') && drop('1983-09-10', 'Singapore', 'Malaysia', '0-1')
+      && set('1971-08-23', 'Singapore', 'Malaysia', '2-4', 'hs:2, as:2') && set('1971-10-30', 'Malaysia', 'Singapore', '1-1', 'ts:Date\\.UTC\\(1971, 9, 31\\)')
+      && set('1932-08-25', 'Uganda', 'Kenya', '13-1', 'ts:Date\\.UTC\\(1932, 11, 14\\)') && set('1935-05-11', 'Kenya', 'Uganda', '1-3', 'ts:Date\\.UTC\\(1936, 2, 28\\)')
+      && set('1938-10-10', 'Kenya', 'Uganda', '1-3', 'ts:Date\\.UTC\\(1938, 2, 26\\)') && set('1939-11-28', 'Uganda', 'Kenya', '5-2', 'ts:Date\\.UTC\\(1939, 2, 25\\)')
+      && set('1944-11-07', 'Kenya', 'Uganda', '2-1', 'ts:Date\\.UTC\\(1944, 2, 25\\)') && set('1966-11-30', 'Uganda', 'Kenya', '1-2', 'ts:Date\\.UTC\\(1966, 9, 8\\)')
+      && !mf.some(l => /^2000-0[12]-\d\d,(Sweden|Norway|Finland),Denmark,/.test(l))
+      && added.every(a => { const r = row(a); return r.length === 1 && /RSSSF/.test(r[0]) && /World Football Elo Ratings|Wikipedia/.test(r[0]); }),
+      'rival pairs checked against outside lists: one-sided matches left out, wrong dates and a score put right, and thirteen missing matches added with two records each'); }
+  /* The country-by-country check of older matches (begun 22 Nov 2026): Kenya and Uganda. Each added row names Elo and
+     RSSSF's list for the country; the row two days after an archive match of the same two teams is marked separate;
+     matches RSSSF marks as doubtful are not in the list. */
+  { const mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1963-11-10,Ethiopia,Kenya,7,1,Olympic Games qualification,', '1965-02-14,Kenya,Ethiopia,3,2,African Cup of Nations qualification,', '1965-04-04,Ethiopia,Kenya,2,1,', '1965-04-11,Sudan,Kenya,4,2,',
+      '1965-04-25,Kenya,Sudan,1,1,', '1967-12-19,Kenya,Zambia,3,4,', '1974-10-26,Tanzania,Kenya,0,0,CECAFA Cup,', '1976-07-02,Kenya,Mauritius,4,3,', '1987-06-27,Egypt,Kenya,4,0,Olympic Games qualification,',
+      '1987-11-15,Zambia,Uganda,5,0,Olympic Games qualification,', '1996-11-14,Uganda,Rwanda,3,2,', '1997-01-05,Kenya,Malawi,0,0,', '1999-04-04,Uganda,Kenya,0,0,', '2003-05-28,Uganda,Tanzania,3,1,'];
+    ok(added.every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \((Kenya|Uganda) international matches\)/.test(r[0]); })
+      && /,TRUE$/.test(row('1967-12-19,Kenya,Zambia,3,4,')[0] || '')
+      && !['1965-04-12,Sudan,Kenya', '1973-12-15,Kenya,Lesotho', '1991-11-11,Tanzania,Kenya', '2008-07-06,Malawi,Kenya', '1972-10-29,Uganda,Libya'].some(a => row(a).length),
+      'older matches, Kenya and Uganda: added rows name both records, the second Jamhuri match is marked separate, and doubtful matches stay out'); }
+  /* The same check for Tanzania, Ethiopia, Zambia and Malawi: rows name Elo and an RSSSF list, annulled qualifiers say
+     so, asterisked and Southern Rhodesian matches stay out, and two archive dates are moved. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1956-01-29,Ethiopia,Egypt,1,4,Olympic Games qualification,', '1973-07-07,Tanzania,Ethiopia,3,0,', '1974-10-30,Tanzania,Zambia,1,0,CECAFA Cup,', '1976-03-28,Zambia,Sudan,2,2,Olympic Games qualification,',
+      '1983-10-02,Zimbabwe,Ethiopia,3,2,', '1988-01-31,Ghana,Zambia,1,0,', '1996-12-21,Zimbabwe,Zambia,2,2,', '2003-03-26,Ethiopia,Benin,3,0,', '2010-12-04,Tanzania,Burundi,2,0,CECAFA Cup,', '2013-07-06,Malawi,Mozambique,0,1,'];
+    const annulled = ['1992-08-15,Tanzania,Ghana,2,2,', '1992-08-30,Liberia,Tanzania,1,1,', '1995-01-22,Lesotho,Malawi,0,2,', '2000-09-02,Uganda,Guinea,3,1,', '2008-05-31,Morocco,Ethiopia,3,0,', '2008-06-08,Ethiopia,Rwanda,1,2,', '2008-06-13,Mauritania,Ethiopia,0,1,', '2008-06-22,Ethiopia,Mauritania,6,1,'];
+    ok(added.concat(annulled).every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \(/.test(r[0]); })
+      && annulled.every(a => /annulled/.test(row(a)[0]))
+      && !['1967-03-25,Malawi,Zimbabwe', '1969-05-04,Zimbabwe,Malawi', '1964-07-20,Zambia,Malawi', '1975-06-07,Tanzania,Congo', '1974-12-08,Ethiopia,China', '1976-03-02,Malawi,Lesotho'].some(a => row(a).length)
+      && /\{date:'1976-02-08', home:'Malawi', away:'Lesotho', score:'4-1', set:\{ts:Date\.UTC\(1976, 1, 28\)\}/.test(pg) && /\{date:'1989-12-01', home:'Botswana', away:'Zambia', score:'2-1', set:\{ts:Date\.UTC\(1989, 9, 1\)\}/.test(pg),
+      'older matches, Tanzania, Ethiopia, Zambia and Malawi: added rows name both records, annulled qualifiers say so, doubtful matches stay out, two dates moved'); }
+  /* The same check for Mozambique, Eswatini, Lesotho and Congo: rows name Elo and an RSSSF list, annulled qualifiers
+     say so, the CEMAC Cup and asterisked matches stay out, and two Congo matches move from 1964 to 1965. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1961-12-27,Congo,Niger,10,0,', '1976-07-11,Cameroon,Congo,3,2,Central African Games,', '1975-07-23,Cameroon,Congo,3,1,UDEAC Cup,', '1983-03-06,Mozambique,Lesotho,3,0,Olympic Games qualification,',
+      '1985-07-07,Guinea-Bissau,Mozambique,3,3,', '1987-06-21,Zimbabwe,Eswatini,6,1,Olympic Games qualification,', '1988-07-31,Botswana,Eswatini,2,1,', '2001-01-06,Namibia,Lesotho,1,0,', '2012-02-22,Namibia,Mozambique,3,0,'];
+    const annulled = ['1992-08-30,Congo,Chad,2,0,', '1994-09-04,Congo,Gambia,1,1,', '1995-04-09,Gambia,Congo,1,1,', '1994-09-04,Zimbabwe,Lesotho,5,0,', '1994-11-13,Lesotho,Cameroon,2,0,', '1995-01-08,DR Congo,Lesotho,3,0,',
+      '1995-04-09,Lesotho,Zimbabwe,0,2,', '1995-06-04,Cameroon,Lesotho,4,1,', '1999-01-24,Ghana,Mozambique,1,0,'];
+    ok(added.concat(annulled).every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \(/.test(r[0]); })
+      && annulled.every(a => /annulled/.test(row(a)[0]))
+      && !mf.some(l => /^200[3-7]-\d\d-\d\d,(Congo|Gabon|Chad|Equatorial Guinea),(Congo|Gabon|Chad|Equatorial Guinea|Central African Republic),\d+,\d+,(Friendly|CEMAC)/.test(l) && /RSSSF \(Congo/.test(l))
+      && !['1981-04-19,Zimbabwe,Mozambique', '1977-12-30,Cameroon,Congo', '2013-03-13,Mozambique,Eswatini', '1988-09-30,Botswana,Zimbabwe'].some(a => row(a).length)
+      && /\{date:'1964-02-14', home:'Congo', away:'Cameroon', score:'4-4', set:\{ts:Date\.UTC\(1965, 1, 14\)\}/.test(pg) && /\{date:'1964-03-28', home:'Congo', away:'Chad', score:'11-0', set:\{ts:Date\.UTC\(1965, 2, 28\)\}/.test(pg),
+      'older matches, Mozambique, Eswatini, Lesotho and Congo: added rows name both records, annulled qualifiers say so, the CEMAC Cup and doubtful matches stay out, two dates moved'); }
+  /* What's new is drawn as plain text, so an HTML entity typed into an item would show as typed ("1&ndash;1"). None may be there. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), a = pg.indexOf('const CHANGELOG'), b = pg.indexOf('\n];', a);
+    ok(a > 0 && b > a && !/&[a-zA-Z]+;/.test(pg.slice(a, b)), "What's new: no HTML entities in the items, which are shown as plain text"); }
+  /* The page for posting by hand (22 Nov 2026): on the site, kept out of search, and its caption never says "link in
+     bio": every wording the post builder uses comes out with the site's address written once. */
+  { const tp = path.join(HERE, '..', 'today', 'index.html'), th = fs.existsSync(tp) ? fs.readFileSync(tp, 'utf8') : '', post = fs.readFileSync(path.join(HERE, 'social.mjs'), 'utf8');
+    const {isSiteFile} = await import('./site.mjs');
+    const fn = (th.match(/function captionElsewhere\(c\)\{[\s\S]*?\n\}/) || [''])[0], captionElsewhere = fn ? new Function(fn + ' return captionElsewhere;')() : null;
+    const lines = [...post.matchAll(/[^\n`]{0,80}\(link in bio\)[^\n`\\]{0,6}/g)].map(m => m[0].replace(/\$\{[^}]*\}/g, 'x'));
+    const out = captionElsewhere ? lines.map(l => captionElsewhere(l)) : [];
+    ok(th && /<meta name="robots" content="noindex, nofollow">/.test(th) && isSiteFile('today/index.html') && /social-queue\//.test(th) && !/\r/.test(th)
+      && lines.length >= 10 && out.every(o => !/link in bio/.test(o) && (o.match(/formlinedata\.com/g) || []).length === 1 && !/\u{1F446}/u.test(o)),
+      'today\'s post page: published, kept out of search, and every caption wording loses "link in bio" for the site\'s address (' + lines.length + ' wordings)'); }
   ok(koText('2026-11-12T19:45:00+00:00', '2026-11-12') === '2:45 PM ET · 7:45 PM UK', 'social posts: a kick-off is given in Toronto and UK time');
   ok(koText('2026-11-13T00:30:00+00:00', '2026-11-12') === '7:30 PM ET · 12:30 AM UK (Fri)', 'social posts: a zone where the match is on another day says which day');
   ok(koText('2026-06-11T19:00:00+00:00', '2026-06-11') === '3:00 PM ET · 8:00 PM UK' && koText('', '2026-06-11') === '', 'social posts: summer time in both zones, and no text without a kick-off');

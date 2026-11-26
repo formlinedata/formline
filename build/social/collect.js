@@ -318,11 +318,17 @@ S.roundup = async ({now, day}) => {
 };
 
 /* Today's matches (Toronto's date) with Formline's published calls, biggest first, leaving out any that kicked off before
-   the post goes out. Each row carries its kick-off; social.mjs writes it out in Toronto and UK time. */
+   the post goes out. A match that kicks off after midnight in Toronto but before tomorrow's post goes out (a morning or
+   afternoon kick-off in Asia or Oceania) would otherwise be on no day's post, so it goes on today's; `overnight` counts
+   them. Each row carries its kick-off; social.mjs writes it out in Toronto and UK time, with the weekday where it differs. */
 async function todayList(now){
   const day = new Date(now).toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
+  const torDay = iso => new Date(iso).toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
+  /* A fixture whose time is not announced carries a stand-in kick-off (noon UTC); it is never brought forward on the
+     strength of that. */
+  const tbc = new Set(); ['men', 'women'].forEach(g => ((state.fixtures && state.fixtures[g]) || []).forEach(x => { if (x.tbc) tbc.add(g + '|' + x.date + '|' + x.home + '|' + x.away); }));
   const es = ((state.record && state.record.entries) || []).filter(e => e.p && !e.void && !e.result && !(e.kickoff && Date.parse(e.kickoff) <= now) &&
-    (e.kickoff ? new Date(e.kickoff).toLocaleDateString('en-CA', {timeZone:'America/Toronto'}) : e.date) === day);
+    (e.kickoff ? (torDay(e.kickoff) === day || (Date.parse(e.kickoff) <= now + 864e5 && !tbc.has(e.g + '|' + e.date + '|' + e.home + '|' + e.away))) : e.date === day));
   const out = [];
   for (const g of ['men', 'women']){
     const mine = es.filter(e => e.g === g); if (!mine.length) continue;
@@ -337,7 +343,8 @@ async function todayList(now){
     }
   }
   out.sort((a, b) => a.top - b.top);
-  return {day, dayTxt:new Date(day + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}), n:out.length, list:out};
+  return {day, dayTxt:new Date(day + 'T12:00:00Z').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'}), n:out.length, list:out,
+    overnight:out.filter(r => r.kickoff && torDay(r.kickoff) !== day).length};
 }
 /* Instagram Story on window days: the nine biggest of today's matches. */
 S.storyToday = async ({now}) => {

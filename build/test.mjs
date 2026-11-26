@@ -1630,6 +1630,69 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
       && !mf.some(l => /^2000-0[12]-\d\d,(Sweden|Norway|Finland),Denmark,/.test(l))
       && added.every(a => { const r = row(a); return r.length === 1 && /RSSSF/.test(r[0]) && /World Football Elo Ratings|Wikipedia/.test(r[0]); }),
       'rival pairs checked against outside lists: one-sided matches left out, wrong dates and a score put right, and thirteen missing matches added with two records each'); }
+  /* The country-by-country check of older matches (begun 22 Nov 2026): Kenya and Uganda. Each added row names Elo and
+     RSSSF's list for the country; the row two days after an archive match of the same two teams is marked separate;
+     matches RSSSF marks as doubtful are not in the list. */
+  { const mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1963-11-10,Ethiopia,Kenya,7,1,Olympic Games qualification,', '1965-02-14,Kenya,Ethiopia,3,2,African Cup of Nations qualification,', '1965-04-04,Ethiopia,Kenya,2,1,', '1965-04-11,Sudan,Kenya,4,2,',
+      '1965-04-25,Kenya,Sudan,1,1,', '1967-12-19,Kenya,Zambia,3,4,', '1974-10-26,Tanzania,Kenya,0,0,CECAFA Cup,', '1976-07-02,Kenya,Mauritius,4,3,', '1987-06-27,Egypt,Kenya,4,0,Olympic Games qualification,',
+      '1987-11-15,Zambia,Uganda,5,0,Olympic Games qualification,', '1996-11-14,Uganda,Rwanda,3,2,', '1997-01-05,Kenya,Malawi,0,0,', '1999-04-04,Uganda,Kenya,0,0,', '2003-05-28,Uganda,Tanzania,3,1,'];
+    ok(added.every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \((Kenya|Uganda) international matches\)/.test(r[0]); })
+      && /,TRUE$/.test(row('1967-12-19,Kenya,Zambia,3,4,')[0] || '')
+      && !['1965-04-12,Sudan,Kenya', '1973-12-15,Kenya,Lesotho', '1991-11-11,Tanzania,Kenya', '2008-07-06,Malawi,Kenya', '1972-10-29,Uganda,Libya'].some(a => row(a).length),
+      'older matches, Kenya and Uganda: added rows name both records, the second Jamhuri match is marked separate, and doubtful matches stay out'); }
+  /* The same check for Tanzania, Ethiopia, Zambia and Malawi: rows name Elo and an RSSSF list, annulled qualifiers say
+     so, asterisked and Southern Rhodesian matches stay out, and two archive dates are moved. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1956-01-29,Ethiopia,Egypt,1,4,Olympic Games qualification,', '1973-07-07,Tanzania,Ethiopia,3,0,', '1974-10-30,Tanzania,Zambia,1,0,CECAFA Cup,', '1976-03-28,Zambia,Sudan,2,2,Olympic Games qualification,',
+      '1983-10-02,Zimbabwe,Ethiopia,3,2,', '1988-01-31,Ghana,Zambia,1,0,', '1996-12-21,Zimbabwe,Zambia,2,2,', '2003-03-26,Ethiopia,Benin,3,0,', '2010-12-04,Tanzania,Burundi,2,0,CECAFA Cup,', '2013-07-06,Malawi,Mozambique,0,1,'];
+    const annulled = ['1992-08-15,Tanzania,Ghana,2,2,', '1992-08-30,Liberia,Tanzania,1,1,', '1995-01-22,Lesotho,Malawi,0,2,', '2000-09-02,Uganda,Guinea,3,1,', '2008-05-31,Morocco,Ethiopia,3,0,', '2008-06-08,Ethiopia,Rwanda,1,2,', '2008-06-13,Mauritania,Ethiopia,0,1,', '2008-06-22,Ethiopia,Mauritania,6,1,'];
+    ok(added.concat(annulled).every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \(/.test(r[0]); })
+      && annulled.every(a => /annulled/.test(row(a)[0]))
+      && !['1967-03-25,Malawi,Zimbabwe', '1969-05-04,Zimbabwe,Malawi', '1964-07-20,Zambia,Malawi', '1975-06-07,Tanzania,Congo', '1974-12-08,Ethiopia,China', '1976-03-02,Malawi,Lesotho'].some(a => row(a).length)
+      && /\{date:'1976-02-08', home:'Malawi', away:'Lesotho', score:'4-1', set:\{ts:Date\.UTC\(1976, 1, 28\)\}/.test(pg) && /\{date:'1989-12-01', home:'Botswana', away:'Zambia', score:'2-1', set:\{ts:Date\.UTC\(1989, 9, 1\)\}/.test(pg),
+      'older matches, Tanzania, Ethiopia, Zambia and Malawi: added rows name both records, annulled qualifiers say so, doubtful matches stay out, two dates moved'); }
+  /* The same check for Mozambique, Eswatini, Lesotho and Congo: rows name Elo and an RSSSF list, annulled qualifiers
+     say so, the CEMAC Cup and asterisked matches stay out, and two Congo matches move from 1964 to 1965. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1961-12-27,Congo,Niger,10,0,', '1976-07-11,Cameroon,Congo,3,2,Central African Games,', '1975-07-23,Cameroon,Congo,3,1,UDEAC Cup,', '1983-03-06,Mozambique,Lesotho,3,0,Olympic Games qualification,',
+      '1985-07-07,Guinea-Bissau,Mozambique,3,3,', '1987-06-21,Zimbabwe,Eswatini,6,1,Olympic Games qualification,', '1988-07-31,Botswana,Eswatini,2,1,', '2001-01-06,Namibia,Lesotho,1,0,', '2012-02-22,Namibia,Mozambique,3,0,'];
+    const annulled = ['1992-08-30,Congo,Chad,2,0,', '1994-09-04,Congo,Gambia,1,1,', '1995-04-09,Gambia,Congo,1,1,', '1994-09-04,Zimbabwe,Lesotho,5,0,', '1994-11-13,Lesotho,Cameroon,2,0,', '1995-01-08,DR Congo,Lesotho,3,0,',
+      '1995-04-09,Lesotho,Zimbabwe,0,2,', '1995-06-04,Cameroon,Lesotho,4,1,', '1999-01-24,Ghana,Mozambique,1,0,'];
+    ok(added.concat(annulled).every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \(/.test(r[0]); })
+      && annulled.every(a => /annulled/.test(row(a)[0]))
+      && !mf.some(l => /^200[3-7]-\d\d-\d\d,(Congo|Gabon|Chad|Equatorial Guinea),(Congo|Gabon|Chad|Equatorial Guinea|Central African Republic),\d+,\d+,(Friendly|CEMAC)/.test(l) && /RSSSF \(Congo/.test(l))
+      && !['1981-04-19,Zimbabwe,Mozambique', '1977-12-30,Cameroon,Congo', '2013-03-13,Mozambique,Eswatini', '1988-09-30,Botswana,Zimbabwe'].some(a => row(a).length)
+      && /\{date:'1964-02-14', home:'Congo', away:'Cameroon', score:'4-4', set:\{ts:Date\.UTC\(1965, 1, 14\)\}/.test(pg) && /\{date:'1964-03-28', home:'Congo', away:'Chad', score:'11-0', set:\{ts:Date\.UTC\(1965, 2, 28\)\}/.test(pg),
+      'older matches, Mozambique, Eswatini, Lesotho and Congo: added rows name both records, annulled qualifiers say so, the CEMAC Cup and doubtful matches stay out, two dates moved'); }
+  /* The same check for Ghana, Cameroon, Gabon, Chad, the Central African Republic and DR Congo (25 Nov 2026). */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1963-02-24,Ghana,Nigeria,5,0,', '1982-08-17,Ghana,South Korea,1,0,Merdeka Tournament,', '1987-11-14,Cameroon,Ghana,2,2,Olympic Games qualification,', '1965-04-16,Cameroon,Chad,9,0,All-African Games qualification,',
+      '1976-07-07,Gabon,Cameroon,0,0,Central African Games,', '1992-07-19,Cameroon,Egypt,0,1,', '1964-07-12,Gabon,Chad,2,1,', '2011-02-08,Equatorial Guinea,Chad,2,0,', '1961-12-26,Central African Republic,Burkina Faso,1,1,',
+      '1965-04-16,DR Congo,Central African Republic,8,2,', '1990-06-29,Angola,DR Congo,0,2,'];
+    const annulled = ['1992-08-30,Ghana,Burkina Faso,3,0,', '1994-11-12,Gambia,Ghana,1,2,', '1998-10-04,Cameroon,Ghana,1,3,'];
+    ok(added.concat(annulled).every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \(/.test(r[0]); })
+      && annulled.every(a => /annulled/.test(row(a)[0]))
+      && !['1968-10-02,Bulgaria,Ghana', '1978-05-29,China,Ghana', '1954-05-31,Ghana,Tunisia', '1973-04-22,Ivory Coast,Central African Republic', '2003-05-30,Cameroon,Iran'].some(a => row(a).length)
+      && !mf.some(l => /^20(0[3-9]|10)-/.test(l) && /CEMAC/.test(l))
+      && /\{date:'1965-04-14', home:'Ghana', away:'DR Congo', score:'4-1', set:\{ts:Date\.UTC\(1965, 0, 3\)\}/.test(pg) && /\{date:'1971-10-27', home:'Ghana', away:'Togo', score:'0-1', set:\{ts:Date\.UTC\(1971, 5, 27\)\}/.test(pg)
+      && /\{date:'1967-01-22', home:'DR Congo', away:'Congo', score:'4-1', set:\{ts:Date\.UTC\(1966, 6, 3\)\}/.test(pg),
+      'older matches, Ghana, Cameroon, Gabon, Chad, Central African Republic and DR Congo: added rows name both records, annulled qualifiers say so, doubtful matches and the CEMAC Cup stay out, three dates moved'); }
+
+  /* The day's "today" post also carries matches that kick off after midnight in Toronto but before the next day's post
+     goes out, so a morning kick-off in Asia or Oceania is not left off every post; a fixture whose time is not announced
+     is never brought forward on its stand-in time; and the caption says "today and overnight" when it applies. */
+  { const cj = fs.readFileSync(path.join(HERE, 'social', 'collect.js'), 'utf8'), sj = fs.readFileSync(path.join(HERE, 'social.mjs'), 'utf8');
+    ok(/torDay\(e\.kickoff\) === day \|\| \(Date\.parse\(e\.kickoff\) <= now \+ 864e5 && !tbc\.has\(/.test(cj) && /if \(x\.tbc\) tbc\.add\(g \+ '\|' \+ x\.date/.test(cj)
+      && /overnight:out\.filter\(r => r\.kickoff && torDay\(r\.kickoff\) !== day\)\.length/.test(cj) && /football today\$\{d\.overnight \? ' and overnight' : ''\}/.test(sj),
+      "daily post: overnight kick-offs go on the day's post, never one with an unannounced time"); }
+  /* What's new is drawn as plain text, so an HTML entity typed into an item would show as typed ("1&ndash;1"). None may be there. */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), a = pg.indexOf('const CHANGELOG'), b = pg.indexOf('\n];', a);
+    ok(a > 0 && b > a && !/&[a-zA-Z]+;/.test(pg.slice(a, b)), "What's new: no HTML entities in the items, which are shown as plain text"); }
   /* The page for posting by hand (22 Nov 2026): on the site, kept out of search, and its caption never says "link in
      bio": every wording the post builder uses comes out with the site's address written once. */
   { const tp = path.join(HERE, '..', 'today', 'index.html'), th = fs.existsSync(tp) ? fs.readFileSync(tp, 'utf8') : '', post = fs.readFileSync(path.join(HERE, 'social.mjs'), 'utf8');
