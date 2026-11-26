@@ -1559,27 +1559,6 @@
    "heldDate": "2023-08-11"
   },
   {
-   "g": "women",
-   "date": "2021-10-21",
-   "home": "Costa Rica",
-   "away": "Jamaica",
-   "score": "0-1",
-   "tournament": "Friendly",
-   "league": "Friendlies Women",
-   "city": "Fort Lauderdale, Florida",
-   "api_id": 803733,
-   "wiki": {
-    "checked": "2026-11-17",
-    "asOf": "2022-01-04",
-    "found": "differ",
-    "others": [
-     "2021-10-24 0-0"
-    ]
-   },
-   "held": "0-0",
-   "heldDate": "2021-10-21"
-  },
-  {
    "g": "men",
    "date": "2017-12-03",
    "home": "Saint Kitts and Nevis",
@@ -1616,16 +1595,16 @@
    "heldDate": "2017-06-10"
   }
  ],
- "days": 4398,
+ "days": 4438,
  "unmatched": {
   "Pisa": 2,
   "Konyaspor": 2,
-  "Gornik Zabrze": 2,
-  "Coventry": 1,
-  "Liverpool": 1,
-  "Getafe": 1,
-  "Cercle Brugge": 8,
-  "Louisville City": 1,
+  "Gornik Zabrze": 4,
+  "Coventry": 2,
+  "Liverpool": 2,
+  "Getafe": 2,
+  "Cercle Brugge": 9,
+  "Louisville City": 2,
   "Podlasie Biała Podlaska": 1,
   "Shrewsbury": 1,
   "Saint-Priest": 1,
@@ -1697,7 +1676,7 @@
   "Anderlecht": 2,
   "Qarabag": 2
  },
- "updated": "2026-11-22",
+ "updated": "2026-11-25",
  "cursor": "2014-10-31",
  "done": "2026-11-21",
  "from": "2014-11-01"
