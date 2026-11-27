@@ -64,6 +64,14 @@ async function copy(text, btn){
     try { ok = document.execCommand('copy'); } catch (e2){} ta.remove(); }
   const was = btn.textContent; btn.textContent = ok ? 'Copied' : 'Could not copy: press and hold the text instead'; setTimeout(() => { btn.textContent = was; }, 2200);
 }
+/* One picture or video to the phone: the share sheet where the browser can hand over files, else a download. */
+async function saveOne(url, name, btn){
+  const was = btn.textContent;
+  try { const r = await fetch(url); if (!r.ok) throw new Error(url); const b = await r.blob(), f = new File([b], name, {type:b.type || (name.endsWith('.mp4') ? 'video/mp4' : 'image/jpeg')});
+    if (navigator.share && navigator.canShare && navigator.canShare({files:[f]})){ try { await navigator.share({files:[f]}); } catch (e){ if (e && e.name !== 'AbortError') throw e; } return; }
+    const a = document.createElement('a'), u = URL.createObjectURL(f); a.href = u; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 20000);
+  } catch (e){ btn.textContent = 'Could not save here: press and hold it instead'; setTimeout(() => { btn.textContent = was; }, 2600); }
+}
 async function getPost(d){
   const r = await fetch(QUEUE + d + '/post.json', {cache:'no-store'});
   if (!r.ok) return null;
@@ -89,6 +97,34 @@ async function main(){
     '<pre id="cap">' + esc(cap) + '</pre><button id="capBtn">Copy the caption</button>' +
     (post.caption && post.caption !== cap ? '<button class="quiet" id="igBtn">Copy the Instagram wording instead</button>' : '') +
     (post.x && post.xText ? '<details><summary>The X version (one image, shorter text)</summary><figure><img src="' + esc(base + post.x) + '" alt="The image for X" loading="lazy"></figure><pre>' + esc(post.xText) + '</pre><button id="xBtn">Copy the X text</button></details>' : '');
+  /* New format (Muse, 26 Nov 2026): what Seb adds by hand once the bot's post is out (the location), and the files he
+     posts by hand: the Story with its poll and link text, a reel two or three times a week, the result follow-up. */
+  const H = post.hand || {};
+  if (post.format === 'new'){
+    let h = '<h2>' + (post.location ? 'After it goes out: add the location' : 'When it goes out') + '</h2><p class="mut">The bot posts this ' + esc(post.when || 'at about 9 am ET') + '.' +
+      (post.location ? ' Then on Instagram: the post → ⋯ → Edit → Add location.' : '') + '</p>' +
+      (post.location ? '<pre id="loc">' + esc(post.location) + '</pre><button id="locBtn">Copy the location</button>' : '');
+    if (H.story) h += '<h2>By hand: the Story</h2><p class="mut">Save the picture, post it as a Story, then add a poll sticker and a link sticker in the app.</p>' +
+      '<figure><img src="' + esc(base + H.story.img) + '" alt="Story picture" loading="lazy"></figure><button id="stBtn">Save the Story picture</button>' +
+      '<p class="mut">Poll question</p><pre id="pq">' + esc(H.story.pollQuestion || 'Who wins?') + '</pre><button class="quiet" id="pqBtn">Copy the question</button>' +
+      '<p class="mut">Poll answers, in this order</p><pre>' + H.story.poll.map(esc).join('\n') + '</pre>' + H.story.poll.map((o, i) => '<button class="quiet" id="po' + i + '">Copy “' + esc(o) + '”</button>').join('') +
+      '<p class="mut">Link sticker: the address, then the text it shows</p><pre id="lk">' + esc(H.story.link) + '</pre><button class="quiet" id="lkBtn">Copy the link</button>' +
+      '<pre id="lt">' + esc(H.story.linkText || '') + '</pre><button class="quiet" id="ltBtn">Copy the link text</button>';
+    if (H.reel) h += '<h2>By hand: the reel</h2><p class="mut">' + esc(String(H.reel.seconds || '')) + ' seconds, 1080 × 1920, no sound: pick one in the app. Use the cover picture below as its cover.</p>' +
+      '<video src="' + esc(base + H.reel.video) + '" controls playsinline preload="metadata" poster="' + esc(base + H.reel.cover) + '" style="width:100%;border-radius:10px"></video>' +
+      '<button id="rvBtn">Save the reel</button><figure><img src="' + esc(base + H.reel.cover) + '" alt="Reel cover" loading="lazy"><figcaption>Cover</figcaption></figure><button class="quiet" id="rcBtn">Save the cover</button>' +
+      '<pre id="rcap">' + esc(H.reel.caption || '') + '</pre><button class="quiet" id="rcapBtn">Copy the reel caption</button>';
+    if (H.result) h += '<h2>By hand: the result post</h2><p class="mut">' + esc(H.result.title || '') + ', a match that was previewed.</p>' +
+      '<figure><img src="' + esc(base + H.result.img) + '" alt="Result" loading="lazy"></figure><button id="rsBtn">Save the result picture</button>' +
+      '<pre id="rscap">' + esc(H.result.caption || '') + '</pre><button class="quiet" id="rscapBtn">Copy the result caption</button>';
+    $('out').insertAdjacentHTML('beforeend', h);
+    const one = (id, f, name) => { if ($(id)) $(id).onclick = e => saveOne(base + f, name, e.target); };
+    const cp = (id, t) => { if ($(id)) $(id).onclick = e => copy(t, e.target); };
+    cp('locBtn', post.location || '');
+    if (H.story){ one('stBtn', H.story.img, 'formline-' + d + '-story.jpg'); cp('pqBtn', H.story.pollQuestion || 'Who wins?'); H.story.poll.forEach((o, i) => cp('po' + i, o)); cp('lkBtn', H.story.link); cp('ltBtn', H.story.linkText || ''); }
+    if (H.reel){ one('rvBtn', H.reel.video, 'formline-' + d + '-reel.mp4'); one('rcBtn', H.reel.cover, 'formline-' + d + '-reel-cover.jpg'); cp('rcapBtn', H.reel.caption || ''); }
+    if (H.result){ one('rsBtn', H.result.img, 'formline-' + d + '-result.jpg'); cp('rscapBtn', H.result.caption || ''); }
+  }
   $('capBtn').onclick = e => copy(cap, e.target);
   if ($('igBtn')) $('igBtn').onclick = e => copy(post.caption, e.target);
   if ($('xBtn')) $('xBtn').onclick = e => copy(post.xText, e.target);

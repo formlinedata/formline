@@ -1599,7 +1599,7 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
     ok(fxDayTxt({kickoff:'2026-11-28T01:30:00+00:00', date:'2026-11-28'}) === 'Friday 27 November' && fxDayTxt({kickoff:'', date:'2026-11-28'}) === 'Saturday 28 November'
       && fxDayTxt({kickoff:'2026-11-14T19:45:00+00:00', date:'2026-11-14'}) === 'Saturday 14 November' && torDay('2026-11-28T01:30:00+00:00') === '2026-11-27'
       && koText('2026-11-28T01:30:00+00:00', torDay('2026-11-28T01:30:00+00:00')) === '8:30 PM ET · 1:30 AM UK (Sat)'
-      && (src.match(/day:fxDayTxt\(/g) || []).length === 4 && !/day:dayTxt\(Date\.parse\(/.test(src) && !/utcDay/.test(post),
+      && (src.match(/day:fxDayTxt\(/g) || []).length === 5 && !/day:dayTxt\(Date\.parse\(/.test(src) && !/utcDay/.test(post),
       'social posts: a coming match is named by its day in Toronto, and the UK time says when it falls on the next day'); }
   /* The Victory Internationals of 1945–46 (22 Nov 2026): the nine the archive holds are left out, each with its reason, and
      Scotland's two with Belgium and Switzerland, full internationals for both sides, are not touched. */
@@ -1683,6 +1683,37 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
       && /\{date:'1967-01-22', home:'DR Congo', away:'Congo', score:'4-1', set:\{ts:Date\.UTC\(1966, 6, 3\)\}/.test(pg),
       'older matches, Ghana, Cameroon, Gabon, Chad, Central African Republic and DR Congo: added rows name both records, annulled qualifiers say so, doubtful matches and the CEMAC Cup stay out, three dates moved'); }
 
+  /* The same check for West and North Africa (26 Nov 2026). */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1964-12-29,Nigeria,Burkina Faso,6,1,All-African Games qualification,', '1972-10-01,Benin,Burkina Faso,3,2,All-African Games qualification,,Dahomey,', '1975-06-12,Mali,Senegal,3,1,Friendly,,Guinea-Bissau,TRUE,',
+      '1977-03-31,Ivory Coast,Burkina Faso,2,0,African Cup of Nations qualification,', '1983-07-09,Nigeria,Togo,2,1,Olympic Games qualification,', '1987-06-28,Liberia,Nigeria,2,1,Olympic Games qualification,',
+      '1997-10-03,Kuwait,Mali,8,1,', '1961-09-06,Egypt,Libya,2,1,Pan Arab Games,,Morocco,TRUE,', '1964-04-25,Morocco,Uruguay,0,1,', '1979-09-23,Algeria,Tunisia,1,1,Mediterranean Games,,Yugoslavia,TRUE,',
+      '1988-01-30,Nigeria,Algeria,2,0,Olympic Games qualification,', '1996-05-26,Oman,Algeria,0,1,', '1996-05-28,Oman,Algeria,0,1,', '1999-01-22,Algeria,Tunisia,0,1,African Cup of Nations qualification,'];
+    const annulled = ['1992-08-16,Burkina Faso,Liberia,1,1,', '1992-08-16,Senegal,Togo,2,0,', '1993-04-23,Algeria,Togo,4,0,', '1994-11-13,Guinea-Bissau,Senegal,1,4,', '1995-01-07,Sierra Leone,Gambia,2,0,', '1996-10-06,Sudan,Zimbabwe,0,3,',
+      '1998-10-03,Morocco,Sierra Leone,3,0,', '1998-10-04,Burkina Faso,Nigeria,0,0,', '1999-01-23,Nigeria,Burundi,2,0,', '1999-02-28,Senegal,Nigeria,1,1,', '2000-06-18,Guinea,Zimbabwe,3,0,', '2000-07-09,Burkina Faso,Guinea,2,3,'];
+    const abandoned = ['1961-12-10,Tunisia,Nigeria,2,2,', '1978-03-16,Nigeria,Tunisia,1,1,African Cup of Nations,,Ghana,TRUE,'];
+    ok(added.concat(annulled, abandoned).every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /RSSSF \(/.test(r[0]); })
+      && annulled.every(a => /annulled/.test(row(a)[0])) && abandoned.every(a => /shown as abandoned and not rated/.test(row(a)[0]))
+      && /\{date:'1961-12-10', home:'Tunisia', away:'Nigeria', score:'2-2', awarded:\[2, 0\], ab:1/.test(pg) && /\{date:'1978-03-16', home:'Nigeria', away:'Tunisia', score:'1-1', awarded:\[2, 0\], ab:1/.test(pg)
+      && !['1987-01-30,Liberia,Nigeria', '1987-02-08,Nigeria,Togo', '1991-06-27,Nigeria,Burkina Faso', '2010-01-06,Nigeria,Zambia', '1965-09-02,Libya,Oman', '1958-05-03,Tunisia,Algeria', '1964-03-26,Morocco,Nigeria',
+        '1987-10-04,Tunisia,Egypt', '1979-12-24,Algeria,Morocco', '1975-06-14,Guinea-Bissau,Senegal', '2010-12-05,Ivory Coast,Sudan'].some(a => row(a).length)
+      && /\{date:'1967-08-16', home:'Togo', away:'Ivory Coast', score:'0-2', set:\{ts:Date\.UTC\(1967, 3, 9\)\}/.test(pg) && /\{date:'1967-11-15', home:'Burkina Faso', away:'Mali', score:'0-1', set:\{ts:Date\.UTC\(1967, 1, 12\)\}/.test(pg)
+      && /\{date:'1967-09-27', home:'Mali', away:'Burkina Faso', score:'4-0', set:\{ts:Date\.UTC\(1967, 1, 26\)\}/.test(pg),
+      'older matches, West and North Africa: added rows name both records, annulled qualifiers say so, the two abandoned Nigeria v Tunisia matches are marked, doubtful matches and under-20 sides stay out, three dates moved'); }
+
+  /* The same check for the rest of Africa (26 Nov 2026, evening). */
+  { const pg = fs.readFileSync(path.join(HERE, '..', 'index.html'), 'utf8'), mf = fs.readFileSync(path.join(HERE, 'store', 'manual-men.csv'), 'utf8').split('\n');
+    const row = start => mf.filter(l => l.startsWith(start));
+    const added = ['1961-09-08,Egypt,Lebanon,4,0,Pan Arab Games,', '1976-07-01,Burundi,Rwanda,6,2,Central African Games,', '1981-06-23,Angola,Madagascar,0,0,', '1987-10-04,Zimbabwe,Nigeria,0,0,Olympic Games qualification,',
+      '1987-10-17,Nigeria,Zimbabwe,2,0,Olympic Games qualification,', '1992-07-11,Malawi,Zimbabwe,1,0,', '2009-12-20,Réunion,Mauritius,2,0,', '2014-09-10,Namibia,Eswatini,1,1,'];
+    ok(added.concat(['1993-02-28,Egypt,Zimbabwe,2,1,']).every(a => { const r = row(a); return r.length === 1 && /World Football Elo Ratings/.test(r[0]) && /(RSSSF|Wikipedia) \(/.test(r[0]); })
+      && /annulled the result/.test(row('1993-02-28,Egypt,Zimbabwe,2,1,')[0])
+      && !['1910-06-29,South Africa,England', '1966-09-25,Mozambique,Angola', '1950-07-01,Mauritius,Réunion', '1985-11-14,Egypt,Kuwait', '1969-07-21,Russia,Egypt', '1981-04-19,Zimbabwe,Mozambique',
+        '1951-10-21,Egypt,Greece', '1986-07-13,Mauritius,Réunion', '2007-11-27,South Africa,Lesotho', '1964-02-19,Egypt,German DR'].some(a => row(a).length)
+      && /\{date:'1978-05-15', home:'Mauritius', away:'Seychelles', score:'2-0', set:\{ts:Date\.UTC\(1978, 8, 20\)\}/.test(pg),
+      'older matches, the rest of Africa: added rows name both records, the 1993 Egypt v Zimbabwe qualifier says it was annulled, FA tours, colonial sides and club opponents stay out, one date moved'); }
+
   /* The day's "today" post also carries matches that kick off after midnight in Toronto but before the next day's post
      goes out, so a morning kick-off in Asia or Oceania is not left off every post; a fixture whose time is not announced
      is never brought forward on its stand-in time; and the caption says "today and overnight" when it applies. */
@@ -1703,6 +1734,36 @@ ok(/Free plans/.test(st3.api.stopped) && st3.men.archive.rows === 6, 'plan error
     ok(th && /<meta name="robots" content="noindex, nofollow">/.test(th) && isSiteFile('today/index.html') && /social-queue\//.test(th) && !/\r/.test(th)
       && lines.length >= 10 && out.every(o => !/link in bio/.test(o) && (o.match(/formlinedata\.com/g) || []).length === 1 && !/\u{1F446}/u.test(o)),
       'today\'s post page: published, kept out of search, and every caption wording loses "link in bio" for the site\'s address (' + lines.length + ' wordings)'); }
+  /* The new post format (Muse, 26 Nov 2026), behind build/store/social-limits.json's newFormat until Seb approves a week's
+     preview: one call to action in turn, a question from the %, one call to action left in a caption, hashtags at most
+     five, files to post by hand that the publisher never touches. */
+  { const {ctaOf, questionOf, oneCta} = await import('./social.mjs');
+    const lim = JSON.parse(fs.readFileSync(path.join(HERE, 'store', 'social-limits.json'), 'utf8')), src = fs.readFileSync(path.join(HERE, 'social.mjs'), 'utf8');
+    const pub = fs.readFileSync(path.join(HERE, 'social-publish.mjs'), 'utf8'), col = fs.readFileSync(path.join(HERE, 'social', 'collect.js'), 'utf8');
+    const q = fs.readFileSync(path.join(HERE, 'social-queue.mjs'), 'utf8'), tp = fs.readFileSync(path.join(HERE, '..', 'today', 'index.html'), 'utf8');
+    const three = ['2026-11-28', '2026-11-29', '2026-11-30'].map(d => ctaOf(d, 'match', 'a Brazil fan'));
+    ok(typeof lim.newFormat === 'boolean' && lim.oneADay === true && lim.stories === false && new Set(three).size === 3 && three.includes('Send this to a Brazil fan')
+      && three.includes('Save this for kick-off') && three.includes("Follow @formline.data for tomorrow's previews") && ctaOf('2026-11-30', 'rankings', null) !== 'Save this for kick-off',
+      'social posts, new format: a switch to turn it on, still one post a day and no Stories, and one call to action in turn');
+    ok(questionOf('Australia', 'Colombia', [51, 22, 27]) === '51% Australia, 27% Colombia — is it really this close? Drop your score 👇'
+      && /can Malawi pull off the upset\?/.test(questionOf('China PR', 'Malawi', [72, 18, 10])) && /a draw/.test(questionOf('A', 'B', [30, 40, 30])),
+      'social posts, new format: the question under a preview is built from Formline\'s chances');
+    const cap = 'Line one\n\nWhere\'s your team? 👀 Swipe for more, or find every team on Formline (link in bio).\n\nWho wins? 👇 Make your picks on Formline (link in bio).\n\n#A #B';
+    const one = oneCta(cap, 'Save this post');
+    ok(one === 'Line one\n\nWho wins? 👇\n\nSave this post\n\n#A #B' && oneCta('x'.repeat(3000), 'Go').length <= 2200,
+      'social posts, new format: a caption keeps one call to action and stays under 2,200 characters');
+    ok(/NEW \? \[comp && COMP_TAG\[comp\] \? '#' \+ COMP_TAG\[comp\] : '', g === 'women' \? '#WoSo' : '#InternationalFootball'\]/.test(src) && /slice\(0, 5 - rest\.length\)/.test(src)
+      && /expected goals <b>/.test(src) && /Rating \$\{T\.rating\}/.test(src) && /run\('match', \{from:1, to:24/.test(src) && /xg:pr\.sl\.xg/.test(col) && /S\.result = async/.test(col)
+      && /\(again \? 4 : 1\)/.test(col), 'social posts, new format: hashtags teams, competition and #WoSo or #InternationalFootball, five at most; ratings and expected goals on the cover; the day\'s biggest match as the main post');
+    const {tieQuestion} = await import('./social.mjs'), locs = JSON.parse(fs.readFileSync(path.join(HERE, 'store', 'social-locations.json'), 'utf8'));
+    ok(tieQuestion({home:'Japan', away:'Brazil', day:'Saturday 5 December', pr:{p:[43, 23, 34]}}) === '43% Japan, 34% Brazil on Saturday — who takes this one? 👇'
+      && (!lim.newFormatFrom || /^\d{4}-\d{2}-\d{2}$/.test(lim.newFormatFrom)) && /DATE < LIMITS\.newFormatFrom/.test(src)
+      && /goals: \$\{esc\(A\)\} \$\{h\.gf\}, \$\{esc\(B\)\} \$\{h\.ga\}/.test(src) && /First meeting on record/.test(src) && /first:rec\.meets\[0\]/.test(col)
+      && Object.entries(locs).filter(([k]) => k[0] !== '_').every(([k, v]) => k.split('|').length === 4 && v.location && v.sources),
+      'social posts, new format: a start date, the head-to-head in the site\'s words, the tie-in question from the %, and sourced locations');
+    ok(!/meta\.hand|hand-(story|reel|result)/.test(pub) && /meta\.extraIds/.test(q) && /By hand: the Story/.test(tp) && /By hand: the reel/.test(tp) && /By hand: the result post/.test(tp) && /add the location/.test(tp)
+      && /-preset', 'veryfast'/.test(src) && /'hand-story\.jpg'/.test(src),
+      'social posts, new format: the Story, reel and result post are files on the today page; the bot never posts them'); }
   ok(koText('2026-11-12T19:45:00+00:00', '2026-11-12') === '2:45 PM ET · 7:45 PM UK', 'social posts: a kick-off is given in Toronto and UK time');
   ok(koText('2026-11-13T00:30:00+00:00', '2026-11-12') === '7:30 PM ET · 12:30 AM UK (Fri)', 'social posts: a zone where the match is on another day says which day');
   ok(koText('2026-06-11T19:00:00+00:00', '2026-06-11') === '3:00 PM ET · 8:00 PM UK' && koText('', '2026-06-11') === '', 'social posts: summer time in both zones, and no text without a kick-off');

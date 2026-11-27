@@ -1,0 +1,5 @@
+{
+ "_about": "Where a coming match is played, for the location Seb adds by hand to the day's post, only where the fixture data has no city yet. Key: game|fixture date|home|away, team names as on the site. Each entry names its sources.",
+ "women|2026-12-01|Türkiye|Cameroon": {"location": "Antalya, Turkey", "sources": "Cameroon Tribune, 17 Nov 2026 (FECAFOOT communiqué of 13 Nov: a double-header in Antalya); Yeni Asır, 18 Nov 2026 (both matches at the Emir Hotels Arslan Zeki Demirci sports complex, Antalya)"},
+ "women|2026-12-04|Türkiye|Cameroon": {"location": "Antalya, Turkey", "sources": "Cameroon Tribune, 17 Nov 2026; Yeni Asır, 18 Nov 2026"}
+}

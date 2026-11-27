@@ -18,6 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
+import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {siteBase} from './site-url.mjs';
 import {slugify} from './pages.mjs';
@@ -26,7 +27,17 @@ const ROOT = process.env.FORMLINE_ROOT || path.resolve(path.dirname(fileURLToPat
 const OUT = process.env.SOCIAL_OUT || path.join(ROOT, '_social');
 const BASE = siteBase(ROOT, process.env.GITHUB_REPOSITORY) || 'https://formlinedata.com/';
 const torontoDate = () => new Date().toLocaleDateString('en-CA', {timeZone:'America/Toronto'});
+/* build/store/social-limits.json: oneADay and stories (Seb, 18 Nov 2026), and newFormat, the post format Muse proposed and
+   Seb agreed on 26 Nov 2026: one call to action per post in turn, a question built from the %, both rating points and the
+   expected goals on the preview's cover, a single match preview as the main post on match days, at most five hashtags
+   (teams, competition, #WoSo or #InternationalFootball), and files for Seb to post by hand (a Story with its poll and link
+   text, two or three reels a week, a result follow-up). Nothing of it reaches Instagram until Seb approves a week's
+   preview and newFormat is set to true. SOCIAL_NEW=1 turns it on for a rehearsal, SOCIAL_NEW=0 off. The bot still posts
+   one feed post a day and nothing else. */
 const DATE = process.env.SOCIAL_DATE || torontoDate();
+let LIMITS = {}; try { LIMITS = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'store', 'social-limits.json'), 'utf8')); } catch(e){}
+/* newFormatFrom: the first day (Toronto) of the new format, so a push the evening before changes nothing until then. */
+export const NEW = process.env.SOCIAL_NEW === '1' || (process.env.SOCIAL_NEW !== '0' && LIMITS.newFormat === true && !(LIMITS.newFormatFrom && DATE < LIMITS.newFormatFrom));
 const WEEK = ['pastTournament', 'rankings', 'spotlight', 'onThisDay', 'tournament', 'rivalry', 'match'];   // Sun … Sat
 const FALLBACK = ['match', 'spotlight', 'rivalry', 'pastTournament', 'rankings'];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[c]));
@@ -69,7 +80,7 @@ const fitFs = (chars, max, min, room, extra = 0) => Math.max(min, Math.min(max, 
 const COMP_TAG = {'FIFA World Cup':'WorldCup', 'FIFA World Cup qualification':'WorldCupQualifiers', 'UEFA Nations League':'NationsLeague',
   'UEFA Euro':'EURO', 'UEFA Euro qualification':'EuroQualifiers', 'Copa América':'CopaAmerica', 'African Cup of Nations':'AFCON',
   'African Cup of Nations qualification':'AFCONQualifiers', 'AFC Asian Cup':'AsianCup', 'Gold Cup':'GoldCup',
-  'CONCACAF Nations League':'ConcacafNationsLeague', 'SAFF Championship':'SAFFChampionship', "FIFA Women's World Cup":'FIFAWWC',
+  'CONCACAF Nations League':'ConcacafNationsLeague', 'SAFF Championship':'SAFFChampionship', "FIFA Women's World Cup":'FIFAWWC', "FIFA Women's World Cup qualification":'WWCQualifiers',
   "UEFA Women's Euro":'WEURO', "UEFA Women's Nations League":'UWNL', 'Friendly':'InternationalFriendly'};
 const tag = s => '#' + String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/&/g, 'And').replace(/[^A-Za-z0-9]+/g, '');
 /* Bluesky: 2–3 hashtags that its topic feeds pick up. The fans' own tag for a team where there is a well-known one, then
@@ -97,7 +108,9 @@ export function bskyTags(g, teams, comp){
 const TOPIC_TAG = {match:'#MatchPreview', spotlight:'#FootballStats', onthisday:'#OnThisDay', rivalry:'#HeadToHead',
   tournament:'#FootballPredictions', past:'#FootballHistory', rankings:'#FootballRankings', roundup:'#FootballResults', today:'#FootballPredictions', record:'#FootballPredictions'};
 function hashtags(g, teams, comp, topic){
-  const rest = [comp && COMP_TAG[comp] ? '#' + COMP_TAG[comp] : '', g === 'women' ? '#WoSo' : '', TOPIC_TAG[topic] || ''].filter(Boolean);
+  /* The new format (Muse, 26 Nov 2026): teams, the competition, then #WoSo or #InternationalFootball; still five at most. */
+  const rest = (NEW ? [comp && COMP_TAG[comp] ? '#' + COMP_TAG[comp] : '', g === 'women' ? '#WoSo' : '#InternationalFootball']
+    : [comp && COMP_TAG[comp] ? '#' + COMP_TAG[comp] : '', g === 'women' ? '#WoSo' : '', TOPIC_TAG[topic] || '']).filter(Boolean);
   const t = [...new Set(teams.filter(Boolean).map(x => FAN_TAG[g][x] ? '#' + FAN_TAG[g][x] : tag(x)))].slice(0, 5 - rest.length);
   return [...new Set(t.concat(rest))].join(' ');
 }
@@ -169,6 +182,11 @@ const pickBar = (p, A, B) => `<div class="pick"><div class="pa" style="flex:${p[
 <div class="pk"><span class="a">${esc(A)} win</span><span>Draw</span><span class="b">${esc(B)} win</span></div>`;
 const recBlock = (A, B, w, d, l, n) => `<div class="rec"><div><div class="n a">${w}</div><div class="t">${esc(A)} wins</div></div><div><div class="n dim">${d}</div><div class="t">draws</div></div><div><div class="n b">${l}</div><div class="t">${esc(B)} wins</div></div></div>
 <div class="bar"><span class="sa" style="flex:${w || 0.01}"></span><span class="sd" style="flex:${d || 0.01}"></span><span class="sb" style="flex:${l || 0.01}"></span></div>`;
+/* The new format's head-to-head slide, in the words of the site's head-to-head page (Seb, 26 Nov 2026): goals by team
+   name, "since" the first year, the most recent meetings with their full dates, and the first meeting on record. */
+const h2hNew = (h, A, B) => `<div class="box">${recBlock(A, B, h.w, h.d, h.l, h.n)}<div class="body dim" style="font-size:24px">${h.n} meeting${h.n === 1 ? '' : 's'}${h.first ? ` since ${h.first.year}` : ''} · goals: ${esc(A)} ${h.gf}, ${esc(B)} ${h.ga}</div></div>
+<div class="lab" style="margin-top:30px">Most recent meetings</div>${h.last.map(m => `<div class="row" style="grid-template-columns:176px 1fr"><span class="dim" style="font-size:22px;white-space:nowrap">${esc(shortDay(m.date))}</span><span>${esc(m.home)} ${m.hs}–${m.as} ${esc(m.away)}${m.pen ? ' <span class="dim">(pens)</span>' : ''}<span class="sub">${esc(m.comp)}</span></span></div>`).join('')}
+${h.first && h.n > h.last.length ? `<p class="body dim" style="margin-top:24px;font-size:24px">First meeting on record: ${esc(shortDay(h.first.date))}, ${esc(h.first.home)} ${h.first.hs}–${h.first.as} ${esc(h.first.away)}${h.first.city ? ` in ${esc(h.first.city)}` : ''}</p>` : ''}`;
 /* The cover's opening line: a question or a fact to stop the scroll, left-aligned above everything else. */
 const hook = t => t ? `<div class="hook">${t}</div>` : '';
 /* The last Instagram slide: what to do next. Not sent to Bluesky. */
@@ -177,6 +195,41 @@ const ctaSlide = share => slide(`<div class="kick">Formline</div><div class="hoo
 <li><b>Follow @formline.data</b> for match previews, rankings and the stories behind the numbers</li>
 ${share ? `<li><b>Send this to ${esc(share)}</b></li>` : ''}<li><b>Save this post</b> to come back to it</li>
 <li><b>formlinedata.com</b>: every team's rating, every fixture's chances, and the Simulator</li></ul>`);
+/* The new format's one call to action, in turn by date: follow, send it to a fan, save it (Muse, 26 Nov 2026). fan is
+   "a Colombia fan"; a post with no match has nothing to save for kick-off. */
+export function ctaOf(date, type, fan){
+  const i = ((Math.floor(Date.parse(date + 'T12:00:00Z') / 864e5) % 3) + 3) % 3;
+  return ["Follow @formline.data for tomorrow's previews", `Send this to ${fan || 'a football fan'}`, type === 'match' ? 'Save this for kick-off' : 'Save this post'][i];
+}
+const ctaOne = t => slide(`<div class="kick">Formline</div><div class="hook" style="margin-top:16px">Every national team, <em>rated every night</em></div>
+<div class="box" style="margin-top:46px;padding:40px 40px"><div style="font-weight:800;font-stretch:112%;font-size:58px;line-height:1.12">${esc(t)}</div></div>`);
+/* The question under a preview, built from Formline's chances (Muse's example: "51% Australia, 27% Colombia — is it
+   really this close? Drop your score"). p is [home win, draw, away win] in whole percents. */
+export function questionOf(A, B, p){
+  const [a, d, b] = p, fav = a >= b ? A : B, dog = fav === A ? B : A, pf = Math.max(a, b), pd = Math.min(a, b);
+  const head = `${pf}% ${fav}, ${pd}% ${dog}`;
+  if (d > pf) return `${head}, ${d}% a draw — does anyone break through? Drop your score 👇`;
+  if (pf - pd <= 25) return `${head} — is it really this close? Drop your score 👇`;
+  if (pf >= 65) return `${head} — can ${dog} pull off the upset? Drop your score 👇`;
+  return `${head} — are ${fav} the right favourites? Drop your score 👇`;
+}
+/* The new format keeps one call to action in a caption: a paragraph that sends people to the link in bio keeps only its
+   question (up to the 👇), and the turn's call to action goes just above the hashtags. Captions stay under Instagram's
+   2,200 characters. */
+/* A tie-in's question, from the coming match's chances (Seb, 26 Nov 2026): "43% Japan, 34% Brazil on Saturday — who takes
+   this one? 👇". n is the coming match (home, away, day "Saturday 5 December", pr.p). */
+export function tieQuestion(n){
+  const [a, , b] = n.pr.p, fav = a >= b ? n.home : n.away, dog = fav === n.home ? n.away : n.home;
+  const wd = String(n.day || '').split(' ')[0];
+  return `${Math.max(a, b)}% ${fav}, ${Math.min(a, b)}% ${dog}${/day$/.test(wd) ? ' on ' + wd : ''} — who takes this one? 👇`;
+}
+export function oneCta(caption, cta){
+  const ps = String(caption).split('\n\n'), tags = ps.length && /^#/.test(ps[ps.length - 1]) ? ps.pop() : '';
+  const kept = ps.map(x => !/link in bio/.test(x) ? x : x.includes('👇') ? x.slice(0, x.indexOf('👇') + 2).trim() : '').filter(Boolean);
+  let out = kept.concat(cta ? [cta] : [], tags ? [tags] : []).join('\n\n');
+  while (out.length > 2200 && kept.length > 2){ kept.splice(kept.length - 1, 1); out = kept.concat(cta ? [cta] : [], tags ? [tags] : []).join('\n\n'); }
+  return out.slice(0, 2200);
+}
 const venue = x => [x.city, x.country && x.country !== x.city ? x.country : ''].filter(Boolean).join(', ');
 /* A fixture row: flags and names, a small line under them, and on the right Formline's pick with its chance. */
 const pickRow = (x, fs, sub) => { const fav = x.call === 1 ? 'Draw' : (x.call === 0 ? x.home : x.away);
@@ -216,12 +269,14 @@ const BUILD = {
     const pf = Math.max(d.pr.p[0], d.pr.p[2]), favT = d.pr.p[0] >= d.pr.p[2] ? A : B, dogT = favT === A ? B : A;
     const hk = top !== 1 && pf >= 55 ? `Can ${esc(dogT)} stop <em>${esc(favT)}</em>?` : `${esc(A)} v ${esc(B)}: <em>too close to call?</em>`;
     const ko = d.kickoff ? koText(d.kickoff, torDay(d.kickoff)) : '';
+    /* Under each side: its rank, and in the new format its rating points as well ("Rating 2329 · 5th"). */
+    const sideSub = T => NEW ? [T.rating != null ? `Rating ${T.rating}` : '', T.rank ? ord(T.rank) : ''].filter(Boolean).join(' · ') : (T.rank ? 'Ranked ' + ord(T.rank) : '');
     const s1 = slide(`${hook(hk)}<div class="kick">${esc(d.comp)} · ${esc(d.day)}</div>${ko ? `<div class="body dim" style="font-size:26px;margin-top:8px">Kick-off ${esc(ko)}</div>` : ''}
-<div class="match"><div class="side">${flagImg(d.home.flag, 120)}${esc(A)}<small>${d.home.rank ? 'Ranked ' + ord(d.home.rank) : ''}</small></div><div class="vs">v</div>
-<div class="side">${flagImg(d.away.flag, 120)}${esc(B)}<small>${d.away.rank ? 'Ranked ' + ord(d.away.rank) : ''}</small></div></div>
-<div class="box"><div class="lab">Formline's chances</div>${pickBar(d.pr.p, A, B)}<div class="body" style="margin-top:18px">Predicted score <b>${esc(d.pr.likely)}</b>${venue(d) ? ' · ' + esc(venue(d)) : ''}</div></div>`);
+<div class="match"><div class="side">${flagImg(d.home.flag, 120)}${esc(A)}<small>${sideSub(d.home)}</small></div><div class="vs">v</div>
+<div class="side">${flagImg(d.away.flag, 120)}${esc(B)}<small>${sideSub(d.away)}</small></div></div>
+<div class="box"><div class="lab">Formline's chances</div>${pickBar(d.pr.p, A, B)}<div class="body" style="margin-top:18px">Predicted score <b>${esc(d.pr.likely)}</b>${NEW && d.pr.xg ? ` · expected goals <b>${d.pr.xg[0].toFixed(1)}–${d.pr.xg[1].toFixed(1)}</b>` : ''}${venue(d) ? ' · ' + esc(venue(d)) : ''}</div></div>`);
     const s2 = slide(`<div class="kick">Head to head · ${GAME[d.g]}</div><h2>${esc(A)} v ${esc(B)}</h2>
-${h.n ? `<div class="box">${recBlock(A, B, h.w, h.d, h.l, h.n)}<div class="body dim" style="font-size:24px">${h.n} meeting${h.n === 1 ? '' : 's'} · goals ${h.gf}–${h.ga}</div></div>
+${h.n && NEW ? h2hNew(h, A, B) : h.n ? `<div class="box">${recBlock(A, B, h.w, h.d, h.l, h.n)}<div class="body dim" style="font-size:24px">${h.n} meeting${h.n === 1 ? '' : 's'} · goals ${h.gf}–${h.ga}</div></div>
 <div class="lab" style="margin-top:34px">Last meetings</div>${h.last.map(m => `<div class="row" style="grid-template-columns:auto 1fr"><span class="dim" style="font-size:24px">${m.year}</span><span>${esc(m.home)} ${m.hs}–${m.as} ${esc(m.away)}<span class="sub">${esc(m.comp)}</span></span></div>`).join('')}`
   : `<p class="body" style="margin-top:30px">This will be the first meeting on record between ${esc(A)} and ${esc(B)}.</p>`}`);
     /* Form: each side's last five, next to each other. */
@@ -237,11 +292,12 @@ ${(T.form || []).map(m => `<div class="gt" style="font-size:26px;gap:12px;paddin
     const h2hTxt = h.n ? `🤝 All-time: ${A} ${h.w} win${h.w === 1 ? '' : 's'}, ${h.d} draw${h.d === 1 ? '' : 's'}, ${B} ${h.l} win${h.l === 1 ? '' : 's'} (${h.n} meetings).` : `🆕 It will be their first meeting on record.`;
     const formTxt = T => (T.form || []).map(m => m.r).join('');
     const alts = [`${d.comp}, ${d.day}: ${A}${d.home.rank ? ` (ranked ${ord(d.home.rank)})` : ''} v ${B}${d.away.rank ? ` (ranked ${ord(d.away.rank)})` : ''}${venue(d) ? `, in ${venue(d)}` : ''}${ko ? `, kick-off ${ko.replace(' · ', ', ')}` : ''}. Formline's chances: ${A} win ${d.pr.p[0]}%, draw ${d.pr.p[1]}%, ${B} win ${d.pr.p[2]}%. Predicted score ${d.pr.likely}.`,
-      h.n ? `Head to head, ${A} v ${B} (${GAME[d.g].toLowerCase()}): ${h.n} meetings, ${A} ${h.w} wins, ${h.d} draws, ${B} ${h.l} wins, goals ${h.gf}–${h.ga}. Last meetings: ${h.last.map(m => `${m.year}, ${m.home} ${m.hs}–${m.as} ${m.away} (${m.comp})`).join('; ')}.`
+      h.n && NEW ? `Head to head, ${A} v ${B} (${GAME[d.g].toLowerCase()}): ${h.n} meetings${h.first ? ` since ${h.first.year}` : ''}, ${A} ${h.w} wins, ${h.d} draws, ${B} ${h.l} wins; goals: ${A} ${h.gf}, ${B} ${h.ga}. Most recent: ${h.last.map(m => `${shortDay(m.date)}, ${m.home} ${m.hs}–${m.as} ${m.away}${m.pen ? ' (pens)' : ''} (${m.comp})`).join('; ')}.${h.first ? ` First meeting: ${shortDay(h.first.date)}, ${h.first.home} ${h.first.hs}–${h.first.as} ${h.first.away}${h.first.city ? ` in ${h.first.city}` : ''}.` : ''}`
+      : h.n ? `Head to head, ${A} v ${B} (${GAME[d.g].toLowerCase()}): ${h.n} meetings, ${A} ${h.w} wins, ${h.d} draws, ${B} ${h.l} wins, goals ${h.gf}–${h.ga}. Last meetings: ${h.last.map(m => `${m.year}, ${m.home} ${m.hs}–${m.as} ${m.away} (${m.comp})`).join('; ')}.`
         : `Head to head, ${A} v ${B}: this will be their first meeting on record.`,
       `Form guide, last five results. ${[d.home, d.away].map(T => `${T.team} (rating ${T.rating}${T.rank ? `, ${ord(T.rank)}` : ''}): ${(T.form || []).map(m => `${{W:'won', D:'drew', L:'lost'}[m.r]} ${m.gf}–${m.ga} v ${m.opp}`).join('; ')}`).join('. ')}.`];
     return {title:`${A} v ${B} preview`, slides:[s1, s2, s3], x, alts,
-      caption:`${A} v ${B} prediction: ${d.comp}, ${d.day} ${(eA + eB).trim()}${eA || eB ? ' ' : ''}🗓️${ko ? `\n⏰ Kick-off ${ko}` : ''}\n\n📊 ${fav}. Formline's chances: ${A} ${d.pr.p[0]}%, draw ${d.pr.p[1]}%, ${B} ${d.pr.p[2]}%. Predicted score ${d.pr.likely}.\n\n${h2hTxt}\n\n🔥 Last five: ${A} ${formTxt(d.home)}, ${B} ${formTxt(d.away)}.\n\nWho are you backing? 👇 Every upcoming match has a preview on Formline (link in bio).\n\n${hashtags(d.g, [A, B], d.comp, 'match')}`,
+      caption:`${A} v ${B} prediction: ${d.comp}, ${d.day} ${(eA + eB).trim()}${eA || eB ? ' ' : ''}🗓️${ko ? `\n⏰ Kick-off ${ko}` : ''}\n\n📊 ${fav}. Formline's chances: ${A} ${d.pr.p[0]}%, draw ${d.pr.p[1]}%, ${B} ${d.pr.p[2]}%. Predicted score ${d.pr.likely}.\n\n${h2hTxt}\n\n🔥 Last five: ${A} ${formTxt(d.home)}, ${B} ${formTxt(d.away)}.\n\n${NEW ? `${questionOf(A, B, d.pr.p)}${d._cta ? `\n\n${d._cta}` : ''}` : 'Who are you backing? 👇 Every upcoming match has a preview on Formline (link in bio).'}\n\n${hashtags(d.g, [A, B], d.comp, 'match')}`,
       xText:`${eA}${A} v ${B} ${eB}· ${d.day}\n\n📊 ${A} ${d.pr.p[0]}% · Draw ${d.pr.p[1]}% · ${B} ${d.pr.p[2]}%\n🎯 Predicted score: ${d.pr.likely}\n${h.n ? `🤝 Head to head: ${h.w}–${h.d}–${h.l}` : '🆕 First meeting on record'}\n\n${url}`};
   },
   spotlight(d){
@@ -645,6 +701,100 @@ BUILD.windowRecord = function(d){
 
 export { BUILD };
 
+/* ---------- files Seb posts by hand (new format, Muse, 26 Nov 2026) ----------
+   Never posted by the bot: they go into the day's folder on the social-queue branch and show on formlinedata.com/today/.
+   A Story (1080×1920) for every preview, with the poll and link text to add in the app; a reel (1080×1920, about 22 s)
+   with a preview when none was made in the two days before (two or three a week); and the result follow-up of a match
+   that was previewed. Instagram keeps its buttons over the top and bottom 250 px of a Story or reel, so text stays clear
+   of them. */
+const matchUrl = d => `${BASE}matches/${d.g}/${d.date}-${slugify(d.home.team)}-vs-${slugify(d.away.team)}.html`;
+const tall = (inner, o = {}) => page(1080, 1920, inner, {vars:';--pt:250px;--px:90px;' + (o.vars || '--fb:330px;--fbot:260px'), right:o.right || "Formline's forecast"});
+const hookOf = d => { const A = d.home.team, B = d.away.team, top = d.pr.p.indexOf(Math.max(...d.pr.p)), pf = Math.max(d.pr.p[0], d.pr.p[2]);
+  const favT = d.pr.p[0] >= d.pr.p[2] ? A : B, dogT = favT === A ? B : A;
+  return top !== 1 && pf >= 55 ? `Can ${esc(dogT)} stop <em>${esc(favT)}</em>?` : `${esc(A)} v ${esc(B)}: <em>too close to call?</em>`; };
+const twoSides = (d, h, fs) => `<div class="match" style="margin-top:40px"><div class="side" style="font-size:${fs}px">${flagImg(d.home.flag, h)}${esc(d.home.team)}<small>${[d.home.rating != null ? 'Rating ' + d.home.rating : '', d.home.rank ? ord(d.home.rank) : ''].filter(Boolean).join(' · ')}</small></div><div class="vs">v</div>
+<div class="side" style="font-size:${fs}px">${flagImg(d.away.flag, h)}${esc(d.away.team)}<small>${[d.away.rating != null ? 'Rating ' + d.away.rating : '', d.away.rank ? ord(d.away.rank) : ''].filter(Boolean).join(' · ')}</small></div></div>`;
+/* The Story: who plays, when, Formline's chances and the predicted score in the top half; the lower half stays clear for
+   the poll and link stickers Seb adds in the app. */
+const storyMatch = d => { const ko = d.kickoff ? koText(d.kickoff, torDay(d.kickoff)) : '';
+  return tall(`<div class="kick" style="font-size:28px">${esc(d.comp)} · ${esc(d.day)}</div>${ko ? `<div class="body dim" style="font-size:28px;margin-top:8px">Kick-off ${esc(ko)}</div>` : ''}
+<div class="hook" style="font-size:80px;margin:22px 0 0">Who wins?</div>${twoSides(d, 130, 46)}
+<div class="box" style="margin-top:44px"><div class="lab">Formline's chances</div>${pickBar(d.pr.p, d.home.team, d.away.team)}<div class="body" style="margin-top:18px">Predicted score <b>${esc(d.pr.likely)}</b>${d.pr.xg ? ` · expected goals <b>${d.pr.xg[0].toFixed(1)}–${d.pr.xg[1].toFixed(1)}</b>` : ''}</div></div>`,
+    {vars:'--fb:760px;--fbot:260px'}); };
+/* ffmpeg for the reel: on the PATH, from FFMPEG, or (on GitHub's runners, which may not have it) the static build from npm,
+   fetched the way the workflow fetches Playwright. Without it there is simply no reel that day. */
+async function ffmpegPath(){
+  for (const c of [process.env.FFMPEG || '', 'ffmpeg']){ if (!c) continue; try { execFileSync(c, ['-version'], {stdio:'ignore'}); return c; } catch(e){} }
+  const local = path.join(ROOT, 'node_modules', 'ffmpeg-static', 'index.js');
+  const tryLocal = async () => { try { if (fs.existsSync(local)){ const m = await import(local); return (m.default || m) || null; } } catch(e){} return null; };
+  let f = await tryLocal(); if (f) return f;
+  if (process.env.GITHUB_ACTIONS){ try { execFileSync('npm', ['install', '--no-save', '--no-package-lock', 'ffmpeg-static@5.2.0'], {cwd:ROOT, stdio:'ignore'}); f = await tryLocal(); if (f) return f; }
+    catch(e){ console.log('Reel: could not fetch ffmpeg: ' + e.message.split('\n')[0]); } }
+  return null;
+}
+/* The reel: the hook in the first three seconds, then one stat (the favourite's chance, counting up), then where to find
+   the rest. About 22 seconds, no sound (Seb picks one in the app). */
+async function makeReel(d, date, dir, shoot){
+  const ff = await ffmpegPath(); if (!ff){ console.log('Reel: no ffmpeg here, so no reel today.'); return null; }
+  const A = d.home.team, B = d.away.team, ko = d.kickoff ? koText(d.kickoff, torDay(d.kickoff)) : '';
+  const drawTop = d.pr.p[1] > Math.max(d.pr.p[0], d.pr.p[2]);
+  const pf = drawTop ? d.pr.p[1] : Math.max(d.pr.p[0], d.pr.p[2]), favT = d.pr.p[0] >= d.pr.p[2] ? A : B, dogT = favT === A ? B : A;
+  const statLab = drawTop ? `chance of a draw between ${esc(A)} and ${esc(B)}` : `${esc(favT)}'s chance of beating ${esc(dogT)}`;
+  const hookF = tall(`<div class="kick" style="font-size:30px">${esc(d.comp)} · ${esc(d.day)}</div><div class="hook" style="font-size:96px;margin:24px 0 0">${hookOf(d)}</div>${twoSides(d, 150, 50)}
+${ko ? `<div class="body dim" style="font-size:30px;margin-top:34px">Kick-off ${esc(ko)}</div>` : ''}`);
+  const statF = n => tall(`<div style="display:flex;gap:26px;align-items:center">${flagImg(d.home.flag, 70)}<span class="dim" style="font-size:34px">v</span>${flagImg(d.away.flag, 70)}</div>
+<div style="font-weight:800;font-stretch:118%;font-size:330px;line-height:1;color:#f6b638;margin-top:40px">${n}%</div>
+<div class="hook" style="font-size:64px;margin:26px 0 0">${statLab}</div><div class="body dim" style="font-size:30px;margin-top:24px">Formline's forecast · ${esc(d.comp)} · ${esc(d.day)}</div>`);
+  const endF = tall(`<div class="hook" style="font-size:84px;margin:0">The full preview: <em>formlinedata.com</em></div>
+<p class="body" style="font-size:38px;margin-top:40px">Every national team rated every night, and the chances for every match.</p>
+${d._cta ? `<div class="box" style="margin-top:50px;padding:36px"><div style="font-weight:800;font-size:50px;line-height:1.15">${esc(d._cta)}</div></div>` : ''}`);
+  const steps = [0, 0.15, 0.3, 0.45, 0.6, 0.72, 0.82, 0.9, 0.95, 0.98, 1].map(f => Math.round(pf * f));
+  const plan = [['r-hook.png', hookF, 3.5], ...steps.map((n, i) => [`r-s${i}.png`, statF(n), i === steps.length - 1 ? 12 : 0.12]), ['r-end.png', endF, 5]];
+  const made = new Set();
+  for (const [f, html] of plan) if (!made.has(f)){ await shoot(html, 1080, 1920, f, false); made.add(f); }
+  const list = plan.map(([f, , t]) => `file '${path.join(dir, f)}'\nduration ${t}`).join('\n') + `\nfile '${path.join(dir, plan[plan.length - 1][0])}'\n`;
+  fs.writeFileSync(path.join(dir, 'r-list.txt'), list);
+  try {
+    execFileSync(ff, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.join(dir, 'r-list.txt'), '-vf', 'fps=30,format=yuv420p',
+      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23', '-movflags', '+faststart', path.join(dir, 'hand-reel.mp4')]);
+  } catch(e){ console.log('Reel: ffmpeg failed: ' + e.message.split('\n')[0]); return null; }
+  finally { for (const f of made) fs.rmSync(path.join(dir, f), {force:true}); fs.rmSync(path.join(dir, 'r-list.txt'), {force:true}); }
+  await shoot(hookF, 1080, 1920, 'hand-reel-cover.jpg', true);
+  const secs = Math.round(plan.reduce((a, x) => a + x[2], 0));
+  const caption = `${A} v ${B}: ${d.comp}, ${d.day}${ko ? ` (kick-off ${ko})` : ''}\n\n📊 ${drawTop ? `${pf}%: Formline's chance of a draw.` : `${pf}%: Formline's chance of ${favT} beating ${dogT}.`}\n\n${questionOf(A, B, d.pr.p)}${d._cta ? `\n\n${d._cta}` : ''}\n\n${hashtags(d.g, [A, B], d.comp, 'match')}`;
+  console.log(`Reel: ${secs} s, ${A} v ${B}.`);
+  return {video:'hand-reel.mp4', cover:'hand-reel-cover.jpg', seconds:secs, caption, stat:`${pf}%`};
+}
+/* The result follow-up: final score, the chance Formline gave the winner before kick-off, both ratings' change, and each
+   side's next match. */
+const signed = n => n > 0 ? '+' + n : n < 0 ? '−' + Math.abs(n) : '±0';
+const nextTxt = n => n ? `${n.home} v ${n.away}, ${n.day}${n.kickoff ? ', ' + koText(n.kickoff, torDay(n.kickoff)).replace(' · ', ' / ') : ''}${n.comp ? ' (' + n.comp + ')' : ''}` : 'no match scheduled yet';
+const resultWho = r => r.o === 1 ? {txt:'the draw', p:r.p[1]} : {txt:r.o === 0 ? r.H.team : r.A.team, p:r.o === 0 ? r.p[0] : r.p[2]};
+const resultSlide = r => { const w = resultWho(r);
+  const rate = T => T.delta != null ? `<b class="${T.delta >= 0 ? 'a' : 'b'}">${signed(T.delta)}</b> to ${T.rating}` : '<span class="dim">after the next rating update</span>';
+  return slide(`<div class="kick">Full time · ${esc(r.comp)} · ${esc(r.dayTxt)}</div>
+<div class="match"><div class="side">${flagImg(r.H.flag, 110)}${esc(r.H.team)}</div><div class="score">${r.hs}–${r.as}</div><div class="side">${flagImg(r.A.flag, 110)}${esc(r.A.team)}</div></div>
+<div class="box"><div class="lab">Before kick-off</div><div class="body" style="font-size:34px">Formline gave ${esc(w.txt)} <b class="a">${w.p}%</b></div></div>
+<div class="box" style="margin-top:20px"><div class="lab">Ratings</div><div class="body" style="font-size:28px">${esc(r.H.team)} ${rate(r.H)}<br>${esc(r.A.team)} ${rate(r.A)}</div></div>
+<div class="box" style="margin-top:20px"><div class="lab">Next</div><div class="body" style="font-size:24px">${esc(r.H.team)}: ${esc(nextTxt(r.H.next))}<br>${esc(r.A.team)}: ${esc(nextTxt(r.A.next))}</div></div>`); };
+const resultCaption = (r, cta) => { const w = resultWho(r), fH = fe(r.H.flag), fA = fe(r.A.flag);
+  const rateTxt = T => T.delta != null ? `${T.team} ${signed(T.delta)} to ${T.rating}` : `${T.team}: after the next rating update`;
+  return `${r.H.team} ${r.hs}–${r.as} ${r.A.team}: full time, ${r.comp} ${(fH + fA).trim()}\n\n🎯 Before kick-off Formline gave ${w.txt} ${w.p}%.\n\n📈 Ratings: ${rateTxt(r.H)}; ${rateTxt(r.A)}.\n\n⏭️ Next: ${r.H.team}, ${nextTxt(r.H.next)}; ${r.A.team}, ${nextTxt(r.A.next)}.${cta ? `\n\n${cta}` : ''}\n\n${hashtags(r.g, [r.H.team, r.A.team], r.comp, 'roundup')}`; };
+async function handFiles({data, date, dir, shoot, used = [], resultData, one}){
+  const hand = {story:null, reel:null, result:null};
+  if (data.type === 'match'){
+    const d = data, A = d.home.team, B = d.away.team;
+    await shoot(storyMatch(d), 1080, 1920, 'hand-story.jpg', true);
+    hand.story = {img:'hand-story.jpg', pollQuestion:'Who wins?', poll:[A, 'Draw', B], link:matchUrl(d), linkText:`${A} v ${B}: full preview`};
+    /* Two or three reels a week: one with a preview when none was made in the two days before. */
+    const last = used.filter(x => x.startsWith('reel|')).map(x => x.slice(5)).filter(r => r < date).sort().pop();
+    if (!last || (Date.parse(date) - Date.parse(last)) / 864e5 >= 3) hand.reel = await makeReel(d, date, dir, shoot);
+  }
+  if (resultData){ await shoot(resultSlide(resultData), 1080, 1350, 'hand-result.jpg', true);
+    hand.result = {img:'hand-result.jpg', caption:one(resultCaption(resultData, ctaOf(date, 'result', null)).slice(0, 2200)), title:`${resultData.H.team} ${resultData.hs}–${resultData.as} ${resultData.A.team}`}; }
+  return hand;
+}
+
 /* ---------- run ---------- */
 function serve(root){
   const types = {'.html':'text/html', '.js':'text/javascript', '.json':'application/json', '.css':'text/css', '.webp':'image/webp', '.png':'image/png',
@@ -713,12 +863,15 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
       if (WEEK[dow] === 'onThisDay') order = ['tieIn', 'match', 'tournament', 'rankings'];
       /* A day with at least five forecast matches: the morning post is today's matches, and the day's usual post gives way
          (previews go out in the evening slot). */
-      try { data = await run('today'); } catch(e){ console.log('today: ' + e.message.split('\n')[0]); }
+      /* The new format (Muse, 26 Nov 2026): on a match day the main post is a single preview of the day's biggest match
+         kicking off from an hour after the post to the next morning's post; "today's matches" only when there is none. */
+      if (NEW){ try { const m = await run('match', {from:1, to:24, ...(win.g ? {only:win.g} : {})}); if (m) data = m; } catch(e){ console.log('match: ' + e.message.split('\n')[0]); } }
+      if (!data){ try { data = await run('today'); } catch(e){ console.log('today: ' + e.message.split('\n')[0]); } }
       /* With one post a day (build/store/social-limits.json) the results roundup is not posted on its own, so yesterday's
          results ride along as the last slide of today's matches, when at least five forecasts were scored. */
-      if (data){ let oneADay = false; try { oneADay = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'store', 'social-limits.json'), 'utf8')).oneADay === true; } catch(e){}
+      if (data && data.type === 'today'){ let oneADay = false; try { oneADay = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'store', 'social-limits.json'), 'utf8')).oneADay === true; } catch(e){}
         if (oneADay){ try { const y = await run('roundup'); if (y) data.yday = y; } catch(e){ console.log('yesterday: ' + e.message.split('\n')[0]); } } }
-      console.log(`International window (${win.n} matches around today${win.by ? ', ' + win.by.women + " women's and " + win.by.men + " men's" : ''}): ${data ? "today's matches (" + data.n + ')' : order[0]} first.`);
+      console.log(`International window (${win.n} matches around today${win.by ? ', ' + win.by.women + " women's and " + win.by.men + " men's" : ''}): ${data ? (data.type === 'match' ? `a preview of ${data.home.team} v ${data.away.team}` : "today's matches (" + data.n + ')') : order[0]} first.`);
     }
     if (!data && !type && !slot && dow !== 1 && !recentTypes.slice(0, 2).includes('match') && WEEK[dow] !== 'match'){
       const m = await run('match');
@@ -732,12 +885,21 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
       if (data) console.log(`A ${win.g}'s window: ${data.type} (${data.g || win.g}) chosen ahead of the day's usual order.`); }
     for (const t of order){ if (data) break; try { data = await run(t, extraOf(t)); } catch(e){ console.log(`${t}: ${e.message.split('\n')[0]}`); } }
     if (!data) throw new Error('No post could be made today');
+    /* New format: the result follow-up of a previewed match, for Seb to post by hand (gathered while the site is loaded). */
+    let resultData = null;
+    if (NEW && !slot){ try { resultData = await run('result', {used}); } catch(e){ console.log('result: ' + e.message.split('\n')[0]); } }
     /* Gathered now, while the site page is still loaded (drawing the slides navigates away from it). */
     let storyData = null, noStories = false;
     try { noStories = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'store', 'social-limits.json'), 'utf8')).stories === false; } catch(e){}
     if (!slot && !type && !noStories){ try { const w = await page.evaluate(now => window.FL_SOCIAL.windowOn({now}), now);
       if (w && w.on) storyData = await run('storyToday'); } catch(e){ console.log('story: ' + e.message.split('\n')[0]); } }
+    /* The call to action of the turn; "send this to a … fan" names the side Formline gives less chance (its fans have the most to say). */
+    const fanOf = () => data.type === 'match' ? `a ${data.pr.p[0] >= data.pr.p[2] ? data.away.team : data.home.team} fan` : null;
+    if (NEW) data._cta = ctaOf(date, data.type, fanOf());
     const post = BUILD[data.type](data);
+    if (NEW && data.type !== 'match') post.caption = oneCta(post.caption, data._cta);
+    if (NEW && data.type === 'onthisday' && data.mode === 'tiein' && data.next && data.next.pr) post.caption = post.caption.replace('Who takes this one? 👇', tieQuestion(data.next));
+    if (NEW && data.type === 'match') post.caption = post.caption.slice(0, 2200);
     const key = date + (slot ? '-' + slot : ''), dir = path.join(out, key); fs.rmSync(dir, {recursive:true, force:true}); fs.mkdirSync(dir, {recursive:true});
     const shoot = async (html, W, H, file, jpg) => {
       const f = path.join(tmp, 'slide.html'); fs.writeFileSync(f, html.replaceAll(host, '../'));
@@ -767,14 +929,16 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     /* The closing slide, for Instagram only (Bluesky shows the first four slides). */
     const fans = who.filter(Boolean).slice(0, 2), igSlides = files.slice();
     while (alts.length < files.length) alts.push(post.title);
-    if (files.length < 10){ await shoot(ctaSlide(fans.length ? `a ${fans.join(' or ')} fan` : 'a football fan'), 1080, 1350, 'cta.jpg', true); igSlides.push('cta.jpg');
+    if (files.length < 10 && NEW){ await shoot(ctaOne(data._cta), 1080, 1350, 'cta.jpg', true); igSlides.push('cta.jpg');
+      alts.push(`Formline: every national team, rated every night. ${data._cta}.`); }
+    else if (files.length < 10){ await shoot(ctaSlide(fans.length ? `a ${fans.join(' or ')} fan` : 'a football fan'), 1080, 1350, 'cta.jpg', true); igSlides.push('cta.jpg');
       alts.push('Formline: every national team, rated every night. Follow @formline.data for match previews and rankings, and visit formlinedata.com.'); }
     /* The question the bot leaves as the first comment on Instagram. */
     const fl = t => (t && t.emo) || '', vs = (a, b, fa, fb) => `${a} v ${b}${fl(fa) || fl(fb) ? ' ' + fl(fa) + fl(fb) : ''}`;
     const question = {
-      match:() => `Who wins ${vs(data.home.team, data.away.team, data.home.flag, data.away.flag)}? Drop your score prediction 👇`,
+      match:() => NEW ? questionOf(data.home.team, data.away.team, data.pr.p) : `Who wins ${vs(data.home.team, data.away.team, data.home.flag, data.away.flag)}? Drop your score prediction 👇`,
       spotlight:() => `How far can ${data.team.team} go this year? 👇`,
-      onthisday:() => data.mode === 'tiein' && data.next ? `Who takes ${data.next.home} v ${data.next.away} this time? 👇` : 'Were you watching this one? 👇',
+      onthisday:() => NEW && data.mode === 'tiein' && data.next && data.next.pr ? tieQuestion(data.next) : data.mode === 'tiein' && data.next ? `Who takes ${data.next.home} v ${data.next.away} this time? 👇` : 'Were you watching this one? 👇',
       rivalry:() => `Who wins the next ${data.a.team} v ${data.b.team}? 👇`,
       tournament:() => `Who's your pick to win ${data.short}? 👇`,
       past:() => `Do you remember ${data.tournament} ${data.label}? Who was your player of the tournament? 👇`,
@@ -786,6 +950,22 @@ export async function makePost({date = DATE, type = process.env.SOCIAL_TYPE || '
     const meta = {date, key, slot, type:data.type, id:data.id, g:data.g, title:post.title, slides:files, igSlides, story, alts, x:'x.png', caption:post.caption, xText:post.xText,
       question:question ? one(question()) : '',
       bskyTags:bskyTags(data.g, who, comp)};
+    /* New format: what Seb adds by hand (the location), when the post goes out, and the files for him to post by hand
+       from formlinedata.com/today/ (never posted by the bot). extraIds go into used.json (build/social-queue.mjs). */
+    if (NEW && !slot){
+      meta.format = 'new'; meta.cta = data._cta || '';
+      meta.when = new Date(Date.parse(date + 'T14:00:00Z')).toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', timeZone:'America/Toronto'}).replace(/[\u202f\u00a0]/g, ' ') + ' ET';
+      /* Where the post's match is played: a preview's venue; for a post about a coming match (a tie-in, a rivalry), that
+         match's venue; else the venue of the match the post is about; none for a table or a tournament. */
+      meta.location = data.type === 'match' ? venue(data) : data.next && data.next.city ? venue(data.next) : data.city ? venue(data) : '';
+      /* Where the fixture data has no city yet, a sourced note in build/store/social-locations.json fills it in (only then). */
+      const fx = data.type === 'match' ? data : data.next;
+      if (fx && !fx.city){ try { const L = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'store', 'social-locations.json'), 'utf8'));
+        const k = [data.g, fx.date, fx.home && fx.home.team || fx.home, fx.away && fx.away.team || fx.away].join('|'), hit = L[k] || L[[data.g, fx.date, fx.away && fx.away.team || fx.away, fx.home && fx.home.team || fx.home].join('|')];
+        if (hit && hit.location) meta.location = hit.location; } catch(e){} }
+      meta.hand = await handFiles({data, date, dir, shoot, used, resultData, one});
+      meta.extraIds = [meta.hand.reel ? 'reel|' + date : '', meta.hand.result ? resultData.id : ''].filter(Boolean);
+    }
     fs.writeFileSync(path.join(dir, 'post.json'), JSON.stringify(meta, null, 1) + '\n');
     return meta;
   } finally {

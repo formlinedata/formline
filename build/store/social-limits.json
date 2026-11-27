@@ -2,5 +2,8 @@
  "oneADay": true,
  "stories": false,
  "since": "2026-11-18",
- "why": "Bluesky removed the account on 16 Nov 2026 for spam-like automation, and Meta restricted the Formline business account on 18 Nov 2026 for automation. One post a day and no Stories until things settle (Seb, 18 Nov). Set oneADay to false and stories to true to go back to the window-day schedule."
+ "why": "Bluesky removed the account on 16 Nov 2026 for spam-like automation, and Meta restricted the Formline business account on 18 Nov 2026 for automation. One post a day and no Stories until things settle (Seb, 18 Nov). Set oneADay to false and stories to true to go back to the window-day schedule.",
+ "newFormat": true,
+ "newFormatFrom": "2026-11-28",
+ "newFormatWhy": "The post format Muse proposed and Seb agreed on 26 Nov 2026, approved by Seb on 26 Nov 2026 after a week's preview (one call to action in turn, a question from the %, rating points and expected goals on the preview's cover, the head-to-head in the site's words, a single match preview as the main post on match days, files to post by hand on formlinedata.com/today/). The bot still makes one feed post a day and nothing else; set to false to go back to the old format."
 }

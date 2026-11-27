@@ -77,7 +77,8 @@ function nextFixtures(g){
 }
 function predictFx(c, fx){
   const pr = fixturePrediction(c, fx); if (!pr || !pr.p) return null;
-  return {p:[pr.p.home, pr.p.draw, pr.p.away].map(pct), likely:(pr.sl.pick || pr.sl.top[0])[0] + '–' + (pr.sl.pick || pr.sl.top[0])[1]};
+  return {p:[pr.p.home, pr.p.draw, pr.p.away].map(pct), likely:(pr.sl.pick || pr.sl.top[0])[0] + '–' + (pr.sl.pick || pr.sl.top[0])[1],
+    xg:pr.sl.xg ? pr.sl.xg.map(v => Math.round(v * 10) / 10) : null};   // expected goals, as the match page shows them (one decimal)
 }
 const fxSlugDate = x => x.date;
 
@@ -85,18 +86,24 @@ const fxSlugDate = x => x.date;
 /* A window that is one game's (the women's window of late November, say) asks the day's post for that game first:
    only = 'men' or 'women' keeps a collector to it; without it both are looked at, as before. */
 const gamesOf = only => only === 'men' || only === 'women' ? [only] : ['men', 'women'];
-S.match = async ({now, used = [], only}) => {
+/* from, to (hours after the post goes out): the new format's main post on match days takes the day's biggest match
+   kicking off between an hour after the post and the next morning's post (from 1, to 24). */
+S.match = async ({now, used = [], only, from = 8, to = 56}) => {
   const out = [], done = new Set(used);   // a match already previewed (say, this morning) isn't picked again
   for (const g of gamesOf(only)){
     const c = await useG(g);
     for (const x of nextFixtures(g)){
       const ko = Date.parse(x.kickoff || (x.date + 'T12:00:00Z')), h = (ko - now) / 36e5;
-      if (h < 8 || h > 56) continue;
+      if (h < from || h > to) continue;
+      if (x.tbc && from < 8) continue;   // a same-day preview needs an announced kick-off
       const kh = keyOfName(x.home), ka = keyOfName(x.away), A = teamInfo(c, kh, g), B = teamInfo(c, ka, g);
       if (!A || !B || !A.rank || !B.rank) continue;
       if (done.has('match|' + g + '|' + x.date + '|' + x.home + '|' + x.away)) continue;
       const pr = predictFx(c, x); if (!pr) continue;
-      const score = (A.rank + B.rank) * (g === 'women' ? 1.6 : 1) * (x.tournament === 'Friendly' ? 1.5 : 1);
+      /* A pair previewed in the ten days before (two friendlies a few days apart, say) goes to the back of the queue. */
+      const again = used.some(u => { const q = u.split('|'); return q[0] === 'match' && q[1] === g && ((q[3] === x.home && q[4] === x.away) || (q[3] === x.away && q[4] === x.home)) &&
+        Math.abs(Date.parse(q[2] + 'T12:00:00Z') - Date.parse(x.date + 'T12:00:00Z')) <= 10 * 864e5; });
+      const score = (A.rank + B.rank) * (g === 'women' ? 1.6 : 1) * (x.tournament === 'Friendly' ? 1.5 : 1) * (again ? 4 : 1);
       out.push({score, g, fx:x, A, B, pr, kh, ka});
     }
   }
@@ -112,7 +119,36 @@ S.match = async ({now, used = [], only}) => {
   return {type:'match', g:t.g, id:'match|' + t.g + '|' + t.fx.date + '|' + t.fx.home + '|' + t.fx.away,
     home:t.A, away:t.B, comp:compName(t.fx.tournament), date:t.fx.date, kickoff:t.fx.kickoff, city:t.fx.city, country:t.fx.country,
     neutral:t.fx.neutral, day:fxDayTxt(t.fx), pr:t.pr,
-    h2h:{n:rec.n, w:rec.w, d:rec.d, l:rec.l, gf:rec.gf, ga:rec.ga, last:rec.meets.slice(-3).reverse()}};
+    h2h:{n:rec.n, w:rec.w, d:rec.d, l:rec.l, gf:rec.gf, ga:rec.ga, last:rec.meets.slice(-3).reverse(), first:rec.meets[0] || null}};
+};
+
+/* Result follow-up of a match that was previewed (its id is in used, from social-queue's used.json), kicked off within
+   the last two and a half days and has a result with a forecast published before kick-off: the final score, the chance
+   Formline gave the side that won (or the draw), what the match did to both ratings once the data job has rated it,
+   and each side's next match. Made as files for Seb to post by hand (Muse, 26 Nov 2026); nothing here is posted by the bot. */
+S.result = async ({now, used = []}) => {
+  const done = new Set(used), ents = ((state.record && state.record.entries) || []).filter(e => e.p && e.result && !e.void);
+  for (const id of used){
+    if (!id.startsWith('match|')) continue;
+    const [, g, date, home, away] = id.split('|'), rid = 'result|' + g + '|' + date + '|' + home + '|' + away;
+    if (done.has(rid)) continue;
+    const c = await useG(g), kh = c.resolve(home), ka = c.resolve(away);
+    const e = ents.find(x => x.g === g && c.resolve(x.home) === kh && c.resolve(x.away) === ka && Math.abs(Date.parse(x.date + 'T12:00:00Z') - Date.parse(date + 'T12:00:00Z')) <= 864e5);
+    if (!e) continue;
+    const ko = Date.parse(e.kickoff || (e.date + 'T12:00:00Z'));
+    if (ko > now || now - ko > 2.5 * 864e5) continue;
+    const ts = Date.parse(e.date + 'T12:00:00Z'), o = e.result[0] > e.result[1] ? 0 : e.result[0] < e.result[1] ? 2 : 1, p = e.p.map(pct);
+    const side = (key, opp) => { const r = c.byKey.get(key), h = (c.history.get(key) || []).filter(x => x.opp === opp && Math.abs(x.ts - ts) <= 1.5 * 864e5).pop();
+      return {team:dn(key), flag:flagSrc(dn(key), ts), rank:r && r.rank ? r.rank : null, rating:h ? Math.round(h.rating) : null, delta:h ? Math.round(h.rating) - Math.round(h.pre) : null}; };
+    const nextOf = key => { const x = nextFixtures(g).filter(f => Date.parse(f.kickoff || (f.date + 'T12:00:00Z')) > now && (c.resolve(f.home) === key || c.resolve(f.away) === key))
+        .sort((a, b) => Date.parse(a.kickoff || (a.date + 'T12:00:00Z')) - Date.parse(b.kickoff || (b.date + 'T12:00:00Z')))[0];
+      return x ? {home:dn(c.resolve(x.home) || x.home), away:dn(c.resolve(x.away) || x.away), date:x.date, kickoff:x.tbc ? '' : (x.kickoff || ''), day:fxDayTxt(x), comp:compName(x.tournament)} : null; };
+    const H = side(kh, ka), A = side(ka, kh);
+    H.next = nextOf(kh); A.next = nextOf(ka);
+    return {type:'result', id:rid, g, date:e.date, comp:compName(e.tournament), hs:e.result[0], as:e.result[1], o, p, H, A,
+      pen:e.shootout || null, dayTxt:new Date(ts).toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', timeZone:'UTC'})};
+  }
+  return null;
 };
 
 /* 2. Team spotlight: a team with a match this week, else the next in a rotation down the table. */
@@ -228,7 +264,7 @@ S.tieIn = async ({now, used, only}) => {
     city:m.city, country:m.country, p:p ? [p.home, p.draw, p.away].map(pct) : null,
     h2h:{n:later.n, w:later.w, d:later.d, l:later.l}, ctx:pastContext(t.g, m),
     next:{home:dn(nf.home), away:dn(nf.away), homeFlag:flagSrc(nf.home), awayFlag:flagSrc(nf.away), comp:compName(nf.tournament),
-      day:fxDayTxt(nf), date:nf.date, kickoff:nf.kickoff || '', pr:predictFx(c, nf)}};
+      day:fxDayTxt(nf), date:nf.date, kickoff:nf.kickoff || '', city:nf.city || '', country:nf.country || '', pr:predictFx(c, nf)}};
 };
 
 /* Is an international window on? Many national-team fixtures in the next few days, or results in the last two. */
@@ -450,7 +486,7 @@ S.rivalry = async ({now, used, only}) => {
     b:teamInfo(c, pick.ka, pick.g) || {team:dn(pick.ka), flag:flagSrc(pick.ka)},
     n:r.n, w:r.w, d:r.d, l:r.l, gf:r.gf, ga:r.ga, decades:[...dec.values()].sort((a, b) => a.dec - b.dec), finals, first:r.meets[0], last:r.meets[r.n - 1], bigA:big(1), bigB:big(-1),
     next:pick.fx ? {home:dn(pick.fx.home), away:dn(pick.fx.away), kickoff:pick.fx.kickoff || '', day:fxDayTxt(pick.fx),
-      comp:compName(pick.fx.tournament), date:pick.fx.date, pr:predictFx(c, pick.fx)} : null};
+      comp:compName(pick.fx.tournament), date:pick.fx.date, city:pick.fx.city || '', country:pick.fx.country || '', pr:predictFx(c, pick.fx)} : null};
 };
 
 /* 5. Tournament: chances from the Simulator for a tournament in progress or coming up (one with a knockout stage). */
