@@ -1595,7 +1595,7 @@
    "heldDate": "2017-06-10"
   }
  ],
- "days": 4458,
+ "days": 4468,
  "unmatched": {
   "Pisa": 2,
   "Konyaspor": 2,
@@ -1610,8 +1610,8 @@
   "Saint-Priest": 2,
   "DC United": 2,
   "Yongin City": 2,
-  "Siheung Citizen": 1,
-  "Los Angeles Galaxy": 1,
+  "Siheung Citizen": 2,
+  "Los Angeles Galaxy": 2,
   "Philadelphia Union II": 1,
   "Ampem Darkoa": 1,
   "San Diego Wave": 1,
@@ -1676,7 +1676,7 @@
   "Anderlecht": 2,
   "Qarabag": 2
  },
- "updated": "2026-11-26",
+ "updated": "2026-11-27",
  "cursor": "2014-10-31",
  "done": "2026-11-21",
  "from": "2014-11-01"
