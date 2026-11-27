@@ -761,7 +761,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 1)",
    "boxDate": "2026-11-28"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1638242": {
   "date": "2026-11-28",
@@ -785,7 +785,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 3)",
    "boxDate": "2026-11-28"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1638243": {
   "date": "2026-11-28",
@@ -809,7 +809,7 @@
    "stadium": "Mohammed VI Football Academy (Pitch 2)",
    "boxDate": "2026-11-28"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1638244": {
   "date": "2026-12-01",
@@ -971,7 +971,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
   "venue_src": "city"
  },
  "1640031": {
@@ -990,7 +989,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
   "venue_src": "assumed"
  },
  "1640032": {
@@ -1661,7 +1659,7 @@
  },
  "1648995": {
   "date": "2026-11-27",
-  "kickoff": "2026-11-27T16:00:00+00:00",
+  "kickoff": "2026-11-27T21:00:00+00:00",
   "home_team": "Peru",
   "away_team": "Dominican Republic",
   "tournament": "Friendly",
@@ -1721,11 +1719,11 @@
    "country": "Mexico",
    "stadium": "Estadio Reino de León"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1648998": {
   "date": "2026-11-29",
-  "kickoff": "2026-11-29T20:00:00+00:00",
+  "kickoff": "2026-11-29T16:00:00+00:00",
   "home_team": "Peru",
   "away_team": "Dominican Republic",
   "tournament": "Friendly",
@@ -1905,7 +1903,7 @@
    "country": "China",
    "stadium": "Yongchuan Sports Center"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1650865": {
   "date": "2026-11-28",
@@ -1930,7 +1928,7 @@
    "boxDate": "2026-11-28",
    "kickoff": "2026-11-28T11:35:00+00:00"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1650866": {
   "date": "2026-11-30",
@@ -2146,29 +2144,6 @@
    "stadium": "Inter Miami CF Stadium"
   },
   "venue_src": "city"
- },
- "1651389": {
-  "date": "2026-11-27",
-  "kickoff": "2026-11-27T09:00:00+00:00",
-  "home_team": "Cyprus",
-  "away_team": "Luxembourg",
-  "tournament": "Friendly",
-  "city": "Dasaki Achnas",
-  "country": "Cyprus",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1651389,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wiki": {
-   "city": "Dasaki Achnas",
-   "country": "Cyprus",
-   "stadium": "Dasaki Stadium"
-  },
-  "venue_src": "wiki"
  },
  "1651391": {
   "date": "2026-11-27",
