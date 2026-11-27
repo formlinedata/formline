@@ -2145,29 +2145,6 @@
   },
   "venue_src": "city"
  },
- "1651389": {
-  "date": "2026-11-27",
-  "kickoff": "2026-11-27T09:00:00+00:00",
-  "home_team": "Cyprus",
-  "away_team": "Luxembourg",
-  "tournament": "Friendly",
-  "city": "Dasaki Achnas",
-  "country": "Cyprus",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1651389,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wiki": {
-   "city": "Dasaki Achnas",
-   "country": "Cyprus",
-   "stadium": "Dasaki Stadium"
-  },
-  "venue_src": "wiki"
- },
  "1651391": {
   "date": "2026-11-27",
   "kickoff": "2026-11-27T16:00:00+00:00",
