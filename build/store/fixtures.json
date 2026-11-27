@@ -1147,12 +1147,8 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": {
-   "city": "Geelong",
-   "country": "Australia",
-   "stadium": "GMHBA Stadium"
-  },
-  "venue_src": "wiki"
+  "wiki": null,
+  "venue_src": "city"
  },
  "1646037": {
   "date": "2026-12-01",
@@ -1660,8 +1656,8 @@
   "venue_src": "wiki"
  },
  "1648995": {
-  "date": "2026-11-27",
-  "kickoff": "2026-11-27T21:00:00+00:00",
+  "date": "2026-11-29",
+  "kickoff": "2026-11-29T16:00:00+00:00",
   "home_team": "Peru",
   "away_team": "Dominican Republic",
   "tournament": "Friendly",
@@ -1725,8 +1721,8 @@
   "venue_src": "wiki"
  },
  "1648998": {
-  "date": "2026-11-29",
-  "kickoff": "2026-11-29T16:00:00+00:00",
+  "date": "2026-11-27",
+  "kickoff": "2026-11-27T21:00:00+00:00",
   "home_team": "Peru",
   "away_team": "Dominican Republic",
   "tournament": "Friendly",
@@ -1763,12 +1759,8 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": {
-   "city": "La Plata",
-   "country": "Argentina",
-   "stadium": "Estadio Único Diego Armando Maradona"
-  },
-  "venue_src": "wiki"
+  "wiki": null,
+  "venue_src": "city"
  },
  "1649000": {
   "date": "2026-12-01",
@@ -1786,12 +1778,8 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": {
-   "city": "Larne",
-   "country": "Northern Ireland",
-   "stadium": "Inver Park"
-  },
-  "venue_src": "wiki"
+  "wiki": null,
+  "venue_src": "city"
  },
  "1649001": {
   "date": "2026-12-02",
@@ -2244,7 +2232,7 @@
   "home_team": "South Korea",
   "away_team": "Belgium",
   "tournament": "Friendly",
-  "city": "Girona",
+  "city": "Olot",
   "country": "Spain",
   "neutral": "TRUE",
   "venue_id": "",
@@ -2378,6 +2366,197 @@
   },
   "venue_src": "wiki"
  },
+ "1652992": {
+  "date": "2026-11-27",
+  "kickoff": "2026-11-27T17:00:00+00:00",
+  "home_team": "Mauritania",
+  "away_team": "Gambia",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Mauritania",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1652992,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1652993": {
+  "date": "2026-11-27",
+  "kickoff": "2026-11-27T23:00:00+00:00",
+  "home_team": "Bolivia",
+  "away_team": "Uruguay",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Bolivia",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1652993,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1652996": {
+  "date": "2026-11-30",
+  "kickoff": "2026-11-30T17:00:00+00:00",
+  "home_team": "Mauritania",
+  "away_team": "Gambia",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Mauritania",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1652996,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1652997": {
+  "date": "2026-11-30",
+  "kickoff": "2026-11-30T23:00:00+00:00",
+  "home_team": "Bolivia",
+  "away_team": "Uruguay",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Bolivia",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1652997,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1652998": {
+  "date": "2026-12-01",
+  "kickoff": "2026-12-01T11:00:00+00:00",
+  "home_team": "Myanmar",
+  "away_team": "Hong Kong",
+  "tournament": "Friendly",
+  "city": "Yangon",
+  "country": "Myanmar",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1652998,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": {
+   "city": "Yangon",
+   "country": "Myanmar",
+   "stadium": "Thuwunna Stadium"
+  },
+  "venue_src": "wiki"
+ },
+ "1652999": {
+  "date": "2026-12-02",
+  "kickoff": "2026-12-02T11:00:00+00:00",
+  "home_team": "Azerbaijan",
+  "away_team": "Saudi Arabia",
+  "tournament": "Friendly",
+  "city": "Baku",
+  "country": "Azerbaijan",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1652999,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": {
+   "city": "Baku",
+   "country": "Azerbaijan",
+   "stadium": "Bayil Arena",
+   "boxDate": "2026-12-02",
+   "kickoff": "2026-12-02T11:00:00+00:00"
+  },
+  "venue_src": "wiki"
+ },
+ "1653000": {
+  "date": "2026-12-04",
+  "kickoff": "2026-12-04T11:00:00+00:00",
+  "home_team": "Myanmar",
+  "away_team": "Hong Kong",
+  "tournament": "Friendly",
+  "city": "Yangon",
+  "country": "Myanmar",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1653000,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": {
+   "city": "Yangon",
+   "country": "Myanmar",
+   "stadium": "Thuwunna Stadium"
+  },
+  "venue_src": "wiki"
+ },
+ "1653001": {
+  "date": "2026-12-04",
+  "kickoff": "2026-12-04T22:00:00+00:00",
+  "home_team": "Argentina",
+  "away_team": "Uruguay",
+  "tournament": "Friendly",
+  "city": "",
+  "country": "Argentina",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1653001,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": null,
+  "venue_src": "assumed"
+ },
+ "1653002": {
+  "date": "2026-12-05",
+  "kickoff": "2026-12-05T11:00:00+00:00",
+  "home_team": "Azerbaijan",
+  "away_team": "Saudi Arabia",
+  "tournament": "Friendly",
+  "city": "Baku",
+  "country": "Azerbaijan",
+  "neutral": "FALSE",
+  "venue_id": "",
+  "api_id": 1653002,
+  "league": "Friendlies Women",
+  "unmapped_tournament": "",
+  "tbd": "",
+  "tbc": "",
+  "gender": "women",
+  "wiki": {
+   "city": "Baku",
+   "country": "Azerbaijan",
+   "stadium": "Bayil Arena",
+   "boxDate": "2026-12-05",
+   "kickoff": "2026-12-05T11:00:00+00:00"
+  },
+  "venue_src": "wiki"
+ },
  "wiki:women|2026-11-28|Catalonia|South Korea": {
   "date": "2026-11-28",
   "kickoff": "",
@@ -2435,64 +2614,6 @@
   },
   "venue_src": "wiki"
  },
- "wiki:women|2026-12-01|Myanmar|Hong Kong": {
-  "date": "2026-12-01",
-  "kickoff": "",
-  "home_team": "Myanmar",
-  "away_team": "Hong Kong",
-  "tournament": "Friendly",
-  "city": "Yangon",
-  "country": "Myanmar",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:women|2026-12-01|Myanmar|Hong Kong",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": 1,
-  "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Hong Kong women's national football team",
-  "pairDates": [
-   "2026-12-01",
-   "2026-12-04"
-  ],
-  "wiki": {
-   "city": "Yangon",
-   "country": "Myanmar",
-   "stadium": "Thuwunna Stadium"
-  },
-  "venue_src": "wiki"
- },
- "wiki:women|2026-12-02|Azerbaijan|Saudi Arabia": {
-  "date": "2026-12-02",
-  "kickoff": "2026-12-02T11:00:00+00:00",
-  "home_team": "Azerbaijan",
-  "away_team": "Saudi Arabia",
-  "tournament": "Friendly",
-  "city": "Baku",
-  "country": "Azerbaijan",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:women|2026-12-02|Azerbaijan|Saudi Arabia",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Azerbaijan women's national football team",
-  "pairDates": [
-   "2026-12-02",
-   "2026-12-05"
-  ],
-  "wiki": {
-   "city": "Baku",
-   "country": "Azerbaijan",
-   "stadium": "Bayil Arena"
-  },
-  "venue_src": "wiki"
- },
  "wiki:women|2026-12-02|Indonesia|Bhutan": {
   "date": "2026-12-02",
   "kickoff": "",
@@ -2519,64 +2640,6 @@
    "city": "Kudus",
    "country": "Indonesia",
    "stadium": "Super Soccer Arena"
-  },
-  "venue_src": "wiki"
- },
- "wiki:women|2026-12-04|Myanmar|Hong Kong": {
-  "date": "2026-12-04",
-  "kickoff": "",
-  "home_team": "Myanmar",
-  "away_team": "Hong Kong",
-  "tournament": "Friendly",
-  "city": "Yangon",
-  "country": "Myanmar",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:women|2026-12-04|Myanmar|Hong Kong",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": 1,
-  "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Hong Kong women's national football team",
-  "pairDates": [
-   "2026-12-01",
-   "2026-12-04"
-  ],
-  "wiki": {
-   "city": "Yangon",
-   "country": "Myanmar",
-   "stadium": "Thuwunna Stadium"
-  },
-  "venue_src": "wiki"
- },
- "wiki:women|2026-12-05|Azerbaijan|Saudi Arabia": {
-  "date": "2026-12-05",
-  "kickoff": "2026-12-05T11:00:00+00:00",
-  "home_team": "Azerbaijan",
-  "away_team": "Saudi Arabia",
-  "tournament": "Friendly",
-  "city": "Baku",
-  "country": "Azerbaijan",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": "wiki:women|2026-12-05|Azerbaijan|Saudi Arabia",
-  "league": "Friendly",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wikiOnly": 1,
-  "wikiSource": "Azerbaijan women's national football team",
-  "pairDates": [
-   "2026-12-02",
-   "2026-12-05"
-  ],
-  "wiki": {
-   "city": "Baku",
-   "country": "Azerbaijan",
-   "stadium": "Bayil Arena"
   },
   "venue_src": "wiki"
  },
