@@ -275,9 +275,9 @@
   <url><loc>https://formlinedata.com/teams/women/paraguay.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/haiti.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/northern-ireland.html</loc></url>
+  <url><loc>https://formlinedata.com/teams/women/cote-d-ivoire.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/belarus.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/jamaica.html</loc></url>
-  <url><loc>https://formlinedata.com/teams/women/cote-d-ivoire.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/new-zealand.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/panama.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/algeria.html</loc></url>
@@ -355,9 +355,9 @@
   <url><loc>https://formlinedata.com/teams/women/suriname.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/moldova.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/hong-kong-china.html</loc></url>
+  <url><loc>https://formlinedata.com/teams/women/gambia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/north-macedonia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/st-kitts-and-nevis.html</loc></url>
-  <url><loc>https://formlinedata.com/teams/women/gambia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/angola.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/sierra-leone.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/fiji.html</loc></url>
@@ -380,7 +380,6 @@
   <url><loc>https://formlinedata.com/teams/women/guinea.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/guam.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/rwanda.html</loc></url>
-  <url><loc>https://formlinedata.com/teams/women/mauritania.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/saudi-arabia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/antigua-and-barbuda.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/comoros.html</loc></url>
@@ -388,6 +387,7 @@
   <url><loc>https://formlinedata.com/teams/women/bhutan.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/lesotho.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/palestine.html</loc></url>
+  <url><loc>https://formlinedata.com/teams/women/mauritania.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/pakistan.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/malaysia.html</loc></url>
   <url><loc>https://formlinedata.com/teams/women/south-sudan.html</loc></url>
@@ -6153,10 +6153,7 @@
   <url><loc>https://formlinedata.com/h2h/women/georgia-vs-moldova.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/women/cyprus-vs-luxembourg.html</loc></url>
   <url><loc>https://formlinedata.com/h2h/women/albania-vs-wales.html</loc></url>
-  <url><loc>https://formlinedata.com/matches/women/2026-11-27-cote-d-ivoire-vs-senegal.html</loc></url>
-  <url><loc>https://formlinedata.com/matches/women/2026-11-27-mauritania-vs-gambia.html</loc></url>
-  <url><loc>https://formlinedata.com/matches/women/2026-11-27-northern-ireland-vs-greece.html</loc></url>
-  <url><loc>https://formlinedata.com/matches/women/2026-11-27-france-vs-venezuela.html</loc></url>
+  <url><loc>https://formlinedata.com/h2h/women/gambia-vs-mauritania.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-27-peru-vs-dominican-republic.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-27-jamaica-vs-costa-rica.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-27-bolivia-vs-uruguay.html</loc></url>
@@ -6237,6 +6234,8 @@
   <url><loc>https://formlinedata.com/matches/women/2026-11-10-gabon-vs-chad.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-10-congo-vs-central-african-republic.html</loc></url>
   <url><loc>https://formlinedata.com/matches/women/2026-11-27-cyprus-vs-luxembourg.html</loc></url>
+  <url><loc>https://formlinedata.com/matches/women/2026-11-27-cote-d-ivoire-vs-senegal.html</loc></url>
+  <url><loc>https://formlinedata.com/matches/women/2026-11-27-mauritania-vs-gambia.html</loc></url>
   <url><loc>https://formlinedata.com/sim/womens-world-cup-2023.html</loc></url>
   <url><loc>https://formlinedata.com/records/women/biggest-upsets.html</loc></url>
   <url><loc>https://formlinedata.com/records/women/biggest-wins.html</loc></url>
