@@ -909,24 +909,6 @@
   },
   "venue_src": "city"
  },
- "1638588": {
-  "date": "2026-11-28",
-  "kickoff": "2026-11-28T08:35:00+00:00",
-  "home_team": "Australia",
-  "away_team": "Colombia",
-  "tournament": "Friendly",
-  "city": "Canberra",
-  "country": "Australia",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1638588,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "venue_src": "city"
- },
  "1640031": {
   "date": "2026-11-28",
   "kickoff": "2026-11-28T16:30:00+00:00",
@@ -1023,29 +1005,6 @@
   "neutral": "FALSE",
   "venue_id": "",
   "api_id": 1641698,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wiki": {
-   "city": "Paide",
-   "country": "Estonia",
-   "stadium": "Paide linnastaadion"
-  },
-  "venue_src": "wiki"
- },
- "1641699": {
-  "date": "2026-11-28",
-  "kickoff": "2026-11-28T11:00:00+00:00",
-  "home_team": "Latvia",
-  "away_team": "Lithuania",
-  "tournament": "Friendly",
-  "city": "Paide",
-  "country": "Estonia",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1641699,
   "league": "Friendlies Women",
   "unmapped_tournament": "",
   "tbd": "",
@@ -1758,54 +1717,6 @@
    "stadium": ""
   },
   "venue_src": "city"
- },
- "1650864": {
-  "date": "2026-11-28",
-  "kickoff": "2026-11-28T07:00:00+00:00",
-  "home_team": "Malawi",
-  "away_team": "Albania",
-  "tournament": "Friendly",
-  "city": "Chongqing",
-  "country": "China",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1650864,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wiki": {
-   "city": "Chongqing",
-   "country": "China",
-   "stadium": "Yongchuan Sports Center"
-  },
-  "venue_src": "wiki"
- },
- "1650865": {
-  "date": "2026-11-28",
-  "kickoff": "2026-11-28T11:35:00+00:00",
-  "home_team": "China",
-  "away_team": "Thailand",
-  "tournament": "Friendly",
-  "city": "Chongqing",
-  "country": "China",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1650865,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wiki": {
-   "city": "Chongqing",
-   "country": "China",
-   "stadium": "Yongchuan Sports Center",
-   "boxDate": "2026-11-28",
-   "kickoff": "2026-11-28T11:35:00+00:00"
-  },
-  "venue_src": "wiki"
  },
  "1650866": {
   "date": "2026-11-30",
