@@ -647,52 +647,6 @@
   "gender": "men",
   "wiki": null
  },
- "1550710": {
-  "date": "2026-11-27",
-  "kickoff": "2026-11-27T22:00:00+00:00",
-  "home_team": "Jamaica",
-  "away_team": "Costa Rica",
-  "tournament": "FIFA World Cup qualification",
-  "city": "Mansfield",
-  "country": "United States",
-  "neutral": "TRUE",
-  "venue_id": "",
-  "api_id": 1550710,
-  "league": "World Cup - Women - Qualification Concacaf",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wiki": {
-   "city": "Mansfield",
-   "country": "United States",
-   "stadium": "Texas Health Mansfield Stadium"
-  },
-  "venue_src": "wiki"
- },
- "1550711": {
-  "date": "2026-11-28",
-  "kickoff": "2026-11-28T01:30:00+00:00",
-  "home_team": "United States",
-  "away_team": "El Salvador",
-  "tournament": "FIFA World Cup qualification",
-  "city": "Mansfield",
-  "country": "United States",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1550711,
-  "league": "World Cup - Women - Qualification Concacaf",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wiki": {
-   "city": "Mansfield",
-   "country": "United States",
-   "stadium": "Texas Health Mansfield Stadium"
-  },
-  "venue_src": "wiki"
- },
  "1550712": {
   "date": "2026-11-28",
   "kickoff": "2026-11-28T18:00:00+00:00",
@@ -1651,7 +1605,7 @@
    "country": "Peru",
    "stadium": "Videnita de Chincha"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1648997": {
   "date": "2026-11-28",
@@ -1676,29 +1630,6 @@
   },
   "venue_src": "wiki"
  },
- "1648998": {
-  "date": "2026-11-27",
-  "kickoff": "2026-11-27T21:00:00+00:00",
-  "home_team": "Peru",
-  "away_team": "Dominican Republic",
-  "tournament": "Friendly",
-  "city": "Chincha Alta",
-  "country": "Peru",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1648998,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "wiki": {
-   "city": "Chincha Alta",
-   "country": "Peru",
-   "stadium": "Videnita de Chincha"
-  },
-  "venue_src": "wiki"
- },
  "1648999": {
   "date": "2026-11-29",
   "kickoff": "2026-11-29T23:15:00+00:00",
@@ -1715,7 +1646,6 @@
   "tbd": "",
   "tbc": "",
   "gender": "women",
-  "wiki": null,
   "venue_src": "city"
  },
  "1649000": {
@@ -2113,7 +2043,7 @@
    "country": "Malta",
    "stadium": "National Football Centre"
   },
-  "venue_src": "city"
+  "venue_src": "wiki"
  },
  "1651394": {
   "date": "2026-11-30",
@@ -2296,24 +2226,6 @@
    "kickoff": "2026-12-09T23:00:00+00:00"
   },
   "venue_src": "city"
- },
- "1652993": {
-  "date": "2026-11-27",
-  "kickoff": "2026-11-27T23:00:00+00:00",
-  "home_team": "Bolivia",
-  "away_team": "Uruguay",
-  "tournament": "Friendly",
-  "city": "",
-  "country": "Bolivia",
-  "neutral": "FALSE",
-  "venue_id": "",
-  "api_id": 1652993,
-  "league": "Friendlies Women",
-  "unmapped_tournament": "",
-  "tbd": "",
-  "tbc": "",
-  "gender": "women",
-  "venue_src": "assumed"
  },
  "1652996": {
   "date": "2026-11-30",

@@ -3,6 +3,11 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral,k
 2026-11-07,São Tomé and Príncipe,Central African Republic,0,9,Friendly,Libreville,Gabon,TRUE,2026-11-07T15:00:00+00:00,,1649557,Friendlies Women,,,2026-11-10T07:16:45.010Z,Gabon
 2026-11-10,Congo,Central African Republic,1,1,Friendly,Libreville,Gabon,TRUE,2026-11-10T12:15:00+00:00,,1648994,Friendlies Women,,,2026-11-13T07:25:03.746Z,Gabon
 2026-11-10,Gabon,Chad,0,3,Friendly,Libreville,Gabon,FALSE,2026-11-10T14:30:00+00:00,,1649561,Friendlies Women,,,2026-11-13T07:25:03.746Z,Gabon
-2026-11-27,Cyprus,Luxembourg,2,2,Friendly,Dasaki Achnas,Cyprus,FALSE,2026-11-27T09:00:00+00:00,,1651389,Friendlies Women,,,2026-11-27T20:18:01.127Z,Cyprus
-2026-11-27,Ivory Coast,Senegal,4,1,Friendly,Abidjan,Ivory Coast,FALSE,2026-11-27T16:00:00+00:00,,1651391,Friendlies Women,,,2026-11-27T20:18:01.127Z,Ivory Coast
-2026-11-27,Mauritania,Gambia,0,2,Friendly,,Mauritania,FALSE,2026-11-27T17:00:00+00:00,,1652992,Friendlies Women,,,2026-11-27T20:18:01.127Z,
+2026-11-27,Cyprus,Luxembourg,2,2,Friendly,Dasaki Achnas,Cyprus,FALSE,2026-11-27T09:00:00+00:00,,1651389,Friendlies Women,,,2026-11-28T02:51:30.706Z,Cyprus
+2026-11-27,Ivory Coast,Senegal,4,1,Friendly,Abidjan,Ivory Coast,FALSE,2026-11-27T16:00:00+00:00,,1651391,Friendlies Women,,,2026-11-28T02:51:30.706Z,Ivory Coast
+2026-11-27,Mauritania,Gambia,0,2,Friendly,,Mauritania,FALSE,2026-11-27T17:00:00+00:00,,1652992,Friendlies Women,,,2026-11-28T02:51:30.706Z,
+2026-11-27,Northern Ireland,Greece,0,2,Friendly,Larne,Northern Ireland,FALSE,2026-11-27T19:00:00+00:00,,1648996,Friendlies Women,,,2026-11-28T02:51:30.706Z,
+2026-11-27,France,Venezuela,4,2,Friendly,Nancy,France,FALSE,2026-11-27T20:00:00+00:00,,1647628,Friendlies Women,,,2026-11-28T02:51:30.706Z,France
+2026-11-27,Peru,Dominican Republic,2,0,Friendly,Chincha Alta,Peru,FALSE,2026-11-27T21:00:00+00:00,,1648998,Friendlies Women,,,2026-11-28T02:51:30.706Z,Peru
+2026-11-27,Jamaica,Costa Rica,3,0,FIFA World Cup qualification,Mansfield,United States,TRUE,2026-11-27T22:00:00+00:00,,1550710,World Cup - Women - Qualification Concacaf,,,2026-11-28T02:51:30.706Z,United States
+2026-11-27,Bolivia,Uruguay,0,8,Friendly,,Bolivia,FALSE,2026-11-27T23:00:00+00:00,,1652993,Friendlies Women,,,2026-11-28T02:51:30.706Z,
